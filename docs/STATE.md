@@ -6,8 +6,19 @@ Updated: 2026-09-10 (fifth session of the day)
 
 **Load Session 2 into staging.** Detail under "Next" below. It already
 extracts clean — 81 rows against a stated 81 — so it needs no parser work
-first. Nine of its bills are Private Bills, which is the first real test of
-`db/018`, and it is the first session with SP Bill numbers.
+first.
+
+Three things make it the first real test of work built while `bill` was empty,
+and all three are worth watching rather than assuming:
+
+- **Nine Private Bills.** Their stages are Preliminary, Consideration and
+  Final, not Stage 1, 2 and 3. Session 1 had one such bill; this is `db/018`
+  under load.
+- **SP Bill numbers,** given only to bills that did not become Acts, so most
+  rows will still have none. `db/019` allows the same number in two sessions.
+- **The promotion script has only ever run on Session 1.** It is written and
+  tested and should need no change. If it does need one, that is a finding to
+  record, not a quick edit.
 
 **Before explaining anything about the database, read
 `docs/HOW-THE-DATABASE-WORKS.md` and the rules in `CLAUDE.md` under
