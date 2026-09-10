@@ -96,3 +96,27 @@ changes to appear made when they had not been sent.
 **Why:** it writes on leaving a row, which is the spreadsheet behaviour wanted,
 and it is a desktop client rather than another service to run and secure. Both
 data and DDL changes were verified reaching the VPS independently.
+
+## 2026-09-10 — Stage end dates live on the bill row
+
+`date_outcome` dropped. `end_stage_1_date`, `end_stage_2_date`,
+`end_stage_3_date` and `reconsideration_stage` added to `bill`. The duration
+views read from these rather than from `stage_event`.
+
+**Why:** a bill becomes one line to type, which is what a hand-build needs. The
+outcome date was redundant once the stage dates exist — for a bill that passed
+or was defeated it is the Stage 3 date.
+
+**Consequence:** `stage_event` is now unused. It is left in place but empty, and
+should be dropped unless a reason to keep it appears. Anything needing more than
+a date per stage — committee, votes, amendments — is a later slice and would
+justify bringing it back.
+
+## 2026-09-10 — Party as a lookup, null distinct from independent
+
+`bill.party` references `ref_party` and is nullable.
+
+**Why:** null and Independent mean different things. Null is "not applicable or
+not known" — which covers law officer bills, where no member is attached.
+Independent is a positive fact about a member who sits without a party. A single
+text field would blur the two on entry.

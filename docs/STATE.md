@@ -37,13 +37,15 @@ committee membership, the text of anything. Those are later slices.
   `db/003_slice_views.sql`. Six `ref_*` vocabularies seeded, seven sessions
   created with dates left null.
 - Both slice views smoke-tested against a temporary bill, then rolled back.
+- Stage end dates moved onto `bill`; `date_outcome` dropped; `party` added
+  (`db/004`, `db/005`). `stage_event` is now unused and should probably go.
 - Postico 2 installed and verified writing to the VPS, data and DDL.
 
 ## Next
 
 1. Fill in the seven `session` rows — first meeting and dissolution dates.
-2. Settle D2 (which date completes a stage) before entering stage events; it is
-   the definition every duration depends on.
+2. Settle D2 (which date completes a stage) before filling the end-stage dates;
+   it is the definition every duration depends on.
 3. Hand-build the two slices, recording edge cases in `note` as they are hit.
 4. Then, and only then: front end, extraction.
 
