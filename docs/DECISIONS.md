@@ -7,6 +7,38 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-10 — `stage_event` is kept: Private Bills are the reason that was waiting to appear
+
+`db/004` moved stage dates onto the bill row and left `stage_event` in place but
+empty, with the instruction to drop it "unless a reason to keep it appears".
+`db/017` drops the other empty table, `scratch_test`, and deliberately leaves
+this one. This entry records the reason, so the instruction is answered rather
+than quietly ignored.
+
+**Private Bills do not have Stages 1, 2 and 3.** They have Preliminary,
+Consideration and Final. Session 1 contains three of them — one passed, two
+fell — and the one that passed currently has its Final Stage date sitting in a
+column named `end_stage_3_date`. The column does not mean what its name says for
+those rows. Later sessions have more.
+
+Three columns on the bill row cannot express this. `stage_event` was built with
+`stage_order` precisely so that a Private Bill's third stage could be compared
+with a public bill's third stage without asserting that they are the same stage.
+It also distinguishes a stage *reached* from a stage *completed*, which a bare
+date column cannot: a bill sitting in Stage 2 at dissolution has no Stage 2 date
+and that is not the same as never having got there.
+
+**Why this matters now rather than later:** the second question in the first
+slice is time taken to complete each stage. It is not a future concern that
+Private Bills have different stages; it is a mis-description already present in
+Session 1's data.
+
+**Not resolved here.** Keeping the table is not a decision to use it. The
+options — name the columns generically, record a stage vocabulary per bill type,
+or populate `stage_event` after all — are open, and are recorded as **D6** in
+`STATE.md`. Dropping the table would have quietly foreclosed the third option
+and removed the artefact that best explains the problem.
+
 ## 2026-09-10 — A new variable stages in one field-level table, never as a new column on `bill_candidate`
 
 Settled in answer to "when I want to add procedure later, where does it go?"

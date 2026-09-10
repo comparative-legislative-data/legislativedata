@@ -34,7 +34,7 @@ committee membership, the text of anything. Those are later slices.
 - VPS live and hardened (see `legdatavps/legdata-vps-notes.md`).
 - PostgreSQL 17.11 on the VPS. Database `legdata`, role `legdata`, UTF-8,
   `timezone=UTC`, listening on localhost only.
-- Schema `db/001`-`db/016`.
+- Schema `db/001`-`db/017`.
 - Postico 2 verified writing to the VPS, data and DDL.
 - **`db/008` `bill_candidate`** — the staging table. Permissive by design: no
   foreign keys, almost nothing `NOT NULL`, so a bad parse lands as a row you can
@@ -105,7 +105,9 @@ committee membership, the text of anything. Those are later slices.
 6. **`docs/VARIABLES.md` needs a pass.** §3.2 still describes `procedure` as
    non-null and `date_outcome` as present; both have changed. It does not mention
    `date_concluded`, `bill_type_stated` or `title_kind`. §5 lists D1, D4 and D5
-   as open when they are settled.
+   as open when they are settled, and does not list D6 at all — though §4.5 and
+   §6 both already note that Private Bills have their own stages, which is the
+   observation D6 turns into a question.
 7. Then, and only then: front end, extraction from the API.
 
 One staging table for all seven sessions, not one per session — the natural key
@@ -115,11 +117,10 @@ each gated on reconciliation.
 
 ## Housekeeping, small and known
 
-- **`scratch_test`** is still in the database, left over from verifying that
-  Postico wrote to the VPS. Drop it.
-- **`stage_event`** is empty and unused since `db/004` moved stage dates onto
-  `bill`. `DECISIONS.md` says drop it unless a reason to keep it appears; no
-  reason has appeared, but it is also costing nothing.
+- **`scratch_test`** dropped in `db/017`. It was debris from verifying that
+  Postico's grid edits reached the VPS.
+- **`stage_event`** is empty but is now deliberately kept — see D6 below and the
+  entry in `DECISIONS.md`.
 - **The backup service runs with no `HOME` or `XDG_CACHE_HOME`**, so restic keeps
   no cache and re-reads everything in scope every night. Harmless at this size —
   the whole repository is under a megabyte — but it will not stay harmless
@@ -137,6 +138,31 @@ each gated on reconciliation.
   Stage 3 at all — the decision to pass a bill is the completion of Stage 3,
   which is what methodology note M2 says.
 - **D3** — calendar days or sitting days. Does not block.
+- **D6 — Private Bills do not have Stages 1, 2 and 3.** New, and the only open
+  question here that is already wrong in the data rather than merely undecided.
+  Private Bills have Preliminary, Consideration and Final stages. Session 1 has
+  three Private Bills; the one that passed has its Final Stage date in a column
+  called `end_stage_3_date`, which is not what that column means.
+
+  This bites slice 2 directly, because slice 2 is time taken to complete each
+  stage. Comparing a Private Bill's stages with a public bill's requires either
+  asserting they are the same thing, which is false, or recording position in the
+  sequence separately from the name of the stage.
+
+  Three options, none chosen:
+  1. Rename the columns to something type-neutral — position in the sequence
+     rather than Stage 1, 2, 3 — and record the stage vocabulary per bill type.
+  2. Keep the column names and exclude Private Bills from cross-type duration
+     comparisons, publishing that as a methodology note.
+  3. Populate `stage_event` after all, which is what it was designed for. Its
+     `stage_order` field exists for exactly this.
+
+  Only three bills in Session 1, so it is small now. It will not stay small, and
+  option 3 in particular gets more expensive the more data is promoted first.
+  Worth settling before or alongside the promotion script.
+
+  `stage_event` is kept rather than dropped for this reason; dropping it would
+  have foreclosed option 3 quietly.
 - **`procedure` is null on all 73 rows**, correctly: no source consulted so far
   states it. But the three fastest bills in Session 1 — Erskine Bridge Tolls
   (2 days), Criminal Procedure (Amendment) (2 days) and Mental Health (Public
