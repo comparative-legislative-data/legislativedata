@@ -7,6 +7,66 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-10 — A description may not claim a rule the database does not have
+
+`db/025`. Found by the owner reading the descriptions back, which is the check
+`db/024` was built to make possible, working as intended on its first outing.
+
+**Seven descriptions stated a rule that did not exist.** Five staging columns
+said "must be a value in ref_x". Nothing checks them, and nothing should:
+`bill_candidate` is permissive on purpose so a bad parse lands as a row that can
+be looked at. Those are reworded to say where the check really is — on `bill`,
+which is true today and stays true whenever the promotion script is written.
+
+**The sixth was different and is now real.** `field_source` said rows are only
+ever added, never changed. That was a convention held by whoever was typing, and
+**D5 is settled on it** — the reason a revised published record is visible rather
+than silent is that the earlier observation cannot be overwritten. A settled
+decision resting on a habit is not settled. A trigger now refuses an update and a
+delete, and it was tested rather than assumed.
+
+**The cost is stated rather than left to be discovered.** A row entered in error
+cannot be tidied away; correcting one means a migration that drops the trigger,
+makes the change and puts it back, so the correction is itself part of the
+record. Same reasoning as `db/016` admitting candidates by migration.
+
+**The seventh was the check being wrong, not the database.** `fell_here` was
+reported as unenforced and was not — a partial unique index has always refused a
+second one. `pg_constraint` does not list plain indexes. Recorded because the
+same mistake would pass a second review the same way.
+
+**Descriptions say what the data is before how it was derived.** The staging
+ones were written from the extraction script's point of view — "the outcome we
+propose", "converted to a real date" — which is the wrong way round for the
+person reviewing a row at the gate. Both belong, in that order. Row counts came
+out of table descriptions: "seven rows" is true until it is not, and nothing
+announces the change.
+
+## 2026-09-10 — `methodology_note` stays a table, and the future-proof columns stay
+
+Both raised as candidates for removal on the grounds that the database felt
+complicated for 73 rows, and both settled by the owner against that.
+
+**`methodology_note` is not moved to markdown.** The argument for moving it was
+that seven rows of text feed a website that does not exist yet, and a file would
+do for now. The owner's answer, and it is the right one: multiple markdown files
+will kill us in the end. `docs/VARIABLES.md` is the proof — it still defines
+columns, and several of its definitions now contradict the database. The
+original decision stands and this entry records that it was challenged and held.
+
+**`party`, `procedure` and their two lists stay.** Neither is used by the first
+slice, so both fail "build only what the current slice needs" as written. Kept
+deliberately as future-proofing, on the owner's judgement that re-adding them
+later costs a migration either way and carrying them costs nothing.
+
+**What the complexity question was actually answered with.** Of fifteen tables,
+three hold bills, two are the gateway, one is the published notes, and nine are
+lists of permitted words four columns wide. Of 130 columns, roughly 25 are
+distinct facts; the rest is that four-column shape nine times over, plus the
+same bill held three ways in staging — as printed, as read, as admitted. Every
+piece that is not future-proofing traces to a specific bill or a specific
+factsheet behaviour that forced it.
+
 ## 2026-09-10 — What the factsheet survey settled: seven decisions from reading all seven
 
 `db/019`-`db/023`. The survey is `docs/FACTSHEET-SURVEY.md`; this records what it

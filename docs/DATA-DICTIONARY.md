@@ -34,11 +34,11 @@ ref_* tables                     each holds the allowed values
 
 ### `session`
 
-The seven parliamentary sessions. Seven rows, one per session. A session runs from the first meeting after an election to dissolution before the next.
+The parliamentary sessions, one row each. A session runs from the Parliament's first meeting after an election to its dissolution before the next. Every bill belongs to the session it was introduced in.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
-| `session_number` | number | yes |  | The session number, 1 to 7. This is the identifier the rest of the database uses. |
+| `session_number` | number | yes |  | The session number — 1 for the Parliament elected in 1999, counting up. This is the identifier the rest of the database uses. The database accepts up to 20, so a new session needs no schema change. |
 | `date_first_meeting` | date |  |  | Date the Parliament first met in this session. Empty means not yet filled in. |
 | `date_dissolution` | date |  |  | Date the Parliament was dissolved before the next election. Empty means either not yet filled in, or the session is still running. |
 | `is_current` | true/false | yes |  | True for the session running now. Stored rather than worked out, so the current session is unambiguous while its dissolution date is still empty. |
@@ -54,10 +54,10 @@ One row per bill. This is the checked, live data. A row only gets here by being 
 | `sp_bill_id` | text |  |  | The Parliament's bill number within its session, e.g. 70 for SP Bill 70. Unique within a session, not across sessions. Empty where none is known — the Session 1 factsheet gives no numbers, and Sessions 2 to 5 give them only for bills that did not become Acts. |
 | `session_number` | number | yes | `session.session_number` | Which session the bill was first introduced in. Points at the session table. A bill keeps this number however long it takes and whatever happens to it — see methodology note M6. |
 | `short_title` | text | yes |  | The title the bill is known by at the latest point there is evidence for: the Act's title where it became an Act, otherwise the title it had when it ended. This is the title to display. |
-| `bill_type` | text | yes | `ref_bill_type.code` | Who introduced the bill: government, members, committee, private or hybrid. Allowed values are in ref_bill_type. |
+| `bill_type` | text | yes | `ref_bill_type.code` | Who introduced the bill: government, members, committee, private or hybrid. Executive and Government Bills are one value here on purpose, so that a count of government bills runs continuously across the 2007 changeover; the contemporaneous styling is not lost, it is kept in bill_type_stated. Allowed values are in ref_bill_type. To fold Hybrid Bills in with government, group on ref_bill_type.analysis_group instead — see methodology note M4. |
 | `procedure` | text |  | `ref_procedure.code` | How the bill was handled under the Parliament's rules: standard, emergency, budget and so on. Empty means not known. Do not fill this in with "standard" as a guess — no source consulted so far states it. Allowed values are in ref_procedure. |
 | `date_introduced` | date |  |  | Date the bill was introduced. Empty means not known. |
-| `outcome` | text | yes | `ref_outcome.code` | What the Parliament did with the bill: passed, rejected, withdrawn, fell. Allowed values are in ref_outcome. This is deliberately separate from whether it became an Act. |
+| `outcome` | text | yes | `ref_outcome.code` | What the Parliament did with the bill: passed, rejected at Stage 1 or Stage 3, withdrawn, or fell. Allowed values are in ref_outcome. Deliberately separate from whether it became an Act, which is enactment_status. No source states why a bill fell — rejection, defeat at the final vote and running out of time at dissolution are one heading in every factsheet — so the distinction between the values is our reading against the Official Report. See methodology note M7. |
 | `enactment_status` | text | yes | `ref_enactment_status.code` | Whether the bill became an Act: enacted, not enacted, pending, or blocked. Allowed values are in ref_enactment_status. A bill can be passed and still not become an Act — see methodology note M5. |
 | `date_royal_assent` | date |  |  | Date the bill received Royal Assent and became an Act. Empty if it never did. |
 | `asp_number` | text |  |  | The Act's number, e.g. "2016 asp 8". Held here rather than left inside the title. Empty if the bill did not become an Act. |
@@ -82,10 +82,10 @@ One row per stage a bill actually reached. A bill that fell at Stage 1 has one r
 | `stage_event_id` | number | yes |  | Our identifier for this stage row. |
 | `bill_id` | number | yes | `bill.bill_id` | Which bill this stage belongs to. Points at the bill table. |
 | `stage` | text | yes | `ref_stage.code` | The stage's real name for this kind of bill. Allowed values are in ref_stage, and which ones are allowed for which bill type is in ref_bill_type_stage. |
-| `stage_order` | number | yes |  | Where this stage comes in the bill's own sequence: 1, 2, 3 or 4. Use this to compare a Private Bill's third stage with an ordinary bill's third stage without claiming they are the same stage. |
+| `stage_order` | number | yes |  | Where this stage comes in its own bill type's sequence: 1, 2, 3 or 4. It exists so a Private Bill's Consideration Stage can be compared with an ordinary bill's Stage 2 without claiming they are the same stage. Which stage sits at which position for which bill type is in ref_bill_type_stage, and a trigger refuses any other combination. |
 | `date_completed` | date |  |  | Date the stage was completed. Empty if the bill reached the stage but never completed it. |
-| `completed` | true/false | yes |  | True if the stage was completed. False means the bill got there and stopped. |
-| `fell_here` | true/false | yes |  | True if the bill ended at this stage. At most one true row per bill. |
+| `completed` | true/false | yes |  | True if the bill got through this stage. False means it reached the stage and stopped there, which is a different fact from never having reached it — a bill sitting in Stage 2 at dissolution has a Stage 2 row with completed false, and no Stage 3 row at all. |
+| `fell_here` | true/false | yes |  | True on the stage where the bill ended. A bill can have at most one such row, and the database enforces it — the partial unique index stage_event_one_fell_idx. False everywhere else, including on every stage of a bill that passed. |
 | `source` | text | yes | `ref_source.code` | Where this stage date came from. Allowed values are in ref_source. |
 | `source_ref` | text |  |  | The exact place within that source. |
 | `observed_at` | date | yes |  | The date the source was read. |
@@ -102,71 +102,71 @@ One row per line read off a factsheet. This is the staging area: nothing here is
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
 | `candidate_id` | number | yes |  | Our identifier for this staged row. |
-| `session_number` | number |  |  | Which session's factsheet this row was read from. Note this is the factsheet's session, which for a handful of bills is not the session the bill belongs to. |
-| `raw_title` | text |  |  | The title exactly as the factsheet prints it, before any tidying. |
-| `raw_type` | text |  |  | The type letter exactly as the factsheet prints it: E, G, G*, M, C, P or H. |
-| `raw_date_introduced` | text |  |  | The introduction date exactly as printed, e.g. "6 October 1999". |
-| `raw_introduced_by` | text |  |  | Who introduced it, exactly as printed — a person, a committee, or a promoter. Not yet used; kept for a later slice. |
-| `raw_date_final` | text |  |  | The date in the last date column, exactly as printed. What it means depends on which table the row came from: passed, withdrawn, or fell. |
-| `raw_date_royal_assent` | text |  |  | The Royal Assent date exactly as printed. |
-| `raw_section` | text |  |  | Which table of the factsheet this row came from: acts, withdrawn, or fallen. This is the factsheet's own classification. |
-| `sp_bill_id` | text |  |  | The SP Bill number, if the factsheet gives one. |
-| `short_title` | text |  |  | The title after tidying — the asp number taken out, line breaks joined up. |
-| `title_kind` | text |  |  | Whether the title in short_title is an Act title or a Bill title. Either "act" or "bill". |
-| `bill_type` | text |  |  | The bill type we propose, worked out from the type letter. Must be a value in ref_bill_type. |
-| `procedure` | text |  |  | Procedure, if known. Normally empty: no factsheet states it. |
-| `date_introduced` | date |  |  | The introduction date, converted to a real date from raw_date_introduced. |
-| `end_stage_3_date` | date |  |  | Date the bill was passed, which is the date Stage 3 was completed. Empty if it was not passed. |
-| `date_concluded` | date |  |  | Date the bill was withdrawn or fell. Empty if it was passed. |
-| `date_royal_assent` | date |  |  | Royal Assent date, converted to a real date. |
-| `asp_number` | text |  |  | The Act number pulled out of the title, e.g. "2000 asp 5". |
-| `outcome` | text |  |  | The outcome we propose. Must be a value in ref_outcome. |
-| `enactment_status` | text |  |  | The enactment status we propose. Must be a value in ref_enactment_status. |
-| `source` | text |  |  | Where this row came from. Normally spice_factsheet. |
-| `source_ref` | text |  |  | Which factsheet and which page. |
-| `observed_at` | date |  |  | The date the source was read. |
-| `src_file` | text |  |  | The exact file the row was extracted from, by name. |
-| `src_page` | number |  |  | The page of that file the row was on. |
-| `parser_note` | text |  |  | Anything the extraction script noticed while reading the row — a date it could not parse, a cell that looked odd. Mechanical observations only, never guesses. |
+| `session_number` | number |  |  | Which session's factsheet this line was read from — not necessarily the session the bill belongs to. A bill still live when a session ended appears in two factsheets; bill.session_number records the session it was introduced in. See methodology note M6. |
+| `raw_title` | text |  |  | The bill or Act title exactly as the factsheet prints it, including the asp number where the factsheet runs it into the title, and the line breaks. Never edited: this is the record of what SPICe said. |
+| `raw_type` | text |  |  | The one-letter code the factsheet uses for who introduced the bill, exactly as printed: E Executive, G Government, G* introduced as Executive and passed as Government, M Member's, C Committee, P Private, H Hybrid. |
+| `raw_date_introduced` | text |  |  | The date of introduction as the factsheet prints it, e.g. "6 October 1999". Held as text so the printed form survives even where it could not be read as a date. |
+| `raw_introduced_by` | text |  |  | The person, committee or promoter the factsheet names as introducing the bill, exactly as printed. Not used in the first slice; kept because re-reading seven PDFs later to get it would cost more than storing it now. |
+| `raw_date_final` | text |  |  | The date in the factsheet's last date column, exactly as printed. What it means depends on which of the factsheet's tables the line sat in: the date the bill was passed, the date it was withdrawn, or the date it fell. See raw_section. |
+| `raw_date_royal_assent` | text |  |  | The date of Royal Assent as the factsheet prints it. Empty for a bill that did not become an Act. |
+| `raw_section` | text |  |  | Which of the factsheet's tables this line sat in: acts, withdrawn or fallen. This is SPICe's own judgement of what happened to the bill, and it is what outcome and enactment_status are derived from. |
+| `sp_bill_id` | text |  |  | The Parliament's bill number within its session, as the factsheet gives it. Empty where the factsheet gives none: Session 1 gives no numbers at all, and Sessions 2 to 5 give them only for bills that did not become Acts. |
+| `short_title` | text |  |  | The bill or Act title, tidied for use: the asp number moved out into asp_number and broken lines rejoined. raw_title stays as the record of what was printed. Whether this is the Act's title or the bill's is in title_kind. |
+| `title_kind` | text |  |  | Which kind of title short_title holds: the title of the Act as passed, or the title the bill carried when it ended. Set to "act" for lines from the factsheet's Acts table and "bill" for the rest. It exists because a bill's title usually changes on enactment, so the two are not the same thing and the row must say which it has. Nothing enforces the two values, here or anywhere: bill has no equivalent column, so this is checked by eye at review or not at all. |
+| `bill_type` | text |  |  | Who introduced the bill: government, members, committee, private or hybrid. Our proposed value, converted from the factsheet's type letter in raw_type — E and G both become government, M members, C committee, P private, H hybrid. Executive and Government collapse into one value here on purpose, so that a count of government bills runs continuously across the 2007 changeover; the contemporaneous styling is not lost, it is kept beside this column in bill_type_stated. Should be a code from ref_bill_type. Nothing in this table enforces that, but bill.bill_type does, so a wrong value cannot reach the live table. |
+| `procedure` | text |  |  | How the bill was handled under the Parliament's rules — standard, emergency, budget and so on. Always empty from a factsheet: none of them state procedure. Deliberately not defaulted to "standard", which would record budget and emergency bills as standard procedure on no evidence. See db/010. |
+| `date_introduced` | date |  |  | The date the bill was introduced, as a real date, read from raw_date_introduced. Empty where the factsheet gave none, or where the printed form could not be read — parser_note says which. |
+| `end_stage_3_date` | date |  |  | The date the bill was passed, which is the date Stage 3 was completed — Final Stage for a Private or Hybrid Bill. Taken from raw_date_final for lines in the Acts table. Empty for a bill that was not passed. See methodology note M2. |
+| `date_concluded` | date |  |  | The date the bill stopped being a live bill without becoming an Act — the date it was withdrawn, or the date it fell. Taken from raw_date_final for lines in the Withdrawn and Fallen tables. Empty for a bill that was passed. |
+| `date_royal_assent` | date |  |  | The date the bill received Royal Assent and became an Act, as a real date, read from raw_date_royal_assent. Empty if it never did. |
+| `asp_number` | text |  |  | The Act's number, e.g. "2000 asp 5", taken out of raw_title where the factsheet runs it into the title. Empty if the bill did not become an Act. |
+| `outcome` | text |  |  | What the Parliament did with the bill: passed, withdrawn, or one of the ways a bill can fall. Taken from which of the factsheet's tables the line sat in — Acts means passed, Withdrawn means withdrawn. Left empty for a fallen bill unless it fell on the dissolution date, because no factsheet says why a bill fell; that distinction is ours to make against the Official Report, and parser_note flags each such row. Should be a code from ref_outcome. Nothing in this table enforces that, but bill.outcome does. See methodology note M7. |
+| `enactment_status` | text |  |  | Whether the bill became an Act: enacted, not enacted, pending or blocked. Taken from the same table the line sat in — Acts means enacted, everything else not enacted. Should be a code from ref_enactment_status. Nothing in this table enforces that, but bill.enactment_status does. |
+| `source` | text |  |  | What kind of source this line came from. Normally spice_factsheet. Should be a code from ref_source. Nothing in this table enforces that, but bill.source does. |
+| `source_ref` | text |  |  | The exact place within that source — which factsheet, which page — so the line can be found again by hand. |
+| `observed_at` | date |  |  | The date we read the source. Matters because the Parliament revises published records, so the same factsheet can say something different later. |
+| `src_file` | text |  |  | The name of the PDF file this line was extracted from. Held separately from source_ref so a re-run of the extractor can be compared against the exact file used. |
+| `src_page` | number |  |  | The page of that PDF the line was on. |
+| `parser_note` | text |  |  | What the extraction script noticed while reading this line — a date it could not read, a type letter it did not recognise, a bill that fell before dissolution so the reason is unknown. Mechanical observations only; the script never guesses. Empty means it saw nothing unusual. |
 | `extracted_at` | timestamp | yes |  | When the extraction script created this row. Set automatically. |
-| `review_status` | text | yes |  | THE GATE. One of: new (not looked at), accepted (checked and admitted), rejected (checked and refused), held (needs more work). Only accepted rows can be promoted. |
-| `review_note` | text |  |  | What the reviewer decided and why, including any citation used to settle a question. |
-| `reviewed_at` | timestamp |  |  | When the row was reviewed. Empty means it has not been. |
-| `promoted_bill_id` | number |  | `bill.bill_id` | Which row in bill this candidate became. Empty means it has not been promoted. This is the only link between the staging table and the live table. |
-| `promoted_at` | timestamp |  |  | When it was promoted. Empty means it has not been. |
+| `review_status` | text | yes |  | THE GATE. Whether a person has checked this line and admitted it: new (not looked at), accepted (checked and admitted), rejected (checked and refused), held (needs more work). Only accepted lines can be promoted into bill. This is the one value in this table the database enforces, and the column the whole architecture rests on. |
+| `review_note` | text |  |  | What the reviewer decided and why, including any citation used to settle a question — this is where an Official Report reference for a corrected date or outcome is recorded. Empty means nothing needed saying. |
+| `reviewed_at` | timestamp |  |  | When a person reviewed this line. Empty means it has not been reviewed. |
+| `promoted_bill_id` | number |  | `bill.bill_id` | Which row in bill this line became. Empty means it has not been promoted. This is the only link between the staging table and the live table, and it is what makes an admitted bill traceable back to the page it was read from. |
+| `promoted_at` | timestamp |  |  | When this line was promoted into bill. Empty means it has not been. |
 | `updated_at` | timestamp | yes |  | When this row was last changed. Set automatically. |
-| `bill_type_stated` | text |  |  | The type as it was styled at the time, worked out from the type letter. Must be a value in ref_bill_type_stated. |
-| `end_stage_1_date` | date |  |  | Date Stage 1 was completed. For a bill rejected at Stage 1 this is the date of that decision, which is also the date it fell. Not available from the factsheets — filled in by hand from the Official Report. |
+| `bill_type_stated` | text |  |  | How that same type was styled at the time: an Executive Bill or a Government Bill. Converted from the same letter but keeping the distinction it makes — E and G* become executive, G becomes government. This is the half of the pair that bill_type deliberately flattens; the two columns are read together. Should be a code from ref_bill_type_stated. Nothing in this table enforces that, but bill.bill_type_stated does. |
+| `end_stage_1_date` | date |  |  | The date Stage 1 was completed. For a bill rejected at Stage 1 this is the date of that decision, which is also the date the bill fell. No factsheet states it: every value here was entered by hand from the Official Report, with the citation in review_note. |
 
 ### `field_source`
 
-Records where a single field came from, when that differs from where the rest of the row came from — for example a bill whose outcome came from a factsheet but whose dates came from the Official Report. Rows are only ever added, never changed, so a revised published record produces a second row rather than overwriting the first. Currently empty.
+Where one individual field came from, when that is not where the rest of its row came from — a bill whose outcome came from a factsheet but whose Stage 1 date came from the Official Report. Rows can only be added: the database refuses an update or a delete, so reading a source again produces a second observation beside the first rather than replacing it, and a revision to a published record is visible instead of silent. That is what settles D5.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
 | `field_source_id` | number | yes |  | Our identifier for this provenance row. |
-| `entity` | text | yes |  | Which table the field is in, e.g. "bill". |
-| `entity_id` | number | yes |  | Which row in that table. |
-| `field_name` | text | yes |  | Which column. Checked against the real table, so a typo is refused. |
+| `entity` | text | yes |  | Which table the field lives in. The database allows three values and no others: bill, stage_event and session. Provenance cannot be recorded at this level about anything else, including a staging row — bill_candidate keeps its own source columns. |
+| `entity_id` | number | yes |  | Which row in that table, by its identifier. Not checked against the table it names: nothing stops this pointing at a row that does not exist, or at a different row than intended if bill is ever emptied and re-promoted. |
+| `field_name` | text | yes |  | Which column of that row this provenance is about. A trigger checks the name against the real table, so a misspelling is refused rather than quietly orphaning the record. |
 | `source` | text | yes | `ref_source.code` | Where this one field came from. Allowed values are in ref_source. |
 | `source_ref` | text |  |  | The exact place within that source. |
-| `value_seen` | text |  |  | The value in the source's own words, before any tidying. This is what makes a later disagreement visible. |
-| `observed_at` | date | yes |  | The date the source was read. Not the date of the event — the date we looked. |
-| `note` | text |  |  | Free text. |
+| `value_seen` | text |  |  | The value in the source's own words, before any tidying — what was actually printed, not what we made of it. This is what a later disagreement is visible against: without it a revised source can only be noticed as a different value, never as a different wording. |
+| `observed_at` | date | yes |  | The date we read the source. Not the date of the event it describes — the date we looked. Two rows for the same field differ by this. |
+| `note` | text |  |  | Free text for anything worth saying about this observation. Empty is normal. |
 | `created_at` | timestamp | yes |  | When this row was added. Set automatically. |
 
 ## Published alongside the data
 
 ### `methodology_note`
 
-The judgement calls made in building this data, written out for readers. One row per judgement. The website shows these next to the variables they affect, so what the site says and what the data does cannot drift apart. Seven rows, M1 to M7.
+The judgement calls made in building this data, written out for readers rather than kept in the repository. One row per judgement, referred to by code as M1, M2 and so on. The website shows each note against the columns named in applies_to, so what the site tells a reader and what the data does cannot drift apart.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
-| `code` | text | yes |  | Short code for the note, M1 to M7. Used to refer to it elsewhere. |
+| `code` | text | yes |  | Short code for the note — M1, M2 and so on — used to refer to it from a column description, a decision record, or the website. |
 | `title` | text | yes |  | One-line summary of the judgement. |
 | `body` | text | yes |  | The full explanation, as a reader of the published data should see it. |
-| `applies_to` | list of text | yes |  | Which columns this note is about, written as table.column. The website uses this to show the note in the right place. |
+| `applies_to` | list of text | yes |  | Which columns this note is about, each written as table.column. The website uses it to put the note where a reader will meet the problem. A name here is not checked against the real table, so a column that is renamed or dropped leaves this pointing at nothing — db/023 had to fix exactly that. |
 | `sort_order` | number | yes |  | The order the notes are listed in. |
 | `created_at` | timestamp | yes |  | When this note was added. Set automatically. |
 | `updated_at` | timestamp | yes |  | When this note was last changed. Set automatically. |
@@ -175,101 +175,101 @@ The judgement calls made in building this data, written out for readers. One row
 
 ### `ref_bill_type`
 
-Allowed values for bill.bill_type: who introduced the bill. Five rows.
+Who introduced the bill. Every allowed value for bill.bill_type is a row here, with its own definition, so a value can be added or re-labelled without changing the schema and so each one carries the text explaining it to a reader.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
-| `code` | text | yes |  | The value stored in bill.bill_type. |
-| `label` | text | yes |  | How to display it, e.g. "Government Bill". |
-| `definition` | text |  |  | What this type means. |
-| `sort_order` | number | yes |  | The order to list them in. |
-| `analysis_group` | text | yes | `ref_bill_type.code` | The bill type this one is counted as when types are grouped for analysis. Every type groups to itself except hybrid, which groups to government. Group by bill_type to see Hybrid Bills separately; group by analysis_group to fold them in, which is what the SPICe fact sheets do without saying so. See methodology note M4. |
+| `code` | text | yes |  | The short word stored in bill.bill_type and used in queries. Readable on purpose, so a row shows "government" rather than a number that has to be looked up. |
+| `label` | text | yes |  | The full name to show a reader, e.g. "Government Bill". The code is what queries and data files use; this is what a person sees on screen. |
+| `definition` | text |  |  | What this bill type means, in the Parliament's terms. This is the text to show a reader who asks what a value means, and it is the reason the allowed values live in a table rather than as a bare list inside the schema. |
+| `sort_order` | number | yes |  | The order to list these values in on screen. A display choice, not a fact about the bill type. |
+| `analysis_group` | text | yes | `ref_bill_type.code` | The bill type this one is counted as when types are grouped for analysis. Every type groups to itself except hybrid, which groups to government. Group on bill_type to see Hybrid Bills separately; group on analysis_group to fold them in, which is what the SPICe factsheets do without saying so — the Session 3 factsheet defines a Hybrid type, applies it to one bill, then counts that bill under Executive. See methodology note M4. |
 
 ### `ref_bill_type_stage`
 
-Which stages belong to which kind of bill, and in what order. Twenty rows: five bill types times four positions. The database uses this to refuse a Stage 2 recorded against a Private Bill, or a Preliminary Stage against a Government Bill.
+Which stages belong to which kind of bill, and in what order. Five bill types times four positions: government, members and committee bills run Stage 1, 2 and 3 then Reconsideration; private and hybrid bills run Preliminary, Consideration and Final Stage then Reconsideration. A trigger on stage_event reads this table, so the database refuses a Stage 2 recorded against a Private Bill, or a Preliminary Stage against a Government Bill, or a real stage name at the wrong position.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
-| `bill_type` | text | yes | `ref_bill_type.code` | The bill type, from ref_bill_type. |
-| `stage_order` | number | yes |  | Position in that bill type's sequence: 1, 2, 3 or 4. |
-| `stage` | text | yes | `ref_stage.code` | The stage that belongs at that position for that bill type, from ref_stage. |
+| `bill_type` | text | yes | `ref_bill_type.code` | The kind of bill this sequence belongs to, from ref_bill_type. |
+| `stage_order` | number | yes |  | Position in that bill type's own sequence: 1, 2, 3 or 4. The same number means the same point in the process across bill types, which is what makes durations comparable between a Private Bill and a Government Bill. |
+| `stage` | text | yes | `ref_stage.code` | The stage that sits at that position for that bill type, from ref_stage. This is the pairing that lets the two sequences be compared without pretending the names match. |
 
 ### `ref_bill_type_stated`
 
-Allowed values for bill.bill_type_stated: how the type was written at the time. Separate from ref_bill_type so that "executive" cannot leak into a count of bill types and split the government series. Six rows.
+How a bill type was written at the time, which is not always how we classify it. Every allowed value for bill.bill_type_stated is a row here, with its own definition, so a value can be added or re-labelled without changing the schema and so each one carries the text explaining it to a reader.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
-| `code` | text | yes |  | The value stored in bill.bill_type_stated. |
-| `label` | text | yes |  | How to display it. |
-| `definition` | text |  |  | What this label meant and when it was used. |
-| `sort_order` | number | yes |  | The order to list them in. |
+| `code` | text | yes |  | The short word stored in bill.bill_type_stated and used in queries. Readable on purpose, so a row shows "executive" rather than a number that has to be looked up. |
+| `label` | text | yes |  | The full name to show a reader, e.g. "Executive Bill". The code is what queries and data files use; this is what a person sees on screen. |
+| `definition` | text |  |  | What this styling means, in the Parliament's terms. This is the text to show a reader who asks what a value means, and it is the reason the allowed values live in a table rather than as a bare list inside the schema. |
+| `sort_order` | number | yes |  | The order to list these values in on screen. A display choice, not a fact about the styling. |
 
 ### `ref_enactment_status`
 
-Allowed values for bill.enactment_status: whether the bill became an Act. Four rows.
+Whether the bill became an Act. Every allowed value for bill.enactment_status is a row here, with its own definition, so a value can be added or re-labelled without changing the schema and so each one carries the text explaining it to a reader.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
-| `code` | text | yes |  | The value stored in bill.enactment_status. |
-| `label` | text | yes |  | How to display it. |
-| `definition` | text |  |  | What this status means. |
-| `sort_order` | number | yes |  | The order to list them in. |
+| `code` | text | yes |  | The short word stored in bill.enactment_status and used in queries. Readable on purpose, so a row shows "not_enacted" rather than a number that has to be looked up. |
+| `label` | text | yes |  | The full name to show a reader, e.g. "Not enacted". The code is what queries and data files use; this is what a person sees on screen. |
+| `definition` | text |  |  | What this status means, in the Parliament's terms. This is the text to show a reader who asks what a value means, and it is the reason the allowed values live in a table rather than as a bare list inside the schema. |
+| `sort_order` | number | yes |  | The order to list these values in on screen. A display choice, not a fact about the status. |
 
 ### `ref_outcome`
 
-Allowed values for bill.outcome: what the Parliament did with the bill. Seven rows.
+What the Parliament did with the bill. Every allowed value for bill.outcome is a row here, with its own definition, so a value can be added or re-labelled without changing the schema and so each one carries the text explaining it to a reader.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
-| `code` | text | yes |  | The value stored in bill.outcome. |
-| `label` | text | yes |  | How to display it. |
-| `definition` | text |  |  | What this outcome means. |
+| `code` | text | yes |  | The short word stored in bill.outcome and used in queries. Readable on purpose, so a row shows "fell_dissolution" rather than a number that has to be looked up. |
+| `label` | text | yes |  | The full name to show a reader, e.g. "Fell at dissolution". The code is what queries and data files use; this is what a person sees on screen. |
+| `definition` | text |  |  | What this outcome means, in the Parliament's terms. This is the text to show a reader who asks what a value means, and it is the reason the allowed values live in a table rather than as a bare list inside the schema. |
 | `is_final` | true/false | yes |  | True if this outcome means the Parliament has finished with the bill. False for "in progress". |
-| `sort_order` | number | yes |  | The order to list them in. |
+| `sort_order` | number | yes |  | The order to list these values in on screen. A display choice, not a fact about the outcome. |
 
 ### `ref_party`
 
-Allowed values for bill.party: the party of the member in charge. Seven rows.
+The party of the member in charge. Every allowed value for bill.party is a row here, with its own definition, so a value can be added or re-labelled without changing the schema and so each one carries the text explaining it to a reader.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
-| `code` | text | yes |  | The value stored in bill.party. |
-| `label` | text | yes |  | How to display it. |
-| `definition` | text |  |  | Anything worth saying about this party value. |
-| `sort_order` | number | yes |  | The order to list them in. |
+| `code` | text | yes |  | The short word stored in bill.party and used in queries. Readable on purpose, so a row shows "independent" rather than a number that has to be looked up. |
+| `label` | text | yes |  | The full name to show a reader, e.g. "Independent". The code is what queries and data files use; this is what a person sees on screen. |
+| `definition` | text |  |  | What this party means, in the Parliament's terms. This is the text to show a reader who asks what a value means, and it is the reason the allowed values live in a table rather than as a bare list inside the schema. |
+| `sort_order` | number | yes |  | The order to list these values in on screen. A display choice, not a fact about the party. |
 
 ### `ref_procedure`
 
-Allowed values for bill.procedure: how the bill was handled under the Parliament's rules. Six rows.
+How the bill was handled under the Parliament's rules. Every allowed value for bill.procedure is a row here, with its own definition, so a value can be added or re-labelled without changing the schema and so each one carries the text explaining it to a reader.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
-| `code` | text | yes |  | The value stored in bill.procedure. |
-| `label` | text | yes |  | How to display it. |
-| `definition` | text |  |  | What this procedure means. |
-| `sort_order` | number | yes |  | The order to list them in. |
+| `code` | text | yes |  | The short word stored in bill.procedure and used in queries. Readable on purpose, so a row shows "emergency" rather than a number that has to be looked up. |
+| `label` | text | yes |  | The full name to show a reader, e.g. "Emergency". The code is what queries and data files use; this is what a person sees on screen. |
+| `definition` | text |  |  | What this procedure means, in the Parliament's terms. This is the text to show a reader who asks what a value means, and it is the reason the allowed values live in a table rather than as a bare list inside the schema. |
+| `sort_order` | number | yes |  | The order to list these values in on screen. A display choice, not a fact about the procedure. |
 
 ### `ref_source`
 
-Allowed values for any source column: the kinds of source this project takes facts from. Six rows.
+The kinds of source this project takes facts from. Every allowed value for any source column is a row here, with its own definition, so a value can be added or re-labelled without changing the schema and so each one carries the text explaining it to a reader.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
-| `code` | text | yes |  | The value stored in a source column. |
-| `label` | text | yes |  | How to display it. |
-| `definition` | text |  |  | What this source is and how far it can be relied on. |
-| `sort_order` | number | yes |  | The order to list them in. |
+| `code` | text | yes |  | The short word stored in any source column and used in queries. Readable on purpose, so a row shows "spice_factsheet" rather than a number that has to be looked up. |
+| `label` | text | yes |  | The full name to show a reader, e.g. "SPICe legislation factsheet". The code is what queries and data files use; this is what a person sees on screen. |
+| `definition` | text |  |  | What this kind of source means, in the Parliament's terms. This is the text to show a reader who asks what a value means, and it is the reason the allowed values live in a table rather than as a bare list inside the schema. |
+| `sort_order` | number | yes |  | The order to list these values in on screen. A display choice, not a fact about the kind of source. |
 
 ### `ref_stage`
 
-Allowed values for stage_event.stage: the names stages actually have. Nine rows, covering both the ordinary Stage 1/2/3 sequence and the Preliminary/Consideration/Final sequence Private and Hybrid Bills use.
+The names stages actually have, covering both the Stage 1/2/3 sequence and the Preliminary/Consideration/Final sequence Private and Hybrid Bills use. Every allowed value for stage_event.stage is a row here, with its own definition, so a value can be added or re-labelled without changing the schema and so each one carries the text explaining it to a reader.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
-| `code` | text | yes |  | The value stored in stage_event.stage. |
-| `label` | text | yes |  | How to display it, e.g. "Preliminary Stage". |
-| `definition` | text |  |  | What happens at this stage. |
-| `sort_order` | number | yes |  | The order to list them in. |
+| `code` | text | yes |  | The short word stored in stage_event.stage and used in queries. Readable on purpose, so a row shows "preliminary" rather than a number that has to be looked up. |
+| `label` | text | yes |  | The full name to show a reader, e.g. "Preliminary Stage". The code is what queries and data files use; this is what a person sees on screen. |
+| `definition` | text |  |  | What this stage means, in the Parliament's terms. This is the text to show a reader who asks what a value means, and it is the reason the allowed values live in a table rather than as a bare list inside the schema. |
+| `sort_order` | number | yes |  | The order to list these values in on screen. A display choice, not a fact about the stage. |
 

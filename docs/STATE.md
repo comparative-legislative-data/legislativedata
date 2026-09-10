@@ -1,31 +1,42 @@
 # State
 
-Updated: 2026-09-10 (third session of the day)
+Updated: 2026-09-10 (fourth session of the day)
 
 ## Start here, next session
 
-**The owner is sanity-checking their own understanding of the database. That is
-the task. Do not make schema changes, do not propose new work, and do not start
-promotion.**
+**The owner still does not have a working explanation of how the tables
+interact. Producing one is the task. Nothing else.**
 
-Read `docs/DATA-DICTIONARY.md` first. It is generated from the database and lists
-every table and every column in plain English. Answer questions against it.
+This was the task last session too, and it failed — three times, the same way.
+The explanations were accurate and unusable: table names, arrows, INSERT and
+UPDATE, "cascade", "foreign key", "cardinality". The owner's words, in order:
+"this is so jargonistic it is unbelievable"; "that's possibly the least
+beginner human friendly explanation i've ever had"; "this remains an incredibly
+difficult explanation to understand". The session was closed to start again.
 
-**What happened on 2026-09-10, recorded because it nearly ended the project.**
-Twenty-four migrations were applied in one day. Each had a written justification
-and the justifications were sound. The result was a database the owner could no
-longer explain, which is the exact failure that killed the four previous
-attempts — arrived at by a different route. The owner said so plainly, and was
-right.
+**What is actually being asked.** Not what each table means — that part is
+understood, and the owner said so explicitly. What is not understood is the
+*mechanics*: what physically happens, in what order, when a bill moves from a
+factsheet line to a row in `bill`, and what the database does on its own at
+each point.
 
-The cause was not the individual changes. It was that 110 of the 130 columns had
-no description anywhere, so the only way to know what the database did was to
-read twenty-four migration files in order. `db/024` and the data dictionary fix
-that. The rule that follows is in `CLAUDE.md`: every column carries a `COMMENT`
-in the migration that creates it, and the generator refuses to run if one is
-missing.
+**What did not work, so it is not tried again:**
 
-The schema is unchanged by any of this. Fifteen tables, the same 73 rows.
+- ASCII diagrams with arrows and boxes.
+- Any sentence containing INSERT, UPDATE, foreign key, cascade, trigger,
+  constraint, or a `v_`/`ref_` table name used as a noun.
+- Explaining three abstract "mechanisms" and then applying them.
+- Long answers. Every failed attempt was over 300 words.
+
+**What to try instead.** The owner is a legislation researcher, not a database
+one, and is the authority on bills. Explain the mechanics the way you would
+describe a filing process to a colleague: one bill, start to finish, in the
+order it happens, in sentences about bills and factsheets and not about tables.
+Short. Then stop and let them ask. Do not pre-empt the follow-up question by
+covering it in advance — that is what produced the wall of text every time.
+
+The database is unchanged and is not the problem. Do not propose schema work,
+and do not start promotion, until this is done.
 
 ## Where we are
 
@@ -113,6 +124,18 @@ committee membership, the text of anything. Those are later slices.
 - **`db/024`** — a plain-English description on every table and every column.
   110 of the 130 columns had none. Postico shows these beside the column, and
   `docs/DATA-DICTIONARY.md` is generated from them.
+- **`db/025`** — `field_source` is now genuinely append-only, and every
+  description in the database was rewritten to say what the data *is* before
+  how it was derived. Two faults were found by reading the descriptions back
+  with the owner. First, seven of them stated a rule the database did not
+  apply: five staging columns said "must be a value in ref_x" when nothing
+  checks them and nothing should (`db/008` is permissive on purpose), and
+  `field_source` said it was append-only when that was only a convention —
+  which D5 rests on, so `db/025` made it real. Tested, not assumed: an UPDATE
+  and a DELETE are both refused. Second, the staging descriptions were written
+  from the extraction script's point of view ("the outcome we propose"), which
+  is the wrong way round for someone reviewing a row at the gate. Row counts
+  were removed from table descriptions — "seven rows" goes stale silently.
 - **`docs/DATA-DICTIONARY.md`** and **`tools/make_data_dictionary.py`** — the
   single source of truth for what the database holds. Generated from the
   database, never edited by hand, and the generator refuses to run if anything
@@ -287,6 +310,29 @@ note the front end has to surface (M4), not a comment in the charting code.
   `bill.note`.** Settled for now as prose, because the distinction is about who
   blocked the bill rather than about the bill's state. Four bills; revisit if a
   fifth appears or if the front end wants to filter on it.
+
+- **`field_source.entity_id` is not checked against anything, and promotion is
+  re-runnable.** It holds a bill's number as a plain figure with no link to
+  `bill`. Empty `bill` and re-promote — which `DECISIONS.md` says is what makes
+  promotion affordable — and the numbers are reissued while these rows still
+  hold the old ones. Everything else unwinds itself: stage rows go with their
+  bills, and each staging row's `promoted_bill_id` empties on its own. Only
+  these are left pointing at bills that no longer exist. Six such rows are due
+  to be written the first time promotion runs, so this is cheapest to settle
+  before that, not after.
+- **`title_kind` has nowhere to go at promotion.** `bill` has no equivalent
+  column, so the fact `db/013` created it to make visible per row goes back to
+  being inferred from whether a Royal Assent date is present.
+- **`stage_event.completed` is derivable, and that closes off a case.** Its
+  description says an empty `date_completed` means the stage was not completed,
+  which leaves nowhere to record a stage that *was* completed on a date not yet
+  known. Stage dates are expected to fill in gradually from the Official Report
+  and the API, so that case will arrive.
+- **Asking whether a rule exists means reading three catalogues, not one.**
+  `fell_here` was reported to the owner as unenforced and was not — a partial
+  unique index has always refused a second one. The check looked only in
+  `pg_constraint`, which does not list plain indexes. Read `pg_indexes` and
+  `pg_trigger` too.
 
 **D1, D4, D5 and D6 are settled** — see `DECISIONS.md`, along with the seven
 decisions the factsheet survey forced on the same day.
