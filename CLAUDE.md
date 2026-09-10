@@ -6,12 +6,15 @@ visualised, and build their own tables and charts on the site without leaving it
 
 ## Read this first, every session
 
-1. `docs/DATA-DICTIONARY.md` — what every table and column is, in plain English.
+1. `docs/HOW-THE-DATABASE-WORKS.md` — how the pieces fit together, written for
+   the owner in spreadsheet terms. Read it before explaining anything about the
+   database, and keep it true as the database changes.
+2. `docs/DATA-DICTIONARY.md` — what every table and column is, in plain English.
    The single source of truth for what the database holds. **Generated from the
    database itself** by `tools/make_data_dictionary.py`; never edit it by hand.
-2. `docs/STATE.md` — where the project actually is. Read before doing anything.
-3. `docs/DECISIONS.md` — what has been settled, and why. Do not reopen these.
-4. `docs/VARIABLES.md` — the reasoning behind the variables. Superseded by the
+3. `docs/STATE.md` — where the project actually is. Read before doing anything.
+4. `docs/DECISIONS.md` — what has been settled, and why. Do not reopen these.
+5. `docs/VARIABLES.md` — the reasoning behind the variables. Superseded by the
    data dictionary for anything factual about the current schema.
 
 At the end of a session, update `STATE.md`, and add any decision that was
@@ -46,8 +49,41 @@ slice is finished, then the next one is opened.
 revised, and they have been. Nothing is ever "loaded once and done"; a session
 being closed does not make its data final.
 
+## Explaining the database to the owner
+
+The owner is a legislation researcher and the authority on bills. They are a
+beginner at running a database, by their own description, and they work in
+spreadsheets. Four attempts at explaining how the tables interact failed, in
+one session, for the same reason every time: jargon and length.
+
+- **No SQL vocabulary in an explanation.** Not INSERT, UPDATE, SELECT, JOIN,
+  foreign key, cascade, trigger, constraint, cardinality, normalisation. If a
+  word only makes sense to someone who has used a database, it is the wrong
+  word. The glossary in `HOW-THE-DATABASE-WORKS.md` §5 exists so those words
+  can be looked up, not so they can be used.
+- **Reach for the spreadsheet.** Tab, column, dropdown list, pivot table,
+  lookup, empty cell. This is not simplification; it is accurate, and it is
+  the vocabulary the owner already reasons fluently in.
+- **Trace one real bill, start to finish, in the order things happen.** Not
+  three abstract mechanisms and then an example. A named bill, what happens to
+  it, what the database does on its own at each point.
+- **Short. Then stop.** Every failed attempt ran over 300 words. Do not
+  pre-empt the follow-up by covering it in advance — answering the unasked
+  question is what produced the wall of text each time. Let them ask.
+- **No ASCII diagrams with boxes and arrows.** They were tried and did not
+  land.
+- Talk about bills and factsheets, not about tables. Table names are for when
+  the owner is looking at Postico and needs to find the thing; they are not
+  the subject of a sentence.
+
 ## Working rules
 
+- **Bring the testing plan; do not wait to be asked for it.** The owner should
+  not have to suggest rehearsing a change, checking the result, undoing it and
+  doing it again. Anything that writes to the clean data gets a written
+  procedure and a rehearsal before it is trusted, and the procedure says what
+  to look at, not only what to type. See `docs/PROMOTION-RUNBOOK.md` for the
+  shape.
 - Ask before adding a source, a table, or a variable that the current slice does
   not require.
 - **Every new table and column carries a `COMMENT` in the same migration that

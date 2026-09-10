@@ -50,7 +50,7 @@ One row per bill. This is the checked, live data. A row only gets here by being 
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
-| `bill_id` | number | yes |  | Our own identifier for the bill. Made up by us, not the Parliament's. Never changes. |
+| `bill_id` | number | yes | `bill_candidate.candidate_id` | Our own identifier for the bill, invented by us and never the Parliament's. It is the candidate_id of the staging line this bill was promoted from, so a bill keeps the same number if the table is emptied and promotion is run again — which is what keeps the provenance notes in field_source pointing at the right bill. Not an unbroken run: the four bills that appear in two factsheets take the number of the first line promoted. Never changes. |
 | `sp_bill_id` | text |  |  | The Parliament's bill number within its session, e.g. 70 for SP Bill 70. Unique within a session, not across sessions. Empty where none is known — the Session 1 factsheet gives no numbers, and Sessions 2 to 5 give them only for bills that did not become Acts. |
 | `session_number` | number | yes | `session.session_number` | Which session the bill was first introduced in. Points at the session table. A bill keeps this number however long it takes and whatever happens to it — see methodology note M6. |
 | `short_title` | text | yes |  | The title the bill is known by at the latest point there is evidence for: the Act's title where it became an Act, otherwise the title it had when it ended. This is the title to display. |
@@ -146,7 +146,7 @@ Where one individual field came from, when that is not where the rest of its row
 |---|---|---|---|---|
 | `field_source_id` | number | yes |  | Our identifier for this provenance row. |
 | `entity` | text | yes |  | Which table the field lives in. The database allows three values and no others: bill, stage_event and session. Provenance cannot be recorded at this level about anything else, including a staging row — bill_candidate keeps its own source columns. |
-| `entity_id` | number | yes |  | Which row in that table, by its identifier. Not checked against the table it names: nothing stops this pointing at a row that does not exist, or at a different row than intended if bill is ever emptied and re-promoted. |
+| `entity_id` | number | yes |  | Which row in that table, by its identifier. For a bill this is stable: its number comes from its staging line, so it survives the table being emptied and promotion being run again. For a stage row it is not — stage rows are reissued along with their bill. That is rarely a problem, because a stage row carries its own source, source_ref and observed_at, so a stage date that came from somewhere other than the bill's source is recorded there and needs nothing here. Only a second, later observation of the same stage date needs a row here, and it should be checked after any re-promotion. |
 | `field_name` | text | yes |  | Which column of that row this provenance is about. A trigger checks the name against the real table, so a misspelling is refused rather than quietly orphaning the record. |
 | `source` | text | yes | `ref_source.code` | Where this one field came from. Allowed values are in ref_source. |
 | `source_ref` | text |  |  | The exact place within that source. |

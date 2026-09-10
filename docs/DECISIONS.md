@@ -7,6 +7,85 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-10 — Promotion is a rehearsed procedure with a written undo
+
+`tools/promote_session.sql`, `tools/rollback_promotion.sql`,
+`docs/PROMOTION-RUNBOOK.md`. Session 1 promoted: 73 bills, 67 stage rows, 6
+provenance notes.
+
+**Both scripts require `-v session=` and `-v save=` with no default for
+either.** A run with `save=false` does the entire job, prints the result and
+discards it. Eight checks run before anything is kept and any failure aborts
+everything, whichever way `save` is set.
+
+**Why the procedure is written down rather than remembered:** it gets run
+seven times, by whoever is here, and the value is in knowing what to look at
+rather than what to type. The runbook names the five tables to read and what
+each should say.
+
+**Reversibility was rehearsed, not assumed.** Session 1 was promoted, taken
+back off, and promoted again. After the undo: no bills, no stage rows, staging
+lines unstamped, provenance notes still present because they cannot be
+deleted. After promoting again: the same 73 bills with the same numbers, still
+6 notes rather than 12, each pointing at the right bill. A third run changed
+nothing. This is what `db/026` was for and it is now demonstrated rather than
+argued.
+
+**A provenance note is the one thing that cannot be tidied up afterwards.**
+Demonstrated the hard way on the first run: bill 17's note has the whole
+reviewer's comment as its reference, including a sentence that was an
+instruction to whoever wrote the script. The script now files a short
+reference, so later sessions are clean; that row cannot be. Recorded because
+the lesson is general — read the provenance table before saving, not after.
+
+**Withdrawn and fallen bills get no stage rows.** Six Session 1 bills have a
+concluding date on the bill and nothing else, because the factsheet does not
+say what stage they had reached. That is a gap in the source, not in the
+schema, and it is listed as open in `STATE.md`.
+
+---
+
+## 2026-09-10 — A bill's number is its staging line's number
+
+`db/026`. `bill.bill_id` no longer comes from a sequence. Promotion supplies
+it, and it is the `candidate_id` of the staging row the bill was promoted
+from. A foreign key from `bill.bill_id` to `bill_candidate.candidate_id`
+enforces it.
+
+**Why:** promotion being cheap to redo is what made it safe to promote Session
+1 before the other six sessions were even loaded. It was nearly true and not
+quite. `bill_candidate` is permanent, `stage_event` rows go with their bill,
+and a staging row's `promoted_bill_id` empties itself. `field_source` was the
+exception: it records which bill a note is about by the bill's number, and
+`db/025` made it append-only, so those rows cannot be corrected. Empty `bill`,
+promote again, the numbers come back in a different order, and six notes point
+silently at the wrong bill. Stopping the numbers moving removes the problem
+rather than managing it.
+
+**A second thing it buys.** A bill can no longer exist without a staging line
+behind it. The gateway rule was previously a property of the promotion script
+being written correctly; it is now a property of the database.
+
+**What it costs.** Bill numbers are no longer an unbroken run — the four bills
+appearing in two factsheets (M6) take the number of the first line promoted, so
+four candidate numbers are never used. `bill_id` was always our own invented
+identifier, never shown to a reader, so a gap in it means nothing.
+
+**Tested, not assumed.** A bill with a number no staging line has is refused; a
+bill taking a real staging line's number is accepted; a bill with no number
+supplied is refused, since nothing hands them out any more. `bill` is still
+empty.
+
+**Stage dates need no note of their own.** Checked while doing this: the five
+Session 1 Stage 1 dates that came from the Official Report do not need a
+`field_source` row, because a stage row carries its own `source`, `source_ref`
+and `observed_at`. So all six of Session 1's provenance notes are about `bill`
+columns — one corrected title and five outcomes — and all six are now stable
+across a re-promotion. A stage row's number is still reissued on re-promotion,
+which matters only for a second, later observation of the same stage date.
+
+---
+
 ## 2026-09-10 — A description may not claim a rule the database does not have
 
 `db/025`. Found by the owner reading the descriptions back, which is the check

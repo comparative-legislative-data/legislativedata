@@ -1,53 +1,46 @@
 # State
 
-Updated: 2026-09-10 (fourth session of the day)
+Updated: 2026-09-10 (fifth session of the day)
 
 ## Start here, next session
 
-**The owner still does not have a working explanation of how the tables
-interact. Producing one is the task. Nothing else.**
+**Load Session 2 into staging.** Detail under "Next" below. It already
+extracts clean — 81 rows against a stated 81 — so it needs no parser work
+first. Nine of its bills are Private Bills, which is the first real test of
+`db/018`, and it is the first session with SP Bill numbers.
 
-This was the task last session too, and it failed — three times, the same way.
-The explanations were accurate and unusable: table names, arrows, INSERT and
-UPDATE, "cascade", "foreign key", "cardinality". The owner's words, in order:
-"this is so jargonistic it is unbelievable"; "that's possibly the least
-beginner human friendly explanation i've ever had"; "this remains an incredibly
-difficult explanation to understand". The session was closed to start again.
+**Before explaining anything about the database, read
+`docs/HOW-THE-DATABASE-WORKS.md` and the rules in `CLAUDE.md` under
+"Explaining the database to the owner".** Four attempts at explaining how the
+tables interact failed in one session; both documents exist so that is not
+rediscovered a fifth time. Spreadsheet words, one named bill traced in order,
+no SQL vocabulary, short, then stop.
 
-**What is actually being asked.** Not what each table means — that part is
-understood, and the owner said so explicitly. What is not understood is the
-*mechanics*: what physically happens, in what order, when a bill moves from a
-factsheet line to a row in `bill`, and what the database does on its own at
-each point.
+**Before changing the clean data, read `docs/PROMOTION-RUNBOOK.md`.** The
+owner should not have to ask for a rehearsal, a check and an undo; bring them.
 
-**What did not work, so it is not tried again:**
-
-- ASCII diagrams with arrows and boxes.
-- Any sentence containing INSERT, UPDATE, foreign key, cascade, trigger,
-  constraint, or a `v_`/`ref_` table name used as a noun.
-- Explaining three abstract "mechanisms" and then applying them.
-- Long answers. Every failed attempt was over 300 words.
-
-**What to try instead.** The owner is a legislation researcher, not a database
-one, and is the authority on bills. Explain the mechanics the way you would
-describe a filing process to a colleague: one bill, start to finish, in the
-order it happens, in sentences about bills and factsheets and not about tables.
-Short. Then stop and let them ask. Do not pre-empt the follow-up question by
-covering it in advance — that is what produced the wall of text every time.
-
-The database is unchanged and is not the problem. Do not propose schema work,
-and do not start promotion, until this is done.
+The owner's standing position on the design, recorded so it is not re-argued:
+the structure is accepted as the price of academic-quality transparency, and
+the two lookup lists with no data behind them (`ref_party`, `ref_procedure`)
+are deliberate future-proofing and stay. The requirement that does not relax
+is that the owner can fully understand it.
 
 ## Where we are
 
-Session 1 is extracted, reconciled, coded, loaded, **reviewed and accepted** —
-73 candidates, zero outstanding problems, all `review_status = 'accepted'`.
-Nothing has been promoted, so `bill` is still empty.
+**Session 1 is promoted.** 73 bills, 67 stage rows, 6 provenance notes. The
+clean sheet has data in it for the first time, and every pivot table has been
+opened and looked at. `v_candidate_problems` is empty.
 
-**All seven factsheets have now been surveyed** — `docs/FACTSHEET-SURVEY.md` —
-and the seven schema decisions that came out of it are applied as `db/019`-`db/023`
-and recorded in `DECISIONS.md`. That was the last piece of work that had to
-happen while `bill` was empty. **The next piece of work is the promotion script.**
+The totals reproduce the factsheet's own summary: 51 government, 16 Member's,
+3 private, 3 committee; 62 passed, 3 withdrawn, 8 fallen. The 67 stage rows
+are 62 final-stage rows for the bills that passed — 61 `stage_3` and one
+`final` for the Private Bill, which is `db/018` working — and 5 `stage_1` rows
+for the Member's Bills rejected at Stage 1, each marked as not completed and
+as where the bill ended.
+
+**All seven factsheets have been surveyed** — `docs/FACTSHEET-SURVEY.md` — and
+the seven schema decisions that came out of it are applied as `db/019`-`db/023`
+and recorded in `DECISIONS.md`.
 
 The survey changed more than expected. The largest finding was not on the list of
 things to confirm: passing a bill is not the end of it, four bills prove it, and a
@@ -77,7 +70,7 @@ committee membership, the text of anything. Those are later slices.
 - VPS live and hardened (see `legdatavps/legdata-vps-notes.md`).
 - PostgreSQL 17.11 on the VPS. Database `legdata`, role `legdata`, UTF-8,
   `timezone=UTC`, listening on localhost only.
-- Schema `db/001`-`db/024`.
+- Schema `db/001`-`db/026`.
 - Postico 2 verified writing to the VPS, data and DDL.
 - **`db/008` `bill_candidate`** — the staging table. Permissive by design: no
   foreign keys, almost nothing `NOT NULL`, so a bad parse lands as a row you can
@@ -136,10 +129,31 @@ committee membership, the text of anything. Those are later slices.
   from the extraction script's point of view ("the outcome we propose"), which
   is the wrong way round for someone reviewing a row at the gate. Row counts
   were removed from table descriptions — "seven rows" goes stale silently.
+- **`db/026`** — a bill's number is now the number of the staging line it came
+  from, not one handed out by a sequence, and a bill cannot exist without a
+  staging line behind it. This is what makes re-promotion genuinely free: the
+  provenance notes are append-only and record a bill by its number, so
+  reissued numbers would have left six notes pointing at the wrong bill with
+  no way to correct them. Tested: a made-up number is refused, a real staging
+  line's number is accepted, and no number at all is refused.
 - **`docs/DATA-DICTIONARY.md`** and **`tools/make_data_dictionary.py`** — the
   single source of truth for what the database holds. Generated from the
   database, never edited by hand, and the generator refuses to run if anything
   lacks a description.
+- **`tools/promote_session.sql`** and **`tools/rollback_promotion.sql`** — the
+  promotion script and its undo. Both take `-v session=` and `-v save=`, with
+  no default for either, so a mistyped run fails rather than guesses.
+  `save=false` does the whole job, prints the result and discards it. Eight
+  checks run before anything is kept, and any failure aborts the lot.
+- **`docs/PROMOTION-RUNBOOK.md`** — the written procedure, in plain language:
+  rehearse, look at five specific things, save, then open the pivot tables.
+  Also records what happened the first time it was run.
+- **`docs/HOW-THE-DATABASE-WORKS.md`** — the orientation document, written for
+  the owner in spreadsheet terms: the 23 objects sorted into dropdown lists,
+  pivot tables, the staging sheet and the clean sheet, then everything
+  explained in relation to `bill_candidate`. Keep it true as the database
+  changes. `CLAUDE.md` gained a section of rules for explaining the database,
+  and the doc is now item 1 of the read-first list.
 - **`docs/FACTSHEET-SURVEY.md`** — the survey of all seven factsheets: sections,
   summary tables, footnotes, marker letters, the prose grammar for Sessions 6-7,
   the cross-session bills, and the stated session date ranges.
@@ -162,6 +176,12 @@ committee membership, the text of anything. Those are later slices.
   Note the column order in that table is Executive, Member's, **Private,
   Committee**; reading it in the other order invents a mismatch that is not
   there.
+- **Promotion is reversible, tested rather than assumed.** Session 1 was
+  promoted, deliberately taken back off, and promoted again. After the undo:
+  no bills, no stage rows, staging lines unstamped, and the 6 provenance notes
+  still there because they cannot be deleted. After promoting again: the same
+  73 bills with the same numbers, and still 6 notes rather than 12, each still
+  pointing at the right bill. A third run changed nothing.
 - **The backup restores.** Snapshot fetched back from the storage box, restored
   into a scratch database, checked, dropped.
 
@@ -172,39 +192,18 @@ promotion has gone. Structural change is no longer free after this point; that i
 the deliberate trade, and promotion is reversible, which is what makes it
 affordable.
 
-### Next session: promote Session 1
+### Now: load Session 2 into staging
 
-1. **Write the promotion script**, and promote Session 1. `bill_candidate` →
-   `bill`, for `review_status = 'accepted'` rows, setting `promoted_bill_id` and
-   `promoted_at`.
+1. **Load Session 2.** It already extracts clean — 81 rows against a stated 81
+   — so it needs no parser work first. Nine of its bills are Private Bills, the
+   railway and tram cluster: the first real test of `db/018` on more than one
+   row. It is also the first session with SP Bill numbers, which it gives only
+   to bills that did not become Acts.
 
-   It fans each candidate row out into `stage_event` rows under the right stage
-   names for that bill's type (`db/018`) — which for Session 1 means a position-3
-   row per bill that passed, named `stage_3` for a public bill and `final` for
-   the one Private Bill, plus a position-1 row for each of the five bills
-   rejected at their first stage. The trigger will refuse anything mismatched.
-
-   It must also emit `field_source` rows for the six fields that did not come
-   from the row's stated source:
-   - candidate 17's corrected `short_title` (`source = manual`)
-   - the five `end_stage_1_date` values and their outcomes, each of which
-     carries its Official Report citation in `review_note` already
-     (`source = official_report`)
-
-   Session 1 needs nothing from `db/019`-`db/023`: it has no SP Bill numbers, no
-   bill that passed and was later withdrawn, no stated introduced title, no
-   Hybrid Bill and no carry-over. That is the point — those migrations are the
-   shape the later sessions will be promoted into, built while it cost nothing.
-
-   Promotion is reversible: `bill_candidate` is permanent and promotion is a
-   script, so `bill` can be emptied and re-promoted if a later session forces a
-   change.
-
-2. **Load Session 2 into staging.** It already extracts clean — 81 rows against
-   a stated 81 — so it needs no parser work first. Nine of its bills are Private
-   Bills, the railway and tram cluster: the first real test of `db/018`. It is
-   also the first session with SP Bill numbers, which it gives only to bills that
-   did not become Acts.
+   Then review it to a conclusion and promote it through
+   `docs/PROMOTION-RUNBOOK.md`. The promotion script is written and tested and
+   should need no change; if it does, that is a finding worth recording rather
+   than a quick edit.
 
 ### After that
 
@@ -311,18 +310,18 @@ note the front end has to surface (M4), not a comment in the charting code.
   blocked the bill rather than about the bill's state. Four bills; revisit if a
   fifth appears or if the front end wants to filter on it.
 
-- **`field_source.entity_id` is not checked against anything, and promotion is
-  re-runnable.** It holds a bill's number as a plain figure with no link to
-  `bill`. Empty `bill` and re-promote — which `DECISIONS.md` says is what makes
-  promotion affordable — and the numbers are reissued while these rows still
-  hold the old ones. Everything else unwinds itself: stage rows go with their
-  bills, and each staging row's `promoted_bill_id` empties on its own. Only
-  these are left pointing at bills that no longer exist. Six such rows are due
-  to be written the first time promotion runs, so this is cheapest to settle
-  before that, not after.
-- **`title_kind` has nowhere to go at promotion.** `bill` has no equivalent
-  column, so the fact `db/013` created it to make visible per row goes back to
-  being inferred from whether a Royal Assent date is present.
+- **`title_kind` has nowhere to go at promotion, and now demonstrably does
+  not go anywhere.** All 73 staging lines carry it; no bill does, because
+  `bill` has no such column. On the clean sheet the distinction is back to
+  being inferred from whether a Royal Assent date is present. Decide whether
+  that is acceptable before Session 4, which is the first session stating an
+  introduced title as well.
+- **The clean sheet has no stage rows for a bill that was withdrawn or fell at
+  dissolution.** Six Session 1 bills are in that position: `date_concluded` is
+  set on the bill, but nothing records which stage it had reached, because the
+  factsheet does not say. Not wrong, but it means a duration question about
+  those six has no answer at all rather than a partial one. The Official
+  Report would settle it, one bill at a time.
 - **`stage_event.completed` is derivable, and that closes off a case.** Its
   description says an empty `date_completed` means the stage was not completed,
   which leaves nowhere to record a stage that *was* completed on a date not yet
