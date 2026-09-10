@@ -87,8 +87,40 @@ committee membership, the text of anything. Those are later slices.
 
 ## Next
 
-1. **Write the promotion script.** Unblocked. `bill_candidate` → `bill`, for
-   `review_status = 'accepted'` rows, setting `promoted_bill_id` and
+The order below was settled at the close of 2026-09-10. **The survey comes before
+any promotion**, and the reasoning matters more than the order: the edge cases
+are what force structural change, and structural change is free only while `bill`
+is empty. The survey is the cheap way to see them — it needs no parser work — and
+it replaces the more expensive idea of loading all seven sessions into staging
+before promoting anything, which would have meant finishing every parser in one
+stretch with no checkpoint at the end. That is the shape that killed the four
+previous attempts.
+
+### Next session: survey all seven factsheets, and act on what it finds
+
+1. **Survey the seven factsheets for structure, not content.** Section headings,
+   summary tables, footnotes, marker letters, anything implying a state or a
+   field the schema has no home for. Read them; do not parse them. Known already
+   and to be confirmed rather than discovered:
+   - Session 3 has the Forth Crossing Bill, the only Hybrid Bill.
+   - Session 4 marks bills `E`, `G` and `G*`, the last footnoted as introduced as
+     an Executive Bill.
+   - Sessions 5 and 7 have **"bills awaiting Royal Assent"** as a section, which
+     `bill` has no clean way to record: `outcome = 'passed'` with
+     `enactment_status = 'pending'` is probably right, and has never been tested.
+   - Session 7 has **bills still in progress**, and the Gender Recognition Reform
+     Bill blocked under section 35 of the Scotland Act — which is the exact case
+     D1 separated `outcome` from `enactment_status` for. `ref_enactment_status`
+     has `blocked`; nothing has ever used it.
+   - Sessions 6 and 7 carry SP Bill numbers, which sessions 1-5 do not.
+2. **Write the findings up, and take any schema decisions they force** — in the
+   same session, while it is all in view. Anything that changes `bill` is still
+   free at this point and stops being free at promotion.
+
+### The session after: start ingesting
+
+3. **Write the promotion script**, and promote Session 1. `bill_candidate` →
+   `bill`, for `review_status = 'accepted'` rows, setting `promoted_bill_id` and
    `promoted_at`.
 
    It fans each candidate row out into `stage_event` rows under the right stage
@@ -103,21 +135,28 @@ committee membership, the text of anything. Those are later slices.
    - the five `end_stage_1_date` values and their outcomes, each of which
      carries its Official Report citation in `review_note` already
      (`source = official_report`)
-2. **Load Session 2 into staging.** It already extracts clean — 81 rows against
-   a stated 81 — so it needs no parser work first. Deferred from this session
-   deliberately, to finish the tidying rather than open a new front.
-3. **Fix table fragmentation for sessions 3, 4 and 5.** They extract short by
+
+   Promotion is reversible: `bill_candidate` is permanent and promotion is a
+   script, so `bill` can be emptied and re-promoted if a later session forces a
+   change. That is why promoting early costs little.
+4. **Load Session 2 into staging.** It already extracts clean — 81 rows against
+   a stated 81 — so it needs no parser work first. Nine of its bills are Private
+   Bills, the railway and tram cluster: the first real test of `db/018`.
+
+### After that
+
+5. **Fix table fragmentation for sessions 3, 4 and 5.** They extract short by
    2, 14 and 6 rows against their own stated totals. pdfplumber fragments tables
    that break across a page, so a data row is consumed as a header. Symptoms to
    fix by: `Clackmann- anshire Council` (unrejoined line-break hyphen) and a
    truncated `Trustees of`.
-4. **Write the prose parser for sessions 6 and 7.** Different format entirely:
+6. **Write the prose parser for sessions 6 and 7.** Different format entirely:
    `{Title} (SP Bill {n})` / `{Type} Bill introduced on {date} by {name} MSP.` /
    `Passed on {date}.`, with section headings carrying outcome and enactment.
-5. **Fill in the seven `session` rows.** Session 1 is stated on page 1 of its own
+7. **Fill in the seven `session` rows.** Session 1 is stated on page 1 of its own
    factsheet: **12 May 1999 - 31 March 2003**. Doing this also wakes up the
    session-window checks added in `db/015`, which are inert until then.
-6. **`docs/VARIABLES.md` needs a pass.** §3.2 still describes `procedure` as
+8. **`docs/VARIABLES.md` needs a pass.** §3.2 still describes `procedure` as
    non-null and `date_outcome` as present; both have changed. It does not mention
    `date_concluded`, `bill_type_stated` or `title_kind`. §5 lists D1, D4 and D5
    as open when they are settled, and D6 is settled without ever appearing there.
@@ -125,7 +164,7 @@ committee membership, the text of anything. Those are later slices.
    after `db/018` — they describe what has just been rebuilt. §4.5 needs
    `ref_bill_type_stage` added and its note that Private Bills have their own
    stages turned from an aside into the rule.
-7. Then, and only then: front end, extraction from the API.
+9. Then, and only then: front end, extraction from the API.
 
 One staging table for all seven sessions, not one per session — the natural key
 carries `session_number`, and cross-session questions (the `E`/`G`/`G*`
