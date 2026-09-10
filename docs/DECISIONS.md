@@ -7,6 +7,39 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-10 — Our own rules are not facts of the world
+
+`db/027`. One provenance note held an instruction to the promotion script in
+the column meant for a citation. It was corrected by suspending the
+append-only rule for the length of one transaction and putting it back.
+
+**Why this is written down.** The correction is trivial; the reasoning that
+delayed it is not. `field_source` was made append-only that same morning, on
+an empty table, by us. When the first mistake landed in it an hour later, it
+was reported to the owner as something that could not be fixed. It could. The
+rule was treated as a property of the world rather than a choice made that
+day, and the owner had to argue for five minutes to get a one-line change
+made.
+
+**The rule stands and is not weakened.** It exists so a published record
+revised in 2030 cannot be silently overwritten, leaving no trace the
+Parliament changed its mind. That is worth the cost it imposes.
+
+**The test for a future case.** Is the row a record of what a source said, or
+debris from our own tooling? A source's words stay, always, even when they
+turn out to be wrong — that is the entire point. Our debris is cleaned up, in
+a migration that says what it changed and why. The distinction is not fine and
+does not need adjudicating each time.
+
+**The general form, which matters more than this instance.** Every rule in
+this database was written by this project, most of them this month. A rule
+that makes the data trustworthy is worth defending; the same rule protecting
+a typo made by our own script, on data nobody outside the project has seen, is
+not. Say which of the two is in front of you before saying something cannot be
+done.
+
+---
+
 ## 2026-09-10 — Promotion is a rehearsed procedure with a written undo
 
 `tools/promote_session.sql`, `tools/rollback_promotion.sql`,

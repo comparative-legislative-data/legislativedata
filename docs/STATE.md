@@ -70,7 +70,7 @@ committee membership, the text of anything. Those are later slices.
 - VPS live and hardened (see `legdatavps/legdata-vps-notes.md`).
 - PostgreSQL 17.11 on the VPS. Database `legdata`, role `legdata`, UTF-8,
   `timezone=UTC`, listening on localhost only.
-- Schema `db/001`-`db/026`.
+- Schema `db/001`-`db/027`.
 - Postico 2 verified writing to the VPS, data and DDL.
 - **`db/008` `bill_candidate`** — the staging table. Permissive by design: no
   foreign keys, almost nothing `NOT NULL`, so a bad parse lands as a row you can
@@ -145,6 +145,11 @@ committee membership, the text of anything. Those are later slices.
   no default for either, so a mistyped run fails rather than guesses.
   `save=false` does the whole job, prints the result and discards it. Eight
   checks run before anything is kept, and any failure aborts the lot.
+- **`db/027`** — corrected one provenance note that held an instruction to the
+  promotion script where a citation belongs. Done by suspending the
+  append-only rule for one transaction. The rule stands; see `DECISIONS.md`,
+  "Our own rules are not facts of the world", for when it is and is not a
+  reason to refuse a change.
 - **`docs/PROMOTION-RUNBOOK.md`** — the written procedure, in plain language:
   rehearse, look at five specific things, save, then open the pivot tables.
   Also records what happened the first time it was run.

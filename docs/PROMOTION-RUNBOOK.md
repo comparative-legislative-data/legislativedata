@@ -118,10 +118,10 @@ being quietly overwritten. They are harmless: a bill keeps its number across a
 re-promotion, so the notes still point at the right bill, and promotion will
 not file a second copy of a note it has already made.
 
-The practical consequence is worth knowing before you save rather than after:
-**a provenance note is the one thing you cannot tidy up later.** If one is
-written with a clumsy reference, it stays that way. Read the provenance table
-in step 2 properly.
+So read the provenance table in step 2 properly, before saving. Not because a
+mistake is unfixable — one made by our own tooling can be corrected in a
+migration, as `db/027` did — but because it is the one table where fixing
+something takes a migration rather than a keystroke.
 
 ---
 
@@ -138,9 +138,13 @@ works rather than assume it.
   not 12 — and all six still pointing at the right bills.
 - Running promotion a third time changed nothing.
 
-One thing was got wrong and cannot be fixed. The provenance note for bill 17's
-corrected title has the reviewer's whole note as its reference, including a
-sentence that was an instruction to whoever wrote this script. The script has
-since been changed to file a short reference instead, so later sessions will
-be clean. That row will not be, because it cannot be deleted. It is the first
-practical demonstration of the paragraph above.
+One thing was got wrong. The provenance note for bill 17's corrected title
+had the reviewer's whole comment as its reference, including a sentence that
+was an instruction to whoever wrote this script. The script was changed to
+file a short reference instead, and the row itself was corrected by `db/027`.
+
+Correcting it meant suspending the append-only rule for one transaction. That
+is available and it is not a big deal, but it is for our own mistakes only: a
+source's words stay in the record even when they turn out to be wrong, because
+that is what the table is for. See `DECISIONS.md`, "Our own rules are not
+facts of the world".
