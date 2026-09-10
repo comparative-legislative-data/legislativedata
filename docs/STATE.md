@@ -43,14 +43,17 @@ committee membership, the text of anything. Those are later slices.
 
 ## Next
 
-1. Fill in the seven `session` rows — first meeting and dissolution dates.
-2. **D2 is deliberately deferred.** The first batch of data does not include
+1. Owner enters the first slice by hand from the SPICe factsheets, recording
+   `source = 'spice_factsheet'`. Factsheets 6 and 7 are in `sources/factsheets/`;
+   1–5 the owner is retrieving. Do not offer to parse them — see `DECISIONS.md`.
+2. Fill in the seven `session` rows — first meeting and dissolution dates.
+3. **D2 is deliberately deferred.** The first batch of data does not include
    stage dates, so the definition can be settled later without re-entry. Do not
    press for it — the owner will pick it up when the dates go in. When it is
    settled, record it here and in `DECISIONS.md`, and consider adding
    `stage_1_report_date` so committee scrutiny time stays separately visible.
-3. Hand-build the two slices, recording edge cases in `note` as they are hit.
-4. Then, and only then: front end, extraction.
+4. Reconcile entered totals against the counts each factsheet states.
+5. Then, and only then: front end, extraction.
 
 ## Open, not yet decided
 

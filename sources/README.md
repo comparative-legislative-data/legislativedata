@@ -31,6 +31,9 @@ The `bill.source` value for such rows should say so.
 
 Both from `parliament.scot/-/media/files/spice/factsheets/parliamentary-business/`.
 
+Sessions 1–5 are being retrieved by the owner from the archive site. Add them
+here under the same naming convention and update the table above.
+
 **Session 6 was unlinked, not deleted.** On 2026-09-10 it had been removed from
 the fact sheets index — Session 7 was posted that day — but had not reached the
 archive. The file was still served at its old address. Sessions 1–5 are on the

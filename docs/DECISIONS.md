@@ -120,3 +120,25 @@ justify bringing it back.
 not known" — which covers law officer bills, where no member is attached.
 Independent is a positive fact about a member who sits without a party. A single
 text field would blur the two on entry.
+
+## 2026-09-10 — First-slice data entered by hand from the SPICe factsheets
+
+Not parsed programmatically. `ref_source` gains `spice_factsheet`; rows taken
+from a factsheet record it as their source, with session and retrieval date in
+`source_ref`.
+
+**Why:** parsing seven documents that are each read once costs more than reading
+them, and PDF extraction fails quietly — a shifted column, a footnote absorbed
+into a cell. It would rebuild the long unchecked chain the project exists to
+avoid. The factsheets are also *derived*: the outcome-by-type coding is SPICe's
+judgement, and reading it surfaces where it differs from the thesis where a
+parser would silently adopt it.
+
+**Where automation does belong:** reconciling entered totals against the
+factsheet's own stated counts. Session 6 states 82 bills, 62 Government, 20
+Member's, 52 Acts, 4 withdrawn as at 6 March 2026. Cheap arithmetic checks that
+catch a mistyped row without re-reading the PDF.
+
+**Evidence for the caution:** the factsheet path serves soft 404s — HTTP 200
+with an HTML error page for files that do not exist. A first automated sweep
+"found" seven factsheets; five were error pages.
