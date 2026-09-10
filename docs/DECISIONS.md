@@ -7,6 +7,101 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-10 — `date_concluded` restored; Act titles accepted in `short_title`
+
+Two questions raised by the Session 1 extraction, settled at the close of that
+session. `db/013`.
+
+**`date_concluded` returns to `bill`.** `db/004` dropped `date_outcome` on the
+reasoning that for a bill that passed or was defeated the outcome date is the
+Stage 3 date. That is true for the 62 Session 1 Acts and false for the other 11:
+a bill that was withdrawn or fell has a date that is not a stage completion, and
+it had nowhere to go. The new column is narrower than the one dropped — it holds
+only that case, and a `CHECK` keeps it empty for a bill that passed, so it cannot
+drift back into being a second, competing outcome date.
+
+**`short_title` carries the Act title where a bill was enacted.** VARIABLES §3.2
+defines it as the title as introduced, and for 62 of 73 Session 1 rows it is not.
+Sourcing the introduced titles separately was rejected as disproportionate for
+the first slice. Instead the divergence is published, as methodology note M3, and
+`bill_candidate.title_kind` records which kind of title each row carried, so the
+choice is visible per row rather than assumed.
+
+**Why publish rather than fix:** a title, the styling of the bill type, and the
+Session 4 `G*` marker are three instances of the same thing — a value that
+differs between introduction and passage. The slice does not need any of them
+resolved; it needs them not to be silent. VARIABLES §3.2 should be amended to
+match.
+
+## 2026-09-10 — Factsheet rows are extracted into staging and admitted by review
+
+Amends, and does not reverse, the hand-entry decision below. Extraction writes to
+`bill_candidate`; nothing reaches `bill` except by review and explicit promotion.
+
+**Why:** the hand-entry decision gave three reasons. The first — that parsing
+seven read-once documents costs more than reading them — is weakened: the
+factsheets are Word-generated with a clean text layer, sessions 1-5 are ruled
+tables and 6-7 a fixed prose grammar, and there are ~473 bills rather than a few
+dozen. The second — that PDF extraction fails quietly — is answered here
+specifically, because each factsheet prints its own outcome-by-type cross-tab,
+so an extraction can be checked against the source's own arithmetic before
+anyone reads a row. The third reason is untouched and is why this is an
+amendment rather than a reversal: the factsheets are *derived*, the outcome
+coding is SPICe's judgement, and reading it is how a divergence from the thesis
+gets noticed. Under this decision the reading still happens, at the gateway, on
+a populated row instead of an empty one.
+
+**The gate has already earned itself.** Sessions 1 and 2 reconcile exactly.
+Sessions 3, 4 and 5 come up short by 2, 14 and 6 rows, because pdfplumber
+fragments tables that break across a page and a data row is consumed as a
+header. None of it reached `bill`.
+
+**Consequence:** `bill_candidate` is kept permanently, not cleaned out. It is the
+provenance — `promoted_bill_id` ties every admitted bill to a page and to the
+factsheet's verbatim words; it is how a reissued factsheet is diffed against what
+was admitted; and it is the reference dataset automation is later measured
+against. Rejected candidates stay, with `review_note` recording the judgement.
+
+## 2026-09-10 — `procedure` is nullable; 'standard' is a finding, not a default
+
+`bill.procedure` was `NOT NULL DEFAULT 'standard'`. Both dropped in `db/010`.
+
+**Why:** no source consulted so far states procedure — the factsheets have no
+such column. The default recorded four Budget Acts and the Mental Health (Public
+Safety and Appeals) Act 1999 as standard procedure as a positive fact, on no
+evidence. Null now means not known, and 'standard' is something established.
+Same distinction `party` already draws between null and Independent.
+
+## 2026-09-10 — The stated bill type is recorded alongside the normalised one
+
+`bill.bill_type_stated` references a separate `ref_bill_type_stated`.
+
+**Why:** researchers will want the Executive/Government split, and it is cheaper
+to capture on the way past than to reconstruct. A separate lookup rather than
+adding 'executive' to `ref_bill_type`, because a value in the research vocabulary
+would appear in outcome-by-type cross-tabs and split the government series —
+which is what D4 exists to prevent.
+
+**It cannot be derived.** The changeover is not the 2007 renaming of the Scottish
+Executive. The Session 4 factsheet marks bills `E`, `G` and `G*`, the last
+footnoted 'Introduced as an Executive Bill (E)', for bills introduced in 2011 and
+2012. Sessions 1-3 are `E` throughout, session 5 onward `G`. So the label follows
+neither the session nor the introduction date, and has to be recorded as stated.
+`bill_type_stated` means as introduced, so `G*` is 'executive'.
+
+## 2026-09-10 — Methodology notes are data, not prose in the repository
+
+`methodology_note` holds the text of each value judgement; the front end reads it
+and shows it against the variables named in `applies_to`. The wording is seeded
+by a migration, so it stays version-controlled.
+
+**Why:** the two judgements in the first slice — counting Executive Bills as
+Government Bills, and treating the date passed as Stage 3 completion — are both
+defensible and both invisible in the numbers. A note kept only in the repository
+drifts from what the site shows. `DECISIONS.md` records that a decision was taken
+and why; `methodology_note` records what a reader of the data must be told. They
+are different documents with different audiences.
+
 ## 2026-09-10 — The database is the product; sources are candidates
 
 Nothing is written as fact by any process. Every source produces a candidate
