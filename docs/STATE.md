@@ -34,7 +34,7 @@ committee membership, the text of anything. Those are later slices.
 - VPS live and hardened (see `legdatavps/legdata-vps-notes.md`).
 - PostgreSQL 17.11 on the VPS. Database `legdata`, role `legdata`, UTF-8,
   `timezone=UTC`, listening on localhost only.
-- Schema `db/001`-`db/017`.
+- Schema `db/001`-`db/018`.
 - Postico 2 verified writing to the VPS, data and DDL.
 - **`db/008` `bill_candidate`** — the staging table. Permissive by design: no
   foreign keys, almost nothing `NOT NULL`, so a bad parse lands as a row you can
@@ -56,6 +56,13 @@ committee membership, the text of anything. Those are later slices.
   (Amendment) Scotland Act 2002`, which is how the factsheet prints it and not
   the title of the Act. `raw_title` keeps SPICe's wording. The migration refuses
   to admit anything while `v_candidate_problems` is non-empty.
+- **`db/017`** — `scratch_test` dropped.
+- **`db/018`** — stage dates moved off `bill` and back into `stage_event`, under
+  each bill type's own stage names. `ref_bill_type_stage` says which sequence
+  belongs to which type and a trigger enforces it, so a Private Bill cannot be
+  given a Stage 2. `v_bill_stage_dates` pivots them back into columns and the
+  duration views compare by position while keeping the real names visible.
+  Settles D6.
 - **`tools/extract_factsheet.py`** — the ruled-table format, sessions 1-5.
 - **`tools/requirements.txt`** — pinned, with the full dependency tree.
 
@@ -82,8 +89,16 @@ committee membership, the text of anything. Those are later slices.
 
 1. **Write the promotion script.** Unblocked. `bill_candidate` → `bill`, for
    `review_status = 'accepted'` rows, setting `promoted_bill_id` and
-   `promoted_at`. It must also emit `field_source` rows for the six fields that
-   did not come from the row's stated source:
+   `promoted_at`.
+
+   It fans each candidate row out into `stage_event` rows under the right stage
+   names for that bill's type (`db/018`) — which for Session 1 means a position-3
+   row per bill that passed, named `stage_3` for a public bill and `final` for
+   the one Private Bill, plus a position-1 row for each of the five bills
+   rejected at their first stage. The trigger will refuse anything mismatched.
+
+   It must also emit `field_source` rows for the six fields that did not come
+   from the row's stated source:
    - candidate 17's corrected `short_title` (`source = manual`)
    - the five `end_stage_1_date` values and their outcomes, each of which
      carries its Official Report citation in `review_note` already
@@ -105,9 +120,11 @@ committee membership, the text of anything. Those are later slices.
 6. **`docs/VARIABLES.md` needs a pass.** §3.2 still describes `procedure` as
    non-null and `date_outcome` as present; both have changed. It does not mention
    `date_concluded`, `bill_type_stated` or `title_kind`. §5 lists D1, D4 and D5
-   as open when they are settled, and does not list D6 at all — though §4.5 and
-   §6 both already note that Private Bills have their own stages, which is the
-   observation D6 turns into a question.
+   as open when they are settled, and D6 is settled without ever appearing there.
+   §3.3 and §4.5, on `stage_event` and the stage vocabularies, are accurate again
+   after `db/018` — they describe what has just been rebuilt. §4.5 needs
+   `ref_bill_type_stage` added and its note that Private Bills have their own
+   stages turned from an aside into the rule.
 7. Then, and only then: front end, extraction from the API.
 
 One staging table for all seven sessions, not one per session — the natural key
@@ -119,8 +136,8 @@ each gated on reconciliation.
 
 - **`scratch_test`** dropped in `db/017`. It was debris from verifying that
   Postico's grid edits reached the VPS.
-- **`stage_event`** is empty but is now deliberately kept — see D6 below and the
-  entry in `DECISIONS.md`.
+- **`stage_event`** is now the home of stage dates again (`db/018`), and empty
+  until promotion runs.
 - **The backup service runs with no `HOME` or `XDG_CACHE_HOME`**, so restic keeps
   no cache and re-reads everything in scope every night. Harmless at this size —
   the whole repository is under a megabyte — but it will not stay harmless
@@ -138,42 +155,7 @@ each gated on reconciliation.
   Stage 3 at all — the decision to pass a bill is the completion of Stage 3,
   which is what methodology note M2 says.
 - **D3** — calendar days or sitting days. Does not block.
-- **D6 — Private Bills do not have Stages 1, 2 and 3.** New, and the only open
-  question here that is already wrong in the data rather than merely undecided.
-  Private Bills have Preliminary, Consideration and Final stages. Session 1 has
-  three Private Bills; the one that passed has its Final Stage date in a column
-  called `end_stage_3_date`, which is not what that column means.
-
-  This bites slice 2 directly, because slice 2 is time taken to complete each
-  stage. Comparing a Private Bill's stages with a public bill's requires either
-  asserting they are the same thing, which is false, or recording position in the
-  sequence separately from the name of the stage.
-
-  Three options, none chosen:
-  1. Rename the columns to something type-neutral — position in the sequence
-     rather than Stage 1, 2, 3 — and record the stage vocabulary per bill type.
-  2. Keep the column names and exclude Private Bills from cross-type duration
-     comparisons, publishing that as a methodology note.
-  3. Populate `stage_event` after all, which is what it was designed for. Its
-     `stage_order` field exists for exactly this.
-
-  Only three bills in Session 1, so it is small now. It will not stay small, and
-  option 3 in particular gets more expensive the more data is promoted first.
-  Worth settling before or alongside the promotion script.
-
-  `stage_event` is kept rather than dropped for this reason; dropping it would
-  have foreclosed option 3 quietly.
-- **`procedure` is null on all 73 rows**, correctly: no source consulted so far
-  states it. But the three fastest bills in Session 1 — Erskine Bridge Tolls
-  (2 days), Criminal Procedure (Amendment) (2 days) and Mental Health (Public
-  Safety and Appeals) (8 days) — are the emergency bills that D4 exists to keep
-  visible, and nothing yet marks them as such. To be backfilled later, through
-  the field-level staging table described in `DECISIONS.md`.
-- **Nothing has systematically checked the other 61 Act titles** against the
-  statutes. Candidate 17's misprint surfaced by accident. Not proposed as work,
-  but the sample size of known SPICe errors is now one out of one looked at.
-
-**D1, D4 and D5 are settled** — see `DECISIONS.md`.
+**D1, D4, D5 and D6 are settled** — see `DECISIONS.md`.
 
 ## Connecting to the database
 

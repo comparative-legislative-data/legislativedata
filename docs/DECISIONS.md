@@ -7,6 +7,60 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-10 — Stage dates return to `stage_event`, under each bill type's own stage names. D6 settled
+
+`db/018`. Reverses the stage-date half of `db/004` and the whole of `db/005`, and
+settles D6, opened earlier the same day.
+
+**The principle, in the owner's words:** record the appropriate nuance for each
+type and normalise afterwards if we need to, rather than shoehorning different
+kinds of bill procedure into a single class because that is neater.
+
+**What that means here.** A bill's stages are recorded under the names those
+stages actually have for that kind of bill — Stage 1, 2 and 3 for a public bill;
+Preliminary, Consideration and Final Stage for a Private or Hybrid Bill — in
+`stage_event`, one row per stage reached. `ref_bill_type_stage` records which
+sequence belongs to which bill type, and a trigger enforces it: the database now
+refuses to record a Stage 2 against a Private Bill, or a Preliminary Stage
+against a Government Bill, or a valid stage name at the wrong position.
+Comparison across types is done in a view, on `stage_order`, with the real stage
+names carried through into the output so it is always visible what is being
+compared with what.
+
+**This is the same shape as `bill_type_stated` beside `bill_type`,** which is why
+it is consistent rather than novel. D4 exists to stop the normalised value eating
+the contemporaneous one. The identical argument applies to stages.
+
+**Why reversing `db/004` is legitimate rather than a change of mind.** That
+decision moved stage dates onto the bill row because "a bill becomes one line to
+type, which is what a hand-build needs". The reason was about typing. Rows are
+now extracted programmatically and the reviewer edits a staging row, so the cost
+that justified collapsing the stages has largely gone — the promotion script fans
+one candidate row out into several stage rows, which costs nothing because it is
+a script. `db/003` had originally built the duration views on `stage_event` in
+exactly this way; `db/018` substantially restores them.
+
+**What did not move, and why.** `date_introduced` and `date_royal_assent` stay on
+`bill`. Every bill type has both, under the same name, so no nuance is lost by
+holding them as columns, and moving them would duplicate two fields that existing
+constraints depend on. The distinction being served is that stage *names* differ
+by bill type; introduction and Royal Assent do not. `date_concluded` stays for
+the same reason — a bill being withdrawn is not a stage.
+
+**`ref_stage.applies_to` was dropped.** It marked the three private stages
+'private', which left Hybrid Bills unaccounted for, and its `CHECK` allowed only
+public/private/both so it could not have said otherwise. It was also a second
+answer to a question `ref_bill_type_stage` now answers properly, and two sources
+of truth about which stages belong to which bills is how the wrong one gets used.
+
+**Cost, stated honestly.** Nothing is populated. Five Stage 1 dates from the
+Official Report and 62 passing dates is the whole of the stage data in existence,
+and it sits in `bill_candidate`. This builds the shape that promotion writes
+into, while `bill` is empty and the shape is free to change. Filling it is
+expected to be gradual — from the PhD, from the Official Report, and from the
+Parliament's API — which is the working assumption for this project generally
+rather than a caveat about this decision.
+
 ## 2026-09-10 — `stage_event` is kept: Private Bills are the reason that was waiting to appear
 
 `db/004` moved stage dates onto the bill row and left `stage_event` in place but
