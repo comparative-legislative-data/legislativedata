@@ -7,9 +7,9 @@ Updated: 2026-09-10
 Project restarted 2026-09-09 after previous attempts were cleared. The repo holds
 the PhD, VPS notes, and this scaffolding. No project data exists yet.
 
-The first slice is agreed. Its variables are proposed in `VARIABLES.md` and are
-**awaiting review** — the open decisions in that document need settling before
-any data is entered, because the hand-build will encode whatever is decided.
+The first slice is agreed and **its schema exists on the VPS**. D1 and D4 are
+settled (see `DECISIONS.md`); D2, D3 and D5 remain open but do not block entry.
+No bills have been entered yet.
 
 ## The first slice
 
@@ -33,21 +33,27 @@ committee membership, the text of anything. Those are later slices.
   UTF-8, `timezone=UTC`, listening on localhost only.
 - SSH tunnelling enabled and pinned to port 5432; tunnel tested end to end from
   this Mac. Port 5432 is not open in the firewall.
+- Schema applied: `db/001_first_slice.sql`, `db/002_vocabularies.sql`,
+  `db/003_slice_views.sql`. Six `ref_*` vocabularies seeded, seven sessions
+  created with dates left null.
+- Both slice views smoke-tested against a temporary bill, then rolled back.
+- Postico 2 installed and verified writing to the VPS, data and DDL.
 
 ## Next
 
-1. Settle the open decisions in `VARIABLES.md`.
-2. Create the schema for exactly those variables.
-3. Hand-build the two slices, recording edge cases as they are hit.
-4. Then, and only then: entry system, front end, extraction.
+1. Fill in the seven `session` rows — first meeting and dissolution dates.
+2. Settle D2 (which date completes a stage) before entering stage events; it is
+   the definition every duration depends on.
+3. Hand-build the two slices, recording edge cases in `note` as they are hit.
+4. Then, and only then: front end, extraction.
 
 ## Open, not yet decided
 
-- The outcome vocabulary, and whether outcome and enactment are separate.
-- Which date marks the completion of a stage.
-- Whether durations are calendar days or sitting days.
-- How type and procedure (emergency, budget, consolidation) are separated.
-- How revisions to already-admitted data are recorded.
+- **D2** — which date marks the completion of a stage. Blocks stage entry.
+- **D3** — calendar days or sitting days. Does not block: dates are stored
+  either way, and sitting days needs a parliamentary calendar of its own.
+- **D5** — how revisions to already-admitted data are recorded. Does not block:
+  `observed_at` is on every row; append-only history can come before automation.
 
 See `VARIABLES.md` for the detail behind each.
 

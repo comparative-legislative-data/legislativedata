@@ -52,3 +52,47 @@ and leaves the existing firewall untouched.
 firewall — means a public database, TLS to configure, and a rule that breaks
 whenever the client IP changes. `PermitOpen` means the relaxation reaches
 Postgres on loopback and nothing else.
+
+## 2026-09-10 — D1 settled: outcome and enactment are separate variables
+
+`outcome` records what Parliament did; `enactment_status` records whether the
+bill became an Act.
+
+**Why:** passing and becoming law are different events, and the gap between them
+is of research interest — a bill can pass and be referred, or pass and be
+blocked from assent. A single combined list makes those cases unfindable and
+turns "how many bills passed?" into a sum over several values.
+
+**Reversing it:** a combined view over the two columns, or a generated column.
+No data would need re-entering.
+
+## 2026-09-10 — D4 settled: bill type and procedure are separate variables
+
+`bill_type` is who introduced it; `procedure` is how it was handled.
+
+**Why:** an emergency bill is a government bill that compressed its stages. In a
+single list it stops counting as a government bill. This matters directly for
+slice 2, where emergency and budget bills complete in days and would otherwise
+distort every duration average.
+
+**Reversing it:** `coalesce(nullif(procedure,'standard'), bill_type)` gives the
+combined list as a view.
+
+## 2026-09-10 — Vocabularies as lookup tables, not Postgres enums
+
+Each controlled vocabulary is a `ref_*` table with a readable text code, and
+columns carry the code as a foreign key.
+
+**Why:** values can be read, added and re-labelled in the grid without writing
+DDL, each value carries its own definition, and `bill.bill_type` displays
+'government' rather than an integer that needs a join to interpret. Postgres
+enums require `ALTER TYPE` and cannot drop a value.
+
+## 2026-09-10 — Postico 2 as the entry client
+
+Chosen over DBeaver, which stages grid edits behind an explicit save and caused
+changes to appear made when they had not been sent.
+
+**Why:** it writes on leaving a row, which is the spreadsheet behaviour wanted,
+and it is a desktop client rather than another service to run and secure. Both
+data and DDL changes were verified reaching the VPS independently.
