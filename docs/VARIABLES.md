@@ -191,11 +191,25 @@ later measured against them.
 
 ## 7. Provenance
 
-Row-level, not cell-level: `source`, `source_ref`, `observed_at`, `note`.
-Cell-level provenance is the right answer for contested fields and the wrong
-answer for a day of typing. Where a single value in a row came from somewhere
-else, that goes in `note` until there is enough of it to justify the heavier
-structure.
+**Two levels.** `bill` and `stage_event` each carry a row-level `source`,
+`source_ref` and `observed_at`, which covers the common case where a whole row
+came from one document. Where an individual field came from somewhere else, a
+row in `field_source` records it:
 
-`source` values in this slice are expected to be: `api`, `official_report`,
-`bill_document`, `phd`, `manual`.
+    field_source(entity, entity_id, field_name, source, source_ref,
+                 value_seen, observed_at, note)
+
+Only fields that differ from the row's source need an entry. A misspelled
+`field_name` is rejected by a trigger rather than silently orphaning the record.
+
+**It is append-only.** A field observed twice gets two rows, never an update.
+That makes it the answer to D5 as well: when a published record is revised, the
+new observation is added and the old one stays, so the change is visible.
+`value_seen` holds the value in the source's own words, so a later revision can
+be compared with what was originally read.
+
+Two views sit on top: `v_field_source_current` gives the latest observation per
+field, and `v_field_revisions` lists fields whose recorded value has changed.
+
+`source` values in this slice are expected to be: `spice_factsheet`, `api`,
+`official_report`, `bill_document`, `phd`, `manual`.

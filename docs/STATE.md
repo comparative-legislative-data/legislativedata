@@ -62,8 +62,9 @@ committee membership, the text of anything. Those are later slices.
   chamber debate, or the decision that ended the stage (proposed).
 - **D3** — calendar days or sitting days. Does not block: dates are stored
   either way, and sitting days needs a parliamentary calendar of its own.
-- **D5** — how revisions to already-admitted data are recorded. Does not block:
-  `observed_at` is on every row; append-only history can come before automation.
+**D5 is settled** — see `DECISIONS.md`. Per-field provenance in `field_source`
+is append-only, so a revised record adds an observation rather than overwriting
+one.
 
 See `VARIABLES.md` for the detail behind each.
 

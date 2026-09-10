@@ -142,3 +142,22 @@ catch a mistyped row without re-reading the PDF.
 **Evidence for the caution:** the factsheet path serves soft 404s — HTTP 200
 with an HTML error page for files that do not exist. A first automated sweep
 "found" seven factsheets; five were error pages.
+
+## 2026-09-10 — Provenance per field, and D5 settled with it
+
+`field_source` records the source of an individual field where it differs from
+the row-level source. Append-only, with `value_seen` holding the value in the
+source's own words.
+
+**Why:** one source per row is insufficient — a bill's outcome will come from a
+factsheet while its dates come from the Official Report, and that is the normal
+case rather than the exception. `docs/VARIABLES.md` originally argued for
+row-level only; that was wrong and has been rewritten.
+
+**This settles D5.** Because the table is append-only, a revised published
+record produces a second observation rather than overwriting the first, so the
+change is visible. `v_field_revisions` lists fields whose value has changed.
+
+**Not required for the first batch.** The row-level source remains the default
+and is enough while a whole row comes from one factsheet. `field_source` is
+there for when that stops being true.
