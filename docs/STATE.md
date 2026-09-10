@@ -2,6 +2,31 @@
 
 Updated: 2026-09-10 (third session of the day)
 
+## Start here, next session
+
+**The owner is sanity-checking their own understanding of the database. That is
+the task. Do not make schema changes, do not propose new work, and do not start
+promotion.**
+
+Read `docs/DATA-DICTIONARY.md` first. It is generated from the database and lists
+every table and every column in plain English. Answer questions against it.
+
+**What happened on 2026-09-10, recorded because it nearly ended the project.**
+Twenty-four migrations were applied in one day. Each had a written justification
+and the justifications were sound. The result was a database the owner could no
+longer explain, which is the exact failure that killed the four previous
+attempts — arrived at by a different route. The owner said so plainly, and was
+right.
+
+The cause was not the individual changes. It was that 110 of the 130 columns had
+no description anywhere, so the only way to know what the database did was to
+read twenty-four migration files in order. `db/024` and the data dictionary fix
+that. The rule that follows is in `CLAUDE.md`: every column carries a `COMMENT`
+in the migration that creates it, and the generator refuses to run if one is
+missing.
+
+The schema is unchanged by any of this. Fifteen tables, the same 73 rows.
+
 ## Where we are
 
 Session 1 is extracted, reconciled, coded, loaded, **reviewed and accepted** —
@@ -41,7 +66,7 @@ committee membership, the text of anything. Those are later slices.
 - VPS live and hardened (see `legdatavps/legdata-vps-notes.md`).
 - PostgreSQL 17.11 on the VPS. Database `legdata`, role `legdata`, UTF-8,
   `timezone=UTC`, listening on localhost only.
-- Schema `db/001`-`db/023`.
+- Schema `db/001`-`db/024`.
 - Postico 2 verified writing to the VPS, data and DDL.
 - **`db/008` `bill_candidate`** — the staging table. Permissive by design: no
   foreign keys, almost nothing `NOT NULL`, so a bad parse lands as a row you can
@@ -85,6 +110,13 @@ committee membership, the text of anything. Those are later slices.
 - **`db/023`** — notes only. M2's `applies_to` pointed at three columns `db/018`
   dropped; M6 (session attribution and the 473/470/474 arithmetic) and M7 (why a
   bill fell is our coding, 5 of 48 done) added.
+- **`db/024`** — a plain-English description on every table and every column.
+  110 of the 130 columns had none. Postico shows these beside the column, and
+  `docs/DATA-DICTIONARY.md` is generated from them.
+- **`docs/DATA-DICTIONARY.md`** and **`tools/make_data_dictionary.py`** — the
+  single source of truth for what the database holds. Generated from the
+  database, never edited by hand, and the generator refuses to run if anything
+  lacks a description.
 - **`docs/FACTSHEET-SURVEY.md`** — the survey of all seven factsheets: sections,
   summary tables, footnotes, marker letters, the prose grammar for Sessions 6-7,
   the cross-session bills, and the stated session date ranges.
@@ -179,7 +211,11 @@ affordable.
    so dissolution is not derivable from the rows either. Doing this wakes up the
    session-window checks added in `db/015`, which are inert until then — so item 4
    has to come first.
-7. **`docs/VARIABLES.md` needs a pass, and it is now a bigger one.** §3.2 still
+7. **`docs/VARIABLES.md` needs a pass — but a smaller one than it did.**
+   Everything factual about the current schema is now in
+   `docs/DATA-DICTIONARY.md`, generated from the database. What is left for
+   VARIABLES.md is the *reasoning*: why these variables and not others. The list
+   below is what is still wrong in it. §3.2 still
    describes `procedure` as non-null and `date_outcome` as present; both have
    changed. It does not mention `date_concluded`, `bill_type_stated`,
    `title_kind`, `title_as_introduced` or `date_assent_blocked`. §3.2's definition
