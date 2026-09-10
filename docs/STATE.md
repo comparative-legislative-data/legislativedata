@@ -31,6 +31,8 @@ committee membership, the text of anything. Those are later slices.
 - VPS live and hardened (see `legdatavps/legdata-vps-notes.md`).
 - PostgreSQL 17.11 installed on the VPS. Database `legdata`, role `legdata`,
   UTF-8, `timezone=UTC`, listening on localhost only.
+- SSH tunnelling enabled and pinned to port 5432; tunnel tested end to end from
+  this Mac. Port 5432 is not open in the firewall.
 
 ## Next
 

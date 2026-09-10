@@ -24,6 +24,12 @@ needs no password.
 automatic security updates, and SSH hardening in
 `/etc/ssh/sshd_config.d/60-hardening.conf`.
 
+**Amended 2026-09-10.** `AllowTcpForwarding no` became `AllowTcpForwarding local`
+with `PermitOpen 127.0.0.1:5432`, so the database can be reached over an SSH tunnel
+and nothing else can. Original saved as `60-hardening.conf.pre-db-tunnel.bak`.
+PostgreSQL 17 is installed and listens on loopback only; port 5432 is not open in
+the firewall and must not be.
+
 **The SSH rate limit bites you, not only attackers.** About a dozen connections in
 quick succession produces `Connection refused` for roughly 15 seconds. Batch work
 into few connections rather than one per command.

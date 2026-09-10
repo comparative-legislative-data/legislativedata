@@ -42,3 +42,13 @@ loopback only; clients tunnel in over SSH.
 **Why:** starting on the server avoids a migration later and means there is one
 copy of the truth. Loopback plus tunnel keeps port 5432 off the public internet
 and leaves the existing firewall untouched.
+
+## 2026-09-10 — SSH forwarding relaxed, pinned to the database port
+
+`AllowTcpForwarding local` with `PermitOpen 127.0.0.1:5432`, replacing
+`AllowTcpForwarding no`. Original config kept as `.pre-db-tunnel.bak`.
+
+**Why:** DBeaver needs a tunnel, and the alternative — exposing 5432 through the
+firewall — means a public database, TLS to configure, and a rule that breaks
+whenever the client IP changes. `PermitOpen` means the relaxation reaches
+Postgres on loopback and nothing else.
