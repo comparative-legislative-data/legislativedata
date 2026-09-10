@@ -1,18 +1,25 @@
 # State
 
-Updated: 2026-09-10 (second session of the day)
+Updated: 2026-09-10 (third session of the day)
 
 ## Where we are
 
 Session 1 is extracted, reconciled, coded, loaded, **reviewed and accepted** —
 73 candidates, zero outstanding problems, all `review_status = 'accepted'`.
-Nothing has been promoted, so `bill` is still empty. The next piece of work is
-the promotion script.
+Nothing has been promoted, so `bill` is still empty.
 
-Two things that were broken are now fixed, and neither was about the data. The
-database had no backup at all; it does now, and the restore has been tested. The
-extraction environment existed nowhere and was undocumented; it is now on the
-VPS with pinned versions.
+**All seven factsheets have now been surveyed** — `docs/FACTSHEET-SURVEY.md` —
+and the seven schema decisions that came out of it are applied as `db/019`-`db/023`
+and recorded in `DECISIONS.md`. That was the last piece of work that had to
+happen while `bill` was empty. **The next piece of work is the promotion script.**
+
+The survey changed more than expected. The largest finding was not on the list of
+things to confirm: passing a bill is not the end of it, four bills prove it, and a
+`CHECK` constraint said otherwise. Three other things the survey found that were
+not being looked for: SPICe's Session 3 summary counts the only Hybrid Bill as an
+Executive Bill and the reconciliation gate passes anyway; Session 7's summary
+table does not add up; and four bills appear in two factsheets each, so the seven
+stated totals sum to 473 while there are 470 distinct bills.
 
 ## The first slice
 
@@ -34,7 +41,7 @@ committee membership, the text of anything. Those are later slices.
 - VPS live and hardened (see `legdatavps/legdata-vps-notes.md`).
 - PostgreSQL 17.11 on the VPS. Database `legdata`, role `legdata`, UTF-8,
   `timezone=UTC`, listening on localhost only.
-- Schema `db/001`-`db/018`.
+- Schema `db/001`-`db/023`.
 - Postico 2 verified writing to the VPS, data and DDL.
 - **`db/008` `bill_candidate`** — the staging table. Permissive by design: no
   foreign keys, almost nothing `NOT NULL`, so a bad parse lands as a row you can
@@ -63,6 +70,24 @@ committee membership, the text of anything. Those are later slices.
   given a Stage 2. `v_bill_stage_dates` pivots them back into columns and the
   duration views compare by position while keeping the real names visible.
   Settles D6.
+- **`db/019`** — `sp_bill_id` unique within a session, not across sessions. SP
+  Bill numbers restart each session; SP Bill 13 is in Sessions 2, 6 and 7.
+- **`db/020`** — passing is not concluding. `bill_concluded_only_if_not_passed`
+  becomes `bill_concluded_only_if_not_enacted`; `date_assent_blocked` added;
+  `pending` and `blocked` definitions corrected; `v_candidate_problems` amended
+  to match, and its session-window limitation written into its own comment.
+  Methodology note M5.
+- **`db/021`** — `title_as_introduced` added beside `short_title`, both defined.
+  M3 rewritten from an apology into a statement about coverage.
+- **`db/022`** — `ref_bill_type.analysis_group`, which groups hybrid to
+  government and everything else to itself. `v_outcome_by_type` carries both
+  columns. Methodology note M4.
+- **`db/023`** — notes only. M2's `applies_to` pointed at three columns `db/018`
+  dropped; M6 (session attribution and the 473/470/474 arithmetic) and M7 (why a
+  bill fell is our coding, 5 of 48 done) added.
+- **`docs/FACTSHEET-SURVEY.md`** — the survey of all seven factsheets: sections,
+  summary tables, footnotes, marker letters, the prose grammar for Sessions 6-7,
+  the cross-session bills, and the stated session date ranges.
 - **`tools/extract_factsheet.py`** — the ruled-table format, sessions 1-5.
 - **`tools/requirements.txt`** — pinned, with the full dependency tree.
 
@@ -87,39 +112,14 @@ committee membership, the text of anything. Those are later slices.
 
 ## Next
 
-The order below was settled at the close of 2026-09-10. **The survey comes before
-any promotion**, and the reasoning matters more than the order: the edge cases
-are what force structural change, and structural change is free only while `bill`
-is empty. The survey is the cheap way to see them — it needs no parser work — and
-it replaces the more expensive idea of loading all seven sessions into staging
-before promoting anything, which would have meant finishing every parser in one
-stretch with no checkpoint at the end. That is the shape that killed the four
-previous attempts.
+The survey is done and its decisions are applied, so the reason for holding off
+promotion has gone. Structural change is no longer free after this point; that is
+the deliberate trade, and promotion is reversible, which is what makes it
+affordable.
 
-### Next session: survey all seven factsheets, and act on what it finds
+### Next session: promote Session 1
 
-1. **Survey the seven factsheets for structure, not content.** Section headings,
-   summary tables, footnotes, marker letters, anything implying a state or a
-   field the schema has no home for. Read them; do not parse them. Known already
-   and to be confirmed rather than discovered:
-   - Session 3 has the Forth Crossing Bill, the only Hybrid Bill.
-   - Session 4 marks bills `E`, `G` and `G*`, the last footnoted as introduced as
-     an Executive Bill.
-   - Sessions 5 and 7 have **"bills awaiting Royal Assent"** as a section, which
-     `bill` has no clean way to record: `outcome = 'passed'` with
-     `enactment_status = 'pending'` is probably right, and has never been tested.
-   - Session 7 has **bills still in progress**, and the Gender Recognition Reform
-     Bill blocked under section 35 of the Scotland Act — which is the exact case
-     D1 separated `outcome` from `enactment_status` for. `ref_enactment_status`
-     has `blocked`; nothing has ever used it.
-   - Sessions 6 and 7 carry SP Bill numbers, which sessions 1-5 do not.
-2. **Write the findings up, and take any schema decisions they force** — in the
-   same session, while it is all in view. Anything that changes `bill` is still
-   free at this point and stops being free at promotion.
-
-### The session after: start ingesting
-
-3. **Write the promotion script**, and promote Session 1. `bill_candidate` →
+1. **Write the promotion script**, and promote Session 1. `bill_candidate` →
    `bill`, for `review_status = 'accepted'` rows, setting `promoted_bill_id` and
    `promoted_at`.
 
@@ -136,40 +136,88 @@ previous attempts.
      carries its Official Report citation in `review_note` already
      (`source = official_report`)
 
+   Session 1 needs nothing from `db/019`-`db/023`: it has no SP Bill numbers, no
+   bill that passed and was later withdrawn, no stated introduced title, no
+   Hybrid Bill and no carry-over. That is the point — those migrations are the
+   shape the later sessions will be promoted into, built while it cost nothing.
+
    Promotion is reversible: `bill_candidate` is permanent and promotion is a
    script, so `bill` can be emptied and re-promoted if a later session forces a
-   change. That is why promoting early costs little.
-4. **Load Session 2 into staging.** It already extracts clean — 81 rows against
+   change.
+
+2. **Load Session 2 into staging.** It already extracts clean — 81 rows against
    a stated 81 — so it needs no parser work first. Nine of its bills are Private
-   Bills, the railway and tram cluster: the first real test of `db/018`.
+   Bills, the railway and tram cluster: the first real test of `db/018`. It is
+   also the first session with SP Bill numbers, which it gives only to bills that
+   did not become Acts.
 
 ### After that
 
-5. **Fix table fragmentation for sessions 3, 4 and 5.** They extract short by
+3. **Fix table fragmentation for sessions 3, 4 and 5.** They extract short by
    2, 14 and 6 rows against their own stated totals. pdfplumber fragments tables
    that break across a page, so a data row is consumed as a header. Symptoms to
    fix by: `Clackmann- anshire Council` (unrejoined line-break hyphen) and a
    truncated `Trustees of`.
-6. **Write the prose parser for sessions 6 and 7.** Different format entirely:
-   `{Title} (SP Bill {n})` / `{Type} Bill introduced on {date} by {name} MSP.` /
-   `Passed on {date}.`, with section headings carrying outcome and enactment.
-7. **Fill in the seven `session` rows.** Session 1 is stated on page 1 of its own
-   factsheet: **12 May 1999 - 31 March 2003**. Doing this also wakes up the
-   session-window checks added in `db/015`, which are inert until then.
-8. **`docs/VARIABLES.md` needs a pass.** §3.2 still describes `procedure` as
-   non-null and `date_outcome` as present; both have changed. It does not mention
-   `date_concluded`, `bill_type_stated` or `title_kind`. §5 lists D1, D4 and D5
+4. **Handle carry-over rows before Session 5 is loaded.** Two known problems,
+   both written up in `FACTSHEET-SURVEY.md` §9 and in the `v_candidate_problems`
+   comment at `db/020`:
+   - The session-window checks compare a candidate's dates against the session of
+     the *factsheet* it was read from. For a carry-over row that is the wrong
+     session, and the checks will fire on rows that are correct.
+   - `bill_candidate` has no column for a stated introduced title, a rename date
+     or a block date. Sessions 4-7 state all three; Session 1 states none, which
+     is why they were not built.
+5. **Write the prose parser for sessions 6 and 7.** Different format entirely.
+   The full grammar is in `FACTSHEET-SURVEY.md` §1 — nine line shapes, including
+   two that nothing anticipated: the rename line, and the two-date Reconsideration
+   Stage pair. Empty sections are sentences ("No bills have fallen in Session 7."),
+   not empty tables.
+6. **Fill in the seven `session` rows.** Sessions 1-5 state their own dates on
+   page 1 of their factsheets and they are transcribed in `FACTSHEET-SURVEY.md`
+   §7. **Sessions 6 and 7 do not state theirs** and need another source; Session
+   6 contains a bill that fell on 8 April 2026, after its factsheet was published,
+   so dissolution is not derivable from the rows either. Doing this wakes up the
+   session-window checks added in `db/015`, which are inert until then — so item 4
+   has to come first.
+7. **`docs/VARIABLES.md` needs a pass, and it is now a bigger one.** §3.2 still
+   describes `procedure` as non-null and `date_outcome` as present; both have
+   changed. It does not mention `date_concluded`, `bill_type_stated`,
+   `title_kind`, `title_as_introduced` or `date_assent_blocked`. §3.2's definition
+   of `short_title` as "title as introduced" is the thing `db/021` split in two
+   and is now simply wrong. §4.1 needs `analysis_group`. §5 lists D1, D4 and D5
    as open when they are settled, and D6 is settled without ever appearing there.
-   §3.3 and §4.5, on `stage_event` and the stage vocabularies, are accurate again
-   after `db/018` — they describe what has just been rebuilt. §4.5 needs
+   §3.3 and §4.5 are accurate again after `db/018`; §4.5 needs
    `ref_bill_type_stage` added and its note that Private Bills have their own
-   stages turned from an aside into the rule.
-9. Then, and only then: front end, extraction from the API.
+   stages turned from an aside into the rule. §6, on bills spanning sessions, is
+   now answered by M6 and should say so.
+8. Then, and only then: front end, extraction from the API.
 
 One staging table for all seven sessions, not one per session — the natural key
 carries `session_number`, and cross-session questions (the `E`/`G`/`G*`
 changeover) would otherwise need seven-way unions. Load one session at a time,
 each gated on reconciliation.
+
+### Reconciliation figures, per session
+
+The gate compares our count against each factsheet's own summary table. Two of
+the seven cannot be used as printed, and both are recorded here so the finding is
+not made twice:
+
+- **Session 3.** Its summary has no Hybrid column and counts the Forth Crossing
+  Bill under Executive. Its stated Executive 45 is our government 44 + hybrid 1.
+  Reconcile on `analysis_group`, not on `bill_type`.
+- **Session 7.** Its grand total cell reads 0 where every margin reads 2. Trust
+  the margins. Verified against the extracted table grid, so it is the document.
+- **Sessions 5 and 6** carry bills also counted in another session's totals. The
+  factsheet totals are right for the factsheet and wrong for a count of distinct
+  bills; see M6.
+
+### Watch when charting
+
+A chart of outcome by bill type must state whether it grouped on `bill_type` or
+`analysis_group`, because the two differ for the Forth Crossing Bill: Session 3
+shows 45 government bills under one and 44 under the other. This is a methodology
+note the front end has to surface (M4), not a comment in the charting code.
 
 ## Housekeeping, small and known
 
@@ -194,7 +242,18 @@ each gated on reconciliation.
   Stage 3 at all — the decision to pass a bill is the completion of Stage 3,
   which is what methodology note M2 says.
 - **D3** — calendar days or sitting days. Does not block.
-**D1, D4, D5 and D6 are settled** — see `DECISIONS.md`.
+- **`date_assent_blocked` is the one thing added without a constraint forcing
+  it.** Flagged here rather than buried: it holds the date a bill was blocked
+  from assent, and it exists because `blocked` is otherwise a state with no time
+  attached in a project whose second question is about time. Four bills use it.
+  If it is judged speculative it can be dropped with no data loss today.
+- **Whether the s.33 / s.35 distinction should be a variable rather than prose in
+  `bill.note`.** Settled for now as prose, because the distinction is about who
+  blocked the bill rather than about the bill's state. Four bills; revisit if a
+  fifth appears or if the front end wants to filter on it.
+
+**D1, D4, D5 and D6 are settled** — see `DECISIONS.md`, along with the seven
+decisions the factsheet survey forced on the same day.
 
 ## Connecting to the database
 

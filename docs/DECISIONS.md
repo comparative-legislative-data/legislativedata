@@ -7,6 +7,98 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-10 — What the factsheet survey settled: seven decisions from reading all seven
+
+`db/019`-`db/023`. The survey is `docs/FACTSHEET-SURVEY.md`; this records what it
+forced. Taken in one sitting, while `bill` was still empty and structural change
+was still free, which was the whole reason the survey came before promotion.
+
+**The finding underneath most of the others: passing a bill is not the end of it.**
+`db/013` had encoded the opposite as a `CHECK` — if a bill passed, it could have
+no concluding date, because its Stage 3 date was its ending. Four bills say
+otherwise, and they are four different endings from one starting point. Three
+were referred to the Supreme Court under section 33 and ruled partly outwith
+competence on the same day, 6 October 2021: two were reconsidered and enacted,
+one was withdrawn on 10 March 2022, four years after it passed. The fourth, the
+Gender Recognition Reform Bill, was blocked by a section 35 order on 16 January
+2023 and nothing has happened since.
+
+**Stasis is not a state of its own.** The owner's reading, and it is right: the
+bill has been blocked, and nothing has happened since, which is exactly what
+`blocked` means. `enactment_status` records a bill's current state, not its
+history; the history is in `field_source`, which is append-only for this reason.
+So no new vocabulary — but `pending` had to be tightened, because it said
+"including referral", under which a bill referred and ruled against was
+describable both ways depending which clause you read.
+
+**A blocked bill does not fall at dissolution.** This is why the Session 7
+factsheet carries the Gender Recognition Reform Bill as one of its own bills, and
+why that is not an error on SPICe's part. An unfinished bill falls; a passed bill
+that has been blocked has nothing left to fall from.
+
+**`date_assent_blocked` is the one addition not forced by a constraint.** Stated
+plainly so it can be struck if it is judged speculative. Without it `blocked` is a
+state with no time attached, in a project whose second research question is time.
+It does not duplicate `date_royal_assent` or `date_concluded`, because the
+intervention and the ending are different events, and it stays populated after a
+block is lifted — which is how the bills that were blocked and recovered can be
+found at all.
+
+**Two title columns, not one with a caveat.** `short_title` is the title the bill
+is known by at the latest point there is evidence for; `title_as_introduced` is
+the title at introduction, null where no source states it — which is most rows.
+This is the third instance of the same shape: `bill_type_stated` beside
+`bill_type` (D4), stage names by bill type (D6), and now titles. VARIABLES §3.2
+defined `short_title` as the introduced title and was false for 62 of 73 Session 1
+rows; M3 existed to publish that. It now describes coverage instead of apologising
+for one column meaning two things. Null never means unchanged.
+
+**Hybrid Bills keep their type and gain a grouping.** The requirement was to be
+able to include or exclude them later. Coding the Forth Crossing Bill as
+'government' would put a false value in the type column and make exclusion the
+hard case; `ref_bill_type.analysis_group` leaves the type true and makes the
+choice a matter of picking a column at query time. **The Session 3 factsheet
+already makes this grouping and does not say so** — it defines a type letter `H`,
+applies it to that one bill, then prints a summary with no Hybrid column and
+counts it under Executive. Its stated 45 Executive bills are 44 plus one Hybrid.
+
+**That is also the limit of the reconciliation gate, found rather than argued.**
+Both sides total 62, so the gate passes on a document that has silently agreed a
+Hybrid Bill is an Executive Bill. An arithmetic check against a source's own
+totals catches a dropped row and does not catch a coding decision. Worth knowing
+before six more sessions are reconciled the same way.
+
+**A bill belongs to the session it was first introduced in.** The only definition
+that survives a bill being reconsidered two sessions later. It means our
+per-session counts will not match the factsheets', which count a bill in every
+session it was live: 473 rows in the seven stated totals, 474 rows to read, 470
+distinct bills. Published as M6, because a researcher checking our total against
+SPICe's needs to find the explanation in the data and not in a repository.
+
+**`sp_bill_id` is unique within a session.** SP Bill numbers restart each
+session; SP Bill 13 is in Sessions 2, 6 and 7. Storing a qualified string like
+'S5-70' was rejected because it invents an identifier the Parliament does not use,
+and every comparison against a source would have to undo it.
+
+**Why a bill fell is our coding, and it is 5 of 48 done.** No factsheet ever says
+why a bill fell. Rejection at Stage 1, defeat at the final vote and running out of
+time at dissolution are all one heading. M7 publishes that the distinction is
+ours, against the Official Report, and that it is mostly not yet made — so a
+reader does not take the general code as a finding.
+
+**What was deliberately not built.** `bill_candidate` gets no column for a stated
+introduced title, a rename date or a block date: Sessions 4-7 state them and
+Session 1 states none, so building now would be speculative. And the
+session-window checks in `v_candidate_problems` compare a candidate's dates
+against the session of the factsheet it was read from, which is the wrong session
+for a carry-over row; Session 1 has none, so the limitation is written into the
+view's own comment rather than fixed, and it must be handled before Session 5 is
+loaded.
+
+**Rename dates get no column.** Two bills in seven sessions state one; both go in
+`bill.note`. Revisit at a third case.
+
+
 ## 2026-09-10 — Stage dates return to `stage_event`, under each bill type's own stage names. D6 settled
 
 `db/018`. Reverses the stage-date half of `db/004` and the whole of `db/005`, and
