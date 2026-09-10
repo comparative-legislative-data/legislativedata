@@ -34,6 +34,41 @@ the firewall and must not be.
 quick succession produces `Connection refused` for roughly 15 seconds. Batch work
 into few connections rather than one per command.
 
+## The extraction environment
+
+`/opt/legdata`, owned by `ldadmin`. Added 2026-09-10.
+
+- `/opt/legdata/repo` — a clone of the public GitHub repository. Pull it after
+  anything is pushed, or the extractor on the box is running against old code
+- `/opt/legdata/venv` — Python 3.13 virtual environment
+- `/opt/legdata/requirements.txt` — a copy of `tools/requirements.txt` from the
+  repo, so the environment can be rebuilt even if the clone is missing
+
+Debian 13 marks its system Python `EXTERNALLY-MANAGED`, so a virtual environment
+is required rather than preferred, and `python3.13-venv` has to be installed
+before one can be created.
+
+    cd /opt/legdata
+    git -C repo pull --ff-only
+    ./venv/bin/python repo/tools/extract_factsheet.py \
+        repo/sources/factsheets/<file>.pdf --session N --csv /tmp/out.csv
+
+In `/opt` rather than `/srv` deliberately: this is software that can be rebuilt
+from the repository, and `/srv/legdata` is the directory the nightly backup
+snapshots whole. A virtual environment there would push several MB of
+reconstructible packages into every snapshot forever.
+
+**Why the versions are pinned.** The reconciliation argument rests on the
+extractor being deterministic — a factsheet has to produce the same rows every
+time, or "the totals match SPICe's own cross-tab" means nothing. A change in how
+`pdfminer` walks a ruled table would alter row counts silently. Verified on
+2026-09-10: the Session 1 factsheet produced byte-for-byte identical output on
+macOS/Python 3.12 and on this box under Debian/Python 3.13.
+
+Before this existed the environment was undocumented, and it disappeared: on
+2026-09-10 `pdfplumber` was not installed anywhere on the owner's Mac and
+nothing in the repository recorded that the extractor needed it.
+
 ## The backup
 
 - `/usr/local/sbin/legdata-backup` — the script. Snapshots, prunes, then runs
@@ -50,10 +85,56 @@ using `restic`, 1.0 TB. **This box is shared with other projects** — anything 
 to this repository must not touch theirs. Retention: 14 daily, 8 weekly, 12 monthly,
 10 yearly, applied with `--group-by host,tags`.
 
-Two tags existed: `system` for `/etc`, every run; `data` for `/srv/legdata`, only
-when that directory existed. **`/srv/legdata` is gone and the `data` snapshots were
-forgotten on 2026-09-09.** The `system` snapshots remain, so the machine stays
-rebuildable.
+Two tags: `system` for `/etc`, every run; `data` for `/srv/legdata`, only when
+that directory exists. `/srv/legdata` was deleted and its `data` snapshots
+forgotten on 2026-09-09.
+
+**Amended 2026-09-10, and this was a real gap rather than a tidy-up.** Between
+the 2026-09-09 clearance and this date, nothing backed up the database. The
+`data` snapshot was skipped every night because `/srv/legdata` did not exist,
+and PostgreSQL's own files in `/var/lib/postgresql` were never in scope for
+either tag. The machine was rebuildable from `/etc` and the data was not
+recoverable at all — for a project whose stated product is the database.
+
+The script now dumps the database into `/srv/legdata/postgres` before taking the
+`data` snapshot, so the existing retention, verification and off-site transport
+cover it without any new machinery:
+
+- `legdata.dump` — the database, `pg_dump` custom format
+- `globals.sql` — the roles, from `pg_dumpall --globals-only`. Without it a
+  restore produces a database whose owner does not exist
+- `manifest.txt` — row counts as at the moment of the dump, so a restore can be
+  checked against what was really there rather than against an assumption
+
+The dump is written under a temporary name and moved into place only after
+`pg_restore --list` has proved it readable, so a half-finished dump cannot
+overwrite a good one. Filenames carry no date: restic holds the history, and
+dated files would pile up inside a directory that is snapshotted whole.
+
+Previous version of the script kept as `legdata-backup.pre-pgdump.bak`.
+
+**Verified end to end on 2026-09-10**, not merely observed to exit zero: the
+snapshot was fetched back from the storage box, restored into a scratch
+database, checked for the expected 73 candidates and that day's edits, and the
+scratch database dropped.
+
+### Restoring
+
+Everything below runs as root on the VPS.
+
+    set -a; source /root/.legdata-backup.env; set +a
+    restic snapshots --tag data                 # pick one
+    restic restore <id> --target /tmp/restore
+    chown -R postgres:postgres /tmp/restore     # the dumps are root-only
+
+    runuser -u postgres -- psql -f /tmp/restore/srv/legdata/postgres/globals.sql
+    runuser -u postgres -- createdb legdata
+    runuser -u postgres -- pg_restore -d legdata \
+        /tmp/restore/srv/legdata/postgres/legdata.dump
+
+Check the result against `manifest.txt` from the same snapshot before trusting
+it, and delete `/tmp/restore` afterwards — it holds the whole database with no
+password on it.
 
 **One known defect, never fixed.** The service runs with no `HOME` or
 `XDG_CACHE_HOME`, so restic keeps no cache and re-reads every file in scope on every

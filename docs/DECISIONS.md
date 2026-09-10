@@ -7,6 +7,78 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-10 — A new variable stages in one field-level table, never as a new column on `bill_candidate`
+
+Settled in answer to "when I want to add procedure later, where does it go?"
+Nothing is built for it yet; this records the shape so the first case does not
+have to invent one under pressure.
+
+**`bill_candidate` is not the staging table. It is the *factsheet* staging
+table.** Its `raw_*` columns are the factsheet's own columns and its unique key,
+`(session_number, raw_section, raw_title)`, is a factsheet address. Its shape
+belongs to its source.
+
+**So the split is by how a fact arrives, not by which variable it is.**
+
+- *Arriving as whole bills* — another session's factsheet, later the API. That is
+  row-shaped, and stages in a table shaped like that source.
+- *Arriving one field at a time about bills that already exist* — `procedure`,
+  member in charge, party. That stages in a single field-level table: which bill,
+  which field, the proposed value, the source's own words, where it came from,
+  when it was read, and the same `review_status` gate. Adding procedure means
+  adding rows to it. Adding party later means adding rows to the same table.
+
+**Why not a column on `bill_candidate`.** No factsheet states procedure. A column
+there would sit empty across all ~473 rows and would make the table a less
+honest record of what SPICe said — which is the job `DECISIONS.md` gives it when
+it says the table is kept permanently as provenance.
+
+**Why not a table per variable.** They would all carry the same handful of
+columns and each would need its own near-identical promotion step.
+
+**`bill` itself is where a column does get added,** and `procedure` is already
+there, nullable and empty, waiting for evidence — which is what `db/010` set it
+up to be. `field_source` is the admitted half of this and already exists; what is
+missing is the candidate half in front of it.
+
+## 2026-09-10 — The database is dumped into the backup path, and a restore is tested rather than assumed
+
+`db/016` and the amended `/usr/local/sbin/legdata-backup`.
+
+Between the 2026-09-09 clearance and today, **nothing backed up the database.**
+The nightly job took `/etc` under the `system` tag and skipped its `data` tag
+every night, because `/srv/legdata` no longer existed and the script treats that
+absence as normal. PostgreSQL's own files were in scope for neither. The machine
+was rebuildable and the data was not, for a project whose first principle is that
+the database is the product. A day of hand-coding existed in one place.
+
+**Why a dump into the existing path rather than new machinery:** retention,
+verification, encryption and off-site transport to the storage box were all
+already built and working. The only missing step was putting the data where they
+could see it.
+
+**A backup is not a backup until it has been restored.** Exit status zero proves
+a script ran, not that anything can be recovered. The chain was tested end to
+end — snapshot fetched back from the storage box, restored into a scratch
+database, checked for the expected 73 candidates and that day's edits, scratch
+database dropped. The restore procedure is written down in
+`legdatavps/legdata-vps-notes.md`; it is worth nothing if it is only ever
+reconstructed from memory during an emergency.
+
+## 2026-09-10 — Admission to the gateway is recorded as a migration
+
+`db/016` sets Session 1's 73 candidates to `accepted`, rather than that being
+typed into a client.
+
+**Why:** `review_status` is the gateway. If the record of what was admitted, and
+on what basis, exists only in a database client's query history, then the single
+column the architecture depends on is the one with no provenance of its own.
+`db/010` set the precedent by carrying its own data fix.
+
+The migration also refuses to admit anything while `v_candidate_problems` is
+non-empty. "Work the list to empty before promoting" was an instruction in a
+document; it is now a precondition that cannot drift away from the instruction.
+
 ## 2026-09-10 — `date_concluded` restored; Act titles accepted in `short_title`
 
 Two questions raised by the Session 1 extraction, settled at the close of that

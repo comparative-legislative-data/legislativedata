@@ -1,15 +1,18 @@
 # State
 
-Updated: 2026-09-10
+Updated: 2026-09-10 (second session of the day)
 
 ## Where we are
 
-Session 1 is extracted, reconciled, fully coded and loaded into staging — 73
-candidate rows, zero outstanding problems, none yet admitted to `bill`. The gateway is built: extraction proposes, review
-admits. Nothing has been promoted, so `bill` is still empty.
+Session 1 is extracted, reconciled, coded, loaded, **reviewed and accepted** —
+73 candidates, zero outstanding problems, all `review_status = 'accepted'`.
+Nothing has been promoted, so `bill` is still empty. The next piece of work is
+the promotion script.
 
-The immediate work is the owner's: review the 73 rows. Both questions that were
-blocking promotion are settled — see below.
+Two things that were broken are now fixed, and neither was about the data. The
+database had no backup at all; it does now, and the restore has been tested. The
+extraction environment existed nowhere and was undocumented; it is now on the
+VPS with pinned versions.
 
 ## The first slice
 
@@ -30,61 +33,79 @@ committee membership, the text of anything. Those are later slices.
 
 - VPS live and hardened (see `legdatavps/legdata-vps-notes.md`).
 - PostgreSQL 17.11 on the VPS. Database `legdata`, role `legdata`, UTF-8,
-  `timezone=UTC`, listening on localhost only. Reached over an SSH tunnel.
-- Schema `db/001`-`db/007`: six `ref_*` vocabularies, seven sessions with dates
-  still null, stage end dates on `bill`, party, per-field provenance.
+  `timezone=UTC`, listening on localhost only.
+- Schema `db/001`-`db/016`.
 - Postico 2 verified writing to the VPS, data and DDL.
 - **`db/008` `bill_candidate`** — the staging table. Permissive by design: no
   foreign keys, almost nothing `NOT NULL`, so a bad parse lands as a row you can
   look at rather than as an import error. Strictness lives at promotion.
 - **`db/009` `v_candidate_problems`** — one row per problem with a candidate.
-  Work it to empty before promoting; anything left would be refused by `bill`.
 - **`db/010`** — `procedure` nullable, default dropped.
-- **`db/011` `methodology_note`** — seeded with M1 and M2.
+- **`db/011` `methodology_note`** — seeded with M1, M2, M3.
 - **`db/012` `bill_type_stated`** and `ref_bill_type_stated`.
 - **`db/013`** — `date_concluded` on `bill`, and methodology note M3.
 - **`db/014`** — `end_stage_1_date` on `bill_candidate`.
-- **Session 1 fully coded.** 73 candidates, zero problems, all still
-  `review_status = 'new'` and awaiting the owner's review.
+- **`db/015`** — `v_candidate_problems` extended. It had not moved since `db/009`
+  while three columns were added underneath it, so `end_stage_1_date`,
+  `bill_type_stated` and the `date_concluded` rule were not being checked at all.
+  Also added: section-versus-outcome agreement, `title_kind`, `asp_number` year
+  against Royal Assent, and dates falling outside their own session (dormant
+  until the `session` rows have dates). Session 1 passes all of them.
+- **`db/016`** — Session 1 admitted. All 73 `accepted` with `reviewed_at` set,
+  and one correction: candidate 17's `short_title` was `Criminal Procedure
+  (Amendment) Scotland Act 2002`, which is how the factsheet prints it and not
+  the title of the Act. `raw_title` keeps SPICe's wording. The migration refuses
+  to admit anything while `v_candidate_problems` is non-empty.
 - **`tools/extract_factsheet.py`** — the ruled-table format, sessions 1-5.
-- **Session 1 loaded: 73 candidates, all `review_status = 'new'`.** Reconciled
-  cell by cell against the factsheet's own cross-tab — 50/8/1/3 Acts,
-  1/2/0/0 withdrawn, 0/6/2/0 fallen. `v_candidate_problems` is empty.
+- **`tools/requirements.txt`** — pinned, with the full dependency tree.
+
+### Verified on 2026-09-10, not merely assumed
+
+- **The extractor is deterministic.** The Session 1 factsheet produced
+  byte-for-byte identical output on macOS/Python 3.12 and on the VPS under
+  Debian/Python 3.13. The reconciliation argument depends on this and it had
+  never been tested.
+- **The load is faithful to the extraction.** All 73 rows across all seven
+  `raw_*` columns are identical to a fresh run of the extractor.
+- **Every date re-parses.** Each date was re-derived independently from the
+  verbatim `raw_*` string and compared with the typed column: 73 rows, three
+  date fields, no discrepancy.
+- **The reconciliation holds.** All twelve cells of the factsheet's own summary
+  table on page 7, plus both margins — 51/16/3/3 by type, 62/3/8 by outcome.
+  Note the column order in that table is Executive, Member's, **Private,
+  Committee**; reading it in the other order invents a mismatch that is not
+  there.
+- **The backup restores.** Snapshot fetched back from the storage box, restored
+  into a scratch database, checked, dropped.
 
 ## Next
 
-1. **Owner reviews the 73 Session 1 candidates** in Postico. Edit the typed
-   columns, leave `raw_*` alone, set `review_status` to `accepted`.
-
-       SELECT candidate_id, short_title, bill_type, bill_type_stated, outcome,
-              enactment_status, date_introduced, end_stage_1_date,
-              end_stage_3_date, date_concluded, date_royal_assent,
-              raw_type, raw_introduced_by, parser_note, review_note
-       FROM bill_candidate WHERE session_number = 1
-       ORDER BY raw_section, short_title;
-
-   All 73 rows are coded and `v_candidate_problems` is empty. The five bills
-   SPICe listed as fallen without saying why were resolved from the Official
-   Report — all five were rejected at Stage 1, not fallen at dissolution — and
-   each carries its OR citation in `review_note`, to become a `field_source`
-   row at promotion. The reconciliation against SPICe is unaffected: a bill
-   rejected at Stage 1 is still a bill that fell, so their 8/3 split holds.
-
-2. **Next session: pick up the owner's review comments**, then write the
-   promotion script. Unblocked; both decisions are settled.
-3. **Next session: load Session 2 into staging.** It already extracts clean —
-   81 rows against a stated 81 — so it is the one remaining session that needs
-   no parser work first.
-4. **Fix table fragmentation for sessions 3, 4 and 5.** They extract short by
+1. **Write the promotion script.** Unblocked. `bill_candidate` → `bill`, for
+   `review_status = 'accepted'` rows, setting `promoted_bill_id` and
+   `promoted_at`. It must also emit `field_source` rows for the six fields that
+   did not come from the row's stated source:
+   - candidate 17's corrected `short_title` (`source = manual`)
+   - the five `end_stage_1_date` values and their outcomes, each of which
+     carries its Official Report citation in `review_note` already
+     (`source = official_report`)
+2. **Load Session 2 into staging.** It already extracts clean — 81 rows against
+   a stated 81 — so it needs no parser work first. Deferred from this session
+   deliberately, to finish the tidying rather than open a new front.
+3. **Fix table fragmentation for sessions 3, 4 and 5.** They extract short by
    2, 14 and 6 rows against their own stated totals. pdfplumber fragments tables
-   that break across a page, so a data row is consumed as a header. Sessions 1
-   and 2 reconcile exactly. Symptoms to fix by: `Clackmann- anshire Council`
-   (unrejoined line-break hyphen) and a truncated `Trustees of`.
-5. **Write the prose parser for sessions 6 and 7.** Different format entirely:
+   that break across a page, so a data row is consumed as a header. Symptoms to
+   fix by: `Clackmann- anshire Council` (unrejoined line-break hyphen) and a
+   truncated `Trustees of`.
+4. **Write the prose parser for sessions 6 and 7.** Different format entirely:
    `{Title} (SP Bill {n})` / `{Type} Bill introduced on {date} by {name} MSP.` /
    `Passed on {date}.`, with section headings carrying outcome and enactment.
-6. Fill in the seven `session` rows. Session 1 is stated on page 1 of its own
-   factsheet: **12 May 1999 - 31 March 2003**.
+5. **Fill in the seven `session` rows.** Session 1 is stated on page 1 of its own
+   factsheet: **12 May 1999 - 31 March 2003**. Doing this also wakes up the
+   session-window checks added in `db/015`, which are inert until then.
+6. **`docs/VARIABLES.md` needs a pass.** §3.2 still describes `procedure` as
+   non-null and `date_outcome` as present; both have changed. It does not mention
+   `date_concluded`, `bill_type_stated` or `title_kind`. §5 lists D1, D4 and D5
+   as open when they are settled.
 7. Then, and only then: front end, extraction from the API.
 
 One staging table for all seven sessions, not one per session — the natural key
@@ -92,65 +113,70 @@ carries `session_number`, and cross-session questions (the `E`/`G`/`G*`
 changeover) would otherwise need seven-way unions. Load one session at a time,
 each gated on reconciliation.
 
-## Settled at the close of this session
+## Housekeeping, small and known
 
-- **`date_concluded` is back on `bill`** (`db/013`), holding the withdrawn/fell
-  date only. A `CHECK` keeps it null for a bill that passed, whose conclusion is
-  `end_stage_3_date`. All 11 Session 1 candidates that need it have it.
-- **Act titles are accepted in `short_title`**, published as methodology note M3.
-  `bill_candidate.title_kind` records which rows carry an Act title and which a
-  bill title.
-
-Promotion is no longer blocked on a decision.
+- **`scratch_test`** is still in the database, left over from verifying that
+  Postico wrote to the VPS. Drop it.
+- **`stage_event`** is empty and unused since `db/004` moved stage dates onto
+  `bill`. `DECISIONS.md` says drop it unless a reason to keep it appears; no
+  reason has appeared, but it is also costing nothing.
+- **The backup service runs with no `HOME` or `XDG_CACHE_HOME`**, so restic keeps
+  no cache and re-reads everything in scope every night. Harmless at this size —
+  the whole repository is under a megabyte — but it will not stay harmless
+  forever. One `Environment=` line in the unit file fixes it.
 
 ## Open, not yet decided
 
 - **D2** — which date marks the completion of a stage. Still open, but narrower
-  than it was. Five Session 1 bills now carry an `end_stage_1_date`, taken as the
+  than it was. Five Session 1 bills carry an `end_stage_1_date`, taken as the
   date of the decision that rejected them at Stage 1. That does not settle D2:
   for a bill *rejected* at Stage 1 the committee report, the chamber debate and
   the decision collapse onto one event, so all three candidate definitions agree.
-  The question is still live for a bill that *passed* Stage 1, where they differ
-  by weeks. D2 does not affect Stage 3 at all — the decision to pass a bill is
-  the completion of Stage 3, which is what methodology note M2 says.
+  `db/015` now checks that this is so, and it is. The question is still live for
+  a bill that *passed* Stage 1, where they differ by weeks. D2 does not affect
+  Stage 3 at all — the decision to pass a bill is the completion of Stage 3,
+  which is what methodology note M2 says.
 - **D3** — calendar days or sitting days. Does not block.
+- **`procedure` is null on all 73 rows**, correctly: no source consulted so far
+  states it. But the three fastest bills in Session 1 — Erskine Bridge Tolls
+  (2 days), Criminal Procedure (Amendment) (2 days) and Mental Health (Public
+  Safety and Appeals) (8 days) — are the emergency bills that D4 exists to keep
+  visible, and nothing yet marks them as such. To be backfilled later, through
+  the field-level staging table described in `DECISIONS.md`.
+- **Nothing has systematically checked the other 61 Act titles** against the
+  statutes. Candidate 17's misprint surfaced by accident. Not proposed as work,
+  but the sample size of known SPICe errors is now one out of one looked at.
 
 **D1, D4 and D5 are settled** — see `DECISIONS.md`.
 
-See `VARIABLES.md` for the detail behind each. Note that VARIABLES §3.2 still
-describes `procedure` as non-null and `date_outcome` as present; both have
-changed. It needs a pass.
-
-## Parked for phase 2
-
-- **Splitting the introducer field** into person, body and capacity. One column
-  currently holds four different things: a person; a person and a committee; a
-  person and an office (`Colin Boyd Lord Advocate`); and an organisation
-  (`Trustees of the National Galleries of Scotland`). Smaller than it looks —
-  116 distinct strings across sessions 1-5, of which 93 are plain personal
-  names and only 23 compound. From Session 3 SPICe uses a comma, so most split
-  mechanically; the early undelimited ones are a short by-hand job.
-  `raw_introduced_by` holds everything verbatim, so nothing is lost by waiting.
-- **An MSP table with time-varying party affiliation**, from the API. The join
-  is a temporal one: `msp_party_period(msp_id, party, valid_from, valid_to)`
-  with a `daterange` and an `EXCLUDE USING gist` constraint so no member can
-  hold two parties on one day, joined with `p.period @> b.date_introduced`.
-  The identity problem, not the join, is the work. `bill_introducer` — bill,
-  person, body, capacity — is both the split above and the link the join needs.
-  Joining on `date_introduced` rather than `end_stage_3_date` is a judgement
-  and would need its own methodology note.
-
 ## Connecting to the database
 
-The server listens on `127.0.0.1` only; it is reached over an SSH tunnel.
-Connection detail is in `~/.claude/legdata-db` (not in this repo).
+**Correcting what this file used to say.** It described a shared SSH tunnel on
+port 15432. That is not how anything actually connects, and following it wastes
+time. Postico opens its **own** tunnel inside the application, on an ephemeral
+local port it picks per connection; there is no shared listener, and nothing
+outside Postico can use it.
 
-DBeaver: on the **Main** tab, host `127.0.0.1`, port `5432`, database and
-credentials from that file. On the **SSH** tab, enable the tunnel, host and user
-from `~/.claude/legdata-vps`, authentication by public key using
-`~/.ssh/legdata_ed25519`.
+**From Postico** (the entry client): as already configured. Nothing to change.
 
-From a shell:
+**From a shell, or for any scripted work:** go through the connector script,
+which holds the address, port, user and key, and keeps its own known-hosts file.
+It is not in this repository.
 
-    ssh -N -L 15432:127.0.0.1:5432 -i ~/.ssh/legdata_ed25519 ldadmin@<vps>
-    psql -h 127.0.0.1 -p 15432 -U legdata -d legdata
+    ~/.claude/legdata-vps 'whoami'
+    ~/.claude/legdata-vps 'sudo -u postgres psql -d legdata -c "SELECT ..."'
+    ~/.claude/legdata-vps --scp local/file /remote/path
+
+`ldadmin` has passwordless sudo, and `sudo -u postgres psql` connects by peer
+authentication, so no database password is needed and none has to be stored on
+the Mac. This is also how migrations are applied.
+
+**Do not use the `legislativedata-vps` or `legislativedata-data` entries in
+`~/.ssh/config`.** They are leftovers from the old estate; `legislativedata-vps`
+points at `5.83.150.18`, a machine that was never part of this project, and it
+will fail a host key check. The box is `77.90.2.83`, hostname
+`legislativedata-SP`.
+
+**The SSH rate limit bites you, not only attackers.** About a dozen connections
+in quick succession produces `Connection refused` for roughly 15 seconds. Batch
+work into few connections rather than one per command.

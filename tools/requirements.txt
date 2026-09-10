@@ -1,0 +1,20 @@
+# Extraction environment for tools/extract_factsheet.py.
+#
+# Pinned, not floating. The reconciliation argument in DECISIONS.md rests on the
+# extractor being deterministic: a factsheet must yield the same 73 rows on the
+# VPS as it does anywhere else, or "it reconciles" means nothing. A pdfminer
+# change to how a ruled table is walked would alter row counts silently.
+#
+# Rebuild:  python3 -m venv venv && venv/bin/pip install -r tools/requirements.txt
+# Verified against Python 3.12 (macOS) and 3.13.5 (Debian 13, the VPS).
+
+pdfplumber==0.11.10
+
+# Resolved dependencies, pinned so the tree cannot drift underneath the pin above.
+cffi==2.1.1
+charset-normalizer==3.5.1
+cryptography==50.0.1
+pdfminer.six==20260107
+pillow==12.3.0
+pycparser==3.0
+pypdfium2==5.13.0
