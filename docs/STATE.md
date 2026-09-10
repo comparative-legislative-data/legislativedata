@@ -44,14 +44,19 @@ committee membership, the text of anything. Those are later slices.
 ## Next
 
 1. Fill in the seven `session` rows — first meeting and dissolution dates.
-2. Settle D2 (which date completes a stage) before filling the end-stage dates;
-   it is the definition every duration depends on.
+2. **D2 is deliberately deferred.** The first batch of data does not include
+   stage dates, so the definition can be settled later without re-entry. Do not
+   press for it — the owner will pick it up when the dates go in. When it is
+   settled, record it here and in `DECISIONS.md`, and consider adding
+   `stage_1_report_date` so committee scrutiny time stays separately visible.
 3. Hand-build the two slices, recording edge cases in `note` as they are hit.
 4. Then, and only then: front end, extraction.
 
 ## Open, not yet decided
 
-- **D2** — which date marks the completion of a stage. Blocks stage entry.
+- **D2** — which date marks the completion of a stage. Deferred by choice; the
+  first batch carries no stage dates. Candidates: committee report published,
+  chamber debate, or the decision that ended the stage (proposed).
 - **D3** — calendar days or sitting days. Does not block: dates are stored
   either way, and sitting days needs a parliamentary calendar of its own.
 - **D5** — how revisions to already-admitted data are recorded. Does not block:
