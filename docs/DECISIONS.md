@@ -7,6 +7,35 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-11 — Session 2 is promoted before the PhD loader is built
+
+Decided by the owner. `db/034`. **A stated exception** to the rule, set the
+same day, that a coding change is finished before any session it touches is
+admitted or promoted. The rule stands.
+
+**How it came up.** The owner had checked Session 2 and was content, and
+proposed promoting it so the next session could open cleanly onto adding the
+stage dates for both sessions. The conflict with the rule was put to the owner
+before anything was done, and the owner chose to proceed.
+
+**What is unfinished.** Only the script that loads the owner's PhD spreadsheets
+(part 4 of the stage-dates decision). The stage-dates sheet, its checks, the
+gaps list, and promotion and rollback from it are built, rehearsed and proved
+(`db/033`).
+
+**Why it is safe.** The unbuilt part reads a spreadsheet. It does not decide how
+dates are held, checked or promoted, and nothing about Session 2 would be coded
+differently once it exists. Session 2 goes onto the clean sheet in the state
+Session 1 is already in: passing dates and Stage 1 rejection dates, and no
+Stage 1 or 2 dates. Both sessions are taken off and put back when the dates are
+added, which `db/033` proved changes nothing it should not.
+
+**What this is not.** A precedent for leaving a decision's parts unbuilt. The
+loader is the first task of the next session, and no date is entered until it
+is built and rehearsed.
+
+---
+
 ## 2026-09-11 — When two sources give the same stage date, the more primary goes onto the clean sheet
 
 Settled by the owner. Built in `db/033` and `tools/promote_session.sql`.

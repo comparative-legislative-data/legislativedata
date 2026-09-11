@@ -261,3 +261,22 @@ Tested in rehearsal rather than assumed:
 - promotion refused a session holding an unreviewed stage date;
 - Session 2, loaded again from a fresh extraction, gave its 66 passing dates
   identically.
+
+## Session 2, 11 September
+
+The owner checked Session 2's lines and was content. `db/034` admitted its 81
+lines and 72 stage dates, before the loader for the PhD spreadsheets is built,
+as a recorded exception (`DECISIONS.md`). A safety copy was taken first
+(`/var/tmp/legdata-before-034_2026-09-11.dump`). Admission and promotion were
+rehearsed together and thrown away, then run without saving, then saved, and
+the result checked against the factsheet's summary each time.
+
+- 81 bills: 53 government, 18 Member's, 9 private, 1 committee; 66 passed, 5
+  withdrawn, 10 fallen (4 at dissolution, 6 rejected at Stage 1). Every cell
+  matches page 8.
+- 72 stage records: 57 Stage 3 and 9 Final Stage from the factsheet, 6 Stage 1
+  from the Official Report.
+- 12 provenance notes, an outcome and a route for each rejection, and 2 notes
+  for readers on the 9.14.18 bills.
+- The whole clean sheet: 154 bills, 139 stage records, 23 notes. The error
+  checker empty, 271 gaps.

@@ -17,12 +17,12 @@ and 2 dates are added from your PhD.
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
 | 1 | 73 bills | yes | yes | sheet ready, none entered |
-| 2 | 81 bills | no | no | sheet ready, none entered |
+| 2 | 81 bills | yes | yes | sheet ready, none entered |
 | 3–5 | reader misses rows | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
-For Session 1 we can answer question 1, and the time from introduction to
-passing. Time per stage waits for the Stage 1 and 2 dates.
+For Sessions 1 and 2 we can answer question 1, and the time from introduction
+to passing. Time per stage waits for the Stage 1 and 2 dates.
 
 ## What has been done
 
@@ -43,6 +43,9 @@ passing. Time per stage waits for the Stage 1 and 2 dates.
   caught.
 - **Hybrid Bills** now have Stage 1, 2 and 3.
 - **A gaps list** shows the dates still to find: 271 for Sessions 1 and 2.
+- **Session 2 is on the clean sheet.** You checked it, and it matched the
+  factsheet in every cell. It went ahead before the reader for your
+  spreadsheet is built, as a recorded exception.
 - **Your choices:** where two sources agree, the clean sheet takes the
   Official Report's date, then the factsheet's, then your PhD's. M2 now cites
   your thesis.
@@ -55,10 +58,9 @@ passing. Time per stage waits for the Stage 1 and 2 dates.
 2. **A practice run on a few bills**, with written step-by-step instructions,
    thrown away afterwards.
 3. **You fill in both spreadsheets** (`sources/phd/`).
-4. **Load them, and you read them a second time.** Then Session 1 is taken off
-   and put back with the dates. Compared with a copy, it should differ only by
-   the dates added.
-5. **Session 2 is reviewed and promoted.**
+4. **Load them, and you read them a second time.** Then Sessions 1 and 2 are
+   taken off and put back with the dates. Compared with a copy, they should
+   differ only by the dates added.
 
 ## After that, in order
 
@@ -110,13 +112,13 @@ orient, and none of it belongs above the line.
   - Session 2's 81 staging lines all `new`, and the error checker empty;
   - the data dictionary regenerated with no difference;
   - nothing uncommitted, and both PhD spreadsheets blank.
-- **At close, after `db/033`:**
-  - 73 bills, 67 stage records, 11 notes;
-  - 139 stage-dates rows: Session 1's 67 accepted and stamped, Session 2's 72
-    `new`;
+- **At close, after `db/033` and `db/034`:**
+  - 154 bills, 139 stage records, 23 notes;
+  - 139 stage-dates rows, all accepted and stamped;
+  - both sessions' 154 staging lines accepted and promoted;
   - the error checker empty, and 271 gaps;
   - 26 tabs, and `bill_candidate` has 38 columns;
-  - the data dictionary regenerated from the database after the change.
+  - the data dictionary regenerated from the database after both changes.
 - **Found:** a check for the removed columns first reported them still there.
   It was reading the copy in `copy_before_033`, which has them. While a copy
   schema exists, any question put to the catalogue must name `public`.
@@ -179,9 +181,9 @@ rehearsal, the check and the undo without being asked.
 - **Private Bills in Sessions 1 and 2:** twelve. Session 1 has 3 (1 passed, 2
   fell at dissolution); Session 2 has 9, all passed. The owner's understanding
   that every one has a Consideration Stage meeting is tested by the gaps list.
-- **Session 2's review:** Postico, `bill_candidate`, session 2, lines 74–154,
-  and its 72 rows on `stage_candidate`. It is then admitted by a migration, as
-  `db/016` did for Session 1, and promoted through the runbook.
+- **Session 2 is promoted** (`db/034`, then the runbook), before the loader is
+  built: a recorded exception (`DECISIONS.md`, 2026-09-11). When the PhD dates
+  are added, both sessions come off and go back on.
 
 ## Detail for the later work
 
@@ -309,6 +311,9 @@ website has to surface.
     identically;
   - Postico's user can read the new sheet, the gaps list, the checker and the
     list of stage names.
+- **Session 2 matches its factsheet on the clean sheet** (`db/034`), rehearsed
+  and then run for real: 53/18/9/1 by type; 66 passed, 5 withdrawn, 4 fell at
+  dissolution, 6 rejected at Stage 1; 72 stage records; 12 notes.
 
 ## Tools
 
@@ -331,13 +336,12 @@ website has to surface.
 
 ## Housekeeping, small and known
 
-- **Two safety copies of the whole database** are on the VPS:
-  `/var/tmp/legdata-before-030_2026-09-11.dump` and
-  `/var/tmp/legdata-before-033_2026-09-11.dump`. Delete them once a nightly
-  backup taken after 2026-09-11 has been confirmed.
-- **A copy of the sheets inside the database, `copy_before_033`,** is kept for
-  the comparison after the PhD dates are loaded, unless a fresh copy is taken
-  then. Drop it when that comparison is done.
+- **Three safety copies of the whole database** are on the VPS:
+  `/var/tmp/legdata-before-030_2026-09-11.dump`, `-033_` and `-034_`. Delete
+  them once a nightly backup taken after 2026-09-11 has been confirmed.
+- **A copy of the sheets inside the database, `copy_before_033`,** predates
+  Session 2's promotion, so it cannot serve the comparison after the PhD dates
+  are loaded. Take a fresh copy then, and drop this one at will.
 - **Rehearsal files** are in `/tmp/legdata-rehearsal` and `/tmp/legdata-real`
   on the VPS. Delete at will.
 - **The backup service runs with no `HOME` or `XDG_CACHE_HOME`**, so restic
