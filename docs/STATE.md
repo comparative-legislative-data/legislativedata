@@ -1,6 +1,6 @@
 # State
 
-Updated: 2026-09-11, end of the third session that day
+Updated: 2026-09-11, fourth session that day
 
 ## Where we've got to
 
@@ -16,8 +16,8 @@ and 2 dates are added from your PhD.
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
-| 1 | 73 bills | yes | yes | sheet ready, none entered |
-| 2 | 81 bills | yes | yes | sheet ready, none entered |
+| 1 | 73 bills | yes | yes | ready to type in; practice first |
+| 2 | 81 bills | yes | yes | ready to type in; practice first |
 | 3–5 | reader misses rows | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
@@ -34,33 +34,28 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
 - **11 September, second session.** Settled stage dates in full, and that each
   clean tab gets a staging sheet of the same shape.
 
-**11 September, third session.**
-- **The stage-dates sheet is built.** Every stage date now waits there,
-  whatever its source, with its own accept/reject column. The 139 dates
-  already held moved onto it.
-- **The move changed nothing.** Session 1 was taken off and put back from the
-  new sheet, and matched a copy cell by cell. Eight planted mistakes were all
-  caught.
-- **Hybrid Bills** now have Stage 1, 2 and 3.
-- **A gaps list** shows the dates still to find: 271 for Sessions 1 and 2.
-- **Session 2 is on the clean sheet.** You checked it, and it matched the
-  factsheet in every cell. It went ahead before the reader for your
-  spreadsheet is built, as a recorded exception.
-- **Your choices:** where two sources agree, the clean sheet takes the
-  Official Report's date, then the factsheet's, then your PhD's. M2 now cites
-  your thesis.
+- **11 September, third session.** Built the stage-dates sheet, proved moving
+  the dates changed nothing, and put Session 2 on the clean sheet.
 
-## Now: adding your dates
+**11 September, fourth session.**
+- **You type your dates straight into Postico**, not into spreadsheets. That
+  finishes the stage-dates change: nothing in it is left unbuilt.
+- **The stage-dates sheet shows each bill's title** beside its line number,
+  filled in by itself. Proved to have changed nothing else.
+- **Dates typed with slashes are read day first:** 05/01/2000 is 5 January.
+- **Tidied:** leftover files off the server, and the server's details out of
+  the repository. The dictionary tool now cleans up after itself.
 
-1. **Build the script that loads your spreadsheet**, and rehearse it. It is
-   part of the agreed change and is not built yet. No date is entered until it
-   is.
-2. **A practice run on a few bills**, with written step-by-step instructions,
-   thrown away afterwards.
-3. **You fill in both spreadsheets** (`sources/phd/`).
-4. **Load them, and you read them a second time.** Then Sessions 1 and 2 are
-   taken off and put back with the dates. Compared with a copy, they should
-   differ only by the dates added.
+## Now: your practice rows
+
+1. **You add a few practice rows** in Postico, following
+   `docs/PROMOTION-RUNBOOK.md`, "Typing stage dates into Postico". A Private
+   Bill and a bill that ended early are worth including.
+2. **I check them**, and that they reached the server. Correct ones stay.
+3. **The bigger sweep** of Sessions 1 and 2.
+4. **You read them a second time**, and they are accepted. Sessions 1 and 2 are
+   taken off and put back with the dates. Compared with the copy taken today,
+   they should differ only by the dates added.
 
 ## After that, in order
 
@@ -88,6 +83,10 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
   arrives.
 - **Not checked:** whether a Stage 1 motion can still be amended into a
   rejection.
+- **Sending the work to GitHub.** Nothing from the last nine commits has been
+  sent. The server's details leave the public copy only once it is.
+- **Deleting the two blank spreadsheets** in `sources/phd/`. A permission check
+  stopped the session doing it.
 
 ---
 
@@ -104,39 +103,47 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-11, third session
+## Sanity check, 2026-09-11, fourth session
 
 - **At opening, all matched:**
-  - 73 bills, 67 stage records (62 passing dates, 5 Stage 1 rejections) and
-    11 provenance notes;
-  - Session 2's 81 staging lines all `new`, and the error checker empty;
+  - 154 bills, 139 stage records, 23 notes;
+  - 139 stage-dates rows, all accepted and stamped (128 factsheet, 11 Official
+    Report), and both sessions' 154 lines accepted and promoted;
+  - the error checker empty, 271 gaps, 26 tabs, `bill_candidate` 38 columns;
   - the data dictionary regenerated with no difference;
   - nothing uncommitted, and both PhD spreadsheets blank.
-- **At close, after `db/033` and `db/034`:**
-  - 154 bills, 139 stage records, 23 notes;
-  - 139 stage-dates rows, all accepted and stamped;
-  - both sessions' 154 staging lines accepted and promoted;
-  - the error checker empty, and 271 gaps;
-  - 26 tabs, and `bill_candidate` has 38 columns;
-  - the data dictionary regenerated from the database after both changes.
-- **Final sweep, before closing:**
-  - the counts above matched the database again;
-  - no document was out of date. The guide and the runbook now mention Session
-    2's notes and the gaps list;
-  - `copy_before_033` was dropped, and every rehearsal folder in the VPS's
-    `/tmp` removed. All were copies of committed scripts or re-creatable
-    extractions;
-  - the rehearsal stripper is now `tools/strip_for_rehearsal.py`, tested on the
-    real scripts;
-  - still open, and listed: the three safety dumps (until tonight's backup is
-    confirmed), and the five pivot tables Postico cannot open.
-- **Found:** a check for the removed columns first reported them still there.
-  It was reading the copy in `copy_before_033`, which has them. While a copy
-  schema exists, any question put to the catalogue must name `public`.
-- **Found:** the Session 2 Robin Rigg and Stirling-Alloa-Kincardine Private
-  Bills were reintroduced after dissolution and passed within weeks. They may
-  not have gone through every stage again. If so they will show as gaps, and
-  need a note, not a date.
+- **Found:** 24 loose files in the VPS's `/tmp`. The last sweep removed
+  folders, not files. 22 were this project's rehearsal leftovers; 2 were from
+  the previous attempt (an API fetch list and a file manifest). All deleted,
+  with the owner's agreement. The dictionary tool left its query there on every
+  run; it now removes it.
+- **Found:** the server's address and login name were in `STATE.md`, and the
+  whole `legdatavps/` folder (connector and notes) had been tracked in the
+  public repository since the first commit. Both are already on GitHub. No
+  password or key was in them, and login is by key only. Taken out of
+  `STATE.md`, and the folder is no longer tracked and is ignored. The private
+  copies in `~/.claude/` are identical. The repository's history still holds
+  them; rewriting it was not proposed.
+- **Found:** the last nine commits were never pushed.
+- **Found:** the server read 05/01/2000 as 1 May (`DateStyle` ISO, MDY). Now
+  ISO, DMY for the whole database (`db/035`).
+- **After `db/035`:**
+  - 139 stage-dates rows, each showing its line's title, numbering at 154;
+  - the error checker empty and 271 gaps, as before;
+  - a fresh connection as Postico's user reads 05/01/2000 as 5 January;
+  - 26 tabs; `stage_candidate` has 19 columns;
+  - the data dictionary regenerated from the database.
+- **Looking at the whole:** three migrations this day since `db/032`. `db/035`
+  adds one display column and three automatic rules, and no tab. The owner's
+  picture of the database is unchanged: a sheet to type on, the checker, the
+  gaps list.
+- **Still true from the third session:** while a copy schema exists, any
+  question put to the catalogue must name `public`. `copy_before_phd_dates`
+  exists.
+- **Still to see:** the Session 2 Robin Rigg and Stirling-Alloa-Kincardine
+  Private Bills were reintroduced after dissolution and passed within weeks.
+  They may not have gone through every stage again. If so they will show as
+  gaps, and need a note, not a date.
 
 ## The owner's standing positions, so they are not re-argued
 
@@ -169,23 +176,27 @@ rehearsal, the check and the undo without being asked.
   correction, descriptions, and M2. The load, promotion and rollback scripts
   read the new sheet. See `DECISIONS.md`, 2026-09-11, for what was settled
   while building.
-- **Not built: the loader for the owner's spreadsheets.** Agreed in outline
-  (nine parts, part 4). To settle when it is built, with the owner:
-  - it unfolds each spreadsheet line into rows: the Stage 1 date at position
-    1 and the Stage 2 date at position 2, under the bill type's own names, so
-    Preliminary and Consideration for a Private Bill;
-  - "not known" in a date cell becomes a completed stage with no date, and the
-    note column must say why;
-  - `stage_reached_if_not_passed` becomes a stage not completed, where the
-    bill ended; the words allowed in that column need fixing first;
-  - source `phd`, reference from `phd_reference`, and a date read still to
-    choose;
-  - everything arrives `new`, refuses a line number or title that does not
-    match the staging line, and is rehearsed like the other scripts.
-- **The spreadsheets:** `sources/phd/stage-dates-session-1.csv` and
-  `-session-2.csv`, one line per staging line, keyed by line number. The
-  Official Report Stage 1 dates of the eleven rejections were left out on
-  purpose, so the PhD checks them; the checker flags any disagreement.
+- **Built in `db/035`: typed entry.** The owner types rows in Postico, one per
+  stage; there is no loader and no spreadsheet (`DECISIONS.md`, 2026-09-11,
+  "Stage dates are typed into Postico"). The sheet shows each row's title,
+  filled in by a trigger and refreshed from `bill_candidate`; slashed dates
+  are read day first. The owner's steps are in the runbook.
+- **What a PhD row holds:** source `phd`, reference `PhD thesis dataset`, its
+  own date read. A stage where a bill ended is not completed and `fell_here`,
+  dated by the decision if there was one. A stage completed on a date not known
+  has no date and a note.
+- **Checking what was typed:** `tools/check_stage_entry.sql` lists every row
+  waiting for review beside its bill's dates, when it reached the server, and
+  the checker's findings. Run it after each of the owner's sittings.
+- **The eleven Stage 1 rejections** already have the Official Report's date.
+  The owner's PhD row for each is a second row, and the checker flags any
+  disagreement.
+- **The comparison after the dates:** `copy_before_phd_dates`, inside the
+  database, was taken before `db/035` and before any PhD date. Sessions 1 and 2
+  put back with the dates should differ from it only by the dates added. It
+  lacks the title column, which the comparison lists and does not count.
+- **The two blank spreadsheets** are still in `sources/phd/`, unused, until the
+  owner clears their deletion.
 - **The fifteen bills with nothing recording where they ended:** Session 1 has
   3 withdrawn and 3 fell at dissolution; Session 2 has 5 withdrawn and 4 fell
   at dissolution.
@@ -339,6 +350,9 @@ website has to surface.
   cell by cell after. Both take `-v copy=`.
 - **`tools/strip_for_rehearsal.py`** prepares migrations and scripts to be
   dress-rehearsed together inside one transaction that is thrown away.
+- **`tools/check_stage_entry.sql`** reports on the stage dates the owner has
+  typed in: every row waiting for review, beside its bill, and the checker's
+  findings. Changes nothing.
 - **`tools/extract_factsheet.py`** reads the ruled-table factsheets (Sessions
   1–5). Its pinned environment is in `tools/requirements.txt`.
 - **`tools/make_data_dictionary.py`** regenerates `docs/DATA-DICTIONARY.md`, and
@@ -349,11 +363,11 @@ website has to surface.
 
 ## Housekeeping, small and known
 
-- **Three safety copies of the whole database** are on the VPS:
-  `/var/tmp/legdata-before-030_2026-09-11.dump`, `-033_` and `-034_`. Delete
-  them once a nightly backup taken after 2026-09-11 has been confirmed.
-- **No copy of the sheets is held inside the database.** Take a fresh one with
-  `tools/take_copy.sql` before the PhD dates are loaded.
+- **Four safety copies of the whole database** are on the VPS:
+  `/var/tmp/legdata-before-030_2026-09-11.dump`, `-033_`, `-034_` and `-035_`.
+  Delete them once a nightly backup taken after 2026-09-11 has been confirmed.
+- **`copy_before_phd_dates`** is held inside the database for the comparison
+  after the PhD dates. Drop it once that comparison is done.
 - **The backup service runs with no `HOME` or `XDG_CACHE_HOME`**, so restic
   keeps no cache and re-reads everything in scope every night. That is harmless
   at this size, but will not stay so. One `Environment=` line in the unit file
@@ -385,7 +399,7 @@ It is not in this repository.
     ~/.claude/legdata-vps 'sudo -u postgres psql -d legdata -c "SELECT ..."'
     ~/.claude/legdata-vps --scp local/file /remote/path
 
-`ldadmin` has passwordless sudo, and `sudo -u postgres psql` connects by peer
+The login account has passwordless sudo, and `sudo -u postgres psql` connects by peer
 authentication, so no database password is stored on the Mac. Migrations are
 applied this way.
 
@@ -401,10 +415,8 @@ Send the files as one bundle (`COPYFILE_DISABLE=1 tar czf …`), which keeps to
 one connection.
 
 **Do not use `legislativedata-vps` or `legislativedata-data` in
-`~/.ssh/config`.** They are leftovers from the old estate.
-`legislativedata-vps` points at `5.83.150.18`, a machine never part of this
-project, and fails a host key check. The box is `77.90.2.83`, hostname
-`legislativedata-SP`.
+`~/.ssh/config`.** They are leftovers from the old estate and point at machines that are not this
+project's. Which machine is, is in the private notes outside this repository.
 
 **The SSH rate limit bites you, not only attackers.** About a dozen connections
 in quick succession gives `Connection refused` for roughly 15 seconds. Batch

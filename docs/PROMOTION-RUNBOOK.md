@@ -51,6 +51,59 @@ already loaded.
 
 ---
 
+## Typing stage dates into Postico
+
+Your PhD dates go straight onto the stage-dates sheet, `stage_candidate`, one
+row per stage. Nothing you type reaches the clean sheet until you have read it
+a second time and it is accepted.
+
+**Before you start.** After any change to the database, disconnect Postico and
+connect again, so it shows the sheet as it now is.
+
+**1. Find what is missing.** Open `v_stage_date_gaps`. Each row is one missing
+date: the line number (`candidate_id`), the bill, and the stage.
+
+**2. Add a row.** Open `stage_candidate` and add a row with the + button at the
+bottom. Fill in:
+
+| Column | What to type | Example |
+|---|---|---|
+| `candidate_id` | the line number | `1` |
+| `stage` | `stage_1` or `stage_2`; for a Private Bill, `preliminary` or `consideration` | `stage_1` |
+| `stage_order` | `1` or `2` | `1` |
+| `date_completed` | the date, year first | `2000-01-20` |
+| `completed` | true | |
+| `fell_here` | false | |
+| `source` | `phd` | |
+| `source_ref` | `PhD thesis dataset` | |
+| `observed_at` | the date you read it, year first | `2026-09-11` |
+| `note` | empty, unless something is irregular | |
+
+Leave every other column empty. The row number, the title, `review_status`
+(`new`) and the times fill themselves in.
+
+**3. Save.** The bill's title appears beside the line number. If it is not the
+bill you meant, the line number is wrong: correct it and save again.
+
+**Two other kinds of row:**
+- **Where a bill that did not pass ended.** The stage it ended at, `completed`
+  false, `fell_here` true. `date_completed` is the date of the decision that
+  ended it if there was one, such as a Stage 1 vote, and otherwise empty. Any
+  stage it completed before that gets its own row, as above.
+- **A stage completed on a date you cannot find.** `completed` true,
+  `date_completed` empty, and `note` saying why.
+
+**4. Check.** Open `v_candidate_problems`. Empty means nothing is wrong. A
+problem with one of your rows names the stage, the source and the row number.
+Some mistakes are refused when you save instead: a line number that does not
+exist, the same stage entered twice from your dataset, an impossible date.
+
+Then tell the session. It runs `tools/check_stage_entry.sql`, which lists each
+row waiting for review beside its bill's own dates and when it reached the
+server, and reports back.
+
+---
+
 ## What promotion does
 
 For every staging line you have marked **accepted**:
@@ -282,3 +335,25 @@ the result checked against the factsheet's summary each time.
   for readers on the 9.14.18 bills.
 - The whole clean sheet: 154 bills, 139 stage records, 23 notes. The error
   checker empty, 271 gaps.
+
+## The stage-dates sheet shows titles, 11 September
+
+`db/035`, for typing your dates into Postico. Rehearsed and thrown away, then
+run for real. A safety copy of the database was taken first
+(`/var/tmp/legdata-before-035_2026-09-11.dump`), and a copy of the sheets inside
+it, kept as `copy_before_phd_dates` for the comparison once your dates are in.
+
+- The sheet was rebuilt with the title beside the line number. Compared with
+  the copy cell by cell: no unexpected differences, and the one new column
+  listed.
+- All 139 rows show their line's title. The error checker is empty, and the
+  gaps list holds 271, as before.
+- A fresh connection as Postico's user reads 05/01/2000 as 5 January.
+
+Tested in rehearsal rather than assumed:
+- Session 1, taken off and put back from the rebuilt sheet, matched the copy;
+- a row typed with no title got one, a title typed by hand was replaced, and a
+  corrected line number brought the right title;
+- a title corrected on the factsheet sheet reached its stage rows, without
+  changing their last-changed time;
+- a planted wrong stage name was still caught.

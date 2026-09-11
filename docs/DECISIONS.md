@@ -7,6 +7,60 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-11 — Stage dates are typed into Postico, not loaded from spreadsheets
+
+Settled by the owner. `db/035`. **Replaces part 4 of the stage-dates decision**
+for the owner's PhD dates: the spreadsheets in `sources/phd/` and the script to
+load them. That script was the one unbuilt part of the decision, so the
+stage-dates change is now built in full.
+
+**How it came up.** Asked what the instructions for entering stage dates should
+cover, the owner asked for them in Postico. The conflict with the agreed
+spreadsheet route was put first, part by part, and the owner agreed.
+
+**What changes:**
+- The owner adds rows straight onto the stage-dates sheet in Postico, one per
+  stage. The two blank spreadsheets are deleted, so there is one place to enter.
+- **Where a bill ended** is a row for that stage, not completed, and marked as
+  where it ended. The stage names allowed are the bill type's own: Stage 1, 2
+  or 3, or Preliminary, Consideration or Final.
+- **A stage completed on a date not known** is completed, with no date, and a
+  note saying why. The spreadsheet's "not known" word goes.
+- **Every row carries its own date read.** The owner's reason: sources and
+  timescales will not be uniform.
+- **The reference is "PhD thesis dataset".** One citation is enough.
+- Rows still arrive `new`, and are accepted after the owner reads them a second
+  time, recorded in a migration.
+- **The practice rows are kept** if they are correct.
+
+**The checks.** Rehearsed as Postico's user with thirteen planted mistakes, and
+every one was caught. Refused on saving: a line number that does not exist, the
+same stage from the same source twice, an impossible date. Flagged by the error
+checker: a stage name wrong for the bill type or position, an empty tick, no
+date read, a source not on the list, dates out of order, a date disagreeing
+with the Official Report, a stage after where the bill ended.
+
+**What is lost, and what replaces it:**
+- **The title check.** The loader would have refused a line number that did not
+  match its title. Instead, the sheet shows each row's bill title, filled in
+  from the line number, so a wrong line shows as the wrong title.
+- **A copy in the repository.** The rows live in the database and its nightly
+  backup, and the admission migration records the second read. Accepted by the
+  owner.
+
+**Settled with it:**
+- **The bill's title on the stage-dates sheet**, beside the line number, asked
+  for by the owner to find rows. Filled in automatically when a row is saved,
+  and refreshed when a title is corrected on the factsheet sheet. Never typed,
+  not a fact under review, and not carried to the clean sheet. The sheet was
+  rebuilt to put the column there, and was proved to have changed nothing else.
+- **Dates typed with slashes are read day first.** The server read 05/01/2000
+  as 1 May; it now reads 5 January. Dates are still shown as 2000-01-05, and
+  the instructions say to type them that way.
+- A row's last-changed time no longer moves when only its title is refreshed.
+
+---
+
 ## 2026-09-11 — Session 2 is promoted before the PhD loader is built
 
 Decided by the owner. `db/034`. **A stated exception** to the rule, set the

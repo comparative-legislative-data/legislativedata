@@ -145,12 +145,13 @@ One row per line read off a factsheet. This is the staging area: nothing here is
 
 ### `stage_candidate`
 
-The stage-dates staging sheet: one row per stage of a bill, per source, waiting to be checked before it goes onto stage_event. Every stage date arrives here, whatever its source: a factsheet's passing date when a session is loaded, a date read from the Official Report at review, a date from the owner's PhD dataset. Each row belongs to a line of bill_candidate, which is its bill. Nothing reaches stage_event except from an accepted row here. Where two accepted rows give the same stage of the same bill, the error checker requires them to agree, and promotion carries the one from the more primary source: the Official Report, then a factsheet, then the PhD dataset. The other stays here as the check. Rows are kept permanently.
+The stage-dates staging sheet: one row per stage of a bill, per source, waiting to be checked before it goes onto stage_event. Every stage date arrives here, whatever its source: a factsheet's passing date when a session is loaded, a date read from the Official Report at review, and the owner's PhD dates, typed in directly in Postico. Each row belongs to a line of bill_candidate, which is its bill, and shows that line's title so the row can be recognised. Nothing reaches stage_event except from an accepted row here. Where two accepted rows give the same stage of the same bill, the error checker requires them to agree, and promotion carries the one from the more primary source: the Official Report, then a factsheet, then the PhD dataset. The other stays here as the check. Rows are kept permanently.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
 | `stage_candidate_id` | number | yes |  | Our identifier for this row. Not a bill number, and not carried onto stage_event. |
 | `candidate_id` | number | yes | `bill_candidate.candidate_id` | Which staging line, and so which bill, this stage belongs to: rows for line 17 become stage records of bill 17. Required: a stage date cannot wait here without a bill line behind it. |
+| `short_title` | text |  |  | The title of the bill this row belongs to, copied from its staging line's short_title, so a row can be recognised and a wrong line number shows as the wrong title. Filled in automatically whenever the row is saved, and refreshed when that title is corrected; anything typed here is replaced. Not a fact waiting for review, and not carried onto stage_event. Empty only if the line has no title. |
 | `stage` | text |  |  | The stage's real name for this kind of bill: Stage 1, 2 or 3 for a public or Hybrid Bill; Preliminary, Consideration or Final for a Private Bill; or Reconsideration. Should be a code from ref_stage, and the name ref_bill_type_stage gives for the line's bill type at this position. Nothing in this table enforces either; the error checker flags both, and stage_event refuses a wrong one. |
 | `stage_order` | number |  |  | Where the stage comes in its bill type's sequence: 1, 2 or 3, or 4 for Reconsideration. Should match the stage's name in ref_bill_type_stage; the error checker flags a mismatch. |
 | `date_completed` | date |  |  | The date the stage was completed, at the points methodology note M2 sets out. On a stage the bill did not complete, the date of the decision that ended it where there was one, such as a Stage 1 rejection, and otherwise empty. On a completed stage, empty means completed on a date not known, and the note must say why. A stage not yet entered has no row at all. |
@@ -166,7 +167,7 @@ The stage-dates staging sheet: one row per stage of a bill, per source, waiting 
 | `promoted_stage_event_id` | number |  | `stage_event.stage_event_id` | Which stage_event row this became at the last promotion. Stage records are renumbered each time a session is put back, so this number is too. Empty means not promoted: not accepted, its session not on the clean sheet, or another accepted row for the same stage was carried instead. |
 | `promoted_at` | timestamp |  |  | When this row was last promoted. Empty means it is not on the clean sheet. |
 | `created_at` | timestamp | yes |  | When this row was put on the sheet. Set automatically. |
-| `updated_at` | timestamp | yes |  | When this row was last changed. Set automatically. |
+| `updated_at` | timestamp | yes |  | When this row was last changed. Set automatically. A refreshed title on its own, or a save that changes nothing, does not count. |
 
 ### `field_source`
 

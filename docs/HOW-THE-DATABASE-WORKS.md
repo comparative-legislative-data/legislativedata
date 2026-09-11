@@ -92,7 +92,13 @@ One row per stage of a bill, per source. Take the Abolition of Feudal Tenure
 Every stage date waits here before it goes onto the clean sheet:
 - a passing date arrives when its session's factsheet is loaded;
 - a Stage 1 rejection date read from the Official Report is added at review;
-- your PhD dates arrive from your spreadsheet.
+- your PhD dates are typed straight in, in Postico.
+
+Each row shows its bill's title beside the line number. You never type it: it
+fills itself in from the line number when the row is saved. If the title is not
+the bill you meant, the line number is wrong. If a title is corrected on the
+factsheet sheet, the rows here follow. It stays on this sheet and is not copied
+to the clean sheet.
 
 Each row has its own `review_status`, the same gate as the factsheet sheet, so
 a date is accepted or rejected on its own. Your own dates arrive as `new` like

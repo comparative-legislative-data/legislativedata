@@ -151,10 +151,11 @@ one session, for the same reason every time: jargon and length.
 - Where the PhD coded a value, it is the check on a derivation — not the source
   of the schema.
 - Do not put host detail, credentials or connection strings in this repository.
-  They live in `~/.claude/legdata-vps` and `~/.claude/legdata-db`.
+  They live in `~/.claude/legdata-vps`, `~/.claude/legdata-db` and
+  `~/.claude/legdata-vps-notes.md`.
 
 ## Infrastructure
 
 VPS, database and backup arrangements are described in
-`legdatavps/legdata-vps-notes.md`. Database connection procedure is in
-`docs/STATE.md`.
+`~/.claude/legdata-vps-notes.md`, outside this repository. Database connection
+procedure is in `docs/STATE.md`.

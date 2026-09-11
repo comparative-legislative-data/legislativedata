@@ -33,9 +33,12 @@ GROUPS = [
 def run_query():
     subprocess.run([str(CONNECT), '--scp', str(QUERY), '/tmp/data_dictionary.sql'],
                    check=True, capture_output=True)
+    # Removes its copy of the query from the server whether or not it ran, and
+    # still fails if it did not.
     r = subprocess.run(
         [str(CONNECT),
-         'sudo -u postgres psql -d legdata -At -f /tmp/data_dictionary.sql'],
+         'sudo -u postgres psql -d legdata -At -f /tmp/data_dictionary.sql; '
+         's=$?; rm -f /tmp/data_dictionary.sql; exit $s'],
         check=True, capture_output=True, text=True)
     return r.stdout.splitlines()
 
