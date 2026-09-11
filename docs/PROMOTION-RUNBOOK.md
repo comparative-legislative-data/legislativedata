@@ -383,6 +383,26 @@ Tested in rehearsal rather than assumed:
 - a new row sent with DEFAULT in every column left alone was accepted, and one
   sent with the row number empty was refused.
 
+## A stage that did not happen, 11 September
+
+`db/039`, after the Robin Rigg Act showed two dates to find that do not exist.
+Rehearsed and thrown away first; a safety copy and a copy of the sheets were
+taken before the real run (`/var/tmp/legdata-before-039_2026-09-11.dump`).
+
+- **The Robin Rigg Act now has three records**: its Preliminary and
+  Consideration Stages marked as stages that did not happen, with your note,
+  and its Final Stage dated 26 June 2003 as before.
+- **The gaps list is empty**, and so is the error checker.
+- **413 stage records** against 154 bills. Every bill that passed in Sessions 1
+  and 2 — 62 and 66 — now has a record for every stage.
+- **Compared with the copy taken beforehand**: only those 2 rows, the 2 stage
+  records they became, and the new column on both sheets.
+
+Tested in rehearsal rather than assumed. The clean sheet refused a skipped stage
+on a Government Bill, one with a date, one with no note, and one also marked
+completed. The staging sheet took the same rows and the error checker named
+each fault, which is the intended difference between the two sides.
+
 ## Both sessions back on the clean sheet with the dates, 11 September
 
 `db/038` recorded your acceptance of all 411 stage-dates rows, and each session

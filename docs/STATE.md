@@ -49,8 +49,10 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
   sessions were put back with the dates. 411 stage records now, where there
   were 139.
 - **The bills that did not pass** record where each stopped, from the pages you
-  found. Only the Session 2 Robin Rigg Act has dates still to find, and it
-  carries your note saying why it has none.
+  found.
+- **A stage a bill never had** can now be recorded as one that did not happen,
+  and only a Private Bill may have one. The Robin Rigg Act's two skipped stages
+  are recorded that way, so there is nothing left to find: no gaps at all.
 - **Tidied:** leftover files off the server, and the server's details out of
   the repository. The dictionary tool now cleans up after itself.
 
@@ -167,12 +169,15 @@ orient, and none of it belongs above the line.
   Bills were reintroduced after dissolution. The Stirling-Alloa-Kincardine Bill
   did go through its stages again, and has all three dates. Robin Rigg went
   straight to its Final Stage, because a reintroduced Private Bill does not
-  repeat its earlier scrutiny, and carries a note saying so. Its two missing
-  dates are the whole of the gaps list.
-- **At close, after `db/038` and both sessions put back on with the dates:**
-  - 154 bills, 411 stage records, 23 notes, and 411 stage-dates rows, all
+  repeat its earlier scrutiny; its two skipped stages are recorded as stages
+  that did not happen (`db/039`), so the gaps list is empty.
+- **At close, after `db/038`, `db/039` and both sessions put back on with the
+  dates:**
+  - 154 bills, 413 stage records, 23 notes, and 413 stage-dates rows, all
     accepted and stamped;
-  - the error checker empty, and 2 gaps;
+  - the error checker empty, and no gaps at all;
+  - 2 of those records are stages that did not happen, both on the Session 2
+    Robin Rigg Act;
   - 62 of Session 1's 73 bills and 65 of Session 2's 81 have all three stages
     dated; the rest did not pass;
   - compared with the copy taken before the dates, the only differences are the
@@ -404,9 +409,9 @@ website has to surface.
 
 ## Housekeeping, small and known
 
-- **Seven safety copies of the whole database** are on the VPS:
+- **Eight safety copies of the whole database** are on the VPS:
   `/var/tmp/legdata-before-030_2026-09-11.dump`, `-033_`, `-034_`, `-035_`,
-  `-036_`, `-038_` and `legdata-before-phd-dates_2026-09-11.dump`.
+  `-036_`, `-038_`, `-039_` and `legdata-before-phd-dates_2026-09-11.dump`.
   Delete them once a nightly backup taken after 2026-09-11 has been confirmed.
 - **No copy of the sheets is held inside the database.** `copy_before_phd_dates`
   was dropped once its comparison was done. Take a fresh one with

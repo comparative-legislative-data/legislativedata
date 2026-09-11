@@ -163,9 +163,9 @@ SELECT p.candidate_id, p.session_number, p.sp_bill_id, p.short_title, p.bill_typ
 -- need no provenance notes. The stage name was checked against the bill type
 -- by the error checker, and the trigger on stage_event checks it again.
 INSERT INTO stage_event (bill_id, stage, stage_order, date_completed, completed,
-                         fell_here, source, source_ref, observed_at, note)
+                         fell_here, did_not_happen, source, source_ref, observed_at, note)
 SELECT s.candidate_id, s.stage, s.stage_order, s.date_completed, s.completed,
-       s.fell_here, s.source, s.source_ref, s.observed_at, s.note
+       s.fell_here, s.did_not_happen, s.source, s.source_ref, s.observed_at, s.note
   FROM promoting_stages s
  ORDER BY s.candidate_id, s.stage_order;
 

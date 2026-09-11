@@ -7,6 +7,43 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-11 — Only a Private Bill may skip a stage, and a skipped stage is recorded as one that did not happen
+
+Settled by the owner and built the same day: `db/039`.
+
+**How it came up.** With the dates in, the Session 2 Robin Rigg Act showed two
+dates still to find that do not exist. A Private Bill reintroduced after
+falling does not repeat its earlier scrutiny, so that bill went straight to its
+Final Stage. Recording that only in a note left the gaps list claiming work that
+cannot be done.
+
+**Decided.** A stage record can say the bill never had this stage. The owner
+chose this over teaching the gaps list to expect less: the fact is then in the
+data, where anything counting stages can see it, rather than in prose.
+
+**Only Private Bills.** In the owner's words, that is the only exception the
+Standing Orders make: no other kind of bill can skip a stage. So the clean sheet
+refuses the mark on a Government, Member's, Committee or Hybrid Bill outright,
+as it already refuses a Stage 2 on a Private Bill, and the error checker flags
+it on the staging sheet before promotion.
+
+**What it records.** No date, not completed, not where the bill ended, and a
+note saying why; the clean sheet refuses any other shape. The gaps list stops
+expecting a date for such a stage. M2 tells a reader that a stage that never
+happened gives no duration, so the bill gives a time from introduction to
+passing but no figure for that stage.
+
+**Where it applies today.** One bill, the Session 2 Robin Rigg Act, from the
+page the owner read. Every other bill in Sessions 1 and 2 was checked against
+the same test, and none is in that position.
+
+**Rehearsed, thrown away, then run.** Four mistakes were refused by the clean
+sheet: a skipped stage on a Government Bill, one with a date, one without a
+note, and one also marked completed. The same mistakes on the staging sheet
+were flagged, not refused.
+
+---
+
 ## 2026-09-11 — The PhD stage dates are loaded from the owner's own spreadsheet, after the owner checks sixteen bills
 
 Settled by the owner, after typing two practice rows. **Changes the entry

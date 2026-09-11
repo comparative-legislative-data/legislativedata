@@ -95,6 +95,7 @@ One row per stage a bill actually reached, under that stage's real name for that
 | `note` | text |  |  | Free text for anything irregular about this stage, carried from stage_candidate.note. Required where a stage was completed on a date not known, to say why; the database refuses such a row without one. Empty means nothing irregular. |
 | `created_at` | timestamp | yes |  | When this row was created. Set automatically. |
 | `updated_at` | timestamp | yes |  | When this row was last changed. Set automatically. |
+| `did_not_happen` | true/false | yes |  | True where the bill never had this stage, because its procedure skipped it: a Private Bill reintroduced after falling does not repeat its earlier scrutiny. Only a Private Bill may have it. Such a row has no date, is neither completed nor where the bill ended, and must carry a note saying why; the database refuses it otherwise. False, the ordinary case, means the bill had this stage. |
 
 ## Getting data in
 
@@ -168,6 +169,7 @@ The stage-dates staging sheet: one row per stage of a bill, per source, waiting 
 | `promoted_at` | timestamp |  |  | When this row was last promoted. Empty means it is not on the clean sheet. |
 | `created_at` | timestamp | yes |  | When this row was put on the sheet. Set automatically. |
 | `updated_at` | timestamp | yes |  | When this row was last changed. Set automatically. A refreshed title on its own, or a save that changes nothing, does not count. |
+| `did_not_happen` | true/false | yes |  | True where the bill never had this stage, because its procedure skipped it, as on stage_event. Nothing in this table enforces the rules that go with it: the error checker flags a breach, and stage_event refuses one. False, the ordinary case, means the bill had this stage. |
 
 ### `field_source`
 
