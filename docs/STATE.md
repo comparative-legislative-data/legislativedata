@@ -43,7 +43,7 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
 - **The stage-dates sheet shows each bill's title** beside its line number,
   and the stage's number fills itself in from its name. Both proved to have
   changed nothing else.
-- **Dates typed with slashes are read day first:** 05/01/2000 is 5 January.
+- **Postico shows and reads dates day first:** 05/01/2000 is 5 January.
 - **Tidied:** leftover files off the server, and the server's details out of
   the repository. The dictionary tool now cleans up after itself.
 
@@ -137,8 +137,12 @@ orient, and none of it belongs above the line.
   position matches its stage name; compared with `copy_before_phd_dates`,
   nothing unexpected; the checker empty, 271 gaps; the data dictionary
   regenerated from the database.
-- **Looking at the whole:** four migrations this day since `db/032`. `db/035`
-  and `db/036` add one display column and four automatic rules, and no tab.
+- **After `db/037`:** Postico's login shows dates day first; the database's
+  own form, which the scripts see, is still year first. Checked beforehand
+  that the checker and gaps list find the same under both.
+- **Looking at the whole:** five migrations this day since `db/032`. `db/035`
+  to `db/037` add one display column, four automatic rules and two date
+  settings, and no tab.
   The owner's picture of the database is unchanged: a sheet to type on, the
   checker, the gaps list.
 - **Still true from the third session:** while a copy schema exists, any
@@ -185,7 +189,9 @@ rehearsal, the check and the undo without being asked.
   "Stage dates are typed into Postico"). The sheet shows each row's title,
   filled in by a trigger and refreshed from `bill_candidate`; `stage_order`
   is filled in from the stage name (`db/036`); slashed dates are read day
-  first. The owner's steps are in the runbook. A new row must reach the server
+  first, and Postico's login shows dates day first (`db/037`). Scripts run as
+  the administrator and see year first; anything run as `legdata` at login
+  sees day first. The owner's steps are in the runbook. A new row must reach the server
   with `stage_candidate_id` as DEFAULT; sent as NULL it is refused.
 - **What a PhD row holds:** source `phd`, reference `PhD thesis dataset`, its
   own date read. A stage where a bill ended is not completed and `fell_here`,

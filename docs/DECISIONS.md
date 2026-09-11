@@ -64,6 +64,10 @@ with the Official Report, a stage after where the bill ended.
   replaced. A real name on the wrong kind of bill, such as Stage 1 on a Private
   Bill, still gets its number, and the checker says it is the wrong name for
   that bill. A mistyped name gets no number, and the checker names it.
+- **Postico shows dates day first** (`db/037`), asked for by the owner:
+  03/05/2000. Set for Postico's login only. The project's scripts keep year
+  first, so no check or comparison changes; the checker and gaps list were shown
+  to find the same either way.
 
 ---
 

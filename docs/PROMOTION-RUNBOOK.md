@@ -71,12 +71,12 @@ bottom, or ⇧⌘N. Fill in:
 | `candidate_id` | the line number | `1` |
 | `stage` | `stage_1` or `stage_2`; for a Private Bill, `preliminary` or `consideration` | `stage_1` |
 | `stage_order` | nothing: it fills itself in from the stage name | |
-| `date_completed` | the date, year first | `2000-01-20` |
+| `date_completed` | the date, day first (year first also works) | `20/01/2000` |
 | `completed` | true | |
 | `fell_here` | false | |
 | `source` | `phd` | |
 | `source_ref` | `PhD thesis dataset` | |
-| `observed_at` | the date you read it, year first | `2026-09-11` |
+| `observed_at` | the date you read it | `11/09/2026` |
 | `note` | empty, unless something is irregular | |
 
 Leave every other column as Postico shows it in the new row, whether that is
@@ -382,3 +382,13 @@ Tested in rehearsal rather than assumed:
   the name brought the position;
 - a new row sent with DEFAULT in every column left alone was accepted, and one
   sent with the row number empty was refused.
+
+## Postico shows dates day first, 11 September
+
+`db/037`, asked for by you. Postico's login now shows dates as 03/05/2000 and
+reads them typed either way. The project's scripts log in as the administrator
+and still see year first, so nothing they read or compare changes.
+
+Tested before it was made, with planted mistakes thrown away afterwards: the
+error checker and the gaps list found the same problems and the same gaps with
+dates shown either way. To undo it takes one line, given in `db/037`.
