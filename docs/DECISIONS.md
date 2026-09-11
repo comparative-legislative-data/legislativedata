@@ -7,6 +7,43 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-12 — What the PhD dataset covers, corrected by the owner
+
+`db/041`, and corrections to `STATE.md` and the entry below.
+
+**What was wrong.** Methodology note M2, written at `db/033`, said the dataset
+"covers Sessions 1 to 6". The session then repeated it, and added that Session 7
+would have no stage dates. Both were wrong, and the second was contradicted by
+the file itself, which the session had already read.
+
+**The owner's correction.** The published thesis covers Sessions 1 to 5. Data
+collection continued after it, and the dataset now covers Sessions 6 and 7 as
+well. The file supplied on 2026-09-11 holds 469 bills across all seven sessions,
+the latest introduced on 9 September 2026. A bill has no Stage 1 or Stage 2
+date in it only where it has not yet reached that stage: Session 7's single
+bill, and five in Session 6.
+
+**Why it matters beyond the wording.** M2 is published beside the figures, so it
+is a claim about the evidence. It also sets what to expect when Sessions 3 to 7
+are loaded: the dataset should supply Stage 1 and Stage 2 for every bill that
+has reached those stages, and a missing date is a question about that bill, not
+about the dataset's span.
+
+---
+
+## 2026-09-12 — Postico's login owns every tab
+
+`db/040`. Five pivot tables — stage dates and durations per bill, total
+durations, outcome by type, and the duration summary — belonged to the
+administrator, so the owner could not open the very tables the stage dates
+filled. All 26 tabs now belong to `legdata`. No data changed.
+
+**The rule this repairs, which stands:** migrations run as the administrator,
+and whatever they create belongs to it unless told otherwise. Any migration
+that creates something sets its owner.
+
+---
+
 ## 2026-09-11 — Sessions 3 to 7: the factsheet is the first source, the PhD dataset backfills the stage dates
 
 Settled by the owner at the close of the session, for the sessions still to

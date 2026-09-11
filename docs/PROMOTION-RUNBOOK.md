@@ -383,6 +383,19 @@ Tested in rehearsal rather than assumed:
 - a new row sent with DEFAULT in every column left alone was accepted, and one
   sent with the row number empty was refused.
 
+## Postico can open every pivot table, 12 September
+
+`db/040`. Five pivot tables belonged to the administrator rather than to your
+login, so they would not open: the stage dates and durations per bill, the
+totals, outcome by type, and the duration summary. All 26 tabs now belong to
+`legdata`. No data changed. Rehearsed and thrown away first, then run after a
+safety copy (`/var/tmp/legdata-before-040_2026-09-12.dump`).
+
+`db/041` corrects methodology note M2, which said your dataset covers Sessions
+1 to 6. It now says the published thesis covers Sessions 1 to 5 and that
+collection continued into Sessions 6 and 7, and that a bill has no Stage 1 or
+Stage 2 date only where it has not yet reached that stage.
+
 ## A stage that did not happen, 11 September
 
 `db/039`, after the Robin Rigg Act showed two dates to find that do not exist.

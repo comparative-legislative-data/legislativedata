@@ -85,14 +85,13 @@ handling; before Session 6, the double-count guard. Both are below the line.
 
 ## After that, in order
 
-1. Fix Postico's permissions: five pivot tables it cannot open.
-2. Sessions 3–5: the reader misses 2, 14 and 6 rows.
-3. Bills carried over between sessions: before Session 5 is loaded.
-4. The double-count guard: before Session 6 is promoted.
-5. A prose reader for Sessions 6 and 7.
-6. Each session's start and end dates.
-7. Bring `docs/VARIABLES.md` up to date.
-8. Then, and only then: the website, and reading from the Parliament's API.
+1. Sessions 3–5: the reader misses 2, 14 and 6 rows.
+2. Bills carried over between sessions: before Session 5 is loaded.
+3. The double-count guard: before Session 6 is promoted.
+4. A prose reader for Sessions 6 and 7.
+5. Each session's start and end dates.
+6. Bring `docs/VARIABLES.md` up to date.
+7. Then, and only then: the website, and reading from the Parliament's API.
 
 ## Waiting for your decision, and not blocking anything
 
@@ -191,6 +190,23 @@ orient, and none of it belongs above the line.
   - the data dictionary regenerates unchanged;
   - `copy_before_phd_dates` is dropped, its comparison done, and the VPS's
     `/tmp` is empty.
+- **The closing sweep, 2026-09-12:**
+  - the repository is clean and level with GitHub: 39 migrations, 13 tools, 7
+    documents, nothing untracked, no host detail or credential in any tracked
+    file, and the migrations numbered without a gap;
+  - one stale pointer was found and corrected, to the server notes that left
+    the repository; every other match was a historical record and left alone;
+  - **`db/040`**: all 26 tabs now belong to `legdata`, so the five pivot tables
+    Postico could not open are open. Rehearsed and thrown away first;
+  - **`db/041`**: M2 said the PhD dataset covers Sessions 1 to 6. The owner
+    corrected it — the published thesis covers Sessions 1 to 5, and collection
+    continued into Sessions 6 and 7 — and M2 now says so;
+  - the file itself holds 469 bills across all seven sessions, the latest
+    introduced on 9 September 2026. A bill lacks stage dates in it only where
+    it has not reached that stage;
+  - the backup ran successfully at 02:33 UTC on 11 September and runs nightly
+    at 02:58; **once a run after 2026-09-11 is confirmed, the nine safety
+    copies can be deleted.**
 
 ## The owner's standing positions, so they are not re-argued
 
@@ -260,17 +276,13 @@ rehearsal, the check and the undo without being asked.
 
 ## Detail for the later work
 
-1. **Postico's permissions.**
-   - Postico connects as `legdata`, which has no administrator rights.
-   - It cannot read five pivot tables: `v_bill_stage_dates`,
-     `v_bill_stage_durations`, `v_bill_total_duration`, `v_outcome_by_type`
-     and `v_stage_duration_summary`. (`ref_bill_type_stage` was given to it in
-     `db/033`, because the error checker needed it.)
-   - The cause: migrations run as the administrator (`postgres`), and whatever
-     they create belongs to it unless told otherwise. **Any migration that
-     creates something must set its owner**, as `db/031` and `db/033` do.
-   - Until it is fixed, have those tables printed for the owner when the
-     runbook points to them.
+1. **Postico's permissions: fixed on 2026-09-12 (`db/040`).** All 26 tabs now
+   belong to `legdata`, the login Postico uses, and every pivot table opens.
+   - The cause, which is still a live rule: migrations run as the administrator
+     (`postgres`), and whatever they create belongs to it unless told
+     otherwise. **Any migration that creates something must set its owner**, as
+     `db/031`, `db/033` and `db/035` do. `db/040` had to repair five made
+     before that rule was followed.
 2. **Sessions 3–5 extract short** by 2, 14 and 6 rows against their own stated
    totals.
    - The cause: pdfplumber fragments tables that break across a page, so a
@@ -414,9 +426,10 @@ website has to surface.
 
 ## Housekeeping, small and known
 
-- **Eight safety copies of the whole database** are on the VPS:
+- **Nine safety copies of the whole database** are on the VPS:
   `/var/tmp/legdata-before-030_2026-09-11.dump`, `-033_`, `-034_`, `-035_`,
-  `-036_`, `-038_`, `-039_` and `legdata-before-phd-dates_2026-09-11.dump`.
+  `-036_`, `-038_`, `-039_`, `legdata-before-phd-dates_2026-09-11.dump` and
+  `legdata-before-040_2026-09-12.dump`.
   Delete them once a nightly backup taken after 2026-09-11 has been confirmed.
 - **No copy of the sheets is held inside the database.** `copy_before_phd_dates`
   was dropped once its comparison was done. Take a fresh one with
