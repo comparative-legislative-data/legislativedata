@@ -11,7 +11,9 @@
 --   -v save=true   keep it
 --
 -- Safe to run more than once. It only touches staging lines that are accepted
--- and not already promoted, and it will not file a provenance note twice.
+-- and not already promoted, and it files at most one provenance note per fact.
+-- Taking a session off (rollback_promotion.sql) removes its notes, and putting
+-- it back writes them again (db/030).
 
 \set ON_ERROR_STOP on
 
@@ -55,16 +57,29 @@ SELECT c.*
    AND c.promoted_bill_id IS NULL;
 
 -- A bill that appears in two factsheets has two staging lines and must become
--- one bill, not two. Session 1 has none; sessions 5 and 6 do (M6). Stop rather
--- than quietly create a duplicate.
+-- one bill, not two. Sessions 5, 6 and 7 have them (M6). Stop rather than
+-- quietly create a duplicate.
+--
+-- A matching title alone does not make it the same bill. The Prostitution
+-- Tolerance Zones (Scotland) Bill was rejected at Stage 1 in Session 1, and a
+-- new bill of the same name was introduced in Session 2: two bills, one title.
+-- A bill counted in two factsheets keeps its introduction date; a reintroduced
+-- bill has a new one. So the test is the same title AND the same date.
+--
+-- KNOWN GAP: this cannot see a bill whose title changed between its two
+-- factsheets. The European Charter and UNCRC Bills are "Bill" in Session 5 and
+-- "Act" in Session 6. It must be dealt with before Session 6 is promoted; see
+-- docs/STATE.md.
 DO $$
 DECLARE n integer;
 BEGIN
   SELECT count(*) INTO n
     FROM promoting p
-   WHERE EXISTS (SELECT 1 FROM bill b WHERE b.short_title = p.short_title);
+   WHERE EXISTS (SELECT 1 FROM bill b
+                  WHERE b.short_title = p.short_title
+                    AND b.date_introduced IS NOT DISTINCT FROM p.date_introduced);
   IF n > 0 THEN
-    RAISE EXCEPTION 'Refusing to promote: % staging line(s) match the title of a bill already on the clean sheet. A bill counted in two sessions needs handling before this can run.', n;
+    RAISE EXCEPTION 'Refusing to promote: % staging line(s) match the title and introduction date of a bill already on the clean sheet. A bill counted in two sessions needs handling before this can run.', n;
   END IF;
 END $$;
 
@@ -75,11 +90,15 @@ END $$;
 INSERT INTO bill (bill_id, session_number, sp_bill_id, short_title, bill_type,
                   procedure, date_introduced, outcome, enactment_status,
                   date_royal_assent, asp_number, date_concluded,
-                  bill_type_stated, source, source_ref, observed_at)
+                  bill_type_stated, title_as_introduced,
+                  stage_1_rejection_route, note,
+                  source, source_ref, observed_at)
 SELECT p.candidate_id, p.session_number, p.sp_bill_id, p.short_title, p.bill_type,
        p.procedure, p.date_introduced, p.outcome, p.enactment_status,
        p.date_royal_assent, p.asp_number, p.date_concluded,
-       p.bill_type_stated, p.source, p.source_ref, p.observed_at
+       p.bill_type_stated, p.title_as_introduced,
+       p.stage_1_rejection_route, p.bill_note,
+       p.source, p.source_ref, p.observed_at
   FROM promoting p;
 
 -- ---------------------------------------------------------------------------
@@ -104,13 +123,14 @@ SELECT p.candidate_id, s.stage, 3, p.end_stage_3_date, true, false,
 -- it, so completed is false and this is where it ended. The date and the
 -- outcome both came from the Official Report rather than the factsheet, and the
 -- citation is in the staging line's review note; the stage row carries its own
--- source, so this needs no separate provenance note.
+-- source, so this needs no separate provenance note. It is dated by when the
+-- Official Report was read, not when the factsheet was (db/031).
 INSERT INTO stage_event (bill_id, stage, stage_order, date_completed, completed,
                          fell_here, source, source_ref, observed_at)
 SELECT p.candidate_id, s.stage, 1, p.end_stage_1_date, false, true,
        'official_report',
        substring(p.review_note from 'https?://\S+'),
-       p.observed_at
+       p.official_report_read_on
   FROM promoting p
   JOIN ref_bill_type_stage s
     ON s.bill_type = p.bill_type AND s.stage_order = 1
@@ -127,27 +147,50 @@ INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
 SELECT 'bill', p.candidate_id, 'short_title', 'manual',
        'review of staging line ' || p.candidate_id,
        p.short_title, p.observed_at,
-       'Corrected at review. The factsheet''s wording is kept verbatim in bill_candidate.raw_title: ' || p.raw_title || ' -- ' || p.review_note
+       -- Not the review note: bill 17's ends with an instruction to whoever
+       -- wrote this script, which db/027 had to take out of a note once.
+       'Corrected at review. The factsheet''s wording is kept verbatim in bill_candidate.raw_title: ' || p.raw_title
   FROM promoting p
  WHERE p.review_note ILIKE '%short_title corrected at review%'
    AND NOT EXISTS (SELECT 1 FROM field_source f
                     WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
-                      AND f.field_name = 'short_title' AND f.observed_at = p.observed_at);
+                      AND f.field_name = 'short_title');
 
 -- An outcome read out of the Official Report rather than off the factsheet.
+-- The review note is the outcome in words, then the link to the decision, then
+-- optionally our own commentary (from Session 2: the route to the vote, and our
+-- view of which limb of Rule 9.14.18 applied). Only the words before the first
+-- link are the value seen; everything from the link on is cut, so our
+-- commentary never reaches a provenance note.
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at)
 SELECT 'bill', p.candidate_id, 'outcome', 'official_report',
        substring(p.review_note from 'https?://\S+'),
        regexp_replace(
          regexp_replace(p.review_note, '^Outcome from the Official Report, not the factsheet:\s*', ''),
-         '\s*https?://\S+\s*$', ''),
-       p.observed_at
+         '\s*https?://.*$', ''),
+       p.official_report_read_on
   FROM promoting p
  WHERE p.review_note ILIKE 'Outcome from the Official Report%'
    AND NOT EXISTS (SELECT 1 FROM field_source f
                     WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
-                      AND f.field_name = 'outcome' AND f.observed_at = p.observed_at);
+                      AND f.field_name = 'outcome');
+
+-- How a bill came to be rejected at Stage 1, read from the Official Report. The
+-- value seen is the Presiding Officer's announcement, word for word, which is
+-- what tells the three routes apart; the review note carries it in the fixed
+-- form Result as recorded: "…". The reference is the same link as the outcome's.
+INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
+                          value_seen, observed_at)
+SELECT 'bill', p.candidate_id, 'stage_1_rejection_route', 'official_report',
+       substring(p.review_note from 'https?://\S+'),
+       substring(p.review_note from 'Result as recorded: "([^"]+)"'),
+       p.official_report_read_on
+  FROM promoting p
+ WHERE p.stage_1_rejection_route IS NOT NULL
+   AND NOT EXISTS (SELECT 1 FROM field_source f
+                    WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
+                      AND f.field_name = 'stage_1_rejection_route');
 
 -- ---------------------------------------------------------------------------
 -- Stamp the staging lines
@@ -197,7 +240,10 @@ BEGIN
        OR b.date_concluded    IS DISTINCT FROM c.date_concluded
        OR b.asp_number        IS DISTINCT FROM c.asp_number
        OR b.sp_bill_id        IS DISTINCT FROM c.sp_bill_id
-       OR b.bill_type_stated  IS DISTINCT FROM c.bill_type_stated);
+       OR b.bill_type_stated  IS DISTINCT FROM c.bill_type_stated
+       OR b.title_as_introduced IS DISTINCT FROM c.title_as_introduced
+       OR b.stage_1_rejection_route IS DISTINCT FROM c.stage_1_rejection_route
+       OR b.note              IS DISTINCT FROM c.bill_note);
   IF bad IS NOT NULL THEN RAISE EXCEPTION 'Check failed: bill(s) % differ from their staging line.', bad; END IF;
 
   -- A stage row for every bill that should have one, and none that should not.
@@ -228,11 +274,23 @@ BEGIN
     SELECT bill_id FROM stage_event WHERE fell_here GROUP BY bill_id HAVING count(*) > 1) x;
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % bill(s) end at more than one stage.', n; END IF;
 
-  -- Provenance notes are not doubled up.
+  -- One provenance note per fact.
   SELECT count(*) INTO n FROM (
-    SELECT entity, entity_id, field_name, observed_at FROM field_source
-     GROUP BY 1,2,3,4 HAVING count(*) > 1) x;
-  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % provenance note(s) recorded twice for the same reading.', n; END IF;
+    SELECT entity, entity_id, field_name FROM field_source
+     GROUP BY 1,2,3 HAVING count(*) > 1) x;
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % fact(s) have more than one provenance note.', n; END IF;
+
+  -- Every route has a provenance note quoting the announcement, dated by when
+  -- the Official Report was read.
+  SELECT count(*) INTO n
+    FROM bill b JOIN bill_candidate c ON c.candidate_id = b.bill_id
+   WHERE b.session_number = s AND b.stage_1_rejection_route IS NOT NULL
+     AND NOT EXISTS (SELECT 1 FROM field_source f
+                      WHERE f.entity = 'bill' AND f.entity_id = b.bill_id
+                        AND f.field_name = 'stage_1_rejection_route'
+                        AND f.observed_at = c.official_report_read_on
+                        AND f.value_seen IS NOT NULL AND f.source_ref IS NOT NULL);
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % route(s) without a provenance note quoting the announcement.', n; END IF;
 
   RAISE NOTICE 'All checks passed.';
 END $$;
@@ -259,6 +317,13 @@ SELECT b.outcome, count(*)
 SELECT e.stage, e.stage_order, e.completed, e.fell_here, count(*)
   FROM stage_event e JOIN bill b USING (bill_id) JOIN promote_arg a USING (session_number)
  GROUP BY 1,2,3,4 ORDER BY 2,1;
+
+\echo '--- Bills rejected at Stage 1: route, and the start of any note a reader will see'
+SELECT b.bill_id, left(b.short_title, 45) AS short_title, b.stage_1_rejection_route,
+       left(b.note, 70) AS note
+  FROM bill b JOIN promote_arg a USING (session_number)
+ WHERE b.stage_1_rejection_route IS NOT NULL
+ ORDER BY b.bill_id;
 
 \echo '--- Provenance notes written'
 SELECT f.entity_id, f.field_name, f.source, left(f.value_seen, 60) AS value_seen

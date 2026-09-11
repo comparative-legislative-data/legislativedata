@@ -10,6 +10,44 @@ Read `docs/HOW-THE-DATABASE-WORKS.md` first if the words "staging sheet" and
 
 ---
 
+## Before promotion: putting a session on the staging sheet
+
+This writes only to the staging sheet, and the lines arrive as `new`, waiting
+for review. Same pattern as promotion: rehearse, look, then save.
+
+**1. Extract.** Use the pinned environment (`tools/requirements.txt`; one is
+built at `/opt/legdata/venv` on the VPS). Give the dissolution date from
+`FACTSHEET-SURVEY.md` §7, or no fallen bill can be read as falling at
+dissolution:
+
+    python tools/extract_factsheet.py sources/factsheets/spice-legislation-session-2_retrieved-2026-09-10.pdf \
+        --session 2 --dissolution 2007-04-02 --csv s2.csv
+
+The row count it prints must equal the factsheet's own total. If it does not,
+stop: that is the table-fragmentation fault, not something to review away.
+
+**2. Rehearse the load.**
+
+    ~/.claude/legdata-vps --scp tools/load_session.sql /tmp/load_session.sql
+    ~/.claude/legdata-vps --scp s2.csv /tmp/s2.csv
+    ~/.claude/legdata-vps 'sudo -u postgres psql -d legdata -v session=2 -v save=false -f /tmp/load_session.sql < /tmp/s2.csv'
+
+**3. Look at the four tables it prints.**
+
+- **Lines by factsheet table and type letter.** Every cell must equal the
+  factsheet's summary table, and `unrecognised` must be 0.
+- **Taken out of a title.** Every SP Bill number should sit beside a bill
+  that is not an Act, and none should still be in the title.
+- **Problems.** This is the review list. For Session 2 it was six fallen
+  bills needing an outcome from the Official Report, and nothing else.
+- **Staging line numbers.** They should follow straight on from the last
+  session loaded.
+
+**4. Save.** The same command with `save=true`. Refused if the session is
+already loaded.
+
+---
+
 ## What promotion does
 
 For every staging line you have marked **accepted**:
@@ -73,7 +111,11 @@ The run prints five tables. Look at each.
   Stage 1.
 - **Stage rows written.** One per bill that reached a stage. Session 1: 62
   final-stage rows and 5 first-stage rows, 67 in all.
-- **Provenance notes written.** Session 1: six.
+- **Bills rejected at Stage 1.** Each must show a route. Any note shown
+  beside one is what a reader will see.
+- **Provenance notes written.** Session 1: eleven — the corrected title of
+  bill 17, five outcomes and five routes to rejection. Read them properly:
+  approving the save is what clears them.
 - **Row counts.** The totals across the whole clean sheet, not just this
   session.
 
@@ -95,7 +137,9 @@ Identical, except `save=true`. It runs the same checks again before saving.
 ## Step 4 — Look at the pivot tables
 
 Open `v_outcome_by_type`, `v_bill_stage_dates`, `v_bill_total_duration` and
-`v_stage_duration_summary` in Postico. This is the first sight of the session
+`v_stage_duration_summary` in Postico. **Postico cannot currently open these
+four:** they belong to the administrator and Postico's user has no permission
+(`STATE.md`, housekeeping). Until that is fixed, have them printed instead. This is the first sight of the session
 as finished data rather than as staged lines, and it is where an error that
 survived every automated check tends to become obvious — a duration in the
 thousands of days, a bill type with no bills.
@@ -108,20 +152,11 @@ thousands of days, a bill type with no bills.
     ~/.claude/legdata-vps 'sudo -u postgres psql -d legdata -v session=1 -v save=false -f /tmp/rollback_promotion.sql'
 
 Same idea: `save=false` shows you what it would remove and changes nothing,
-`save=true` removes it. The bills go, their stage rows go with them, and your
-staging lines lose their stamps. You can then fix whatever was wrong and
-promote again.
-
-**One thing does not come off: the provenance notes.** They can never be
-deleted — that is deliberate, and it is what stops a revised published record
-being quietly overwritten. They are harmless: a bill keeps its number across a
-re-promotion, so the notes still point at the right bill, and promotion will
-not file a second copy of a note it has already made.
-
-So read the provenance table in step 2 properly, before saving. Not because a
-mistake is unfixable — one made by our own tooling can be corrected in a
-migration, as `db/027` did — but because it is the one table where fixing
-something takes a migration rather than a keystroke.
+`save=true` removes it. The bills go, with their stage rows and their
+provenance notes, and your staging lines lose their stamps. Fix whatever was
+wrong on the staging sheet and promote again: all three are written afresh.
+(Until 11 September the provenance notes could not be removed; see
+`DECISIONS.md`, "Provenance notes are rebuilt with their bill".)
 
 ---
 
@@ -143,8 +178,27 @@ had the reviewer's whole comment as its reference, including a sentence that
 was an instruction to whoever wrote this script. The script was changed to
 file a short reference instead, and the row itself was corrected by `db/027`.
 
-Correcting it meant suspending the append-only rule for one transaction. That
-is available and it is not a big deal, but it is for our own mistakes only: a
-source's words stay in the record even when they turn out to be wrong, because
-that is what the table is for. See `DECISIONS.md`, "Our own rules are not
-facts of the world".
+Correcting it meant suspending the append-only rule for one transaction. See
+`DECISIONS.md`, "Our own rules are not facts of the world". That rule has since
+been removed.
+
+## What happened on 11 September
+
+Session 1 was taken off and put back, to add how each of its five Stage 1
+rejections came about. Before it, a safety copy of the whole database was
+taken (`/var/tmp/legdata-before-030_2026-09-11.dump` on the VPS), and the full
+sequence was dress-rehearsed twice in a transaction that was thrown away.
+
+- Taking it off removed 73 bills, 67 stage rows and, for the first time, its 6
+  provenance notes.
+- `db/031` and `db/032` added the route and recorded it for all eleven Stage 1
+  rejections in Sessions 1 and 2.
+- Putting it back gave the same 73 bills and 67 stage rows, and 11 notes: bill
+  17's title note exactly as before, the five outcome notes worded as before
+  and dated 11 September (the latest reading), and five new route notes.
+
+Two things were caught in rehearsal, not afterwards. The error checker could
+not read the new dropdown list, because a migration creates things as the
+administrator, so `db/031` now sets the list's owner. And rebuilding bill 17's
+note would have put back the instruction text `db/027` removed, because the
+script appended the whole review note. It no longer does.

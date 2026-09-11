@@ -7,6 +7,330 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-11 — Stage 1 and Stage 2 completion dates, from the PhD. Partly settled: three parts open
+
+Raised by the owner at the end of the session. **Not built, and nothing is built
+until the three open parts below are settled**, under the rule recorded the
+same day. It is the first task of the next session.
+
+**Why.** The key research interest is how long a bill takes from introduction
+to the end of Stage 3. The clean sheet already holds introduction and Stage 3
+dates. Only two dates are missing: the end of Stage 1 and the end of Stage 2.
+Royal Assent and Reconsideration are secondary.
+
+**Settled by the owner:**
+- **Stage 1 ends on the date of the Stage 1 debate.**
+- **Stage 2 ends at the meeting at which the last amendments were disposed
+  of.** Every bill has one, amendments or not. With no amendments, the
+  committee (or, for an emergency bill, the Parliament sitting as a committee)
+  still meets and agrees each section, even if it takes two minutes. So Stage 2
+  always has a date.
+- **This settles D2** for Stages 1 and 2, which `STATE.md` had kept open since
+  2026-09-10. Methodology note M2, which says those dates do not yet exist,
+  is rewritten when this is built.
+- **The source is the owner's PhD dataset**, which covers Sessions 1 to 6. It
+  is already on the list of sources ("ground truth where it covers a case").
+  It is added gradually, a session at a time, starting with Sessions 1 and 2.
+- **Order of work:** settle the open parts; build and rehearse; the owner loads
+  the Session 1 and 2 dates; Session 1 is taken off and put back with them;
+  then Session 2 is reviewed and promoted.
+
+**Already agreed in outline:**
+- **Where the dates sit:** the clean sheet already has a record per stage
+  (Stage 1 and 2, or Preliminary and Consideration for a Private Bill), so it
+  needs nothing new.
+- **Provenance:** each stage record carries its own source and reference, so
+  no provenance notes are needed.
+- **Supplying the dates:** the owner fills in a spreadsheet per session, in
+  `sources/phd/`, keyed by staging line number.
+- **Checks:** dates must run in order (introduced, Stage 1, Stage 2, Stage 3),
+  every passed bill must have both, and a bill rejected at Stage 1 has no
+  Stage 2. For the eleven Stage 1 rejections already dated from the Official
+  Report, the PhD's date must agree, which checks one source against the other.
+
+**Open, for the owner:**
+1. **Where the dates arrive.** Either (a) columns on the staging sheet, with
+   columns for where each line's dates came from, or (b) a separate sheet of
+   single facts, one row per date: which bill, which stage, the date, the
+   source reference, when it was read. Recommended: (b). It is the home already
+   agreed on 2026-09-10 for facts arriving about bills we already have; it
+   copes with a date from a different source; and procedure, member in charge
+   and party can use the same sheet later.
+2. **Private and Hybrid Bills.** Do the Preliminary and Consideration Stages
+   follow the same two definitions?
+3. **Withdrawn and fallen bills.** Should the stage a bill had reached be
+   recorded, where the PhD says? Six Session 1 bills currently have no stage
+   information at all.
+
+---
+
+## 2026-09-11 — Provenance notes are rebuilt with their bill, not kept forever
+
+`db/030`, `tools/rollback_promotion.sql`, `tools/promote_session.sql`. Decided
+by the owner. **Amends D5 and reverses the append-only rule of `db/025`**,
+which the 2026-09-10 entries "A description may not claim a rule the database
+does not have" and "Our own rules are not facts of the world" had defended.
+
+**The owner's position.** Provenance notes may change, provided the owner
+clears the change. The owner is the judge of what is acceptable to claim as
+academic quality, and treating these notes as permanent was completely
+unnecessary.
+
+**What happened.** For the second day running the rule got in the way, and
+both times it was protecting our own work, not a source's words. On
+2026-09-10 fixing a script's mistake meant suspending it (`db/027`). On
+2026-09-11, re-promoting Session 1 to add routes would have left five
+duplicate-looking outcome notes that could never be tidied. That was put to
+the owner as though it were a constraint on them.
+
+**What replaces it.** A provenance note is treated like a stage row:
+- promotion writes it from the staging sheet, one note per fact, dated by the
+  latest reading;
+- taking the session off removes it;
+- putting the session back writes it again.
+
+**Clearance.** Approving that rehearsed procedure clears the notes it rebuilds,
+since every note is shown before anything is saved. Any other change to a note,
+by hand or in a migration, goes to the owner individually.
+
+**What is given up.** The notes no longer hold a history of readings. The
+source's own words stay on the staging sheet, which is never emptied. Nothing
+yet records a second reading of a source that gives a *different* answer, and
+no such revision has happened. How to record one is settled when the first
+real case arrives, which is also recorded in `STATE.md`. `v_field_revisions`
+stays, and will be empty until then.
+
+**What stays.** A staging line's number is still its bill's number (`db/026`).
+The rule was introduced to protect the notes, but it is still worth having:
+line 17 is bill 17 in both directions, and nothing reaches the clean sheet
+without a staging line behind it.
+
+**Found while building it.** Rebuilding bill 17's note with the script as it
+stood would have put back the instruction text `db/027` removed, because the
+script appended the whole review note. It now writes the note without it.
+Methodology note M5 told readers a blocked bill's earlier state "is recoverable
+from field_source, which is append-only"; it now says the earlier state is in
+the fact sheet lines held for every session.
+
+---
+
+## 2026-09-11 — A change to how data is coded is finished before anything moves on
+
+Set by the owner, after the next entry was first recorded half done.
+
+**What happened.** The 9.14.18 route was settled as a variable of its own and
+then written up as "not yet built, and its home is not decided". A to-do list
+went into `STATE.md`, and the recommendation was not to hold Session 2 for it.
+Nothing would have stopped Session 2 being admitted and promoted without it. It
+would have been finished only if a later session read the list and chose to do
+it. That is the pattern that let `VARIABLES.md` contradict the database, and
+left M7's "5 of 48 done" out of date. The cause was hurrying towards the next
+question.
+
+**The rule.** A methodology decision is not settled until every part of it is
+settled, and it is not finished until every part is built:
+
+- what it records and its values;
+- which bills it applies to, and what an empty cell means;
+- where it sits on the clean sheet;
+- how it arrives on the staging sheet;
+- how promotion carries it, and its provenance;
+- what the error checker requires;
+- what the methodology note tells a reader;
+- every bill already coded under the old approach, rechecked;
+- when it is built, relative to any session it touches.
+
+Until then no session it touches is admitted or promoted, and no new question is
+opened. "Not yet built" is not a state a decision may be left in. If the work
+cannot be finished in the session, it becomes the first task of the next one,
+stated as such at the top of `STATE.md`.
+
+**Why.** Chaos comes from half-finished methodology, not from any single wrong
+choice. The owner is the check on every research claim this project makes, and
+cannot check a decision that exists in pieces across a review note, a to-do list
+and an intention. This is not a race.
+
+---
+
+## 2026-09-11 — A Rule 9.14.18 motion is a Stage 1 vote reached by another route
+
+`db/029` (the outcomes), `db/031` (the route's structure), `db/032` (the
+routes recorded). Settled by the owner, from two Session 2 bills. **Built,
+rehearsed and applied on 2026-09-11**; Session 1 was taken off and put back
+to carry it.
+
+**The cases.** The Provision of Rail Passenger Services (Scotland) Bill (9
+November 2006) and the Civil Appeals (Scotland) Bill (20 December 2006) were
+not defeated on the member's motion. The Presiding Officer's statement under
+Rule 9.3.1 held each to be outwith competence. The lead committee lodged a
+motion under Rule 9.14.18 that the Parliament does not agree to the general
+principles, and the Parliament agreed.
+
+**Outcome: rejected at Stage 1.** It was a vote on the general principles, and
+the code's definition is "general principles not agreed to". A separate code
+was considered and rejected. It would have said the bill ended some other way,
+and it didn't.
+
+**The route becomes a variable of its own.** The cases are rare, but they
+matter to researchers. This entry was first written with the variable "not yet
+built, and its home is not decided". That left the decision half made, and the
+next entry exists because of it. Every part is now settled:
+
+1. **What it records:** how the Stage 1 decision that ended a bill was reached.
+   There are three values, held in a dropdown list:
+   - *motion of the member in charge, disagreed to*;
+   - *motion of the member in charge, amended to reject the general principles,
+     agreed to as amended*;
+   - *committee motion under Rule 9.14.18, agreed to*.
+
+   "Member in charge" rather than "member's motion", so the first value also
+   fits a Government Bill defeated at Stage 1. The third value's definition
+   quotes the rule from the current Standing Orders, taken as unchanged since
+   2006.
+
+   **The second value was found by rechecking Session 1 (point 8), before
+   anything was built.** The Proportional Representation (Local Government
+   Elections) (Scotland) Bill, 6 February 2003, fitted neither of the first two
+   values. Amendment S1M-3727.1, in Iain Smith's name, turned Tricia Marwick's
+   Stage 1 motion into one that "does not agree to the general principles of
+   this particular Bill" (65–54–2), and the motion as amended was agreed
+   (65–53–3). The amendment's number, its mover and its stated reason go in the
+   bill's note, not a variable: who moved it belongs to the later
+   member-in-charge and party slice. The owner suspects the Parliament has since
+   changed its handling of motions so this cannot recur; that has not been
+   checked.
+2. **Which bills:** only bills rejected at Stage 1, and every such bill must
+   have a value; the error checker flags one without. An empty cell therefore
+   means one thing only: the bill was not rejected at Stage 1.
+3. **Where it sits:** on the bill, beside the outcome it qualifies. A bill has
+   one Stage 1 decision, so nothing is lost, and an outcome-by-type table reads
+   the bill's line. (The bill's Stage 1 record was considered first and
+   rejected for that reason.)
+4. **The limb, and the amendment:** our view of the limb goes in the bill's
+   note, in a fixed form ("Rule 9.14.18: our view is limb (b)…"), followed by
+   the grounds and the citation. For the amended route, the note records the
+   amendment's number, its mover and the reason the resolution gives.
+   The staging sheet gains a note column that promotion carries onto the bill.
+   Without it the bill's note could never be filled, since the clean sheet is
+   rebuilt from the staging sheet. That also blocked the rename dates and the
+   s.33/s.35 mechanism, both already decided to go there.
+5. **How it arrives:** a column on the staging sheet beside the Stage 1 date,
+   from the same Official Report reading. This is a stated exception to the
+   separate route for single facts (2026-09-10), and the exception is defined:
+   facts about the decision that ended a bill, read at review. That separate
+   route remains the home for procedure, member in charge and party.
+6. **Where it came from:** promotion files a provenance note for the route
+   citing the Official Report, as it does for the outcome.
+   - **What it quotes:** its value seen is the Presiding Officer's
+     announcement, word for word ("For 65, Against 53, Abstentions 3. Motion,
+     as amended, agreed to."), because those are the words that tell the
+     routes apart. The review note carries it in the fixed form `Result as
+     recorded: "…"`.
+   - **Its date:** the staging sheet gains a date for when the Official Report
+     was read, and promotion dates Official Report facts by it: the outcome,
+     the Stage 1 date and the route. Previously they took the date the
+     factsheet was read. That was harmless for Session 1, where both happened
+     on 10 September, but would have dated all of Session 2's Official Report
+     facts a day early. The checker requires the date whenever anything on a
+     line came from the Official Report.
+   - **An extra check:** the checker flags a 9.14.18 route on anything but a
+     Member's Bill, and the clean sheet refuses one, since the rule covers only
+     Member's Bills.
+7. **Telling readers:** methodology note M7 gains a paragraph covering what
+   each of the three routes means, that the limb is our view, and that the rule
+   text is the current one.
+8. **Session 1:** its five Stage 1 rejections were rechecked against the
+   Official Report on 2026-09-11. Four were the member in charge's motion,
+   disagreed to; one was the amended route above. None was a 9.14.18 motion.
+9. **When:** all of it is built, rehearsed and checked before Session 2 is
+   admitted. **In this order:**
+   - take Session 1 off the clean sheet, following the runbook;
+   - change the structure (`db/031`);
+   - record the eleven routes (`db/032`);
+   - put Session 1 back.
+
+   Session 1 has to come off first because the clean sheet cannot be given the
+   rule "every Stage 1 rejection has a route" while five bills without one are
+   on it.
+
+In total that is one dropdown list, one column on the bill, and three on the
+staging sheet: the route, the note to carry onto the bill, and the date the
+Official Report was read.
+
+**Which limb is a note giving our view, not a formal value.** Neither motion
+cites a limb. The Local Government and Transport Committee's recommendation of
+24 October 2006 repeats the words of limb (b) without its letter, and the
+Justice 2 convener's grounds in the chamber do the same. So the formal record is
+"a motion under 9.14.18", and "(b)" is our reading of the grounds.
+
+**The rule text comes from the current Standing Orders.** The 2006 edition is
+not published online. The owner is confident the rule has not changed, and a
+coding may rest on what we take the rule to have been at the time, provided it
+is triangulated against the motion and the grounds given for it.
+
+**Consequence for promotion.** A review note now carries commentary after its
+citation. `promote_session.sql` takes the provenance note's value seen from the
+words before the first link only, so that commentary can never land in a
+provenance note. That is the bill 17 lesson, applied before rather than after.
+(At the time a provenance note could not be edited afterwards. That changed at
+`db/030`, later the same day, but the rule about commentary still holds.)
+
+---
+
+## 2026-09-11 — "Extracts clean" meant the counts matched, and that was not enough
+
+`db/028`, `tools/extract_factsheet.py`, `tools/load_session.sql`, and the
+guard in `tools/promote_session.sql`. Found loading Session 2, which the
+handover said needed no parser work because it extracts 81 rows against a
+stated 81.
+
+**The count was right and the rows were not.** Session 2's title cells hold
+three things Session 1's never do: an SP Bill number after the title (15
+bills), an asp number in brackets (2), and in one case an introduced title
+after the asp number. The extractor separated none of them. The error checker
+would have caught the asp numbers and nothing else, so fifteen bills would have
+reached the clean sheet with their number inside the title and none in the
+column for it. Reconciling against a factsheet's own totals proves no line was
+lost. It says nothing about what is inside a line, and the survey read the
+documents' structure, which is why it missed an introduced title printed inside
+a cell.
+
+**The staging sheet gets a place for an introduced title after all.** Recorded
+on 2026-09-10 as deliberately not built, on the grounds that Session 1 states
+none. Session 2 states one, and the clean sheet already has the column, so
+without a staging column promotion has nothing to carry into it. Rename dates
+and block dates are still not built; nothing loaded so far states one.
+
+**The checker now flags an SP Bill number or an introduced title left in a
+title.** Tested by planting each in a staging line inside a transaction that
+was thrown away. Both were caught.
+
+**A matching title does not make a bill a double count.** The Prostitution
+Tolerance Zones (Scotland) Bill was rejected at Stage 1 in Session 1, and a new
+bill of the same name was introduced in Session 2. Promotion refused any line
+whose title was already on the clean sheet, so it would have refused Session 2.
+The guard now requires the same title **and** the same introduction date: a
+bill counted in two factsheets keeps its introduction date, and a reintroduced
+one does not. That makes them separate bills, as VARIABLES §6 always said.
+**Known gap, not fixed here:** the guard cannot see the European Charter and
+UNCRC Bills, whose titles change from Bill in Session 5 to Act in Session 6. It
+has to be dealt with before Session 6 is promoted.
+
+**Loading is a script with a rehearsal, like promotion.** Nothing recorded how
+Session 1 was loaded. `load_session.sql` takes `-v session=` and `-v save=` with
+no defaults, refuses a CSV whose columns are not exactly the extractor's
+current ones, and refuses a session that already has staging lines. It numbers
+the staging lines itself, one after the highest in use, rather than taking
+numbers from the sequence. A thrown-away rehearsal would otherwise still use up
+numbers, and a staging line's number becomes a bill's number (`db/026`).
+
+**M3 no longer states a count of introduced titles.** It said "three cases
+across seven sessions"; Session 2 made it four. The count was removed rather
+than corrected, for the same reason row counts came out of the table
+descriptions.
+
+---
+
 ## 2026-09-10 — Our own rules are not facts of the world
 
 `db/027`. One provenance note held an instruction to the promotion script in

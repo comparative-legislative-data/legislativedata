@@ -86,6 +86,27 @@ one session, for the same reason every time: jargon and length.
   shape.
 - Ask before adding a source, a table, or a variable that the current slice does
   not require.
+- **A change to how data is coded is finished before anything moves on.** It is
+  not settled until every part is settled, and not finished until every part is
+  built:
+  - what it records and its values;
+  - which bills it applies to, and what an empty cell means;
+  - where it sits on the clean sheet;
+  - how it arrives on the staging sheet;
+  - how promotion carries it, and its provenance;
+  - what the error checker requires;
+  - what the methodology note tells a reader;
+  - every bill already coded under the old approach, rechecked;
+  - when it is built, relative to any session it touches.
+
+  Lay all of those out with a proposal for each, and get agreement on all of
+  them before building anything. Until the whole thing is built, rehearsed and
+  checked, no session it touches is admitted or promoted, and no new question
+  is opened. "Not yet built" is not a state a decision may be left in, and
+  never recommend deferring part of one to unblock something else. If it cannot
+  be finished in the session, it is the first task of the next, stated at the
+  top of `STATE.md`. Half-finished methodology is where the chaos comes from.
+  This is not a race. See `DECISIONS.md`, 2026-09-11.
 - **Every new table and column carries a `COMMENT` in the same migration that
   creates it.** One sentence, plain English, saying what it holds and what empty
   means. `tools/make_data_dictionary.py` refuses to run if anything is missing

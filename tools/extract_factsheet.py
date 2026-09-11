@@ -51,13 +51,16 @@ def parse_date(text):
 def split_title(raw):
     """Separate the asp number from an Act title.
 
-    Titles embed it with inconsistent spacing: 'asp 5', 'asp3', 'asp11'.
+    Titles embed it with inconsistent spacing: 'asp 5', 'asp3', 'asp11', and
+    from Session 2 onward sometimes in brackets: 'Act 2007 (asp 9)'.
     Returns (title_without_asp, asp_number_or_None).
     """
     s = clean(raw)
     if not s:
         return None, None
-    m = re.search(r'\b(?:\((?P<p>asp\s*\d+)\)|(?P<b>asp\s*\d+))\s*$', s, re.I)
+    # No \b in front of the bracket: there is no word boundary between a space
+    # and '(', so the bracketed form never matched and stayed in the title.
+    m = re.search(r'(?:\((?P<p>asp\s*\d+)\)|\b(?P<b>asp\s*\d+))\s*$', s, re.I)
     if not m:
         return s, None
     asp = (m.group('p') or m.group('b'))
@@ -66,6 +69,37 @@ def split_title(raw):
     ym = re.search(r'\b(1[89]|20)\d{2}\b', title)
     year = ym.group(0) if ym else None
     return title, (f'{year} {asp}' if year else asp)
+
+
+def split_introduced(s):
+    """Separate a stated introduced title from the rest of the title cell.
+
+    Session 2 prints one inside the cell, after the asp number: 'Scottish
+    Commission for Human Rights Act 2006 asp 16 Introduced as: Scottish
+    Commissioner for Human Rights Bill'.
+    Returns (rest_of_cell, introduced_title_or_None).
+    """
+    if not s:
+        return s, None
+    m = re.search(r'\s*\bIntroduced as:?\s*(?P<t>.+)$', s, re.I)
+    if not m:
+        return s, None
+    return s[:m.start()].strip(), m.group('t').strip()
+
+
+def split_sp_bill(s):
+    """Separate the SP Bill number from a bill title: '... Bill SP Bill 43'.
+
+    Sessions 2-5 give one only for bills that did not become Acts. The number
+    restarts each session, so it identifies a bill only within its session
+    (db/019). Returns (title_without_number, number_or_None).
+    """
+    if not s:
+        return s, None
+    m = re.search(r'\s*\(?\bSP\s*Bill\s*(?P<n>\d+)\)?\s*$', s, re.I)
+    if not m:
+        return s, None
+    return s[:m.start()].strip(), m.group('n')
 
 
 def section_of(header):
@@ -124,7 +158,13 @@ def build(r, kind, session, page, path, dissolution, problems):
     raw_assent = clean(r[5]) if len(r) > 5 else None
 
     notes = []
-    title, asp = split_title(raw_title)
+    # Peeled off the end of the cell in reverse order of how it is printed:
+    # title, asp number, then an introduced title or an SP Bill number.
+    rest, introduced = split_introduced(raw_title)
+    rest, sp_bill = split_sp_bill(rest)
+    title, asp = split_title(rest)
+    if introduced:
+        notes.append('the factsheet states the title as introduced')
     code = (raw_type or '').upper().strip()
     bill_type = TYPE_MAP.get(code.rstrip('*'))
     stated = STATED_MAP.get(code)
@@ -170,7 +210,9 @@ def build(r, kind, session, page, path, dissolution, problems):
         'raw_date_final': raw_final,
         'raw_date_royal_assent': raw_assent,
         'raw_section': kind,
+        'sp_bill_id': sp_bill,
         'short_title': title,
+        'title_as_introduced': introduced,
         'title_kind': title_kind,
         'bill_type': bill_type,
         'bill_type_stated': stated,

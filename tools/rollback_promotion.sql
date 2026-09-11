@@ -8,12 +8,9 @@
 --   -v save=false  see what it would remove, and change nothing
 --   -v save=true   remove it
 --
--- ONE THING DOES NOT COME BACK OFF. The provenance notes in field_source can
--- never be deleted — that is deliberate, and it is what makes a revised
--- published record impossible to hide. They are left in place. Because a
--- bill's number now comes from its staging line (db/026), they still point at
--- the right bill after the session is promoted again, and promote_session.sql
--- will not file a second copy of a note it already made.
+-- Everything promotion wrote comes off: the bills, their stage rows and their
+-- provenance notes. Putting the session back writes all three again from the
+-- staging sheet (db/030).
 
 \set ON_ERROR_STOP on
 
@@ -25,10 +22,23 @@ CREATE TEMP TABLE rollback_arg ON COMMIT DROP AS SELECT :session::int AS session
 \echo '--- About to remove'
 SELECT (SELECT count(*) FROM bill b JOIN rollback_arg a USING (session_number)) AS bills,
        (SELECT count(*) FROM stage_event e JOIN bill b USING (bill_id)
-          JOIN rollback_arg a USING (session_number))                          AS stage_rows;
+          JOIN rollback_arg a USING (session_number))                          AS stage_rows,
+       (SELECT count(*) FROM field_source f JOIN bill b ON f.entity = 'bill' AND f.entity_id = b.bill_id
+          JOIN rollback_arg a USING (session_number))
+     + (SELECT count(*) FROM field_source f JOIN stage_event e ON f.entity = 'stage_event' AND f.entity_id = e.stage_event_id
+          JOIN bill b USING (bill_id) JOIN rollback_arg a USING (session_number)) AS provenance_notes;
 
-\echo '--- Left in place, because it cannot be deleted'
-SELECT count(*) AS provenance_notes FROM field_source;
+-- Provenance notes first, while their bills and stage rows still exist to say
+-- which session they belong to.
+DELETE FROM field_source f
+ USING stage_event e, bill b, rollback_arg a
+ WHERE f.entity = 'stage_event' AND f.entity_id = e.stage_event_id
+   AND e.bill_id = b.bill_id AND b.session_number = a.session_number;
+
+DELETE FROM field_source f
+ USING bill b, rollback_arg a
+ WHERE f.entity = 'bill' AND f.entity_id = b.bill_id
+   AND b.session_number = a.session_number;
 
 -- Stage rows go with their bills.
 DELETE FROM bill b USING rollback_arg a WHERE b.session_number = a.session_number;
@@ -49,6 +59,10 @@ BEGIN
   SELECT count(*) INTO n FROM bill_candidate
    WHERE session_number = s AND (promoted_bill_id IS NOT NULL OR promoted_at IS NOT NULL);
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % staging line(s) still stamped as promoted.', n; END IF;
+  SELECT count(*) INTO n FROM field_source f JOIN bill_candidate c
+      ON f.entity = 'bill' AND f.entity_id = c.candidate_id
+   WHERE c.session_number = s;
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % provenance note(s) still refer to this session''s bills.', n; END IF;
   RAISE NOTICE 'All checks passed. The session can be promoted again.';
 END $$;
 

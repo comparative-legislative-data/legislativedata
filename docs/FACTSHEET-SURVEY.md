@@ -220,6 +220,14 @@ Three explicit instances, in the documents' own words:
   Members) Bill (SP Bill 55) and renamed on 24 February 2026 to the Scottish
   Parliament (Recall of Members) Bill (SP Bill 55)."*
 
+**Amended 2026-09-11: there is a fourth, and this survey missed it.** Session 2
+prints an introduced title inside the title cell itself, not as a footnote:
+*"Scottish Commission for Human Rights Act 2006 asp 16 Introduced as: Scottish
+Commissioner for Human Rights Bill"*. Found by extraction when Session 2 was
+loaded. It is why `bill_candidate` gained `title_as_introduced` at `db/028`
+after §9 recorded it as deliberately not built. The lesson for the counts in
+this document: a structural read of a PDF misses what sits inside a cell.
+
 The Session 6 form carries a **date of renaming**, which nothing in the schema
 holds. Note also that the SP Bill number survives the rename — which is what
 makes it the stable identifier the title is not.
@@ -352,6 +360,8 @@ And two the survey found on the way:
 Two things are known and deliberately not built, because Session 1 needs
 neither and building them now would be speculative:
 
+- *(Amended 2026-09-11: the introduced title now has a column, `db/028`,
+  because Session 2 states one. Rename and block dates still do not.)*
 - **`bill_candidate` has no column for a stated introduced title, a rename date,
   or a block date.** Sessions 4, 5, 6 and 7 state them; Session 1 states none.
 - **The session-window checks in `v_candidate_problems` compare a candidate's
