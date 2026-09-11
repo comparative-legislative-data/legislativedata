@@ -155,7 +155,9 @@ Identical, except `save=true`. It runs the same checks again before saving.
 Open `v_outcome_by_type`, `v_bill_stage_dates`, `v_bill_total_duration` and
 `v_stage_duration_summary` in Postico. **Postico cannot currently open these
 four:** they belong to the administrator and Postico's user has no permission
-(`STATE.md`, housekeeping). Until that is fixed, have them printed instead. This is the first sight of the session
+(`STATE.md`, "Detail for the later work"). Until that is fixed, have them printed instead. Open
+`v_stage_date_gaps` too, which Postico can open: it lists the stage dates the
+session was promoted without. This is the first sight of the session
 as finished data rather than as staged lines, and it is where an error that
 survived every automated check tends to become obvious — a duration in the
 thousands of days, a bill type with no bills.

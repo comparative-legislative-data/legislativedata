@@ -119,6 +119,17 @@ orient, and none of it belongs above the line.
   - the error checker empty, and 271 gaps;
   - 26 tabs, and `bill_candidate` has 38 columns;
   - the data dictionary regenerated from the database after both changes.
+- **Final sweep, before closing:**
+  - the counts above matched the database again;
+  - no document was out of date. The guide and the runbook now mention Session
+    2's notes and the gaps list;
+  - `copy_before_033` was dropped, and every rehearsal folder in the VPS's
+    `/tmp` removed. All were copies of committed scripts or re-creatable
+    extractions;
+  - the rehearsal stripper is now `tools/strip_for_rehearsal.py`, tested on the
+    real scripts;
+  - still open, and listed: the three safety dumps (until tonight's backup is
+    confirmed), and the five pivot tables Postico cannot open.
 - **Found:** a check for the removed columns first reported them still there.
   It was reading the copy in `copy_before_033`, which has them. While a copy
   schema exists, any question put to the catalogue must name `public`.
@@ -326,6 +337,8 @@ website has to surface.
 - **`tools/take_copy.sql`** and **`tools/compare_with_copy.sql`** copy the
   staging and clean sheets inside the database before a change, and compare
   cell by cell after. Both take `-v copy=`.
+- **`tools/strip_for_rehearsal.py`** prepares migrations and scripts to be
+  dress-rehearsed together inside one transaction that is thrown away.
 - **`tools/extract_factsheet.py`** reads the ruled-table factsheets (Sessions
   1–5). Its pinned environment is in `tools/requirements.txt`.
 - **`tools/make_data_dictionary.py`** regenerates `docs/DATA-DICTIONARY.md`, and
@@ -339,11 +352,8 @@ website has to surface.
 - **Three safety copies of the whole database** are on the VPS:
   `/var/tmp/legdata-before-030_2026-09-11.dump`, `-033_` and `-034_`. Delete
   them once a nightly backup taken after 2026-09-11 has been confirmed.
-- **A copy of the sheets inside the database, `copy_before_033`,** predates
-  Session 2's promotion, so it cannot serve the comparison after the PhD dates
-  are loaded. Take a fresh copy then, and drop this one at will.
-- **Rehearsal files** are in `/tmp/legdata-rehearsal` and `/tmp/legdata-real`
-  on the VPS. Delete at will.
+- **No copy of the sheets is held inside the database.** Take a fresh one with
+  `tools/take_copy.sql` before the PhD dates are loaded.
 - **The backup service runs with no `HOME` or `XDG_CACHE_HOME`**, so restic
   keeps no cache and re-reads everything in scope every night. That is harmless
   at this size, but will not stay so. One `Environment=` line in the unit file
@@ -381,7 +391,7 @@ applied this way.
 
 **Dress-rehearsing a sequence of migrations and scripts:**
 1. Strip each file's own `BEGIN;`, `COMMIT;` and closing `\if :save … \endif`
-   block.
+   block: `python3 tools/strip_for_rehearsal.py OUTDIR FILE…`.
 2. Include them in order inside one `BEGIN … ROLLBACK`, with `\set session N`.
 3. A script that makes temporary tables can run only once per rehearsal; test
    a second run in a separate rehearsal.

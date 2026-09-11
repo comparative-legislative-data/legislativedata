@@ -225,7 +225,8 @@ your factsheet sheet marked `accepted`:
   your stage-dates sheet, taking the Official Report's where two sources give
   the same stage;
 - a provenance note is filed for each fact that didn't come from the row's
-  stated source — eleven of them, for Session 1;
+  stated source — eleven for Session 1 and twelve for Session 2, each an
+  outcome or a route read from the Official Report, plus one corrected title;
 - your rows on both sheets are stamped with what they became and the date, so
   you can get from one to the other and back in either direction.
 
