@@ -7,6 +7,54 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-11 — The PhD stage dates are loaded from the owner's own spreadsheet, after the owner checks sixteen bills
+
+Settled by the owner, after typing two practice rows. **Changes the entry
+below** for the bulk of the dates: they are not typed. Postico stays the way to
+correct a single row. Nothing is built by this entry.
+
+**How it came up.** The owner asked whether a sheet of their own, ingested by
+the session, would be less error-prone and a quicker way to reuse the PhD
+data, and supplied the raw dataset: `Billdates-September2026.xlsx`, one line
+per bill for Sessions 1 to 7, with introduction, Stage 1 vote, Stage 2
+completed, Stage 3 vote and Royal Assent.
+
+**Matched, not yet loaded.** All 154 Session 1 and 2 bills pair one to one with
+the staging lines: 133 on exact name and introduction date, 21 more whose names
+differ only in wording, each confirmed by its dates. Stage 3 agrees with the
+factsheet for every passed bill but one; 10 of the 11 Official Report Stage 1
+dates agree, and the eleventh is blank in the dataset. The two practice rows
+match it exactly.
+
+**Settled:**
+1. **The dataset is not published.** It sits in `sources/phd/` for the
+   session's use, and spreadsheets there are ignored by the repository. What was
+   used is recorded by name and fingerprint: sha256
+   `a201a07a87b3fd91658855c05d6ac20b8ff91d22cbf34cefc1afdc17ef7eac01`.
+2. **Only Stage 1 and Stage 2 are loaded.** Stage 3 stays the factsheet's. The
+   dataset's Stage 3 and Royal Assent dates are not loaded as checks.
+3. **Date read 2026-09-11 on every row, reference "PhD thesis dataset, row N"**,
+   the row of the owner's spreadsheet.
+4. **Every issue is settled before anything is loaded.** The owner checks:
+   - the fifteen bills that neither passed nor were rejected at Stage 1: where
+     each ended, and whether a Stage 1 date in the dataset is a completed stage
+     or the day the bill ended;
+   - the Session 2 Robin Rigg Act, which passed with no Preliminary or
+     Consideration date, and the note that will say why.
+
+   The other disagreements are listed for the owner too: 4 introduction dates,
+   8 Royal Assent dates and a passing date that differ from the factsheet, and
+   two slips in the dataset. They do not block the load, but the introduction
+   and Royal Assent dates are already on the clean sheet. The checklist is
+   `sources/phd/checks-before-loading-sessions-1-2.xlsx`, also not published.
+
+**Not settled yet, and settled before building:** how the loader reads the
+owner's confirmations; what the blank templates in `sources/phd/` become (they
+are not needed by this route). The automatic ticks proposed earlier are not
+needed.
+
+---
+
 ## 2026-09-11 — Stage dates are typed into Postico, not loaded from spreadsheets
 
 Settled by the owner. `db/035`. **Replaces part 4 of the stage-dates decision**

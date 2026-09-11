@@ -47,16 +47,19 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
 - **Tidied:** leftover files off the server, and the server's details out of
   the repository. The dictionary tool now cleans up after itself.
 
-## Now: your practice rows
+## Now: your checks, then loading your PhD dates
 
-1. **You add a few practice rows** in Postico, following
-   `docs/PROMOTION-RUNBOOK.md`, "Typing stage dates into Postico". A Private
-   Bill and a bill that ended early are worth including.
-2. **I check them**, and that they reached the server. Correct ones stay.
-3. **The bigger sweep** of Sessions 1 and 2.
-4. **You read them a second time**, and they are accepted. Sessions 1 and 2 are
-   taken off and put back with the dates. Compared with the copy taken today,
-   they should differ only by the dates added.
+Your dates come from your own spreadsheet, not typed in. All 154 bills in
+Sessions 1 and 2 are matched to it.
+
+1. **You check sixteen bills**, in
+   `sources/phd/checks-before-loading-sessions-1-2.xlsx`: the fifteen that
+   neither passed nor were rejected at Stage 1, and the Session 2 Robin Rigg
+   Act. The second tab lists other dates that disagree, which do not block.
+2. **The loader is settled and built** from your answers, and rehearsed.
+3. **Your dates arrive as new rows**, and you read them a second time.
+4. **Sessions 1 and 2 are taken off and put back** with the dates, and compared
+   with the copy taken today.
 
 ## After that, in order
 
@@ -89,6 +92,8 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
 - **Deleting the two blank spreadsheets** in `sources/phd/`. A permission check
   stopped the session doing it.
 - **Whether to undo `db/037`.** It did not change what Postico shows.
+- **Your two practice rows** for the Abolition of Feudal Tenure Bill match your
+  spreadsheet exactly. They stay, and the loader will skip that bill's dates.
 
 ---
 
