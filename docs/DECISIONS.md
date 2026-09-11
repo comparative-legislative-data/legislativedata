@@ -7,6 +7,34 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-11 — Sessions 3 to 7: the factsheet is the first source, the PhD dataset backfills the stage dates
+
+Settled by the owner at the close of the session, for the sessions still to
+load. It states the practice that Sessions 1 and 2 established, so that it is
+not rediscovered each time.
+
+- **The SPICe factsheet is the principal source, and the first one read.** It
+  establishes which bills there were, what happened to each, and the dates it
+  prints: introduction, passing and Royal Assent. A session is reconciled
+  against the factsheet's own summary before anything else happens.
+- **The owner's PhD dataset backfills the Stage 1 and Stage 2 dates**, which no
+  factsheet gives. Its Stage 3 and Royal Assent dates are not loaded. It covers
+  Sessions 1 to 6, so **Session 7 will have no Stage 1 or Stage 2 dates** from
+  it, and its bills' figures stop at what the factsheet holds.
+- **Where neither source says, the Official Report and the Parliament's bill
+  pages fill it**: an outcome the factsheet does not give, the date of a Stage 1
+  rejection, and where a bill that did not pass stopped. Sessions 1 and 2 needed
+  all three.
+- **Where two sources give the same thing**, the clean sheet takes the Official
+  Report's, then the factsheet's, then the PhD dataset's, as settled earlier
+  today. The other stays on the staging sheet as the check.
+- **A disagreement between sources is recorded, not silently resolved.** The
+  four introduction dates and eight Royal Assent dates where the dataset differs
+  from the factsheet are listed for the owner, and the factsheet's remain on the
+  clean sheet until the owner says otherwise.
+
+---
+
 ## 2026-09-11 — Only a Private Bill may skip a stage, and a skipped stage is recorded as one that did not happen
 
 Settled by the owner and built the same day: `db/039`.
@@ -1307,8 +1335,9 @@ could see it.
 a script ran, not that anything can be recovered. The chain was tested end to
 end — snapshot fetched back from the storage box, restored into a scratch
 database, checked for the expected 73 candidates and that day's edits, scratch
-database dropped. The restore procedure is written down in
-`legdatavps/legdata-vps-notes.md`; it is worth nothing if it is only ever
+database dropped. The restore procedure is written down in the server notes,
+which moved out of this repository on 2026-09-11 and are at
+`~/.claude/legdata-vps-notes.md`; it is worth nothing if it is only ever
 reconstructed from memory during an emergency.
 
 ## 2026-09-10 — Admission to the gateway is recorded as a migration
