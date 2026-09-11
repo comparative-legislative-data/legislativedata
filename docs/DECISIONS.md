@@ -7,11 +7,99 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
-## 2026-09-11 — Stage 1 and Stage 2 completion dates, from the PhD. Partly settled: three parts open
+## 2026-09-11 — Each clean tab has a staging sheet of the same shape
 
-Raised by the owner at the end of the session. **Not built, and nothing is built
-until the three open parts below are settled**, under the rule recorded the
-same day. It is the first task of the next session.
+Settled by the owner. **Replaces the 2026-09-10 entry "A new variable stages in
+one field-level table".** Nothing is built by this entry. Its first use is the
+stage dates (next entry).
+
+**The question.** Where the owner's Stage 1 and 2 dates should wait for review.
+Two answers were put first:
+- columns on the factsheet staging sheet;
+- the catch-all sheet planned on 2026-09-10.
+
+The owner objected to the catch-all sheet: a bill's dates would sit in two
+places before promotion. Its passing date would be on its factsheet line, and
+its Stage 1 and 2 dates somewhere else. The owner proposed thematic sheets
+instead. The project will keep adding different kinds of data (MSPs, party
+memberships, amendments), and one sheet taking all of it is not good practice.
+
+**The pattern.** A tab is cut by what one row stands for, not by topic: one row
+per bill, per stage a bill reached, per MSP, per spell in a party, per
+amendment. The clean side was already built this way. The staging side now
+follows it. Each clean tab gets a staging sheet of the same shape, and anything
+waiting to go onto that tab waits there, whatever its source.
+
+**Dates are not one theme.** A bill's introduction date is one per bill, so it
+stays with the bill. A party membership's dates will belong with the
+membership. Only stage dates need a tab of their own.
+
+**What it means for the staging sheet we have.** It was checked column by
+column. All but two of its 40 columns are one per bill: the same facts held as
+printed, as tidied and where each came from, plus the review columns. The two
+exceptions are the stage dates:
+- `end_stage_3_date`, the passing date;
+- `end_stage_1_date`, the date of the eleven Stage 1 rejections.
+
+Both move to a stage-dates staging sheet as part of the stage-dates change. The
+factsheet's printed date stays on its line, in `raw_date_final`, as the record
+of what was printed. The existing sheet is not otherwise refactored.
+
+**What it replaces:**
+- **The catch-all sheet** for single facts about existing bills (2026-09-10) is
+  not built.
+- **The Stage 1 rejection route is no longer an exception** (the 2026-09-11
+  route entry, point 5). It is one per bill, so the bills staging sheet is its
+  home under the pattern.
+
+**Why the pattern and not columns.** "Every clean tab has a staging sheet of
+the same shape" is one rule to hold in mind. Adding columns to the factsheet
+sheet for each new kind of fact makes a growing list of exceptions. The sheet
+had already gained several columns the factsheet never states: the Stage 1
+date, the route, the note for the bill, and the date the Official Report was
+read.
+
+**The cost:**
+- One more tab.
+- Checking one bill before promotion means looking at its line and its stage
+  rows. A pivot table can put them side by side.
+
+**Not settled here, and not needed yet:**
+- Staging sheets for MSPs, party memberships and amendments are made when those
+  pieces of work open, in this shape.
+- Where a later one-per-bill fact is staged (procedure, member in charge) is
+  decided when its piece of work opens, against this pattern.
+
+**Proving the move changed nothing.** Proposed by the owner. Moving dates and
+adding dates are two changes, so they are checked separately, and a difference
+can only have one cause.
+1. **Keep a copy first.** Before anything changes, copy Sessions 1 and 2 as
+   they stand: the staging lines, and Session 1's bills, stage records and
+   provenance notes.
+2. **Build and move.** Build the stage-dates staging sheet and move the
+   existing dates onto it. Check that every date that was in the two columns
+   arrived, with its source and when it was read. Check nothing else on either
+   session's staging lines changed.
+3. **Put Session 1 back without PhD dates.** Take Session 1 off the clean sheet
+   and put it back from the two staging sheets, rehearsed first, then for real.
+4. **Compare with the copy, cell by cell.** That covers every bill, every
+   provenance note, and every stage record: bill, stage, date, completed,
+   where it ended, source, reference and date read. The expected difference is
+   none, apart from the stage records' own identifiers and timestamps, which
+   are reissued every time.
+5. **Only then add the dates.** The PhD dates are loaded and Session 1 is put
+   back again. That comparison should differ only by the added dates.
+
+The error checker is empty at every step.
+
+---
+
+## 2026-09-11 — Stage 1 and Stage 2 completion dates, from the PhD. Settled in full; built next session
+
+Raised by the owner at the end of a session, and **settled in full later the
+same day**, including all nine parts of the list in `CLAUDE.md` (below).
+**Not built.** Building it is the first task of the next session. Nothing that
+touches Sessions 1 or 2 moves until it is built, rehearsed and checked.
 
 **Why.** The key research interest is how long a bill takes from introduction
 to the end of Stage 3. The clean sheet already holds introduction and Stage 3
@@ -31,9 +119,14 @@ Royal Assent and Reconsideration are secondary.
 - **The source is the owner's PhD dataset**, which covers Sessions 1 to 6. It
   is already on the list of sources ("ground truth where it covers a case").
   It is added gradually, a session at a time, starting with Sessions 1 and 2.
-- **Order of work:** settle the open parts; build and rehearse; the owner loads
-  the Session 1 and 2 dates; Session 1 is taken off and put back with them;
-  then Session 2 is reviewed and promoted.
+- **Order of work:**
+  1. Settle the open parts. Done on 2026-09-11.
+  2. Build and rehearse.
+  3. Move the existing dates, and prove the move changed nothing (the entry
+     above, "Proving the move changed nothing").
+  4. The owner loads the Session 1 and 2 dates.
+  5. Session 1 is taken off and put back with them.
+  6. Session 2 is reviewed and promoted.
 
 **Already agreed in outline:**
 - **Where the dates sit:** the clean sheet already has a record per stage
@@ -47,20 +140,207 @@ Royal Assent and Reconsideration are secondary.
   every passed bill must have both, and a bill rejected at Stage 1 has no
   Stage 2. For the eleven Stage 1 rejections already dated from the Official
   Report, the PhD's date must agree, which checks one source against the other.
+  (Amended in part 6 of the nine parts below: a missing date is listed as a
+  gap rather than blocking promotion.)
 
 **Open, for the owner:**
-1. **Where the dates arrive.** Either (a) columns on the staging sheet, with
-   columns for where each line's dates came from, or (b) a separate sheet of
-   single facts, one row per date: which bill, which stage, the date, the
-   source reference, when it was read. Recommended: (b). It is the home already
-   agreed on 2026-09-10 for facts arriving about bills we already have; it
-   copes with a date from a different source; and procedure, member in charge
-   and party can use the same sheet later.
-2. **Private and Hybrid Bills.** Do the Preliminary and Consideration Stages
-   follow the same two definitions?
-3. **Withdrawn and fallen bills.** Should the stage a bill had reached be
-   recorded, where the PhD says? Six Session 1 bills currently have no stage
-   information at all.
+1. **Where the dates arrive.** Settled later the same day. They arrive on a
+   stage-dates staging sheet: one row per bill per stage, holding every stage
+   date whatever its source. The passing dates and Stage 1 rejection dates move
+   there too. See "Each clean tab has a staging sheet of the same shape",
+   above. The catch-all sheet recommended at first, and the owner's objection
+   to it, are recorded there.
+2. **Private and Hybrid Bills.** Settled later the same day by the owner: the
+   Private Bill process maps onto the three stages of a public bill.
+   - **Preliminary Stage** ends on the date of the Preliminary Stage debate,
+     where the Parliament decides whether the bill goes on to Consideration
+     Stage.
+   - **Consideration Stage** ends at the committee meeting at which the last
+     amendments were disposed of.
+   - **Final Stage** already ends on the vote to pass (M2).
+
+   **The evidence, to be quoted.** The Parliament's page "About Private
+   Bills", https://www.parliament.scot/bills-and-laws/about-bills/about-private-bills,
+   read on 2026-09-11. The page carries no date.
+   - Preliminary: "The Parliament then debates the bill and decides whether it
+     should go on to Consideration Stage, or be rejected."
+   - Consideration: "The amendments are debated and decided on by the Private
+     Bill committee. Only the committee members can vote on amendments at this
+     stage."
+   - Final: "MSPs then debate and vote on whether to pass the bill."
+
+   **The same page also says:** "These stages are quite different from the
+   stages of a Government Bill, and they have different names." That is
+   consistent with how they are held. The stages keep their own names
+   (`db/018`) and are compared by position, without claiming they are the same
+   stage. Proposed: a reader is told both, the end points and that sentence.
+
+   **The page describes today's procedure**, not that of 2003–2007, as with the
+   Standing Orders in the 9.14.18 entry.
+
+   **A Consideration Stage meeting even with no amendments.** The owner's
+   understanding is that every Private Bill has one, as every public bill has a
+   Stage 2 meeting. It is tested by the data rather than assumed. The checker
+   requires both dates for every passed bill, so a passed Private Bill without a
+   Consideration Stage date is flagged, not quietly accepted.
+
+   **Hybrid Bills follow the same system**, settled by the owner. The evidence
+   is the Parliament's page "About Hybrid Bills",
+   https://www.parliament.scot/bills-and-laws/about-bills/about-hybrid-bills,
+   read on 2026-09-11. It carries no date.
+   - "Once a Hybrid Bill is introduced, it follows a 3-stage process. In most
+     ways, these stages are the same as the stages of a Government Bill, but in
+     other ways are like the stages of a Private Bill."
+   - Stage 1: "The Parliament then debates the bill and decides whether it
+     should proceed to Stage 2, or be rejected."
+   - Stage 2: "The amendments are debated and decided on by the Hybrid Bill
+     committee."
+   - Stage 3: "There is a debate and vote on whether to pass the bill."
+
+   Copies of both pages are in `sources/procedure/`.
+
+   **Found while reading it: the database gives a Hybrid Bill the wrong stage
+   names.** `db/018` gave Hybrid Bills the Private Bill names: Preliminary,
+   Consideration and Final. The page calls them Stage 1, 2 and 3. So does the
+   record of the only Hybrid Bill there has been, the Forth Crossing Bill.
+   Both sources below were read on 2026-09-11.
+   - **The Explanatory Notes to the Forth Crossing Act 2011**, table of
+     proceedings (https://www.legislation.gov.uk/asp/2011/2/notes/division/7).
+     Its rows are headed "STAGE 1", "STAGE 2" and "STAGE 3", with "Stage 1
+     Debate and Parliamentary vote", 26 May 2010, and "Stage 3 Debate and
+     Parliament vote", 15 December 2010.
+   - **The Forth Crossing Bill Committee's page**
+     (https://www.parliament.scot/chamber-and-committees/committees/current-and-previous-committees/session-3-forth-crossing-bill-committee).
+     It lists "1st Report 2010: Stage 1 Report on the Forth Crossing Bill", 12
+     May 2010, and "2nd Report 2010: Stage 2 Report on the Forth Crossing
+     Bill", 3 November 2010.
+
+   No Hybrid Bill is in the database yet, so no data is affected. `db/018`'s
+   own principle is that stages are recorded under the names they really had,
+   and these are the names the Forth Crossing Bill had. **Agreed by the
+   owner:** it is corrected within the stage-dates change. Hybrid Bills would run
+   Stage 1, 2 and 3, then Reconsideration. Every description, note and document
+   that says otherwise is corrected with it (listed in `STATE.md`).
+3. **Withdrawn and fallen bills.** Settled later the same day by the owner.
+   The stage each had reached, and the dates of any stages completed before
+   it, are recorded where the PhD says. They are entered as part of the
+   owner's general input of dates, not backfilled as a separate exercise. The
+   spreadsheets already have a column for the stage reached. Fifteen bills in
+   Sessions 1 and 2 currently have no stage information at all.
+
+   **The owner does not start entering dates** until everything is settled and
+   the staging process has been shown to work: the move of the existing dates
+   is proved to change nothing, as in the entry above.
+4. **A stage completed on a date not known.** Settled later the same day by
+   the owner: allowed, and held as a gap to be filled. It does not hold
+   anything else up.
+   - The stage record says completed, with its date empty, and a note saying
+     why is required.
+   - Every such gap is listed where it can be seen, but it does not stop the
+     session being promoted. Where the list sits is part of the nine-part
+     layout.
+   - Duration figures leave that bill out of that stage only.
+
+   The owner hopes there are none. Until now an empty date on a stage record
+   was described as meaning "not completed", which the record's own completed
+   column already says. That description changes with this.
+
+**The nine parts, agreed by the owner on 2026-09-11.** Each part was laid out
+with a proposal, and the owner resolved the three choices in them.
+
+1. **What it records.** One row per stage a bill reached:
+   - the bill, and the stage under its real name;
+   - completed or not, and the date;
+   - whether the bill ended there;
+   - the source (`spice_factsheet`, `official_report` or `phd`, all already
+     on the list), its reference and the date it was read;
+   - a note.
+
+   The end points are as settled above.
+2. **Which bills, and what empty means.**
+   - A passed bill has all three stages, completed.
+   - A bill that ended early has the stage it stopped at, not completed and
+     marked as where it ended. It also has any stages it completed before
+     that.
+   - A Stage 1 rejection keeps the date of the decision on its uncompleted
+     Stage 1, as now.
+   - Otherwise a date is empty only for a stage not completed, or for a stage
+     completed on a date not known, which needs a note (open part 4 above).
+   - A bill with no stage rows at all means the source does not say how far it
+     got.
+3. **Where it sits on the clean sheet.** The existing stage records tab, in the
+   same shape. One new rule: a completed stage with no date must have a note.
+   The Hybrid rows of the list of stage names become Stage 1, 2 and 3.
+4. **How it arrives on the staging sheet.** A new stage-dates staging sheet, one
+   row per bill per stage. Each row carries its bill's staging line number and
+   its own review gate.
+   - **Factsheet passing dates** go there when a session is loaded. The
+     extractor is unchanged; `load_session.sql` sends the date to the new
+     sheet.
+   - **Official Report dates** found at review go there.
+   - **The owner's PhD spreadsheet** is loaded by a rehearsed script that
+     unfolds each line into rows. For a Private Bill, its Stage 1 and 2
+     columns hold the Preliminary and Consideration Stage dates.
+   - **"not known" is written in a date cell** for a stage completed on a date
+     not known, so an empty cell always means not yet entered.
+   - **The old columns come off.** `end_stage_1_date` and `end_stage_3_date`
+     are removed from the factsheet staging sheet once their contents have
+     moved.
+   - **Admission is a second pass.** Rows arrive as `new`, the owner's own PhD
+     dates included, and are admitted after the owner has read them. The
+     admission is recorded in a migration, as `db/016` did. The owner's reason:
+     mistakes can happen in data entry. Moved rows keep their line's review
+     status.
+5. **Promotion and provenance.** Promotion builds stage records from the new
+   sheet's admitted rows, instead of from the two columns. Each record carries
+   its own source, reference and date read, so no provenance notes are filed
+   for stage dates.
+6. **What the error checker requires.** Contradictions block promotion; gaps do
+   not.
+   - **The existing checks** on the two date columns move to read the new
+     sheet.
+   - **New checks:**
+     - dates run in order, from introduction through each stage to Royal
+       Assent;
+     - stage names are right for the bill type;
+     - nothing comes after the stage a bill ended at;
+     - for the eleven Stage 1 rejections, the PhD's date agrees with the
+       Official Report's.
+   - **A missing date is a gap, not a problem.** This covers a passed bill
+     without a stage date, and a stage completed on a date not known. Gaps are
+     listed on a new pivot table of gaps to fill, and do not stop promotion.
+     This amends the outline above: every passed bill should still have all its
+     dates, but a missing one is listed rather than holding up the session.
+     Without it Session 7, which the PhD does not cover, could never be
+     promoted.
+7. **What the note tells a reader.** M2 is rewritten to cover:
+   - the three end points;
+   - Private and Hybrid Bills, quoting the Parliament's pages, including "quite
+     different";
+   - the PhD as the source, a session at a time;
+   - dates not known, which are left out of durations.
+
+   Durations run between consecutive dated stages. So a missing Stage 2 date
+   gives a Stage 1 to Stage 3 interval under its own label, not a Stage 2
+   figure, and the note says so.
+8. **Every bill already coded, rechecked.**
+   - Session 1's 67 dates (62 passing, 5 Stage 1 rejections) and Session 2's
+     72 (66 and 6) move, and the move is proved to change nothing (the entry
+     above).
+   - The eleven rejection dates are checked against the PhD.
+   - The twelve Private Bills in Sessions 1 and 2 are checked for their stage
+     names.
+   - No Hybrid Bill is held yet.
+9. **When.** All of it is built, rehearsed and checked before the owner enters
+   any date and before Session 2 is admitted, in the order of work above.
+
+**Also changed with it:**
+- the descriptions listed in `STATE.md`;
+- `HOW-THE-DATABASE-WORKS.md` and the runbook;
+- the data dictionary, regenerated.
+
+The two new tabs are given to Postico's user so the owner can open them. That
+makes 26 tabs.
 
 ---
 
@@ -219,6 +499,8 @@ next entry exists because of it. Every part is now settled:
    separate route for single facts (2026-09-10), and the exception is defined:
    facts about the decision that ended a bill, read at review. That separate
    route remains the home for procedure, member in charge and party.
+   (Replaced later the same day: see "Each clean tab has a staging sheet of
+   the same shape". The route is one per bill, so it is where it belongs.)
 6. **Where it came from:** promotion files a provenance note for the route
    citing the Official Report, as it does for the outcome.
    - **What it quotes:** its value seen is the Presiding Officer's
@@ -682,6 +964,10 @@ or populate `stage_event` after all — are open, and are recorded as **D6** in
 and removed the artefact that best explains the problem.
 
 ## 2026-09-10 — A new variable stages in one field-level table, never as a new column on `bill_candidate`
+
+**Replaced on 2026-09-11** by "Each clean tab has a staging sheet of the same
+shape". Kept for its reasoning, which is partly carried forward: a staging
+sheet's shape follows what arrives in it.
 
 Settled in answer to "when I want to add procedure later, where does it go?"
 Nothing is built for it yet; this records the shape so the first case does not

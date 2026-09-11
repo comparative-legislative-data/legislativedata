@@ -53,6 +53,24 @@ archive. The file was still served at its old address. Sessions 1–5 are on the
 archive site, which sits behind a Cloudflare challenge that scripted fetching
 cannot pass.
 
+## procedure/
+
+The Parliament's own plain-English pages on how bills progress. They are quoted
+as evidence for how stage completion is defined for each kind of bill
+(`docs/DECISIONS.md`, "Stage 1 and Stage 2 completion dates, from the PhD").
+Saved as the HTML the site served, scripts and all, so the words quoted can be
+found in the file.
+
+**They describe today's procedure,** not procedure at the time of a given bill,
+and neither page carries a date of its own. That is why a copy is kept.
+
+| File | Page | Retrieved | SHA-256 (first 16) |
+|---|---|---|---|
+| `parliament-about-private-bills_retrieved-2026-09-11.html` | parliament.scot/bills-and-laws/about-bills/about-private-bills | 2026-09-11 | `1079627057ad9fb1` |
+| `parliament-about-hybrid-bills_retrieved-2026-09-11.html` | parliament.scot/bills-and-laws/about-bills/about-hybrid-bills | 2026-09-11 | `0f752e13a58af970` |
+
+## factsheets/, continued
+
 **That path serves soft 404s.** A missing factsheet returns HTTP 200 with an
 HTML error page, not a 404. Any check based on status code will report success
 and store an error page. Verify `content_type` is `application/pdf`, or check

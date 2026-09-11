@@ -17,8 +17,39 @@ visualised, and build their own tables and charts on the site without leaving it
 5. `docs/VARIABLES.md` — the reasoning behind the variables. Superseded by the
    data dictionary for anything factual about the current schema.
 
-At the end of a session, update `STATE.md`, and add any decision that was
-settled to `DECISIONS.md`. That is the whole handover mechanism.
+## Opening a session
+
+The owner orients from the top of `STATE.md`, not from a status report. Every
+session opens the same way:
+
+1. **Give the owner the top of `STATE.md`**: the progress table and what the
+   last session did, in plain words.
+2. **Say what the sanity check found**, in a line or two, even if nothing.
+3. **Then the task under "Now".**
+
+**The sanity check, done before the first reply.** This project has a history
+of tasks half done and not carried over. Check:
+- that the table's counts match the database;
+- that everything the last session left open or unbuilt is in `STATE.md`: read
+  the last commit message and the newest `DECISIONS.md` entries;
+- that `tools/make_data_dictionary.py` produces no difference from the
+  committed dictionary;
+- that nothing is left uncommitted;
+- anything in the docs, these instructions or the memory that contradicts the
+  database or each other.
+
+If something needs a clean, propose it; do not start it.
+
+## Closing a session
+
+Update `STATE.md` in its shape, and add any decision that was settled to
+`DECISIONS.md`. That is the whole handover mechanism.
+
+- **Above the line in `STATE.md` is for the owner**, and stays about a screen.
+  Update the table, add one short entry for the session, cut older entries to
+  a line each, and rewrite "Now".
+- **If it grows, cut; do not append.** Working detail goes below the line.
+- **Record the sanity check** below the line, replacing the last one.
 
 ## How this project works
 
