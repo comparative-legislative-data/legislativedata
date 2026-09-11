@@ -97,13 +97,6 @@ handling; before Session 6, the double-count guard. Both are below the line.
   arrives.
 - **Not checked:** whether a Stage 1 motion can still be amended into a
   rejection.
-- **Sending the work to GitHub.** Nothing from the last nine commits has been
-  sent. The server's details leave the public copy only once it is.
-- **Deleting the two blank spreadsheets** in `sources/phd/`. A permission check
-  stopped the session doing it.
-- **Whether to undo `db/037`.** It did not change what Postico shows.
-- **The two blank spreadsheets** in `sources/phd/` are now unused by any
-  procedure, whatever you decide about deleting them.
 
 ---
 
@@ -416,6 +409,11 @@ website has to surface.
 - **No copy of the sheets is held inside the database.** `copy_before_phd_dates`
   was dropped once its comparison was done. Take a fresh one with
   `tools/take_copy.sql` before the next change to data already held.
+- **`db/037` stays, doing nothing.** It sets day-first dates for Postico's
+  login, and Postico formats dates itself, so nothing changed on screen. The
+  owner judged it harmless. One line in the migration undoes it if wanted.
+- **The two blank PhD spreadsheets are deleted.** Dates come from the owner's
+  own dataset through `tools/phd_stage_dates.py`; the templates were never used.
 - **The backup service runs with no `HOME` or `XDG_CACHE_HOME`**, so restic
   keeps no cache and re-reads everything in scope every night. That is harmless
   at this size, but will not stay so. One `Environment=` line in the unit file
