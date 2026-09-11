@@ -43,7 +43,7 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
 - **The stage-dates sheet shows each bill's title** beside its line number,
   and the stage's number fills itself in from its name. Both proved to have
   changed nothing else.
-- **Postico shows and reads dates day first:** 05/01/2000 is 5 January.
+- **Dates are typed year first**, as Postico shows them.
 - **Tidied:** leftover files off the server, and the server's details out of
   the repository. The dictionary tool now cleans up after itself.
 
@@ -88,6 +88,7 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
   sent. The server's details leave the public copy only once it is.
 - **Deleting the two blank spreadsheets** in `sources/phd/`. A permission check
   stopped the session doing it.
+- **Whether to undo `db/037`.** It did not change what Postico shows.
 
 ---
 
@@ -137,9 +138,10 @@ orient, and none of it belongs above the line.
   position matches its stage name; compared with `copy_before_phd_dates`,
   nothing unexpected; the checker empty, 271 gaps; the data dictionary
   regenerated from the database.
-- **After `db/037`:** Postico's login shows dates day first; the database's
-  own form, which the scripts see, is still year first. Checked beforehand
-  that the checker and gaps list find the same under both.
+- **After `db/037`:** set for Postico's login, but Postico still shows dates
+  year first after reconnecting, so it formats dates itself. How Postico reads
+  a date typed with slashes is not tested; the runbook says to type year first.
+  The scripts see the database's own form, unchanged.
 - **Looking at the whole:** five migrations this day since `db/032`. `db/035`
   to `db/037` add one display column, four automatic rules and two date
   settings, and no tab.
@@ -189,9 +191,9 @@ rehearsal, the check and the undo without being asked.
   "Stage dates are typed into Postico"). The sheet shows each row's title,
   filled in by a trigger and refreshed from `bill_candidate`; `stage_order`
   is filled in from the stage name (`db/036`); slashed dates are read day
-  first, and Postico's login shows dates day first (`db/037`). Scripts run as
-  the administrator and see year first; anything run as `legdata` at login
-  sees day first. The owner's steps are in the runbook. A new row must reach the server
+  first by the server. `db/037` sets day first for Postico's login, which
+  Postico's display ignores. Scripts run as the administrator and are not
+  affected. The owner's steps are in the runbook. A new row must reach the server
   with `stage_candidate_id` as DEFAULT; sent as NULL it is refused.
 - **What a PhD row holds:** source `phd`, reference `PhD thesis dataset`, its
   own date read. A stage where a bill ended is not completed and `fell_here`,

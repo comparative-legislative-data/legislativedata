@@ -71,12 +71,12 @@ bottom, or ⇧⌘N. Fill in:
 | `candidate_id` | the line number | `1` |
 | `stage` | `stage_1` or `stage_2`; for a Private Bill, `preliminary` or `consideration` | `stage_1` |
 | `stage_order` | nothing: it fills itself in from the stage name | |
-| `date_completed` | the date, day first (year first also works) | `20/01/2000` |
+| `date_completed` | the date, year first, as Postico shows dates | `2000-01-20` |
 | `completed` | true | |
 | `fell_here` | false | |
 | `source` | `phd` | |
 | `source_ref` | `PhD thesis dataset` | |
-| `observed_at` | the date you read it | `11/09/2026` |
+| `observed_at` | the date you read it, year first | `2026-09-11` |
 | `note` | empty, unless something is irregular | |
 
 Leave every other column as Postico shows it in the new row, whether that is
@@ -383,12 +383,17 @@ Tested in rehearsal rather than assumed:
 - a new row sent with DEFAULT in every column left alone was accepted, and one
   sent with the row number empty was refused.
 
-## Postico shows dates day first, 11 September
+## Postico's dates, 11 September
 
-`db/037`, asked for by you. Postico's login now shows dates as 03/05/2000 and
-reads them typed either way. The project's scripts log in as the administrator
-and still see year first, so nothing they read or compare changes.
+`db/037`, asked for by you, set Postico's login to show dates day first. After
+reconnecting, Postico still showed them year first, so Postico formats dates
+itself and does not take the server's form. You are content with year first.
 
+**Type dates year first**, as Postico shows them. How Postico reads a date
+typed with slashes has not been tested, and a year-first date cannot be
+misread.
+
+The project's scripts log in as the administrator and were never affected.
 Tested before it was made, with planted mistakes thrown away afterwards: the
-error checker and the gaps list found the same problems and the same gaps with
-dates shown either way. To undo it takes one line, given in `db/037`.
+error checker and the gaps list found the same either way. To undo it takes
+one line, given in `db/037`.
