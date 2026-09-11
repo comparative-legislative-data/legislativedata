@@ -75,10 +75,26 @@ Report's, then the factsheet's, then your data.
 
 1. **Fix the extractor for Sessions 3–5**, which misses 2, 14 and 6 rows
    against the factsheets' own totals. The causes are below the line.
-2. **Load Session 3**, review it, and put it on the clean sheet, as Sessions 1
+2. **Check the two-source approach before it is used at scale.** It is a real
+   change in how the database is built, settled and applied in one day, so it
+   is tested before four more sessions are built on it:
+   - **Trace a handful of Sessions 1 and 2 bills cell by cell to a source**,
+     including one that passed, one rejected at Stage 1, one withdrawn and the
+     Robin Rigg Act. Every cell should name what said so, and when.
+   - **Check the order held**: no stage date came from your dataset where the
+     Official Report or a factsheet gave the same stage.
+   - **Check the disagreements are visible**, not quietly resolved: the four
+     introduction dates and eight Royal Assent dates where your dataset differs
+     from the factsheet.
+   - **Test the rule against what Session 3 brings**: the one Hybrid Bill, and
+     the factsheet counting it under Executive.
+   - **Say what the rule does not yet cover**, and whether each needs settling
+     before loading: the Parliament's API as a future source, a published
+     record being revised, and the bills that appear in two factsheets.
+3. **Load Session 3**, review it, and put it on the clean sheet, as Sessions 1
    and 2 were.
-3. **Its stage dates** come from your spreadsheet the same way, which covers
-   Sessions 1 to 6. Session 3 has the one Hybrid Bill, the Forth Crossing Bill.
+4. **Its stage dates** come from your dataset the same way. Session 3 has the
+   one Hybrid Bill, the Forth Crossing Bill.
 
 Before Session 5 is loaded, bills carried between sessions need their own
 handling; before Session 6, the double-count guard. Both are below the line.

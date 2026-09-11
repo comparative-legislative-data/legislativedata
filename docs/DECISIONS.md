@@ -75,6 +75,15 @@ not rediscovered each time.
   from the factsheet are listed for the owner, and the factsheet's remain on the
   clean sheet until the owner says otherwise.
 
+**Checked before it is used at scale.** At the owner's request, the next session
+tests this on what is already built before Session 3 is loaded: a few bills
+traced cell by cell to a source, the order of precedence shown to have held, the
+recorded disagreements shown to be visible, the rule tested against Session 3's
+Hybrid Bill, and a statement of what it does not yet cover — the API, a revised
+published record, and bills appearing in two factsheets. It was settled and
+applied in a single day, which is the reason for testing it before four more
+sessions rest on it.
+
 ---
 
 ## 2026-09-11 — Only a Private Bill may skip a stage, and a skipped stage is recorded as one that did not happen
