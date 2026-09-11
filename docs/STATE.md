@@ -16,8 +16,8 @@ and 2 dates are added from your PhD.
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
-| 1 | 73 bills | yes | yes | ready to type in; practice first |
-| 2 | 81 bills | yes | yes | ready to type in; practice first |
+| 1 | 73 bills | yes | yes | yes, on the clean sheet |
+| 2 | 81 bills | yes | yes | yes, on the clean sheet |
 | 3–5 | reader misses rows | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
@@ -44,26 +44,30 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
   and the stage's number fills itself in from its name. Both proved to have
   changed nothing else.
 - **Dates are typed year first**, as Postico shows them.
+- **Your PhD dates are on the clean sheet.** Your own spreadsheet was matched
+  to all 154 bills, loaded, and after your reading it was accepted and both
+  sessions were put back with the dates. 411 stage records now, where there
+  were 139.
+- **The bills that did not pass** record where each stopped, from the pages you
+  found. Only the Session 2 Robin Rigg Act has dates still to find, and it
+  carries your note saying why it has none.
 - **Tidied:** leftover files off the server, and the server's details out of
   the repository. The dictionary tool now cleans up after itself.
 
-## Now: your second read of the stage dates
+## Now: Session 3
 
-**Your dates are in, waiting for you.** 270 rows were loaded from your own
-spreadsheet and from your answers about the bills that did not pass, and
-nothing has reached the clean sheet.
+The first piece of work is finished for Sessions 1 and 2. Both questions can be
+answered for them: what happened to each bill, and how long each stage took.
 
-1. **You read them in Postico**, on `stage_candidate`. 272 rows are marked
-   `new`: 256 from your dataset, 13 from the Parliament's bill pages and 3 from
-   the Official Report. Each carries the page it came from.
-2. **They are accepted**, recorded in a migration, as Session 1 and 2's lines
-   were.
-3. **Sessions 1 and 2 are taken off and put back** with the dates, and compared
-   with the copy taken today. They should differ only by the dates added.
+1. **Fix the extractor for Sessions 3–5**, which misses 2, 14 and 6 rows
+   against the factsheets' own totals. The causes are below the line.
+2. **Load Session 3**, review it, and put it on the clean sheet, as Sessions 1
+   and 2 were.
+3. **Its stage dates** come from your spreadsheet the same way, which covers
+   Sessions 1 to 6. Session 3 has the one Hybrid Bill, the Forth Crossing Bill.
 
-127 of the 128 bills that passed now have all three stage dates. The other is
-the Session 2 Robin Rigg Act, which went straight to its Final Stage, and its
-two missing dates are the whole of the gaps list.
+Before Session 5 is loaded, bills carried between sessions need their own
+handling; before Session 6, the double-count guard. Both are below the line.
 
 ## After that, in order
 
@@ -96,8 +100,8 @@ two missing dates are the whole of the gaps list.
 - **Deleting the two blank spreadsheets** in `sources/phd/`. A permission check
   stopped the session doing it.
 - **Whether to undo `db/037`.** It did not change what Postico shows.
-- **Your two practice rows** for the Abolition of Feudal Tenure Bill match your
-  spreadsheet exactly. They stay, and the loader will skip that bill's dates.
+- **The two blank spreadsheets** in `sources/phd/` are now unused by any
+  procedure, whatever you decide about deleting them.
 
 ---
 
@@ -159,10 +163,24 @@ orient, and none of it belongs above the line.
 - **Still true from the third session:** while a copy schema exists, any
   question put to the catalogue must name `public`. `copy_before_phd_dates`
   exists.
-- **Still to see:** the Session 2 Robin Rigg and Stirling-Alloa-Kincardine
-  Private Bills were reintroduced after dissolution and passed within weeks.
-  They may not have gone through every stage again. If so they will show as
-  gaps, and need a note, not a date.
+- **Answered:** the Session 2 Robin Rigg and Stirling-Alloa-Kincardine Private
+  Bills were reintroduced after dissolution. The Stirling-Alloa-Kincardine Bill
+  did go through its stages again, and has all three dates. Robin Rigg went
+  straight to its Final Stage, because a reintroduced Private Bill does not
+  repeat its earlier scrutiny, and carries a note saying so. Its two missing
+  dates are the whole of the gaps list.
+- **At close, after `db/038` and both sessions put back on with the dates:**
+  - 154 bills, 411 stage records, 23 notes, and 411 stage-dates rows, all
+    accepted and stamped;
+  - the error checker empty, and 2 gaps;
+  - 62 of Session 1's 73 bills and 65 of Session 2's 81 have all three stages
+    dated; the rest did not pass;
+  - compared with the copy taken before the dates, the only differences are the
+    272 rows added, the 272 stage records they became, the title column from
+    `db/035`, and the Robin Rigg note;
+  - the data dictionary regenerates unchanged;
+  - `copy_before_phd_dates` is dropped, its comparison done, and the VPS's
+    `/tmp` is empty.
 
 ## The owner's standing positions, so they are not re-argued
 
@@ -386,12 +404,13 @@ website has to surface.
 
 ## Housekeeping, small and known
 
-- **Six safety copies of the whole database** are on the VPS:
+- **Seven safety copies of the whole database** are on the VPS:
   `/var/tmp/legdata-before-030_2026-09-11.dump`, `-033_`, `-034_`, `-035_`,
-  `-036_` and `legdata-before-phd-dates_2026-09-11.dump`.
+  `-036_`, `-038_` and `legdata-before-phd-dates_2026-09-11.dump`.
   Delete them once a nightly backup taken after 2026-09-11 has been confirmed.
-- **`copy_before_phd_dates`** is held inside the database for the comparison
-  after the PhD dates. Drop it once that comparison is done.
+- **No copy of the sheets is held inside the database.** `copy_before_phd_dates`
+  was dropped once its comparison was done. Take a fresh one with
+  `tools/take_copy.sql` before the next change to data already held.
 - **The backup service runs with no `HOME` or `XDG_CACHE_HOME`**, so restic
   keeps no cache and re-reads everything in scope every night. That is harmless
   at this size, but will not stay so. One `Environment=` line in the unit file

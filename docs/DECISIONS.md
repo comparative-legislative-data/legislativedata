@@ -60,6 +60,13 @@ in Postico were skipped as identical. The figures are in the runbook.
 The automatic ticks proposed earlier are not needed. The blank templates in
 `sources/phd/` are not used by this route.
 
+**Accepted and promoted the same day.** The owner read the rows and was
+content. `db/038` admitted all 411, and both sessions were taken off the clean
+sheet and put back with the dates, rehearsed once per session and thrown away
+first. The clean sheet now holds 411 stage records against 154 bills, the error
+checker is empty, and the only dates still to find are the Session 2 Robin Rigg
+Act's two, which its note explains. The figures are in the runbook.
+
 **Answered by the owner on 2026-09-11, with the source for each.** These are
 the sixteen bills above. Each stage record below carries the page the owner
 gave as its source, read on 2026-09-11. No date is recorded on a stage a bill

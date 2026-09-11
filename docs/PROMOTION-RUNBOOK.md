@@ -383,6 +383,25 @@ Tested in rehearsal rather than assumed:
 - a new row sent with DEFAULT in every column left alone was accepted, and one
   sent with the row number empty was refused.
 
+## Both sessions back on the clean sheet with the dates, 11 September
+
+`db/038` recorded your acceptance of all 411 stage-dates rows, and each session
+was taken off and put back. Rehearsed twice and thrown away first, once per
+session; a safety copy was taken before the real run
+(`/var/tmp/legdata-before-038_2026-09-11.dump`).
+
+- **411 stage records** on the clean sheet, where there were 139: 256 from your
+  dataset, 128 passing dates from the factsheets, 14 from the Official Report
+  and 13 from the Parliament's bill pages.
+- **154 bills, 23 provenance notes, the error checker empty**, and two dates
+  still to find, both on the Session 2 Robin Rigg Act.
+- **62 of Session 1's 73 bills and 65 of Session 2's 81** have all three stages
+  dated. The rest are bills that did not pass.
+- **Compared with the copy taken before the dates**: the only differences are
+  the 272 rows added to the stage-dates sheet, the 272 stage records they
+  became, the title column added by `db/035`, and the note on the Robin Rigg
+  Act. Everything else differs only in record numbers and times written.
+
 ## Your PhD stage dates loaded, 11 September
 
 `tools/phd_stage_dates.py` read your dataset and your answers about the bills
