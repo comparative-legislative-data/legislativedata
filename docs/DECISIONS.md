@@ -48,10 +48,17 @@ match it exactly.
    and Royal Assent dates are already on the clean sheet. The checklist is
    `sources/phd/checks-before-loading-sessions-1-2.xlsx`, also not published.
 
-**Not settled yet, and settled before building:** how the loader reads the
-owner's confirmations; what the blank templates in `sources/phd/` become (they
-are not needed by this route). The automatic ticks proposed earlier are not
-needed.
+**Built and loaded on 2026-09-11**, after the owner answered every question
+below. `tools/phd_stage_dates.py` reads the dataset and the answers and writes
+the rows; `tools/load_phd_stage_dates.sql` puts them on the stage-dates sheet,
+refusing a title that does not match its line number, a row that clashes with
+one already held from the same source, a date outside the bill's own dates, and
+a line number that does not exist. All four were rehearsed and refused. 270
+rows arrived, waiting for the owner's second read; the two practice rows typed
+in Postico were skipped as identical. The figures are in the runbook.
+
+The automatic ticks proposed earlier are not needed. The blank templates in
+`sources/phd/` are not used by this route.
 
 **Answered by the owner on 2026-09-11, with the source for each.** These are
 the sixteen bills above. Each stage record below carries the page the owner

@@ -47,22 +47,23 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
 - **Tidied:** leftover files off the server, and the server's details out of
   the repository. The dictionary tool now cleans up after itself.
 
-## Now: loading your PhD dates
+## Now: your second read of the stage dates
 
-Your dates come from your own spreadsheet, not typed in. All 154 bills in
-Sessions 1 and 2 are matched to it, and **you have answered all sixteen
-questions** about the bills that did not pass, each with a source
-(`DECISIONS.md`, 2026-09-11).
+**Your dates are in, waiting for you.** 270 rows were loaded from your own
+spreadsheet and from your answers about the bills that did not pass, and
+nothing has reached the clean sheet.
 
-1. **The loader is settled and built** from your spreadsheet and your answers,
-   and rehearsed with deliberate mistakes.
-2. **Your dates arrive as new rows**, and you read them a second time.
+1. **You read them in Postico**, on `stage_candidate`. 272 rows are marked
+   `new`: 256 from your dataset, 13 from the Parliament's bill pages and 3 from
+   the Official Report. Each carries the page it came from.
+2. **They are accepted**, recorded in a migration, as Session 1 and 2's lines
+   were.
 3. **Sessions 1 and 2 are taken off and put back** with the dates, and compared
    with the copy taken today. They should differ only by the dates added.
 
-Your Stage 1 and Stage 2 dates go in for every bill that passed. For bills that
-did not pass, what goes in is what you established from the Parliament's own
-pages, which is where each stopped, and in two cases a stage it completed.
+127 of the 128 bills that passed now have all three stage dates. The other is
+the Session 2 Robin Rigg Act, which went straight to its Final Stage, and its
+two missing dates are the whole of the gaps list.
 
 ## After that, in order
 
@@ -385,9 +386,9 @@ website has to surface.
 
 ## Housekeeping, small and known
 
-- **Five safety copies of the whole database** are on the VPS:
-  `/var/tmp/legdata-before-030_2026-09-11.dump`, `-033_`, `-034_`, `-035_` and
-  `-036_`.
+- **Six safety copies of the whole database** are on the VPS:
+  `/var/tmp/legdata-before-030_2026-09-11.dump`, `-033_`, `-034_`, `-035_`,
+  `-036_` and `legdata-before-phd-dates_2026-09-11.dump`.
   Delete them once a nightly backup taken after 2026-09-11 has been confirmed.
 - **`copy_before_phd_dates`** is held inside the database for the comparison
   after the PhD dates. Drop it once that comparison is done.

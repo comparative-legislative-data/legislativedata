@@ -383,6 +383,33 @@ Tested in rehearsal rather than assumed:
 - a new row sent with DEFAULT in every column left alone was accepted, and one
   sent with the row number empty was refused.
 
+## Your PhD stage dates loaded, 11 September
+
+`tools/phd_stage_dates.py` read your dataset and your answers about the bills
+that did not pass, and `tools/load_phd_stage_dates.sql` put the result on the
+stage-dates sheet. Nothing reached the clean sheet. A safety copy of the
+database was taken first (`/var/tmp/legdata-before-phd-dates_2026-09-11.dump`).
+
+- **All 154 bills matched your dataset one to one**, 18 of them named in the
+  reader because the wording differs. Four introduction dates differ from the
+  factsheet's, and were printed rather than used.
+- **270 rows loaded**, all waiting for your review: 254 from your dataset for
+  the bills that passed, 13 from the Parliament's bill pages and 3 from the
+  Official Report for the bills that did not.
+- **Your two practice rows were recognised and skipped**, because they say
+  exactly what your dataset says.
+- **The Robin Rigg Act (line 124)** carries your note about reintroduced
+  Private Bills.
+- **127 of the 128 bills that passed now have all three stage dates.** The one
+  without is that Robin Rigg Act, and its two missing dates are the whole of
+  the gaps list.
+- **The error checker is empty.**
+
+Tested in rehearsal and thrown away first. Each of these was refused, naming
+the reason: a title that did not match its line number, a date that clashed
+with a row already held from the same source, a date before the bill was
+introduced, and a line number that does not exist.
+
 ## Postico's dates, 11 September
 
 `db/037`, asked for by you, set Postico's login to show dates day first. After
