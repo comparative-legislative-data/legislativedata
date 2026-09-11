@@ -47,19 +47,22 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
 - **Tidied:** leftover files off the server, and the server's details out of
   the repository. The dictionary tool now cleans up after itself.
 
-## Now: your checks, then loading your PhD dates
+## Now: loading your PhD dates
 
 Your dates come from your own spreadsheet, not typed in. All 154 bills in
-Sessions 1 and 2 are matched to it.
+Sessions 1 and 2 are matched to it, and **you have answered all sixteen
+questions** about the bills that did not pass, each with a source
+(`DECISIONS.md`, 2026-09-11).
 
-1. **You check sixteen bills**, in
-   `sources/phd/checks-before-loading-sessions-1-2.xlsx`: the fifteen that
-   neither passed nor were rejected at Stage 1, and the Session 2 Robin Rigg
-   Act. The second tab lists other dates that disagree, which do not block.
-2. **The loader is settled and built** from your answers, and rehearsed.
-3. **Your dates arrive as new rows**, and you read them a second time.
-4. **Sessions 1 and 2 are taken off and put back** with the dates, and compared
-   with the copy taken today.
+1. **The loader is settled and built** from your spreadsheet and your answers,
+   and rehearsed with deliberate mistakes.
+2. **Your dates arrive as new rows**, and you read them a second time.
+3. **Sessions 1 and 2 are taken off and put back** with the dates, and compared
+   with the copy taken today. They should differ only by the dates added.
+
+Your Stage 1 and Stage 2 dates go in for every bill that passed. For bills that
+did not pass, what goes in is what you established from the Parliament's own
+pages, which is where each stopped, and in two cases a stage it completed.
 
 ## After that, in order
 

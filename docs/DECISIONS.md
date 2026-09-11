@@ -53,6 +53,38 @@ owner's confirmations; what the blank templates in `sources/phd/` become (they
 are not needed by this route). The automatic ticks proposed earlier are not
 needed.
 
+**Answered by the owner on 2026-09-11, with the source for each.** These are
+the sixteen bills above. Each stage record below carries the page the owner
+gave as its source, read on 2026-09-11. No date is recorded on a stage a bill
+did not complete, because none of these ended on a decision of the Parliament.
+
+| Line | Bill | Recorded | Source the owner gave |
+|---|---|---|---|
+| 64 | Family Homes and Homelessness (S1) | stopped at Stage 1, not completed | bill page, withdrawn |
+| 141 | Fire Sprinklers in Residential Premises (S2) | stopped at Stage 1, not completed | bill page, withdrawn |
+| 142 | Prohibition of Smoking in Regulated Areas (S2) | stopped at Stage 1, not completed | bill page, withdrawn |
+| 143 | Prostitution Tolerance Zones (S2) | stopped at Stage 1, not completed | bill page, withdrawn |
+| 65 | Tobacco Advertising and Promotion (S1) | stopped at Stage 1, not completed | bill page; withdrawn with no Stage 1 debate |
+| 66 | Gaelic Language (S1) | Stage 1 completed 2003-03-06; stopped at Stage 2, not completed | Official Report, 6 March 2003: general principles agreed, no time scheduled for Stage 2 |
+| 71 | Robin Rigg (S1) | Preliminary completed 2003-01-09, Consideration completed 2003-03-11; stopped at Final Stage | bill page; fell at dissolution |
+| 63 | Education (Graduate Endowment and Student Support) (S1) | stopped at Stage 1, not completed | Official Report of the committee, meeting 2733: withdrawn during Stage 1 consideration, before the vote, and reintroduced redrafted |
+| 73 | Stirling-Alloa-Kincardine (S1) | stopped at Preliminary Stage, not completed | bill page |
+| 140 | Environmental Levy on Plastic Bags (S2) | stopped at Stage 1, not completed | archived bill page: withdrawn after the Stage 1 report, before the debate |
+| 144 | Scottish Register of Tartans (S2) | stopped at Stage 1, not completed | archived bill page |
+| 148 | Commissioner for Older People (S2) | stopped at Stage 1, not completed | archived bill page: no timetable for concluding Stage 1 was set |
+| 150 | Education (School Meals etc) (S2) | stopped at Stage 1, not completed | archived bill page: partial scrutiny, no Stage 1 vote |
+| 152 | Home Energy Efficiency Targets (S2) | stopped at Stage 1, not completed | archived bill page |
+| 154 | Treatment of Drug Users (S2) | stopped at Stage 1, not completed | archived bill page |
+| 124 | Robin Rigg Act (S2) | no Preliminary or Consideration Stage, with a note | archived bill page: a reintroduced Private Bill does not repeat its earlier scrutiny, so it went straight to the Final Stage vote; the Session 1 bill's Preliminary Stage was 9 January 2003 |
+
+**What this establishes about the dataset.** For a bill that did not pass, the
+dataset's "Stage 1 vote" column is not evidence that Stage 1 was completed: for
+the four withdrawn bills it holds the day the bill was withdrawn, and for the
+Tobacco Advertising Bill a date although there was no Stage 1 debate. So Stage 1
+and Stage 2 dates are taken from the dataset for bills that passed, and for the
+two cases the owner confirmed (lines 66 and 71). The exact links are on the
+staging rows, which carry them as their source.
+
 ---
 
 ## 2026-09-11 — Stage dates are typed into Postico, not loaded from spreadsheets
