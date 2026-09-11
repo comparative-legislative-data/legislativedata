@@ -18,9 +18,14 @@ not rediscovered each time.
   prints: introduction, passing and Royal Assent. A session is reconciled
   against the factsheet's own summary before anything else happens.
 - **The owner's PhD dataset backfills the Stage 1 and Stage 2 dates**, which no
-  factsheet gives. Its Stage 3 and Royal Assent dates are not loaded. It covers
-  Sessions 1 to 6, so **Session 7 will have no Stage 1 or Stage 2 dates** from
-  it, and its bills' figures stop at what the factsheet holds.
+  factsheet gives. Its Stage 3 and Royal Assent dates are not loaded. **It is
+  current, not limited to the thesis's own span**: the file supplied on
+  2026-09-11 holds 469 bills across all seven sessions, the latest introduced on
+  9 September 2026. A bill lacks stage dates in it only where it has not reached
+  that stage: Session 7's single bill, introduced 9 September 2026, and five
+  Session 6 bills still awaiting Stage 1. Methodology note M2 still describes
+  the dataset as covering Sessions 1 to 6, which was written from the thesis's
+  own scope at `db/033` and is to be corrected with the owner.
 - **Where neither source says, the Official Report and the Parliament's bill
   pages fill it**: an outcome the factsheet does not give, the date of a Stage 1
   rejection, and where a bill that did not pass stopped. Sessions 1 and 2 needed

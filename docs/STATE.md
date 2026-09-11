@@ -64,11 +64,14 @@ answered for them: what happened to each bill, and how long each stage took.
 **Two sources from here on.** The SPICe factsheet is the first source and the
 principal one: it says which bills there were, what happened to each and when.
 Your PhD dataset then fills in the Stage 1 and Stage 2 dates, which no factsheet
-gives. It covers Sessions 1 to 6, so Session 7 will have none. Where neither
-says — a bill's outcome the factsheet leaves out, where a bill that did not pass
-stopped, the date of a Stage 1 rejection — the Official Report and the
-Parliament's bill pages fill it. Where two sources give the same thing, the
-clean sheet takes the Official Report's, then the factsheet's, then your data.
+gives. It runs to the present: 469 bills across all seven sessions, the latest
+introduced on 9 September 2026. A bill has no stage dates in it only where it
+has not reached that stage yet — Session 7's single bill, and five in Session 6
+still awaiting Stage 1. Where neither source says — a bill's outcome the
+factsheet leaves out, where a bill that did not pass stopped, the date of a
+Stage 1 rejection — the Official Report and the Parliament's bill pages fill it.
+Where two sources give the same thing, the clean sheet takes the Official
+Report's, then the factsheet's, then your data.
 
 1. **Fix the extractor for Sessions 3–5**, which misses 2, 14 and 6 rows
    against the factsheets' own totals. The causes are below the line.
