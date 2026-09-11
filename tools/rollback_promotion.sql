@@ -1,16 +1,16 @@
 -- rollback_promotion.sql
 --
 -- Takes one session back off the clean sheet, as if it had never been
--- promoted. The staging lines are untouched apart from having their promotion
--- stamps cleared, so promotion can simply be run again.
+-- promoted. The staging lines and stage-dates rows are untouched apart from
+-- having their promotion stamps cleared, so promotion can simply be run again.
 --
 --   -v session=1   which session to take back
 --   -v save=false  see what it would remove, and change nothing
 --   -v save=true   remove it
 --
--- Everything promotion wrote comes off: the bills, their stage rows and their
--- provenance notes. Putting the session back writes all three again from the
--- staging sheet (db/030).
+-- Everything promotion wrote comes off: the bills, their stage records and
+-- their provenance notes. Putting the session back writes all three again from
+-- the staging sheets (db/030, db/033).
 
 \set ON_ERROR_STOP on
 
@@ -50,6 +50,14 @@ UPDATE bill_candidate c
  WHERE c.session_number = a.session_number
    AND c.promoted_bill_id IS NULL;
 
+-- The same for each stage-dates row, whose link empties itself when its stage
+-- record goes.
+UPDATE stage_candidate t
+   SET promoted_at = NULL
+  FROM bill_candidate c, rollback_arg a
+ WHERE c.candidate_id = t.candidate_id AND c.session_number = a.session_number
+   AND t.promoted_stage_event_id IS NULL AND t.promoted_at IS NOT NULL;
+
 DO $$
 DECLARE s integer; n integer;
 BEGIN
@@ -59,6 +67,9 @@ BEGIN
   SELECT count(*) INTO n FROM bill_candidate
    WHERE session_number = s AND (promoted_bill_id IS NOT NULL OR promoted_at IS NOT NULL);
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % staging line(s) still stamped as promoted.', n; END IF;
+  SELECT count(*) INTO n FROM stage_candidate t JOIN bill_candidate c USING (candidate_id)
+   WHERE c.session_number = s AND (t.promoted_stage_event_id IS NOT NULL OR t.promoted_at IS NOT NULL);
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % stage-dates row(s) still stamped as promoted.', n; END IF;
   SELECT count(*) INTO n FROM field_source f JOIN bill_candidate c
       ON f.entity = 'bill' AND f.entity_id = c.candidate_id
    WHERE c.session_number = s;

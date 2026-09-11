@@ -19,12 +19,12 @@ OUT = ROOT / 'docs' / 'DATA-DICTIONARY.md'
 
 # Reading order: what the data is, then how it got there, then the lists of
 # allowed values. Alphabetical order would put ref_bill_type before bill.
-ORDER = ['session', 'bill', 'stage_event', 'bill_candidate',
+ORDER = ['session', 'bill', 'stage_event', 'bill_candidate', 'stage_candidate',
          'field_source', 'methodology_note']
 
 GROUPS = [
     ('The data', ['session', 'bill', 'stage_event']),
-    ('Getting data in', ['bill_candidate', 'field_source']),
+    ('Getting data in', ['bill_candidate', 'stage_candidate', 'field_source']),
     ('Published alongside the data', ['methodology_note']),
     ('Lists of allowed values', None),   # None means "everything else"
 ]
@@ -83,6 +83,7 @@ def render(tables):
         'session ──< bill ──< stage_event',
         '',
         'bill_candidate ····> bill        via promoted_bill_id',
+        'stage_candidate ···> stage_event via promoted_stage_event_id',
         '',
         'methodology_note                 stands alone',
         'field_source                     stands alone',
@@ -97,6 +98,9 @@ def render(tables):
         '- `bill_candidate` is one row per line read off a factsheet, waiting to '
         'be checked. When a row is promoted, `promoted_bill_id` records which '
         '`bill` row it became.',
+        '- `stage_candidate` is one row per stage of a bill, per source, waiting '
+        'to be checked. Each row belongs to a `bill_candidate` line, and becomes '
+        'a `stage_event` row when promoted.',
         '- The `ref_` tables are lists of allowed values. `bill.bill_type` can '
         'only hold a code that appears in `ref_bill_type`, and the database '
         'refuses anything else.',

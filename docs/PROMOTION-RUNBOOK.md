@@ -32,10 +32,13 @@ stop: that is the table-fragmentation fault, not something to review away.
     ~/.claude/legdata-vps --scp s2.csv /tmp/s2.csv
     ~/.claude/legdata-vps 'sudo -u postgres psql -d legdata -v session=2 -v save=false -f /tmp/load_session.sql < /tmp/s2.csv'
 
-**3. Look at the four tables it prints.**
+**3. Look at the five tables it prints.**
 
 - **Lines by factsheet table and type letter.** Every cell must equal the
   factsheet's summary table, and `unrecognised` must be 0.
+- **Passing dates put on the stage-dates sheet.** One per Act: Final Stage
+  for a Private Bill, Stage 3 for every other kind. The total must equal the
+  Acts row of the summary.
 - **Taken out of a title.** Every SP Bill number should sit beside a bill
   that is not an Act, and none should still be in the title.
 - **Problems.** This is the review list. For Session 2 it was six fallen
@@ -54,13 +57,18 @@ For every staging line you have marked **accepted**:
 
 1. A bill appears on the clean sheet, taking its number from the staging line
    — line 17 becomes bill 17, always.
-2. One row is filed for each stage that bill actually reached, under the right
-   stage name for its kind of bill.
+2. A stage record is filed for each of that bill's accepted rows on the
+   stage-dates sheet, one per stage, under the right stage name for its kind
+   of bill. Where two sources give the same stage, the Official Report's is
+   filed first, then the factsheet's, then the PhD's; the other stays on the
+   stage-dates sheet as the check.
 3. A provenance note is filed for any single fact that did not come from the
-   line's own source.
-4. Your staging line is stamped with the bill number and the date.
+   line's own source. Stage dates need none: each stage record carries its
+   own source.
+4. Your staging line, and each stage-dates row that was filed, is stamped
+   with what it became and the date.
 
-Your staging sheet is otherwise untouched, and stays untouched forever. That
+Your staging sheets are otherwise untouched, and stay untouched forever. That
 is what makes all of this safe to undo.
 
 ---
@@ -71,6 +79,10 @@ is what makes all of this safe to undo.
   it must show nothing for this session. The script refuses to run otherwise.
 - Every line in the session must be either accepted or rejected. No line still
   sitting at `new`. The script refuses to run otherwise.
+- The same goes for the session's rows on the stage-dates sheet, your own PhD
+  dates included.
+- Missing dates do not stop promotion. `v_stage_date_gaps` lists them; look at
+  it so you know what the session is being promoted without.
 - Have the factsheet's own summary table to hand. You will compare against it.
 
 You do **not** need a special backup and you do **not** need a practice
@@ -93,24 +105,28 @@ the run stops and nothing is written, whichever way `save` is set.
 
 The checks are: every accepted line became a bill; the number of bills equals
 the number of accepted lines; every bill says the same as the line it came
-from, field by field; every bill that passed has a final stage row and every
-bill rejected at its first stage has a first stage row; every stage date
-matches its line; no bill ends at two different stages; no provenance note
-filed twice.
+from, field by field; every bill's stage records are exactly the stage-dates
+rows filed for it, field by field, and each of those rows is stamped; every
+bill that passed has a final stage record; no bill ends at two different
+stages; no provenance note filed twice.
 
 ---
 
 ## Step 2 — Look at what it produced
 
-The run prints five tables. Look at each.
+The run prints these tables. Look at each.
 
 - **Totals by type** and **totals by outcome.** Compare them against the
   factsheet's own summary table. For Session 1 that is 51 government, 16
   Member's, 3 private, 3 committee; and 62 passed, 3 withdrawn, 8 fallen —
   where "fallen" is the 3 that fell at dissolution plus the 5 rejected at
   Stage 1.
-- **Stage rows written.** One per bill that reached a stage. Session 1: 62
-  final-stage rows and 5 first-stage rows, 67 in all.
+- **Stage rows written**, by stage and source. Before any PhD date was added,
+  Session 1 had 62 final-stage rows from the factsheet and 5 first-stage rows
+  from the Official Report, 67 in all.
+- **Accepted stage dates not carried.** Where two sources gave the same stage,
+  the one left on the stage-dates sheet, and which source was filed instead.
+  The error checker has already made sure the two agree.
 - **Bills rejected at Stage 1.** Each must show a route. Any note shown
   beside one is what a reader will see.
 - **Provenance notes written.** Session 1: eleven — the corrected title of
@@ -202,3 +218,46 @@ not read the new dropdown list, because a migration creates things as the
 administrator, so `db/031` now sets the list's owner. And rebuilding bill 17's
 note would have put back the instruction text `db/027` removed, because the
 script appended the whole review note. It no longer does.
+
+## Checking a change cell by cell
+
+For any change to data already held, take a copy before and compare after.
+Send both scripts to `/tmp` with `--scp` as above.
+
+    ~/.claude/legdata-vps 'sudo -u postgres psql -d legdata -v copy=copy_before_033 -f /tmp/take_copy.sql'
+    (the change)
+    ~/.claude/legdata-vps 'sudo -u postgres psql -d legdata -v copy=copy_before_033 -f /tmp/compare_with_copy.sql'
+
+The copy sits inside the database where Postico does not show it. The
+comparison matches stage records and provenance notes by what they are about,
+not by their own numbers, and ends with a verdict. Record numbers and the
+times things were written always differ when a session is taken off and put
+back, and are counted as expected. Columns added or removed are listed for you
+to judge against the change. Drop the copy once the change is confirmed.
+
+## What happened later on 11 September: the stage-dates sheet
+
+`db/033` moved every stage date onto the new stage-dates sheet, and Session 1
+was taken off and put back from it. The whole sequence was rehearsed in a
+transaction that was thrown away, twice. Before the real run a safety copy of
+the database was taken (`/var/tmp/legdata-before-033_2026-09-11.dump`), and a
+copy of both sessions inside it (`copy_before_033`).
+
+- 139 dates moved: 62 and 66 passing dates, 5 and 6 Stage 1 rejections. Every
+  one arrived unchanged, with its source, when it was read, and its line's
+  review status.
+- Compared with the copy, nothing else changed but the two old date columns
+  coming off the factsheet sheet.
+- Taking Session 1 off removed 73 bills, 67 stage records and 11 notes, and
+  putting it back gave the same. Compared cell by cell with the copy: no
+  unexpected differences. Only record numbers and times written differed.
+- The error checker was empty throughout. The gaps list held 271.
+
+Tested in rehearsal rather than assumed:
+- eight planted mistakes on the stage-dates sheet were each caught;
+- the clean sheet refused a completed stage with no date and no note;
+- a PhD date agreeing with the Official Report left the Official Report's on
+  the clean sheet, and the PhD row unstamped;
+- promotion refused a session holding an unreviewed stage date;
+- Session 2, loaded again from a fresh extraction, gave its 66 passing dates
+  identically.

@@ -1,6 +1,6 @@
 # State
 
-Updated: 2026-09-11, end of the second session that day
+Updated: 2026-09-11, end of the third session that day
 
 ## Where we've got to
 
@@ -11,13 +11,13 @@ The first piece of work, across all seven sessions:
    introduction to the end of Stage 3.
 
 Each session goes through the same steps. Its factsheet is read onto the
-staging sheet, you review it, and it is copied onto the clean sheet. Stage 1
+staging sheets, you review it, and it is copied onto the clean sheet. Stage 1
 and 2 dates are added from your PhD.
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
-| 1 | 73 bills | yes | yes | no |
-| 2 | 81 bills | no | no | no |
+| 1 | 73 bills | yes | yes | sheet ready, none entered |
+| 2 | 81 bills | no | no | sheet ready, none entered |
 | 3–5 | reader misses rows | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
@@ -28,53 +28,41 @@ passing. Time per stage waits for the Stage 1 and 2 dates.
 
 - **10 September.** Built the database, surveyed all seven factsheets, and put
   Session 1 on the clean sheet.
-- **11 September, first session.** Read Session 2 in and fixed the reader,
-  recorded how each Stage 1 rejection came about, and set the rule that a
-  coding change is finished before anything moves on.
+- **11 September, first session.** Read Session 2 in, recorded how each Stage 1
+  rejection came about, and set the rule that a coding change is finished
+  before anything moves on.
+- **11 September, second session.** Settled stage dates in full, and that each
+  clean tab gets a staging sheet of the same shape.
 
-**11 September, second session.** Nothing in the database changed; it was all
-deciding and recording.
-- **This file now opens with the table**, and every session opens with it and a
-  sanity check.
-- **Each clean tab gets a staging sheet of the same shape**, instead of one
-  sheet taking everything. Stage dates are the first.
-- **Stage dates were settled in full.**
-  - Stage 1 ends on the Stage 1 debate.
-  - Stage 2 ends at the meeting where the last amendments were disposed of.
-  - Private and Hybrid Bills end at the same points, with the Parliament's
-    pages as evidence.
-- **A correction was found:** the database has the Hybrid Bill stage names
-  wrong. It is fixed in the same change.
-- **Your choices:**
-  - a missing date is listed as a gap, and doesn't hold a session up;
-  - your dates get a second pass before they are admitted;
-  - "not known" goes in a cell you can't fill;
-  - withdrawn and fallen bills get the stage they reached, entered with the
-    rest.
+**11 September, third session.**
+- **The stage-dates sheet is built.** Every stage date now waits there,
+  whatever its source, with its own accept/reject column. The 139 dates
+  already held moved onto it.
+- **The move changed nothing.** Session 1 was taken off and put back from the
+  new sheet, and matched a copy cell by cell. Eight planted mistakes were all
+  caught.
+- **Hybrid Bills** now have Stage 1, 2 and 3.
+- **A gaps list** shows the dates still to find: 271 for Sessions 1 and 2.
+- **Your choices:** where two sources agree, the clean sheet takes the
+  Official Report's date, then the factsheet's, then your PhD's. M2 now cites
+  your thesis.
 
-## Now: build the stage-dates sheet, then walk you through it
+## Now: adding your dates
 
-Next session, in order:
-
-1. **Where we've got to**, and a recap of the second 11 September session.
-2. **Build it:** the stage-dates staging sheet, its checks, the gaps pivot
-   table and the Hybrid correction, rehearsed first.
-3. **Prove the move changed nothing.** Copy Sessions 1 and 2, move the existing
-   dates, take Session 1 off and put it back, and compare cell by cell.
-4. **Walk you through adding dates** to the new sheet, starting with a practice
-   run on a few bills that is thrown away.
-
-Only after that do you fill in the two spreadsheets for real. Then Session 1
-goes back with the dates, and Session 2 is reviewed and promoted. If building
-and the check take the whole session, the walkthrough opens the one after; it
-is not skipped.
-
-Full record in `DECISIONS.md`: "Each clean tab has a staging sheet of the same
-shape", and "Stage 1 and Stage 2 completion dates, from the PhD".
+1. **Build the script that loads your spreadsheet**, and rehearse it. It is
+   part of the agreed change and is not built yet. No date is entered until it
+   is.
+2. **A practice run on a few bills**, with written step-by-step instructions,
+   thrown away afterwards.
+3. **You fill in both spreadsheets** (`sources/phd/`).
+4. **Load them, and you read them a second time.** Then Session 1 is taken off
+   and put back with the dates. Compared with a copy, it should differ only by
+   the dates added.
+5. **Session 2 is reviewed and promoted.**
 
 ## After that, in order
 
-1. Fix Postico's permissions: you cannot open six things.
+1. Fix Postico's permissions: five pivot tables it cannot open.
 2. Sessions 3–5: the reader misses 2, 14 and 6 rows.
 3. Bills carried over between sessions: before Session 5 is loaded.
 4. The double-count guard: before Session 6 is promoted.
@@ -85,6 +73,8 @@ shape", and "Stage 1 and Stage 2 completion dates, from the PhD".
 
 ## Waiting for your decision, and not blocking anything
 
+- **The thesis year in M2.** 2021, as you gave it; the copy on the server is
+  headed "final for submission – 25 February 2022".
 - **Calendar days or sitting days** for durations.
 - **Whether to keep the date a bill's Royal Assent was blocked.** Four bills;
   nothing forces it.
@@ -112,30 +102,28 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-11
+## Sanity check, 2026-09-11, third session
 
-- **Counts match the database:**
-  - 73 bills and 67 stage records: 62 passing dates and 5 Stage 1 rejections;
-  - 11 provenance notes;
-  - Session 2 has 81 staging lines, all `new`;
-  - the error checker is empty.
-- **The data dictionary** regenerated with no difference from the database.
-- **Found:** the description of `stage_event` still says "Currently empty"; it
-  holds 67 rows. The stage-dates change rewrites that tab's descriptions, so it
-  is corrected there. It is part of that change's list, not a separate task.
-- **Found:** this file opened with tasks and put the goal on line 120. It has
-  been rewritten.
-- **Known drift, already listed:** `docs/VARIABLES.md`.
-- **At close:**
-  - No database change was made this session, so the counts and the data
-    dictionary stand as above.
-  - Two Parliament pages were added to `sources/procedure/`.
-  - The part of this file above the line had grown to 129 lines during the
-    session, and was cut back at close.
-- **For the next build:** a copy of a web page briefly landed in the
-  repository root this session, because a script changed into a scratch
-  directory named by an unset variable. It was moved to `sources/procedure/`.
-  Use the scratchpad's full path in scripts.
+- **At opening, all matched:**
+  - 73 bills, 67 stage records (62 passing dates, 5 Stage 1 rejections) and
+    11 provenance notes;
+  - Session 2's 81 staging lines all `new`, and the error checker empty;
+  - the data dictionary regenerated with no difference;
+  - nothing uncommitted, and both PhD spreadsheets blank.
+- **At close, after `db/033`:**
+  - 73 bills, 67 stage records, 11 notes;
+  - 139 stage-dates rows: Session 1's 67 accepted and stamped, Session 2's 72
+    `new`;
+  - the error checker empty, and 271 gaps;
+  - 26 tabs, and `bill_candidate` has 38 columns;
+  - the data dictionary regenerated from the database after the change.
+- **Found:** a check for the removed columns first reported them still there.
+  It was reading the copy in `copy_before_033`, which has them. While a copy
+  schema exists, any question put to the catalogue must name `public`.
+- **Found:** the Session 2 Robin Rigg and Stirling-Alloa-Kincardine Private
+  Bills were reintroduced after dissolution and passed within weeks. They may
+  not have gone through every stage again. If so they will show as gaps, and
+  need a note, not a date.
 
 ## The owner's standing positions, so they are not re-argued
 
@@ -151,6 +139,9 @@ orient, and none of it belongs above the line.
 - **Provenance notes may change, provided the owner clears the change.**
   Approving a rehearsed promotion clears the notes it rebuilds. Any other
   change to a note goes to the owner individually.
+- **The owner does not run database steps.** The session runs them and reports
+  the results against what they should say. Step-by-step instructions are for
+  what the owner does do: filling in spreadsheets, and reviewing in Postico.
 
 **Before explaining anything about the database**, read
 `docs/HOW-THE-DATABASE-WORKS.md` and the rules in `CLAUDE.md`. **Before
@@ -159,52 +150,50 @@ rehearsal, the check and the undo without being asked.
 
 ## Stage dates: working detail
 
-- **The spreadsheets:**
-  - `sources/phd/stage-dates-session-1.csv` and `-session-2.csv`.
-  - One line per staging line, keyed by line number.
-  - Empty columns for the Stage 1 date, the Stage 2 date, the PhD reference,
-    the stage reached if the bill did not pass, and a note.
-  - The Official Report Stage 1 dates of the eleven bills rejected at Stage 1
-    were left out on purpose, so the PhD checks them instead of copying them.
-- **Already agreed in outline** (`DECISIONS.md`):
-  - the dates sit in the existing stage records, each carrying its own source;
-  - the checks are that dates run in order, every passed bill has both dates
-    (a missing one is listed as a gap, not a blocker), and a Stage 1 rejection
-    has no Stage 2;
-  - for the eleven rejections, the PhD must agree with the Official Report.
-- **The "date not known" gap:** `stage_event.date_completed` empty is described
-  as "not completed", which closes off "completed, date not known".
-- **The fifteen bills without stage records:**
-  - Session 1: 3 withdrawn and 3 fell at dissolution;
-  - Session 2: 5 withdrawn and 4 fell at dissolution.
+- **Built in `db/033`:** the stage-dates staging sheet (`stage_candidate`), the
+  checks in `v_candidate_problems`, the gaps list (`v_stage_date_gaps`), the
+  clean sheet's rule that an undated completed stage has a note, the Hybrid
+  correction, descriptions, and M2. The load, promotion and rollback scripts
+  read the new sheet. See `DECISIONS.md`, 2026-09-11, for what was settled
+  while building.
+- **Not built: the loader for the owner's spreadsheets.** Agreed in outline
+  (nine parts, part 4). To settle when it is built, with the owner:
+  - it unfolds each spreadsheet line into rows: the Stage 1 date at position
+    1 and the Stage 2 date at position 2, under the bill type's own names, so
+    Preliminary and Consideration for a Private Bill;
+  - "not known" in a date cell becomes a completed stage with no date, and the
+    note column must say why;
+  - `stage_reached_if_not_passed` becomes a stage not completed, where the
+    bill ended; the words allowed in that column need fixing first;
+  - source `phd`, reference from `phd_reference`, and a date read still to
+    choose;
+  - everything arrives `new`, refuses a line number or title that does not
+    match the staging line, and is rehearsed like the other scripts.
+- **The spreadsheets:** `sources/phd/stage-dates-session-1.csv` and
+  `-session-2.csv`, one line per staging line, keyed by line number. The
+  Official Report Stage 1 dates of the eleven rejections were left out on
+  purpose, so the PhD checks them; the checker flags any disagreement.
+- **The fifteen bills with nothing recording where they ended:** Session 1 has
+  3 withdrawn and 3 fell at dissolution; Session 2 has 5 withdrawn and 4 fell
+  at dissolution.
 - **Private Bills in Sessions 1 and 2:** twelve. Session 1 has 3 (1 passed, 2
-  fell at dissolution); Session 2 has 9, all passed.
-- **The owner's understanding that every Private Bill has a Consideration
-  Stage meeting** is tested by the data. The checker's "every passed bill has
-  both dates" flags any passed Private Bill without one.
-- **Correcting the Hybrid stage names touches:**
-  - the hybrid rows of `ref_bill_type_stage`;
-  - the descriptions of `ref_bill_type_stage`, `ref_stage`, `stage_event`,
-    `bill_candidate.end_stage_3_date` and `v_bill_stage_dates`;
-  - M2;
-  - `HOW-THE-DATABASE-WORKS.md` §3;
-  - a comment in `tools/promote_session.sql`.
-- **Session 2's review:** Postico, `bill_candidate`, session 2, lines 74–154.
-  It is then admitted by a migration, as `db/016` did for Session 1, and
-  promoted through the runbook.
+  fell at dissolution); Session 2 has 9, all passed. The owner's understanding
+  that every one has a Consideration Stage meeting is tested by the gaps list.
+- **Session 2's review:** Postico, `bill_candidate`, session 2, lines 74–154,
+  and its 72 rows on `stage_candidate`. It is then admitted by a migration, as
+  `db/016` did for Session 1, and promoted through the runbook.
 
 ## Detail for the later work
 
 1. **Postico's permissions.**
    - Postico connects as `legdata`, which has no administrator rights.
-   - It cannot read the dropdown list `ref_bill_type_stage` or five pivot
-     tables: `v_bill_stage_dates`, `v_bill_stage_durations`,
-     `v_bill_total_duration`, `v_outcome_by_type` and
-     `v_stage_duration_summary`.
+   - It cannot read five pivot tables: `v_bill_stage_dates`,
+     `v_bill_stage_durations`, `v_bill_total_duration`, `v_outcome_by_type`
+     and `v_stage_duration_summary`. (`ref_bill_type_stage` was given to it in
+     `db/033`, because the error checker needed it.)
    - The cause: migrations run as the administrator (`postgres`), and whatever
-     they create belongs to it unless told otherwise. `db/031` sets its new
-     list's owner for that reason, and **any future migration that creates
-     something must do the same.**
+     they create belongs to it unless told otherwise. **Any migration that
+     creates something must set its owner**, as `db/031` and `db/033` do.
    - Until it is fixed, have those tables printed for the owner when the
      runbook points to them.
 2. **Sessions 3–5 extract short** by 2, 14 and 6 rows against their own stated
@@ -240,8 +229,8 @@ rehearsal, the check and the undo without being asked.
    - §3.2 describes `procedure` as non-null and `date_outcome` as present, and
      defines `short_title` as "title as introduced" (wrong since `db/021`);
    - it does not mention `date_concluded`, `bill_type_stated`, `title_kind`,
-     `title_as_introduced`, `date_assent_blocked` or
-     `stage_1_rejection_route`;
+     `title_as_introduced`, `date_assent_blocked`, `stage_1_rejection_route`
+     or the stage-dates sheet;
    - §4.1 needs `analysis_group`, and §4.5 needs `ref_bill_type_stage`;
    - §5 lists D1, D4 and D5 as open and never mentions D6, and §6 is answered
      by M6;
@@ -307,17 +296,31 @@ website has to surface.
   - The old notes came back identical.
   - The rules refuse a route on a passed bill, a Stage 1 rejection without a
     route, and a 9.14.18 route on a Government Bill.
-- **Postico's user can read** the new list and the checker, and **cannot read**
-  `ref_bill_type_stage` or the five administrator-owned pivot tables.
+- **Postico's user can read** the new list and the checker.
+- **The stage-dates move changed nothing** (`db/033`), rehearsed twice and then
+  run for real, with the figures in the runbook:
+  - all 139 dates arrived unchanged, and nothing else on either session's
+    staging lines changed;
+  - Session 1 off and on matched the copy cell by cell;
+  - eight planted mistakes were caught, an undated completed stage without a
+    note was refused, the Official Report won over an agreeing PhD date, and
+    an unreviewed stage date stopped promotion;
+  - Session 2 reloaded from a fresh extraction gave its 66 passing dates
+    identically;
+  - Postico's user can read the new sheet, the gaps list, the checker and the
+    list of stage names.
 
 ## Tools
 
 - **`tools/load_session.sql`** puts a session's extracted CSV on the staging
-  sheet.
+  sheets: its lines, and its passing dates on the stage-dates sheet.
 - **`tools/promote_session.sql`** copies a session to the clean sheet, and
   **`tools/rollback_promotion.sql`** takes it off again.
   - All three take `-v session=` and `-v save=`, with no default for either.
   - `save=false` does the whole job and throws it away.
+- **`tools/take_copy.sql`** and **`tools/compare_with_copy.sql`** copy the
+  staging and clean sheets inside the database before a change, and compare
+  cell by cell after. Both take `-v copy=`.
 - **`tools/extract_factsheet.py`** reads the ruled-table factsheets (Sessions
   1–5). Its pinned environment is in `tools/requirements.txt`.
 - **`tools/make_data_dictionary.py`** regenerates `docs/DATA-DICTIONARY.md`, and
@@ -328,9 +331,15 @@ website has to surface.
 
 ## Housekeeping, small and known
 
-- **A safety copy of the whole database** from just before `db/030` is on the
-  VPS at `/var/tmp/legdata-before-030_2026-09-11.dump`. Delete it once a
-  nightly backup taken after 2026-09-11 has been confirmed.
+- **Two safety copies of the whole database** are on the VPS:
+  `/var/tmp/legdata-before-030_2026-09-11.dump` and
+  `/var/tmp/legdata-before-033_2026-09-11.dump`. Delete them once a nightly
+  backup taken after 2026-09-11 has been confirmed.
+- **A copy of the sheets inside the database, `copy_before_033`,** is kept for
+  the comparison after the PhD dates are loaded, unless a fresh copy is taken
+  then. Drop it when that comparison is done.
+- **Rehearsal files** are in `/tmp/legdata-rehearsal` and `/tmp/legdata-real`
+  on the VPS. Delete at will.
 - **The backup service runs with no `HOME` or `XDG_CACHE_HOME`**, so restic
   keeps no cache and re-reads everything in scope every night. That is harmless
   at this size, but will not stay so. One `Environment=` line in the unit file
@@ -341,7 +350,8 @@ website has to surface.
   National Records of Scotland web archive, which blocks automated access.
 - **Asking whether a rule exists means reading three catalogues.**
   `pg_constraint` does not list plain indexes; read `pg_indexes` and
-  `pg_trigger` too.
+  `pg_trigger` too. While a copy schema exists, filter every catalogue
+  question to the `public` schema.
 - **The extraction environment on the Mac** is a throwaway virtual environment
   built from `tools/requirements.txt` in the session scratchpad. The VPS copy at
   `/opt/legdata/venv` is the standing one.
@@ -369,8 +379,12 @@ applied this way.
 1. Strip each file's own `BEGIN;`, `COMMIT;` and closing `\if :save … \endif`
    block.
 2. Include them in order inside one `BEGIN … ROLLBACK`, with `\set session N`.
+3. A script that makes temporary tables can run only once per rehearsal; test
+   a second run in a separate rehearsal.
 
-That is how `db/030`–`db/032` and the Session 1 re-promotion were rehearsed.
+That is how `db/030`–`db/033` and the Session 1 re-promotions were rehearsed.
+Send the files as one bundle (`COPYFILE_DISABLE=1 tar czf …`), which keeps to
+one connection.
 
 **Do not use `legislativedata-vps` or `legislativedata-data` in
 `~/.ssh/config`.** They are leftovers from the old estate.

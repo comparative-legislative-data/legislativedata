@@ -7,6 +7,68 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-11 — When two sources give the same stage date, the more primary goes onto the clean sheet
+
+Settled by the owner. Built in `db/033` and `tools/promote_session.sql`.
+
+**The question.** Found while laying out the build. The eleven Stage 1
+rejections already carry a date from the Official Report, and the owner's PhD
+spreadsheet will give one too, as a check. Both wait on the stage-dates
+staging sheet. The clean sheet keeps one stage record per stage, with one
+source. Which goes onto it when they agree?
+
+**Decided: the Official Report.** In the owner's words, "That is the original
+definitive source and we will use it." The PhD row stays on the staging sheet
+as the evidence the check was made.
+
+**As a standing order**, so the next overlap needs no new decision: the
+Official Report, then a factsheet, then the PhD dataset. No order is settled
+between any other sources (the API, bill documents, manual entry). Promotion
+refuses to choose between them, and an order is settled when a first case
+arrives.
+
+**What makes it safe.** The error checker requires two rows for the same stage
+to agree on the date, on whether it was completed, and on whether the bill
+ended there, before either can be promoted. The order decides only which
+citation the clean sheet shows.
+
+---
+
+## 2026-09-11 — The stage-dates sheet is built, and moving the dates changed nothing
+
+`db/033`, `tools/take_copy.sql`, `tools/compare_with_copy.sql`, and changes to
+the load, promotion and rollback scripts. Builds the next two entries, except
+the script that loads the owner's PhD spreadsheet (part 4 of the nine parts).
+That script is built and rehearsed before the owner enters any date.
+
+**Proved as the owner proposed.** A copy of both sessions was taken, the dates
+were moved, Session 1 was taken off and put back, and the whole was compared
+with the copy cell by cell. No unexpected differences. The figures are in the
+runbook.
+
+**Settled while building, within what was agreed:**
+- **A passed bill with no passing date is still a problem, not a gap.** Part 6
+  makes a missing stage date a gap, and moves the existing checks to the new
+  sheet. The existing checks included this one, and every factsheet prints a
+  passing date, so its absence means a bad reading. Missing Stage 1 and 2
+  dates are gaps.
+- **The gaps list also shows a bill that did not pass with nothing recording
+  where it ended.** Part 2 says such a bill means the source does not say how
+  far it got. Listing it is what makes the fifteen in Sessions 1 and 2 visible
+  as work to do.
+- **A date on a stage not completed is allowed only where the bill ended
+  there**, which is the Stage 1 rejection case in part 2. Otherwise it is
+  flagged.
+- **The list of stage names is given to Postico's user.** The error checker
+  now reads it, and a checker belonging to that user cannot read a list the
+  user is refused. That is one of the six Postico permission faults; five
+  remain.
+- **M2 cites the thesis:** Steven MacGregor, "Does government dominate the
+  legislative process?" (PhD thesis, University of Stirling, 2021), as given
+  by the owner.
+
+---
+
 ## 2026-09-11 — Each clean tab has a staging sheet of the same shape
 
 Settled by the owner. **Replaces the 2026-09-10 entry "A new variable stages in

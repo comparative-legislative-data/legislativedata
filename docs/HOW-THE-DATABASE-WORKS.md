@@ -7,16 +7,16 @@ individual column holds, use `docs/DATA-DICTIONARY.md`.
 Nothing here is about SQL. If you find yourself needing to know SQL to follow
 it, that is a fault in this document.
 
-## 1. Think of it as one workbook with 24 tabs
+## 1. Think of it as one workbook with 26 tabs
 
-Postico lists 24 things side by side and they look equally important. They are
+Postico lists 26 things side by side and they look equally important. They are
 not. There are four kinds, and only one kind is data you look after.
 
 | Kind | How many | Spreadsheet equivalent |
 |---|---|---|
 | Names beginning `ref_` | 10 | Dropdown lists |
-| Names beginning `v_` | 8 | Pivot tables |
-| The sheet you fill in | 1 | Your working sheet |
+| Names beginning `v_` | 9 | Pivot tables |
+| The sheets you fill in | 2 | Your working sheets |
 | The finished answer | 3 | The clean sheet you publish from |
 | Context | 2 | Two small lookup sheets |
 
@@ -26,13 +26,16 @@ like restricting a cell to a list in a spreadsheet. `ref_outcome` is seven
 words — passed, withdrawn, fell, and so on. `ref_stage` is nine stage names.
 That is the entire content of the tab. You will almost never open them.
 
-**The eight `v_` tabs are pivot tables.** They hold no data of their own. Each
+**The nine `v_` tabs are pivot tables.** They hold no data of their own. Each
 is a saved arrangement that recalculates from the real sheets every time you
-open it — outcome by bill type, stage durations, and so on. You cannot type
-into them. If one were deleted, nothing would be lost but the arrangement.
+open it — outcome by bill type, stage durations, the dates still to find, and
+so on. You cannot type into them. If one were deleted, nothing would be lost
+but the arrangement.
 
-**One tab is your working sheet: `bill_candidate`.** It holds every line read
-off a factsheet, for every session loaded so far. `docs/STATE.md` says which.
+**Two tabs are your working sheets.** `bill_candidate` holds every line read
+off a factsheet, for every session loaded so far; `docs/STATE.md` says which.
+`stage_candidate` holds every stage date waiting to go onto the clean sheet,
+wherever it came from.
 
 **Three tabs are the finished answer:** `bill`, `stage_event`, `field_source`.
 They fill up when promotion runs, one session at a time.
@@ -40,10 +43,12 @@ They fill up when promotion runs, one session at a time.
 **Two are context:** `session` (seven rows, one per parliament) and
 `methodology_note` (seven rows, the decisions a reader has to be told about).
 
-## 2. Your sheet: `bill_candidate`
+## 2. Your sheets
 
-One row per line of a factsheet. Forty columns, which sounds like a lot until
-you see that they come in four blocks.
+### The factsheet sheet: `bill_candidate`
+
+One row per line of a factsheet. Thirty-eight columns, which sounds like a lot
+until you see that they come in four blocks.
 
 Lines arrive a whole session at a time, by a load that is rehearsed before it
 is kept (`docs/PROMOTION-RUNBOOK.md`), and they arrive marked `new`.
@@ -76,17 +81,41 @@ records how it was rejected. `official_report_read_on` is the date the Official
 Report was read. `bill_note` is a note to carry onto the bill for a reader,
 which is different from `review_note`: that one stays behind on your sheet.
 
-The important thing about this sheet is that it is **deliberately permissive**.
-None of the dropdown lists are enforced here. A column can be left empty. A
-bad reading of a line lands as a row you can look at and correct, rather than
-as an error that stops the whole import. All the strictness lives on the other
-side of the gate.
+A bill's stage dates are not on this sheet. They are on the next one.
 
-## 3. Everything else, in relation to that sheet
+### The stage-dates sheet: `stage_candidate`
+
+One row per stage of a bill, per source. Take the Abolition of Feudal Tenure
+(Scotland) Bill, line 1. Its row here says: line 1, Stage 3, completed, 3 May
+2000, from the Session 1 factsheet, read on 10 September 2026.
+
+Every stage date waits here before it goes onto the clean sheet:
+- a passing date arrives when its session's factsheet is loaded;
+- a Stage 1 rejection date read from the Official Report is added at review;
+- your PhD dates arrive from your spreadsheet.
+
+Each row has its own `review_status`, the same gate as the factsheet sheet, so
+a date is accepted or rejected on its own. Your own dates arrive as `new` like
+everything else, and you read them a second time before accepting them.
+
+A bill can have two rows for the same stage from different sources. The error
+checker insists they agree. The clean sheet then takes the Official Report's,
+before the factsheet's, before your PhD's, and the other stays here as the
+evidence it was checked.
+
+A stage completed on a date nobody can find is a row that says completed, with
+the date empty and a note saying why. That is a gap, not an error.
+
+This sheet is permissive in the same way as the other. Neither sheet enforces
+the dropdown lists. A cell can be left empty. A bad reading lands as a row you
+can look at and correct, rather than as an error that stops the whole import.
+All the strictness lives on the other side of the gate.
+
+## 3. Everything else, in relation to those sheets
 
 ### The dropdown lists (`ref_*`)
 
-Block 2 columns are *meant* to hold values from these lists, but on your sheet
+Block 2 columns are *meant* to hold values from these lists, but on your sheets
 nothing forces it — that is the permissiveness above. On the clean sheet it is
 forced, and a value not on the list is refused outright.
 
@@ -98,14 +127,25 @@ came to be rejected at Stage 1.
 
 ### The error checker (`v_candidate_problems`)
 
-This is the one `v_` tab you will use regularly. It is the equivalent of a
-column of `IF` formulas flagging rows that don't hold together — a rejection
-date before an introduction date, an outcome that contradicts the section of
-the factsheet the line sat in, an asp number whose year doesn't match the Royal
-Assent date.
+This is the `v_` tab you will use most. It is the equivalent of a column of
+`IF` formulas flagging rows that don't hold together, on both your sheets — an
+outcome that contradicts the section of the factsheet the line sat in, an asp
+number whose year doesn't match the Royal Assent date, a Stage 2 dated before
+Stage 1, two sources giving different dates for the same stage. A problem on
+the stage-dates sheet names the stage and the source it came from.
 
 Open it and it is either empty or it lists the problems. Empty is the target.
 Nothing can be promoted while a session still has problems listed.
+
+### The gaps list (`v_stage_date_gaps`)
+
+The stage dates still to find, one row per missing date: a passed bill without
+its Stage 1 or Stage 2 date, a bill that ended early without the dates of the
+stages before, a bill that didn't pass with nothing saying where it ended, and
+a stage completed on a date not known, with its note.
+
+Unlike the error checker, a gap does not stop a session being promoted. It is
+the to-do list your PhD dates work through.
 
 ### The clean sheet (`bill`)
 
@@ -124,18 +164,19 @@ Stage 1 rejection without one, and refuses one on any other bill.
 
 ### The stage dates (`stage_event`)
 
-On your sheet, a bill's stage dates sit in columns: `end_stage_1_date`,
-`end_stage_3_date`. On the clean side they are unfolded into one row per
-stage the bill actually reached.
+One row per stage a bill actually reached, copied from an accepted row on your
+stage-dates sheet.
 
-The reason is that bills don't all have the same stages. Most have Stage 1, 2
-and 3; Private and Hybrid Bills have Preliminary, Consideration and Final
-Stage. As columns you would need a column per stage name and most would be
-empty. As rows, each bill has only the stages it really had, under their real
-names, and the database refuses to file a Stage 2 against a Private Bill.
+The reason for rows rather than columns is that bills don't all have the same
+stages. Most have Stage 1, 2 and 3, and so do Hybrid Bills; Private Bills have
+Preliminary, Consideration and Final Stage. As columns you would need a column
+per stage name and most would be empty. As rows, each bill has only the stages
+it really had, under their real names, and the database refuses to file a
+Stage 2 against a Private Bill.
 
-A bill that fell at Stage 1 has one row here, not three. A bill that passed
-has a row for each stage it completed.
+A bill that fell at Stage 1 has one row here, not three. Each row says where
+its date came from, so stage dates need no provenance notes. And the clean
+sheet refuses a stage marked completed with no date unless a note says why.
 
 To see them back as columns — one line per bill, stages across the top — open
 the pivot table `v_bill_stage_dates`. That is what it is for.
@@ -168,26 +209,29 @@ have found.
 
 `methodology_note` is seven rows of prose, each one a decision a reader of the
 published figures has to be told about — why Executive and Government Bills are
-counted as one thing, why a passed bill isn't necessarily an Act. These exist
-to be shown on the front end beside the charts, not to be used in calculations.
+counted as one thing, why a passed bill isn't necessarily an Act, when a stage
+counts as completed. These exist to be shown on the front end beside the
+charts, not to be used in calculations.
 
 ## 4. What promotion does
 
 Promotion is the one moving part that touches the clean sheet. For each row on
-your sheet marked `accepted`:
+your factsheet sheet marked `accepted`:
 
 - a row appears on the clean sheet, taking its bill number from the number of
   your staging line — line 17 becomes bill 17, always, however many times
   promotion is run;
-- your row gets stamped with that number and the date, so you can get from one
-  to the other and back in either direction;
-- one stage row is filed for each stage that bill actually reached;
+- one stage row is filed for each stage that bill has an accepted date for on
+  your stage-dates sheet, taking the Official Report's where two sources give
+  the same stage;
 - a provenance note is filed for each fact that didn't come from the row's
-  stated source — eleven of them, for Session 1.
+  stated source — eleven of them, for Session 1;
+- your rows on both sheets are stamped with what they became and the date, so
+  you can get from one to the other and back in either direction.
 
-Your sheet is never emptied and never altered beyond those two stamps. That is
+Your sheets are never emptied and never altered beyond those stamps. That is
 what makes promotion safe to redo: the clean sheet can be wiped and rebuilt
-from your sheet at any time, so a mistake in promotion costs a re-run, not
+from your sheets at any time, so a mistake in promotion costs a re-run, not
 data.
 
 Two things make that genuinely true rather than nearly true. Bill numbers come

@@ -14,6 +14,7 @@ does — which is what happened to the document this replaces.
 session ──< bill ──< stage_event
 
 bill_candidate ····> bill        via promoted_bill_id
+stage_candidate ···> stage_event via promoted_stage_event_id
 
 methodology_note                 stands alone
 field_source                     stands alone
@@ -26,6 +27,7 @@ ref_* tables                     each holds the allowed values
 - `bill` is one row per bill. This is the live, checked data.
 - `stage_event` is one row per stage a bill reached.
 - `bill_candidate` is one row per line read off a factsheet, waiting to be checked. When a row is promoted, `promoted_bill_id` records which `bill` row it became.
+- `stage_candidate` is one row per stage of a bill, per source, waiting to be checked. Each row belongs to a `bill_candidate` line, and becomes a `stage_event` row when promoted.
 - The `ref_` tables are lists of allowed values. `bill.bill_type` can only hold a code that appears in `ref_bill_type`, and the database refuses anything else.
 
 **Required** means the column cannot be left empty. **Points at** means the value must exist in that other table.
@@ -76,7 +78,7 @@ One row per bill. This is the checked, live data. A row only gets here by being 
 
 ### `stage_event`
 
-One row per stage a bill actually reached. A bill that fell at Stage 1 has one row, not three. Stages are recorded under their real names for that kind of bill: Stage 1, 2 and 3 for most bills, Preliminary, Consideration and Final Stage for Private and Hybrid Bills. Currently empty — it fills up when promotion runs.
+One row per stage a bill actually reached, under that stage's real name for that kind of bill: Stage 1, 2 and 3 for public and Hybrid Bills, Preliminary, Consideration and Final Stage for Private Bills, then Reconsideration where it happened. A bill rejected at Stage 1 has one row, not three. Written by promotion from the accepted rows of stage_candidate, one row per stage, and removed when the session is taken back off; the rows are renumbered each time. Each row carries its own source.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
@@ -84,13 +86,13 @@ One row per stage a bill actually reached. A bill that fell at Stage 1 has one r
 | `bill_id` | number | yes | `bill.bill_id` | Which bill this stage belongs to. Points at the bill table. |
 | `stage` | text | yes | `ref_stage.code` | The stage's real name for this kind of bill. Allowed values are in ref_stage, and which ones are allowed for which bill type is in ref_bill_type_stage. |
 | `stage_order` | number | yes |  | Where this stage comes in its own bill type's sequence: 1, 2, 3 or 4. It exists so a Private Bill's Consideration Stage can be compared with an ordinary bill's Stage 2 without claiming they are the same stage. Which stage sits at which position for which bill type is in ref_bill_type_stage, and a trigger refuses any other combination. |
-| `date_completed` | date |  |  | Date the stage was completed. Empty if the bill reached the stage but never completed it. |
+| `date_completed` | date |  |  | The date the stage was completed, at the points methodology note M2 sets out: Stage 1 on the Stage 1 debate, Stage 2 at the meeting at which the last amendments were disposed of, Stage 3 on the vote to pass, and the equivalent points for a Private Bill. On a stage the bill did not complete, the date of the decision that ended it where there was one, such as a Stage 1 rejection, and otherwise empty. On a completed stage, empty means completed on a date not known, and the database then requires a note saying why. |
 | `completed` | true/false | yes |  | True if the bill got through this stage. False means it reached the stage and stopped there, which is a different fact from never having reached it — a bill sitting in Stage 2 at dissolution has a Stage 2 row with completed false, and no Stage 3 row at all. |
 | `fell_here` | true/false | yes |  | True on the stage where the bill ended. A bill can have at most one such row, and the database enforces it — the partial unique index stage_event_one_fell_idx. False everywhere else, including on every stage of a bill that passed. |
-| `source` | text | yes | `ref_source.code` | Where this stage date came from. Allowed values are in ref_source. |
+| `source` | text | yes | `ref_source.code` | Where this stage date came from. Allowed values are in ref_source. Where more than one source gave the same stage, this is the more primary of them: the Official Report, then a factsheet, then the PhD dataset. The others stay on stage_candidate. |
 | `source_ref` | text |  |  | The exact place within that source. |
 | `observed_at` | date | yes |  | The date the source was read. |
-| `note` | text |  |  | Free text for anything irregular about this stage. |
+| `note` | text |  |  | Free text for anything irregular about this stage, carried from stage_candidate.note. Required where a stage was completed on a date not known, to say why; the database refuses such a row without one. Empty means nothing irregular. |
 | `created_at` | timestamp | yes |  | When this row was created. Set automatically. |
 | `updated_at` | timestamp | yes |  | When this row was last changed. Set automatically. |
 
@@ -98,7 +100,7 @@ One row per stage a bill actually reached. A bill that fell at Stage 1 has one r
 
 ### `bill_candidate`
 
-One row per line read off a factsheet. This is the staging area: nothing here is treated as fact until it is reviewed and promoted into bill. Rows are kept permanently, including rejected ones, because they are the record of what the source actually said. Read it as three groups of columns: raw_ columns are the factsheet's own words, the middle group is what we propose, and the review_ columns are the gate.
+One row per line read off a factsheet. This is the staging area: nothing here is treated as fact until it is reviewed and promoted into bill. Rows are kept permanently, including rejected ones, because they are the record of what the source actually said. Read it as three groups of columns: raw_ columns are the factsheet's own words, the middle group is what we propose, and the review_ columns are the gate. A bill's stage dates are not held here: they wait on stage_candidate, one row per stage.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
@@ -117,7 +119,6 @@ One row per line read off a factsheet. This is the staging area: nothing here is
 | `bill_type` | text |  |  | Who introduced the bill: government, members, committee, private or hybrid. Our proposed value, converted from the factsheet's type letter in raw_type — E and G both become government, M members, C committee, P private, H hybrid. Executive and Government collapse into one value here on purpose, so that a count of government bills runs continuously across the 2007 changeover; the contemporaneous styling is not lost, it is kept beside this column in bill_type_stated. Should be a code from ref_bill_type. Nothing in this table enforces that, but bill.bill_type does, so a wrong value cannot reach the live table. |
 | `procedure` | text |  |  | How the bill was handled under the Parliament's rules — standard, emergency, budget and so on. Always empty from a factsheet: none of them state procedure. Deliberately not defaulted to "standard", which would record budget and emergency bills as standard procedure on no evidence. See db/010. |
 | `date_introduced` | date |  |  | The date the bill was introduced, as a real date, read from raw_date_introduced. Empty where the factsheet gave none, or where the printed form could not be read — parser_note says which. |
-| `end_stage_3_date` | date |  |  | The date the bill was passed, which is the date Stage 3 was completed — Final Stage for a Private or Hybrid Bill. Taken from raw_date_final for lines in the Acts table. Empty for a bill that was not passed. See methodology note M2. |
 | `date_concluded` | date |  |  | The date the bill stopped being a live bill without becoming an Act — the date it was withdrawn, or the date it fell. Taken from raw_date_final for lines in the Withdrawn and Fallen tables. Empty for a bill that was passed. |
 | `date_royal_assent` | date |  |  | The date the bill received Royal Assent and became an Act, as a real date, read from raw_date_royal_assent. Empty if it never did. |
 | `asp_number` | text |  |  | The Act's number, e.g. "2000 asp 5", taken out of raw_title where the factsheet runs it into the title. Empty if the bill did not become an Act. |
@@ -137,11 +138,35 @@ One row per line read off a factsheet. This is the staging area: nothing here is
 | `promoted_at` | timestamp |  |  | When this line was promoted into bill. Empty means it has not been. |
 | `updated_at` | timestamp | yes |  | When this row was last changed. Set automatically. |
 | `bill_type_stated` | text |  |  | How that same type was styled at the time: an Executive Bill or a Government Bill. Converted from the same letter but keeping the distinction it makes — E and G* become executive, G becomes government. This is the half of the pair that bill_type deliberately flattens; the two columns are read together. Should be a code from ref_bill_type_stated. Nothing in this table enforces that, but bill.bill_type_stated does. |
-| `end_stage_1_date` | date |  |  | The date Stage 1 was completed. For a bill rejected at Stage 1 this is the date of that decision, which is also the date the bill fell. No factsheet states it: every value here was entered by hand from the Official Report, with the citation in review_note. |
 | `title_as_introduced` | text |  |  | The title the bill had when it was introduced, where the factsheet states it — Session 2 prints one inside the title cell, after "Introduced as:". Taken out of raw_title, which keeps the printed words. Empty means the factsheet does not state one, which is the usual case; empty never means the title did not change. |
 | `stage_1_rejection_route` | text |  |  | How the Parliament came to reject the bill's general principles at Stage 1, read from the Official Report at review; no factsheet states it. Should be a code from ref_stage_1_rejection_route. Nothing in this table enforces that, but bill.stage_1_rejection_route does. The error checker requires it on every line whose outcome is rejected_stage_1 and refuses it on any other. The Presiding Officer's announcement it rests on is quoted in review_note after "Result as recorded:", and becomes the provenance note's value seen at promotion. |
 | `bill_note` | text |  |  | The note to carry onto bill.note at promotion: anything irregular about the bill that a reader of the published data should see. Not the same as review_note, which is the reviewer's reasoning and stays on this sheet. Empty means there is nothing to carry. |
-| `official_report_read_on` | date |  |  | The date the Official Report was read for this line, for its outcome, its Stage 1 date or its Stage 1 rejection route. Promotion dates the provenance of those facts by this, not by observed_at, which is when the factsheet was read. Empty means nothing on this line came from the Official Report; the error checker requires it whenever something did. |
+| `official_report_read_on` | date |  |  | The date the Official Report was read for this line, for its outcome or its Stage 1 rejection route. Promotion dates the provenance of those facts by this, not by observed_at, which is when the factsheet was read. A stage date read from the Official Report carries its own read date on stage_candidate. Empty means neither came from the Official Report; the error checker requires it whenever one did. |
+
+### `stage_candidate`
+
+The stage-dates staging sheet: one row per stage of a bill, per source, waiting to be checked before it goes onto stage_event. Every stage date arrives here, whatever its source: a factsheet's passing date when a session is loaded, a date read from the Official Report at review, a date from the owner's PhD dataset. Each row belongs to a line of bill_candidate, which is its bill. Nothing reaches stage_event except from an accepted row here. Where two accepted rows give the same stage of the same bill, the error checker requires them to agree, and promotion carries the one from the more primary source: the Official Report, then a factsheet, then the PhD dataset. The other stays here as the check. Rows are kept permanently.
+
+| Column | Type | Required | Points at | What it holds |
+|---|---|---|---|---|
+| `stage_candidate_id` | number | yes |  | Our identifier for this row. Not a bill number, and not carried onto stage_event. |
+| `candidate_id` | number | yes | `bill_candidate.candidate_id` | Which staging line, and so which bill, this stage belongs to: rows for line 17 become stage records of bill 17. Required: a stage date cannot wait here without a bill line behind it. |
+| `stage` | text |  |  | The stage's real name for this kind of bill: Stage 1, 2 or 3 for a public or Hybrid Bill; Preliminary, Consideration or Final for a Private Bill; or Reconsideration. Should be a code from ref_stage, and the name ref_bill_type_stage gives for the line's bill type at this position. Nothing in this table enforces either; the error checker flags both, and stage_event refuses a wrong one. |
+| `stage_order` | number |  |  | Where the stage comes in its bill type's sequence: 1, 2 or 3, or 4 for Reconsideration. Should match the stage's name in ref_bill_type_stage; the error checker flags a mismatch. |
+| `date_completed` | date |  |  | The date the stage was completed, at the points methodology note M2 sets out. On a stage the bill did not complete, the date of the decision that ended it where there was one, such as a Stage 1 rejection, and otherwise empty. On a completed stage, empty means completed on a date not known, and the note must say why. A stage not yet entered has no row at all. |
+| `completed` | true/false |  |  | True if the bill got through this stage. False means it reached the stage and stopped there, or is still in it. Should always be filled; the error checker flags an empty one. |
+| `fell_here` | true/false |  |  | True on the stage where a bill that did not pass ended: rejected, withdrawn, or fallen while in it. Never on a completed stage or on a bill that passed, and nothing may be recorded after it; the error checker flags each. Should always be filled. |
+| `source` | text |  |  | Where this stage date came from: normally spice_factsheet, official_report or phd. Should be a code from ref_source. Nothing in this table enforces that, but stage_event.source does. |
+| `source_ref` | text |  |  | The exact place within that source: which factsheet, the Official Report link, or the PhD dataset's reference. |
+| `observed_at` | date |  |  | The date the source was read. Should always be filled; the error checker flags an empty one. |
+| `note` | text |  |  | Anything irregular about this stage that a reader should see, carried onto stage_event.note at promotion. Required for a stage completed on a date not known, to say why. Empty means nothing irregular. |
+| `review_status` | text | yes |  | The gate for this row: new (not looked at), accepted, rejected or held, as on bill_candidate. Rows arrive new, the owner's own PhD dates included. Only accepted rows go onto stage_event, and a session is not promoted while any of its rows is new or held. Rows moved from bill_candidate by db/033 kept their line's status. This is the one value in this table the database enforces. |
+| `review_note` | text |  |  | What the reviewer decided about this row and why. Stays on this sheet. Empty means nothing needed saying. |
+| `reviewed_at` | timestamp |  |  | When a person reviewed this row. Empty means it has not been reviewed. |
+| `promoted_stage_event_id` | number |  | `stage_event.stage_event_id` | Which stage_event row this became at the last promotion. Stage records are renumbered each time a session is put back, so this number is too. Empty means not promoted: not accepted, its session not on the clean sheet, or another accepted row for the same stage was carried instead. |
+| `promoted_at` | timestamp |  |  | When this row was last promoted. Empty means it is not on the clean sheet. |
+| `created_at` | timestamp | yes |  | When this row was put on the sheet. Set automatically. |
+| `updated_at` | timestamp | yes |  | When this row was last changed. Set automatically. |
 
 ### `field_source`
 
@@ -192,7 +217,7 @@ Who introduced the bill. Every allowed value for bill.bill_type is a row here, w
 
 ### `ref_bill_type_stage`
 
-Which stages belong to which kind of bill, and in what order. Five bill types times four positions: government, members and committee bills run Stage 1, 2 and 3 then Reconsideration; private and hybrid bills run Preliminary, Consideration and Final Stage then Reconsideration. A trigger on stage_event reads this table, so the database refuses a Stage 2 recorded against a Private Bill, or a Preliminary Stage against a Government Bill, or a real stage name at the wrong position.
+Which stages belong to which kind of bill, and in what order. Five bill types times four positions: government, members, committee and hybrid bills run Stage 1, 2 and 3 then Reconsideration; private bills run Preliminary, Consideration and Final Stage then Reconsideration. (Hybrid bills had the private names until db/033; the Forth Crossing Bill ran Stage 1, 2 and 3.) A trigger on stage_event reads this table, so the database refuses a Stage 2 recorded against a Private Bill, or a Preliminary Stage against a Government Bill, or a real stage name at the wrong position. The error checker reads it for the stage-dates staging sheet.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
@@ -269,7 +294,7 @@ The kinds of source this project takes facts from. Every allowed value for any s
 
 ### `ref_stage`
 
-The names stages actually have, covering both the Stage 1/2/3 sequence and the Preliminary/Consideration/Final sequence Private and Hybrid Bills use. Every allowed value for stage_event.stage is a row here, with its own definition, so a value can be added or re-labelled without changing the schema and so each one carries the text explaining it to a reader.
+The names stages actually have, covering both the Stage 1/2/3 sequence of public and Hybrid Bills and the Preliminary/Consideration/Final sequence of Private Bills. Every allowed value for stage_event.stage is a row here, with its own definition, so a value can be added or re-labelled without changing the schema and so each one carries the text explaining it to a reader.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|

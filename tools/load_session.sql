@@ -21,6 +21,11 @@
 -- use, in the order the lines appear in the factsheet. Not from the sequence:
 -- a rehearsal that is thrown away would still use up sequence numbers, and a
 -- staging line's number becomes its bill's number (db/026).
+--
+-- A line from the Acts table also has its passing date put on the stage-dates
+-- sheet (stage_candidate), as the completed third stage of its bill type's
+-- sequence, arriving new like the line (db/033). The extractor is unchanged:
+-- the date is read from its CSV's end_stage_3_date column.
 
 \set ON_ERROR_STOP on
 
@@ -90,6 +95,10 @@ BEGIN
   IF n > 0 THEN RAISE EXCEPTION 'Refusing to load: the file name carries no retrieval date, so when the source was read is unknown.'; END IF;
 END $$;
 
+-- The highest staging line number in use before this load.
+CREATE TEMP TABLE load_base ON COMMIT DROP AS
+SELECT coalesce(max(candidate_id), 0) AS base FROM bill_candidate;
+
 -- ---------------------------------------------------------------------------
 -- The staging lines
 -- ---------------------------------------------------------------------------
@@ -100,24 +109,41 @@ INSERT INTO bill_candidate (
     raw_date_final, raw_date_royal_assent, raw_section,
     sp_bill_id, short_title, title_as_introduced, title_kind,
     bill_type, bill_type_stated,
-    date_introduced, end_stage_3_date, date_concluded, date_royal_assent,
+    date_introduced, date_concluded, date_royal_assent,
     asp_number, outcome, enactment_status,
     source, source_ref, observed_at, src_file, src_page, parser_note)
-SELECT (SELECT coalesce(max(candidate_id), 0) FROM bill_candidate) + e.line,
+SELECT b.base + e.line,
        e.session_number::int,
        e.raw_title, e.raw_type, e.raw_date_introduced, e.raw_introduced_by,
        e.raw_date_final, e.raw_date_royal_assent, e.raw_section,
        e.sp_bill_id, e.short_title, e.title_as_introduced, e.title_kind,
        e.bill_type, e.bill_type_stated,
-       e.date_introduced::date, e.end_stage_3_date::date,
-       e.date_concluded::date, e.date_royal_assent::date,
+       e.date_introduced::date, e.date_concluded::date, e.date_royal_assent::date,
        e.asp_number, e.outcome, e.enactment_status,
        'spice_factsheet',
        'session ' || e.session_number || ', retrieved '
          || substring(e.src_file from 'retrieved-(\d{4}-\d{2}-\d{2})'),
        substring(e.src_file from 'retrieved-(\d{4}-\d{2}-\d{2})')::date,
        e.src_file, e.src_page::int, e.parser_note
+  FROM extracted e CROSS JOIN load_base b
+ ORDER BY e.line;
+
+-- ---------------------------------------------------------------------------
+-- The passing dates, onto the stage-dates sheet
+-- ---------------------------------------------------------------------------
+
+-- The completed third stage of the line's own sequence: Stage 3 for a public
+-- or Hybrid Bill, Final Stage for a Private Bill. Same source, reference and
+-- date read as the line.
+INSERT INTO stage_candidate (candidate_id, stage, stage_order, date_completed,
+                             completed, fell_here, source, source_ref, observed_at)
+SELECT c.candidate_id, s.stage, 3, e.end_stage_3_date::date, true, false,
+       c.source, c.source_ref, c.observed_at
   FROM extracted e
+  CROSS JOIN load_base b
+  JOIN bill_candidate c ON c.candidate_id = b.base + e.line
+  LEFT JOIN ref_bill_type_stage s ON s.bill_type = c.bill_type AND s.stage_order = 3
+ WHERE e.end_stage_3_date IS NOT NULL
  ORDER BY e.line;
 
 -- ---------------------------------------------------------------------------
@@ -135,7 +161,18 @@ BEGIN
     RAISE EXCEPTION 'Check failed: % staging lines, % CSV lines.', n, (SELECT count(*) FROM extracted);
   END IF;
 
-  -- Every staging line says exactly what the CSV said, dates included.
+  -- One passing date on the stage-dates sheet per CSV line with one, and no
+  -- other stage dates for the session.
+  SELECT count(*) INTO n
+    FROM stage_candidate t JOIN bill_candidate c USING (candidate_id)
+   WHERE c.session_number = s;
+  IF n <> (SELECT count(*) FROM extracted WHERE end_stage_3_date IS NOT NULL) THEN
+    RAISE EXCEPTION 'Check failed: % stage-dates rows, % passing dates in the CSV.',
+      n, (SELECT count(*) FROM extracted WHERE end_stage_3_date IS NOT NULL);
+  END IF;
+
+  -- Every staging line says exactly what the CSV said, dates included, and its
+  -- passing date is the CSV's.
   SELECT count(*) INTO n
     FROM extracted e
    WHERE NOT EXISTS (
@@ -155,7 +192,9 @@ BEGIN
         AND c.bill_type             IS NOT DISTINCT FROM e.bill_type
         AND c.bill_type_stated      IS NOT DISTINCT FROM e.bill_type_stated
         AND c.date_introduced::text   IS NOT DISTINCT FROM e.date_introduced
-        AND c.end_stage_3_date::text  IS NOT DISTINCT FROM e.end_stage_3_date
+        AND (SELECT t.date_completed::text FROM stage_candidate t
+              WHERE t.candidate_id = c.candidate_id AND t.stage_order = 3)
+                                      IS NOT DISTINCT FROM e.end_stage_3_date
         AND c.date_concluded::text    IS NOT DISTINCT FROM e.date_concluded
         AND c.date_royal_assent::text IS NOT DISTINCT FROM e.date_royal_assent
         AND c.asp_number            IS NOT DISTINCT FROM e.asp_number
@@ -163,7 +202,7 @@ BEGIN
         AND c.enactment_status      IS NOT DISTINCT FROM e.enactment_status
         AND c.src_page::text        IS NOT DISTINCT FROM e.src_page
         AND c.parser_note           IS NOT DISTINCT FROM e.parser_note);
-  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % CSV line(s) did not arrive on the staging sheet unchanged.', n; END IF;
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % CSV line(s) did not arrive on the staging sheets unchanged.', n; END IF;
 
   RAISE NOTICE 'All checks passed.';
 END $$;
@@ -186,6 +225,12 @@ SELECT coalesce(c.raw_section, 'TOTAL') AS factsheet_table,
   FROM bill_candidate c JOIN load_arg a USING (session_number)
  GROUP BY GROUPING SETS ((c.raw_section), ())
  ORDER BY c.raw_section NULLS LAST;
+
+\echo '--- Passing dates put on the stage-dates sheet, by stage name'
+SELECT t.stage, t.stage_order, t.source, t.review_status, count(*)
+  FROM stage_candidate t JOIN bill_candidate c USING (candidate_id)
+  JOIN load_arg a ON a.session_number = c.session_number
+ GROUP BY 1,2,3,4 ORDER BY 2,1;
 
 \echo '--- Taken out of a title: SP Bill numbers and introduced titles'
 SELECT c.candidate_id, c.sp_bill_id, c.short_title, c.title_as_introduced

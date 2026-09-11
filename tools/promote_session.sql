@@ -1,6 +1,7 @@
 -- promote_session.sql
 --
--- Copies one session's accepted staging lines onto the clean sheet.
+-- Copies one session's accepted staging lines onto the clean sheet, with the
+-- accepted stage dates waiting for them on the stage-dates sheet.
 --
 -- Run it through docs/PROMOTION-RUNBOOK.md, which explains what to look at.
 -- Two things must be supplied on the command line and there are no defaults,
@@ -12,14 +13,23 @@
 --
 -- Safe to run more than once. It only touches staging lines that are accepted
 -- and not already promoted, and it files at most one provenance note per fact.
--- Taking a session off (rollback_promotion.sql) removes its notes, and putting
--- it back writes them again (db/030).
+-- Taking a session off (rollback_promotion.sql) removes its notes and stage
+-- records, and putting it back writes them again (db/030, db/033).
+--
+-- Stage records come from stage_candidate, one per stage of a bill. Where two
+-- accepted rows give the same stage, the error checker has made sure they
+-- agree, and the more primary source is carried: the Official Report, then a
+-- factsheet, then the PhD dataset (DECISIONS.md, 2026-09-11). No order is
+-- settled between any other sources, and the script stops rather than choose.
 
 \set ON_ERROR_STOP on
 
 BEGIN;
 
 CREATE TEMP TABLE promote_arg ON COMMIT DROP AS SELECT :session::int AS session_number;
+
+CREATE TEMP TABLE stage_source_rank ON COMMIT DROP AS
+SELECT * FROM (VALUES ('official_report', 1), ('spice_factsheet', 2), ('phd', 3)) AS r(source, rank);
 
 -- ---------------------------------------------------------------------------
 -- Before anything is written
@@ -45,6 +55,22 @@ BEGIN
    WHERE c.review_status NOT IN ('accepted','rejected');
   IF n > 0 THEN
     RAISE EXCEPTION 'Refusing to promote: % staging line(s) in this session are not yet accepted or rejected.', n;
+  END IF;
+END $$;
+
+-- The same for its stage dates, whatever their source: the owner's own dates
+-- are read a second time before they are admitted (DECISIONS.md, 2026-09-11).
+DO $$
+DECLARE n integer;
+BEGIN
+  SELECT count(*) INTO n
+    FROM stage_candidate t
+    JOIN bill_candidate c USING (candidate_id)
+    JOIN promote_arg a ON a.session_number = c.session_number
+   WHERE t.review_status NOT IN ('accepted','rejected')
+     AND c.review_status <> 'rejected';
+  IF n > 0 THEN
+    RAISE EXCEPTION 'Refusing to promote: % stage-dates row(s) in this session are not yet accepted or rejected.', n;
   END IF;
 END $$;
 
@@ -83,6 +109,34 @@ BEGIN
   END IF;
 END $$;
 
+-- Two accepted dates for the same stage from sources with no settled order
+-- between them.
+DO $$
+DECLARE n integer;
+BEGIN
+  SELECT count(*) INTO n FROM (
+    SELECT t.candidate_id, t.stage_order
+      FROM stage_candidate t
+      JOIN promoting p USING (candidate_id)
+      LEFT JOIN stage_source_rank r ON r.source = t.source
+     WHERE t.review_status = 'accepted'
+     GROUP BY t.candidate_id, t.stage_order
+    HAVING count(*) > 1 AND bool_or(r.rank IS NULL)) x;
+  IF n > 0 THEN
+    RAISE EXCEPTION 'Refusing to promote: % stage(s) have accepted dates from more than one source with no order of preference settled between them. See DECISIONS.md, 2026-09-11.', n;
+  END IF;
+END $$;
+
+-- The stage-dates rows being carried: one per stage of each bill being
+-- promoted, from its most primary accepted source.
+CREATE TEMP TABLE promoting_stages ON COMMIT DROP AS
+SELECT DISTINCT ON (t.candidate_id, t.stage_order) t.*
+  FROM stage_candidate t
+  JOIN promoting p USING (candidate_id)
+  LEFT JOIN stage_source_rank r ON r.source = t.source
+ WHERE t.review_status = 'accepted'
+ ORDER BY t.candidate_id, t.stage_order, r.rank;
+
 -- ---------------------------------------------------------------------------
 -- The bills
 -- ---------------------------------------------------------------------------
@@ -105,37 +159,15 @@ SELECT p.candidate_id, p.session_number, p.sp_bill_id, p.short_title, p.bill_typ
 -- The stages each bill reached
 -- ---------------------------------------------------------------------------
 
--- A bill that passed completed the third stage of its own type's sequence:
--- Stage 3 for a public bill, Final Stage for a private or hybrid one. The
--- name comes from ref_bill_type_stage, so it is right by construction and the
--- trigger on stage_event has nothing to object to.
+-- Each row carries its own source, reference and date read, so stage dates
+-- need no provenance notes. The stage name was checked against the bill type
+-- by the error checker, and the trigger on stage_event checks it again.
 INSERT INTO stage_event (bill_id, stage, stage_order, date_completed, completed,
-                         fell_here, source, source_ref, observed_at)
-SELECT p.candidate_id, s.stage, 3, p.end_stage_3_date, true, false,
-       p.source, p.source_ref, p.observed_at
-  FROM promoting p
-  JOIN ref_bill_type_stage s
-    ON s.bill_type = p.bill_type AND s.stage_order = 3
- WHERE p.outcome = 'passed'
-   AND p.end_stage_3_date IS NOT NULL;
-
--- A bill rejected at its first stage reached that stage and did not get through
--- it, so completed is false and this is where it ended. The date and the
--- outcome both came from the Official Report rather than the factsheet, and the
--- citation is in the staging line's review note; the stage row carries its own
--- source, so this needs no separate provenance note. It is dated by when the
--- Official Report was read, not when the factsheet was (db/031).
-INSERT INTO stage_event (bill_id, stage, stage_order, date_completed, completed,
-                         fell_here, source, source_ref, observed_at)
-SELECT p.candidate_id, s.stage, 1, p.end_stage_1_date, false, true,
-       'official_report',
-       substring(p.review_note from 'https?://\S+'),
-       p.official_report_read_on
-  FROM promoting p
-  JOIN ref_bill_type_stage s
-    ON s.bill_type = p.bill_type AND s.stage_order = 1
- WHERE p.outcome = 'rejected_stage_1'
-   AND p.end_stage_1_date IS NOT NULL;
+                         fell_here, source, source_ref, observed_at, note)
+SELECT s.candidate_id, s.stage, s.stage_order, s.date_completed, s.completed,
+       s.fell_here, s.source, s.source_ref, s.observed_at, s.note
+  FROM promoting_stages s
+ ORDER BY s.candidate_id, s.stage_order;
 
 -- ---------------------------------------------------------------------------
 -- Where individual facts came from, when it was not the row's own source
@@ -193,7 +225,7 @@ SELECT 'bill', p.candidate_id, 'stage_1_rejection_route', 'official_report',
                       AND f.field_name = 'stage_1_rejection_route');
 
 -- ---------------------------------------------------------------------------
--- Stamp the staging lines
+-- Stamp the staging lines and the stage-dates rows
 -- ---------------------------------------------------------------------------
 
 UPDATE bill_candidate c
@@ -201,6 +233,24 @@ UPDATE bill_candidate c
        promoted_at      = now()
   FROM promoting p
  WHERE c.candidate_id = p.candidate_id;
+
+UPDATE stage_candidate t
+   SET promoted_stage_event_id = e.stage_event_id,
+       promoted_at             = now()
+  FROM promoting_stages s
+  JOIN stage_event e ON e.bill_id = s.candidate_id AND e.stage_order = s.stage_order
+ WHERE t.stage_candidate_id = s.stage_candidate_id;
+
+-- What the rule says should be on the clean sheet for the whole session,
+-- including bills promoted in an earlier run, for the checks below.
+CREATE TEMP TABLE carried_stages ON COMMIT DROP AS
+SELECT DISTINCT ON (t.candidate_id, t.stage_order) t.*
+  FROM stage_candidate t
+  JOIN bill b ON b.bill_id = t.candidate_id
+  JOIN promote_arg a ON a.session_number = b.session_number
+  LEFT JOIN stage_source_rank r ON r.source = t.source
+ WHERE t.review_status = 'accepted'
+ ORDER BY t.candidate_id, t.stage_order, r.rank;
 
 -- ---------------------------------------------------------------------------
 -- Checks. Any failure aborts, and nothing is written.
@@ -246,28 +296,42 @@ BEGIN
        OR b.note              IS DISTINCT FROM c.bill_note);
   IF bad IS NOT NULL THEN RAISE EXCEPTION 'Check failed: bill(s) % differ from their staging line.', bad; END IF;
 
-  -- A stage row for every bill that should have one, and none that should not.
-  SELECT count(*) INTO n FROM bill_candidate c
-   WHERE c.session_number = s AND c.review_status = 'accepted'
-     AND c.end_stage_3_date IS NOT NULL
-     AND NOT EXISTS (SELECT 1 FROM stage_event e
-                      WHERE e.bill_id = c.candidate_id AND e.stage_order = 3);
-  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % bill(s) that passed have no final stage row.', n; END IF;
-
-  SELECT count(*) INTO n FROM bill_candidate c
-   WHERE c.session_number = s AND c.review_status = 'accepted'
-     AND c.end_stage_1_date IS NOT NULL
-     AND NOT EXISTS (SELECT 1 FROM stage_event e
-                      WHERE e.bill_id = c.candidate_id AND e.stage_order = 1);
-  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % bill(s) rejected at their first stage have no stage row.', n; END IF;
-
-  -- Every stage date matches the line it came from.
+  -- Every bill's stage records are exactly the stage-dates rows carried for
+  -- it: one per stage, field by field, and none without one.
   SELECT count(*) INTO n
-    FROM stage_event e JOIN bill_candidate c ON c.candidate_id = e.bill_id
+    FROM carried_stages k
+    FULL JOIN (SELECT e.* FROM stage_event e JOIN bill b USING (bill_id)
+                WHERE b.session_number = s) e
+      ON e.bill_id = k.candidate_id AND e.stage_order = k.stage_order
+   WHERE k.candidate_id IS NULL OR e.bill_id IS NULL
+      OR e.stage          IS DISTINCT FROM k.stage
+      OR e.date_completed IS DISTINCT FROM k.date_completed
+      OR e.completed      IS DISTINCT FROM k.completed
+      OR e.fell_here      IS DISTINCT FROM k.fell_here
+      OR e.source         IS DISTINCT FROM k.source
+      OR e.source_ref     IS DISTINCT FROM k.source_ref
+      OR e.observed_at    IS DISTINCT FROM k.observed_at
+      OR e.note           IS DISTINCT FROM k.note;
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % stage record(s) do not match the stage-dates rows they come from.', n; END IF;
+
+  -- Every row carried is stamped with its own record, and no other row in the
+  -- session is stamped.
+  SELECT count(*) INTO n
+    FROM stage_candidate t
+    JOIN bill_candidate c USING (candidate_id)
+    LEFT JOIN carried_stages k ON k.stage_candidate_id = t.stage_candidate_id
+    LEFT JOIN stage_event e ON e.stage_event_id = t.promoted_stage_event_id
    WHERE c.session_number = s
-     AND e.date_completed IS DISTINCT FROM
-         (CASE e.stage_order WHEN 1 THEN c.end_stage_1_date WHEN 3 THEN c.end_stage_3_date END);
-  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % stage date(s) do not match their staging line.', n; END IF;
+     AND ((k.stage_candidate_id IS NOT NULL) <> (t.promoted_stage_event_id IS NOT NULL)
+          OR e.bill_id <> t.candidate_id OR e.stage_order <> t.stage_order);
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % stage-dates row(s) stamped wrongly.', n; END IF;
+
+  -- Every bill that passed has a final stage record.
+  SELECT count(*) INTO n FROM bill b
+   WHERE b.session_number = s AND b.outcome = 'passed'
+     AND NOT EXISTS (SELECT 1 FROM stage_event e
+                      WHERE e.bill_id = b.bill_id AND e.stage_order = 3 AND e.completed);
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % bill(s) that passed have no final stage record.', n; END IF;
 
   -- No bill ended in two places.
   SELECT count(*) INTO n FROM (
@@ -314,9 +378,16 @@ SELECT b.outcome, count(*)
   FROM bill b JOIN promote_arg a USING (session_number) GROUP BY 1 ORDER BY 1;
 
 \echo '--- Stage rows written'
-SELECT e.stage, e.stage_order, e.completed, e.fell_here, count(*)
+SELECT e.stage, e.stage_order, e.completed, e.fell_here, e.source, count(*)
   FROM stage_event e JOIN bill b USING (bill_id) JOIN promote_arg a USING (session_number)
- GROUP BY 1,2,3,4 ORDER BY 2,1;
+ GROUP BY 1,2,3,4,5 ORDER BY 2,1,5;
+
+\echo '--- Accepted stage dates not carried, because a more primary source gave the same stage'
+SELECT t.candidate_id, t.stage, t.source, t.date_completed, k.source AS carried_instead
+  FROM stage_candidate t
+  JOIN carried_stages k ON k.candidate_id = t.candidate_id AND k.stage_order = t.stage_order
+ WHERE t.review_status = 'accepted' AND t.stage_candidate_id <> k.stage_candidate_id
+ ORDER BY 1, t.stage_order;
 
 \echo '--- Bills rejected at Stage 1: route, and the start of any note a reader will see'
 SELECT b.bill_id, left(b.short_title, 45) AS short_title, b.stage_1_rejection_route,
