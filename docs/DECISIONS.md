@@ -58,6 +58,12 @@ with the Official Report, a stage after where the bill ended.
   as 1 May; it now reads 5 January. Dates are still shown as 2000-01-05, and
   the instructions say to type them that way.
 - A row's last-changed time no longer moves when only its title is refreshed.
+- **The stage's position fills itself in from its name** (`db/036`), asked for
+  by the owner as a failsafe. Each stage name has one position whatever the
+  kind of bill, so the name gives the number, and anything typed there is
+  replaced. A real name on the wrong kind of bill, such as Stage 1 on a Private
+  Bill, still gets its number, and the checker says it is the wrong name for
+  that bill. A mistyped name gets no number, and the checker names it.
 
 ---
 

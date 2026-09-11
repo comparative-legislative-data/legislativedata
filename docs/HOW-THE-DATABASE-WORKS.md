@@ -100,6 +100,10 @@ the bill you meant, the line number is wrong. If a title is corrected on the
 factsheet sheet, the rows here follow. It stays on this sheet and is not copied
 to the clean sheet.
 
+The stage's position, `stage_order`, fills itself in the same way, from the
+stage name: 1 for Stage 1 or the Preliminary Stage, 2 for Stage 2 or the
+Consideration Stage, and so on. So the name and the number can never disagree.
+
 Each row has its own `review_status`, the same gate as the factsheet sheet, so
 a date is accepted or rejected on its own. Your own dates arrive as `new` like
 everything else, and you read them a second time before accepting them.

@@ -41,7 +41,8 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
 - **You type your dates straight into Postico**, not into spreadsheets. That
   finishes the stage-dates change: nothing in it is left unbuilt.
 - **The stage-dates sheet shows each bill's title** beside its line number,
-  filled in by itself. Proved to have changed nothing else.
+  and the stage's number fills itself in from its name. Both proved to have
+  changed nothing else.
 - **Dates typed with slashes are read day first:** 05/01/2000 is 5 January.
 - **Tidied:** leftover files off the server, and the server's details out of
   the repository. The dictionary tool now cleans up after itself.
@@ -131,12 +132,15 @@ orient, and none of it belongs above the line.
   - 139 stage-dates rows, each showing its line's title, numbering at 154;
   - the error checker empty and 271 gaps, as before;
   - a fresh connection as Postico's user reads 05/01/2000 as 5 January;
-  - 26 tabs; `stage_candidate` has 19 columns;
-  - the data dictionary regenerated from the database.
-- **Looking at the whole:** three migrations this day since `db/032`. `db/035`
-  adds one display column and three automatic rules, and no tab. The owner's
-  picture of the database is unchanged: a sheet to type on, the checker, the
-  gaps list.
+  - 26 tabs; `stage_candidate` has 19 columns.
+- **After `db/036`:** all 139 rows saved again came back identical; every
+  position matches its stage name; compared with `copy_before_phd_dates`,
+  nothing unexpected; the checker empty, 271 gaps; the data dictionary
+  regenerated from the database.
+- **Looking at the whole:** four migrations this day since `db/032`. `db/035`
+  and `db/036` add one display column and four automatic rules, and no tab.
+  The owner's picture of the database is unchanged: a sheet to type on, the
+  checker, the gaps list.
 - **Still true from the third session:** while a copy schema exists, any
   question put to the catalogue must name `public`. `copy_before_phd_dates`
   exists.
@@ -179,8 +183,10 @@ rehearsal, the check and the undo without being asked.
 - **Built in `db/035`: typed entry.** The owner types rows in Postico, one per
   stage; there is no loader and no spreadsheet (`DECISIONS.md`, 2026-09-11,
   "Stage dates are typed into Postico"). The sheet shows each row's title,
-  filled in by a trigger and refreshed from `bill_candidate`; slashed dates
-  are read day first. The owner's steps are in the runbook.
+  filled in by a trigger and refreshed from `bill_candidate`; `stage_order`
+  is filled in from the stage name (`db/036`); slashed dates are read day
+  first. The owner's steps are in the runbook. A new row must reach the server
+  with `stage_candidate_id` as DEFAULT; sent as NULL it is refused.
 - **What a PhD row holds:** source `phd`, reference `PhD thesis dataset`, its
   own date read. A stage where a bill ended is not completed and `fell_here`,
   dated by the decision if there was one. A stage completed on a date not known
@@ -363,8 +369,9 @@ website has to surface.
 
 ## Housekeeping, small and known
 
-- **Four safety copies of the whole database** are on the VPS:
-  `/var/tmp/legdata-before-030_2026-09-11.dump`, `-033_`, `-034_` and `-035_`.
+- **Five safety copies of the whole database** are on the VPS:
+  `/var/tmp/legdata-before-030_2026-09-11.dump`, `-033_`, `-034_`, `-035_` and
+  `-036_`.
   Delete them once a nightly backup taken after 2026-09-11 has been confirmed.
 - **`copy_before_phd_dates`** is held inside the database for the comparison
   after the PhD dates. Drop it once that comparison is done.

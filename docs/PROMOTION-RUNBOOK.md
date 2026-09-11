@@ -64,13 +64,13 @@ connect again, so it shows the sheet as it now is.
 date: the line number (`candidate_id`), the bill, and the stage.
 
 **2. Add a row.** Open `stage_candidate` and add a row with the + button at the
-bottom. Fill in:
+bottom, or ⇧⌘N. Fill in:
 
 | Column | What to type | Example |
 |---|---|---|
 | `candidate_id` | the line number | `1` |
 | `stage` | `stage_1` or `stage_2`; for a Private Bill, `preliminary` or `consideration` | `stage_1` |
-| `stage_order` | `1` or `2` | `1` |
+| `stage_order` | nothing: it fills itself in from the stage name | |
 | `date_completed` | the date, year first | `2000-01-20` |
 | `completed` | true | |
 | `fell_here` | false | |
@@ -79,11 +79,16 @@ bottom. Fill in:
 | `observed_at` | the date you read it, year first | `2026-09-11` |
 | `note` | empty, unless something is irregular | |
 
-Leave every other column empty. The row number, the title, `review_status`
-(`new`) and the times fill themselves in.
+Leave every other column as Postico shows it in the new row, whether that is
+DEFAULT or NULL. The database fills in the row number, the title, the stage's
+position, `review_status` (`new`) and the times. The one to be careful with is
+the row number, `stage_candidate_id`: it must stay DEFAULT. A row sent with it
+empty (NULL) is refused, with a message naming that column.
 
-**3. Save.** The bill's title appears beside the line number. If it is not the
-bill you meant, the line number is wrong: correct it and save again.
+**3. Save** with ⌘S. The bill's title appears beside the line number, and the
+position beside the stage name (⌘R reloads the view if they do not show). If
+the title is not the bill you meant, the line number is wrong: correct it and
+save again.
 
 **Two other kinds of row:**
 - **Where a bill that did not pass ended.** The stage it ended at, `completed`
@@ -357,3 +362,23 @@ Tested in rehearsal rather than assumed:
 - a title corrected on the factsheet sheet reached its stage rows, without
   changing their last-changed time;
 - a planted wrong stage name was still caught.
+
+## The stage's position fills itself in, 11 September
+
+`db/036`, asked for by you as a failsafe. Rehearsed and thrown away, then run
+for real after a safety copy (`/var/tmp/legdata-before-036_2026-09-11.dump`).
+
+- All 139 rows were saved again under the new rule and came back identical,
+  last-changed time included. Compared with `copy_before_phd_dates`: no
+  unexpected differences.
+- Every position matches its stage name. The error checker is empty, and the
+  gaps list holds 271.
+
+Tested in rehearsal rather than assumed:
+- a position left out, sent empty, or typed wrong was filled in from the name;
+- a Private Bill's Preliminary and Consideration Stages got 1 and 2;
+- Stage 1 on a Private Bill got 1, and the checker said it was the wrong name;
+- a mistyped stage name got no position, the checker named it, and correcting
+  the name brought the position;
+- a new row sent with DEFAULT in every column left alone was accepted, and one
+  sent with the row number empty was refused.
