@@ -33,46 +33,53 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
   loaded your own dates for all 154 bills.
 - **12 September, earlier.** Fixed the reader, which was losing whole rows, so
   Sessions 3 to 5 now read in full. Settled the thirteen dates where your sheet
-  and the factsheet disagreed. Put the day each session ended into the data,
-  from the SPICe dates factsheet, and made the error checker use it.
+  and the factsheet disagreed. Put the day each session ended into the data, and
+  moved the decision about why a bill fell out of the reader and into the
+  database, where both dates are.
 
-**12 September, this session. The closure test was run, and it found a real
-fault.**
-- **All sixteen mechanical checks matched**, and four of the five outside the
-  script.
-- **The fifth failed, on seven bills.** No fact sheet says why a bill fell. Seven
-  bills are recorded as having run out of time because they concluded on the day
-  their session ended — but the program that reads the fact sheets made that
-  decision, and it cannot see the day a session ended. It had to be told, each
-  time it ran, and what it was told was never written down. So reading the fact
-  sheets again gave a different answer for those seven, and the check meant to
-  catch the program drifting could not tell drift from a different instruction.
-- **The reader no longer decides why a bill fell.** It records what the fact
-  sheet says — this bill fell, on this date — and the comparison is now made
-  where both dates are kept. No bill's coding changed; the same seven bills, for
-  the same reason. What they gained is the note they never had: each now says
-  the coding is ours, gives the rule, and cites the source of its session's last
-  day. Before this, those seven looked as though the fact sheet had said it.
-- **Reading both fact sheets again now matches the staging sheet in all 154
-  rows**, with nothing supplied but the document.
+**12 September, this session. The closure test passed, and you gave seven of the
+eight sign-offs.**
+- **All twenty-one checks pass**, run by a session that made none of the change
+  it was testing. Both fact sheets read again, from the document and nothing
+  else, match the staging sheet in every raw cell. Both sessions taken off the
+  clean sheet and put back inside a rehearsal that was thrown away, with no
+  unexpected difference either time.
+- **Sign-offs 1 to 7 given**: what happened to each bill; the eleven Stage 1
+  rejections; the sixteen bills where you established where each ended; the
+  Robin Rigg Act's two stages that never happened; the thirteen adjudicated
+  dates; the nine corrections to your working spreadsheet; and the eight notes
+  a reader is given.
+- **You read those eight notes in full rather than in summary, and found a real
+  fault.** One said Royal Assent dates are taken from legislation.gov.uk. Eight
+  of the 128 have been checked there; the other 120 stand on the fact sheet. The
+  sentence was about which source settles an argument, and read as a statement
+  about where the dates came from. Fixed, with four other changes you asked for,
+  in `db/053`. No bill's coding changed.
+- **A sign-off is now recorded in `CLOSURE-TESTS.md`**, against its item, on the
+  day it is given. It was being kept here, and this file is cut every session.
 
-## Now: the closure test again, and the sign-offs
+## Now: a session of its own, so you can check you can explain it
 
-This session changed the data's provenance, so it does not mark the test.
+Sign-off 8 is the last one, and it is yours alone:
 
-1. **Run the closure test again**, all sixteen mechanical items and items 17 to
-   21, against `docs/CLOSURE-TESTS.md`. Four expected answers were corrected for
-   this session's change and say so. This session ran them and they matched;
-   that is not the same as being checked.
-2. **Put the sign-offs to the owner**, one at a time. Eight, of which the first
-   was given on 12 September: the counts of what happened to each bill are as
-   expected. The second — the eleven Stage 1 rejections, their routes and the
-   three notes a reader sees — was put and not yet answered.
-3. **Then the conversation about how much confidence the clean sheet has
-   earned**, which the owner asked for and which nothing should pre-empt.
+> That you can explain how this database works from the documents alone,
+> without help.
 
-Sessions 1 and 2 are **not closed** until that has happened, and Session 3 is
-not started.
+**It gets a standalone session**, agreed on 12 September. You,
+`docs/HOW-THE-DATABASE-WORKS.md` and `docs/DATA-DICTIONARY.md`, and nobody
+prompting. It is the sign-off that matters most: four attempts at explaining how
+the pieces fit together failed before that document existed, and your being able
+to explain it is the one requirement that does not relax.
+
+Whoever runs that session does not lead it, does not explain, and does not fill
+a gap you have not asked them to fill. If a document cannot answer a question you
+put to it, the document is wrong and gets fixed.
+
+## Then, and only then: close Sessions 1 and 2
+
+Once sign-off 8 is given, Sessions 1 and 2 close. Then **the conversation about
+how much confidence the clean sheet has earned**, which you asked for and which
+nothing should pre-empt.
 
 ## Only after all of that: Session 3
 
@@ -126,73 +133,71 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-12 (third session of the day)
+## Sanity check, 2026-09-12 (fourth session of the day)
 
-**At opening, everything matched**: 154 bills, 413 stage records, 49 provenance
-notes, all 413 stage-date rows accepted and carried, the error checker empty, no
-gaps, 26 tabs all owned by `legdata`, 50 migrations numbered without a gap, the
-data dictionary regenerating with no difference, and the repository clean and
-level with GitHub.
+**At opening, everything matched**: 154 bills, 413 stage records, 56 provenance
+notes, 413 stage-date rows all accepted and carried, the error checker empty, no
+gaps, 26 tabs, 8 notes for readers, 4 rejection routes, 9 sources, 52 migrations
+numbered without a gap, the data dictionary regenerating with no difference, and
+the repository clean and level with GitHub. Nothing in the documents contradicted
+the database.
 
-**Found at opening, and it is the whole of this session's work.** The closure
-test's item 18 cannot be run from the repository alone: `extract_factsheet.py`
-took the session's last day as a command-line setting, recorded nowhere, and
-coded seven bills with it. `STATE.md` and `DECISIONS.md` both read as though the
-previous session had settled that; it had settled the database half and left the
-reader. Now fixed — `db/051`, `db/052` — and the item passes with nothing but
-the PDF.
+**The closure test, marked.** Run by a session that made none of the change it
+was testing, which is the point of the procedure. **All twenty-one items pass.**
+The results are in `CLOSURE-TESTS.md`; what is worth keeping here:
 
-**Also checked and unchanged:** the eleven Official Report citations' vote
-figures. The Proportional Representation note quotes two divisions that both
-read "For 65"; the cited page gives 65/54/2 on the amendment and 65/53/3 on the
-motion as amended, so both figures are right and belong to different votes.
+- **Item 18** passes as written, with nothing given to the reader but the PDF and
+  the session number. All 154 lines pair and **no raw column differs**. Three
+  worked-out columns do, each accounted for and each carrying its own
+  provenance: the outcome of all 18 fallen bills, which the reader no longer
+  decides; 5 Royal Assent dates checked against legislation.gov.uk; and 1 short
+  title corrected at review. Applying the dissolution rule afresh to that
+  extraction and the session tab returns **exactly the seven** bills coded that
+  way, none over and none missing.
+- **Item 20** rehearsed for both sessions inside a transaction thrown away: no
+  unexpected difference either time, only record numbers and times written.
+- **Item 19**, the dataset's fingerprint, matches the corrected working copy.
+
+**Found by the owner, and it is the only fault this session turned up.** They
+declined the summary of the eight notes and asked for the verbatim text, because
+the notes are what a reader of the published data sees. M8 said Royal Assent "is
+taken from legislation.gov.uk"; eight of 128 have been, and 120 have not. The
+note corrected itself two paragraphs later, which is not good enough for the
+sentence a reader meets first. `db/053`. **A summary would have hidden it, and
+that is the lesson worth carrying: for anything the public will read, the owner
+gets the text.**
 
 **At close:**
-- 154 bills, 413 stage records, **56 provenance notes** (49 + the 7 bills that
-  ran out of time), 413 stage-date rows all accepted and carried, checker empty,
-  no gaps, 26 tabs, 52 migrations numbered without a gap, 8 notes for readers, 4
-  rejection routes, 9 sources.
-- The data dictionary regenerates unchanged: 17 tables, 159 columns, every one
-  described. Two descriptions changed with `db/052`.
-- Both fact sheets read again, with nothing supplied but the document, match the
-  staging sheet in all 154 rows. All five ruled-table sessions give
-  byte-identical output on the Mac and on the VPS.
-- The mechanical closure test was re-run after the work and matches its
-  corrected expectations. **It has not been marked**: this session did the work,
-  so the next one checks it.
+- 154 bills, 413 stage records, 56 provenance notes, 413 stage-date rows all
+  accepted and carried, checker empty, no gaps, 26 tabs, 8 notes for readers,
+  **53 migrations** numbered without a gap.
+- The data dictionary regenerates unchanged: `db/053` touches note wording only,
+  no column and no description.
 - The repository is clean and level with GitHub.
 
-**Rehearsed and thrown away before the real run, refusals as well as
-successes** — the figures are in `PROMOTION-RUNBOOK.md`, "Why a bill fell, moved
-out of the reader":
-- The migration plus one session off and back on, twice, compared against a copy
-  taken before all of it: 21 differences for Session 1 and 22 for Session 2,
-  every one intended.
-- `db/051` refuses to go on unless the new rule gives back exactly the seven
-  lines the old reader gave. It does.
-- Four planted failures all caught: a concluding date moved by a day; a fallen
-  bill left with an empty outcome; a bill coded this way in Session 7, which has
-  no last day recorded and is the hole the old rule left; and promotion with no
-  session date to cite, which refused and wrote nothing.
-- The migration also caught a wrong assumption of its own author, which is worth
-  knowing: it expected all eighteen fallen lines to be empty after the seven
-  were cleared. Only seven were. The other eleven are the Stage 1 rejections,
-  whose outcome came from the Official Report at review — the reader's change
-  affects a fresh load, not a line already reviewed.
+**Rehearsed and thrown away before the real run**, refusals as well as successes:
+- `db/053` applied in a transaction that was rolled back, with every note printed
+  before and after, and nothing outside M4, M7 and M8 moved.
+- **Three planted failures, all caught, nothing written**: an anchor already
+  edited away; a ninth note present; and an anchor appearing twice. Each change
+  replaces an anchor that must be present exactly once, so a note whose wording
+  has moved on stops the migration instead of being quietly rewritten.
 
-**Looking at the whole, after two more migrations (`db/051`, `db/052`):** no new
-tab, 26 as before; no new column and no new value. What the owner would see:
-seven bills that fell at dissolution now have a note saying the coding is ours,
-which they did not have; the wording the reader leaves on a fallen line no
-longer claims to know why; one more thing promotion refuses; and one sentence
-added to M7. The picture stays what it was — a sheet to type on, the checker,
-the gaps list.
+**Looking at the whole, after one more migration (`db/053`):** no new tab, 26 as
+before; no new column, no new value, no note added or removed. What the owner
+would see: three of the eight notes read differently and more honestly. The
+picture stays what it was.
 
 **A limitation restated, because it is still live.** The session-window checks
 compare a line's dates against the session of the *factsheet* it was read from,
-which is wrong for a bill carried between sessions. Sessions 1 and 2 have no
-such bill and nothing fires. The failure is a false alarm and not a false pass.
-**That is read, not rehearsed.** Rehearse it before Session 5 is loaded.
+which is wrong for a bill carried between sessions. Sessions 1 and 2 have no such
+bill and nothing fires. The failure is a false alarm and not a false pass. **That
+is read, not rehearsed.** Rehearse it before Session 5 is loaded.
+
+**Left on the owner's Desktop, deliberately:**
+`methodology-notes-for-review.md`, the eight notes verbatim after `db/053`. It is
+a temporary file for the owner to read and then delete; it is not in the
+repository and nothing depends on it.
 
 ## The owner's standing positions, so they are not re-argued
 
