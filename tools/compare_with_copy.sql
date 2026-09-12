@@ -9,9 +9,10 @@
 -- only one side, and every cell that differs, counted by column.
 --
 -- Stage records and provenance notes are matched by what they are about, not
--- by their own numbers: a stage record by its bill and position, a note by its
--- bill and the column it is about, a stage-dates row by its line, position and
--- source.
+-- by their own numbers: a stage record by its bill and position, a note about a
+-- bill by that bill and the column it is about, a note about a stage record by
+-- that record's bill and position and the column it is about, a stage-dates row
+-- by its line, position and source.
 --
 -- Some columns always differ when a session is taken off and put back, and are
 -- counted as expected: the numbers of stage records and provenance notes,
@@ -28,7 +29,8 @@ DROP TABLE IF EXISTS pg_temp.compare_result;
 CREATE TEMP TABLE compare_result (
     sheet text, line text, column_name text, in_copy text, now_value text, kind text);
 
-CREATE OR REPLACE FUNCTION pg_temp.compare_sheet(p_sheet text, p_old text, p_new text)
+CREATE OR REPLACE FUNCTION pg_temp.compare_sheet(p_sheet text, p_old text, p_new text,
+                                                  p_also_expected text[] DEFAULT '{}')
 RETURNS void LANGUAGE plpgsql AS $f$
 BEGIN
   EXECUTE format($q$
@@ -55,11 +57,12 @@ BEGIN
     SELECT %3$L, k, key, oj->>key, nj->>key,
            CASE WHEN key IN ('stage_event_id', 'field_source_id', 'created_at', 'updated_at',
                              'promoted_at', 'promoted_stage_event_id')
+                  OR key = ANY (%4$L::text[])
                 THEN 'cell, expected' ELSE 'cell' END
       FROM pairs, jsonb_object_keys(oj) AS key
      WHERE oj IS NOT NULL AND nj IS NOT NULL AND nj ? key
        AND (oj->key) IS DISTINCT FROM (nj->key)
-  $q$, p_old, p_new, p_sheet);
+  $q$, p_old, p_new, p_sheet, p_also_expected);
 END $f$;
 
 SELECT pg_temp.compare_sheet('bill_candidate',
@@ -74,9 +77,30 @@ SELECT pg_temp.compare_sheet('stage_event',
   format('SELECT bill_id || ''/'' || stage_order AS k, to_jsonb(x) AS j FROM %I.stage_event x', :'copy'),
   'SELECT bill_id || ''/'' || stage_order AS k, to_jsonb(x) AS j FROM public.stage_event x');
 
+-- A note about a stage record is keyed by that record's bill and position, the
+-- same key the stage_event sheet uses, because promotion reissues stage record
+-- numbers. Keyed by the number, a note that had not changed at all was reported
+-- as one note vanishing and another appearing (found by the closure test,
+-- 2026-09-13). `entity_id` is then expected to differ for such a note, and is
+-- not a weaker check: what the note is about is already in the key.
 SELECT pg_temp.compare_sheet('field_source',
-  format('SELECT entity || ''/'' || entity_id || ''/'' || field_name AS k, to_jsonb(x) AS j FROM %I.field_source x', :'copy'),
-  'SELECT entity || ''/'' || entity_id || ''/'' || field_name AS k, to_jsonb(x) AS j FROM public.field_source x');
+  format($k$SELECT x.entity || '/'
+             || CASE WHEN x.entity = 'stage_event' THEN e.bill_id || '/' || e.stage_order
+                     ELSE x.entity_id::text END
+             || '/' || x.field_name AS k,
+             to_jsonb(x) AS j
+        FROM %I.field_source x
+        LEFT JOIN %I.stage_event e
+          ON x.entity = 'stage_event' AND e.stage_event_id = x.entity_id$k$, :'copy', :'copy'),
+  $k$SELECT x.entity || '/'
+       || CASE WHEN x.entity = 'stage_event' THEN e.bill_id || '/' || e.stage_order
+               ELSE x.entity_id::text END
+       || '/' || x.field_name AS k,
+       to_jsonb(x) AS j
+  FROM public.field_source x
+  LEFT JOIN public.stage_event e
+    ON x.entity = 'stage_event' AND e.stage_event_id = x.entity_id$k$,
+  ARRAY['entity_id']);
 
 SELECT to_regclass(format('%I.stage_candidate', :'copy')) IS NOT NULL
    AND to_regclass('public.stage_candidate') IS NOT NULL AS both_have_stage_sheet \gset
