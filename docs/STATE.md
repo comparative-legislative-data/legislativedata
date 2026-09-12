@@ -29,68 +29,57 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
 - **10 September.** Built the database, surveyed all seven factsheets, and put
   Session 1 on the clean sheet.
 - **11 September.** Read Session 2 in and put it on the clean sheet; recorded
-  how each Stage 1 rejection came about; settled stage dates in full and built
-  the stage-dates sheet; loaded your own dates for all 154 bills, so there are
-  413 stage records where there were 139, and no gaps at all.
+  how each Stage 1 rejection came about; settled stage dates in full, and
+  loaded your own dates for all 154 bills.
+- **12 September, earlier.** Fixed the reader, which was losing whole rows where
+  a table runs over a page, so Sessions 3, 4 and 5 now read in full. Settled the
+  thirteen dates where your sheet and the factsheet disagreed; five were wrong
+  and are corrected, all thirteen carry your citation. Named each source for
+  what it is, and made the comparison between sources a gate every session must
+  pass. Corrected your working dataset's nine cells, after which the two sources
+  agree completely for both sessions.
 
-**12 September. Sessions 1 and 2 are corrected but NOT closed.**
-- **The Sessions 3, 4 and 5 factsheets now read in full.** The reader was
-  losing whole rows where a table runs over a page, and inventing others out of
-  the tail of a title split by a page break. Sessions 1 and 2 read exactly as
-  before, so nothing on the clean sheet moved.
-- **The thirteen dates where your sheet and the factsheet disagreed are
-  settled.** You checked each against legislation.gov.uk or the Parliament's
-  bill page. Eight confirmed the factsheet; five did not — all Royal Assent
-  dates, now corrected. All thirteen carry their citation, confirmed and
-  corrected alike, so a date somebody has checked can be told from one nobody
-  has.
-- **Each source is named for what it is**, the factsheet can no longer be
-  overridden without saying what was checked and where, and **no session can be
-  admitted until its sources have been compared** — the list of disagreements
-  that made Sessions 1 and 2 checkable was made by hand, and is now made every
-  time. Sessions 1 and 2's seven remaining differences are written on their
-  lines beside the citation that settled each, so a disagreement is visible in
-  the data rather than in a spreadsheet nobody publishes.
+**12 September, this session. The day each session ended is now in the data.**
+- **The closure test for Sessions 1 and 2 was run.** All sixteen mechanical
+  checks matched, and all five outside the script. Your seven sign-offs are
+  still to come — see "Now".
+- **It found one real fault, in the checking, not the data.** Taking a session
+  off and putting it back gives identical data, but the tool that checks that
+  said otherwise: it followed a note by the stage record's number, and those are
+  reissued. Fixed, and proved to still catch four planted changes.
+- **The day each session ended was deciding how seven bills are coded, from a
+  command line, recorded nowhere.** All seven sessions now carry their dates,
+  from the SPICe dates factsheet you supplied, agreeing to the day with the
+  Parliament's API and with each legislation factsheet. The checker now requires
+  a bill said to have run out of time to have concluded on that day. What a
+  reader is told changed with it: M7 states the dates it reasons from, and M8
+  now says that your dataset and the factsheets are independent and agree.
 
-## Now: run the closure test for Sessions 1 and 2
+## Now: the final checks, and they are not this session's to make
 
-**The test was written on 2026-09-12 and deliberately not run.** Under the
-procedure the owner set that day, the session that proposes an ingest is
-finished does not mark its own work. If you are reading this, you are the
-different session, and running it is your first task.
+This session did the work above, so it does not mark it. **Your decision, and
+the same rule that produced the closure test.** The next session's first task,
+before anything about Session 3:
 
-`docs/CLOSURE-TESTS.md` holds the test: 21 mechanical checks with their expected
-answers and where each expectation comes from, 8 sign-offs that are the owner's
-alone, and 5 stated limits on what a pass would mean. The mechanical half is
-`tools/closure_check_sessions_1_2.sql`, which reads only.
+1. **Re-run `tools/closure_check_sessions_1_2.sql`** against the expected
+   answers in `docs/CLOSURE-TESTS.md`, which were corrected for the renamed
+   source and the thirteen new provenance notes. This session re-ran them and
+   they matched; that is not the same as being checked.
+2. **Re-run items 17 to 21**, which are outside the script.
+3. **Put the eight sign-offs to the owner**, one at a time. The first was given
+   on 12 September: the counts of what happened to each bill are as expected.
+   Seven remain.
+4. **Then the conversation about how much confidence the clean sheet has
+   earned**, which the owner asked for and which nothing should pre-empt.
 
-What the next session does, in order:
-
-1. **Run the script** and report every answer against the expected one. Do not
-   adjust an expected answer to match what the database says; if they differ,
-   that is the finding.
-2. **Run checks 17 to 21**, which are outside the script.
-3. **Put the eight sign-offs to the owner**, one at a time.
-4. **Then, and only then, the conversation about how much confidence the clean
-   sheet has earned** — which the owner asked for and which nothing should
-   pre-empt.
-
-Sessions 1 and 2 are **not closed** until that has happened.
-
-## Done since the failure of 2026-09-12
-
-- The motion rule, `db/046`: every Stage 1 rejection route is now named by what
-  the Parliament decided about the bill's general principles, and there is one
-  open route for a path nobody anticipated.
-- The working dataset's nine corrections, with a Corrections sheet in the file
-  and both fingerprints recorded. The two sources now agree completely for both
-  sessions, and no stage date on the clean sheet moved.
+Sessions 1 and 2 are **not closed** until that has happened, and Session 3 is
+not started.
 
 ## Only after all of that: Session 3
 
 Not started, and not to be started. Session 3 reads in full and reconciles in
 every cell, and its three expected differences with the dataset are named in
-`DECISIONS.md`, 2026-09-12. That is as far as it goes for now.
+`DECISIONS.md`, 2026-09-12.
 
 ## After that, in order
 
@@ -115,6 +104,10 @@ every cell, and its three expected differences with the dataset are named in
   knows the table and leaves it alone. Before Session 5.
 - **How to record a published record being revised.** When the first case
   arrives.
+- **Whether to rename the dates factsheet's file** to match the others'
+  convention. It arrived as "Dates of recess and dissolution and parliamentary
+  years and recalls of Parliament.pdf", with a double space in it. Nothing
+  depends on the name — the database cites the document and page, not the file.
 - **Which source settles a disagreement about what kind of bill it was.** The
   comparison now catches one; none has ever arisen. The Parliament's own bill
   page is the obvious answer and is deliberately not assumed.
@@ -134,62 +127,71 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-12
+## Sanity check, 2026-09-12 (second session of the day)
 
-**At opening, everything matched**: 154 bills, 413 stage records, 23 provenance
-notes, 413 stage-dates rows all accepted and stamped, the error checker empty,
-no gaps, 26 tabs, the data dictionary regenerating with no difference, nothing
-uncommitted or unpushed.
+**At opening, everything matched**: 154 bills, 413 stage records, 36 provenance
+notes, all 413 stage-date rows accepted and carried, the error checker empty, no
+gaps, 26 tabs, 46 migrations numbered without a gap, the data dictionary
+regenerating with no difference, nothing uncommitted or unpushed.
 
-**Found and dealt with at opening:**
-- This file claimed each of the eleven Stage 1 rejections carried a second
-  cross-check row from the PhD dataset. It did not; no stage of any bill has two
-  rows. Corrected, and it is why the order of precedence was tested on planted
-  rows rather than taken as exercised.
-- The nightly backup ran clean at 02:59, which met the condition for deleting
-  the nine safety copies. Deleted with the owner's agreement.
+**Found at opening:** `/var/tmp` on the server held four pre-migration dumps
+from earlier the same day (`042`, `044`, `045`, `046`). The previous session's
+sweep looked in `/tmp` only. They were kept, not deleted: the nightly backup ran
+clean at 02:59 but *before* those migrations, so nothing offsite yet covered
+them. Tonight's run at 02:41 is the first that will. A fifth was added before
+this session's work (`legdata-before-047_2026-09-12.dump`). **All five can go
+once tonight's backup has run clean** — the same condition the owner agreed on
+11 September.
 
 **At close:**
-- 154 bills, 413 stage records, 36 provenance notes, 413 stage-dates rows all
-  accepted and carried, checker empty, no gaps, 26 tabs, 46 migrations numbered
-  without a gap, 8 notes for readers, 4 rejection routes.
+- 154 bills, 413 stage records, **49 provenance notes** (36 + the 13 session
+  dates), 413 stage-date rows all accepted and carried, checker empty, no gaps,
+  26 tabs, 50 migrations numbered without a gap, 8 notes for readers, 4
+  rejection routes, 9 sources.
+- All seven sessions carry a first meeting; six carry a last day, Session 7
+  being the one still running.
 - The data dictionary regenerates unchanged: 17 tables, 159 columns, every one
-  described.
-- A fresh extraction of both factsheets reproduces the staging lines in every
-  raw column: 154 rows, 0 differing. The reader changes left these two sessions
-  untouched.
-- The two sources now agree completely for both sessions: the comparison finds
-  no difference at all.
+  described. All 26 tabs belong to `legdata`, so Postico can open the session
+  tab, the checker and the provenance notes.
+- The mechanical half of the closure test was re-run after the work and matches
+  its corrected expectations. **It has not been marked**: this session did the
+  work, so the next one checks it.
 - The repository is clean and level with GitHub.
-- **Found:** `/tmp` on the server held `b44.tgz` and `r44/` — the `db/044` run
-  aborted on a query of mine after applying, and `set -e` skipped its own
-  cleanup. Deleted. `/tmp` is now empty of ours. The lesson is the old one from
-  11 September: put the cleanup where a failure cannot skip it.
 
-**Rehearsed and thrown away before each real run**, and the refusals proved as
-well as the successes: the date corrections; the comparison gate refusing an
-uncompared line and an unadjudicated difference; a type disagreement flagged,
-adjudicated and carried; the open rejection route refused without a note. The
-database was unchanged after every rehearsal.
+**Rehearsed and thrown away before each real run, and the refusals proved as
+well as the successes:**
+- The comparison tool's fix: Session 1 off and back on now reports no unexpected
+  difference, and four planted changes — a note's source altered, a note moved
+  between stages, a stage date moved by a day, a note deleted — were all caught.
+  The first run of that plant set a value that was already there, which looked
+  like a miss and was not; worth knowing that a plant must be shown to have
+  changed something.
+- The four migrations, together, against a copy taken beforehand: 705
+  differences, every one intended. 436 renamed source cells, 13 new provenance
+  notes, and 256 stage-date rows the comparison cannot follow because its key
+  includes the source name. **Those 256 were checked separately**, matched by
+  line and position: nothing changed but the name. The session tab is not
+  covered by `take_copy.sql` at all and was compared by hand.
+- Neither `db/047` nor `db/048` can be applied twice. A bill wrongly coded as
+  having fallen at dissolution is caught, naming both dates.
 
-**Looking at the whole, after five migrations this day (`db/042`–`db/046`):**
+**Looking at the whole, after four migrations this day (`db/047`–`db/050`):**
 no new tab, 26 as before, and no new variable about a bill. What changed that
-the owner would see: two more names on the list of sources, one more column on
-the staging sheet recording when its sources were compared, one more rejection
-route, four more things the error checker refuses, and one more note for
-readers. The picture stays what it was — a sheet to type on, the checker, the
-gaps list.
+the owner would see: the session tab, which was seven empty rows, now has dates;
+one column on it is renamed to say what it holds; there are two SPICe sources
+where there was one, plus the new dates factsheet; one more thing the error
+checker refuses; and two of the eight notes a reader is given say more than they
+did. The picture stays what it was — a sheet to type on, the checker, the gaps
+list.
 
-**How this session failed, so the next one does not repeat it.** It declared
-Sessions 1 and 2 finished against a test it had set itself, moved `STATE.md` on
-to Session 3, and then, asked what was outstanding, produced a fresh audit of
-new work instead of reading the record — including a Royal Assent sweep that
-contradicted a rule agreed an hour earlier, and three documented deliberate
-decisions presented as defects. The owner's words: "this is a MASSIVE REGRESSION
-into exactly the type of behaviour which has broken previous projects". The
-closure procedure in `docs/CLOSURE-TESTS.md` exists because of it. Do not mark
-your own work, and when asked what is outstanding, read `STATE.md` and
-`DECISIONS.md` rather than generating a list.
+**A limitation restated, because it is now awake.** The session-window checks
+were dormant while the session tab had no dates and are live from `db/048`. They
+compare a line's dates against the session of the *factsheet* it was read from,
+which is wrong for a bill carried between sessions. Sessions 1 and 2 have no
+such bill and nothing fires. Reading the view, the failure is a false alarm and
+not a false pass — the checks only look for dates outside the window, so a
+carry-over row is flagged and stops the session rather than passing quietly.
+**That is read, not rehearsed.** Rehearse it before Session 5 is loaded.
 
 ## The owner's standing positions, so they are not re-argued
 

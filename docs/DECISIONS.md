@@ -7,6 +7,102 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-12 — The day each session ended is data, not a command-line argument
+
+**The problem, found while running the closure test.** `tools/extract_factsheet.py`
+takes `--dissolution`. A bill in a factsheet's "fallen" table whose final date
+matches it is proposed as having run out of time; every other fallen bill is
+flagged for review. Seven bills in Sessions 1 and 2 carry that coding. The date
+was typed on a command line each run, taken from a note in `FACTSHEET-SURVEY.md`
+quoting page 1 of a different document, and recorded nowhere. The closure test
+written the same day listed this among the things it could not check: "no
+dissolution date is recorded anywhere in the database."
+
+**The source, supplied by the owner.** SPICe, "Dates of recess, dissolution,
+parliamentary years and recalls of Parliament", published 2 September 2026. It
+states a start and an end for every session, including Session 6's end and
+Session 7's start, which no legislation factsheet gives. It also defines the
+term: "Dissolution is the official term for the end of a session."
+
+Checked against two others before it was used. `data.parliament.scot/api/sessions`
+gives Sessions 1 to 6 and agrees on all six first meetings and all five ends it
+states; it knows nothing of Session 7 and gives no end for Session 6, so it
+could not have supplied two of the thirteen dates. Page 1 of each legislation
+factsheet agrees for Sessions 1 to 5. Three sources, no disagreement to settle.
+**The agreement is recorded in `db/048` and here, and not as a second provenance
+row per date.** This slice has no need to tell corroboration apart from revision
+in the data, and inventing a way to do so would be schema nobody asked for.
+
+**The column is renamed `date_session_end`.** The source puts Session 1's
+dissolution *period* at 1 April to 1 May 2003, beginning at midnight on 31
+March. So the last day the Parliament existed is 31 March and dissolution takes
+effect from 1 April: two different dates. The value this project wants — the one
+the coding already used, and the one all seven fallen bills concluded on — is
+the session's last day. `date_dissolution` holding 31 March would contradict the
+document it came from. The relationship holds for every session, Session 5
+included: it ended 4 May 2021 and dissolution was 5 May.
+
+**Session 5 is the odd one and the reason is recorded on its row.** Its last day
+is two days before the poll rather than five or six weeks. The owner: this was a
+Covid measure, to minimise the period in which the Parliament could not be
+recalled. SPICe's document says the same — a "campaign recess" from 25 March
+2021 instead of dissolution. It is not a data fault and a later session should
+not try to correct it.
+
+**Two families of SPICe factsheet, named apart (`db/047`).** `spice_factsheet`
+needed no qualifier while there was only one. It becomes
+`spice_factsheet_legislation`, and the new document is `spice_factsheet_dates`.
+564 rows carried the old name. The owner accepted the cost on the reasoning that
+it only grows: every session loaded from here would add to it, and SPICe
+publishes many factsheets.
+
+**What the checker now requires (`db/049`).** A bill coded as having fallen at
+dissolution must have concluded on its session's last day. The stated limit in
+`CLOSURE-TESTS.md` is struck.
+
+**What it deliberately does not require, and why.** Not the converse: a fallen
+bill that concluded on the last day is *not* required to be coded
+`fell_dissolution`. A bill can be rejected at Stage 1 on the final sitting day,
+and a rule nobody could satisfy is worse than no rule. That direction stays
+where it belongs — a proposal the reader makes and a person reviews.
+
+**Nothing is inferred from silence.** The owner asked whether a bill with no
+recorded outcome by the session's end should be tagged as having fallen at
+dissolution. No. The factsheets say which bills fell; only *why* is ours to work
+out. An empty outcome means not yet coded, and three kinds of bill would be
+miscoded by any rule reading it otherwise: one that passed and awaits Royal
+Assent (Session 5 has three), one whose assent was blocked — which by the
+decision of 2026-09-10 does not fall at dissolution — and one not yet reached.
+
+**What a reader is told (`db/050`).** M7 stated a conclusion resting on a date
+that was not in the data; it now states the dates and their source. M8 stated an
+honest negative and never the available positive: the owner confirms the PhD
+dataset was compiled from the ground up and is independent of the factsheets,
+and since the corrections of this day the two agree on every introduction date
+and every Royal Assent date in both sessions. M8 now says so, and says plainly
+that agreement between two independent records is weaker than checking the Act
+and stronger than one source alone.
+
+**Considered and not built: a parliamentary dates tab.** The owner asked whether
+the session dates, recess dates and recalls justified a table of their own, on a
+thematic reading. They do not, by the rule the owner settled on 2026-09-11: *a
+tab is cut by what one row stands for, not by topic*, and that entry says in as
+many words that dates are not one theme. A session's start and end is one row
+per session, which is what the session tab is. A recess is one row per period,
+so recesses will get their own tab when sitting days become a variable and it
+has work to do — by the same rule, not by an exception to it.
+
+**Sequencing, settled with the owner.** This changes data in Sessions 1 and 2,
+which are the sessions sitting in a closure test, and two of that test's
+expected answers named the source by its old name. So the test could not be
+signed off first; the expected answers were corrected and the mechanical half
+re-run after this work, and the owner's seven sign-offs move behind it. The
+owner's further decision: because this session did the work, **a different
+session runs the final checks before any Session 3 work begins.** That is the
+same rule that produced the closure test.
+
+---
+
 ## 2026-09-12 — The working dataset is corrected, and a closure test is written for someone else to run
 
 **The working copy of the dataset is corrected**, at the owner's instruction.
