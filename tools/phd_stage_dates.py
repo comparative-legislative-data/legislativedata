@@ -142,6 +142,7 @@ def our_bills():
     """Sessions 1 and 2 from the staging sheet, and the stage names per type."""
     query = ("\\copy (SELECT c.candidate_id, c.session_number, c.short_title, "
              "coalesce(c.title_as_introduced, ''), c.bill_type, c.date_introduced, c.outcome, "
+             "coalesce(c.review_note, ''), "
              "(SELECT s.stage FROM ref_bill_type_stage s WHERE s.bill_type = c.bill_type AND s.stage_order = 1), "
              "(SELECT s.stage FROM ref_bill_type_stage s WHERE s.bill_type = c.bill_type AND s.stage_order = 2), "
              "(SELECT s.stage FROM ref_bill_type_stage s WHERE s.bill_type = c.bill_type AND s.stage_order = 3) "
@@ -150,11 +151,13 @@ def our_bills():
                        check=True, capture_output=True, text=True)
     bills = {}
     for row in csv.reader(r.stdout.splitlines()):
-        line, session, short_title, as_introduced, bill_type, introduced, outcome, s1, s2, s3 = row
+        (line, session, short_title, as_introduced, bill_type, introduced, outcome,
+         review_note, s1, s2, s3) = row
         bills[int(line)] = dict(line=int(line), session=int(session), short_title=short_title,
                                 as_introduced=as_introduced, bill_type=bill_type,
                                 introduced=datetime.date.fromisoformat(introduced) if introduced else None,
-                                outcome=outcome, stages={1: s1, 2: s2, 3: s3})
+                                outcome=outcome, review_note=review_note,
+                                stages={1: s1, 2: s2, 3: s3})
     return bills
 
 
@@ -193,8 +196,17 @@ def match(bills, phd):
             problems.append(f"dataset row {p['xrow']} {p['name']!r} matched {len(hits)} staging lines")
             continue
         if TYPES.get(p['type']) != hits[0]['bill_type']:
-            problems.append(f"dataset row {p['xrow']} {p['name']!r} is a {p['type']} bill, line {hits[0]['line']} is {hits[0]['bill_type']}")
-            continue
+            # A type disagreement is a research question, not a pairing failure:
+            # tools/compare_sources.py records it and the owner adjudicates it.
+            # Once the line carries that adjudication, the pairing stands and the
+            # dates can be loaded; until then this refuses, because attaching one
+            # bill's stage dates to another is the harm being guarded against.
+            if 'Checked: bill_type = ' not in hits[0]['review_note']:
+                problems.append(
+                    f"dataset row {p['xrow']} {p['name']!r} is a {p['type']} bill, line "
+                    f"{hits[0]['line']} is {hits[0]['bill_type']}. Run "
+                    f"tools/compare_sources.py, and have the owner adjudicate it")
+                continue
         pairs[hits[0]['line']], taken[p['xrow']] = p, hits[0]['line']
     for line in bills:
         if line not in pairs:

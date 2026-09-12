@@ -16,8 +16,8 @@ and 2 dates are added from your PhD.
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
-| 1 | 73 bills | yes | yes | yes, and dates checked |
-| 2 | 81 bills | yes | yes | yes, and dates checked |
+| 1 | 73 bills | yes | yes | yes; not closed |
+| 2 | 81 bills | yes | yes | yes; not closed |
 | 3–5 | reads in full | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
@@ -33,7 +33,7 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
   the stage-dates sheet; loaded your own dates for all 154 bills, so there are
   413 stage records where there were 139, and no gaps at all.
 
-**12 September. Sessions 1 and 2 are finished and checked.**
+**12 September. Sessions 1 and 2 are corrected but NOT closed.**
 - **The Sessions 3, 4 and 5 factsheets now read in full.** The reader was
   losing whole rows where a table runs over a page, and inventing others out of
   the tail of a title split by a page break. Sessions 1 and 2 read exactly as
@@ -52,36 +52,51 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
   lines beside the citation that settled each, so a disagreement is visible in
   the data rather than in a spreadsheet nobody publishes.
 
-## Now: Session 3
+## Now: the motion rule. Agreed, not built.
 
-Sessions 1 and 2 are finished. The dates are right, every date anyone has
-checked says who says so, and nothing can be admitted from here without its
-sources being compared first.
+**Nothing else precedes this.** The owner chose how to handle a motion that
+passes and causes the bill to fall, and it is not built. Until it is, Sessions 1
+and 2 are not closed and Session 3 is not opened.
 
-**How a session goes from here**, now that all of it is built:
+**What was agreed** (`DECISIONS.md`, 2026-09-12): add one open route for a
+procedural path we have not anticipated, usable only with the Presiding
+Officer's announcement quoted and a note saying what the effect was; and rewrite
+every route definition in terms of what the Parliament decided about the general
+principles rather than what happened to the motion. The definitions are text a
+reader sees, so the wording goes to the owner before anything is built.
 
-1. **Read the factsheet in.** Session 3 gives 62 bills and reconciles in every
-   cell of its own summary.
-2. **Compare the sources** (`tools/compare_sources.py`). For Session 3 this
-   should find three differences with your dataset: Double Jeopardy and Forced
-   Marriage, Royal Assent 28 against 27 April 2011; Criminal Procedure (Legal
-   Assistance, Detention and Appeals), introduced 27 against 26 October 2010.
-   The tool has not been run against a real load yet — Session 3 is its first.
-3. **You adjudicate those three**, against legislation.gov.uk for the two Royal
-   Assent dates and the Parliament's bill page for the introduction date. Until
-   you do, nothing can go on the clean sheet.
-4. **You review the session**, and it goes on the clean sheet.
-5. **Its stage dates** come from your sheet the same way. Eight bills that did
-   not pass will need the same "where did it end" checking from you that
-   Sessions 1 and 2 needed.
+The case it comes from is the only one in Sessions 1 and 2: the Proportional
+Representation (Local Government Elections) (Scotland) Bill, 6 February 2003.
+Tricia Marwick moved that the Parliament agree to its general principles; Iain
+Smith's amendment turned that into a motion that did not agree to them and
+carried 65/54/2; the amended motion was then agreed to 65/53/3. The motion
+passed and the bill fell.
 
-One thing to expect at step 3: the Criminal Procedure Bill is recorded as
-introduced and passed on the same day, an emergency bill through in a day. If
-your 26 October is right it becomes a two-day passage, so that answer changes
-the shape of the bill and not only a cell.
+## Then: closing Sessions 1 and 2
 
-Before Session 5 is loaded, bills carried between sessions need their own
-handling; before Session 6, the double-count guard. Both are below the line.
+Agreed with the owner on 2026-09-12, after this session moved to Session 3 while
+those two were not finished:
+
+1. **The session that proposes an ingest is finished writes the closure test.
+   A different session runs it.** The one who did the work does not mark it.
+2. **Every item on the test is one of two kinds:** something mechanically
+   checkable, where the answer is a count or a yes/no out of the database; or
+   the owner's explicit sign-off. Nothing that needs anyone to form a view about
+   whether something is good enough.
+3. **Then a discussion of how much confidence the clean sheet has earned**,
+   before anything moves on.
+
+**Still to do on Sessions 1 and 2 besides the motion rule:** the working copy of
+the dataset needs its nine corrections — the eight dates where the owner's check
+confirmed the factsheet, and the Emergency Workers name — with a note in the
+file saying what changed and why, and its new fingerprint recorded beside the
+old one. The owner's original stays untouched as the thesis record.
+
+## Only after all of that: Session 3
+
+Not started, and not to be started. Session 3 reads in full and reconciles in
+every cell, and its three expected differences with the dataset are named in
+`DECISIONS.md`, 2026-09-12. That is as far as it goes for now.
 
 ## After that, in order
 
@@ -94,9 +109,6 @@ handling; before Session 6, the double-count guard. Both are below the line.
 
 ## Waiting for your decision, and not blocking anything
 
-- **The thesis year in M2.** 2021, as you gave it; the copy on the server is
-  headed "final for submission – 25 February 2022".
-- **Calendar days or sitting days** for durations.
 - **Whether to keep the date a bill's Royal Assent was blocked.** Four bills;
   nothing forces it.
 - **Whether the section 33 / 35 distinction becomes a variable.** Four bills;
@@ -109,14 +121,9 @@ handling; before Session 6, the double-count guard. Both are below the line.
   knows the table and leaves it alone. Before Session 5.
 - **How to record a published record being revised.** When the first case
   arrives.
-- **Whether the comparison should check titles and bill types, not only dates.**
-  It compares dates, which is what the rule settles. Your dataset names the
-  Emergency Workers (Scotland) Act 2005 the *Government* Workers Act, and gives
-  no Stage 1 date for the Cairngorms National Park Boundary Bill where the
-  Official Report gives one. Neither is a date disagreement, so neither is
-  caught.
-- **Not checked:** whether a Stage 1 motion can still be amended into a
-  rejection.
+- **Which source settles a disagreement about what kind of bill it was.** The
+  comparison now catches one; none has ever arisen. The Parliament's own bill
+  page is the obvious answer and is deliberately not assumed.
 
 ---
 

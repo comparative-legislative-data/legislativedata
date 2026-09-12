@@ -7,6 +7,63 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-12 — A type disagreement is a research question; the thesis is 2021
+
+Settled by the owner and built the same day: `db/045`, and changes to
+`tools/compare_sources.py`, `tools/phd_stage_dates.py` and
+`tools/promote_session.sql`.
+
+**Bill type is compared between sources.** It is half of the first question this
+data answers — what happened to each bill, by bill type — so two sources
+disagreeing about what kind of bill it was is a research question, not a detail.
+Until now it came out as the stage-date loader refusing to pair the bill at all,
+which stopped the session with a message about plumbing. It is now recorded as a
+difference like any other, and the error checker refuses to let it past without
+the matching citation.
+
+The stage-date loader still refuses to pair a bill whose type is disputed and
+not yet adjudicated, because attaching one bill's stage dates to another is the
+harm being guarded against. Once the line carries the adjudication, the pairing
+stands and the dates load. Proved end to end on a planted row and thrown away:
+flagged, adjudicated, and the clean sheet carried `bill_type` from `bill_page`
+with the value `government`, which also proved a citation whose value is not a
+date.
+
+**Which source settles a type disagreement is not decided**, because there has
+never been one. It is decided when the first case arrives, on the precedent of
+2026-09-11 for the order between sources. The Parliament's own bill page is the
+obvious candidate and is deliberately not assumed.
+
+**The owner considered and rejected a wider check.** Comparing the titles the
+two sources give, and showing which pairings were made by hand, were both put to
+the owner and dropped. The evidence against them: of the 18 bills paired by a
+hand-written list in `tools/phd_stage_dates.py`, 15 passed and so are confirmed
+by three dates agreeing — introduction, passing and Royal Assent — and the other
+3 take no data from the dataset at all, so a wrong pairing among them would
+carry nothing onto the clean sheet. The session had pitched the risk higher than
+it was.
+
+**The thesis is 2021, published April 2021.** The "final for submission –
+25 February 2022" heading on the copy held on the server is the submission
+draft. M2 already cited 2021; M8, written earlier the same day, said "the 2022
+PhD dataset" and is corrected. This closes the open question.
+
+**Agreed and NOT YET BUILT: the rule for a motion that passes and causes the
+bill to fall.** The owner chose, from three options, to add one open route for a
+procedural path we have not anticipated, usable only with the Presiding
+Officer's announcement quoted and a note saying what the effect was, so that an
+odd bill is recordable rather than a blocker; and to rewrite every route
+definition in terms of **what the Parliament decided about the general
+principles**, not in terms of what happened to the motion. That second half is
+the point: the Proportional Representation (Local Government Elections)
+(Scotland) Bill's motion was agreed to and its general principles fell, and any
+rule keyed on the fate of the motion will eventually read "motion agreed to" as
+"bill progressed". The definitions are text a reader sees, so the wording goes
+to the owner before it is built. **This is the first task of the next session
+and no other work precedes it.**
+
+---
+
 ## 2026-09-12 — Each date comes from the source that owns it, and a checked date says so
 
 Settled by the owner and built the same day: `db/042`, `db/043`, a change to

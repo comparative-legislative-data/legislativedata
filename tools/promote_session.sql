@@ -232,7 +232,9 @@ SELECT 'bill', p.candidate_id, 'stage_1_rejection_route', 'official_report',
 -- A date checked at review against the source that owns it: Royal Assent from
 -- legislation.gov.uk, any other date from the Parliament's own pages. The
 -- review note carries one line per check, in the fixed form
---   Checked: <column> = <date> (<source>, <address>, <date read>)
+--   Checked: <column> = <value> (<source>, <address>, <date read>)
+-- The value is usually a date, and need not be: a bill type settled between two
+-- sources is cited the same way (db/045).
 -- and the error checker refuses a date that differs from the factsheet's own
 -- words without one (db/042). A line can carry more than one check, so every
 -- match is read, not just the first. Confirmed and corrected dates alike get a
@@ -247,7 +249,7 @@ SELECT 'bill', p.candidate_id, m[1], m[3], m[4], m[2], m[5]::date,
   FROM promoting p
   CROSS JOIN LATERAL regexp_matches(
         coalesce(p.review_note, ''),
-        'Checked: ([a-z0-9_]+) = (\d{4}-\d{2}-\d{2}) \(([a-z_]+), ([^,]+), (\d{4}-\d{2}-\d{2})\)',
+        'Checked: ([a-z0-9_]+) = ([^(]+?) \(([a-z_]+), ([^,]+), (\d{4}-\d{2}-\d{2})\)',
         'g') AS m
  WHERE NOT EXISTS (SELECT 1 FROM field_source f
                     WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
@@ -281,7 +283,7 @@ SELECT 'stage_event', t.promoted_stage_event_id, m[1], m[3], m[4], m[2], m[5]::d
   JOIN promoting p ON p.candidate_id = t.candidate_id
   CROSS JOIN LATERAL regexp_matches(
         coalesce(t.review_note, ''),
-        'Checked: ([a-z0-9_]+) = (\d{4}-\d{2}-\d{2}) \(([a-z_]+), ([^,]+), (\d{4}-\d{2}-\d{2})\)',
+        'Checked: ([a-z0-9_]+) = ([^(]+?) \(([a-z_]+), ([^,]+), (\d{4}-\d{2}-\d{2})\)',
         'g') AS m
  WHERE t.promoted_stage_event_id IS NOT NULL
    AND NOT EXISTS (SELECT 1 FROM field_source f

@@ -9,7 +9,14 @@ thirteen was made by hand. From here it is made every time a session is loaded,
 or the next disagreement is simply not noticed.
 
 What it compares: the two dates a bill's own line holds, introduction and Royal
-Assent. Stage dates are not compared here. The stage-dates sheet already holds
+Assent, and what kind of bill it was. Bill type is compared because it is half
+of the first question this data answers -- what happened to each bill, by bill
+type -- so two sources disagreeing about it is a research question and not a
+detail. Which source settles such a disagreement is not decided: there has
+never been one. It is settled when the first case arrives, as the order between
+sources was (DECISIONS.md, 2026-09-11).
+
+Stage dates are not compared here. The stage-dates sheet already holds
 one row per source and the error checker already requires two rows for the same
 stage to agree, which is the same gate by another route (DECISIONS.md,
 2026-09-11). Using it for Stage 3 would mean loading the dataset's Stage 3
@@ -101,14 +108,15 @@ def pair_up(lines, rows, session):
 
 
 def differences(lines, pairs):
-    """Every date the two sources state differently."""
+    """Everything the two sources state differently: the two dates, and the type."""
     out = []
     for line, b in sorted(lines.items()):
         r = pairs.get(line)
         if not r:
             continue
         for column, ours, theirs in (('date_introduced', b['date_introduced'], r['introduced']),
-                                     ('date_royal_assent', b['date_royal_assent'], r['assent'])):
+                                     ('date_royal_assent', b['date_royal_assent'], r['assent']),
+                                     ('bill_type', b['bill_type'], TYPES.get(r['type']))):
             if ours and theirs and ours != theirs:
                 out.append(dict(line=line, short_title=b['short_title'], column=column,
                                 ours=ours, theirs=theirs, source='phd', xrow=r['xrow']))
