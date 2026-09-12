@@ -1,4 +1,5 @@
-# Extraction environment for tools/extract_factsheet.py.
+# Environment for the tools that read a source: tools/extract_factsheet.py reads
+# the SPICe factsheets, tools/compare_sources.py reads the PhD dataset.
 #
 # Pinned, not floating. The reconciliation argument in DECISIONS.md rests on the
 # extractor being deterministic: a factsheet must yield the same 73 rows on the
@@ -10,7 +11,12 @@
 
 pdfplumber==0.11.10
 
-# Resolved dependencies, pinned so the tree cannot drift underneath the pin above.
+# The same argument covers the comparison, which since db/044 is a gate every
+# session must pass before it can be admitted: a session must yield the same
+# list of differences wherever the comparison is run, or the gate means nothing.
+openpyxl==3.1.5
+
+# Resolved dependencies, pinned so the tree cannot drift underneath the pins above.
 cffi==2.1.1
 charset-normalizer==3.5.1
 cryptography==50.0.1
@@ -18,3 +24,4 @@ pdfminer.six==20260107
 pillow==12.3.0
 pycparser==3.0
 pypdfium2==5.13.0
+et-xmlfile==2.0.0
