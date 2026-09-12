@@ -48,19 +48,32 @@ it was.
 draft. M2 already cited 2021; M8, written earlier the same day, said "the 2022
 PhD dataset" and is corrected. This closes the open question.
 
-**Agreed and NOT YET BUILT: the rule for a motion that passes and causes the
-bill to fall.** The owner chose, from three options, to add one open route for a
-procedural path we have not anticipated, usable only with the Presiding
-Officer's announcement quoted and a note saying what the effect was, so that an
-odd bill is recordable rather than a blocker; and to rewrite every route
-definition in terms of **what the Parliament decided about the general
-principles**, not in terms of what happened to the motion. That second half is
-the point: the Proportional Representation (Local Government Elections)
+**Built the same day, in `db/046`: the rule for a motion that passes and causes
+the bill to fall.** The owner chose, from three options, and approved the
+wording.
+
+Every route is now defined by **what the Parliament decided about the bill's
+general principles**, not by what happened to the motion, and each definition
+opens with the decision before saying how it was reached. That is the substance
+of the change: the Proportional Representation (Local Government Elections)
 (Scotland) Bill's motion was agreed to and its general principles fell, and any
 rule keyed on the fate of the motion will eventually read "motion agreed to" as
-"bill progressed". The definitions are text a reader sees, so the wording goes
-to the owner before it is built. **This is the first task of the next session
-and no other work precedes it.**
+"bill progressed". Its own definition now says so in as many words — "the motion
+passed and the general principles fell, so the fate of the motion and the fate
+of the bill point opposite ways".
+
+There is also **one open route** for a path nobody has anticipated, so that an
+odd bill can be recorded truthfully instead of stopping a session until someone
+writes a new code. It is the one route that cannot stand on its code alone: the
+Presiding Officer's announcement is required of every route already, and the
+error checker also requires a note saying what happened and what its effect was.
+A second case of the same kind earns its own entry rather than staying there.
+Rehearsed and thrown away: the open route without a note is refused, and with
+one it passes.
+
+No bill changed its route — the eleven keep 8, 1 and 2 as before — and the clean
+sheet is untouched: 154 bills, 413 stage records, 36 notes, checker empty, no
+gaps. What changed is the words a reader is given.
 
 ---
 

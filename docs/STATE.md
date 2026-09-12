@@ -52,25 +52,20 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
   lines beside the citation that settled each, so a disagreement is visible in
   the data rather than in a spreadsheet nobody publishes.
 
-## Now: the motion rule. Agreed, not built.
+## Now: the nine corrections to the working dataset
 
-**Nothing else precedes this.** The owner chose how to handle a motion that
-passes and causes the bill to fall, and it is not built. Until it is, Sessions 1
-and 2 are not closed and Session 3 is not opened.
+The motion rule is built (`db/046`). What is left before Sessions 1 and 2 can be
+proposed as finished:
 
-**What was agreed** (`DECISIONS.md`, 2026-09-12): add one open route for a
-procedural path we have not anticipated, usable only with the Presiding
-Officer's announcement quoted and a note saying what the effect was; and rewrite
-every route definition in terms of what the Parliament decided about the general
-principles rather than what happened to the motion. The definitions are text a
-reader sees, so the wording goes to the owner before anything is built.
+**The working copy of the dataset needs nine corrections** — the eight dates
+where the owner's check confirmed the factsheet, and the Emergency Workers name.
+A note goes in the file saying what changed and why, and its new fingerprint is
+recorded beside the old one, because the Stage 1 and Stage 2 dates now on the
+clean sheet came from the version as it stands. The owner's original stays
+untouched as the thesis record; the copy in `sources/phd/` is the live version.
 
-The case it comes from is the only one in Sessions 1 and 2: the Proportional
-Representation (Local Government Elections) (Scotland) Bill, 6 February 2003.
-Tricia Marwick moved that the Parliament agree to its general principles; Iain
-Smith's amendment turned that into a motion that did not agree to them and
-carried 65/54/2; the amended motion was then agreed to 65/53/3. The motion
-passed and the bill fell.
+Who makes the edits is not settled — the owner has not said whether to do it
+themselves or have them prepared to check.
 
 ## Then: closing Sessions 1 and 2
 
