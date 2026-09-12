@@ -1,6 +1,6 @@
 # State
 
-Updated: 2026-09-12
+Updated: 2026-09-13
 
 ## Where we've got to
 
@@ -18,7 +18,7 @@ and 2 dates are added from your PhD.
 |---|---|---|---|---|
 | 1 | 73 bills | yes | yes | yes; **closed** |
 | 2 | 81 bills | yes | yes | yes; **closed** |
-| 3 | 62 bills | in progress | no | no |
+| 3 | 62 bills | yes | no | no |
 | 4–5 | read in full | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
@@ -41,52 +41,50 @@ introduction to passing, with every cell traceable to what said so.
   when all seven sessions are in and the charts and tables are compared against
   what you built by hand off the PhD.
 
-**12 September, this session. Session 3 is on the staging sheet.**
-- **All 62 bills read in and reconciled** against the factsheet's own printed
-  summary, cell for cell. The one gap is that their summary has no Hybrid column
-  and counts the Forth Crossing Act under Executive: their 42 Acts is our 41
-  plus that one, their 45 our 44 plus that one, and both totals are 62.
-- **Ten bills were spelled differently in your sheet and in the factsheet**, so
-  the two lists would not pair — which is why the comparison matched only 52 of
-  62. Ten names corrected in your sheet and logged on its Corrections sheet. All
-  62 now pair, and unlike Sessions 1 and 2 this needed no hand-written pairs in
-  the code at all.
-- **Your three dates settled**, two against the factsheet and one against your
-  sheet, and the Forth Crossing Act confirmed Hybrid against the Parliament's
-  archived bill page. In `db/054`, rehearsed before it was run. The factsheet
-  also leaves out the Forced Marriage Act's asp number; legislation.gov.uk gives
-  it as asp 15 of 2011 and it is recorded with the same citation.
-- **Your workbook's fingerprint moved twice** — once for the names, once for the
-  Criminal Procedure date. Sessions 1 and 2's stage dates come out identical
-  from it each time, so nothing on the clean sheet moved. Closure-test item 19
-  is the one thing this reopens for those sessions.
+- **12 September.** Session 3's 62 bills read in and reconciled. Ten bills were
+  spelled differently in your sheet and the factsheet, so the two lists would
+  not pair; ten names corrected in your sheet. Your three dates settled and the
+  Forth Crossing Act confirmed Hybrid, in `db/054`.
 
-## Now: Session 3, your review
+**13 September, this session. Session 3 is reviewed and the checker is empty.**
+- **The five bills that fell without the factsheet saying why are coded**, each
+  from the Official Report of the day with the Presiding Officer's words quoted.
+  Three were rejected at Stage 1 in the ordinary way. The Budget (No.2) Bill was
+  rejected at Stage 3 — the first time this database has recorded that — on a
+  64–64 tie decided by the Presiding Officer's casting vote.
+- **A bill can fall for want of money, and now the database can say so.** The
+  Creative Scotland Bill's general principles were *agreed* on 18 June 2008; the
+  financial resolution was defeated the same afternoon, so the bill fell with its
+  principles carried. That is neither a defeat nor running out of time, so it has
+  its own ending rather than a general "fell for another reason". `db/055`.
+- **The Parliament's own website is wrong about that bill**, saying it "fell at
+  Stage 1". Stage 1 was completed. Recorded on the bill, because the same page
+  wording is used for bills that genuinely were rejected at Stage 1.
+- **M7 now names four reasons a bill can fall**, not three, and says why the
+  fourth must not be counted as a defeat.
+- **All 62 bills hold an outcome** — 53 passed, 3 rejected at Stage 1, 2 fell at
+  dissolution, 2 withdrawn, 1 rejected at Stage 3, 1 for want of a financial
+  resolution — and the error checker is empty.
 
-The 62 bills are waiting for you on the staging sheet, lines 155 to 216. Both
-sources now agree on every cell, and the three that disagreed carry both the
-disagreement and your ruling beside it.
+## Now: Session 3 onto the clean sheet
 
-**What needs you.** Five bills fell and no factsheet says why: Autism, Budget
-(Scotland) (No.2), Creative Scotland, End of Life Assistance, and Protection of
-Workers. Each needs a reason from the Official Report, the same job as Session
-2's six. Two more — Commissioner for Victims and Witnesses, and Long Leases —
-concluded on the day the session ended and are already proposed as having fallen
-at dissolution, for you to confirm. That is everything the error checker still
-reports.
+Nothing is waiting on you. The 62 bills are reviewed, every cell names what said
+so, and the error checker is empty.
 
-**Then:** Session 3 onto the clean sheet, and your Stage 1 and 2 dates. The tool
-that loads those dates only knows Sessions 1 and 2 and needs extending first.
+**What is left for Session 3**, in order:
 
-**The end-of-session protocol is the same**: this session writes Session 3's
-closure test and does not mark it; the next one runs it. Not yet written.
+1. **Its closure test**, written by this session and marked by the next. Not yet
+   written — that is the first task.
+2. **Session 3 onto the clean sheet**, through the promotion runbook.
+3. **Your Stage 1 and 2 dates for Session 3.** The tool that loads them only
+   knows Sessions 1 and 2 and needs extending first.
 
 **Left unbuilt on purpose, and not blocking anything.** When the comparison could
-not pair those ten bills it still recorded all 62 as compared. Nothing was
-written wrongly — the tool that loads stage dates refuses outright on an unpaired
-bill — but a bill that was never compared should not look compared. Settle it
-when a bill turns up that your dataset genuinely does not cover, so that both
-tools get the same answer at once.
+not pair ten bills it still recorded all 62 as compared. Nothing was written
+wrongly — the tool that loads stage dates refuses outright on an unpaired bill —
+but a bill that was never compared should not look compared. Settle it when a
+bill turns up that your dataset genuinely does not cover, so that both tools get
+the same answer at once.
 
 ## After that, in order
 
@@ -134,41 +132,35 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-12 (sixth session of the day)
+## Sanity check, 2026-09-13
 
-**At opening, everything matched and nothing needed a clean.** 154 bills, 413
-stage records, 56 provenance notes, the error checker empty, no gaps, 26 tabs
-(17 sheets and 9 pivot tables), 8 notes for readers, 9 sources, 53 migrations
-numbered without a gap, the data dictionary regenerating with no difference, and
-the repository clean and level with GitHub. One connection was refused partway
-through, which is the server's rate limit on rapid logins and not a fault; it
-succeeded on the retry. The tools' pinned environment did not exist on this Mac
-and was rebuilt from `tools/requirements.txt`.
-
-**What the documents got wrong, found by doing the work rather than by reading.**
-`STATE.md` said Session 3's 62 bills "pair one to one with your dataset". They
-did not: ten were spelled differently and only 52 paired. That claim has been
-removed. Nothing else in the documents contradicted the database.
+**At opening, everything matched and nothing needed a clean.** The figures were
+those the previous session closed on. The error checker reported five bills, all
+of them the fallen bills waiting for a reason, which is what `STATE.md` said.
 
 **At close.** 154 bills on the clean sheet, unchanged — Session 3 is on the
-staging sheet only. 216 staging lines, 62 of them Session 3, all 62 stamped as
-compared. 466 stage-date rows. 54 migrations numbered without a gap. The error
-checker reports five bills, all of them fallen bills waiting for a reason from
-the Official Report, which is the owner's review. The data dictionary
-regenerates unchanged: `db/054` adds no table and no column.
+staging sheet only. 216 staging lines, all 62 Session 3 lines holding an
+outcome. 471 stage-date rows. 8 ways a bill can end, up from 7. 8 notes for
+readers, unchanged — M7 was amended rather than a ninth added. 55 migrations
+numbered without a gap. **The error checker is empty.** The data dictionary
+regenerates with two changes, both intended: its own date, and `ref_outcome`'s
+description, which `db/055` rewrote to say what an empty outcome means.
 
-**What was rehearsed.** The Session 3 load was run with `save=false` and its six
-tables checked against the factsheet's printed summary before it was saved.
-`db/054` was run inside a transaction that was thrown away, which is where a
-wrong column name was caught, and applied only after it ran clean. The ten
-renames were tried on a copy of the workbook before the real one was touched.
-Sessions 1 and 2's stage dates were regenerated from the workbook before the
-renames, after the renames, and after the date correction: byte-identical all
-three times, same checksum.
+**What was rehearsed.** `db/055` was run inside a transaction that was thrown
+away twice before it was applied. The first rehearsal caught a column name that
+does not exist on `methodology_note`; the second caught that the new note
+duplicated M7, which is why M7 was amended instead. It was applied only after a
+clean run.
 
-**Not marked by this session.** Session 3's closure test is not yet written.
+**A trap worth knowing about.** The Official Report PDFs are two-column, and
+reading them whole interleaves the columns into nonsense — a quotation taken
+that way looks plausible and is wrong. Every quotation in `db/055` was taken
+after cropping each page into halves. Anything that reads these PDFs in future
+must do the same.
+
+**Not marked by this session.** Session 3's closure test is still not written.
 This session did the work, so it writes that test and a different session runs
-it.
+it. It is the first task of the next session.
 
 ## The owner's standing positions, so they are not re-argued
 

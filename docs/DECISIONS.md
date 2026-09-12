@@ -7,6 +7,97 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — A bill can fall for want of money, and that is a fifth ending
+
+The five Session 3 bills the fact sheet says fell without saying why. The owner
+established each from the Parliament's own record; every one was then read in
+the Official Report for that day, and the Presiding Officer's words are quoted
+on the line.
+
+**Three were rejected at Stage 1 in the ordinary way** — the member in charge's
+own motion put and disagreed to. Autism (S3M-7676, Hugh O'Donnell, 12 January
+2011, For 5 Against 109); End of Life Assistance (S3M-7438, Margo MacDonald,
+1 December 2010, For 16 Against 85); Protection of Workers (S3M-7592, Hugh
+Henry, 22 December 2010, For 42 Against 75).
+
+**One was rejected at Stage 3**, the first time this database has recorded that.
+The Budget (Scotland) (No 2) Bill, 28 January 2009, tied 64–64 and decided by
+the Presiding Officer's casting vote: "It is a well-established convention here
+and elsewhere that Presiding Officers cast in favour of the status quo … I cast
+my vote against the motion. Motion disagreed to." Then: "The Budget (Scotland)
+(No 2) Bill therefore falls."
+
+**The fifth needed a new value, and the owner settled it.** A bill whose
+provisions charge public funds requires a financial resolution before it can go
+beyond Stage 1; under Rule 9.12 the Presiding Officer decides whether a bill
+needs one. The Creative Scotland Bill's general principles were **agreed** on
+18 June 2008 — "Motion agreed to. That the Parliament agrees to the general
+principles of the Creative Scotland Bill" — and the financial resolution
+(S3M-1776, John Swinney) was then defeated, For 49 Against 68. The Presiding
+Officer: "Standing orders are quite clear; the Creative Scotland Bill therefore
+falls."
+
+So the bill fell with the Parliament's approval of its principles on the record.
+That is not a rejection and it is not the calendar running out, and the general
+`fell_other` bucket would have hidden a defined procedural route behind a word
+meaning "we did not name this". New outcome:
+`fell_financial_resolution_not_agreed`.
+
+**Why it was worth naming rather than bucketing.** `ref_stage_1_rejection_route`
+already carries the principle, in its own words: a route nobody anticipated goes
+under `other_route`, and "a second case of the same kind earns its own entry
+here". The difference is that this one is not unanticipated. It is in Standing
+Orders, the Presiding Officer determines it, and it will recur. The owner's
+framing settled it: "this is a new clause of reason for a Bill falling."
+
+**The Parliament's own website is wrong about this bill.** Its page for the
+Creative Scotland Bill says "The Bill fell at Stage 1 on 18 June 2008" and
+mentions no financial resolution. Stage 1 was completed. That is recorded on the
+line, and it is a reason to keep reading the Official Report rather than the
+summary pages: the same page pattern says "fell at Stage 1" for bills that were
+genuinely rejected there, so the label cannot be relied on to tell the two apart.
+
+**What it does to the data.** The Creative Scotland Bill has a **completed**
+Stage 1, dated 18 June 2008, and no stage marked as where it fell, because it
+did not fall at a stage. The other four have the stage they stopped at marked as
+where they fell. That asymmetry is the whole point of the new value.
+
+**M7 was amended, not supplemented.** It already tells a reader that why a bill
+fell is our coding and names the reasons; it named three. A ninth note would
+have split one subject across two. M7 now names four, says the work has been
+done for Sessions 1 to 3, and carries a paragraph on the financial resolution
+that says plainly that counting such a bill among those the Parliament rejected
+would misstate what happened. The migration refuses to run if M7's wording has
+moved under it.
+
+**Getting the Official Report was the hard part, and is worth recording.** The
+Parliament's Official Report pages are JavaScript-rendered and the web archive
+is behind a bot check, so neither can be fetched. The reports are served as PDFs
+from `https://www.parliament.scot/api/sitecore/CustomMedia/OfficialReport?meetingId=N`,
+where N is an internal meeting number that runs broadly but not strictly in date
+order and is shared between chamber and committee meetings. The five meetings
+were found by sweeping ranges of N and reading each PDF's first page: 6230
+(12 January 2011), 6093 (22 December 2010), 6031 (1 December 2010), 4843
+(28 January 2009), 4805 (18 June 2008). Those addresses are what the lines cite.
+The PDFs are two-column and `extract_text` interleaves the columns into
+nonsense; cropping each page into halves first is what made the quotations
+reliable, and a quotation taken without doing so would have been wrong.
+
+**Checked.** `db/055` was rehearsed inside a transaction that was thrown away,
+twice: the first run caught a column that does not exist, the second a
+methodology note that would have duplicated M7. Applied only after it ran clean.
+All 62 Session 3 bills now hold an outcome — 53 passed, 3 rejected at Stage 1,
+2 fell at dissolution, 2 withdrawn, 1 rejected at Stage 3, 1 for want of a
+financial resolution — and the error checker is empty for the first time since
+Session 3 was loaded.
+
+**Not done.** Session 3's closure test is not written; this session did the work
+and does not mark it. Session 3 is not on the clean sheet, and its Stage 1 and 2
+dates are not loaded: `tools/phd_stage_dates.py` still only knows Sessions 1
+and 2.
+
+---
+
 ## 2026-09-12 — Session 3's names reconciled, and three dates and one type settled
 
 **What went wrong first, because it is the useful part.** Session 3 was loaded
