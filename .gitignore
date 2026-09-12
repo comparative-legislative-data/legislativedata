@@ -6,3 +6,6 @@ sources/phd/*.xlsx
 # Python bytecode, left by importing the tools directly
 __pycache__/
 *.pyc
+
+# Local build of the tools environment (tools/requirements.txt)
+venv/

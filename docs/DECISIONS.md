@@ -7,6 +7,108 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-12 — Session 3's names reconciled, and three dates and one type settled
+
+**What went wrong first, because it is the useful part.** Session 3 was loaded
+and the comparison against the owner's dataset paired only 52 of the 62 bills.
+Ten were spelled differently in the two lists. The session's first instinct was
+to treat that as a fault in the machinery and propose refusal rules, a reader's
+note and a closure-test item — five things to agree — before ever showing the
+owner the ten names. The owner's answer, given twice: fixing eleven misspelled
+names is not a methodology question, and the list of names should have been on
+screen in the first reply. **When a mismatch is found, show the rows before
+proposing anything.**
+
+**It had never worked by itself for Sessions 1 and 2 either.** Eighteen pairs
+are named by hand in `tools/phd_stage_dates.py` for those sessions. Nobody had
+written Session 3's. That was the whole of the difference.
+
+**Ten names corrected in the dataset, and none needed in code.** Six were slips
+against the Act's own title (Aggravated for Aggravation, Care Services for
+Services, missing "(Scotland)", missing "(Protection and Jurisdiction)", and
+brackets round Abolition and Elections). Four were the Budget Acts, which the
+dataset numbered No.2 to No.5 and the factsheet names by year; renaming them by
+year loses nothing, because the years already tell them apart and the bill that
+fell is still the only "(No.2) Bill". After the ten, **all 62 bills pair with no
+hand-written pairs at all** — Session 3 needs none of the machinery Sessions 1
+and 2 need.
+
+**Neither source's names are authoritative.** The factsheet calls the 2007 Act
+"St Andrew's Bank Holiday"; it is the St Andrew's Day Bank Holiday (Scotland)
+Act 2007, and the dataset has it right. So "make the dataset match the
+factsheet" is the wrong rule. The target is the Act's own title, whichever list
+currently holds it.
+
+**The three dates, adjudicated by the owner.** Two corrected the factsheet and
+one corrected the dataset:
+
+| Bill | Field | Factsheet | Dataset | Settled | Against |
+|---|---|---|---|---|---|
+| Double Jeopardy (Scotland) Act 2011 | Royal Assent | 28 Apr 2011 | 27 Apr 2011 | **27 Apr** | legislation.gov.uk, asp 2011/16 |
+| Forced Marriage etc. (Scotland) Act 2011 | Royal Assent | 28 Apr 2011 | 27 Apr 2011 | **27 Apr** | legislation.gov.uk, asp 2011/15 |
+| Criminal Procedure (Legal Assistance…) Act 2010 | Introduction | 27 Oct 2010 | 26 Oct 2010 | **27 Oct** | the Parliament's bill page |
+
+The two Royal Assent corrections are in `db/054`; the introduction date was
+corrected in the dataset. Nothing moves on the clean sheet for the third: the
+introduction date always comes from the factsheet, and all three of that bill's
+stages fall on 27 October anyway, so introduction to the end of Stage 3 is zero
+days either way. The Cadder emergency bill was introduced, taken through every
+stage and passed in one day.
+
+**The Forth Crossing Act is Hybrid**, confirmed by the owner against the
+Parliament's archived bill page. The two sources never disagreed: both type it
+Hybrid. What disagrees is the factsheet's own summary page, which has no Hybrid
+column and counts the Act under Executive — their Acts row of 42 is our 41 plus
+this one, their column total of 45 our 44 plus this one. Every other cell of
+that summary matches ours exactly, and both totals are 62. Recorded on the bill,
+because anyone reconciling our counts against the printed summary will hit it.
+
+**The asp number the factsheet omits.** It prints no number for the Forced
+Marriage Act where it prints one for every other Act, so the checker reported an
+Act without one. legislation.gov.uk — the page that settles its Royal Assent —
+gives asp 15 of 2011, and that is recorded with the same citation.
+
+**Fingerprints.** Before: sha256
+`c0d386c125641a6e5ebdc697b437c64b3bf0a2fb6c3ac78ded9733126c688999`. After the
+ten names: `ac252a95b56e5d501d7c791e76af02fc1e1313697f4c5f61e0ec5aa8f8f50315`.
+After the Criminal Procedure date:
+`e04dc54042292e2b1f4bc9ea23a481d88f240adac587d68d38134d431c38ea75`. The
+Corrections sheet in the workbook carries all eleven with what each was checked
+against. **Closure-test item 19 for Sessions 1 and 2 is the one this moves**,
+and it is the only thing about those sessions that reopens.
+
+**The order was deliberate, and is why the fingerprint moved twice.** Names
+first, because a name cannot hide a date disagreement; then the comparison,
+which recorded all three disagreements against the bills; then the rulings and
+their citations; then the date. Correcting the date first would have made the
+disagreement vanish before anything recorded that it had existed, and that
+record is what the citation hangs on. Running the comparison again now finds all
+62 paired and no differences at all; the `Differs:` lines stay on the three
+bills beside the `Checked:` citation that settled each.
+
+**Checked before and after.** Sessions 1 and 2's stage dates come out
+byte-identical from the renamed workbook and again from the corrected one —
+same checksum all three times, so nothing on the clean sheet moved. Session 3's
+load reconciles cell for cell against the factsheet's printed summary.
+`db/054` was rehearsed inside a transaction that was thrown away, which is where
+a wrong column name was caught, and applied only after it ran clean.
+
+**Not done, and waiting for the owner:** five fallen bills need a reason from
+the Official Report — Autism, Budget (No.2), Creative Scotland, End of Life
+Assistance and Protection of Workers. Two more fell on the day the session ended
+and are already proposed as such. That is the only thing the error checker still
+reports.
+
+**One thing left unbuilt and named here so it is not lost.** When the comparison
+could not pair those ten bills, it still recorded all 62 as compared. It says so
+loudly on screen, and the tool that loads stage dates refuses outright on an
+unpaired bill, so nothing was written wrongly — but a bill that was never
+compared should not be able to look compared. Nothing in Session 3 now depends
+on it. Decide it when a bill turns up that the dataset genuinely does not cover,
+which has not happened yet, so that both tools get the same answer at once.
+
+---
+
 ## 2026-09-12 — Sessions 1 and 2 are closed, and what the clean sheet has to prove
 
 Sign-off 8 given by the owner: that they can explain how this database works

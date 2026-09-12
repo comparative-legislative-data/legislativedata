@@ -18,7 +18,7 @@ and 2 dates are added from your PhD.
 |---|---|---|---|---|
 | 1 | 73 bills | yes | yes | yes; **closed** |
 | 2 | 81 bills | yes | yes | yes; **closed** |
-| 3 | reads in full | no | no | no |
+| 3 | 62 bills | in progress | no | no |
 | 4–5 | read in full | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
@@ -27,59 +27,66 @@ introduction to passing, with every cell traceable to what said so.
 
 ## What has been done
 
-- **10 September.** Built the database, surveyed all seven factsheets, put
-  Session 1 on the clean sheet.
-- **11 September.** Session 2 read in and on the clean sheet; how each Stage 1
-  rejection came about; stage dates settled and your own dates loaded for all
-  154 bills.
-- **12 September, earlier.** Fixed the reader, which was losing whole rows.
-  Settled the thirteen dates where your sheet and the factsheet disagreed. Put
-  each session's last day into the data, and moved the decision about why a bill
-  fell out of the reader and into the database.
-- **12 September.** The closure test passed, run by a session that made none of
-  the change it was testing. You read the eight reader's notes in full and found
-  a real fault in what M8 claimed about Royal Assent dates; fixed in `db/053`,
-  with four other changes you asked for. Sign-offs 1 to 7 given.
+- **10 September.** Database built, all seven factsheets surveyed, Session 1 on
+  the clean sheet.
+- **11 September.** Session 2 read in and on the clean sheet; stage dates
+  settled and your own dates loaded for all 154 bills.
+- **12 September, earlier.** Reader fixed; the thirteen disagreeing dates
+  settled; each session's last day loaded; why a bill fell moved into the
+  database.
+- **12 September.** Closure test run by a different session; you found a real
+  fault in what M8 said about Royal Assent dates, fixed in `db/053`.
+- **12 September.** Sessions 1 and 2 closed on the eighth sign-off. What the
+  clean sheet has to prove is settled: the test that counts comes at the end,
+  when all seven sessions are in and the charts and tables are compared against
+  what you built by hand off the PhD.
 
-**12 September, this session. Sessions 1 and 2 are closed.**
-- **Sign-off 8 given**, the last one: that you can explain how the database works
-  from the documents alone. All eight are recorded in `CLOSURE-TESTS.md`.
-- **What the clean sheet has to prove is now settled**, and it is your answer
-  rather than a figure from us: the test that counts comes at the end, when all
-  seven sessions are in and the charts and tables are compared against what you
-  built by hand off the PhD. No session's own test is evidence the data is
-  right; it is evidence that what the document said reached the clean sheet
-  unaltered and that anyone can see what said so.
-- **A closure test inherits.** Each session's test covers that session and the
-  corrections made for it, and does not put again what an earlier one settled.
-  One thing can reach back into Sessions 1 and 2: if adjudicating a later
-  session's date means correcting the PhD dataset file, its fingerprint moves,
-  and that single item is checked again. Nothing else reopens.
+**12 September, this session. Session 3 is on the staging sheet.**
+- **All 62 bills read in and reconciled** against the factsheet's own printed
+  summary, cell for cell. The one gap is that their summary has no Hybrid column
+  and counts the Forth Crossing Act under Executive: their 42 Acts is our 41
+  plus that one, their 45 our 44 plus that one, and both totals are 62.
+- **Ten bills were spelled differently in your sheet and in the factsheet**, so
+  the two lists would not pair — which is why the comparison matched only 52 of
+  62. Ten names corrected in your sheet and logged on its Corrections sheet. All
+  62 now pair, and unlike Sessions 1 and 2 this needed no hand-written pairs in
+  the code at all.
+- **Your three dates settled**, two against the factsheet and one against your
+  sheet, and the Forth Crossing Act confirmed Hybrid against the Parliament's
+  archived bill page. In `db/054`, rehearsed before it was run. The factsheet
+  also leaves out the Forced Marriage Act's asp number; legislation.gov.uk gives
+  it as asp 15 of 2011 and it is recorded with the same citation.
+- **Your workbook's fingerprint moved twice** — once for the names, once for the
+  Criminal Procedure date. Sessions 1 and 2's stage dates come out identical
+  from it each time, so nothing on the clean sheet moved. Closure-test item 19
+  is the one thing this reopens for those sessions.
 
-## Now: Session 3
+## Now: Session 3, your review
 
-The first session read by the fixed reader and the first to go through the
-two-source gate for real. Its factsheet reads in full and reconciles in every
-cell: all 62 bills pair one to one with your dataset.
+The 62 bills are waiting for you on the staging sheet, lines 155 to 216. Both
+sources now agree on every cell, and the three that disagreed carry both the
+disagreement and your ruling beside it.
 
-**What is new and gets your review:**
-- **Three dates where your dataset and the factsheet disagree.** Double Jeopardy
-  and Forced Marriage etc. (Royal Assent, 28 April 2011 on the factsheet,
-  27 April in the dataset), and Criminal Procedure (Legal Assistance, Detention
-  and Appeals) (introduction, 27 October 2010 against 26 October). Same route as
-  the thirteen: you check each against the source that owns it and adjudicate,
-  and the correction is recorded with what it was checked against.
-- **The Forth Crossing Act.** Both sources call it Hybrid; the factsheet's own
-  summary counts it under Executive. Reconciling on government plus hybrid gives
-  the factsheet's 45.
+**What needs you.** Five bills fell and no factsheet says why: Autism, Budget
+(Scotland) (No.2), Creative Scotland, End of Life Assistance, and Protection of
+Workers. Each needs a reason from the Official Report, the same job as Session
+2's six. Two more — Commissioner for Victims and Witnesses, and Long Leases —
+concluded on the day the session ended and are already proposed as having fallen
+at dissolution, for you to confirm. That is everything the error checker still
+reports.
 
-**What this session exercises for the first time.** The comparison that lists
-date disagreements at load is built but has never run against a real load. So is
-the rule that a date differing from the factsheet's printed words must carry a
-citation naming who was checked and when. Session 3 is what tests both.
+**Then:** Session 3 onto the clean sheet, and your Stage 1 and 2 dates. The tool
+that loads those dates only knows Sessions 1 and 2 and needs extending first.
 
 **The end-of-session protocol is the same**: this session writes Session 3's
-closure test and does not mark it; the next one runs it.
+closure test and does not mark it; the next one runs it. Not yet written.
+
+**Left unbuilt on purpose, and not blocking anything.** When the comparison could
+not pair those ten bills it still recorded all 62 as compared. Nothing was
+written wrongly — the tool that loads stage dates refuses outright on an unpaired
+bill — but a bill that was never compared should not look compared. Settle it
+when a bill turns up that your dataset genuinely does not cover, so that both
+tools get the same answer at once.
 
 ## After that, in order
 
@@ -127,46 +134,41 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-12 (fifth session of the day)
+## Sanity check, 2026-09-12 (sixth session of the day)
 
-**At opening, everything matched, and nothing needed a clean.** 154 bills, 413
-stage records, 56 provenance notes, 413 stage-date rows all accepted and
-carried, the error checker empty, no gaps, 26 tabs (17 sheets and 9 pivot
-tables), 8 notes for readers, 4 rejection routes, 9 sources, 53 migrations
-numbered without a gap, the data dictionary regenerating with no difference,
-and the repository clean and level with GitHub. Nothing in the documents
-contradicted the database.
+**At opening, everything matched and nothing needed a clean.** 154 bills, 413
+stage records, 56 provenance notes, the error checker empty, no gaps, 26 tabs
+(17 sheets and 9 pivot tables), 8 notes for readers, 9 sources, 53 migrations
+numbered without a gap, the data dictionary regenerating with no difference, and
+the repository clean and level with GitHub. One connection was refused partway
+through, which is the server's rate limit on rapid logins and not a fault; it
+succeeded on the retry. The tools' pinned environment did not exist on this Mac
+and was rebuilt from `tools/requirements.txt`.
 
-**No migration and no data change this session.** Sign-off 8 was given, so
-Sessions 1 and 2 closed; the work was writing that down. `CLOSURE-TESTS.md`,
-`DECISIONS.md` and `STATE.md` changed and nothing else. The figures at close
-are the figures at opening.
+**What the documents got wrong, found by doing the work rather than by reading.**
+`STATE.md` said Session 3's 62 bills "pair one to one with your dataset". They
+did not: ten were spelled differently and only 52 paired. That claim has been
+removed. Nothing else in the documents contradicted the database.
 
-**What was checked before answering "ready for Session 3", because the rule is
-that nothing is left unbuilt.** The one thing `DECISIONS.md` recorded as needed
-before Session 3 goes on the clean sheet — the comparison that produces the
-disagreement list at load — **is built**: `tools/compare_sources.py`, with
-`db/044` making the error checker require a line to have been compared before it
-is accepted, and the citation form that stops a date being overridden silently.
-The later entry of the same day supersedes the "still open" line in the entry
-above it. What is true is that none of it has run against a real load, which is
-a check to run and not a gap to fill, and `CLOSURE-TESTS.md` Part C already says
-so. Nothing else on the waiting list falls before Session 3: the asp year is
-before Session 4; carry-over rows, bills passed without Royal Assent, and the
-session-window rehearsal are before Session 5; the double-count guard before
-Session 6.
+**At close.** 154 bills on the clean sheet, unchanged — Session 3 is on the
+staging sheet only. 216 staging lines, 62 of them Session 3, all 62 stamped as
+compared. 466 stage-date rows. 54 migrations numbered without a gap. The error
+checker reports five bills, all of them fallen bills waiting for a reason from
+the Official Report, which is the owner's review. The data dictionary
+regenerates unchanged: `db/054` adds no table and no column.
 
-**Known and deliberately not done for Session 3**: the three date
-disagreements are adjudicated when it is loaded, not before, and the Forth
-Crossing Act's Hybrid-against-Executive summary count is reconciled at review.
+**What was rehearsed.** The Session 3 load was run with `save=false` and its six
+tables checked against the factsheet's printed summary before it was saved.
+`db/054` was run inside a transaction that was thrown away, which is where a
+wrong column name was caught, and applied only after it ran clean. The ten
+renames were tried on a copy of the workbook before the real one was touched.
+Sessions 1 and 2's stage dates were regenerated from the workbook before the
+renames, after the renames, and after the date correction: byte-identical all
+three times, same checksum.
 
-**A limitation restated, because it is still live.** The session-window checks
-compare a line's dates against the session of the *factsheet* it was read from,
-which is wrong for a bill carried between sessions. Sessions 1 to 4 have no such
-bill. **That is read, not rehearsed.** Rehearse it before Session 5 is loaded.
-
-**Looking at the whole:** no migration, no new tab, no new column, no new value,
-no note added or removed. What the owner would see is unchanged.
+**Not marked by this session.** Session 3's closure test is not yet written.
+This session did the work, so it writes that test and a different session runs
+it.
 
 ## The owner's standing positions, so they are not re-argued
 
