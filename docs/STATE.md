@@ -1,6 +1,6 @@
 # State
 
-Updated: 2026-09-11, fourth session that day
+Updated: 2026-09-12
 
 ## Where we've got to
 
@@ -18,7 +18,7 @@ and 2 dates are added from your PhD.
 |---|---|---|---|---|
 | 1 | 73 bills | yes | yes | yes, on the clean sheet |
 | 2 | 81 bills | yes | yes | yes, on the clean sheet |
-| 3–5 | reader misses rows | no | no | no |
+| 3–5 | reads in full | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
 For Sessions 1 and 2 we can answer question 1, and the time from introduction
@@ -28,73 +28,61 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
 
 - **10 September.** Built the database, surveyed all seven factsheets, and put
   Session 1 on the clean sheet.
-- **11 September, first session.** Read Session 2 in, recorded how each Stage 1
-  rejection came about, and set the rule that a coding change is finished
-  before anything moves on.
-- **11 September, second session.** Settled stage dates in full, and that each
-  clean tab gets a staging sheet of the same shape.
+- **11 September.** Read Session 2 in and put it on the clean sheet; recorded
+  how each Stage 1 rejection came about; settled stage dates in full and built
+  the stage-dates sheet; loaded your own dates for all 154 bills, so there are
+  413 stage records where there were 139, and no gaps at all.
 
-- **11 September, third session.** Built the stage-dates sheet, proved moving
-  the dates changed nothing, and put Session 2 on the clean sheet.
+**12 September.**
+- **The Sessions 3, 4 and 5 factsheets now read in full.** The reader was
+  missing whole rows where a table runs over a page, and inventing others out
+  of the tail of a title split by a page break. Sessions 3 and 4 now match
+  their factsheets in every cell; Session 5 matches except its three bills
+  awaiting Royal Assent. Sessions 1 and 2 read exactly as before, so nothing
+  on the clean sheet moved.
+- **The two-source approach was checked** before Session 3 is built on it.
+  Four bills traced cell by cell, every cell naming what said so and when; the
+  order of precedence held in all 139 cases where it could have been broken;
+  and the machinery behind it was tested on planted rows and thrown away,
+  because until now nothing had ever competed. Session 3's Hybrid Bill passes,
+  and all 62 of its bills pair one to one with your dataset.
+- **One hole found, and how to close it settled.** Where your sheet and the
+  factsheet give different dates, nothing records the disagreement. See "Now".
 
-**11 September, fourth session.**
-- **You type your dates straight into Postico**, not into spreadsheets. That
-  finishes the stage-dates change: nothing in it is left unbuilt.
-- **The stage-dates sheet shows each bill's title** beside its line number,
-  and the stage's number fills itself in from its name. Both proved to have
-  changed nothing else.
-- **Dates are typed year first**, as Postico shows them.
-- **Your PhD dates are on the clean sheet.** Your own spreadsheet was matched
-  to all 154 bills, loaded, and after your reading it was accepted and both
-  sessions were put back with the dates. 411 stage records now, where there
-  were 139.
-- **The bills that did not pass** record where each stopped, from the pages you
-  found.
-- **A stage a bill never had** can now be recorded as one that did not happen,
-  and only a Private Bill may have one. The Robin Rigg Act's two skipped stages
-  are recorded that way, so there is nothing left to find: no gaps at all.
-- **Tidied:** leftover files off the server, and the server's details out of
-  the repository. The dictionary tool now cleans up after itself.
+## Now: the date disagreements, then Session 3
 
-## Now: Session 3
+**The hole.** Your sheet and the SPICe factsheet sometimes give different dates
+for the same thing: 8 Royal Assent dates, 4 introduction dates and 1 passing
+date in Sessions 1 and 2, and 3 more in Session 3. Sixteen in all. Stage dates
+have nowhere to hide a disagreement — every source's date sits on the staging
+sheet as its own line, and the error checker refuses the session until they
+agree. A bill's introduction, passing and Royal Assent dates are single cells,
+with nowhere for a second source's value to sit, so the factsheet's is kept and
+yours is not stored at all. The list exists only in a spreadsheet on your disk.
 
-The first piece of work is finished for Sessions 1 and 2. Both questions can be
-answered for them: what happened to each bill, and how long each stage took.
+**How you settled it.** Resolve the contradiction at the gate rather than store
+it: you check each date against a definitive source and adjudicate, and the
+source data is corrected so the two agree. Where only your sheet is wrong there
+is no database work at all, because those columns were never loaded. Where the
+factsheet is wrong the clean sheet needs correcting, through the runbook.
 
-**Two sources from here on.** The SPICe factsheet is the first source and the
-principal one: it says which bills there were, what happened to each and when.
-Your PhD dataset then fills in the Stage 1 and Stage 2 dates, which no factsheet
-gives. It runs to the present: 469 bills across all seven sessions, the latest
-introduced on 9 September 2026. A bill has no stage dates in it only where it
-has not reached that stage yet — Session 7's single bill, and five in Session 6
-still awaiting Stage 1. Where neither source says — a bill's outcome the
-factsheet leaves out, where a bill that did not pass stopped, the date of a
-Stage 1 rejection — the Official Report and the Parliament's bill pages fill it.
-Where two sources give the same thing, the clean sheet takes the Official
-Report's, then the factsheet's, then your data.
+1. **You are checking the sixteen dates.** They are listed in
+   `DECISIONS.md`, 2026-09-12.
+2. **Build the gate.** Not started, and not to be started until every part is
+   agreed: what is compared and when, what happens on each outcome, where the
+   record of your adjudication lives, what a reader is told, and where the
+   Parliament's own pages sit in the order of precedence. Today's test showed
+   that two sources with no agreed order stop promotion dead — a wall, not a
+   gate. It is built before Session 3 goes on the clean sheet, because Session 3
+   has three of these.
+3. **Load Session 3**, review it, and put it on the clean sheet. Its stage dates
+   come from your sheet the same way. It has the one Hybrid Bill, the Forth
+   Crossing Bill, and eight bills that did not pass will need the same "where
+   did it end" checking that Sessions 1 and 2 needed from you.
 
-1. **Fix the extractor for Sessions 3–5**, which misses 2, 14 and 6 rows
-   against the factsheets' own totals. The causes are below the line.
-2. **Check the two-source approach before it is used at scale.** It is a real
-   change in how the database is built, settled and applied in one day, so it
-   is tested before four more sessions are built on it:
-   - **Trace a handful of Sessions 1 and 2 bills cell by cell to a source**,
-     including one that passed, one rejected at Stage 1, one withdrawn and the
-     Robin Rigg Act. Every cell should name what said so, and when.
-   - **Check the order held**: no stage date came from your dataset where the
-     Official Report or a factsheet gave the same stage.
-   - **Check the disagreements are visible**, not quietly resolved: the four
-     introduction dates and eight Royal Assent dates where your dataset differs
-     from the factsheet.
-   - **Test the rule against what Session 3 brings**: the one Hybrid Bill, and
-     the factsheet counting it under Executive.
-   - **Say what the rule does not yet cover**, and whether each needs settling
-     before loading: the Parliament's API as a future source, a published
-     record being revised, and the bills that appear in two factsheets.
-3. **Load Session 3**, review it, and put it on the clean sheet, as Sessions 1
-   and 2 were.
-4. **Its stage dates** come from your dataset the same way. Session 3 has the
-   one Hybrid Bill, the Forth Crossing Bill.
+**Why this is worth doing properly:** the gate is not about your PhD sheet. It
+is about any two sources that state the same fact, and the Parliament's own
+pages are the next one through the same door.
 
 Before Session 5 is loaded, bills carried between sessions need their own
 handling; before Session 6, the double-count guard. Both are below the line.
@@ -143,89 +131,40 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-11, fourth session
+## Sanity check, 2026-09-12
 
-- **At opening, all matched:**
-  - 154 bills, 139 stage records, 23 notes;
-  - 139 stage-dates rows, all accepted and stamped (128 factsheet, 11 Official
-    Report), and both sessions' 154 lines accepted and promoted;
-  - the error checker empty, 271 gaps, 26 tabs, `bill_candidate` 38 columns;
-  - the data dictionary regenerated with no difference;
-  - nothing uncommitted, and both PhD spreadsheets blank.
-- **Found:** 24 loose files in the VPS's `/tmp`. The last sweep removed
-  folders, not files. 22 were this project's rehearsal leftovers; 2 were from
-  the previous attempt (an API fetch list and a file manifest). All deleted,
-  with the owner's agreement. The dictionary tool left its query there on every
-  run; it now removes it.
-- **Found:** the server's address and login name were in `STATE.md`, and the
-  whole `legdatavps/` folder (connector and notes) had been tracked in the
-  public repository since the first commit. Both are already on GitHub. No
-  password or key was in them, and login is by key only. Taken out of
-  `STATE.md`, and the folder is no longer tracked and is ignored. The private
-  copies in `~/.claude/` are identical. The repository's history still holds
-  them; rewriting it was not proposed.
-- **Found:** the last nine commits were never pushed.
-- **Found:** the server read 05/01/2000 as 1 May (`DateStyle` ISO, MDY). Now
-  ISO, DMY for the whole database (`db/035`).
-- **After `db/035`:**
-  - 139 stage-dates rows, each showing its line's title, numbering at 154;
-  - the error checker empty and 271 gaps, as before;
-  - a fresh connection as Postico's user reads 05/01/2000 as 5 January;
-  - 26 tabs; `stage_candidate` has 19 columns.
-- **After `db/036`:** all 139 rows saved again came back identical; every
-  position matches its stage name; compared with `copy_before_phd_dates`,
-  nothing unexpected; the checker empty, 271 gaps; the data dictionary
-  regenerated from the database.
-- **After `db/037`:** set for Postico's login, but Postico still shows dates
-  year first after reconnecting, so it formats dates itself. How Postico reads
-  a date typed with slashes is not tested; the runbook says to type year first.
-  The scripts see the database's own form, unchanged.
-- **Looking at the whole:** five migrations this day since `db/032`. `db/035`
-  to `db/037` add one display column, four automatic rules and two date
-  settings, and no tab.
-  The owner's picture of the database is unchanged: a sheet to type on, the
-  checker, the gaps list.
-- **Still true from the third session:** while a copy schema exists, any
-  question put to the catalogue must name `public`. `copy_before_phd_dates`
-  exists.
-- **Answered:** the Session 2 Robin Rigg and Stirling-Alloa-Kincardine Private
-  Bills were reintroduced after dissolution. The Stirling-Alloa-Kincardine Bill
-  did go through its stages again, and has all three dates. Robin Rigg went
-  straight to its Final Stage, because a reintroduced Private Bill does not
-  repeat its earlier scrutiny; its two skipped stages are recorded as stages
-  that did not happen (`db/039`), so the gaps list is empty.
-- **At close, after `db/038`, `db/039` and both sessions put back on with the
-  dates:**
-  - 154 bills, 413 stage records, 23 notes, and 413 stage-dates rows, all
-    accepted and stamped;
-  - the error checker empty, and no gaps at all;
-  - 2 of those records are stages that did not happen, both on the Session 2
-    Robin Rigg Act;
-  - 62 of Session 1's 73 bills and 65 of Session 2's 81 have all three stages
-    dated; the rest did not pass;
-  - compared with the copy taken before the dates, the only differences are the
-    272 rows added, the 272 stage records they became, the title column from
-    `db/035`, and the Robin Rigg note;
-  - the data dictionary regenerates unchanged;
-  - `copy_before_phd_dates` is dropped, its comparison done, and the VPS's
-    `/tmp` is empty.
-- **The closing sweep, 2026-09-12:**
-  - the repository is clean and level with GitHub: 39 migrations, 13 tools, 7
-    documents, nothing untracked, no host detail or credential in any tracked
-    file, and the migrations numbered without a gap;
-  - one stale pointer was found and corrected, to the server notes that left
-    the repository; every other match was a historical record and left alone;
-  - **`db/040`**: all 26 tabs now belong to `legdata`, so the five pivot tables
-    Postico could not open are open. Rehearsed and thrown away first;
-  - **`db/041`**: M2 said the PhD dataset covers Sessions 1 to 6. The owner
-    corrected it — the published thesis covers Sessions 1 to 5, and collection
-    continued into Sessions 6 and 7 — and M2 now says so;
-  - the file itself holds 469 bills across all seven sessions, the latest
-    introduced on 9 September 2026. A bill lacks stage dates in it only where
-    it has not reached that stage;
-  - the backup ran successfully at 02:33 UTC on 11 September and runs nightly
-    at 02:58; **once a run after 2026-09-11 is confirmed, the nine safety
-    copies can be deleted.**
+- **At opening, everything matched**: 154 bills, 413 stage records, 23
+  provenance notes, 413 stage-dates rows all accepted and stamped, the error
+  checker empty, no gaps, 26 tabs, the data dictionary regenerating with no
+  difference, nothing uncommitted or unpushed, and `copy_before_phd_dates`
+  gone.
+- **Found:** this file said each of the eleven Stage 1 rejections carries a
+  second row from the PhD dataset as a cross-check, with the checker flagging
+  any disagreement. It does not. No stage of any bill has two rows: the dataset
+  supplied Stage 1 and Stage 2 only for bills that passed, plus the two the
+  owner confirmed. Corrected, and it is why the order of precedence was tested
+  on planted rows this session rather than taken as exercised.
+- **Found:** the nightly backup ran clean at 02:59 on 12 September, checked with
+  no errors, which met the condition for deleting the nine safety copies of the
+  database. Deleted with the owner's agreement; `/var/tmp` and `/tmp` on the
+  server hold nothing of ours.
+- **Noted, and left:** the closing sweep of 2026-09-12 above says 39 migrations;
+  there are 41, the last two being `db/040` and `db/041` made in that same
+  sweep.
+- **The reader, after the change:** Sessions 1 and 2 extract byte-identically to
+  before, so nothing on the clean sheet is affected; Sessions 3 and 4 reconcile
+  in every cell of their summary tables; Session 5 reconciles in every cell
+  except its three bills awaiting Royal Assent, which are recognised and not
+  extracted. All five give identical output on the Mac and on the VPS
+  (sha256 compared).
+- **The precedence machinery, rehearsed and thrown away:** a disagreeing date is
+  flagged by the checker from both sides; two agreeing rows promote the
+  factsheet's and leave the PhD row marked not carried; a source with no settled
+  place in the order makes promotion refuse and write nothing. The database was
+  unchanged afterwards: 154 bills, 413 stage records, 23 notes, checker empty,
+  no gaps.
+- **Still true:** any question put to the catalogue must name `public` only
+  while a copy schema exists; none does now.
 
 ## The owner's standing positions, so they are not re-argued
 
@@ -423,6 +362,23 @@ website has to surface.
   and then run for real: 53/18/9/1 by type; 66 passed, 5 withdrawn, 4 fell at
   dissolution, 6 rejected at Stage 1; 72 stage records; 12 notes.
 
+**2026-09-12:**
+- **The reader changes left Sessions 1 and 2 untouched**, byte for byte, so
+  nothing on the clean sheet is affected. Sessions 3 and 4 reconcile in every
+  cell of their own summary tables; Session 5 in every cell but its three bills
+  awaiting Royal Assent. All five give identical output on the Mac and the VPS.
+- **The Session 4 Interests of Members Act** was never in any extraction before
+  today: the factsheet draws that row with no cell borders and the table finder
+  lost it between the two pieces.
+- **The order of precedence works**, tested on planted rows and thrown away.
+  A disagreement is flagged by the checker from both sides; two agreeing rows
+  promote the factsheet's and leave the PhD row marked not carried; a source
+  with no settled place in the order makes promotion refuse and write nothing.
+- **The order had never been exercised by the real data.** No stage of any bill
+  has two rows, so nothing had ever competed for a place on the clean sheet.
+- **All 62 of Session 3's factsheet bills pair one to one** with the PhD
+  dataset's 62 Session 3 bills, on name or on introduction date.
+
 ## Tools
 
 - **`tools/load_session.sql`** puts a session's extracted CSV on the staging
@@ -449,11 +405,10 @@ website has to surface.
 
 ## Housekeeping, small and known
 
-- **Nine safety copies of the whole database** are on the VPS:
-  `/var/tmp/legdata-before-030_2026-09-11.dump`, `-033_`, `-034_`, `-035_`,
-  `-036_`, `-038_`, `-039_`, `legdata-before-phd-dates_2026-09-11.dump` and
-  `legdata-before-040_2026-09-12.dump`.
-  Delete them once a nightly backup taken after 2026-09-11 has been confirmed.
+- **No safety copies are held on the VPS.** The nine from 10 and 11 September
+  were deleted on 2026-09-12, once the nightly backup of that morning was
+  confirmed to have run clean. Take one before the next change to data already
+  held; the runbook says how.
 - **No copy of the sheets is held inside the database.** `copy_before_phd_dates`
   was dropped once its comparison was done. Take a fresh one with
   `tools/take_copy.sql` before the next change to data already held.

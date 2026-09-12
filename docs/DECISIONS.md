@@ -7,6 +7,118 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-12 — The two-source approach checked, and the hole it showed
+
+The check the owner asked for before Session 3 is loaded, run against what was
+already built. Four of its five parts passed. The fifth did not, and the owner
+settled how it is to be handled; that part is **not yet built** and is the first
+task of the next session.
+
+**What passed.**
+
+- **Four bills traced cell by cell**, one of each kind. Every cell names what
+  said so and when. The Smoking, Health and Social Care Act 2005 holds its row
+  from the Session 2 factsheet read 2026-09-10, Stage 1 and Stage 2 from the PhD
+  dataset row 107 read 2026-09-11, and Stage 3 from the factsheet.
+- **The order of precedence held in every case**: all 128 passing dates came
+  from a factsheet and none from the PhD dataset; all 11 Stage 1 rejection dates
+  came from the Official Report and none from the PhD dataset. No stage anywhere
+  takes the dataset's date where a more primary source gave the same stage.
+- **The machinery was tested, not just the outcome.** It had never been
+  exercised: no stage in the database has two rows, so nothing had ever
+  competed. Rows were planted and thrown away. Dates that disagree are flagged
+  by the error checker from both sides, naming the stage, both sources and both
+  dates. Dates that agree promote the factsheet's row and leave the PhD row on
+  the staging sheet marked as not carried. A source with no settled place in the
+  order makes promotion refuse outright and write nothing. The database was
+  unchanged afterwards: 154 bills, 413 stage records, 23 notes.
+- **Session 3's Hybrid Bill passes.** Both sources agree on the Forth Crossing
+  Act's introduction, passing and Royal Assent, and both call it Hybrid; the
+  dataset supplies Stage 1 (2010-05-26) and Stage 2 (2010-11-17). Only the
+  factsheet's summary counts it under Executive, and reconciling on government
+  plus hybrid gives its 45. All 62 of the factsheet's Session 3 bills pair one
+  to one with the dataset's 62.
+
+**What failed: a disagreement between sources is not recorded for every kind of
+date.** The entry of 2026-09-11 says a disagreement is recorded rather than
+silently resolved. That is true of stage dates, where every source's date sits
+on the staging sheet as its own row and the checker refuses the session until
+they agree. It is not true of a bill's own dates. Introduction, passing and
+Royal Assent are single cells on the bill's row, with nowhere for a second
+source's value to sit, so the factsheet's is held and the dataset's is not
+stored anywhere. Sixteen dates are in that state: 8 Royal Assent, 4 introduction
+and 1 passing date in Sessions 1 and 2, and 3 more in Session 3. They exist only
+in `sources/phd/checks-before-loading-sessions-1-2.xlsx`, which is not
+published, and in the 2026-09-11 entry as counts. They are, factsheet first and
+the PhD dataset second:
+
+| Session | Bill | What differs | Factsheet | PhD dataset |
+|---|---|---|---|---|
+| 1 | Adults with Incapacity 2000 | Royal Assent | 2000-05-09 | 2000-05-19 |
+| 1 | Adults with Incapacity 2000 | passing | 2000-03-29 | 2000-03-28 |
+| 1 | Transport 2001 | Royal Assent | 2001-01-25 | 2001-01-23 |
+| 1 | Protection from Abuse 2001 | Royal Assent | 2001-11-07 | 2001-11-06 |
+| 1 | School Education (Amendment) 2002 | Royal Assent | 2002-01-23 | 2002-01-22 |
+| 1 | Scottish Local Government (Elections) 2002 | Royal Assent | 2002-01-23 | 2002-01-22 |
+| 1 | International Criminal Court 2001 | introduction | 2001-04-04 | 2001-04-05 |
+| 1 | Water Industry 2002 | introduction | 2001-09-26 | 2001-09-25 |
+| 1 | Robin Rigg (the Session 1 bill) | introduction | 2002-06-27 | 2002-02-27 |
+| 2 | Tourist Boards 2006 | Royal Assent | 2006-11-30 | 2006-11-29 |
+| 2 | Transport and Works 2007 | Royal Assent | 2007-03-15 | 2007-03-14 |
+| 2 | Rights of Relatives to Damages (Mesothelioma) 2007 | Royal Assent | 2007-04-16 | 2007-04-26 |
+| 2 | Senior Judiciary (Vacancies and Incapacity) | introduction | 2006-06-15 | 2006-06-13 |
+| 3 | Double Jeopardy 2011 | Royal Assent | 2011-04-28 | 2011-04-27 |
+| 3 | Forced Marriage etc. 2011 | Royal Assent | 2011-04-28 | 2011-04-27 |
+| 3 | Criminal Procedure (Legal Assistance, Detention and Appeals) 2010 | introduction | 2010-10-27 | 2010-10-26 |
+
+Eleven of the sixteen are exactly one day apart, and the two Session 3 Royal
+Assents are the same pair of days as each other, which clusters more like a
+difference in which day of the process each source records than like sixteen
+separate slips. Two are ten days apart and one is a month. The owner adjudicates
+each; that reading is theirs to make, not ours.
+
+Two further differences were found at the same time and are not date
+contradictions: the dataset has no Stage 1 date for the Cairngorms National Park
+Boundary Bill, where the Official Report gives one, and it names the Emergency
+Workers (Scotland) Act 2005 as the Government Workers (Scotland) Act 2005.
+
+**Settled by the owner: the contradiction is resolved at the gate, not stored.**
+The owner's route, which is cleaner than storing the losing value: they check
+each disagreeing date against a definitive source and adjudicate it, and the
+source data is then corrected so the two agree. Nothing contradictory ever
+reaches the clean sheet, so there is nothing to store.
+
+- Where only the PhD dataset is wrong — the owner's expectation for most of the
+  sixteen — **there is no database work at all**. The clean sheet already holds
+  the factsheet's date, and the dataset's introduction, passing and Royal Assent
+  columns were never loaded; only Stage 1 and Stage 2 were.
+- Where the factsheet is wrong, the clean sheet holds the wrong date and the
+  correction runs the other way, through the promotion runbook.
+- **The adjudication is recorded, not only its answer**: what was checked,
+  what it said, and when. Otherwise the contradiction is resolved and the
+  evidence for the resolution is thrown away.
+- **The dataset file's fingerprint is re-recorded** if the owner edits it, with
+  the fingerprint of the version the Stage 1 and Stage 2 dates came from kept.
+
+**Why it is worth building properly.** In the owner's words, "i think we are
+going to see more situations where we can triangulate with multiple data sets
+and so having a methodology for handling that, and resolving disagreements, will
+likely be reusable as we expand the dataset". The gate is not about the PhD
+dataset: it is about any two sources that both state the same fact. The
+Parliament's own pages are the next source through the same door, and the owner
+expects them to allow a sanity check of the Stage 1 and Stage 2 dates once all
+sessions are ingested.
+
+**What is not settled, and is not to be started before it is.** What exactly is
+compared and when; what happens on each outcome; where the record of an
+adjudication lives; what the methodology note tells a reader; and the place of
+the Parliament's own pages in the order of precedence, which today's test showed
+is a wall rather than a gate — promotion stops dead if two unranked sources
+disagree. The whole is to be laid out with a proposal for each part and agreed
+before anything is built, and built before Session 3 goes on the clean sheet.
+
+---
+
 ## 2026-09-12 — What the PhD dataset covers, corrected by the owner
 
 `db/041`, and corrections to `STATE.md` and the entry below.
