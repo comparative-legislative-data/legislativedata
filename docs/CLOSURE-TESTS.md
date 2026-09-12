@@ -26,17 +26,30 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 Written 2026-09-12 by the session that loaded and corrected them.
 
-**Run once, on 2026-09-12, by the following session.** All sixteen mechanical
+**Run first on 2026-09-12, by the following session.** All sixteen mechanical
 items matched, and items 17, 19, 20 and 21 passed. **Item 18 failed**, on seven
 bills: the fact sheet reader could not reproduce the coding of a bill that fell
 at dissolution without being handed the session's last day, which was recorded
 nowhere. `db/051` and `db/052` moved that comparison onto the staging sheet, and
 the expected answers below are corrected for it — items 1, 5, 14 and 18.
 
-**So it needs running again**, by a session that did not make that change, and
-Sessions 1 and 2 are not closed until it has been. The change touched no bill's
-coding: the same seven bills fall at dissolution, and what they gained is a
-provenance note each.
+**Run again on 2026-09-12** by a session that made none of that change, which is
+what marks it. **All twenty-one items pass.** Item 18 now passes as written,
+with nothing supplied to the reader but the PDF and the session number: all 154
+lines pair, and no raw column differs. Three worked-out columns do, each
+accounted for and each carrying its own provenance — the outcome of all
+eighteen fallen bills, which the reader no longer decides; five Royal Assent
+dates checked against legislation.gov.uk; and one short title corrected at
+review. Applying the dissolution rule afresh to that extraction and the session
+tab returns exactly the seven bills coded that way, none over and none missing.
+Item 20 was rehearsed for both sessions inside a transaction that was thrown
+away: no unexpected differences either time.
+
+**`db/053` was applied after the test was marked**, during sign-off 7, and the
+mark stands. It changed the wording of M4, M7 and M8 and nothing else: eight
+notes before and after, none empty, no column, no value and no bill's coding.
+Item 15 tests the count and that none is empty, and neither moved. The only
+figures affected anywhere are the word counts quoted at item 7 of Part B.
 
 ### Part A — mechanical
 
@@ -199,21 +212,38 @@ numbered without a gap.
 
 ### Part B — the owner's sign-off
 
-None of these is for anyone else to answer.
+None of these is for anyone else to answer. A sign-off is recorded here on the
+day it is given, and nowhere else.
 
 1. **What happened to each bill.** The counts in items 6 and 7 are what you
-   expect for both sessions.
-2. **The eleven Stage 1 rejections**: the route recorded for each, and the four
-   notes a reader will see.
+   expect for both sessions. **Given 2026-09-12.**
+2. **The eleven Stage 1 rejections**: the route recorded for each, and the three
+   notes a reader will see. Three, not four: eight rejections went the usual way
+   and carry no note, one went by an amended motion and two by a committee
+   motion under Rule 9.14.18. The fourth note a reader sees in these two
+   sessions belongs to the Session 2 Robin Rigg Act, which passed, and is item
+   4's business. **Given 2026-09-12.**
 3. **The sixteen bills where you established where each ended**, as recorded in
-   `DECISIONS.md`, 2026-09-11.
+   `DECISIONS.md`, 2026-09-11. Checked against the clean sheet, not against the
+   note of it: it matches your answers in every cell. **Given 2026-09-12.**
 4. **The Session 2 Robin Rigg Act's** Preliminary and Consideration Stages,
-   recorded as stages that never happened.
+   recorded as stages that never happened. Both halves put and both content:
+   that "never happened" is the right record rather than an empty cell, and
+   that a reintroduced Private Bill carries its earlier scrutiny forward rather
+   than repeating it. **Given 2026-09-12.**
 5. **The thirteen adjudicated dates**, and that the five corrections are the
-   ones you intended.
+   ones you intended. Eight confirmations left standing and five corrections
+   kept, all five Royal Assent dates against legislation.gov.uk.
+   **Given 2026-09-12.**
 6. **The nine corrections** on the Corrections sheet of the working dataset.
+   Checked against the workbook itself: all nine recorded with what each was
+   checked against, and the Dates sheet holds the corrected value in every one.
+   **Given 2026-09-12.**
 7. **M1 to M8**: that they tell a reader what you want told, and claim nothing
-   you would not defend.
+   you would not defend. Read in full, not in summary, and five changes came
+   back: M4, M7 and M8, built as `db/053`. **Given 2026-09-12, on the corrected
+   wording.** The word counts in item 15 move with it — M7 612 to 563, M8 542
+   to 468, M4 160 to 161 — and nothing else about any note changes.
 8. **That you can explain how this database works** from the documents alone,
    without help. This is the project's standing requirement, not a courtesy.
 

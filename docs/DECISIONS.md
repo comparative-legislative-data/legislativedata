@@ -7,6 +7,61 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-12 — Three notes say what a reader needs, and one of them was wrong
+
+Found by the owner, reading M1 to M8 in full for the closure test's seventh
+sign-off. They asked for the verbatim text rather than the summary offered,
+because the notes are what a reader of the published data sees. That is the
+reason the error was found: it is invisible in a summary.
+
+**What was wrong. M8 said the date of Royal Assent "is taken from
+legislation.gov.uk".** That states which source settles a disagreement. It reads
+as a statement of where the dates came from, and as that it is false: eight of
+the 128 Acts in Sessions 1 and 2 have been checked there, and the other 120
+stand on the fact sheet and have never been looked at individually. The note
+corrected itself two paragraphs later, which is not good enough for a sentence a
+reader meets first.
+
+**Now it separates the two.** Royal Assent is definitive on legislation.gov.uk
+and any disagreement about it is settled there; most Royal Assent dates here
+have not been checked against it individually, they stand on the fact sheet, and
+a date that has been checked says so.
+
+**The same paragraph the owner proposed deleting is what makes that true.** They
+asked whether the "Two things follow" paragraph was necessary. It is: it is the
+only place that tells a reader how to spot a checked date from an unchecked one,
+and without it the first paragraph's claim about legislation.gov.uk stands
+uncorrected. Kept, cut from four sentences to two.
+
+**The other three changes.** M4 reads "Only one has ever been introduced" rather
+than "One has ever been introduced". M7 loses the sentence describing which part
+of our machinery makes the dissolution comparison — the owner: it "reads like one
+of your jargon discussions with me and will leave researchers confused" — and
+keeps, in plainer words, the warning that an uncoded session's fallen bills show
+under a general code and that is not a finding. M8 loses the count of thirteen
+disagreements, which would need rewriting every session and which the per-date
+sources already let a reader work out.
+
+**What did not change.** No column, no value, no bill's coding, no note added or
+removed. Eight notes before and eight after. Nothing on the staging sheet,
+nothing promotion carries, nothing the error checker tests differently, and no
+bill needed rechecking: the notes describe what was already done.
+
+**`db/053`, and how it refuses.** Each change replaces an anchor that must be
+present exactly once, so a note whose wording has moved on stops the migration
+instead of being quietly rewritten. It then requires eight notes, none empty, the
+three new sentences present, and none of the removed wording still anywhere.
+Rehearsed in a transaction that was thrown away, and three planted failures all
+caught and nothing written: an anchor already edited away, a ninth note present,
+and an anchor appearing twice. The undo is mechanical — the migration records
+exactly what was replaced with what.
+
+**Where a sign-off is recorded.** In `CLOSURE-TESTS.md`, against the item, on the
+day it is given. It was being kept in `STATE.md`, which is cut back every
+session.
+
+---
+
 ## 2026-09-12 — Why a bill fell is worked out where the dates are, not in the reader
 
 **Found by running the closure test, and the entry below is why it matters.**
