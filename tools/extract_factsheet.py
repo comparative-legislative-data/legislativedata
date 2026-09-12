@@ -71,6 +71,30 @@ def split_title(raw):
     return title, (f'{year} {asp}' if year else asp)
 
 
+def mend_title(s):
+    r"""Repair what the printing did to a title, without touching raw_title.
+
+    Two things the factsheets do: break a word across a line with a hyphen, so
+    'Asbestos-\nrelated' reads as 'Asbestos- related'; and print a footnote
+    marker hard against the year, so 'Act 2014' with footnote 1 reads as
+    'Act 20141'. Both change what the title is and what year the asp number
+    carries. The factsheet's own words are kept in raw_title.
+    """
+    if not s:
+        return s, []
+    notes = []
+    mended = re.sub(r'(?<=\w)-\s+(?=\w)', '-', s)
+    if mended != s:
+        notes.append('a word broken across a line was rejoined')
+    # A year is four digits. Five or more beginning 19 or 20 is a year with a
+    # footnote marker printed against it.
+    def strip_marker(m):
+        notes.append(f'a footnote marker was removed from the year {m.group(1)}')
+        return m.group(1)
+    mended = re.sub(r'\b((?:1[89]|20)\d{2})\d+\b', strip_marker, mended)
+    return mended, notes
+
+
 def split_introduced(s):
     """Separate a stated introduced title from the rest of the title cell.
 
@@ -103,10 +127,16 @@ def split_sp_bill(s):
 
 
 def section_of(header):
-    """Identify a table from its own header row, not from page position."""
-    last = (clean(header[-1]) or '').lower()
-    first = (clean(header[0]) or '').lower()
-    if 'summary' in first or 'legislation' == first:
+    """Identify a table from its own header row, not from page position.
+
+    The factsheets print the summary table with its first cell blank in some
+    sessions, so 'Legislation' is looked for anywhere in the header, not only
+    in the first cell.
+    """
+    cells = [(clean(c) or '').lower() for c in header]
+    first = cells[0] if cells else ''
+    last = next((c for c in reversed(cells) if c), '')
+    if 'summary' in first or any(c == 'legislation' for c in cells):
         return 'summary'
     if 'royal assent' in last:
         return 'acts'
@@ -114,6 +144,12 @@ def section_of(header):
         return 'withdrawn'
     if 'fell' in last or 'fallen' in last:
         return 'fallen'
+    if 'passed' in last and 'title' in first:
+        # Session 5: bills passed but not yet given Royal Assent. Recognised so
+        # it is never mistaken for a continuation of the table above it, but
+        # not extracted: what the database records for such a bill is not yet
+        # settled. See docs/STATE.md.
+        return 'awaiting_assent'
     return None
 
 
@@ -124,15 +160,79 @@ SECTION_OUTCOME = {
 }
 
 
+def column_bounds(table):
+    """The x positions of a table's column edges, as pdfplumber found them."""
+    xs = sorted({round(c[0], 1) for r in table.rows for c in r.cells if c} |
+                {round(c[2], 1) for r in table.rows for c in r.cells if c})
+    out = []
+    for x in xs:
+        if not out or x - out[-1] >= 3:
+            out.append(x)
+    return out
+
+
+def is_legend(data):
+    """The key on page 1: a two-column table of type letters and their names."""
+    return len(data[0]) <= 2 and (clean(data[0][0]) or '') in TYPE_MAP
+
+
+def starts_a_row(cells):
+    """A bill's row always states its type letter in the second column.
+
+    A row without one is the tail of a row split across a page boundary, or a
+    cell that wrapped past the foot of a page. It belongs to the row above.
+    """
+    return len(cells) > 1 and (cells[1] or '').upper().rstrip('*') in TYPE_MAP
+
+
+def recut(page, tables, cols):
+    """Re-read a run of tables as one grid, on the columns given.
+
+    pdfplumber breaks a ruled table wherever the factsheet stops drawing cell
+    borders, and a row whose borders are missing is lost between the pieces --
+    the Session 4 'Interests of Members' Act was lost this way. Re-reading the
+    whole run on one set of columns, cutting at every rule, gets it back. Where
+    that cuts a row in two, starts_a_row joins it up again.
+    """
+    top = tables[0].bbox[1]
+    bottom = max(t.bbox[3] for t in tables)
+    region = page.crop((page.bbox[0], top - 1, page.bbox[2], bottom + 1))
+    return region.extract_table({'vertical_strategy': 'explicit',
+                                 'explicit_vertical_lines': cols,
+                                 'horizontal_strategy': 'lines'})
+
+
 def extract(path, session, dissolution=None):
-    rows, summary, problems = [], [], []
+    staged, summary, problems = [], [], []
+    kind, cols = None, None
     with pdfplumber.open(path) as pdf:
         for pi, page in enumerate(pdf.pages, start=1):
-            for table in page.find_tables():
-                data = table.extract()
-                if not data:
+            tables = page.find_tables()
+            i = 0
+            while i < len(tables):
+                data = tables[i].extract()
+                if not data or is_legend(data):
+                    i += 1
                     continue
-                kind = section_of(data[0])
+                header = section_of(data[0])
+                # A table with no header of its own is not a table: it is the
+                # rest of the one before it, on this page or the page before.
+                j = i + 1
+                while j < len(tables):
+                    nxt = tables[j].extract()
+                    if not nxt or is_legend(nxt) or section_of(nxt[0]) is not None:
+                        break
+                    j += 1
+                if header is not None:
+                    kind = header
+                    cols = column_bounds(tables[i])
+                if cols and (j > i + 1 or header is None):
+                    joined = recut(page, tables[i:j], cols)
+                    if joined:
+                        data = joined
+                body = data[1:] if header is not None else data
+                i = j
+
                 if kind is None:
                     problems.append(f'p{pi}: unrecognised table header '
                                     f'{[clean(c) for c in data[0]]}')
@@ -141,11 +241,41 @@ def extract(path, session, dissolution=None):
                     summary.append({'page': pi,
                                     'rows': [[clean(c) for c in r] for r in data]})
                     continue
-                for r in data[1:]:
-                    if not clean(r[0]) or clean(r[0]) == clean(data[0][0]):
-                        continue  # blank or a repeated header
-                    rows.append(build(r, kind, session, pi, path, dissolution,
-                                      problems))
+                if kind == 'awaiting_assent':
+                    if header is not None:
+                        problems.append(
+                            f'p{pi}: {len([r for r in body if clean(r[0])])} bills '
+                            f'awaiting Royal Assent, not extracted: what the '
+                            f'database records for one is not settled')
+                    continue
+                for r in body:
+                    cells = [clean(c) for c in r]
+                    if not any(cells):
+                        continue
+                    if header is not None and clean(r[0]) == clean(data[0][0]):
+                        continue  # a header repeated inside the table
+                    if starts_a_row(cells):
+                        staged.append({'cells': cells, 'kind': kind, 'page': pi,
+                                       'rejoined': False})
+                    elif staged and staged[-1]['kind'] == kind:
+                        prev = staged[-1]['cells']
+                        for ci, c in enumerate(cells):
+                            if not c or ci >= len(prev):
+                                continue
+                            prev[ci] = f'{prev[ci]} {c}'.strip() if prev[ci] else c
+                        staged[-1]['rejoined'] = True
+                    else:
+                        problems.append(f'p{pi}: a row with no type letter and '
+                                        f'nothing to join it to: {cells}')
+    rows = []
+    for st in staged:
+        row = build(st['cells'], st['kind'], session, st['page'], path,
+                    dissolution, problems)
+        if st['rejoined']:
+            note = 'read from a row the factsheet split across a page'
+            row['parser_note'] = (f"{row['parser_note']}; {note}"
+                                  if row['parser_note'] else note)
+        rows.append(row)
     return rows, summary, problems
 
 
@@ -160,7 +290,9 @@ def build(r, kind, session, page, path, dissolution, problems):
     notes = []
     # Peeled off the end of the cell in reverse order of how it is printed:
     # title, asp number, then an introduced title or an SP Bill number.
-    rest, introduced = split_introduced(raw_title)
+    mended, mend_notes = mend_title(raw_title)
+    notes.extend(mend_notes)
+    rest, introduced = split_introduced(mended)
     rest, sp_bill = split_sp_bill(rest)
     title, asp = split_title(rest)
     if introduced:
@@ -198,6 +330,8 @@ def build(r, kind, session, page, path, dissolution, problems):
     if kind == 'acts':
         title_kind = 'act'
         notes.append('title is the Act title, not the title as introduced')
+        if asp and not asp[0].isdigit():
+            notes.append('the factsheet prints no year before the asp number')
     else:
         title_kind = 'bill'
 
