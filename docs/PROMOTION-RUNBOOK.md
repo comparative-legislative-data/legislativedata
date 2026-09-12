@@ -17,20 +17,19 @@ for review. Same pattern as promotion: rehearse, look, then save.
 
 **1. Extract.** Use the pinned environment (`tools/requirements.txt`; one is
 built at `/opt/legdata/venv` on the VPS; the VPS copy cannot run the comparison
-at step 1a, which needs a spreadsheet library it does not have). Give the day the
-session ended, or no fallen bill can be read as falling at dissolution. **Take it
-from the session tab, not from a document** — since `db/048` the database holds
-it, with its source, for all seven sessions:
-
-    ~/.claude/legdata-vps 'sudo -u postgres psql -d legdata -X -At \
-        -c "SELECT date_session_end FROM session WHERE session_number = 2"'
-
-Since `db/049` the checker requires every bill coded as having fallen at
-dissolution to have concluded on that day, so a wrong date here is caught before
-the session can be promoted rather than after.
+at step 1a, which needs a spreadsheet library it does not have).
 
     python tools/extract_factsheet.py sources/factsheets/spice-legislation-session-2_retrieved-2026-09-10.pdf \
-        --session 2 --dissolution 2007-04-02 --csv s2.csv
+        --session 2 --csv s2.csv
+
+**Nothing else is given to it, and nothing else may be.** The reader takes the
+document and the session number. Until `db/051` it also took `--dissolution`,
+and used it to decide that a fallen bill had run out of time — a date it could
+not see, typed each run and recorded nowhere, which made the coding of seven
+bills impossible to reproduce from the fact sheet. That comparison is now made
+at step 4 below, against the day on the session tab. If a future change to this
+reader asks for anything but the PDF and the session number, that is the same
+mistake again.
 
 The row count it prints must equal the factsheet's own total. If it does not,
 stop: that is the table-fragmentation fault, not something to review away.
@@ -41,13 +40,20 @@ stop: that is the table-fragmentation fault, not something to review away.
     ~/.claude/legdata-vps --scp s2.csv /tmp/s2.csv
     ~/.claude/legdata-vps 'sudo -u postgres psql -d legdata -v session=2 -v save=false -f /tmp/load_session.sql < /tmp/s2.csv'
 
-**3. Look at the five tables it prints.**
+**3. Look at the six tables it prints.**
 
 - **Lines by factsheet table and type letter.** Every cell must equal the
   factsheet's summary table, and `unrecognised` must be 0.
 - **Passing dates put on the stage-dates sheet.** One per Act: Final Stage
   for a Private Bill, Stage 3 for every other kind. The total must equal the
   Acts row of the summary.
+- **Bills the factsheet says fell.** One row per fallen bill, with the day it
+  concluded, the day its session ended, and what the loader proposed. A bill
+  that concluded on the session's last day reads `fell_dissolution`; every other
+  fallen bill reads `(empty - your judgement)` and waits for the Official
+  Report. The fallen total must equal the summary's. If the session's last day
+  is blank, the session tab has no end date and nothing can be proposed — which
+  is correct for Session 7 and a fault for any other.
 - **Taken out of a title.** Every SP Bill number should sit beside a bill
   that is not an Act, and none should still be in the title.
 - **Problems.** This is the review list. For Session 2 it was six fallen
@@ -55,7 +61,17 @@ stop: that is the table-fragmentation fault, not something to review away.
 - **Staging line numbers.** They should follow straight on from the last
   session loaded.
 
-**4. Save.** The same command with `save=true`. Refused if the session is
+**4. The one reason a bill fell that we work out ourselves.** The loader
+proposes `fell_dissolution` where the bill concluded on the day its session
+ended, taking that day from the session tab, and leaves every other fallen bill
+empty. It is a proposal to review like any other, and it runs after the check
+that the reader's rows arrived unchanged, so what the reader gave and what we
+added are never confused. Since `db/049` the checker requires every bill coded
+this way to have concluded on that day, and since `db/051` it also requires the
+session's last day to exist; promotion then refuses to write such a bill without
+its provenance note.
+
+**5. Save.** The same command with `save=true`. Refused if the session is
 already loaded.
 
 ---
@@ -485,3 +501,47 @@ The project's scripts log in as the administrator and were never affected.
 Tested before it was made, with planted mistakes thrown away afterwards: the
 error checker and the gaps list found the same either way. To undo it takes
 one line, given in `db/037`.
+
+## Why a bill fell, moved out of the reader, 12 September
+
+`db/051` and `db/052`, then Sessions 1 and 2 taken off the clean sheet and put
+back on, so the seven bills that ran out of time gained the provenance note they
+had never had. Safety copies first: `/var/tmp/legdata-before-051_2026-09-12.dump`
+on the server, and `copy_before_051` inside the database, compared afterwards
+and dropped.
+
+**Rehearsed twice and thrown away before any of it was kept**, each rehearsal
+being the migration plus one session off and back on, compared cell by cell
+against a copy taken before all of it:
+
+- **Session 1: 21 differences, every one intended.** 18 notes rewritten on the
+  fallen staging lines, and 3 new provenance notes.
+- **Session 2: 22 differences, every one intended.** The same 18, and 4 new
+  notes.
+- Everything else differed only in record numbers and times written.
+
+**The migration proves its own claim rather than asserting it.** It takes the
+old reader's answer off the seven lines, applies the new rule in its place, and
+stops unless the same seven come back. They did: lines 66, 71, 73, 148, 150,
+152 and 154.
+
+**Four refusals, proved and thrown away.**
+
+- A bill coded as having fallen at dissolution whose concluding date is moved by
+  one day: caught, naming both dates.
+- A fallen bill left with an empty outcome: caught, "outcome not proposed —
+  needs a judgement", and promotion will not run while the checker has anything.
+- A bill coded that way in a session with no last day recorded, which is Session
+  7: caught. This is the hole `db/051` closed; the old rule went quiet there.
+- Promotion with the session's date provenance removed, so the note could not be
+  written: refused, "3 bill(s) coded as having fallen at dissolution without the
+  note saying it is our coding". Nothing was written.
+
+**The real run.** 25 differences against the copy taken before all of it — the
+18 rewritten notes and the 7 new provenance notes — and nothing else. 154 bills,
+413 stage records, 56 provenance notes, error checker empty, gaps list empty.
+
+**And the thing this was for.** Both fact sheets read again with nothing
+supplied but the PDF and the session number now match the staging sheet in all
+154 rows, none differing. All five ruled-table sessions give byte-identical
+output on the Mac and on the VPS.

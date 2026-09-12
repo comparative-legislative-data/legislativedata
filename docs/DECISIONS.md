@@ -7,6 +7,75 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-12 — Why a bill fell is worked out where the dates are, not in the reader
+
+**Found by running the closure test, and the entry below is why it matters.**
+That entry, written earlier the same day, is titled "the day each session ended
+is data, not a command-line argument". It put every session's last day into the
+data with its source, and made the error checker use it. It did not change
+`tools/extract_factsheet.py`, which was the half that made the coding. So the
+reader still took `--dissolution` on the command line and still decided, from a
+date recorded nowhere, that seven bills had run out of time.
+
+**What that cost.** Item 18 of `CLOSURE-TESTS.md` asks for the fact sheets to be
+read again and compared against the staging sheet, which is how a change to the
+reader is caught. Run as written — the PDF and nothing else — it failed on those
+seven bills. The coding was not wrong; it could not be reproduced from the fact
+sheet, because it never came from the fact sheet alone.
+
+**Considered and rejected: hand the reader the date from the database.** The
+smaller change. The reader's worth is that it opens one PDF and needs nothing
+else, so the same document yields the same rows on the Mac and on the VPS — the
+argument the pinned environment in `tools/requirements.txt` exists to protect,
+and what makes "it reconciles" mean anything. Giving it a database connection
+spends that to save a step.
+
+**Decided: the reader stops deciding.** No fact sheet says why a bill fell, so
+the reader records what the fact sheet says — this bill fell, on this date — and
+leaves the outcome empty. `tools/load_session.sql` then proposes
+`fell_dissolution` for a line that concluded on the day its session ended, and
+leaves every other fallen line for review. Still a proposal a person reviews.
+The instrument the entry below chose is right; its position was not, and this
+narrows that entry to that extent.
+
+**Where the proposal sits in the loading order.** After the check that the CSV
+arrived on the staging sheet unchanged, not before. So "the reader's rows came
+through verbatim" is proved against the CSV first, and our coding is added to
+them afterwards, visibly.
+
+**What the seven bills gained: a note each.** They had none. The eleven Stage 1
+rejections each carried a provenance note citing the Official Report, while the
+seven carried nothing at all — the coding of a fallen bill looked like something
+the legislation fact sheet had said, and the legislation fact sheet never says
+it. Each now carries a note on its outcome, citing the same document, page and
+reading date as its session's last day, and giving the rule in words.
+`value_seen` is empty, because no source printed these words.
+
+**What nothing changes.** No column, no new value, no bill's coding. The same
+seven bills, from the same two dates. `db/051` proves it rather than asserting
+it: it takes the old reader's answer off those lines, applies the new rule in
+its place, and refuses to go on unless the same seven come back.
+
+**What is refused now.** Promotion will not put a bill on the clean sheet as
+having fallen at dissolution without that note, or on a day that is not its
+session's last. The error checker's rule from `db/049` also stops going quiet
+where a session has no last day recorded: Session 7 is still running, so a bill
+of its coded that way would have been checked against nothing and would then
+have reached promotion with no date to cite.
+
+**An empty outcome still means nothing but "not yet coded"**, and the error
+checker still refuses to let a line be accepted that way. Nothing is inferred
+from silence; the entry below settled that and it is untouched.
+
+**`db/052` is separate and should not have been.** The two `outcome` columns'
+descriptions still described the old behaviour after `db/051` was applied. The
+data dictionary is what lets the owner be the check on every claim here, so a
+description of behaviour that no longer exists is not a tidiness problem. It is
+its own migration because `db/051` had already been run, and a migration file
+has to be what was actually run.
+
+---
+
 ## 2026-09-12 — The day each session ended is data, not a command-line argument
 
 **The problem, found while running the closure test.** `tools/extract_factsheet.py`

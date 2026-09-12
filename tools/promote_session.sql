@@ -229,6 +229,30 @@ SELECT 'bill', p.candidate_id, 'stage_1_rejection_route', 'official_report',
                     WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
                       AND f.field_name = 'stage_1_rejection_route');
 
+-- Why a bill is coded as having fallen at dissolution. No factsheet says why a
+-- bill fell; this coding is ours, from two recorded dates -- the day the bill
+-- concluded, off the legislation factsheet, and the day the session ended, off
+-- the dates factsheet. The note cites the same document, page and reading date
+-- as the session's own date_session_end note, so the two cannot drift apart.
+-- value_seen is empty because no source printed these words: the rule is the
+-- note, and M7 states it. Before 2026-09-12 these bills carried no note at all.
+INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
+                          value_seen, observed_at, note)
+SELECT 'bill', p.candidate_id, 'outcome', f.source, f.source_ref,
+       NULL, f.observed_at,
+       'Our coding, not the factsheet''s: the legislation factsheet says the '
+       'bill fell and not why. Coded as having fallen at dissolution because it '
+       'concluded on ' || p.date_concluded || ', the day Session '
+       || p.session_number || ' ended. That day is session.date_session_end, '
+       'from the source cited here. See methodology note M7.'
+  FROM promoting p
+  JOIN field_source f ON f.entity = 'session' AND f.entity_id = p.session_number
+                     AND f.field_name = 'date_session_end'
+ WHERE p.outcome = 'fell_dissolution'
+   AND NOT EXISTS (SELECT 1 FROM field_source g
+                    WHERE g.entity = 'bill' AND g.entity_id = p.candidate_id
+                      AND g.field_name = 'outcome');
+
 -- A date checked at review against the source that owns it: Royal Assent from
 -- legislation.gov.uk, any other date from the Parliament's own pages. The
 -- review note carries one line per check, in the fixed form
@@ -405,6 +429,28 @@ BEGIN
                         AND f.observed_at = c.official_report_read_on
                         AND f.value_seen IS NOT NULL AND f.source_ref IS NOT NULL);
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % route(s) without a provenance note quoting the announcement.', n; END IF;
+
+  -- Every bill coded as having fallen at dissolution carries the note saying so,
+  -- dated by the reading of the source the session's last day came from. A
+  -- coding of ours with nothing recording that it is ours is the thing this
+  -- whole change exists to stop, so promotion refuses rather than warns.
+  SELECT count(*) INTO n
+    FROM bill b JOIN session ss ON ss.session_number = b.session_number
+   WHERE b.session_number = s AND b.outcome = 'fell_dissolution'
+     AND NOT EXISTS (SELECT 1 FROM field_source f
+                      WHERE f.entity = 'bill' AND f.entity_id = b.bill_id
+                        AND f.field_name = 'outcome'
+                        AND f.note LIKE '%fallen at dissolution%'
+                        AND f.source_ref IS NOT NULL);
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % bill(s) coded as having fallen at dissolution without the note saying it is our coding.', n; END IF;
+
+  -- The day each of them concluded is the day its session ended. The error
+  -- checker says this of a staging line; this says it of the clean sheet.
+  SELECT count(*) INTO n
+    FROM bill b JOIN session ss ON ss.session_number = b.session_number
+   WHERE b.session_number = s AND b.outcome = 'fell_dissolution'
+     AND b.date_concluded IS DISTINCT FROM ss.date_session_end;
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % bill(s) fell at dissolution on a day that is not their session''s last.', n; END IF;
 
   RAISE NOTICE 'All checks passed.';
 END $$;

@@ -202,7 +202,7 @@ def recut(page, tables, cols):
                                  'horizontal_strategy': 'lines'})
 
 
-def extract(path, session, dissolution=None):
+def extract(path, session):
     staged, summary, problems = [], [], []
     kind, cols = None, None
     with pdfplumber.open(path) as pdf:
@@ -270,7 +270,7 @@ def extract(path, session, dissolution=None):
     rows = []
     for st in staged:
         row = build(st['cells'], st['kind'], session, st['page'], path,
-                    dissolution, problems)
+                    problems)
         if st['rejoined']:
             note = 'read from a row the factsheet split across a page'
             row['parser_note'] = (f"{row['parser_note']}; {note}"
@@ -279,7 +279,7 @@ def extract(path, session, dissolution=None):
     return rows, summary, problems
 
 
-def build(r, kind, session, page, path, dissolution, problems):
+def build(r, kind, session, page, path, problems):
     raw_title = clean(r[0])
     raw_type = clean(r[1])
     raw_intro = clean(r[2])
@@ -318,14 +318,17 @@ def build(r, kind, session, page, path, dissolution, problems):
 
     outcome, enactment = SECTION_OUTCOME[kind]
     if kind == 'fallen':
-        # SPICe does not say WHY a bill fell. Only dissolution is inferable,
-        # and only by date. Everything else is left for review.
-        if dissolution and d_final == dissolution:
-            outcome = 'fell_dissolution'
-            notes.append('fell on the dissolution date; outcome inferred')
-        else:
-            notes.append('fell before dissolution; outcome needs review '
-                         '(rejected_stage_1 / fell_other)')
+        # SPICe says which bills fell and never why. This reader reports what
+        # the factsheet says and nothing more, so the outcome is left empty for
+        # review. Until 2026-09-12 it proposed fell_dissolution here, by
+        # comparing the bill's final date against a dissolution date handed to
+        # it on the command line -- a date this reader cannot see, recorded
+        # nowhere, and so a coding that could not be reproduced from the PDF
+        # alone. The comparison now happens on the staging sheet, where the
+        # session's last day is recorded with its own source. See db/051,
+        # DECISIONS.md 2026-09-12, and methodology note M7.
+        notes.append('the factsheet says the bill fell and not why; '
+                     'outcome left for review')
 
     if kind == 'acts':
         title_kind = 'act'
@@ -370,10 +373,9 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('pdf')
     ap.add_argument('--session', type=int, required=True)
-    ap.add_argument('--dissolution', help='ISO date, to infer fell_dissolution')
     ap.add_argument('--csv')
     a = ap.parse_args()
-    rows, summary, problems = extract(a.pdf, a.session, a.dissolution)
+    rows, summary, problems = extract(a.pdf, a.session)
     if a.csv:
         with open(a.csv, 'w', newline='') as f:
             w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))

@@ -31,45 +31,44 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
 - **11 September.** Read Session 2 in and put it on the clean sheet; recorded
   how each Stage 1 rejection came about; settled stage dates in full, and
   loaded your own dates for all 154 bills.
-- **12 September, earlier.** Fixed the reader, which was losing whole rows where
-  a table runs over a page, so Sessions 3, 4 and 5 now read in full. Settled the
-  thirteen dates where your sheet and the factsheet disagreed; five were wrong
-  and are corrected, all thirteen carry your citation. Named each source for
-  what it is, and made the comparison between sources a gate every session must
-  pass. Corrected your working dataset's nine cells, after which the two sources
-  agree completely for both sessions.
+- **12 September, earlier.** Fixed the reader, which was losing whole rows, so
+  Sessions 3 to 5 now read in full. Settled the thirteen dates where your sheet
+  and the factsheet disagreed. Put the day each session ended into the data,
+  from the SPICe dates factsheet, and made the error checker use it.
 
-**12 September, this session. The day each session ended is now in the data.**
-- **The closure test for Sessions 1 and 2 was run.** All sixteen mechanical
-  checks matched, and all five outside the script. Your seven sign-offs are
-  still to come — see "Now".
-- **It found one real fault, in the checking, not the data.** Taking a session
-  off and putting it back gives identical data, but the tool that checks that
-  said otherwise: it followed a note by the stage record's number, and those are
-  reissued. Fixed, and proved to still catch four planted changes.
-- **The day each session ended was deciding how seven bills are coded, from a
-  command line, recorded nowhere.** All seven sessions now carry their dates,
-  from the SPICe dates factsheet you supplied, agreeing to the day with the
-  Parliament's API and with each legislation factsheet. The checker now requires
-  a bill said to have run out of time to have concluded on that day. What a
-  reader is told changed with it: M7 states the dates it reasons from, and M8
-  now says that your dataset and the factsheets are independent and agree.
+**12 September, this session. The closure test was run, and it found a real
+fault.**
+- **All sixteen mechanical checks matched**, and four of the five outside the
+  script.
+- **The fifth failed, on seven bills.** No fact sheet says why a bill fell. Seven
+  bills are recorded as having run out of time because they concluded on the day
+  their session ended — but the program that reads the fact sheets made that
+  decision, and it cannot see the day a session ended. It had to be told, each
+  time it ran, and what it was told was never written down. So reading the fact
+  sheets again gave a different answer for those seven, and the check meant to
+  catch the program drifting could not tell drift from a different instruction.
+- **The reader no longer decides why a bill fell.** It records what the fact
+  sheet says — this bill fell, on this date — and the comparison is now made
+  where both dates are kept. No bill's coding changed; the same seven bills, for
+  the same reason. What they gained is the note they never had: each now says
+  the coding is ours, gives the rule, and cites the source of its session's last
+  day. Before this, those seven looked as though the fact sheet had said it.
+- **Reading both fact sheets again now matches the staging sheet in all 154
+  rows**, with nothing supplied but the document.
 
-## Now: the final checks, and they are not this session's to make
+## Now: the closure test again, and the sign-offs
 
-This session did the work above, so it does not mark it. **Your decision, and
-the same rule that produced the closure test.** The next session's first task,
-before anything about Session 3:
+This session changed the data's provenance, so it does not mark the test.
 
-1. **Re-run `tools/closure_check_sessions_1_2.sql`** against the expected
-   answers in `docs/CLOSURE-TESTS.md`, which were corrected for the renamed
-   source and the thirteen new provenance notes. This session re-ran them and
-   they matched; that is not the same as being checked.
-2. **Re-run items 17 to 21**, which are outside the script.
-3. **Put the eight sign-offs to the owner**, one at a time. The first was given
-   on 12 September: the counts of what happened to each bill are as expected.
-   Seven remain.
-4. **Then the conversation about how much confidence the clean sheet has
+1. **Run the closure test again**, all sixteen mechanical items and items 17 to
+   21, against `docs/CLOSURE-TESTS.md`. Four expected answers were corrected for
+   this session's change and say so. This session ran them and they matched;
+   that is not the same as being checked.
+2. **Put the sign-offs to the owner**, one at a time. Eight, of which the first
+   was given on 12 September: the counts of what happened to each bill are as
+   expected. The second — the eleven Stage 1 rejections, their routes and the
+   three notes a reader sees — was put and not yet answered.
+3. **Then the conversation about how much confidence the clean sheet has
    earned**, which the owner asked for and which nothing should pre-empt.
 
 Sessions 1 and 2 are **not closed** until that has happened, and Session 3 is
@@ -127,70 +126,72 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-12 (second session of the day)
+## Sanity check, 2026-09-12 (third session of the day)
 
-**At opening, everything matched**: 154 bills, 413 stage records, 36 provenance
+**At opening, everything matched**: 154 bills, 413 stage records, 49 provenance
 notes, all 413 stage-date rows accepted and carried, the error checker empty, no
-gaps, 26 tabs, 46 migrations numbered without a gap, the data dictionary
-regenerating with no difference, nothing uncommitted or unpushed.
+gaps, 26 tabs all owned by `legdata`, 50 migrations numbered without a gap, the
+data dictionary regenerating with no difference, and the repository clean and
+level with GitHub.
 
-**Found at opening:** `/var/tmp` on the server held four pre-migration dumps
-from earlier the same day (`042`, `044`, `045`, `046`). The previous session's
-sweep looked in `/tmp` only. They were kept, not deleted: the nightly backup ran
-clean at 02:59 but *before* those migrations, so nothing offsite yet covered
-them. Tonight's run at 02:41 is the first that will. A fifth was added before
-this session's work (`legdata-before-047_2026-09-12.dump`). **All five can go
-once tonight's backup has run clean** — the same condition the owner agreed on
-11 September.
+**Found at opening, and it is the whole of this session's work.** The closure
+test's item 18 cannot be run from the repository alone: `extract_factsheet.py`
+took the session's last day as a command-line setting, recorded nowhere, and
+coded seven bills with it. `STATE.md` and `DECISIONS.md` both read as though the
+previous session had settled that; it had settled the database half and left the
+reader. Now fixed — `db/051`, `db/052` — and the item passes with nothing but
+the PDF.
+
+**Also checked and unchanged:** the eleven Official Report citations' vote
+figures. The Proportional Representation note quotes two divisions that both
+read "For 65"; the cited page gives 65/54/2 on the amendment and 65/53/3 on the
+motion as amended, so both figures are right and belong to different votes.
 
 **At close:**
-- 154 bills, 413 stage records, **49 provenance notes** (36 + the 13 session
-  dates), 413 stage-date rows all accepted and carried, checker empty, no gaps,
-  26 tabs, 50 migrations numbered without a gap, 8 notes for readers, 4
+- 154 bills, 413 stage records, **56 provenance notes** (49 + the 7 bills that
+  ran out of time), 413 stage-date rows all accepted and carried, checker empty,
+  no gaps, 26 tabs, 52 migrations numbered without a gap, 8 notes for readers, 4
   rejection routes, 9 sources.
-- All seven sessions carry a first meeting; six carry a last day, Session 7
-  being the one still running.
 - The data dictionary regenerates unchanged: 17 tables, 159 columns, every one
-  described. All 26 tabs belong to `legdata`, so Postico can open the session
-  tab, the checker and the provenance notes.
-- The mechanical half of the closure test was re-run after the work and matches
-  its corrected expectations. **It has not been marked**: this session did the
-  work, so the next one checks it.
+  described. Two descriptions changed with `db/052`.
+- Both fact sheets read again, with nothing supplied but the document, match the
+  staging sheet in all 154 rows. All five ruled-table sessions give
+  byte-identical output on the Mac and on the VPS.
+- The mechanical closure test was re-run after the work and matches its
+  corrected expectations. **It has not been marked**: this session did the work,
+  so the next one checks it.
 - The repository is clean and level with GitHub.
 
-**Rehearsed and thrown away before each real run, and the refusals proved as
-well as the successes:**
-- The comparison tool's fix: Session 1 off and back on now reports no unexpected
-  difference, and four planted changes — a note's source altered, a note moved
-  between stages, a stage date moved by a day, a note deleted — were all caught.
-  The first run of that plant set a value that was already there, which looked
-  like a miss and was not; worth knowing that a plant must be shown to have
-  changed something.
-- The four migrations, together, against a copy taken beforehand: 705
-  differences, every one intended. 436 renamed source cells, 13 new provenance
-  notes, and 256 stage-date rows the comparison cannot follow because its key
-  includes the source name. **Those 256 were checked separately**, matched by
-  line and position: nothing changed but the name. The session tab is not
-  covered by `take_copy.sql` at all and was compared by hand.
-- Neither `db/047` nor `db/048` can be applied twice. A bill wrongly coded as
-  having fallen at dissolution is caught, naming both dates.
+**Rehearsed and thrown away before the real run, refusals as well as
+successes** — the figures are in `PROMOTION-RUNBOOK.md`, "Why a bill fell, moved
+out of the reader":
+- The migration plus one session off and back on, twice, compared against a copy
+  taken before all of it: 21 differences for Session 1 and 22 for Session 2,
+  every one intended.
+- `db/051` refuses to go on unless the new rule gives back exactly the seven
+  lines the old reader gave. It does.
+- Four planted failures all caught: a concluding date moved by a day; a fallen
+  bill left with an empty outcome; a bill coded this way in Session 7, which has
+  no last day recorded and is the hole the old rule left; and promotion with no
+  session date to cite, which refused and wrote nothing.
+- The migration also caught a wrong assumption of its own author, which is worth
+  knowing: it expected all eighteen fallen lines to be empty after the seven
+  were cleared. Only seven were. The other eleven are the Stage 1 rejections,
+  whose outcome came from the Official Report at review — the reader's change
+  affects a fresh load, not a line already reviewed.
 
-**Looking at the whole, after four migrations this day (`db/047`–`db/050`):**
-no new tab, 26 as before, and no new variable about a bill. What changed that
-the owner would see: the session tab, which was seven empty rows, now has dates;
-one column on it is renamed to say what it holds; there are two SPICe sources
-where there was one, plus the new dates factsheet; one more thing the error
-checker refuses; and two of the eight notes a reader is given say more than they
-did. The picture stays what it was — a sheet to type on, the checker, the gaps
-list.
+**Looking at the whole, after two more migrations (`db/051`, `db/052`):** no new
+tab, 26 as before; no new column and no new value. What the owner would see:
+seven bills that fell at dissolution now have a note saying the coding is ours,
+which they did not have; the wording the reader leaves on a fallen line no
+longer claims to know why; one more thing promotion refuses; and one sentence
+added to M7. The picture stays what it was — a sheet to type on, the checker,
+the gaps list.
 
-**A limitation restated, because it is now awake.** The session-window checks
-were dormant while the session tab had no dates and are live from `db/048`. They
+**A limitation restated, because it is still live.** The session-window checks
 compare a line's dates against the session of the *factsheet* it was read from,
 which is wrong for a bill carried between sessions. Sessions 1 and 2 have no
-such bill and nothing fires. Reading the view, the failure is a false alarm and
-not a false pass — the checks only look for dates outside the window, so a
-carry-over row is flagged and stops the session rather than passing quietly.
+such bill and nothing fires. The failure is a false alarm and not a false pass.
 **That is read, not rehearsed.** Rehearse it before Session 5 is loaded.
 
 ## The owner's standing positions, so they are not re-argued
@@ -439,14 +440,16 @@ website has to surface.
 
 ## Housekeeping, small and known
 
-- **Four safety copies are on the VPS**: `/var/tmp/legdata-before-042_2026-09-12.dump`,
-  and `-044_`, `-045_`, `-046_`, one before each change to data or rules.
-  Delete them once a nightly backup taken after 2026-09-12 has been confirmed.
-  The backup timer next fires 02:41 UTC. The nine from 10 and 11 September were deleted
-  on 2026-09-12 the same way. `copy_before_042` inside the database was compared
-  and dropped.
-- **No copy of the sheets is held inside the database.** `copy_before_phd_dates`
-  was dropped once its comparison was done. Take a fresh one with
+- **Six safety copies are on the VPS**: `/var/tmp/legdata-before-042_2026-09-12.dump`,
+  and `-044_`, `-045_`, `-046_`, `-047_`, `-051_`, one before each change to data
+  or rules. Delete them once a nightly backup taken after 2026-09-12 has been
+  confirmed. The last backup ran clean at 02:59 on 12 September, which is
+  *before* all of them; the timer next fires 02:41 UTC on 13 September, and that
+  is the first run that covers them. The nine from 10 and 11 September were
+  deleted on 2026-09-12 the same way. `copy_before_042` and `copy_before_051`
+  inside the database were compared and dropped.
+- **No copy of the sheets is held inside the database.** `copy_before_051` was
+  dropped once its comparison was done. Take a fresh one with
   `tools/take_copy.sql` before the next change to data already held.
 - **`db/037` stays, doing nothing.** It sets day-first dates for Postico's
   login, and Postico formats dates itself, so nothing changed on screen. The

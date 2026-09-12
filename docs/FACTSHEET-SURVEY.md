@@ -187,6 +187,12 @@ time. Every such bill sits under a heading that says only "fallen". The
 `fell_dissolution` and `fell_other`, and **none of them can be derived from the
 factsheet.**
 
+One of them can be derived from the factsheet *plus* the day the session ended,
+which is a different document: a bill that concluded on that day ran out of
+time. Since `db/051` that comparison is made on the staging sheet, against the
+session tab, and not by the reader, which sees one PDF and nothing else. Every
+other fallen bill still needs the Official Report.
+
 Fallen bills by session: 8, 10, 7, 6, 7, 10, 0 — **48 bills**. That is the size
 of the Official Report task, and Session 1's five were 10% of it.
 

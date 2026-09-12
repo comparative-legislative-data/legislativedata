@@ -24,14 +24,26 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ## Sessions 1 and 2
 
-Written 2026-09-12 by the session that loaded and corrected them. **Not run.**
+Written 2026-09-12 by the session that loaded and corrected them.
+
+**Run once, on 2026-09-12, by the following session.** All sixteen mechanical
+items matched, and items 17, 19, 20 and 21 passed. **Item 18 failed**, on seven
+bills: the fact sheet reader could not reproduce the coding of a bill that fell
+at dissolution without being handed the session's last day, which was recorded
+nowhere. `db/051` and `db/052` moved that comparison onto the staging sheet, and
+the expected answers below are corrected for it — items 1, 5, 14 and 18.
+
+**So it needs running again**, by a session that did not make that change, and
+Sessions 1 and 2 are not closed until it has been. The change touched no bill's
+coding: the same seven bills fall at dissolution, and what they gained is a
+provenance note each.
 
 ### Part A — mechanical
 
 Run `tools/closure_check_sessions_1_2.sql`. It reads only and changes nothing.
 Compare each numbered result against the expected answer.
 
-**1. Counts.** bills 154, stage_records 413, provenance_notes 49,
+**1. Counts.** bills 154, stage_records 413, provenance_notes 56,
 checker_problems 0, gaps 0, staging_lines 154, stage_date_rows 413.
 
 - 154 is the two factsheets' own totals, 73 and 81.
@@ -40,10 +52,12 @@ checker_problems 0, gaps 0, staging_lines 154, stage_date_rows 413.
   stage each, the Gaelic Language Bill has two (Stage 1 completed, stopped at
   Stage 2) and the Session 1 Robin Rigg Bill has three (Preliminary and
   Consideration completed, stopped at Final) = 29. 384 + 29 = 413.
-- 49 is 11 outcomes + 11 rejection routes + 1 title corrected at review + 13
+- 56 is 11 outcomes + 11 rejection routes + 1 title corrected at review + 13
   dates checked against the source that owns them + the 13 session dates loaded
-  by `db/048`. It was 36 until that migration; a session date is a fact about a
-  session rather than about a bill, and carries its provenance like any other.
+  by `db/048` + the 7 bills coded as having fallen at dissolution, which gained
+  a note each at `db/051`. It was 36 before the session dates and 49 before
+  those seven; a session date is a fact about a session rather than about a
+  bill, and carries its provenance like any other.
 - 0 and 0 are the rule: a session cannot be promoted while the checker has
   anything, and a gap is a completed stage with no date and no explanation.
 
@@ -67,6 +81,7 @@ difference the comparison found is a problem until the owner has settled it.
 | `date_royal_assent` | `legislation_gov_uk` | 8 |
 | `date_session_end` | `spice_factsheet_dates` | 6 |
 | `outcome` | `official_report` | 11 |
+| `outcome` | `spice_factsheet_dates` | 7 |
 | `short_title` | `manual` | 1 |
 | `stage_1_rejection_route` | `official_report` | 11 |
 
@@ -74,7 +89,10 @@ The thirteen adjudicated dates are the owner's of 2026-09-12; the eleven
 outcomes and routes are the Stage 1 rejections; the title is the one corrected
 at review (`DECISIONS.md`, 2026-09-10). The thirteen session dates are `db/048`:
 seven first meetings and six session ends, Session 7 having no end because it is
-still running.
+still running. The seven outcomes against the dates fact sheet are `db/051`: the
+bills coded as having run out of time at dissolution, each note citing the same
+document, page and reading date as its session's last day, because that is what
+the coding rests on.
 
 **6. Reconciliation.** Our counts must match each factsheet's own summary table
 in every cell and both margins. These figures are read off the factsheets, not
@@ -141,7 +159,9 @@ is the Proportional Representation (Local Government Elections) (Scotland) Bill.
 `has_a_definition` true for all. `api`, `bill_document`, `manual` and
 `spice_factsheet_dates` carry no stage records — `bill_document` holds nothing by
 design since `db/042` and its own description says so, and the dates factsheet
-says when sessions began and ended, which is not a stage of a bill.
+says when sessions began and ended, which is not a stage of a bill. The dates
+fact sheet's cells are 20: the 13 session dates, and the 7 outcomes that rest on
+them (`db/051`). It was 13 before that.
 
 **15. The notes a reader is given.** M1 to M8, eight of them, none empty.
 
@@ -157,6 +177,15 @@ produces no difference from the committed file beyond its own date line.
 afresh and compare against the staging lines' raw columns: 154 rows, 0
 differing. This is the check that the reader changes of 2026-09-12 left these
 two sessions untouched.
+
+**Nothing may be supplied to the reader but the PDF and the session number.**
+That is the point of the item, and it is what it failed on when it was first
+run: the reader took the session's last day as a command-line setting and used
+it to code seven bills, so the answer depended on what had been typed rather
+than on the fact sheet. `db/051` took that setting away. A run that needs
+anything else typed is a failure of this item, whatever it produces.
+
+    extract_factsheet.py <pdf> --session N --csv out.csv
 
 **19. The dataset's fingerprint** matches the one recorded in `DECISIONS.md`,
 2026-09-12, for the corrected working copy.
@@ -211,8 +240,13 @@ None of these is for anyone else to answer.
   and `db/049` made the checker require a bill coded as having fallen at
   dissolution to have concluded on that day. All seven do. The converse is
   deliberately not required: a bill can be rejected at Stage 1 on the final
-  sitting day, so that direction stays a proposal the reader makes and a person
-  reviews.
+  sitting day, so that direction stays a proposal a person reviews.
+  **Finished on 2026-09-12 by `db/051`**, which moved that proposal out of the
+  fact sheet reader and onto the staging sheet. Until then the coding could be
+  checked against the data but not re-derived from the fact sheet, because the
+  reader was handed the date from outside. It now is, and each of the seven
+  bills carries a note giving the rule and the source of its session's last
+  day.
 - **`procedure`, `party`, `sp_bill_id` and `title_as_introduced`.** Empty or
   sparse by decision, not by omission: no factsheet states procedure (`db/010`),
   party is future-proofing, Session 1's factsheet prints no bill numbers, and a

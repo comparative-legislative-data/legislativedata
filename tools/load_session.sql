@@ -27,6 +27,11 @@
 -- sequence, arriving new like the line (db/033). The extractor is unchanged:
 -- the date is read from its CSV's end_stage_3_date column.
 
+-- A line from the Fallen table arrives with an empty outcome, because no
+-- factsheet says why a bill fell. This script proposes fell_dissolution for one
+-- that concluded on the day its session ended, and leaves every other fallen
+-- bill empty for review (db/051).
+
 \set ON_ERROR_STOP on
 
 BEGIN;
@@ -208,6 +213,38 @@ BEGIN
 END $$;
 
 -- ---------------------------------------------------------------------------
+-- Why a bill fell: the one reason that can be worked out
+-- ---------------------------------------------------------------------------
+
+-- The factsheet says which bills fell and never why, so the reader leaves the
+-- outcome of every fallen bill empty. One reason can be worked out, and this is
+-- where it is done, because this is where both dates are: a bill that concluded
+-- on the day its session ended ran out of time.
+--
+-- It sits here and not in the reader because the reader sees one PDF and
+-- nothing else. The day a session ended is on the session tab, from the SPICe
+-- dates factsheet, with its own provenance note. Until 2026-09-12 the reader
+-- was handed that date on the command line, which made the coding of seven
+-- bills depend on something recorded nowhere. See db/051 and M7.
+--
+-- Deliberately one-way. A fallen bill that concluded on any other day keeps an
+-- empty outcome and waits for review, and the error checker will not let an
+-- empty outcome be accepted. Nothing here overrides a value already present.
+--
+-- It runs after the check above, so "the reader's rows arrived unchanged" is
+-- proved against the CSV before anything of ours is added to them.
+UPDATE bill_candidate c
+   SET outcome = 'fell_dissolution'
+  FROM load_arg a
+  JOIN session s ON s.session_number = a.session_number
+ WHERE c.session_number = a.session_number
+   AND c.raw_section = 'fallen'
+   AND c.outcome IS NULL
+   AND c.date_concluded IS NOT NULL
+   AND s.date_session_end IS NOT NULL
+   AND c.date_concluded = s.date_session_end;
+
+-- ---------------------------------------------------------------------------
 -- What you are being asked to keep
 -- ---------------------------------------------------------------------------
 
@@ -225,6 +262,15 @@ SELECT coalesce(c.raw_section, 'TOTAL') AS factsheet_table,
   FROM bill_candidate c JOIN load_arg a USING (session_number)
  GROUP BY GROUPING SETS ((c.raw_section), ())
  ORDER BY c.raw_section NULLS LAST;
+
+\echo '--- Bills the factsheet says fell: what was proposed, and what waits for you'
+SELECT c.candidate_id, c.short_title, c.date_concluded,
+       s.date_session_end AS session_ended,
+       coalesce(c.outcome, '(empty - your judgement)') AS outcome
+  FROM bill_candidate c JOIN load_arg a USING (session_number)
+  LEFT JOIN session s USING (session_number)
+ WHERE c.raw_section = 'fallen'
+ ORDER BY c.candidate_id;
 
 \echo '--- Passing dates put on the stage-dates sheet, by stage name'
 SELECT t.stage, t.stage_order, t.source, t.review_status, count(*)
