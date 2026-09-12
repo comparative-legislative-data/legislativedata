@@ -2,3 +2,7 @@
 *.env
 legdatavps/
 sources/phd/*.xlsx
+
+# Python bytecode, left by importing the tools directly
+__pycache__/
+*.pyc

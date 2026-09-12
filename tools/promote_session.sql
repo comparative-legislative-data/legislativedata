@@ -21,6 +21,11 @@
 -- agree, and the more primary source is carried: the Official Report, then a
 -- factsheet, then the PhD dataset (DECISIONS.md, 2026-09-11). No order is
 -- settled between any other sources, and the script stops rather than choose.
+--
+-- A date checked at review against the source that owns it carries its own
+-- source on the clean sheet, written from the "Checked: ..." line on the
+-- staging row (db/042, db/043). A date with no such note carries the source of
+-- the row it sits on, and nobody has checked it individually.
 
 \set ON_ERROR_STOP on
 
@@ -224,6 +229,30 @@ SELECT 'bill', p.candidate_id, 'stage_1_rejection_route', 'official_report',
                     WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
                       AND f.field_name = 'stage_1_rejection_route');
 
+-- A date checked at review against the source that owns it: Royal Assent from
+-- legislation.gov.uk, any other date from the Parliament's own pages. The
+-- review note carries one line per check, in the fixed form
+--   Checked: <column> = <date> (<source>, <address>, <date read>)
+-- and the error checker refuses a date that differs from the factsheet's own
+-- words without one (db/042). A line can carry more than one check, so every
+-- match is read, not just the first. Confirmed and corrected dates alike get a
+-- note: what it records is that somebody looked, which is what tells a checked
+-- date from one nobody has checked. See DECISIONS.md, 2026-09-12, and M8.
+INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
+                          value_seen, observed_at, note)
+SELECT 'bill', p.candidate_id, m[1], m[3], m[4], m[2], m[5]::date,
+       'Checked at review against the source that owns this date. The '
+       'factsheet''s own printed words are kept in bill_candidate.raw_'
+       || regexp_replace(m[1], '^date_', 'raw_date_') || '.'
+  FROM promoting p
+  CROSS JOIN LATERAL regexp_matches(
+        coalesce(p.review_note, ''),
+        'Checked: ([a-z0-9_]+) = (\d{4}-\d{2}-\d{2}) \(([a-z_]+), ([^,]+), (\d{4}-\d{2}-\d{2})\)',
+        'g') AS m
+ WHERE NOT EXISTS (SELECT 1 FROM field_source f
+                    WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
+                      AND f.field_name = m[1]);
+
 -- ---------------------------------------------------------------------------
 -- Stamp the staging lines and the stage-dates rows
 -- ---------------------------------------------------------------------------
@@ -240,6 +269,25 @@ UPDATE stage_candidate t
   FROM promoting_stages s
   JOIN stage_event e ON e.bill_id = s.candidate_id AND e.stage_order = s.stage_order
  WHERE t.stage_candidate_id = s.stage_candidate_id;
+
+-- The same for a stage date checked at review. It hangs off the stage record
+-- rather than the bill, so it is written after the stamping above, which is
+-- what gives the stage record its number.
+INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
+                          value_seen, observed_at, note)
+SELECT 'stage_event', t.promoted_stage_event_id, m[1], m[3], m[4], m[2], m[5]::date,
+       'Checked at review against the source that owns this date.'
+  FROM stage_candidate t
+  JOIN promoting p ON p.candidate_id = t.candidate_id
+  CROSS JOIN LATERAL regexp_matches(
+        coalesce(t.review_note, ''),
+        'Checked: ([a-z0-9_]+) = (\d{4}-\d{2}-\d{2}) \(([a-z_]+), ([^,]+), (\d{4}-\d{2}-\d{2})\)',
+        'g') AS m
+ WHERE t.promoted_stage_event_id IS NOT NULL
+   AND NOT EXISTS (SELECT 1 FROM field_source f
+                    WHERE f.entity = 'stage_event'
+                      AND f.entity_id = t.promoted_stage_event_id
+                      AND f.field_name = m[1]);
 
 -- What the rule says should be on the clean sheet for the whole session,
 -- including bills promoted in an earlier run, for the checks below.
