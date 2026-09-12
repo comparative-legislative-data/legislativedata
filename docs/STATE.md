@@ -16,8 +16,8 @@ and 2 dates are added from your PhD.
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
-| 1 | 73 bills | yes | yes | yes, on the clean sheet |
-| 2 | 81 bills | yes | yes | yes, on the clean sheet |
+| 1 | 73 bills | yes | yes | yes, and dates checked |
+| 2 | 81 bills | yes | yes | yes, and dates checked |
 | 3–5 | reads in full | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
@@ -46,43 +46,46 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
   and the machinery behind it was tested on planted rows and thrown away,
   because until now nothing had ever competed. Session 3's Hybrid Bill passes,
   and all 62 of its bills pair one to one with your dataset.
-- **One hole found, and how to close it settled.** Where your sheet and the
-  factsheet give different dates, nothing records the disagreement. See "Now".
+- **The thirteen dates where your sheet and the factsheet disagreed are
+  settled.** You checked each against legislation.gov.uk or the Parliament's
+  own bill page. Eight confirmed the factsheet; five did not, and all five
+  were Royal Assent dates, now corrected. Every one of the thirteen carries
+  its citation, confirmed and corrected alike, so a date somebody has checked
+  can be told from one nobody has.
+- **Each source is now named for what it is**, and the factsheet can no longer
+  be overridden without saying what was checked and where.
 
-## Now: the date disagreements, then Session 3
+## Now: the comparison at load, then Session 3
 
-**The hole.** Your sheet and the SPICe factsheet sometimes give different dates
-for the same thing: 8 Royal Assent dates, 4 introduction dates and 1 passing
-date in Sessions 1 and 2, and 3 more in Session 3. Sixteen in all. Stage dates
-have nowhere to hide a disagreement — every source's date sits on the staging
-sheet as its own line, and the error checker refuses the session until they
-agree. A bill's introduction, passing and Royal Assent dates are single cells,
-with nowhere for a second source's value to sit, so the factsheet's is kept and
-yours is not stored at all. The list exists only in a spreadsheet on your disk.
+Sessions 1 and 2 are finished and checked. The dates are right, and every date
+anyone has checked says who says so.
 
-**How you settled it.** Resolve the contradiction at the gate rather than store
-it: you check each date against a definitive source and adjudicate, and the
-source data is corrected so the two agree. Where only your sheet is wrong there
-is no database work at all, because those columns were never loaded. Where the
-factsheet is wrong the clean sheet needs correcting, through the runbook.
+**What is left of this piece.** You resolve a disagreement by checking it
+against the source that owns it. That works because somebody produced the list
+of disagreements to check. For Sessions 1 and 2 that list was made by hand. From
+here it has to be made every time a session is loaded, or the next disagreement
+is simply not noticed.
 
-1. **You are checking the sixteen dates.** They are listed in
-   `DECISIONS.md`, 2026-09-12.
-2. **Build the gate.** Not started, and not to be started until every part is
-   agreed: what is compared and when, what happens on each outcome, where the
-   record of your adjudication lives, what a reader is told, and where the
-   Parliament's own pages sit in the order of precedence. Today's test showed
-   that two sources with no agreed order stop promotion dead — a wall, not a
-   gate. It is built before Session 3 goes on the clean sheet, because Session 3
-   has three of these.
-3. **Load Session 3**, review it, and put it on the clean sheet. Its stage dates
+1. **Build the comparison.** At load, every date that more than one source
+   gives is compared, and every difference is listed for you before any line can
+   be accepted. Not started. It is the reusable half — it is not about your PhD
+   sheet, it is about any two sources that state the same fact, and the
+   Parliament's own pages are the next one through the same door. **Built before
+   Session 3 goes on the clean sheet**, because Session 3 has three differences
+   waiting.
+2. **Load Session 3**, review it, and put it on the clean sheet. Its stage dates
    come from your sheet the same way. It has the one Hybrid Bill, the Forth
    Crossing Bill, and eight bills that did not pass will need the same "where
-   did it end" checking that Sessions 1 and 2 needed from you.
+   did it end" checking from you that Sessions 1 and 2 needed.
+3. **Session 3's three disagreements**, adjudicated as part of loading it:
+   Double Jeopardy and Forced Marriage, Royal Assent 28 against 27 April 2011;
+   Criminal Procedure (Legal Assistance, Detention and Appeals), introduced 27
+   against 26 October 2010. All three are in `DECISIONS.md`, 2026-09-12.
 
-**Why this is worth doing properly:** the gate is not about your PhD sheet. It
-is about any two sources that state the same fact, and the Parliament's own
-pages are the next one through the same door.
+**Then, when the data is clean and on the sheet:** how provenance is shown to a
+reader. Your thinking, to come back to — a chart carries a footnote naming the
+sources behind it, and the download carries the line-by-line provenance. What
+makes that possible is that every cell now carries its own source.
 
 Before Session 5 is loaded, bills carried between sessions need their own
 handling; before Session 6, the double-count guard. Both are below the line.
@@ -165,6 +168,19 @@ orient, and none of it belongs above the line.
   no gaps.
 - **Still true:** any question put to the catalogue must name `public` only
   while a copy schema exists; none does now.
+- **The date corrections, after the real run.** Against a copy of the sheets
+  taken first, the clean sheet differs in exactly five Royal Assent dates,
+  fifteen stage-record source names and thirteen provenance notes, and nothing
+  else: 154 bills, 413 stage records, 36 notes, no stage date moved, checker
+  empty, no gaps. Rehearsed twice and thrown away first — once to see it work,
+  once to see it refuse an uncited change and a citation in the wrong shape.
+- **The figures, checked as the owner asked:** the time from introduction to
+  passing does not move for a single bill. Only the time from passing to Royal
+  Assent moves, for the five bills whose assent date was wrong, and in the
+  summary that is two groups: Session 1 committee bills, and Session 2
+  government bills, whose mean goes from 36 days to 37.
+- **`factsheet_date()` agrees with all 154 lines already held**, so the new rule
+  fires only on a genuine override, never on data already accepted.
 
 ## The owner's standing positions, so they are not re-argued
 
@@ -405,10 +421,11 @@ website has to surface.
 
 ## Housekeeping, small and known
 
-- **No safety copies are held on the VPS.** The nine from 10 and 11 September
-  were deleted on 2026-09-12, once the nightly backup of that morning was
-  confirmed to have run clean. Take one before the next change to data already
-  held; the runbook says how.
+- **One safety copy is on the VPS**: `/var/tmp/legdata-before-042_2026-09-12.dump`,
+  taken before the date corrections. Delete it once a nightly backup taken after
+  2026-09-12 has been confirmed. The nine from 10 and 11 September were deleted
+  on 2026-09-12 the same way. `copy_before_042` inside the database was compared
+  and dropped.
 - **No copy of the sheets is held inside the database.** `copy_before_phd_dates`
   was dropped once its comparison was done. Take a fresh one with
   `tools/take_copy.sql` before the next change to data already held.

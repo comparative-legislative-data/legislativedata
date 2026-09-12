@@ -7,6 +7,88 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-12 — Each date comes from the source that owns it, and a checked date says so
+
+Settled by the owner and built the same day: `db/042`, `db/043`, a change to
+`tools/promote_session.sql`, and methodology note M8.
+
+**The principle, in the owner's words:** "I'm happy to use the leg.gov.uk or
+parliament website as authoritative so that provenance can be traced there (even
+if wrong) rather than a more opaque phd dataset." And: "the main thing is that
+people can understand where data came from rather than whether it is 100%
+guaranteed correct (because that will never be possible)."
+
+**The order.** Not a flat ranking. The factsheet is definitive by default, and
+is displaced only where a better source has actually been checked:
+
+| Source | Definitive for |
+|---|---|
+| legislation.gov.uk | the date of Royal Assent |
+| the Parliament's bill pages, and the Official Report | every other date |
+| the SPICe factsheet | anything not yet checked against those |
+| the PhD dataset | where nothing else says, and nothing contradicts it |
+
+The Explanatory Notes published with an Act carry a "Parliamentary passage"
+section giving key dates. Recorded as a possible future cross-reference and
+**not** definitive: they are written by government civil servants rather than
+parliamentary officials.
+
+**Each kind of record is named for what it is**, not for the site it sits on,
+following `official_report` which is also on the Parliament's website. So
+`bill_page`, not `parliament_website_bill_page`; the address of the particular
+page goes in the reference on each row, and a bill with more than one relevant
+page gets one row per page, archived copies included. The estate grows the same
+way if minutes of proceedings or anything else earns a place. `bill_document`
+was holding fifteen bill-page citations its own description did not cover; they
+moved, and it now holds nothing, which its description says and why — it keeps
+its meaning and is where Explanatory Notes would land, deliberately apart from
+the pages the owner made definitive.
+
+**A date cannot be overridden silently.** The error checker requires a date that
+differs from the factsheet's own printed words to carry a citation in a fixed
+form: `Checked: <column> = <date> (<source>, <address>, <date read>)`. Loose
+prose does not satisfy it; both were rehearsed. Promotion turns those citations
+into per-cell provenance.
+
+**Confirmed dates get a note too, not only corrected ones.** The owner: "if
+checked i think we would ideally say that and show how, because this might
+become relevant if we start programatically checking factsheet data later."
+What the note records is that somebody looked. A date with no note carries the
+source of the row it sits on and nobody has checked it individually — the two
+look alike in the data and are told apart by the source recorded against them.
+
+**The thirteen, adjudicated.** Eight confirmed the factsheet; five did not, and
+every one of those five was a Royal Assent date: Protection from Abuse
+(7 November 2001 → 6 November), School Education (Amendment) and Scottish Local
+Government (Elections) (both 23 January 2002 → 22 January), Transport and Works
+(15 March 2007 → 14 March), and Rights of Relatives to Damages (Mesothelioma)
+(16 April 2007 → 26 April).
+
+**An earlier reading, withdrawn.** The session suggested the cluster of
+one-day differences looked like a difference in which day of the process each
+source records, rather than error. It is not: the differences run both ways,
+the factsheet a day late four times and the dataset a day out three times. Both
+sources are simply wrong in places, which is a better argument for the gate than
+the theory was.
+
+**What it did to the figures**, which the owner asked to be checked. The time
+from introduction to passing does not move for a single bill. The only measure
+that moves is the time from passing to Royal Assent, for the five bills whose
+assent date was wrong: one day each except the Mesothelioma Act, 26 days to 36.
+In the summary that is two groups — Session 1 committee bills, and Session 2
+government bills, whose mean goes from 36 days to 37.
+
+**What is recorded as not done.** Only dates where two sources actually
+disagreed have been checked. Nothing here says the factsheets have been verified
+generally, and M8 says so to a reader. Checking every Royal Assent date against
+legislation.gov.uk is possible and is not done.
+
+**Still open:** the three Session 3 disagreements, which wait until Session 3 is
+loaded; and the comparison that produces the disagreement list at load, which is
+the reusable half and is needed before Session 3 goes on the clean sheet.
+
+---
+
 ## 2026-09-12 — The two-source approach checked, and the hole it showed
 
 The check the owner asked for before Session 3 is loaded, run against what was
