@@ -7,6 +7,47 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-12 — Sessions 1 and 2 are closed, and what the clean sheet has to prove
+
+Sign-off 8 given by the owner: that they can explain how this database works
+from the documents alone, without help. All eight sign-offs are now given and
+**Sessions 1 and 2 are closed.** Recorded against the item in
+`CLOSURE-TESTS.md`, which is where a sign-off lives.
+
+**What confidence in the clean sheet rests on, settled by the owner.** This is
+the conversation `STATE.md` was holding open, and the owner answered it before
+it was put to them. In their words: "The biggest test of all will come at the
+end when we've ingested material from all 7 sessions and we create charts and
+tables and we see whether they match what I created by hand off my PhD."
+
+That sets what finished means for the whole first piece of work, not for a
+session. No session's closure test is evidence that the dataset is right; each
+one is evidence that what a document says reached the clean sheet unaltered and
+that anyone checking a cell can see what said so. Whether the answers are right
+is settled once, at the end, against work the owner did independently and
+before this database existed — which is why that comparison is worth more than
+any check made inside the database against itself. Nothing about the order of
+work changes; what changes is that the end of the seventh session is now a
+named test with a stated expectation, rather than the point at which the
+ingesting stops.
+
+**A closure test inherits.** Also the owner's, in the same breath: a session's
+test covers what that session brought in, and the corrections made for it. It
+does not put again what an earlier session's test settled — the Sessions 1 and
+2 corrections are not re-argued when Session 3 is loaded — unless something has
+actually changed. So each test now says which of its items an outside change
+can move. For Sessions 1 and 2 there is exactly one: the fingerprint of the
+PhD dataset file. Adjudicating one of the three Session 3 disagreements may
+correct that file, and the fingerprint moves when it does; that item is then
+checked again and nothing else is reopened.
+
+**Why it is worth writing down.** Without the rule, every session's test grows
+by the length of the last one and eventually nobody runs it. With it, a test
+stays the size of the session it covers, and the one route by which an old
+answer can go stale is named rather than left to be remembered.
+
+---
+
 ## 2026-09-12 — Three notes say what a reader needs, and one of them was wrong
 
 Found by the owner, reading M1 to M8 in full for the closure test's seventh

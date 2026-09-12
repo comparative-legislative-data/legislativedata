@@ -16,76 +16,70 @@ and 2 dates are added from your PhD.
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
-| 1 | 73 bills | yes | yes | yes; not closed |
-| 2 | 81 bills | yes | yes | yes; not closed |
-| 3–5 | reads in full | no | no | no |
+| 1 | 73 bills | yes | yes | yes; **closed** |
+| 2 | 81 bills | yes | yes | yes; **closed** |
+| 3 | reads in full | no | no | no |
+| 4–5 | read in full | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
-For Sessions 1 and 2 we can answer question 1, and the time from introduction
-to passing. Time per stage waits for the Stage 1 and 2 dates.
+Sessions 1 and 2 are finished: what happened to each bill, and the time from
+introduction to passing, with every cell traceable to what said so.
 
 ## What has been done
 
-- **10 September.** Built the database, surveyed all seven factsheets, and put
+- **10 September.** Built the database, surveyed all seven factsheets, put
   Session 1 on the clean sheet.
-- **11 September.** Read Session 2 in and put it on the clean sheet; recorded
-  how each Stage 1 rejection came about; settled stage dates in full, and
-  loaded your own dates for all 154 bills.
-- **12 September, earlier.** Fixed the reader, which was losing whole rows, so
-  Sessions 3 to 5 now read in full. Settled the thirteen dates where your sheet
-  and the factsheet disagreed. Put the day each session ended into the data, and
-  moved the decision about why a bill fell out of the reader and into the
-  database, where both dates are.
+- **11 September.** Session 2 read in and on the clean sheet; how each Stage 1
+  rejection came about; stage dates settled and your own dates loaded for all
+  154 bills.
+- **12 September, earlier.** Fixed the reader, which was losing whole rows.
+  Settled the thirteen dates where your sheet and the factsheet disagreed. Put
+  each session's last day into the data, and moved the decision about why a bill
+  fell out of the reader and into the database.
+- **12 September.** The closure test passed, run by a session that made none of
+  the change it was testing. You read the eight reader's notes in full and found
+  a real fault in what M8 claimed about Royal Assent dates; fixed in `db/053`,
+  with four other changes you asked for. Sign-offs 1 to 7 given.
 
-**12 September, this session. The closure test passed, and you gave seven of the
-eight sign-offs.**
-- **All twenty-one checks pass**, run by a session that made none of the change
-  it was testing. Both fact sheets read again, from the document and nothing
-  else, match the staging sheet in every raw cell. Both sessions taken off the
-  clean sheet and put back inside a rehearsal that was thrown away, with no
-  unexpected difference either time.
-- **Sign-offs 1 to 7 given**: what happened to each bill; the eleven Stage 1
-  rejections; the sixteen bills where you established where each ended; the
-  Robin Rigg Act's two stages that never happened; the thirteen adjudicated
-  dates; the nine corrections to your working spreadsheet; and the eight notes
-  a reader is given.
-- **You read those eight notes in full rather than in summary, and found a real
-  fault.** One said Royal Assent dates are taken from legislation.gov.uk. Eight
-  of the 128 have been checked there; the other 120 stand on the fact sheet. The
-  sentence was about which source settles an argument, and read as a statement
-  about where the dates came from. Fixed, with four other changes you asked for,
-  in `db/053`. No bill's coding changed.
-- **A sign-off is now recorded in `CLOSURE-TESTS.md`**, against its item, on the
-  day it is given. It was being kept here, and this file is cut every session.
+**12 September, this session. Sessions 1 and 2 are closed.**
+- **Sign-off 8 given**, the last one: that you can explain how the database works
+  from the documents alone. All eight are recorded in `CLOSURE-TESTS.md`.
+- **What the clean sheet has to prove is now settled**, and it is your answer
+  rather than a figure from us: the test that counts comes at the end, when all
+  seven sessions are in and the charts and tables are compared against what you
+  built by hand off the PhD. No session's own test is evidence the data is
+  right; it is evidence that what the document said reached the clean sheet
+  unaltered and that anyone can see what said so.
+- **A closure test inherits.** Each session's test covers that session and the
+  corrections made for it, and does not put again what an earlier one settled.
+  One thing can reach back into Sessions 1 and 2: if adjudicating a later
+  session's date means correcting the PhD dataset file, its fingerprint moves,
+  and that single item is checked again. Nothing else reopens.
 
-## Now: a session of its own, so you can check you can explain it
+## Now: Session 3
 
-Sign-off 8 is the last one, and it is yours alone:
+The first session read by the fixed reader and the first to go through the
+two-source gate for real. Its factsheet reads in full and reconciles in every
+cell: all 62 bills pair one to one with your dataset.
 
-> That you can explain how this database works from the documents alone,
-> without help.
+**What is new and gets your review:**
+- **Three dates where your dataset and the factsheet disagree.** Double Jeopardy
+  and Forced Marriage etc. (Royal Assent, 28 April 2011 on the factsheet,
+  27 April in the dataset), and Criminal Procedure (Legal Assistance, Detention
+  and Appeals) (introduction, 27 October 2010 against 26 October). Same route as
+  the thirteen: you check each against the source that owns it and adjudicate,
+  and the correction is recorded with what it was checked against.
+- **The Forth Crossing Act.** Both sources call it Hybrid; the factsheet's own
+  summary counts it under Executive. Reconciling on government plus hybrid gives
+  the factsheet's 45.
 
-**It gets a standalone session**, agreed on 12 September. You,
-`docs/HOW-THE-DATABASE-WORKS.md` and `docs/DATA-DICTIONARY.md`, and nobody
-prompting. It is the sign-off that matters most: four attempts at explaining how
-the pieces fit together failed before that document existed, and your being able
-to explain it is the one requirement that does not relax.
+**What this session exercises for the first time.** The comparison that lists
+date disagreements at load is built but has never run against a real load. So is
+the rule that a date differing from the factsheet's printed words must carry a
+citation naming who was checked and when. Session 3 is what tests both.
 
-Whoever runs that session does not lead it, does not explain, and does not fill
-a gap you have not asked them to fill. If a document cannot answer a question you
-put to it, the document is wrong and gets fixed.
-
-## Then, and only then: close Sessions 1 and 2
-
-Once sign-off 8 is given, Sessions 1 and 2 close. Then **the conversation about
-how much confidence the clean sheet has earned**, which you asked for and which
-nothing should pre-empt.
-
-## Only after all of that: Session 3
-
-Not started, and not to be started. Session 3 reads in full and reconciles in
-every cell, and its three expected differences with the dataset are named in
-`DECISIONS.md`, 2026-09-12.
+**The end-of-session protocol is the same**: this session writes Session 3's
+closure test and does not mark it; the next one runs it.
 
 ## After that, in order
 
@@ -133,71 +127,46 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-12 (fourth session of the day)
+## Sanity check, 2026-09-12 (fifth session of the day)
 
-**At opening, everything matched**: 154 bills, 413 stage records, 56 provenance
-notes, 413 stage-date rows all accepted and carried, the error checker empty, no
-gaps, 26 tabs, 8 notes for readers, 4 rejection routes, 9 sources, 52 migrations
-numbered without a gap, the data dictionary regenerating with no difference, and
-the repository clean and level with GitHub. Nothing in the documents contradicted
-the database.
+**At opening, everything matched, and nothing needed a clean.** 154 bills, 413
+stage records, 56 provenance notes, 413 stage-date rows all accepted and
+carried, the error checker empty, no gaps, 26 tabs (17 sheets and 9 pivot
+tables), 8 notes for readers, 4 rejection routes, 9 sources, 53 migrations
+numbered without a gap, the data dictionary regenerating with no difference,
+and the repository clean and level with GitHub. Nothing in the documents
+contradicted the database.
 
-**The closure test, marked.** Run by a session that made none of the change it
-was testing, which is the point of the procedure. **All twenty-one items pass.**
-The results are in `CLOSURE-TESTS.md`; what is worth keeping here:
+**No migration and no data change this session.** Sign-off 8 was given, so
+Sessions 1 and 2 closed; the work was writing that down. `CLOSURE-TESTS.md`,
+`DECISIONS.md` and `STATE.md` changed and nothing else. The figures at close
+are the figures at opening.
 
-- **Item 18** passes as written, with nothing given to the reader but the PDF and
-  the session number. All 154 lines pair and **no raw column differs**. Three
-  worked-out columns do, each accounted for and each carrying its own
-  provenance: the outcome of all 18 fallen bills, which the reader no longer
-  decides; 5 Royal Assent dates checked against legislation.gov.uk; and 1 short
-  title corrected at review. Applying the dissolution rule afresh to that
-  extraction and the session tab returns **exactly the seven** bills coded that
-  way, none over and none missing.
-- **Item 20** rehearsed for both sessions inside a transaction thrown away: no
-  unexpected difference either time, only record numbers and times written.
-- **Item 19**, the dataset's fingerprint, matches the corrected working copy.
+**What was checked before answering "ready for Session 3", because the rule is
+that nothing is left unbuilt.** The one thing `DECISIONS.md` recorded as needed
+before Session 3 goes on the clean sheet — the comparison that produces the
+disagreement list at load — **is built**: `tools/compare_sources.py`, with
+`db/044` making the error checker require a line to have been compared before it
+is accepted, and the citation form that stops a date being overridden silently.
+The later entry of the same day supersedes the "still open" line in the entry
+above it. What is true is that none of it has run against a real load, which is
+a check to run and not a gap to fill, and `CLOSURE-TESTS.md` Part C already says
+so. Nothing else on the waiting list falls before Session 3: the asp year is
+before Session 4; carry-over rows, bills passed without Royal Assent, and the
+session-window rehearsal are before Session 5; the double-count guard before
+Session 6.
 
-**Found by the owner, and it is the only fault this session turned up.** They
-declined the summary of the eight notes and asked for the verbatim text, because
-the notes are what a reader of the published data sees. M8 said Royal Assent "is
-taken from legislation.gov.uk"; eight of 128 have been, and 120 have not. The
-note corrected itself two paragraphs later, which is not good enough for the
-sentence a reader meets first. `db/053`. **A summary would have hidden it, and
-that is the lesson worth carrying: for anything the public will read, the owner
-gets the text.**
-
-**At close:**
-- 154 bills, 413 stage records, 56 provenance notes, 413 stage-date rows all
-  accepted and carried, checker empty, no gaps, 26 tabs, 8 notes for readers,
-  **53 migrations** numbered without a gap.
-- The data dictionary regenerates unchanged: `db/053` touches note wording only,
-  no column and no description.
-- The repository is clean and level with GitHub.
-
-**Rehearsed and thrown away before the real run**, refusals as well as successes:
-- `db/053` applied in a transaction that was rolled back, with every note printed
-  before and after, and nothing outside M4, M7 and M8 moved.
-- **Three planted failures, all caught, nothing written**: an anchor already
-  edited away; a ninth note present; and an anchor appearing twice. Each change
-  replaces an anchor that must be present exactly once, so a note whose wording
-  has moved on stops the migration instead of being quietly rewritten.
-
-**Looking at the whole, after one more migration (`db/053`):** no new tab, 26 as
-before; no new column, no new value, no note added or removed. What the owner
-would see: three of the eight notes read differently and more honestly. The
-picture stays what it was.
+**Known and deliberately not done for Session 3**: the three date
+disagreements are adjudicated when it is loaded, not before, and the Forth
+Crossing Act's Hybrid-against-Executive summary count is reconciled at review.
 
 **A limitation restated, because it is still live.** The session-window checks
 compare a line's dates against the session of the *factsheet* it was read from,
-which is wrong for a bill carried between sessions. Sessions 1 and 2 have no such
-bill and nothing fires. The failure is a false alarm and not a false pass. **That
-is read, not rehearsed.** Rehearse it before Session 5 is loaded.
+which is wrong for a bill carried between sessions. Sessions 1 to 4 have no such
+bill. **That is read, not rehearsed.** Rehearse it before Session 5 is loaded.
 
-**Left on the owner's Desktop, deliberately:**
-`methodology-notes-for-review.md`, the eight notes verbatim after `db/053`. It is
-a temporary file for the owner to read and then delete; it is not in the
-repository and nothing depends on it.
+**Looking at the whole:** no migration, no new tab, no new column, no new value,
+no note added or removed. What the owner would see is unchanged.
 
 ## The owner's standing positions, so they are not re-argued
 
@@ -213,6 +182,14 @@ repository and nothing depends on it.
 - **Provenance notes may change, provided the owner clears the change.**
   Approving a rehearsed promotion clears the notes it rebuilds. Any other
   change to a note goes to the owner individually.
+- **The dataset is proved at the end, not session by session.** The test that
+  counts is whether the charts and tables built from all seven sessions match
+  what the owner built by hand off the PhD. A closure test proves that a
+  document's words reached the clean sheet unaltered and are traceable; it is
+  not evidence the data is right. See `DECISIONS.md`, 2026-09-12.
+- **A closure test inherits and is not re-argued.** It covers its own session
+  and the corrections made for it, and says which of its items an outside change
+  can move. Do not re-run a settled session's test for the sake of it.
 - **The owner does not run database steps.** The session runs them and reports
   the results against what they should say. Step-by-step instructions are for
   what the owner does do: filling in spreadsheets, and reviewing in Postico.

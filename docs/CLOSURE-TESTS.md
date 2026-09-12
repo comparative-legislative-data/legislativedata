@@ -17,6 +17,14 @@ Sessions 1 and 2 finished against a test it had set itself, and moved on:
    answer taken from the database it is testing proves nothing.
 5. Each test says **what it does not check**, so nobody reads a pass as more
    than it is.
+6. **A test inherits, and is not re-argued.** Settled by the owner on
+   2026-09-12, when Sessions 1 and 2 closed. A session's test covers that
+   session: what it brought in, and the corrections and adjudications made for
+   it. What an earlier session's test already settled is not put again, unless
+   something has actually changed — and the test says which of its items an
+   outside change can move, so a later session can tell. For Sessions 1 and 2
+   that is item 19, the dataset's fingerprint: correcting the dataset for a
+   later session moves it, and only that item is then checked again.
 
 There is no universal test. Each ingest gets its own, newest first below.
 
@@ -201,7 +209,11 @@ anything else typed is a failure of this item, whatever it produces.
     extract_factsheet.py <pdf> --session N --csv out.csv
 
 **19. The dataset's fingerprint** matches the one recorded in `DECISIONS.md`,
-2026-09-12, for the corrected working copy.
+2026-09-12, for the corrected working copy. **This is the one item a later
+session can move.** Adjudicating a disagreement for Session 3 or beyond may
+correct the dataset file, and the fingerprint changes when it does. Re-check
+this item then, and record the new fingerprint beside the old; nothing else
+about Sessions 1 and 2 is reopened by it.
 
 **20. Promotion is still reversible.** Take a session off and put it back inside
 a transaction that is thrown away, and the result is identical. The procedure is
@@ -246,6 +258,9 @@ day it is given, and nowhere else.
    to 468, M4 160 to 161 — and nothing else about any note changes.
 8. **That you can explain how this database works** from the documents alone,
    without help. This is the project's standing requirement, not a courtesy.
+   **Given 2026-09-12**, on the documents as they stand, with nobody prompting.
+
+**All eight given. Sessions 1 and 2 are closed**, 2026-09-12.
 
 ### Part C — what this test does not check
 
