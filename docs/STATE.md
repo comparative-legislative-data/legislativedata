@@ -52,40 +52,38 @@ to passing. Time per stage waits for the Stage 1 and 2 dates.
   lines beside the citation that settled each, so a disagreement is visible in
   the data rather than in a spreadsheet nobody publishes.
 
-## Now: the nine corrections to the working dataset
+## Now: run the closure test for Sessions 1 and 2
 
-The motion rule is built (`db/046`). What is left before Sessions 1 and 2 can be
-proposed as finished:
+**This session must not run it.** It wrote it, and under the procedure the owner
+set on 2026-09-12 the session that proposes an ingest is finished does not mark
+its own work. A different session runs it.
 
-**The working copy of the dataset needs nine corrections** — the eight dates
-where the owner's check confirmed the factsheet, and the Emergency Workers name.
-A note goes in the file saying what changed and why, and its new fingerprint is
-recorded beside the old one, because the Stage 1 and Stage 2 dates now on the
-clean sheet came from the version as it stands. The owner's original stays
-untouched as the thesis record; the copy in `sources/phd/` is the live version.
+`docs/CLOSURE-TESTS.md` holds the test: 21 mechanical checks with their expected
+answers and where each expectation comes from, 8 sign-offs that are the owner's
+alone, and 5 stated limits on what a pass would mean. The mechanical half is
+`tools/closure_check_sessions_1_2.sql`, which reads only.
 
-Who makes the edits is not settled — the owner has not said whether to do it
-themselves or have them prepared to check.
+What the next session does, in order:
 
-## Then: closing Sessions 1 and 2
+1. **Run the script** and report every answer against the expected one. Do not
+   adjust an expected answer to match what the database says; if they differ,
+   that is the finding.
+2. **Run checks 17 to 21**, which are outside the script.
+3. **Put the eight sign-offs to the owner**, one at a time.
+4. **Then, and only then, the conversation about how much confidence the clean
+   sheet has earned** — which the owner asked for and which nothing should
+   pre-empt.
 
-Agreed with the owner on 2026-09-12, after this session moved to Session 3 while
-those two were not finished:
+Sessions 1 and 2 are **not closed** until that has happened.
 
-1. **The session that proposes an ingest is finished writes the closure test.
-   A different session runs it.** The one who did the work does not mark it.
-2. **Every item on the test is one of two kinds:** something mechanically
-   checkable, where the answer is a count or a yes/no out of the database; or
-   the owner's explicit sign-off. Nothing that needs anyone to form a view about
-   whether something is good enough.
-3. **Then a discussion of how much confidence the clean sheet has earned**,
-   before anything moves on.
+## Done since the failure of 2026-09-12
 
-**Still to do on Sessions 1 and 2 besides the motion rule:** the working copy of
-the dataset needs its nine corrections — the eight dates where the owner's check
-confirmed the factsheet, and the Emergency Workers name — with a note in the
-file saying what changed and why, and its new fingerprint recorded beside the
-old one. The owner's original stays untouched as the thesis record.
+- The motion rule, `db/046`: every Stage 1 rejection route is now named by what
+  the Parliament decided about the bill's general principles, and there is one
+  open route for a path nobody anticipated.
+- The working dataset's nine corrections, with a Corrections sheet in the file
+  and both fingerprints recorded. The two sources now agree completely for both
+  sessions, and no stage date on the clean sheet moved.
 
 ## Only after all of that: Session 3
 

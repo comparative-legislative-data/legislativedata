@@ -7,6 +7,65 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-12 — The working dataset is corrected, and a closure test is written for someone else to run
+
+**The working copy of the dataset is corrected**, at the owner's instruction.
+The owner's own original, which backs the 2021 thesis, is held separately and is
+untouched; the copy in `sources/phd/` is the live working version and is treated
+as such.
+
+Nine corrections, each checked by the owner against the source that owns it —
+legislation.gov.uk for Royal Assent, the Parliament's own bill page for other
+dates. Eight dates and one name:
+
+| Dataset row | Bill | Field | Was | Now |
+|---|---|---|---|---|
+| 6 | Adults with Incapacity 2000 | Stage 3 vote | 2000-03-28 | 2000-03-29 |
+| 6 | Adults with Incapacity 2000 | Royal Assent | 2000-05-19 | 2000-05-09 |
+| 19 | Transport 2001 | Royal Assent | 2001-01-23 | 2001-01-25 |
+| 28 | International Criminal Court 2001 | Introduction | 2001-04-05 | 2001-04-04 |
+| 36 | Water Industry 2002 | Introduction | 2001-09-25 | 2001-09-26 |
+| 60 | Robin Rigg (Session 1) | Introduction | 2002-02-27 | 2002-06-27 |
+| 95 | Emergency Workers 2005 | Name | Government Workers (Scotland) Act 2005 | Emergency Workers (Scotland) Act 2005 |
+| 134 | Tourist Boards 2006 | Royal Assent | 2006-11-29 | 2006-11-30 |
+| 139 | Senior Judiciary | Introduction | 2006-06-13 | 2006-06-15 |
+
+**Fingerprints.** Before: sha256
+`a201a07a87b3fd91658855c05d6ac20b8ff91d22cbf34cefc1afdc17ef7eac01` — the
+version the Stage 1 and Stage 2 dates now on the clean sheet were loaded from,
+which is why it is kept. After: sha256
+`c0d386c125641a6e5ebdc697b437c64b3bf0a2fb6c3ac78ded9733126c688999`.
+
+A **Corrections** sheet in the workbook records each change, what it was checked
+against, and why. The file has one data sheet and no formulas, so nothing was
+lost in rewriting it.
+
+**Checked:** exactly nine cells differ from the copy taken beforehand and
+nothing else; `tools/phd_stage_dates.py` produces byte-identical output, so no
+stage date on the clean sheet is affected; and `tools/compare_sources.py` now
+finds **no differences at all** between the factsheet and the dataset for either
+session. The `Differs:` lines stay on the seven staging lines beside the
+citation that settled each, because they record that a disagreement existed and
+how it was resolved.
+
+**A closure test is written and deliberately not run.** `docs/CLOSURE-TESTS.md`
+and `tools/closure_check_sessions_1_2.sql`, written by the session that did the
+work, to be run by a different one. The procedure the owner set: the session
+proposing that an ingest is finished writes the test and does not mark it;
+another session runs it; every item is either mechanically checkable or the
+owner's sign-off, with nothing left to anyone's judgement about whether
+something is good enough. Two rules this session added because of how it failed:
+every expected answer says where the expectation comes from, since an
+expectation taken from the database under test proves nothing; and every test
+states what it does not check.
+
+Twenty-one mechanical checks, eight sign-offs for the owner, and five stated
+limits — among them that 120 Royal Assent dates and 150 introduction dates have
+never been checked against anything, and that "fell at dissolution" cannot be
+re-derived from the database because no dissolution date is recorded in it.
+
+---
+
 ## 2026-09-12 — A type disagreement is a research question; the thesis is 2021
 
 Settled by the owner and built the same day: `db/045`, and changes to
