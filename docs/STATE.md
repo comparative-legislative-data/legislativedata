@@ -101,13 +101,12 @@ handling; before Session 6, the double-count guard. Both are below the line.
 
 ## After that, in order
 
-1. Sessions 3–5: the reader misses 2, 14 and 6 rows.
-2. Bills carried over between sessions: before Session 5 is loaded.
-3. The double-count guard: before Session 6 is promoted.
-4. A prose reader for Sessions 6 and 7.
-5. Each session's start and end dates.
-6. Bring `docs/VARIABLES.md` up to date.
-7. Then, and only then: the website, and reading from the Parliament's API.
+1. Bills carried over between sessions: before Session 5 is loaded.
+2. The double-count guard: before Session 6 is promoted.
+3. A prose reader for Sessions 6 and 7.
+4. Each session's start and end dates.
+5. Bring `docs/VARIABLES.md` up to date.
+6. Then, and only then: the website, and reading from the Parliament's API.
 
 ## Waiting for your decision, and not blocking anything
 
@@ -118,8 +117,12 @@ handling; before Session 6, the double-count guard. Both are below the line.
   nothing forces it.
 - **Whether the section 33 / 35 distinction becomes a variable.** Four bills;
   revisit at a fifth.
-- **Whether a title's kind may be inferred from the Royal Assent date.** Before
-  Session 4.
+- **Whether a title's kind may be inferred from the Royal Assent date**, and
+  with it the year for the two Acts whose factsheet prints an asp number with
+  no year before it. Before Session 4.
+- **What we record for a bill that has passed and has no Royal Assent yet.**
+  Session 5's factsheet has a fourth table of them, three bills. The reader
+  knows the table and leaves it alone. Before Session 5.
 - **How to record a published record being revised.** When the first case
   arrives.
 - **Not checked:** whether a Stage 1 motion can still be amended into a
@@ -299,17 +302,21 @@ rehearsal, the check and the undo without being asked.
      otherwise. **Any migration that creates something must set its owner**, as
      `db/031`, `db/033` and `db/035` do. `db/040` had to repair five made
      before that rule was followed.
-2. **Sessions 3–5 extract short** by 2, 14 and 6 rows against their own stated
-   totals.
-   - The cause: pdfplumber fragments tables that break across a page, so a
-     data row is consumed as a header.
-   - Symptoms to fix by: `Clackmann- anshire Council` (an unrejoined
-     line-break hyphen) and a truncated `Trustees of`.
-   - Session 4 prints a footnote marker inside a year ("Act 20141 (asp 13)").
-   - Two Acts have no year before the asp number: "Higher Education Governance
-     (Scotland) Act (asp 15)" (Session 4) and "Period Products (Free Provision)
-     (Scotland) Act (asp 1)" (Session 5). The extractor then gives an asp
-     number with no year, and the checker's year check does not notice.
+2. **Sessions 3–5 read in full on 2026-09-12.** They reconcile in every cell:
+   62, 86, and 84 of Session 5's 87. What is left is recorded above the line.
+   - The two Acts whose factsheet prints an asp number with no year before it
+     ("Higher Education Governance (Scotland) Act (asp 15)", Session 4, and
+     "Period Products (Free Provision) (Scotland) Act (asp 1)", Session 5) now
+     say so in their parser note. The checker's year check still does not
+     notice, and settling the year settles that too. Before Session 4.
+   - Session 5's three bills awaiting Royal Assent are the missing 3. Before
+     Session 5.
+   - `Clackmann- anshire Council`, a Session 2 promoter broken by a line break,
+     is still on that session's staging sheet. The repair is applied to the
+     title we propose, not to the factsheet's own words, so it does not reach
+     this cell. Nothing in this slice uses it and it is not on the clean sheet.
+     Correct it when Session 2 next comes off for another reason, or when who
+     introduced a bill becomes a variable.
 3. **Carry-over rows, before Session 5 is loaded.**
    - The session-window checks compare a line's dates against the session of
      the *factsheet* it was read from, which is wrong for a carry-over row.
