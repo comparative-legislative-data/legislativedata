@@ -28,10 +28,16 @@ is one row per stage reached per bill.
 |---|---|---|---|
 | `session_number` | int, PK | 1–7 | |
 | `date_first_meeting` | date | First meeting of the Parliament in that session | |
-| `date_dissolution` | date | Dissolution before the next election | Null for the current session |
-| `is_current` | bool | | Derivable, but stored so the current session is unambiguous while `date_dissolution` is null |
+| `date_session_end` | date | The session's last day. Dissolution begins at midnight on it, so the dissolution period starts the following day and is not held | Empty for the current session. Called `date_dissolution` until `db/048` |
+| `is_current` | bool | | Derivable, but stored so the current session is unambiguous while `date_session_end` is empty |
 
-Session 7 is not published on the API. It is entered by hand — one row.
+**Filled in on 2026-09-12 (`db/048`), all seven.** From SPICe's factsheet "Dates
+of recess, dissolution, parliamentary years and recalls of Parliament",
+published 2 September 2026; each date carries that source and the page. It
+agrees to the day with `data.parliament.scot/api/sessions`, which covers
+Sessions 1 to 6, and with the ranges on page 1 of each legislation factsheet.
+Session 7 is on neither the API nor its own factsheet's page 1, and its last day
+is empty because the session is still running.
 
 ### 3.2 bill
 

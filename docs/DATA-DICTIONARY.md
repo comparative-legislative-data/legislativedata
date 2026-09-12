@@ -36,15 +36,15 @@ ref_* tables                     each holds the allowed values
 
 ### `session`
 
-The parliamentary sessions, one row each. A session runs from the Parliament's first meeting after an election to its dissolution before the next. Every bill belongs to the session it was introduced in.
+The parliamentary sessions, one row each. A session runs from the Parliament's first meeting after an election to its last day before the next. Every bill belongs to the session it was introduced in.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|
 | `session_number` | number | yes |  | The session number — 1 for the Parliament elected in 1999, counting up. This is the identifier the rest of the database uses. The database accepts up to 20, so a new session needs no schema change. |
 | `date_first_meeting` | date |  |  | Date the Parliament first met in this session. Empty means not yet filled in. |
-| `date_dissolution` | date |  |  | Date the Parliament was dissolved before the next election. Empty means either not yet filled in, or the session is still running. |
-| `is_current` | true/false | yes |  | True for the session running now. Stored rather than worked out, so the current session is unambiguous while its dissolution date is still empty. |
-| `note` | text |  |  | Free text for anything unusual about the session. |
+| `date_session_end` | date |  |  | The last day of the session: the last day the Parliament existed before the next election. Dissolution begins at midnight on this date and runs until the election, so the dissolution period starts the following day and is not held here. Empty means either not yet filled in, or the session is still running. Called date_dissolution until db/048, which was the wrong name: it held this date, not the date the dissolution period began. |
+| `is_current` | true/false | yes |  | True for the session running now. Stored rather than worked out, so the current session is unambiguous while its end date is still empty. |
+| `note` | text |  |  | Anything a reader needs to know about this session's dates that the dates themselves do not say. Empty means there is nothing unusual. |
 
 ### `bill`
 

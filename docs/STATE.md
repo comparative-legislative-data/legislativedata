@@ -293,11 +293,18 @@ rehearsal, the check and the undo without being asked.
 5. **The prose parser for Sessions 6 and 7.** The grammar is in
    `FACTSHEET-SURVEY.md` §1. Empty sections are sentences ("No bills have
    fallen in Session 7."), not empty tables.
-6. **The seven `session` rows.**
-   - Sessions 1–5 state their dates on page 1 of their factsheets
-     (`FACTSHEET-SURVEY.md` §7). Sessions 6 and 7 do not, and need another
-     source.
-   - Filling them wakes the session-window checks, so item 3 comes first.
+6. **The seven `session` rows: done on 2026-09-12 (`db/048`).** All seven carry
+   a first meeting; all but Session 7, which is running, carry a last day. The
+   source is SPICe's dates factsheet, agreeing to the day with the Parliament's
+   API and with each legislation factsheet's own page 1.
+   - The session-window checks are awake from that point and fire on nothing in
+     Sessions 1 and 2. Item 3 is therefore still outstanding, and still bites
+     before Session 5: those checks compare a line's dates against the session
+     of the factsheet it was read from, which is wrong for a carry-over row.
+     **The failure is a false alarm, not a false pass** — the checks read only
+     for dates outside the window, so a carry-over row is flagged and stops the
+     session rather than passing silently. That has been read in the view, not
+     rehearsed; rehearse it before Session 5 is loaded.
 7. **`docs/VARIABLES.md`.** Everything factual is in the data dictionary; what
    remains is reasoning, and it is out of date:
    - §3.2 describes `procedure` as non-null and `date_outcome` as present, and

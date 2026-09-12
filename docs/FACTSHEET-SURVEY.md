@@ -301,9 +301,21 @@ For the seven `session` rows, from page 1 of each factsheet:
 | 6 | not stated — "from the beginning of Session 6" |
 | 7 | not stated — "from the beginning of Session 7" |
 
-Sessions 6 and 7 need another source. Session 6 contains a bill that fell on
-**8 April 2026**, after that factsheet was published on 27 April 2026, so the
-dissolution date is not derivable from the rows either.
+Sessions 6 and 7 stated no range here, and that is now answered elsewhere.
+**Settled on 2026-09-12 (`db/048`): the session dates come from SPICe's factsheet
+"Dates of recess, dissolution, parliamentary years and recalls of Parliament",
+published 2 September 2026,** which states a start and an end for every session
+including the two missing here. Session 6 ended **8 April 2026** and Session 7
+began **14 May 2026**. That document agrees to the day with all five ranges in
+the table above and with `data.parliament.scot/api/sessions`, which covers
+Sessions 1 to 6 and knows nothing of Session 7.
+
+The dates are held on the session rows, and the column is `date_session_end`,
+not `date_dissolution`: the source puts Session 1's dissolution *period* at 1
+April to 1 May 2003, beginning at midnight on 31 March, so the last day of the
+session and the start of dissolution are different dates. The last day is what
+this project holds, and it is the date every bill that ran out of time concluded
+on. The dissolution period itself is not recorded; nothing needs it yet.
 
 ---
 

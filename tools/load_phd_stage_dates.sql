@@ -187,7 +187,7 @@ SELECT c.session_number, i.source, count(*) AS in_csv,
 SELECT t.candidate_id AS line, left(t.short_title, 46) AS bill, t.stage,
        t.date_completed, t.completed, t.fell_here, t.source, left(t.note, 60) AS note
   FROM stage_candidate t JOIN bill_candidate c USING (candidate_id)
- WHERE c.outcome NOT IN ('passed', 'rejected_stage_1') AND t.source <> 'spice_factsheet'
+ WHERE c.outcome NOT IN ('passed', 'rejected_stage_1') AND t.source <> 'spice_factsheet_legislation'
  ORDER BY t.candidate_id, t.stage_order;
 
 \echo '--- Notes carried onto a bill'

@@ -16,9 +16,18 @@ This writes only to the staging sheet, and the lines arrive as `new`, waiting
 for review. Same pattern as promotion: rehearse, look, then save.
 
 **1. Extract.** Use the pinned environment (`tools/requirements.txt`; one is
-built at `/opt/legdata/venv` on the VPS). Give the dissolution date from
-`FACTSHEET-SURVEY.md` §7, or no fallen bill can be read as falling at
-dissolution:
+built at `/opt/legdata/venv` on the VPS; the VPS copy cannot run the comparison
+at step 1a, which needs a spreadsheet library it does not have). Give the day the
+session ended, or no fallen bill can be read as falling at dissolution. **Take it
+from the session tab, not from a document** — since `db/048` the database holds
+it, with its source, for all seven sessions:
+
+    ~/.claude/legdata-vps 'sudo -u postgres psql -d legdata -X -At \
+        -c "SELECT date_session_end FROM session WHERE session_number = 2"'
+
+Since `db/049` the checker requires every bill coded as having fallen at
+dissolution to have concluded on that day, so a wrong date here is caught before
+the session can be promoted rather than after.
 
     python tools/extract_factsheet.py sources/factsheets/spice-legislation-session-2_retrieved-2026-09-10.pdf \
         --session 2 --dissolution 2007-04-02 --csv s2.csv

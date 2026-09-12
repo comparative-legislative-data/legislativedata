@@ -34,7 +34,7 @@ BEGIN;
 CREATE TEMP TABLE promote_arg ON COMMIT DROP AS SELECT :session::int AS session_number;
 
 CREATE TEMP TABLE stage_source_rank ON COMMIT DROP AS
-SELECT * FROM (VALUES ('official_report', 1), ('spice_factsheet', 2), ('phd', 3)) AS r(source, rank);
+SELECT * FROM (VALUES ('official_report', 1), ('spice_factsheet_legislation', 2), ('phd', 3)) AS r(source, rank);
 
 -- ---------------------------------------------------------------------------
 -- Before anything is written

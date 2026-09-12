@@ -120,7 +120,7 @@ SELECT b.base + e.line,
        e.bill_type, e.bill_type_stated,
        e.date_introduced::date, e.date_concluded::date, e.date_royal_assent::date,
        e.asp_number, e.outcome, e.enactment_status,
-       'spice_factsheet',
+       'spice_factsheet_legislation',
        'session ' || e.session_number || ', retrieved '
          || substring(e.src_file from 'retrieved-(\d{4}-\d{2}-\d{2})'),
        substring(e.src_file from 'retrieved-(\d{4}-\d{2}-\d{2})')::date,
