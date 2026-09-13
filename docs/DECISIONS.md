@@ -7,6 +7,85 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — Session 4's closure test, and two bills that do not say where they ended
+
+### The test is written, and Session 4 stays off the clean sheet until it is run
+
+`tools/closure_check_session_4.sql` and the Session 4 section of
+`docs/CLOSURE-TESTS.md`, written by a session that did none of Session 4's work:
+it did not read the factsheet in, did not build the review and did not admit it.
+Twenty-one items out of the database, six outside it, nine sign-offs for the
+owner. Nothing was written to the database and no migration was made.
+
+**Every expected answer is a prediction, and that is the only reason it is worth
+anything.** Session 4 was deliberately still off the clean sheet, so the counts
+come from page 9 of the Session 4 factsheet, the owner's dataset and the rules.
+The reconciliation table is read off the printed summary. The 158 stage dates the
+load will supply were counted in the workbook itself — 85 of its 86 Session 4
+rows carry a Stage 1 date and 79 a Stage 2 date — not in the database. Where a
+count could only have come from looking at the result, it is not in the test.
+
+### Two Session 4 bills have no stage record, so nothing says where they ended
+
+Found by writing the test, not by the review.
+
+| Line | Bill | Ending | Concluded |
+|---|---|---|---|
+| 296 | Inquiries into Deaths (Scotland) Bill | withdrawn | 24 September 2015 |
+| 300 | Footway Parking and Double Parking (Scotland) Bill | fell at dissolution | 23 March 2016 |
+
+`v_stage_date_gaps` has reported both since Session 4 was loaded, under `where
+the bill ended is not recorded`. They are 2 of the 160 gaps; the other 158 are
+Stage 1 and Stage 2 dates the load supplies. The gaps figure was read as 160
+dates and the two were not noticed.
+
+**This is the same job `db/056` did for Session 3's four** — two withdrawn bills
+and two that fell at dissolution, each established by the owner from the
+Parliament's own bill page and recorded as an undated stage row. It was simply
+not put on Session 4's review list.
+
+**The Footway Parking Bill is a shape that has not arisen before.** The dataset
+gives it a Stage 1 vote on 1 March 2016, three weeks before the session ended, so
+the bill completed Stage 1 and was past it at dissolution. Session 3's two
+dissolution bills had no Stage 1 date at all. The dataset is not a source for
+where a bill ended, and `tools/phd_stage_dates.py` refuses on exactly this case:
+"ended before Stage 3, and the dataset dates stage 1 2016-03-01 — a stage nothing
+on the stage-dates sheet says it completed. Settle it before loading."
+
+**Decided: the endings are established before Session 4 is promoted, and the
+count they produce is written into item 1 of the closure test before promotion,
+not after.** The test carries an `N` for it, because how many stage records two
+bills produce turns on what the Parliament's bill pages say and cannot be
+predicted from the factsheet, the dataset or the rules. Filling it in after the
+promotion it is testing would make that item describe rather than predict, which
+is the fault the whole ordering exists to avoid.
+
+### Session 4 did not move the dataset's fingerprint, and that was a choice
+
+sha256 `a9596ecf997f186b0dd9d069642560f65120ab7ca97d0a2387863d0157ed8b94`,
+unchanged from Session 3's closure test. Both of Session 4's disagreements were
+settled without editing the workbook: the Land Reform Act's Royal Assent because
+the dataset was right, and the National Galleries Act's introduction date because
+the factsheet was, which is recorded on the staging line with source `manual`.
+The eight names that differ are paired by hand in `MANUAL_PAIRS` rather than
+corrected.
+
+**Session 3 did the opposite** — the Autism Bill's Stage 1 date was corrected in
+the file and the fingerprint moved with it, and so were ten names. Both are
+defensible and the two sessions should not end up having decided it differently
+by accident, so it is Part B item 7 of the Session 4 test and is on the waiting
+list in `STATE.md`. It is the owner's dataset and their call.
+
+### Session 4 does not exercise the carry-over question
+
+Checked rather than assumed: none of Session 4's 86 titles appears in the Session
+5 factsheet. So the four bills that appear in two factsheets, and the
+double-count guard that goes with them, are not touched by this session, and the
+closure test says that passing tells you nothing about them. `STATE.md` keeps
+them due before Session 6 is loaded.
+
+---
+
 ## 2026-09-13 — Session 4 admitted, provenance made consistent, and who writes the closure test
 
 ### A provenance note must name a column that exists
