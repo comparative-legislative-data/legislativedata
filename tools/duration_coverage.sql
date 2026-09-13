@@ -16,23 +16,24 @@
 \set ON_ERROR_STOP on
 \pset pager off
 
--- Inside a transaction that is thrown away, so the working list can be a
--- temporary table and so this can never write anything even by accident.
-BEGIN;
+-- The working list is a temporary table, dropped at the end. No transaction of
+-- its own, so this file can also be included inside one -- a rehearsal, say --
+-- without ending it.
+DROP TABLE IF EXISTS coverage;
 
 -- Every point in a bill's life that a period could be counted to: each stage
 -- record, whether or not it has a day. Introduction is where a bill's first
 -- period is counted from, never to, so it is not in this list; Royal Assent is,
 -- because a period is counted to it.
-CREATE TEMP TABLE coverage ON COMMIT DROP AS
+CREATE TEMP TABLE coverage AS
 WITH points AS (
     SELECT b.bill_id, b.session_number, b.short_title, b.bill_type, b.outcome,
            e.stage_order, e.stage, e.date_completed, e.completed, e.fell_here,
-           e.did_not_happen
+           e.did_not_happen, e.source
       FROM bill b JOIN stage_event e USING (bill_id)
     UNION ALL
     SELECT b.bill_id, b.session_number, b.short_title, b.bill_type, b.outcome,
-           9, 'royal_assent', b.date_royal_assent, true, false, false
+           9, 'royal_assent', b.date_royal_assent, true, false, false, b.source
       FROM bill b WHERE b.enactment_status = 'enacted'
 )
 SELECT p.*,
@@ -99,11 +100,16 @@ BEGIN
   -- Parliament reached that stage's end. A stage that carries a day without
   -- either getting the bill through or ending it is the case that would make
   -- the rule silently wrong.
+  -- fell_here is not enough to tell the two apart: a bill withdrawn partway
+  -- through Stage 1 also ended at Stage 1, and it was never debated. What
+  -- separates them is who says so. Only a decision of the Parliament ends a
+  -- stage the bill did not get through, and the Official Report records those.
   SELECT count(*) INTO n FROM coverage
    WHERE stage_order < 9 AND date_completed IS NOT NULL
-     AND NOT completed AND NOT fell_here AND NOT did_not_happen;
+     AND NOT completed AND NOT did_not_happen
+     AND source IS DISTINCT FROM 'official_report';
   IF n > 0 THEN
-    RAISE EXCEPTION 'Check failed: % stage(s) carry a day but neither completed the bill''s passage through the stage nor ended the bill there. A day means the Parliament reached the end of the stage.', n;
+    RAISE EXCEPTION 'Check failed: % stage(s) the bill did not get through carry a day that does not come from the Official Report. A day means the Parliament reached the end of the stage and decided.', n;
   END IF;
 
   -- Nothing is counted that has no day.
@@ -121,4 +127,4 @@ BEGIN
   RAISE NOTICE 'Coverage is complete: % stage(s) counted, every other one with a stated reason.', n;
 END $$;
 
-ROLLBACK;
+DROP TABLE coverage;
