@@ -29,7 +29,7 @@ SELECT t.stage_candidate_id AS row, t.candidate_id AS line, left(t.short_title, 
                     AND s.review_status = 'accepted' LIMIT 1),
                 c.date_concluded) AS passed_or_concluded,
        t.stage, t.stage_order AS pos, t.date_completed, t.completed, t.fell_here,
-       t.source, t.source_ref, t.observed_at, t.note, t.review_status,
+       t.source, t.source_ref, t.observed_at, t.detail_note, t.review_status,
        to_char(t.created_at AT TIME ZONE 'Europe/London', 'DD Mon HH24:MI') AS saved
   FROM stage_candidate t JOIN bill_candidate c USING (candidate_id)
  WHERE t.review_status IN ('new', 'held')

@@ -35,10 +35,10 @@ CREATE TEMP TABLE incoming (
     source         text,
     source_ref     text,
     observed_at    date,
-    note           text
+    detail_note    text
 ) ON COMMIT DROP;
 
-\copy incoming (kind, line, short_title, stage, stage_order, date_completed, completed, fell_here, source, source_ref, observed_at, note) FROM pstdin WITH (FORMAT csv, HEADER MATCH)
+\copy incoming (kind, line, short_title, stage, stage_order, date_completed, completed, fell_here, source, source_ref, observed_at, detail_note) FROM pstdin WITH (FORMAT csv, HEADER MATCH)
 
 -- ---------------------------------------------------------------------------
 -- Before anything is written
@@ -104,9 +104,9 @@ BEGIN
   -- A note for a bill does not overwrite a different note already there.
   SELECT string_agg(c.candidate_id::text, '; ') INTO bad
     FROM incoming i JOIN bill_candidate c ON c.candidate_id = i.line
-   WHERE i.kind = 'bill_note' AND c.bill_note IS NOT NULL AND c.bill_note IS DISTINCT FROM i.note;
+   WHERE i.kind = 'bill_note' AND c.bill_note IS NOT NULL AND c.bill_note IS DISTINCT FROM i.detail_note;
   IF bad IS NOT NULL THEN
-    RAISE EXCEPTION 'Refusing to load: line(s) % already carry a different note for the bill.', bad;
+    RAISE EXCEPTION 'Refusing to load: line(s) % already carry a different detail note for the bill.', bad;
   END IF;
 END $$;
 
@@ -121,19 +121,19 @@ SELECT i.line, i.stage_order
  WHERE i.kind = 'stage';
 
 INSERT INTO stage_candidate (candidate_id, stage, stage_order, date_completed, completed,
-                             fell_here, source, source_ref, observed_at, note)
+                             fell_here, source, source_ref, observed_at, detail_note)
 SELECT i.line, i.stage, i.stage_order, i.date_completed, i.completed, i.fell_here,
-       i.source, i.source_ref, i.observed_at, nullif(i.note, '')
+       i.source, i.source_ref, i.observed_at, nullif(i.detail_note, '')
   FROM incoming i
  WHERE i.kind = 'stage'
    AND NOT EXISTS (SELECT 1 FROM already a WHERE a.line = i.line AND a.stage_order = i.stage_order)
  ORDER BY i.line, i.stage_order;
 
 UPDATE bill_candidate c
-   SET bill_note = i.note
+   SET bill_note = i.detail_note
   FROM incoming i
  WHERE i.kind = 'bill_note' AND c.candidate_id = i.line
-   AND c.bill_note IS DISTINCT FROM i.note;
+   AND c.bill_note IS DISTINCT FROM i.detail_note;
 
 -- ---------------------------------------------------------------------------
 -- Checks. Any failure aborts, and nothing is written.
@@ -185,7 +185,7 @@ SELECT c.session_number, i.source, count(*) AS in_csv,
 
 \echo '--- Bills that did not pass: the stage each stopped at, and any it completed'
 SELECT t.candidate_id AS line, left(t.short_title, 46) AS bill, t.stage,
-       t.date_completed, t.completed, t.fell_here, t.source, left(t.note, 60) AS note
+       t.date_completed, t.completed, t.fell_here, t.source, left(t.detail_note, 60) AS detail_note
   FROM stage_candidate t JOIN bill_candidate c USING (candidate_id)
  WHERE c.outcome NOT IN ('passed', 'rejected_stage_1') AND t.source <> 'spice_factsheet_legislation'
  ORDER BY t.candidate_id, t.stage_order;

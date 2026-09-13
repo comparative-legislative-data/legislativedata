@@ -242,6 +242,10 @@ decision that ends it whatever it decided, and the test was not brought forward
 with it. M2 is 4347 characters and the other seven have not moved. The check
 itself stands: a length that moves still means a note was edited.
 
+**Corrected again on 2026-09-13, later the same day.** `db/061` amended M2 a
+second time, to say what the general note on a stage row is and what an empty
+detail note means. M2 is 5140 characters and the other seven have not moved.
+
 **16. Notes on the Session 3 staging lines.** 9 with a review note, 1 with a
 note for readers, 60 the reader remarked on. The one reader's note is the Forth
 Crossing Act's. This item is also a prompt to read what is written there before
@@ -367,17 +371,27 @@ None of these is for anyone else to answer. A sign-off is recorded here on the
 day it is given, and nowhere else.
 
 1. **What happened to each bill.** The counts in items 6 and 7 are what you
-   expect for Session 3.
+   expect for Session 3. **Given 2026-09-13**, on the reconciliation against
+   page 8 of the fact sheet: every cell and both margins are the fact sheet's
+   own, and the two places we hold more than it does are the Forth Crossing
+   Bill's type, which it files under Executive, and the split of its seven
+   fallen bills by why they fell. Neither disagrees with it.
 2. **The five bills read in the Official Report.** For each, the quotation on
    the line and the ending recorded against it: Autism, End of Life Assistance
    and Protection of Workers rejected at Stage 1 on the member's own motion;
    Budget (Scotland) (No.2) rejected at Stage 3 on the Presiding Officer's
    casting vote; Creative Scotland fallen for want of a financial resolution
-   with its general principles agreed.
+   with its general principles agreed. **Given 2026-09-13**, on the five lines
+   read out in the source's own words beside the ending recorded against each,
+   including that the Creative Scotland Bill's Stage 1 is completed and no stage
+   is marked as where the bill ended, there being none to put it on.
 3. **The four endings you established from the Parliament's bill pages** — the
    two withdrawn bills and the two that fell at dissolution — checked against
    the clean sheet rather than against the note of them, including that none
-   carries a date.
+   carries a date. **Given 2026-09-13**, on the four endings read off the clean
+   sheet, on the day each bill stopped being live being recorded while the Stage
+   1 row carries no date, and on all nineteen rows of that kind across the three
+   sessions after `db/061` gave them one general note and kept nine detail notes.
 4. **The Forth Crossing Act as a Hybrid Bill**, and that M4 says what you want
    said to a reader who is comparing our 44 government bills against the fact
    sheet's 45.

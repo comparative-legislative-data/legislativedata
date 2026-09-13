@@ -7,6 +7,89 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — A stage row carries a general note and a detail note
+
+**What happened.** Nineteen bills across Sessions 1 to 3 stopped at a stage
+without the Parliament deciding anything: withdrawn by the member in charge, or
+still at that stage when the session ended. They are the only stage rows with no
+date, and the note on each existed to account for the empty cell. Written by
+hand, one session at a time, they had come out in **sixteen different wordings
+of one situation** — and two of them contradicted each other about the same
+fact, the Session 3 bills that fell at dissolution reading "during Stage 1" and
+"before a Stage 1 debate took place" of two bills in identical positions. The
+owner found it while checking the four Session 3 endings for sign-off 3.
+
+**The decision.** The one note becomes two.
+
+- The **general note** is one sentence, the same words every time: "The bill
+  stopped at this stage without a decision, so no date is recorded." Nobody
+  types it. The database writes it from the row it sits on — this is where the
+  bill ended, there is no date, and the stage is not one the bill never had — so
+  there is one place its words live and a later session cannot word it a
+  seventeenth way. It has no provenance, because it is not an observation of
+  anything; it is a restatement of the row beside it.
+- The **detail note** is the column that was called `note`, unchanged in
+  meaning: whatever a source records beyond that. Empty means no extra detail
+  has been collected for that bill. It does not mean none exists, and it does
+  not mean any was sought — the owner's wording, and the point is that we have
+  not systematically collected why and when a bill was withdrawn or fell.
+
+**A rejected bill gets no general note and never had one.** The owner's ruling:
+its rejection is the explanation. The row carries the date of the decision, the
+stage it did not complete and the outcome, and accounts for itself. That took
+fifteen rows out of the change — the fourteen rejected at Stage 1 and the Budget
+(Scotland) (No. 2) Bill rejected at Stage 3.
+
+**The two Robin Rigg stages that never happened keep the note they have.** The
+owner's ruling: that bill was reintroduced in Session 2 as a carry-over Private
+Bill, does not repeat its earlier scrutiny, and did not fall in the sense the
+other nineteen did. `db/039` gave it its own handling and it keeps it.
+
+**Eight detail notes were emptied and nine kept.** A note was kept where it says
+something the row does not. Emptied where it named the stage the row already
+names, or said "not completed" when the row already says it: "Fell at
+dissolution at Preliminary Stage", "Withdrawn during Stage 1" (four bills),
+"Fell at dissolution during Stage 1", "Fell at dissolution before Stage 1 was
+completed", "Fell at dissolution before Final Stage". Nothing is lost: the words
+are in `db/061` and in this entry. The owner was shown all nineteen, before and
+after, and chose this over keeping all eight verbatim — which would have put the
+sixteen wordings straight back.
+
+**Two kept notes were reworded, with the owner's agreement**: the Scottish
+Register of Tartans Bill's lost "Withdrawn during Stage 1," from the front, and
+the Palliative Care Bill's "before any Stage 1 debate" became "before the Stage 1
+debate was held", matching the Criminal Sentencing Bill's. The Gaelic Language
+Bill's Stage 1 remark, "General principles agreed at Stage 1", came off: the row
+says the stage was completed and on what day, and the Stage 2 detail note now
+carries the fact, as the owner directed — that despite the general principles
+being agreed, no Stage 2 proceedings were scheduled and the bill fell at the end
+of the session.
+
+**Why a column that fills itself in, and not a stored one.** A stored column is
+sixteen wordings again in three sessions' time unless something checks it. This
+one cannot be worded twice. Against that, it is a second kind of column in a
+database the owner has to be able to explain — every other column holds
+something somebody put there. The owner took the trade.
+
+**What holds the assumption underneath it.** The general note appears on a row
+where the bill ended, with no date, that is not a stage the bill never had.
+Across all 583 stage rows that is exactly the nineteen, and it has never once
+differed from the fuller test that also asks what happened to the bill.
+Promotion now refuses a session in which a row carries the general note for a
+bill that was neither withdrawn nor fell at dissolution, so the assumption is
+checked and not assumed. Nothing was added to the error checker: there are no
+stored words left to drift.
+
+**Built as `db/061`**, rehearsed in a transaction that was thrown away before it
+was applied, which caught two title fragments that each matched a later Act of
+nearly the same name. Session 3 was then taken off and put back, also thrown
+away, and the notes came back identical. `tools/phd_stage_dates.py` was changed
+in step: it holds the wordings for Sessions 1 and 2, and left alone it would
+have written the old ones back the next time it ran. M2 tells a reader what both
+notes are; its length moved from 4347 to 5140 and Session 3's closure test item
+15 records it.
+
+
 ## 2026-09-13 — A marking session corrects an expected answer it can show is wrong, and says why
 
 **What happened.** Session 3's closure test was run by a session that did none

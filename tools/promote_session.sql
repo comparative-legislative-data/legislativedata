@@ -168,9 +168,9 @@ SELECT p.candidate_id, p.session_number, p.sp_bill_id, p.short_title, p.bill_typ
 -- need no provenance notes. The stage name was checked against the bill type
 -- by the error checker, and the trigger on stage_event checks it again.
 INSERT INTO stage_event (bill_id, stage, stage_order, date_completed, completed,
-                         fell_here, did_not_happen, source, source_ref, observed_at, note)
+                         fell_here, did_not_happen, source, source_ref, observed_at, detail_note)
 SELECT s.candidate_id, s.stage, s.stage_order, s.date_completed, s.completed,
-       s.fell_here, s.did_not_happen, s.source, s.source_ref, s.observed_at, s.note
+       s.fell_here, s.did_not_happen, s.source, s.source_ref, s.observed_at, s.detail_note
   FROM promoting_stages s
  ORDER BY s.candidate_id, s.stage_order;
 
@@ -385,7 +385,7 @@ BEGIN
       OR e.source         IS DISTINCT FROM k.source
       OR e.source_ref     IS DISTINCT FROM k.source_ref
       OR e.observed_at    IS DISTINCT FROM k.observed_at
-      OR e.note           IS DISTINCT FROM k.note;
+      OR e.detail_note    IS DISTINCT FROM k.detail_note;
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % stage record(s) do not match the stage-dates rows they come from.', n; END IF;
 
   -- Every row carried is stamped with its own record, and no other row in the
@@ -429,6 +429,16 @@ BEGIN
                         AND f.observed_at = c.official_report_read_on
                         AND f.value_seen IS NOT NULL AND f.source_ref IS NOT NULL);
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % route(s) without a provenance note quoting the announcement.', n; END IF;
+
+  -- The general note on a stage row says the bill stopped there without a
+  -- decision. Nobody types it -- the clean sheet works it out from the row --
+  -- so the one thing that could make it false is a bill it speaks for that did
+  -- not stop that way. See db/061.
+  SELECT count(*) INTO n
+    FROM stage_event e JOIN bill b USING (bill_id)
+   WHERE b.session_number = s AND e.general_note IS NOT NULL
+     AND b.outcome NOT IN ('withdrawn', 'fell_dissolution');
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % stage row(s) carry the general note for a bill that was neither withdrawn nor fell at dissolution.', n; END IF;
 
   -- Every bill coded as having fallen at dissolution carries the note saying so,
   -- dated by the reading of the source the session's last day came from. A

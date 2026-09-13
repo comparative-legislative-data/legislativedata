@@ -78,52 +78,58 @@ MANUAL_PAIRS = {
 PARLIAMENT = 'https://www.parliament.scot/bills-and-laws/bills/'
 ARCHIVE = 'https://webarchive.nrscotland.gov.uk/public/+/'
 ARCHIVE_BILL = ARCHIVE + 'archive2021.parliament.scot/parliamentarybusiness/Bills/'
+# The note here is the DETAIL note: what a source records beyond what the row
+# itself says. The general note -- 'The bill stopped at this stage without a
+# decision, so no date is recorded.' -- is not written by anybody; the clean
+# sheet works it out from the row. None means no extra detail was collected
+# for that bill. See db/061.
 ANSWERS = {
     63: dict(stopped_at=1, source='official_report',
              ref='https://www.parliament.scot/api/sitecore/CustomMedia/OfficialReport?meetingId=2733',
              note='Withdrawn during Stage 1 consideration, before the Stage 1 vote, and reintroduced in redrafted form.'),
     64: dict(stopped_at=1, source='bill_document',
              ref=PARLIAMENT + 's1/family-homes-and-homelessness-scotland-bill',
-             note='Withdrawn during Stage 1.'),
+             note=None),
     65: dict(stopped_at=1, source='bill_document',
              ref=PARLIAMENT + 's1/tobacco-advertising-and-promotion-scotland-bill',
-             note='Withdrawn during Stage 1. No Stage 1 debate took place, so the dataset’s Stage 1 date is not a completed stage.'),
+             note='No Stage 1 debate took place, so the dataset’s Stage 1 date is not a completed stage.'),
     66: dict(stopped_at=2, source='official_report',
              ref='https://www.parliament.scot/chamber-and-committees/official-report/search-what-was-said-in-parliament/meeting-of-parliament-06-03-2003?meeting=4434&iob=31842',
-             note='Fell at dissolution during Stage 2: no time was scheduled for Stage 2 consideration.',
+             note='The general principles were agreed at Stage 1 on 6 March 2003, but no Stage 2 '
+                  'proceedings were scheduled for the bill, and it fell at the end of the session.',
              completed=[(1, datetime.date(2003, 3, 6), 'official_report',
                          'https://www.parliament.scot/chamber-and-committees/official-report/search-what-was-said-in-parliament/meeting-of-parliament-06-03-2003?meeting=4434&iob=31842',
-                         'General principles agreed at Stage 1.')]),
+                         None)]),
     71: dict(stopped_at=3, source='bill_document',
              ref=PARLIAMENT + 's1/robin-rigg-offshore-wind-farm-navigation-and-fishing-scotland-bill-session-1',
-             note='Fell at dissolution before Final Stage.',
+             note=None,
              completed=[(1, datetime.date(2003, 1, 9), 'phd', None, None),
                         (2, datetime.date(2003, 3, 11), 'phd', None, None)]),
     73: dict(stopped_at=1, source='bill_document',
              ref=PARLIAMENT + 's1/stirling-alloa-kincardine-railway-and-linked-improvements-bill-session-1',
-             note='Fell at dissolution at Preliminary Stage.'),
+             note=None),
     140: dict(stopped_at=1, source='bill_document',
               ref=ARCHIVE + 'http://archive2021.parliament.scot/parliamentarybusiness/Bills/25259.aspx',
               note='Withdrawn after the Stage 1 report and before the Stage 1 debate.'),
     141: dict(stopped_at=1, source='bill_document',
               ref=PARLIAMENT + 's2/fire-sprinklers-in-residential-premises-scotland-bill',
-              note='Withdrawn during Stage 1.'),
+              note=None),
     142: dict(stopped_at=1, source='bill_document',
               ref=PARLIAMENT + 's2/prohibition-of-smoking-in-regulated-areas-scotland-bill',
-              note='Withdrawn during Stage 1.'),
+              note=None),
     143: dict(stopped_at=1, source='bill_document',
               ref=PARLIAMENT + 's2/prostitution-tolerance-zones-scotland-bill',
-              note='Withdrawn during Stage 1.'),
+              note=None),
     144: dict(stopped_at=1, source='bill_document', ref=ARCHIVE_BILL + '25122.aspx',
-              note='Withdrawn during Stage 1, before the Stage 1 debate.'),
+              note='Withdrawn before the Stage 1 debate.'),
     148: dict(stopped_at=1, source='bill_document', ref=ARCHIVE_BILL + '25503.aspx',
-              note='Fell at dissolution during Stage 1: no timetable for concluding Stage 1 was set.'),
+              note='No timetable for concluding Stage 1 was set.'),
     150: dict(stopped_at=1, source='bill_document', ref=ARCHIVE_BILL + '25277.aspx',
-              note='Fell at dissolution during Stage 1: partial scrutiny was undertaken, with no Stage 1 vote.'),
+              note='Partial scrutiny was undertaken, with no Stage 1 vote.'),
     152: dict(stopped_at=1, source='bill_document', ref=ARCHIVE_BILL + '25312.aspx',
-              note='Fell at dissolution before Stage 1 was completed.'),
+              note=None),
     154: dict(stopped_at=1, source='bill_document', ref=ARCHIVE_BILL + '25100.aspx',
-              note='Fell at dissolution during Stage 1.'),
+              note=None),
 }
 
 # A bill that passed with no stage dates in the dataset: a note for the bill,
@@ -262,7 +268,7 @@ def rows_for(bills, pairs):
                         completed='true' if completed else 'false',
                         fell_here='true' if stopped_here else 'false',
                         source=source, source_ref=ref, observed_at=READ_ON[b['session']],
-                        note=note or ''))
+                        detail_note=note or ''))
 
     for line, b in sorted(bills.items()):
         p = pairs[line]
@@ -271,7 +277,7 @@ def rows_for(bills, pairs):
             out.append(dict(kind='bill_note', line=line, short_title=b['short_title'], stage='',
                             stage_order='', date_completed='', completed='', fell_here='',
                             source='bill_document', source_ref='',
-                            observed_at=READ_ON[b['session']], note=BILL_NOTES[line]))
+                            observed_at=READ_ON[b['session']], detail_note=BILL_NOTES[line]))
             continue
         def disagreement(position, date):
             """The dataset dating a stage another source already dates.
@@ -369,7 +375,7 @@ def main():
         sys.exit('Refusing to write:\n  ' + '\n  '.join(problems))
 
     fields = ['kind', 'line', 'short_title', 'stage', 'stage_order', 'date_completed',
-              'completed', 'fell_here', 'source', 'source_ref', 'observed_at', 'note']
+              'completed', 'fell_here', 'source', 'source_ref', 'observed_at', 'detail_note']
     with open(args.csv, 'w', newline='') as f:
         w = csv.DictWriter(f, fields)
         w.writeheader()
