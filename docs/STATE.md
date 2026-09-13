@@ -160,6 +160,14 @@ not run it, and no migration was applied. The new files are
 `tools/closure_check_session_3.sql` and the Session 3 section of
 `docs/CLOSURE-TESTS.md`; the working dataset is corrected in one cell.
 
+**Both lists read again at close**, which is the lesson the previous session
+left. The error checker is empty. The gaps list holds 108 rows and every one of
+them says "date not yet entered" — no bill is listed as not recording where it
+ended, and no completed stage is missing a date it should have. The figures are
+unchanged: 154 bills, 216 staging lines, 475 stage-date rows, 8 endings, 8
+reader's notes, 56 migrations without a gap, and the data dictionary
+regenerating identical to the committed file.
+
 **What writing the test turned up.**
 
 - **The Autism date, found and settled the same session.** The dataset gave 17
