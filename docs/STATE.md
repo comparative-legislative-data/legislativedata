@@ -18,13 +18,13 @@ and 2 dates are added from your PhD.
 |---|---|---|---|---|
 | 1 | 73 bills | yes | yes | yes; **closed** |
 | 2 | 81 bills | yes | yes | yes; **closed** |
-| 3 | 62 bills | yes | yes | loaded; **waiting for you** |
+| 3 | 62 bills | yes | yes | yes; one step from closed |
 | 4–5 | read in full | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
 Sessions 1 and 2 are finished: what happened to each bill, and the time from
 introduction to passing, with every cell traceable to what said so. Session 3
-is on the clean sheet, and one step short of the same.
+now holds the same, and needs only its closure test run by another session.
 
 ## What has been done
 
@@ -63,22 +63,26 @@ dates are loaded and waiting for you.**
   passed there or was rejected there, completed the two stages before it. That
   matters for the first time here, because of the Budget (Scotland) (No. 2)
   Bill, and M2 already said it.
+- **You read the 108 rows and were content**, so `db/059` admitted them, Session
+  3 came off the clean sheet and went back on with its dates, and the clean
+  sheet now holds 216 bills, 583 stage records and 71 provenance notes. 54 of
+  Session 3's 62 bills have all three stages dated; the other 8 are the bills
+  that did not get that far.
 
-## Now: your review of the 108 dates
+## Now: Session 3's closure test
 
-**This is the one thing waiting on you.** The 108 rows are on the stage-dates
-sheet marked new, none of them on the clean sheet. In Postico, disconnect and
-connect again, then open `stage_candidate` and read them. `v_candidate_problems`
-is empty and so is `v_stage_date_gaps`, so nothing is known to be wrong; what is
-wanted is your eye on the dates themselves.
+**Nothing is waiting on you.** Session 3 is complete on the clean sheet: 62
+bills, every stage dated, every cell naming what said so. The error checker and
+the gaps list are both empty.
 
-**Then, in order, and none of it needs you:**
+**The one thing left for Session 3** is its closure test, in
+`docs/CLOSURE-TESTS.md`: twenty-four mechanical checks, nine sign-offs for you,
+six stated limits. It was written before the work it tests, and must be run and
+marked by a session that did none of that work. Its predicted figures — 216
+bills, 583 stage records, 71 provenance notes — are what the database now holds,
+but that is the test's business to establish, not this note's.
 
-1. The 108 rows admitted, once you are content.
-2. Session 3 taken off the clean sheet and put back with its dates, the way
-   Sessions 1 and 2 were on 11 September.
-3. **The closure test run and marked** by a session that did none of the above.
-   `docs/CLOSURE-TESTS.md` holds it, written before the work it tests.
+**Then Session 4.**
 
 **Left unbuilt on purpose, and not blocking anything.** When the comparison could
 not pair ten bills it still recorded all 62 as compared. Nothing was written
@@ -100,6 +104,13 @@ the same answer at once.
 
 - **Whether to keep the date a bill's Royal Assent was blocked.** Four bills;
   nothing forces it.
+- **Whether a bill rejected at a stage should give a duration for it.** A
+  duration is measured between stages the bill completed, so the Budget
+  (Scotland) (No. 2) Bill gives no figure for Stage 2 to Stage 3 even though
+  both days are recorded — it completed Stage 2 on 20 January 2009 and was
+  rejected on the 28th. The same rule has always applied to the eleven bills
+  rejected at Stage 1. It is the existing rule, not a new one; it is here
+  because Session 3 is the first time it hides an interval anyone might want.
 - **Whether the section 33 / 35 distinction becomes a variable.** Four bills;
   revisit at a fifth.
 - **Whether a title's kind may be inferred from the Royal Assent date**, and
@@ -152,22 +163,25 @@ would have been written with the reference empty and nothing would have said so.
 
 **At close.**
 
-- **216 bills, 475 stage records, 71 provenance notes**, the error checker
-  empty, the gaps list empty, 58 migrations without a gap, the data dictionary
+- **216 bills, 583 stage records, 71 provenance notes**, the error checker
+  empty, the gaps list empty, 59 migrations without a gap, the data dictionary
   regenerating identical to the committed file, nothing uncommitted.
-- **583 rows on the stage-dates sheet**, of which 108 are Session 3's Stage 1
-  and Stage 2 dates, all marked new and none on the clean sheet.
+- **583 rows on the stage-dates sheet**, all accepted and all carried.
 - **Session 3 reconciles against page 8** in every cell and both margins:
   Acts 42/7/2/2 = 53, withdrawn 0/2/0/0 = 2, fallen 3/4/0/0 = 7, totals
-  45/13/2/2 = 62, counting the Forth Crossing Bill under Executive.
-- **Compared cell by cell against copies taken beforehand**, twice. The
+  45/13/2/2 = 62, counting the Forth Crossing Bill under Executive. Read off the
+  document itself, not off an earlier session's note of it.
+- **Compared cell by cell against copies taken beforehand**, three times. The
   promotion: 62 bills, 62 stage records and 15 provenance notes added, the 62
-  lines and 62 stage rows stamped, and five review notes gaining their address —
-  454 differences, every one intended, and nothing else. The date load: 108 rows
-  added and nothing else at all.
-- **Safety dumps on the server**: `/var/tmp/legdata-before-057_2026-09-13.dump`
-  and `/var/tmp/legdata-before-s3-dates_2026-09-13.dump`. Both in-database
-  copies were compared and dropped.
+  lines and 62 stage rows stamped, five review notes gaining their address — 454
+  differences, every one intended. The date load: 108 rows added and nothing
+  else at all. Session 3 off and back on with its dates: 324 differences, being
+  the 108 rows accepted and the 108 stage records they became; everything else
+  differed only in record numbers and times written.
+- **Safety dumps on the server**: `/var/tmp/legdata-before-057_2026-09-13.dump`,
+  `/var/tmp/legdata-before-s3-dates_2026-09-13.dump` and
+  `/var/tmp/legdata-before-059_2026-09-13.dump`. All three in-database copies
+  were compared and dropped.
 
 **Tested in rehearsal rather than assumed.**
 
@@ -181,12 +195,18 @@ would have been written with the reference empty and nothing would have said so.
   already held from another source — the Autism Bill's Stage 1 put back to 17
   January is caught and named — and refuses a dataset date for a stage that
   nothing says the bill completed, on a bill that never reached Stage 3.
-- The reader refuses a session for which no reading date is recorded.
-- Sessions 1 and 2 give byte-identical output from the reader before and after
-  it was extended.
+- The reader refuses a session for which no reading date is recorded, and gives
+  byte-identical output for Sessions 1 and 2 before and after it was extended.
+- `db/059` refuses a row waiting for review that is not from the dataset, and
+  putting the session back refuses while any stage date is unreviewed.
+- Taking Session 3 off removed exactly what promotion had written — 62 bills, 62
+  stage records, 15 notes — and putting it back gave 62 bills, 62 notes' worth
+  of the same 15, and 170 stage records.
 
 **Not done, and not this session's to do.** Session 3's closure test is still
-unrun, and must be run by a session that neither wrote it nor did the work above.
+unrun. It must be run by a session that neither wrote it nor did any of the work
+above: this session promoted the session, loaded the dates and admitted them,
+and a session does not mark its own work.
 
 ## The owner's standing positions, so they are not re-argued
 

@@ -610,3 +610,29 @@ reason: a dataset date disagreeing with a date already held from another source
 (the Autism Bill's Stage 1 put back to 17 January); a dataset date for a stage
 nothing says the bill completed, on a bill that never reached Stage 3; and a
 session for which no reading date is recorded.
+
+## Session 3 back on with its dates, 13 September
+
+`db/059` recorded the owner's acceptance of the 108 rows, and Session 3 was
+taken off the clean sheet and put back. Rehearsed as one sequence and thrown
+away first; a safety copy was taken before the real run
+(`/var/tmp/legdata-before-059_2026-09-13.dump`), and a copy of the sheets inside
+it, compared afterwards and dropped.
+
+- Taking it off removed exactly what promotion had written: 62 bills, 62 stage
+  records, 15 provenance notes. Putting it back gave 62 bills, 170 stage records
+  and the same 15 notes.
+- **583 stage records** on the clean sheet, where there were 475. Session 3's
+  170 are 52 Stage 1 and 52 Stage 2 from the dataset, 2 Preliminary and 2
+  Consideration from the dataset, 51 Stage 3 and 2 Final Stage from the
+  legislation fact sheet, 5 from the Official Report and 4 from the bill pages.
+- **216 bills, 71 provenance notes, the error checker empty, the gaps list
+  empty.** 54 of Session 3's 62 bills have all three stages dated; the other 8
+  did not get that far.
+- **Compared with the copy taken beforehand**: 324 differences, being the 108
+  rows accepted and the 108 stage records they became. Everything else differed
+  only in record numbers and times written.
+
+Tested in rehearsal rather than assumed: `db/059` refuses a row waiting for
+review that is not from the dataset, and putting the session back refuses while
+any one stage date is still unreviewed.
