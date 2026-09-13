@@ -7,6 +7,121 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — An Act number carries its year, and two later-session questions settled
+
+Three things settled before Session 4 was read in. Only the first is built,
+because only the first has anything in the database to act on yet.
+
+### An Act's number carries its year, and the checker refuses one that does not
+
+**The problem.** The Acts table of every legislation factsheet writes an Act as
+`Title Act YYYY (asp N)`: the year sits in the title, and the bracket holds only
+the number. The reader takes the year from the title and the number from the
+bracket. Two rows in the sessions ahead print no year in the title:
+
+    Higher Education Governance (Scotland) Act (asp 15)        Session 4, p.4
+    Period Products (Free Provision) (Scotland) Act (asp 1)    Session 5, p.8
+
+So two cells come out short on each row, not one: the number, as `asp 15` rather
+than `2016 asp 15`; and the title, which loses the year that is part of the Act's
+short title and is the title the site displays. It would be the only Act title on
+the clean sheet without a year on it.
+
+**Decided.** Both cells are settled from legislation.gov.uk, which gives
+*Higher Education Governance (Scotland) Act 2016*, 2016 asp 15, and *Period
+Products (Free Provision) (Scotland) Act 2021*, 2021 asp 1. Both agree with the
+Royal Assent dates the factsheets state. Each corrected cell carries a provenance
+note naming legislation.gov.uk, the Act's address, and the date read.
+
+**Why not take the year from the Royal Assent date**, which is already on the
+row and would give the same two answers? Because it would be our inference
+rather than something a source says, and the evidence for it — that on all 181
+Acts held here the year on the number equals the year of Royal Assent — comes
+from the same factsheets. Two lookups cost nothing and leave a citation.
+
+**The fault the checker had.** The year check compares the year on the number
+with the year of Royal Assent, but only where a year is printed. A number with
+none left the comparison with nothing on one side and passed without being
+looked at. `db/062` refuses an Act whose number does not begin with a four-digit
+year. This is independent of how the two rows above are settled and would have
+been worth fixing either way.
+
+**legislation.gov.uk's description was widened.** It was recorded as definitive
+for the date of Royal Assent and "not used for the text of an Act". An Act's
+short title and year-and-number are its identity rather than its text, but that
+description is narrow enough to read against this use, so it was widened rather
+than stretched quietly.
+
+**Nothing on the clean sheet moved.** All 181 Acts already carried their year,
+on both sheets, and every year already matched its Royal Assent year. `db/062`
+adds a check and widens a description. The two rows it exists for are not in the
+database yet.
+
+### The European Charter Bill passed on 23 March 2021
+
+The two factsheets disagree, and this is the first disagreement between sources
+that decides which session a bill belongs to rather than only a date.
+
+- Session 5 factsheet, p.2, *Bills awaiting Royal Assent*: `23 March 2021`.
+- Session 6 factsheet, p.7, *Acts of the Scottish Parliament*: `Passed on 23 May 2021.`
+
+Session 5 ended 4 May 2021 and Session 6 first met on 13 May 2021, so 23 May
+falls between dissolution and the new Parliament — no Parliament existed to pass
+it. The Scottish Parliament's own bill page settles it: *"The Bill ended Stage 3
+on 23 March 2021"*, 114 for, 0 against. The bill page is already recorded as
+definitive for dates other than Royal Assent, so this needed no new source.
+
+**Decided:** 23 March 2021, cited to the bill page, with the Session 6
+factsheet's date kept on the staging sheet as what that document said. Applied
+when Session 5 is read; nothing to build now.
+
+The same page gives the Stage 1 debate as 4 February 2021 and Stage 2 ending
+24 February 2021, which will be wanted then.
+
+### The date a reconsideration was agreed is kept, but not as a date
+
+A factsheet gives two dates for a Reconsideration Stage:
+
+    Reconsideration stage agreed on 14 September 2023.
+    The Bill was approved and ended Reconsideration Stage on 7 December 2023.
+
+The second is the stage's date and is already recorded, on a Reconsideration
+stage row like any other stage. The first has nowhere to sit, because a stage row
+holds one date.
+
+**Decided:** it is kept as the factsheet's own sentence on the stage's detail
+note, so the date is on the row and can be promoted to a date cell later without
+re-reading the source, but it is not a date anything is measured from. The owner's
+reasoning: it is not needed, but should be recorded in case it is wanted.
+
+**Nothing to build.** The detail note already exists. This is an instruction to
+the Session 6 reader, which does not exist yet, and it applies to two bills —
+the UNCRC and European Charter Bills. If it later becomes a date cell it should
+become one for *"Motion agreed to treat as Emergency Bill on …"* at the same
+time, which Session 6 states for several of its own bills and which has the same
+shape: a dated procedural motion that is not a stage boundary.
+
+### Where the other later-session events already go
+
+All eleven events that happened in a session later than the bill's own were
+listed out of the Sessions 5, 6 and 7 factsheets. Nine already have a place and
+need nothing built: Royal Assent, a bill's concluding date and the date Royal
+Assent was blocked all sit on the bill and carry no session — fourteen Acts in
+Sessions 4 and 5 already received assent after their session ended — and
+Reconsideration is already the fourth stage for every bill type. The Gender
+Recognition Reform Bill's Session 7 entry repeats its Session 6 entry word for
+word and adds no event at all.
+
+**Still not built, and first bites when Session 6 is read:** the staging sheet
+has one session cell and it means *which factsheet the row was read off*, not
+*which session the bill belongs to*. Three checks use the first where they need
+the second. `STATE.md` said this was needed before Session 5; on the rows it is
+not — no row of Sessions 4 or 5 has an introduction, passing or concluding date
+outside its own session — and it lands on the same four bills as the
+double-count guard, which is already set before Session 6.
+
+---
+
 ## 2026-09-13 — Session 3 is closed, and a bill can end at no stage at all
 
 **Session 3 is closed.** All nine of the owner's sign-offs were given on
