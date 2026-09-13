@@ -19,7 +19,8 @@ and 2 dates are added from your PhD.
 | 1 | 73 bills | yes | yes | yes; **closed** |
 | 2 | 81 bills | yes | yes | yes; **closed** |
 | 3 | 62 bills | yes | yes | yes; **closed** |
-| 4–5 | read in full | no | no | no |
+| 4 | **86 bills** | **needs you** | no | no |
+| 5 | read in full | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
 Sessions 1, 2 and 3 are finished: 216 bills, what happened to each, and the
@@ -36,61 +37,82 @@ four mechanical checks and all nine of your sign-offs.
 - **12 September.** The reader fixed; the thirteen disagreeing dates settled;
   Sessions 1 and 2 closed on the eighth sign-off after you found a real fault in
   what M8 said; Session 3's 62 bills read in and reconciled.
-- **13 September, in three earlier sessions.** Session 3 reviewed, the nine
-  bills that did not pass coded from the Official Report and the Parliament's
-  bill pages, and the session put on the clean sheet with your 108 Stage 1 and
-  Stage 2 dates. How time is counted settled and built: a period is counted to
-  any stage the Parliament reached the end of and decided, whatever it decided,
-  which moved Session 2's Members' Bill figure for introduction to the Stage 1
-  debate from 342 days over 3 bills to 273 over 9, with no recorded date moving.
-  Then both closure tests run by a session that did none of the work they test,
-  all twenty-four mechanical checks passing. Then your first four sign-offs, and
-  the one note on a stage row split into a general note the database writes for
-  itself and a detail note you keep, after you found nineteen bills saying the
-  same thing sixteen ways.
+- **13 September, in four earlier sessions.** Session 3 reviewed, coded,
+  promoted with your 108 Stage 1 and 2 dates, and closed on all nine sign-offs.
+  How time is counted settled and built: a period runs to any stage the
+  Parliament decided, whatever it decided, which moved Session 2's Members' Bill
+  figure for introduction to the Stage 1 debate from 342 days over 3 bills to
+  273 over 9 with no recorded date moving. Both closure tests run by a session
+  that did none of the work they test. A stage's one note split into a general
+  note the database writes and a detail note you keep. You settled that a bill
+  falling for want of money needs no stage named as where it ended, so long as
+  how unusual it is gets caught — the Creative Scotland Bill is the only one of
+  216 like it.
 
-**13 September, this session. Session 3 is closed.**
-- **The last five sign-offs are given**, so all nine are: the Forth Crossing
-  Bill as a Hybrid and what M4 tells a reader; the three adjudicated dates and
-  the asp number; the ten corrected names against your workbook; M7 read in
-  full; and that you can still explain the database from the documents alone.
-- **You settled a question of semantics that will come round again.** When a
-  bill wins its Stage 1 vote and then falls because the money was refused, at
-  what stage did it fall — Stage 1, or a no-man's land? Your answer: it does not
-  much matter which you call it, so long as how unusual it is gets caught. It is
-  caught by the data, not the argument. The Creative Scotland Bill's Stage 1 is
-  recorded as completed and no stage at all is marked as where the bill ended,
-  because there is none to put it on. It is the only bill of 216 like it.
-- **The explainer was six things out of date and is fixed.** It had not been
-  touched since 11 September while Session 3 and nine migrations landed, so it
-  would have failed your ninth sign-off on our bookkeeping rather than on
-  anything real. Nothing in the database changed.
+**13 September, this session. Session 4 is on the staging sheet.**
+- **Two Act titles were missing their year**, because the Acts table keeps the
+  year in the title and these two titles have none: Higher Education Governance
+  (Scotland) Act, and Period Products (Free Provision) (Scotland) Act. Both the
+  title and the number came out short, and the title is the one that matters —
+  it is what the site displays. Settled from legislation.gov.uk as 2016 and
+  2021, and the checker now refuses an Act whose number has no year, which it
+  used to pass over in silence.
+- **Session 4's 86 bills are read in and compared**, every cell matching page 9
+  of the factsheet. **Eight of your names differ** from the factsheet's — the
+  four Budget Acts numbered within the session, six wording slips — and all
+  eight agree on both dates the two sources share. **Two dates genuinely
+  disagree**, and one is settled: the Land Reform Act's Royal Assent is 22 April
+  2016 on legislation.gov.uk, so the factsheet is wrong and your dataset right.
+- **The hand-pairing list only ever worked for Sessions 1 and 2**, because one
+  line in the comparison tool gated it by session although it is keyed by
+  staging line. Removed. Session 3 now pairs all 62 with no difference at all.
+- **Two later-session questions recorded**, neither built because neither has
+  anything to act on yet: the European Charter Bill passed 23 March 2021 on the
+  Parliament's bill page, against the Session 6 factsheet's 23 May; and the date
+  a reconsideration was agreed is kept on the stage's detail note, not as a date
+  anything is measured from.
 
-## Now: Session 4
+## Now: your review of Session 4
 
-Session 4's factsheet is read in full and nothing else. It goes through the same
-steps as the three before it: read onto the staging sheets, reviewed by you,
-copied onto the clean sheet, then your Stage 1 and Stage 2 dates.
+Session 4's 86 bills are on the staging sheets and compared. Nothing has reached
+the clean sheet. **Eight things wait for you**, and they are the whole review
+list:
 
-**Two things are settled before it starts, both already on the list below.**
-Whether a title's kind may be inferred from the Royal Assent date, which decides
-the year for the two Acts whose factsheet prints an asp number with no year; and
-bills carried over between sessions, which is needed before Session 5 rather
-than Session 4 but is cheaper to settle while the carry-over cases are in view.
+**Five bills the factsheet says fell, without saying why** — the Official
+Report's to answer, as in every session. A sixth, the Footway Parking and Double
+Parking Bill, is already proposed as fallen at dissolution: it concluded on 23
+March 2016, the session's last day.
 
-**Left unbuilt on purpose, and not blocking anything.** When the comparison
-could not pair ten bills it still recorded all 62 as compared. Nothing was
-written wrongly — the tool that loads stage dates refuses outright on an
-unpaired bill — but a bill that was never compared should not look compared.
-Settle it when a bill turns up that your dataset genuinely does not cover, so
-that both tools get the same answer at once.
+- Alcohol (Licensing, Public Health and Criminal Justice) (Scotland) Bill
+- Assisted Suicide (Scotland) Bill
+- Criminal Verdicts (Scotland) Bill
+- Pentland Hills Regional Park Boundary Bill
+- Transplantation (Authorisation of Removal of Organs etc.) (Scotland) Bill
+
+**Two dates where your dataset and the factsheet disagree.**
+
+- **Land Reform (Scotland) Act 2016, Royal Assent.** The factsheet says 22 March
+  2016, your dataset says 22 April. legislation.gov.uk, which is the document of
+  record for Royal Assent, says *"received Royal Assent on 22nd April 2016"*.
+  Your dataset is right. Yours to confirm, then it is written with that citation.
+- **National Galleries of Scotland Act 2016, introduction.** The factsheet says
+  25 June 2015, your dataset says 26 June. One day, and I cannot settle it: the
+  Parliament's page for this bill redirects into the National Records of Scotland
+  web archive, which blocks automated reading. If you know it or can reach the
+  page, that settles it.
+
+**One Act title to accept.** Higher Education Governance (Scotland) Act, settled
+as 2016 asp 15 from legislation.gov.uk; the checker holds the line until it is
+written. Then admitted, promoted, and your Stage 1 and 2 dates loaded.
 
 ## After that, in order
 
 1. **Your write-up on what the charts present**, and the options they offer —
    the second of the two questions you separated, the first being what the
    database calculates, which is settled. Nothing is built on it yet.
-2. Bills carried over between sessions: before Session 5 is loaded.
+2. Bills carried over between sessions: **before Session 6 is loaded**, not
+   Session 5 — nothing in Sessions 4 or 5 trips the checks. Same four bills as
+   the double-count guard below, so the two are one job.
 3. The double-count guard: before Session 6 is promoted.
 4. A prose reader for Sessions 6 and 7.
 5. Bring `docs/VARIABLES.md` up to date.
@@ -102,9 +124,6 @@ that both tools get the same answer at once.
   nothing forces it.
 - **Whether the section 33 / 35 distinction becomes a variable.** Four bills;
   revisit at a fifth.
-- **Whether a title's kind may be inferred from the Royal Assent date**, and
-  with it the year for the two Acts whose factsheet prints an asp number with
-  no year before it. Before Session 4.
 - **What we record for a bill that has passed and has no Royal Assent yet.**
   Session 5's factsheet has a fourth table of them, three bills. The reader
   knows the table and leaves it alone. Before Session 5.
@@ -133,7 +152,7 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-13 (sixth session of the day)
+## Sanity check, 2026-09-13 (seventh session of the day)
 
 **At opening, everything matched.** 216 bills on the clean sheet — 73, 81 and
 62 — 583 stage records, 71 provenance notes, 8 ways a bill can end, 8 notes for
@@ -141,43 +160,49 @@ readers, 61 migrations numbered without a gap, the error checker and the gaps
 list both empty, the data dictionary regenerating identical to the committed
 file at 17 tables and 160 columns, nothing uncommitted, nothing unpushed, and no
 working copy left in the database. `tools/duration_coverage.sql` passes
-unchanged: 764 points, 743 counted, 19 with no day recorded, 2 that did not
-happen. M2 is 5140 characters, which is the one closure-test item `db/061` could
-have moved, and it is what the corrected item 15 says.
+unchanged: 743 counted, every other point with a stated reason. The explainer's
+figures for the provenance notes — 71 in all, 57 about bills, 13 about session
+dates, 1 about a stage — match the database exactly.
 
-**Two things were wrong in the documents and are fixed.**
+**What this session did.** `db/062`: the two Acts whose number carries no year
+settled from legislation.gov.uk, and the checker made to refuse such a number.
+Session 4's 86 lines read onto the staging sheets and compared against the PhD
+dataset. Two tool changes, both in `tools/`: eight Session 4 hand pairings, and
+the removal of the session gate that stopped hand pairings working at all after
+Session 2. **Nothing was written to the clean sheet.**
 
-- **`STATE.md` listed "each session's start and end dates" as work to come.**
-  `db/048` loaded them. Every cell is filled except Session 7's last day, which
-  is empty because the session is running. The line is off the list. This was
-  missed at opening and found while fixing the explainer, which is the argument
-  for checking a claim against the database rather than against the file.
-- **`docs/HOW-THE-DATABASE-WORKS.md` was six things out of date**, having gone
-  untouched since 11 September while Session 3 and nine migrations landed. See
-  `DECISIONS.md` for the six and why it had to be fixed before sign-off 9.
+**Tested rather than assumed.**
 
-**What this session did.** The owner's last five sign-offs taken, so Session 3
-is closed, and the explainer brought back into line with the database. **No
-migration was written and nothing in the database changed.**
+- `db/062` was rehearsed inside a transaction that was thrown away, then the
+  rebuilt checker was diffed against the live one. The only differences were the
+  new check and one internal alias `db/061` left pointing at a renamed column —
+  which is why rebuilding it from `db/058`'s text failed first time, and why the
+  diff is worth doing rather than trusting the last migration's words.
+- The new check proves itself inside the migration: it puts a year-less number
+  on a line, reads the checker, and puts the line back.
+- The Session 4 load was rehearsed with `save=false` and its six tables read
+  before saving. Every cell of the line count matches page 9 of the factsheet:
+  79 Acts, 1 withdrawn, 6 fallen, 86 in all; 67 government, 13 Member's, 5
+  private, 1 committee; `unrecognised` 0.
 
 **At close.**
 
-- **216 bills, 583 stage records, 71 provenance notes**, unchanged from opening,
-  as they must be: this session wrote nothing to the database.
-- **The error checker and the gaps list are empty**, 61 migrations without a
-  gap, the data dictionary regenerating identical to the committed file.
-- **Session 3's closure test is marked in full** — Part A's twenty-four
-  mechanical checks by the session before last, Part B's nine sign-offs across
-  the two sessions of 13 September, each recorded against its own item with what
-  it was given on.
+- **216 bills, 583 stage records, 71 provenance notes on the clean sheet**,
+  unchanged from opening, as they must be.
+- **302 staging lines and 662 stage-dates rows**, up by Session 4's 86 and 79.
+- **The error checker holds 8 items, and they are the review list**: 5 fallen
+  bills needing an outcome, 2 disagreeing dates needing adjudication, 1 Act
+  number needing its year written. The gaps list is untouched at 108.
+- **62 migrations without a gap**, the data dictionary regenerating identical to
+  the committed file.
 - **Nothing uncommitted, nothing unpushed, no working copy in the database.**
 
-**What the next session should be wary of.** Three documents now assert counts
-that will move the moment Session 4 is promoted: `HOW-THE-DATABASE-WORKS.md`
-says 216 bills and fifty-seven provenance notes and names the eight endings and
-eight reader's notes; `STATE.md` says the same figures; the data dictionary
-regenerates itself and needs no attention. Fix them in the session that moves
-them, not afterwards.
+**What the next session should be wary of.** The counts above the line and in
+`HOW-THE-DATABASE-WORKS.md` still say 216 bills and 71 provenance notes, and
+they are right until Session 4 is promoted. Fix them in the session that moves
+them. The two Acts' years are settled in `DECISIONS.md` but only Session 4's is
+on a staging line; Session 5's arrives with that session and must not be
+forgotten — the checker will refuse it, which is the point of the check.
 
 ## The owner's standing positions, so they are not re-argued
 
@@ -264,11 +289,14 @@ rehearsal, the check and the undo without being asked.
      before that rule was followed.
 2. **Sessions 3–5 read in full on 2026-09-12.** They reconcile in every cell:
    62, 86, and 84 of Session 5's 87. What is left is recorded above the line.
-   - The two Acts whose factsheet prints an asp number with no year before it
-     ("Higher Education Governance (Scotland) Act (asp 15)", Session 4, and
-     "Period Products (Free Provision) (Scotland) Act (asp 1)", Session 5) now
-     say so in their parser note. The checker's year check still does not
-     notice, and settling the year settles that too. Before Session 4.
+   - **The two Acts whose factsheet prints an asp number with no year before it
+     are settled (`db/062`, 2026-09-13).** "Higher Education Governance
+     (Scotland) Act (asp 15)", Session 4, is 2016 asp 15; "Period Products (Free
+     Provision) (Scotland) Act (asp 1)", Session 5, is 2021 asp 1, both from
+     legislation.gov.uk. The checker now refuses an Act whose number does not
+     begin with a four-digit year; it used to compare the year only where one
+     was printed, so a number with none passed unlooked-at. Session 4's line is
+     on the review list; Session 5's arrives with that session.
    - Session 5's three bills awaiting Royal Assent are the missing 3. Before
      Session 5.
    - `Clackmann- anshire Council`, a Session 2 promoter broken by a line break,
@@ -277,11 +305,32 @@ rehearsal, the check and the undo without being asked.
      this cell. Nothing in this slice uses it and it is not on the clean sheet.
      Correct it when Session 2 next comes off for another reason, or when who
      introduced a bill becomes a variable.
-3. **Carry-over rows, before Session 5 is loaded.**
+3. **Carry-over rows, before Session 6 is loaded** — not Session 5, which is
+   what this said until 2026-09-13. Every row of Sessions 4 and 5 was checked:
+   none has an introduction, passing or concluding date outside its own session,
+   so nothing fires until Session 6's factsheet arrives. All four cross-factsheet
+   bills have their second appearance in Session 6 or 7.
    - The session-window checks compare a line's dates against the session of
-     the *factsheet* it was read from, which is wrong for a carry-over row.
+     the *factsheet* it was read from. The staging sheet has one session cell and
+     it means which factsheet the row was read off, not which session the bill
+     belongs to; three checks use the first where they need the second.
+   - **What the later-session events need, settled 2026-09-13.** Nine of the
+     eleven already have a place: Royal Assent, a bill's concluding date and the
+     blocked date all sit on the bill and carry no session, and Reconsideration
+     is already the fourth stage for every bill type. The tenth and eleventh are
+     the same event twice — "Reconsideration stage agreed on" — kept as the
+     factsheet's sentence on the stage's detail note. If that ever becomes a date
+     cell it takes "Motion agreed to treat as Emergency Bill on …" with it.
    - `bill_candidate` has no column for a rename date or a block date.
      Sessions 4–7 state them.
+   - **The comparison's hand-pairing list was gated to Sessions 1 and 2** by one
+     line in `tools/compare_sources.py`, although the list is keyed by staging
+     line and needs no gate. Removed 2026-09-13. Before that, no hand pairing
+     could take effect for any later session, which is why Session 3 showed ten
+     unpaired bills. Session 3 now pairs all 62 with no difference, Session 4 all
+     86, so nothing is stamped as compared without being compared. **The tool
+     fault behind that note still exists** — an unpaired line is still stamped —
+     and now has no instance to see it on.
 4. **The double-count guard, before Session 6 is promoted.** Promotion treats
    two staging lines as one bill only when title and introduction date both
    match. The European Charter and UNCRC Bills are "Bill" in Session 5 and

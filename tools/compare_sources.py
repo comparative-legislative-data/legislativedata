@@ -83,11 +83,15 @@ def dataset_rows(path, session):
 def pair_up(lines, rows, session):
     """One dataset row per staging line, where there is one."""
     pairs, unmatched, taken = {}, [], set()
-    if session in (1, 2):
-        by_xrow = {r['xrow']: r for r in rows}
-        for line, xrow in MANUAL_PAIRS.items():
-            if line in lines and xrow in by_xrow:
-                pairs[line], _ = by_xrow[xrow], taken.add(xrow)
+    # MANUAL_PAIRS is keyed by staging line, which is unique across every
+    # session, so there is nothing for a session number to gate. It was written
+    # as "if session in (1, 2)" when only those two had hand-confirmed pairs,
+    # and that silently stopped Session 3's ten unpaired bills and Session 4's
+    # eight from ever being paired. Any line named in MANUAL_PAIRS is used.
+    by_xrow = {r['xrow']: r for r in rows}
+    for line, xrow in MANUAL_PAIRS.items():
+        if line in lines and xrow in by_xrow:
+            pairs[line], _ = by_xrow[xrow], taken.add(xrow)
     for r in rows:
         if r['xrow'] in taken:
             continue

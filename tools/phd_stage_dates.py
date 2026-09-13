@@ -69,6 +69,20 @@ MANUAL_PAIRS = {
     148: 145,  # Commissioner for Older People / "Commisioner", a slip in the dataset
     150: 148,  # Education (School Meals etc) / (Schools Meals etc.)
     153: 152,  # Provision of Rail Passenger Services (Scotland) Bill / without (Scotland)
+    # Session 4, confirmed on 2026-09-13 the same way: every pair below agrees
+    # on both dates the two sources share, introduction and Royal Assent.
+    # The four Budget Acts are the Session 2 pattern again (line 83 above): the
+    # fact sheet gives the Act's short title, the dataset numbers them within
+    # the session.
+    227: 239,  # Budget (Scotland) Act 2013 / Budget (Scotland) (No.2) Act 2013
+    228: 262,  # Budget (Scotland) Act 2014 / Budget (No.3) (Scotland) Act 2014
+    229: 276,  # Budget (Scotland) Act 2015 / Budget (Scotland) (No.4) Act 2015
+    230: 303,  # Budget (Scotland) Act 2016 / Budget (Scotland) (No.5) Act 2016
+    249: 231,  # Freedom of Information (Amendment) (Scotland) / (Scotland) (Amendment)
+    257: 280,  # Inquiries into Fatal Accidents and Sudden Deaths etc. / without "etc."
+    260: 302,  # Land and Buildings Transaction Tax (Amendment) (Scotland) Act 2016 /
+               # "(Amendment) Scotland)", a missing bracket in the dataset
+    301: 284,  # Pentland Hills Regional Park Boundary Bill / "Boundaries"
 }
 
 # What the owner established on 2026-09-11 for the bills that did not pass, with
