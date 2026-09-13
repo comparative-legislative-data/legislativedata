@@ -44,7 +44,7 @@ DEFAULT_XLSX = ROOT / 'sources' / 'phd' / 'Billdates-September2026.xlsx'
 # but the PDF and the session number: a date supplied each run is a date
 # recorded nowhere. Session 3's is later because the dataset was corrected on
 # 13 September (DECISIONS.md, the Autism Bill's Stage 1 date).
-READ_ON = {1: '2026-09-11', 2: '2026-09-11', 3: '2026-09-13'}
+READ_ON = {1: '2026-09-11', 2: '2026-09-11', 3: '2026-09-13', 4: '2026-09-13'}
 
 # Staging line -> row of the dataset, where the names differ too much to match.
 # Each was confirmed on 2026-09-11 by the dates the two sources share: the

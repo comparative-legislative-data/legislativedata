@@ -19,14 +19,14 @@ and 2 dates are added from your PhD.
 | 1 | 73 bills | yes | yes | yes; **closed** |
 | 2 | 81 bills | yes | yes | yes; **closed** |
 | 3 | 62 bills | yes | yes | yes; **closed** |
-| 4 | 86 bills | yes | **next: two endings, then promote** | no |
+| 4 | 86 bills | yes | **next: promote** | no |
 | 5 | read in full | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
 Sessions 1, 2 and 3 are finished: 216 bills, what happened to each, and the
 time from introduction to every stage the Parliament decided, with every cell
-traceable to what said so. Session 4's 86 bills are reviewed and admitted, and
-waiting on the two endings below.
+traceable to what said so. Session 4's 86 bills are reviewed, admitted and now
+complete — nothing is left to settle before they go onto the clean sheet.
 
 ## What has been done
 
@@ -41,43 +41,54 @@ waiting on the two endings below.
   that print no year settled from legislation.gov.uk. Eighteen provenance notes
   that each cited a column which does not exist, rewritten.
 
-**13 September, this session. Session 4's closure test is written.**
-- **The test is `tools/closure_check_session_4.sql` and the expected answers are
-  in `docs/CLOSURE-TESTS.md`.** Twenty-one checks out of the database and six
-  outside it, then nine sign-offs for you. Session 4 is still off the clean
-  sheet, which is what makes every expected answer a prediction from page 9 of
-  the factsheet, your dataset and the rules rather than a description of a
-  database the writer could already see. Nothing was written to the clean sheet.
-- **Writing it turned up two bills that do not say where they ended**, and that
-  is the next task, before promotion — the Inquiries into Deaths Bill, withdrawn
-  on 24 September 2015, and the Footway Parking and Double Parking Bill, which
-  fell when the session ended on 23 March 2016. Neither has a stage of any kind
-  against it. Session 3 had four of the same shape and you established each from
-  the Parliament's own bill page.
-- **The Footway Parking Bill is not quite the same shape.** Your dataset gives it
-  a Stage 1 vote on 1 March 2016, three weeks before the session ended, where
-  Session 3's two had no Stage 1 date at all. So it got through Stage 1 and was
-  somewhere past it at dissolution, and the loader refuses to run until what
-  happened to it comes from a source that says so.
-- **Everything else about Session 4 checks out**: 86 lines all reviewed, admitted
-  and compared, the error checker empty, and the 160 gaps are those two endings
-  and 158 Stage 1 and Stage 2 dates your dataset supplies at the load.
+- **13 September, in a further session.** Session 4's closure test written —
+  `tools/closure_check_session_4.sql` and the expected answers in
+  `docs/CLOSURE-TESTS.md` — by a session that did none of Session 4's work and
+  wrote nothing to the database, so every expected answer is a prediction.
 
-## Now: the two endings, then promote Session 4
+**13 September, this session. Both of Session 4's loose ends are settled, and
+nothing now stands between Session 4 and the clean sheet.**
+- **The Inquiries into Deaths Bill stopped at Stage 1 and never completed it.**
+  Patricia Ferguson withdrew it on 24 September 2015, writing to the Parliament's
+  clerk and saying so in the chamber the same day. The Justice Committee had
+  reported on it, but the Parliament never voted on whether it agreed with the
+  bill, so there is no date to record. Same as your two withdrawn Session 3
+  bills.
+- **The Footway Parking Bill did get through Stage 1, on 1 March 2016**, agreed
+  without a division. It then sat with no Stage 2 arranged and fell when the
+  session ended on 23 March 2016, so it stopped at Stage 2. **This is your Gaelic
+  Language Bill again** — Stage 1 on 6 March 2003, then dissolution — which is
+  already on the clean sheet in exactly this shape, so it was not a new question
+  after all.
+- **One thing worth your eye.** The Parliament's own page for the Footway Parking
+  Bill says "The Bill fell at Stage 1 on 23 March 2016", which is not what the
+  Official Report says. Read as the site's shorthand for "got no further than
+  Stage 1" the two agree; read literally they do not. The Official Report is
+  taken as the record of what the Parliament decided, and the disagreement is
+  written on the bill's own stage record so nobody can find one without the
+  other. See `DECISIONS.md`.
+- **The closure test's blank is filled in, at 3**, before Session 4 went
+  anywhere near the clean sheet — which is the only order that makes the answer
+  mean anything — and your dataset's reading date for Session 4 is recorded, so
+  the loader now runs and produces exactly the 158 dates the test predicts.
 
-**The order you set holds**: the test is written, and the session that runs it
-must be a third one. So the next session is the promoting one, and it starts
-with the two bills above.
+## Now: promote Session 4
 
-1. **Establish where those two bills ended**, from the Parliament's bill pages,
-   as `db/056` did for Session 3's four. That is yours to settle; the migration
-   that records it is not.
-2. **Write the number into the closure test.** Item 1 of the test carries an N
-   for the stage records those two bills produce, because it cannot be predicted
-   from the factsheet or the dataset. It is filled in before promotion, not
-   after, or the expected answer is derived from the answer.
-3. **Add Session 4's reading date** to `READ_ON` in `tools/phd_stage_dates.py`.
-   The script refuses to run without one, on purpose.
+Nothing is outstanding. Session 4's 86 bills go onto the clean sheet, your Stage
+1 and Stage 2 dates are loaded with them, and then the closure test is run.
+
+1. **Promote Session 4** by `docs/PROMOTION-RUNBOOK.md`, rehearsed first as every
+   promotion has been.
+2. **Load the 158 Stage 1 and Stage 2 dates** from your dataset. The loader has
+   already been run in the dry and produces exactly 158.
+3. **Run the closure test** — `tools/closure_check_session_4.sql`, against
+   `docs/CLOSURE-TESTS.md`. **The session that runs it must not be the session
+   that promotes**, for the same reason the session that wrote it did not do
+   Session 4's work. Nine of its items are sign-offs for you.
+
+After that Session 4 is closed and the clean sheet is 302 bills, which is the
+point at which the counts above the line, and in `HOW-THE-DATABASE-WORKS.md`,
+have to be moved from 216.
 4. **Then promote**, load your Stage 1 and Stage 2 dates, and bring the counts in
    `HOW-THE-DATABASE-WORKS.md` to 302 bills and 86 provenance notes.
 5. **A third session runs the test**, and you sign off.
@@ -135,86 +146,69 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-13 (eighth session of the day)
+## Sanity check, 2026-09-13 (ninth session of the day)
 
-**At opening, everything matched.** 216 bills on the clean sheet — 73, 81 and
-62 — 583 stage records, 71 provenance notes, 8 ways a bill can end, 8 notes for
-readers, 66 migrations numbered without a gap, the error checker empty, the data
+**At opening, everything matched.** 216 bills on the clean sheet — 73, 81 and 62
+— 583 stage records, 302 staging lines all accepted, 667 stage-dates rows, the
+error checker empty, 160 gaps, 66 migrations numbered without a gap, the data
 dictionary regenerating identical to the committed file at 17 tables and 160
-columns, nothing uncommitted, nothing unpushed, and no schema in the database but
-`public`. Session 4's 86 staging lines are admitted and none promoted, which is
-what the last session intended. The gaps list holds 160, all Session 4.
+columns, nothing uncommitted and nothing unpushed. Session 4 admitted and none
+of it promoted, which is what the last session intended.
 
-**Three things the opening check found, all small and all recorded here.**
+**One thing the opening check found**, already recorded by the last session and
+repeated because nothing was done about it: `db/066` carries the same filename as
+`db/063`, `session_4_review.sql`, although one is the review and the other the
+admission. Nothing depends on it; neither is renamed.
 
-- **`db/066` carries the same filename as `db/063`**, `session_4_review.sql`,
-  although it is the admission step and `db/063` is the review. Sessions 1 to 3
-  named theirs apart. Nothing depends on it and neither migration is renamed;
-  said here so nobody reads the two as one.
-- **`STATE.md` said "six wording slips"** among Session 4's eight hand pairings.
-  It is four: four Budget Acts numbered within the session and four wording
-  slips. `MANUAL_PAIRS` in `tools/phd_stage_dates.py` has all eight.
-- **The gaps list is 158 dates and two bills**, not 160 dates. The two are the
-  item below.
-
-**What this session did.** Wrote Session 4's closure test:
-`tools/closure_check_session_4.sql` and the expected answers in
-`docs/CLOSURE-TESTS.md`, twenty-one mechanical items in the script, six outside
-it and nine sign-offs. **Nothing was written to the database, and no migration
-was made.** Session 4 stands exactly where the last session left it.
-
-**What writing the test turned up, which is the next session's first task.**
-
-- **Two Session 4 bills have no stage record of any kind**, so nothing says where
-  they ended: line 296, the Inquiries into Deaths Bill, withdrawn 24 September
-  2015; and line 300, the Footway Parking and Double Parking Bill, fallen at
-  dissolution 23 March 2016. `v_stage_date_gaps` has reported both since Session
-  4 was loaded, under `where the bill ended is not recorded`; they were not on
-  the review list. `db/056` is the shape of the fix.
-- **The Footway Parking Bill is a new shape.** The dataset dates its Stage 1 at
-  1 March 2016, and `tools/phd_stage_dates.py` refuses on exactly that case —
-  "ended before Stage 3, and the dataset dates stage 1 2016-03-01, a stage
-  nothing on the stage-dates sheet says it completed". Session 3's two
-  dissolution bills had no Stage 1 date, so this has not arisen before.
-- **`READ_ON` in `tools/phd_stage_dates.py` has no date for Session 4**, and the
-  script refuses to run without one.
+**What this session did.** Established where Session 4's two bills ended, from
+the sources; recorded them in `db/067`; filled the closure test's N in at 3; and
+added Session 4 to `READ_ON`. **Nothing was promoted and the clean sheet did not
+move.**
 
 **Tested rather than assumed.**
 
-- **The script runs clean against the live database** and returns every one of
-  its twenty-one results without an error. It reads only. Run now it answers for
-  a database Session 4 is not in, which is the point: the expected answers were
-  written before anything was promoted.
-- **Every expected answer is derived, and the derivation is written beside it.**
-  The reconciliation table is read off page 9 of the Session 4 factsheet, not out
-  of the database: Acts 67 / 6 / 5 / 1 = 79, withdrawn 0 / 1 / 0 / 0 = 1, fallen
-  0 / 6 / 0 / 0 = 6, total 67 / 13 / 5 / 1 = 86. The 158 stage dates the load
-  supplies were counted in the workbook itself — 85 of its 86 Session 4 rows
-  carry a Stage 1 date and 79 a Stage 2 date — not in the database.
-- **The dataset's fingerprint is unchanged** at sha256 `a9596ecf…57ed8b94`,
-  which is Session 3's item 22. Session 4 settled both of its disagreements
-  without editing the workbook, so that item is not reopened.
-- **No Session 4 title appears in the Session 5 factsheet**, checked by matching
-  all 86 against the text of that PDF rather than assumed. So Session 4 does not
-  exercise the carry-over question, and the closure test says so.
-- **The extraction environment** was rebuilt in the session scratchpad from
-  `tools/requirements.txt` to read the factsheets.
+- **`db/067` was rehearsed twice inside `BEGIN … ROLLBACK` before it was
+  applied**, and the staging sheet was 84 Session 4 stage rows before the
+  rehearsal and 84 after it, so nothing leaked. The rehearsal printed the three
+  rows in full and the counts the closure test asks for. It was applied only
+  after that.
+- **The migration refuses rather than guesses.** It checks the titles of the
+  lines it names, that they are in Session 4, that they ended in one of the two
+  ways, that the gaps list is asking about those two bills and no others, and
+  that neither already has a stage. Afterwards it checks that no bill anywhere is
+  still unanswered, that the Footway Parking Bill's Stage 1 is a completed
+  1 March 2016, that the two endings are undated and uncompleted, that the two
+  bills produced exactly 3 rows, that Session 4 now has 87 accepted stage dates,
+  that the error checker is empty, and that the clean sheet is still 216.
+- **The endings come from named sources, quoted on the rows themselves**, not
+  summarised: the Official Report of 1 March 2016 for the Footway Parking Bill's
+  Stage 1 result, and the bill page plus Patricia Ferguson's own words of
+  24 September 2015 for the withdrawal.
+- **`tools/phd_stage_dates.py` was run for Session 4 and writes 158 stage rows**,
+  the number the closure test predicts, with the dataset's fingerprint unchanged
+  at sha256 `a9596ecf…57ed8b94`. Before `db/067` the script refused, naming the
+  Footway Parking Bill's Stage 1. Nothing was loaded: the CSV went to the session
+  scratchpad.
+- **The closure test's N was worked out from the sources and the arithmetic,
+  not from a promoted database**, because Session 4 is still off the clean sheet.
+  828 is 670 accepted staging rows plus the 158 the load supplies, and it agrees
+  with item 11's four sources added together: `phd` 522, factsheet 260, Official
+  Report 26, bill page 20.
 
 **At close.**
 
 - **216 bills, 583 stage records, 71 provenance notes on the clean sheet**,
-  unchanged from opening, as they must be. 302 staging lines and 667 stage-dates
-  rows, unchanged. The error checker is empty and the gaps list holds 160,
-  unchanged.
-- **66 migrations without a gap**, none added, the data dictionary regenerating
+  unchanged from opening, as they must be. 302 staging lines, unchanged. 670
+  stage-dates rows, three more than at opening. The error checker is empty and
+  the gaps list holds 158 — the two endings gone, and 158 dates the load
+  supplies.
+- **67 migrations without a gap**, one added, the data dictionary regenerating
   identical to the committed file.
 - **Nothing uncommitted, nothing unpushed, no working copy in the database.**
 
-**What the next session must do first.** Establish where the two bills above
-ended, write the resulting stage-record count into item 1 of Session 4's closure
-test, add Session 4 to `READ_ON`, and only then promote. A test whose expected
-answer is filled in after the promotion it is testing is worth nothing, which is
-the same reason the test was written before the promotion at all.
+**What the next session must do first.** Promote Session 4 and load its 158
+dates. Then a session that is not the promoting one runs
+`tools/closure_check_session_4.sql` against `docs/CLOSURE-TESTS.md`.
 
 **What the next session should be wary of.** The counts above the line and in
 `HOW-THE-DATABASE-WORKS.md` still say 216 bills and 71 provenance notes, and they

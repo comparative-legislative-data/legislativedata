@@ -47,15 +47,18 @@ work at either step. See `DECISIONS.md`, 2026-09-13.
 Stage 2 dates are loaded. Before that the counts are of a session half admitted
 and the expected answers do not apply.
 
-### Before Session 4 can be promoted at all
+### Before Session 4 can be promoted at all — both done, 2026-09-13
 
 Writing this test turned up two things Session 4's review did not settle.
-Neither is a matter of opinion, and both have to be done before promotion, not
-before the test is run.
+Neither was a matter of opinion, and both had to be done before promotion, not
+before the test is run. **Both were done on 2026-09-13, in `db/067` and in
+`READ_ON`, and this section is kept as it was written with the answers added,
+so that a reader can see the test's N was filled in from the sources and not
+from the database.**
 
-**First, two bills do not say where they ended.** The error checker is empty and the
-gaps list holds 160, of which 158 are Stage 1 and Stage 2 dates the load
-supplies. **The other two are these:**
+**First, two bills did not say where they ended.** The error checker was empty and the
+gaps list held 160, of which 158 are Stage 1 and Stage 2 dates the load
+supplies. **The other two were these:**
 
 | Line | Bill | Ending | Concluded |
 |---|---|---|---|
@@ -77,18 +80,46 @@ refuses on exactly this: *"ended before Stage 3, and the dataset dates stage 1
 2016-03-01 — a stage nothing on the stage-dates sheet says it completed."* What
 that bill's stages were has to come from the source that says so.
 
-**This is why item 1 below carries an N.** Whether those two bills produce two
-stage records or three or four is not predictable from the fact sheet, the
-dataset or the rules — it turns on what the Parliament's bill pages say, which
-is the owner's to establish. **The session that records them writes the number
-into this test, before promotion.** It is not for the marking session to work
-out, and a test whose expected answer is derived after the fact is worth
-nothing.
+**This is why item 1 below carried an N.** Whether those two bills produce two
+stage records or three or four was not predictable from the fact sheet, the
+dataset or the rules — it turns on what the sources say, which is the owner's to
+establish. **The session that records them writes the number into this test,
+before promotion.** It is not for the marking session to work out, and a test
+whose expected answer is derived after the fact is worth nothing.
 
-**Second, `tools/phd_stage_dates.py` has no reading date for Session 4.** `READ_ON`
-holds 1, 2 and 3, and the script refuses to run without one — deliberately, so
-that a date supplied on the command line is not a date recorded nowhere. Add the
-day the dataset was read for Session 4's bills.
+**N is 3, settled on 2026-09-13 and recorded in `db/067`.** The Inquiries into
+Deaths Bill produces one row and the Footway Parking Bill two:
+
+| Bill | Stage | Date | Ends here | Source |
+|---|---|---|---|---|
+| Inquiries into Deaths | Stage 1 | none | yes | the bill page |
+| Footway Parking | Stage 1 | 1 March 2016 | no, completed | Official Report, 1 March 2016 |
+| Footway Parking | Stage 2 | none | yes | Official Report, 1 March 2016 |
+
+The Inquiries into Deaths Bill was withdrawn by Patricia Ferguson on 24 September
+2015, in writing to the Parliament's clerk and announced the same day in the
+chamber, before the Parliament had debated or decided its general principles. The
+Justice Committee had reported on it at Stage 1, but the stage was never
+completed, so there is no date — Session 3's two withdrawn bills exactly.
+
+The Footway Parking Bill's general principles **were** agreed, on 1 March 2016:
+motion S4M-15759 in Sandra White's name, put at Decision Time and agreed to
+without a division. So Stage 1 was completed, on the day the dataset gives, and
+the bill stopped at Stage 2, undated. That is Session 1's Gaelic Language Bill
+again, already on the clean sheet in this shape, so it is not a new question.
+
+The Parliament's current bill page for the Footway Parking Bill says *"The Bill
+fell at Stage 1 on 23 March 2016"*, which read literally contradicts the Official
+Report. It is the site's coarse label — the bill got no further than Stage 1 —
+and the Official Report is what records the decision. That is the order this
+project already uses, and the owner settled it on 2026-09-13.
+
+**Second, `tools/phd_stage_dates.py` had no reading date for Session 4.** `READ_ON`
+held 1, 2 and 3, and the script refuses to run without one — deliberately, so
+that a date supplied on the command line is not a date recorded nowhere. **Added
+on 2026-09-13 as 2026-09-13**, the day the dataset was read for Session 4's
+bills. With `db/067` applied the script runs and writes 158 stage rows, which is
+what item 11 predicts.
 
 **The one item an outside change can move** is item 24, the dataset's
 fingerprint. Nothing else here is reopened by later work.
@@ -103,22 +134,24 @@ tests rather than re-derived.
 Run `tools/closure_check_session_4.sql`. It reads only and changes nothing.
 Compare each numbered result against the expected answer.
 
-**1. Counts.** bills 302, stage_records 825 + N, provenance_notes 86,
-checker_problems 0, gaps 0, staging_lines 302, stage_date_rows 825 + N.
+**1. Counts.** bills 302, stage_records 828, provenance_notes 86,
+checker_problems 0, gaps 0, staging_lines 302, stage_date_rows 828.
 
 - **302** is 216 plus the Session 4 fact sheet's own total of 86.
-- **825 + N** is 583 plus Session 4's 242 + N, and the 242 should be checked as
+- **828** is 583 plus Session 4's 245, and the 245 should be checked as
   a derivation: 74 public Acts × 3 stages = 222; 5 Private Acts × 3 stages = 15;
-  the 5 bills rejected at Stage 1 have one each = 5. 222 + 15 + 5 = 242. N is
-  the two bills above, and is nought until they are recorded.
-- **The same 825 + N** for stage_date_rows, and that is not a coincidence: every
+  the 5 bills rejected at Stage 1 have one each = 5; the two endings above have
+  3 between them. 222 + 15 + 5 + 3 = 245. The 3 is the N of the section above,
+  settled in `db/067`.
+- **The same 828** for stage_date_rows, and that is not a coincidence: every
   accepted stage-date row is carried to exactly one stage record, so once
   Session 4's 84 loaded rows are promoted the two counts are equal. They are 667
   and 583 today because Session 4's 84 are on the staging sheet and not yet
   carried.
-- **Of Session 4's 242, 84 are already on the staging sheet** — 74 Stage 3
-  dates and 5 Final Stage dates off the fact sheet, and 5 Stage 1 dates read in
-  the Official Report — and **158 arrive with the dataset**, being 79 bills ×
+- **Of Session 4's 245, 87 are already on the staging sheet** — 74 Stage 3
+  dates and 5 Final Stage dates off the fact sheet, 5 Stage 1 dates read in
+  the Official Report, and the 3 endings of `db/067` — and **158 arrive with the
+  dataset**, being 79 bills ×
   two stages. The 79 is every bill that reached Stage 3; the dataset holds a
   Stage 2 date for exactly those 79 of its 86 Session 4 rows, which was counted
   in the dataset itself rather than in the database.
@@ -138,7 +171,7 @@ From the fact sheets' totals and the rule that nothing reaches the clean sheet
 unaccepted.
 
 **3. Every stage-date row.** Session 1: 200 accepted, 200 carried. Session 2:
-213, 213. Session 3: 170, 170. Session 4: 242 + N, 242 + N. No other status.
+213, 213. Session 3: 170, 170. Session 4: 245, 245. No other status.
 
 **4. A recorded difference with no adjudication.** 0. Session 4 recorded two —
 the Land Reform Act's Royal Assent and the National Galleries Act's introduction
@@ -232,13 +265,12 @@ means one got past the checker, and the title is the half that matters: it is
 what the site displays.
 
 **10. Stage records per bill.** passed 3 stages × 79; rejected at Stage 1
-1 × 5; withdrawn and fell at dissolution as the two endings settle it. This is
-item 1's derivation seen per bill; the two must agree.
+1 × 5; the withdrawn Inquiries into Deaths Bill 1, and the Footway Parking Bill
+2. This is item 1's derivation seen per bill; the two must agree.
 
 **11. Where every Session 4 stage date came from.** `phd` 158 (all dated),
-`spice_factsheet_legislation` 79 (all dated), `official_report` 5 (all dated),
-plus whatever source the two endings come from (undated), and nothing recorded
-as a stage that never happened.
+`spice_factsheet_legislation` 79 (all dated), `official_report` 7 (1 undated),
+`bill_page` 1 (undated), and nothing recorded as a stage that never happened.
 
 - **158** is 79 bills × two stages, the 79 being every bill that reached Stage 3
   — which in Session 4 is every bill that passed, there being none rejected
@@ -249,11 +281,14 @@ as a stage that never happened.
   The one row with no Stage 1 date at all is the withdrawn Inquiries into Deaths
   Bill.
 - **79** is 74 passing dates and 5 Final Stage dates, off the fact sheet.
-- **5** is the five Stage 1 decisions read in the Official Report.
+- **7** is the five Stage 1 decisions read in the Official Report, plus the
+  Footway Parking Bill's two rows from `db/067` — its Stage 1, dated 1 March
+  2016, and its undated Stage 2.
+- **1** is the Inquiries into Deaths Bill's undated Stage 1, from the bill page.
 
 Across the whole clean sheet: `phd` 522, `spice_factsheet_legislation` 260,
-`official_report` 24 (2 undated), `bill_page` 19 + N (all undated), 2 recorded
-as stages that never happened.
+`official_report` 26 (3 undated), `bill_page` 20 (all undated), 2 recorded
+as stages that never happened. Those four add to 828, which is item 1's total.
 
 **12. Two accepted rows for the same stage.** 0, in every session, and the
 listing that follows it returns nothing. Session 4's five Stage 1 dates come from
@@ -357,9 +392,10 @@ not.
 
 The listing that follows shows the seven Session 4 bills that did not pass. Five
 name Stage 1, dated from the Official Report, each date equal to the bill's
-`date_concluded` as item 13 sets out. The withdrawn Inquiries into Deaths Bill
-and the Footway Parking Bill name the stage the owner's source says, undated —
-neither ended on a decision of the Parliament.
+`date_concluded` as item 13 sets out. The other two are undated, because neither
+ended on a decision of the Parliament: the Inquiries into Deaths Bill names
+**Stage 1**, which it never completed, and the Footway Parking Bill names
+**Stage 2**, which it never reached.
 
 **19. Every stage date held for a Session 4 bill that did not pass.** Five rows
 for the five rejected at Stage 1, each at stage_order 1, `completed` false,
@@ -369,10 +405,13 @@ place of the Official Report's and this item fails — even though all five agre
 to the day, because what is being checked is that the load left the more primary
 source in place.
 
-Then the rows the two endings add. **The Footway Parking Bill is the one to look
-at**: the dataset dates its Stage 1 at 1 March 2016 and nothing else on the sheet
-dates that stage, so whatever appears must cite the source that says so and not
-the dataset.
+Then the three rows the two endings add. **The Footway Parking Bill is the one to
+look at**: the dataset dates its Stage 1 at 1 March 2016 and, until `db/067`,
+nothing else on the sheet dated that stage. Its Stage 1 must read `completed`
+true, `fell_here` false, dated 2016-03-01, and **`official_report`, not `phd`** —
+the dataset agrees to the day, and this checks that the load left the more
+primary source in place. Its Stage 2 and the Inquiries into Deaths Bill's Stage 1
+are both undated, `completed` false, `fell_here` true.
 
 **20. The Transplantation Bill's motion as amended, kept in full.** One row.
 characters **1376**, and all three of `keeps_the_resolution`,
@@ -393,11 +432,12 @@ that no longer mentions a soft opt-out means it has been paraphrased. See
 |---|---|---|---|
 | government | stage_1 67 | stage_2 67 | stage_3 67 |
 | committee | stage_1 1 | stage_2 1 | stage_3 1 |
-| members | stage_1 11 + N | stage_2 6 + N | stage_3 6 |
+| members | stage_1 13 | stage_2 7 | stage_3 6 |
 | private | preliminary 5 | consideration 5 | final 5 |
 
-The members' 11 at position 1 is 6 bills that passed plus 5 rejected at Stage 1,
-before the two endings are recorded. **Session 4 has five Private Bills, more
+The members' 13 at position 1 is 6 bills that passed, 5 rejected at Stage 1, and
+the two endings of `db/067`; the 7 at position 2 is the 6 that passed plus the
+Footway Parking Bill's undated Stage 2. **Session 4 has five Private Bills, more
 than any session so far**, and a Private Bill's stages are Preliminary,
 Consideration and Final — never Stage 1, 2 and 3. `stage_1` appearing against
 `private` means the loader has used the public names, and the comparison of a
@@ -571,8 +611,11 @@ day it is given, and nowhere else.
   S4M-15128.1 is named but not printed; the page the division was read on gives
   the question the Presiding Officer put and the two results, and not the
   amendment's own text.
-- **Whether the Parliament's bill pages are right** about the two endings, or
-  whether the web archive's copy is the page as it stood.
+- **Whether the Official Report and the bill page are right** about the two
+  endings. The Footway Parking Bill in particular is recorded against the
+  Official Report and *against* the current bill page's own label, which says it
+  fell at Stage 1; the reasoning is in the section above, and a reader who thinks
+  the label means what it says would code that bill differently.
 - **Bills carried over between sessions.** Four bills appear in two fact sheets,
   and the double-count guard is not built. Nothing in Session 4 trips it —
   `STATE.md` has it due before Session 6 is loaded — so this test does not

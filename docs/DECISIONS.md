@@ -7,6 +7,73 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — Where Session 4's two bills ended, and a bill page that disagrees with the Official Report
+
+### The Inquiries into Deaths Bill stopped at Stage 1, undated
+
+Withdrawn by Patricia Ferguson on 24 September 2015. The Parliament's bill page
+records the ending and no stage — *"On 24 September 2015 the Bill was
+withdrawn."* — and the Official Report for that day carries her own account of
+it, given during the Stage 1 debate on the Government's Inquiries into Fatal
+Accidents and Sudden Deaths etc. Bill: *"In the spirit of that collaboration, I
+wrote today to the Parliament's clerk to withdraw my bill with immediate
+effect."*
+
+The Justice Committee had reported on the bill at Stage 1 (14th Report, 2015),
+but the Parliament never debated or decided its general principles, so the stage
+was never completed and no date is recorded. This is Session 3's Criminal
+Sentencing (Equity Fines) and Palliative Care Bills again, and `db/067` records
+it the way `db/056` recorded those.
+
+### The Footway Parking Bill completed Stage 1 and stopped at Stage 2, undated
+
+The Parliament agreed its general principles on 1 March 2016: motion S4M-15759 in
+Sandra White's name, put at Decision Time and agreed to without a division.
+*"Motion agreed to, That the Parliament agrees to the general principles of the
+Footway Parking and Double Parking (Scotland) Bill."* So Stage 1 was completed,
+on the day the owner's dataset also gives. No Stage 2 was scheduled and the bill
+fell when the session ended on 23 March 2016, so it stopped at Stage 2, undated.
+
+**This is not a new shape.** Session 1's Gaelic Language Bill is already on the
+clean sheet exactly this way: Stage 1 completed 6 March 2003, fell at Stage 2 at
+dissolution. What made it look new was that Session 3's two dissolution bills had
+no Stage 1 date at all, so the comparison reached for the wrong precedent.
+
+### Where a bill page and the Official Report disagree, the Official Report wins
+
+The Parliament's current bill page for the Footway Parking Bill says *"The Bill
+fell at Stage 1 on 23 March 2016"*. Read literally that contradicts the Official
+Report, which records the general principles as agreed three weeks earlier.
+
+**It is the site's coarse label** — the bill got no further than Stage 1 — **and
+the Official Report is the record of what the Parliament decided.** That is the
+order this project already uses and `tools/phd_stage_dates.py` already states:
+the Official Report where the Parliament decided, the bill page where it did not.
+A bill page is a summary of a bill's life; the Official Report is the proceeding
+itself.
+
+The reason this is written down rather than just done: a later reader looking at
+the bill page alone would code that bill differently, and would be entitled to
+think the database wrong. The disagreement is quoted on the stage record itself,
+so it cannot be found without also finding the answer.
+
+### The closure test's N is 3, filled in before promotion
+
+`docs/CLOSURE-TESTS.md` carried an N in four places because the writing session
+could not predict how many stage records the two bills would produce. Three: one
+for the Inquiries into Deaths Bill, two for the Footway Parking Bill. Item 1's
+counts become 828, Session 4's part 245, and item 11 and item 21 are split out by
+source and by stage. Filled in on the strength of the sources, before Session 4
+went anywhere near the clean sheet, which is the only order under which the
+number is worth anything.
+
+`READ_ON` in `tools/phd_stage_dates.py` now holds 4: 2026-09-13. With `db/067`
+applied the script runs and writes exactly the 158 stage rows the test predicts;
+before it, the script refused, naming the Footway Parking Bill's Stage 1 as a
+stage nothing on the sheet said it had completed. That refusal was doing its job.
+
+---
+
 ## 2026-09-13 — Session 4's closure test, and two bills that do not say where they ended
 
 ### The test is written, and Session 4 stays off the clean sheet until it is run
