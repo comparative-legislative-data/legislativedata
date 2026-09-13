@@ -7,6 +7,88 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — Session 4's review answered, and two faults in how a citation is read
+
+The owner answered all eight items on Session 4's review list. Each was then
+read in the source it names and the words quoted on the line (`db/063`).
+
+### Why the five bills fell
+
+All five were rejected at Stage 1, and four by the ordinary route: the member in
+charge's motion put and disagreed to.
+
+| Bill | Decided | Motion | Result as recorded |
+|---|---|---|---|
+| Alcohol (Licensing, Public Health and Criminal Justice) | 4 Feb 2016 | S4M-14673, Richard Simpson | For 36, Against 59, Abstentions 12 |
+| Assisted Suicide | 27 May 2015 | S4M-13258, Patrick Harvie | For 36, Against 82, Abstentions 0 |
+| Criminal Verdicts | 25 Feb 2016 | S4M-15429 | For 28, Against 80, Abstentions 0 |
+| Pentland Hills Regional Park Boundary | 26 Jan 2016 | S4M-15130, Christine Grahame | For 8, Against 105, Abstentions 0 |
+
+Every one of the four concluded on the day the Official Report gives, which the
+migration checks before writing anything.
+
+**The fifth is the second case of the other route.** The Transplantation
+(Authorisation of Removal of Organs etc.) (Scotland) Bill's own motion, S4M-15128
+in the name of Anne McTaggart, was amended by S4M-15128.1 in the name of Maureen
+Watt into a motion that did not agree to the general principles, and then agreed
+to as amended on 9 February 2016: "For 59, Against 56, Abstentions 0. Amendment
+agreed to", then "For 65, Against 48, Abstentions 2. Motion, as amended, agreed
+to." The motion carried and the bill fell. The owner predicted this from the
+shape of the record before it was read, and was right.
+
+**What is not recorded, and why.** The amendment's own wording is not printed on
+the Official Report page for that day — the page gives the question the Presiding
+Officer put and both results, and nothing else. The note quotes what is there and
+does not reconstruct the rest. If the amendment's text is wanted for a reader it
+has to come from the Business Bulletin or the bill's own page.
+
+### The two dates
+
+- **Land Reform (Scotland) Act 2016, Royal Assent: 22 April 2016.** The factsheet
+  prints 22 March and is wrong. legislation.gov.uk, the document of record for
+  Royal Assent, states "The Bill for this Act of the Scottish Parliament was
+  passed by the Parliament on 16th March 2016 and received Royal Assent on 22nd
+  April 2016". The owner's dataset agrees with it.
+- **National Galleries of Scotland Act 2016, introduction: 25 June 2015.** The
+  factsheet is right and the dataset a day out at 26 June. Settled on the owner's
+  own record: the Parliament's page for that bill redirects into the National
+  Records of Scotland web archive, which blocks reading, so it could not settle
+  it. Recorded with source `manual`, which exists for exactly this.
+
+### Two faults in how a cited value is read, found by building the citation
+
+A value checked at review is carried to promotion in a fixed form —
+`Checked: <column> = <value> (<source>, <address>, <date read>)` — and promotion
+turns each into a provenance note on the clean sheet. Settling the Higher
+Education Governance Act's title needed the first citation this database has
+whose value contains a bracket, and that broke it twice.
+
+- **The value pattern stopped at the first `(`.** So
+  `Checked: short_title = Higher Education Governance (Scotland) Act 2016 (...)`
+  matched nothing at all, and promotion would have written **no provenance note
+  and raised nothing**. A citation that is simply not seen is worse than one that
+  fails, because nothing says so.
+- **Widening it to `.+?` did not work either, and the reason is a real trap.**
+  PostgreSQL sets the greediness of a whole regular expression from its *first*
+  quantifier, so a lazy `.+?` later in the pattern behaves greedily. One citation
+  swallowed the next, and a line carrying two citations produced one note. The
+  value is now `[^\n]+?`, which cannot cross a line, and explanatory prose is
+  kept off the citation line for the same reason.
+- **`db/063` checks its own citations**: it counts the `Checked:` lines on every
+  Session 4 line and requires the same number to be readable by promotion's own
+  pattern. That check is what caught the second fault.
+
+**The standard provenance sentence changed with it.** It named the raw column the
+factsheet's words are kept in, worked out from the column's own name, which gives
+`bill_candidate.raw_short_title` and `raw_asp_number` — neither of which exists.
+It now says the words are kept in the raw_ columns of `bill_candidate`, which is
+true of every column. **Sessions 1 to 3's stored notes keep the old sentence
+until they are next re-promoted**, so the two wordings coexist. Whether to bring
+them into line now is the owner's, under the standing position that a change to a
+provenance note goes to them individually.
+
+---
+
 ## 2026-09-13 — An Act number carries its year, and two later-session questions settled
 
 Three things settled before Session 4 was read in. Only the first is built,

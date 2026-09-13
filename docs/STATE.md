@@ -19,7 +19,7 @@ and 2 dates are added from your PhD.
 | 1 | 73 bills | yes | yes | yes; **closed** |
 | 2 | 81 bills | yes | yes | yes; **closed** |
 | 3 | 62 bills | yes | yes | yes; **closed** |
-| 4 | **86 bills** | **needs you** | no | no |
+| 4 | 86 bills | list cleared; **needs your sign-off** | no | no |
 | 5 | read in full | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
@@ -72,38 +72,34 @@ four mechanical checks and all nine of your sign-offs.
   a reconsideration was agreed is kept on the stage's detail note, not as a date
   anything is measured from.
 
-## Now: your review of Session 4
+## Now: sign off Session 4's 86 lines
 
-Session 4's 86 bills are on the staging sheets and compared. Nothing has reached
-the clean sheet. **Eight things wait for you**, and they are the whole review
-list:
+**The review list is empty.** You answered all eight items and each was read in
+the source it names, with the words quoted on the line (`db/063`):
 
-**Five bills the factsheet says fell, without saying why** — the Official
-Report's to answer, as in every session. A sixth, the Footway Parking and Double
-Parking Bill, is already proposed as fallen at dissolution: it concluded on 23
-March 2016, the session's last day.
+- **All five bills that fell were rejected at Stage 1.** Four in the ordinary
+  way — the member's motion put and disagreed to. The fifth, the Transplantation
+  Bill, is the second case of the other route: its own motion amended into one
+  that did not agree to the general principles and then agreed to as amended, so
+  the motion carried and the bill fell. You called that before it was read.
+- **Land Reform's Royal Assent is 22 April 2016.** The factsheet is wrong.
+- **National Galleries' introduction is 25 June 2015.** The factsheet is right
+  and your dataset a day out, recorded on your own record because the
+  Parliament's page for that bill cannot be read.
+- **Higher Education Governance is 2016 asp 15**, title and number both.
 
-- Alcohol (Licensing, Public Health and Criminal Justice) (Scotland) Bill
-- Assisted Suicide (Scotland) Bill
-- Criminal Verdicts (Scotland) Bill
-- Pentland Hills Regional Park Boundary Bill
-- Transplantation (Authorisation of Removal of Organs etc.) (Scotland) Bill
+**What is left is yours, and nothing else is.** Promotion refuses while the 86
+lines are still marked new: accepting them is your sign-off that you have looked,
+and it is not mine to give. Session 3's took you two days. When they are
+accepted, the session is promoted and your Stage 1 and Stage 2 dates loaded.
 
-**Two dates where your dataset and the factsheet disagree.**
-
-- **Land Reform (Scotland) Act 2016, Royal Assent.** The factsheet says 22 March
-  2016, your dataset says 22 April. legislation.gov.uk, which is the document of
-  record for Royal Assent, says *"received Royal Assent on 22nd April 2016"*.
-  Your dataset is right. Yours to confirm, then it is written with that citation.
-- **National Galleries of Scotland Act 2016, introduction.** The factsheet says
-  25 June 2015, your dataset says 26 June. One day, and I cannot settle it: the
-  Parliament's page for this bill redirects into the National Records of Scotland
-  web archive, which blocks automated reading. If you know it or can reach the
-  page, that settles it.
-
-**One Act title to accept.** Higher Education Governance (Scotland) Act, settled
-as 2016 asp 15 from legislation.gov.uk; the checker holds the line until it is
-written. Then admitted, promoted, and your Stage 1 and 2 dates loaded.
+**One thing to decide, and it is small.** Settling the Higher Education title
+needed the first citation whose value contains a bracket, which turned up two
+faults in how a citation is read — both fixed. The standard sentence on a
+provenance note changed with them, because it had been naming a column that does
+not exist. Sessions 1 to 3's stored notes keep the old sentence until those
+sessions are next re-promoted. Say whether to bring them into line now or leave
+them.
 
 ## After that, in order
 
@@ -167,11 +163,20 @@ dates, 1 about a stage — match the database exactly.
 **What this session did.** `db/062`: the two Acts whose number carries no year
 settled from legislation.gov.uk, and the checker made to refuse such a number.
 Session 4's 86 lines read onto the staging sheets and compared against the PhD
-dataset. Two tool changes, both in `tools/`: eight Session 4 hand pairings, and
-the removal of the session gate that stopped hand pairings working at all after
-Session 2. **Nothing was written to the clean sheet.**
+dataset. `db/063`: the owner's eight answers built, each read in the source it
+names. Three tool changes: eight Session 4 hand pairings; the removal of the
+session gate that stopped hand pairings working at all after Session 2; and two
+faults in how promotion reads a cited value, with the provenance sentence that
+went with them. **Nothing was written to the clean sheet.**
 
 **Tested rather than assumed.**
+
+- `db/063` was rehearsed three times and refused twice, both times on a real
+  fault: a citation promotion could not read, and then the Official Report
+  address sitting on the stage row but not on the line — which is exactly what
+  `db/055` got wrong and `db/058` had to repair. It checks its own citations
+  against promotion's own pattern, and checks that the address on the line is the
+  one the stage row cites.
 
 - `db/062` was rehearsed inside a transaction that was thrown away, then the
   rebuilt checker was diffed against the live one. The only differences were the
@@ -189,10 +194,13 @@ Session 2. **Nothing was written to the clean sheet.**
 
 - **216 bills, 583 stage records, 71 provenance notes on the clean sheet**,
   unchanged from opening, as they must be.
-- **302 staging lines and 662 stage-dates rows**, up by Session 4's 86 and 79.
-- **The error checker holds 8 items, and they are the review list**: 5 fallen
-  bills needing an outcome, 2 disagreeing dates needing adjudication, 1 Act
-  number needing its year written.
+- **302 staging lines and 667 stage-dates rows**, up by Session 4's 86 lines and
+  84 stage rows — 79 passing dates from the factsheet, and 5 from the Official
+  Report for the bills that fell.
+- **The error checker is empty.** It held 8 items — the review list — and
+  `db/063` answered every one.
+- **Session 4's 86 lines are all marked new**, which is what stops promotion.
+  Accepting them is the owner's sign-off and was not given here.
 - **The gaps list holds 160**, up from empty, and every one is a Session 4
   Stage 1 or Stage 2 date not yet entered. They arrive from the owner's dataset
   after promotion, as in every session, and a gap does not stop promotion.
