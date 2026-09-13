@@ -179,8 +179,9 @@ stages that never happened.
 listing that follows it returns nothing. A non-zero answer for Session 3 means
 the loader wrote a second Stage 1 row for one of the four bills the Official
 Report already dates. That is not automatically wrong — the precedence rule
-exists for it — but item 19 then has to be read very carefully, because one of
-those four is a disagreement, not a duplicate.
+exists for it, and since the Autism correction all four agree to the day — but
+item 19 then has to say `official_report` for every one of them, and the
+duplicate rows want an explanation.
 
 **13. How each Stage 1 rejection came about.** `member_motion_disagreed` 11
 bills, 0 with a note; `member_motion_amended_agreed` 1 bill, 1 with a note;
