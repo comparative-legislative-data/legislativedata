@@ -192,7 +192,10 @@ Session 2. **Nothing was written to the clean sheet.**
 - **302 staging lines and 662 stage-dates rows**, up by Session 4's 86 and 79.
 - **The error checker holds 8 items, and they are the review list**: 5 fallen
   bills needing an outcome, 2 disagreeing dates needing adjudication, 1 Act
-  number needing its year written. The gaps list is untouched at 108.
+  number needing its year written.
+- **The gaps list holds 160**, up from empty, and every one is a Session 4
+  Stage 1 or Stage 2 date not yet entered. They arrive from the owner's dataset
+  after promotion, as in every session, and a gap does not stop promotion.
 - **62 migrations without a gap**, the data dictionary regenerating identical to
   the committed file.
 - **Nothing uncommitted, nothing unpushed, no working copy in the database.**
