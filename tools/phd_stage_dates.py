@@ -1,38 +1,50 @@
 #!/usr/bin/env python3
-"""Turn the owner's PhD dataset into stage-dates rows for Sessions 1 and 2.
+"""Turn the owner's PhD dataset into stage-dates rows for one or more sessions.
 
 The dataset is one line per bill: Session, Type, Name, Introduction date,
 Stage 1 vote, Stage 2 completed, Stage 3 vote, Royal Assent. It is not in this
 repository (DECISIONS.md, 2026-09-11); its name and fingerprint are recorded
 there, and this script prints the fingerprint of the file it read.
 
-What it writes, as a CSV for tools/load_phd_stage_dates.sql:
+What it writes, as a CSV for tools/load_phd_stage_dates.sql, turns on what
+happened to the bill:
 
-  - For every bill that passed: its first and second stage, completed, on the
-    dataset's dates, under the names that bill type uses.
-  - For the bills that did not pass: what the owner established from the
-    Parliament's own pages, recorded below, one row for the stage each bill
-    stopped at, plus any stage it completed first. No date is recorded on a
-    stage a bill did not complete: none of them ended on a decision of the
-    Parliament.
+  - A bill that reached Stage 3 -- whether it passed there or was rejected
+    there -- completed the two stages before it, so its first and second stage
+    are written, completed, on the dataset's dates, under the names that bill
+    type uses.
+  - A bill that ended before Stage 3 has the stage it ended at recorded from
+    the source that says so, not from the dataset: the Official Report where
+    the Parliament decided, and the Parliament's own bill page where it did
+    not. Nothing is written for it here. For Sessions 1 and 2 those answers are
+    in ANSWERS below, which is how those sessions got them; from Session 3 on
+    they are on the stage-dates sheet already, and this script checks that they
+    are rather than assuming it.
   - For the Session 2 Robin Rigg Act: a note for the bill, not a stage row.
 
-  Nothing is written for the eleven bills rejected at Stage 1: their Stage 1
-  date is already held from the Official Report, and the dataset agrees with
-  ten of them (the eleventh is blank). Stage 3 stays the factsheet's.
+  Where a stage is already held from another source and the dataset also dates
+  it, the dataset's date is not written -- the Official Report and the bill
+  page come first -- but the two are compared, and a disagreement stops the
+  run. That is what turned up the Autism Bill's Stage 1 date on 13 September.
 
 Bills are matched to staging lines on session, tidied name and introduction
-date. Seven pairs differ in wording enough to need naming here. The script
-refuses to write anything unless all 154 bills match one to one.
+date. Pairs that differ in wording enough to need naming are listed in
+MANUAL_PAIRS. The script refuses to write anything unless every bill in the
+sessions asked for matches one to one.
 
-Usage:  python3 tools/phd_stage_dates.py [XLSX] --csv OUT.csv
+Usage:  python3 tools/phd_stage_dates.py [XLSX] --sessions 3 --csv OUT.csv
 """
 import argparse, csv, datetime, hashlib, pathlib, re, subprocess, sys, unicodedata
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CONNECT = pathlib.Path.home() / '.claude' / 'legdata-vps'
 DEFAULT_XLSX = ROOT / 'sources' / 'phd' / 'Billdates-September2026.xlsx'
-READ_ON = '2026-09-11'          # the date the owner supplied the dataset and the pages
+# When the dataset was read for each session's bills. Kept here rather than
+# typed on the command line, for the reason the fact sheet reader takes nothing
+# but the PDF and the session number: a date supplied each run is a date
+# recorded nowhere. Session 3's is later because the dataset was corrected on
+# 13 September (DECISIONS.md, the Autism Bill's Stage 1 date).
+READ_ON = {1: '2026-09-11', 2: '2026-09-11', 3: '2026-09-13'}
 
 # Staging line -> row of the dataset, where the names differ too much to match.
 # Each was confirmed on 2026-09-11 by the dates the two sources share: the
@@ -138,30 +150,53 @@ def tidy(title):
     return re.sub(r'\s+', ' ', t).strip()
 
 
-def our_bills():
-    """Sessions 1 and 2 from the staging sheet, and the stage names per type."""
-    query = ("\\copy (SELECT c.candidate_id, c.session_number, c.short_title, "
-             "coalesce(c.title_as_introduced, ''), c.bill_type, c.date_introduced, c.outcome, "
-             "coalesce(c.review_note, ''), "
-             "(SELECT s.stage FROM ref_bill_type_stage s WHERE s.bill_type = c.bill_type AND s.stage_order = 1), "
-             "(SELECT s.stage FROM ref_bill_type_stage s WHERE s.bill_type = c.bill_type AND s.stage_order = 2), "
-             "(SELECT s.stage FROM ref_bill_type_stage s WHERE s.bill_type = c.bill_type AND s.stage_order = 3) "
-             "FROM bill_candidate c WHERE c.session_number IN (1, 2) ORDER BY 1) TO STDOUT WITH (FORMAT csv)")
+def psql_csv(query):
     r = subprocess.run([str(CONNECT), f'sudo -u postgres psql -d legdata -c "{query}"'],
                        check=True, capture_output=True, text=True)
+    return list(csv.reader(r.stdout.splitlines()))
+
+
+def our_bills(sessions):
+    """The named sessions from the staging sheet, and the stage names per type."""
+    wanted = ', '.join(str(s) for s in sessions)
+    rows = psql_csv(
+        "\\copy (SELECT c.candidate_id, c.session_number, c.short_title, "
+        "coalesce(c.title_as_introduced, ''), c.bill_type, c.date_introduced, c.outcome, "
+        "coalesce(c.review_note, ''), "
+        "(SELECT s.stage FROM ref_bill_type_stage s WHERE s.bill_type = c.bill_type AND s.stage_order = 1), "
+        "(SELECT s.stage FROM ref_bill_type_stage s WHERE s.bill_type = c.bill_type AND s.stage_order = 2), "
+        "(SELECT s.stage FROM ref_bill_type_stage s WHERE s.bill_type = c.bill_type AND s.stage_order = 3) "
+        f"FROM bill_candidate c WHERE c.session_number IN ({wanted}) ORDER BY 1) TO STDOUT WITH (FORMAT csv)")
     bills = {}
-    for row in csv.reader(r.stdout.splitlines()):
+    for row in rows:
         (line, session, short_title, as_introduced, bill_type, introduced, outcome,
          review_note, s1, s2, s3) = row
         bills[int(line)] = dict(line=int(line), session=int(session), short_title=short_title,
                                 as_introduced=as_introduced, bill_type=bill_type,
                                 introduced=datetime.date.fromisoformat(introduced) if introduced else None,
                                 outcome=outcome, review_note=review_note,
-                                stages={1: s1, 2: s2, 3: s3})
+                                stages={1: s1, 2: s2, 3: s3}, held={}, held_any=set(),
+                                ended_at=None)
+    # What the stage-dates sheet already holds for those lines: which stages it
+    # has at all, which of them come from a source that outranks the dataset,
+    # and the stage a bill ended at. All three are why a bill can need nothing
+    # written for it here.
+    for line, order, date, source, fell_here in psql_csv(
+            "\\copy (SELECT s.candidate_id, s.stage_order, coalesce(s.date_completed::text, ''), "
+            "s.source, s.fell_here FROM stage_candidate s JOIN bill_candidate c USING (candidate_id) "
+            f"WHERE c.session_number IN ({wanted}) ORDER BY 1, 2) TO STDOUT WITH (FORMAT csv)"):
+        b = bills.get(int(line))
+        if b is None:
+            continue
+        b['held_any'].add(int(order))
+        if source != 'phd':
+            b['held'][int(order)] = (datetime.date.fromisoformat(date) if date else None, source)
+        if fell_here == 't':
+            b['ended_at'] = int(order)
     return bills
 
 
-def dataset(path):
+def dataset(path, sessions):
     import openpyxl
     ws = openpyxl.load_workbook(path, data_only=True)['Dates']
     d = lambda v: v.date() if isinstance(v, datetime.datetime) else None
@@ -169,7 +204,7 @@ def dataset(path):
     for i, r in enumerate(ws.iter_rows(min_row=2, values_only=True), 2):
         if all(v is None for v in r):
             continue
-        if r[0] in (1, 2):
+        if r[0] in sessions:
             rows.append(dict(xrow=i, session=r[0], type=r[1], name=r[2], introduced=d(r[3]),
                              s1=d(r[4]), s2=d(r[5]), s3=d(r[6])))
     return rows
@@ -180,8 +215,10 @@ def match(bills, phd):
     pairs, problems, taken = {}, [], {}
     by_xrow = {p['xrow']: p for p in phd}
     for line, xrow in MANUAL_PAIRS.items():
+        if line not in bills:
+            continue                  # a pair for a session this run is not about
         if xrow not in by_xrow:
-            problems.append(f'line {line}: named row {xrow} of the dataset is not a Session 1 or 2 row')
+            problems.append(f'line {line}: named row {xrow} of the dataset is not a row of the sessions asked for')
             continue
         pairs[line], taken[xrow] = by_xrow[xrow], line
     for p in phd:
@@ -224,7 +261,8 @@ def rows_for(bills, pairs):
                         date_completed=date.isoformat() if date else '',
                         completed='true' if completed else 'false',
                         fell_here='true' if stopped_here else 'false',
-                        source=source, source_ref=ref, observed_at=READ_ON, note=note or ''))
+                        source=source, source_ref=ref, observed_at=READ_ON[b['session']],
+                        note=note or ''))
 
     for line, b in sorted(bills.items()):
         p = pairs[line]
@@ -232,46 +270,92 @@ def rows_for(bills, pairs):
         if line in BILL_NOTES:
             out.append(dict(kind='bill_note', line=line, short_title=b['short_title'], stage='',
                             stage_order='', date_completed='', completed='', fell_here='',
-                            source='bill_document', source_ref='', observed_at=READ_ON,
-                            note=BILL_NOTES[line]))
+                            source='bill_document', source_ref='',
+                            observed_at=READ_ON[b['session']], note=BILL_NOTES[line]))
             continue
-        if b['outcome'] == 'passed':
+        def disagreement(position, date):
+            """The dataset dating a stage another source already dates.
+
+            The other source is kept -- the Official Report and the bill page
+            both outrank the dataset -- but a disagreement is not passed over
+            in silence. The Autism Bill's Stage 1 was four days out and nothing
+            else would have caught it.
+            """
+            held = b['held'].get(position)
+            if held and date and held[0] and date != held[0]:
+                problems.append(
+                    f"line {line} {b['short_title']!r}: the dataset dates stage {position} "
+                    f"{date}, and {held[1]} dates it {held[0]}. Settle it before loading")
+            return held is not None
+
+        # A bill that reached Stage 3, whether it passed there or was rejected
+        # there, completed the two stages before it.
+        if b['outcome'] in ('passed', 'rejected_stage_3'):
             for position, date in ((1, p['s1']), (2, p['s2'])):
+                if disagreement(position, date):
+                    continue
                 if date is None:
-                    problems.append(f"line {line} {b['short_title']!r} passed but the dataset has no stage {position} date")
+                    problems.append(f"line {line} {b['short_title']!r} reached Stage 3 but the dataset has no stage {position} date")
                     continue
                 if b['introduced'] and date < b['introduced']:
                     problems.append(f"line {line} {b['short_title']!r}: stage {position} dated {date}, before it was introduced on {b['introduced']}")
                 stage_row(b, position, date, True, False, 'phd', phd_ref, None)
             continue
-        if b['outcome'] == 'rejected_stage_1':
-            continue                      # already held from the Official Report
+
+        # The bill ended before Stage 3. Where it ended is recorded from the
+        # source that says so, never from the dataset; the dataset is only
+        # checked against what is already held.
+        for position, date in ((1, p['s1']), (2, p['s2'])):
+            disagreement(position, date)
+            # A date for a stage the sheet does not have at all, on a bill that
+            # never reached Stage 3, says the two disagree about how far the
+            # bill got. That is a question about the bill, not a date to load.
+            if date and position not in b['held_any'] and line not in ANSWERS:
+                problems.append(
+                    f"line {line} {b['short_title']!r} ended before Stage 3, and the dataset "
+                    f"dates stage {position} {date} -- a stage nothing on the stage-dates "
+                    f"sheet says it completed. Settle it before loading")
         a = ANSWERS.get(line)
-        if not a:
-            problems.append(f"line {line} {b['short_title']!r} did not pass and has no answer recorded")
+        if a:
+            for position, date, source, ref, note in a.get('completed', []):
+                stage_row(b, position, date, True, False, source, ref or phd_ref, note)
+            stage_row(b, a['stopped_at'], None, False, True, a['source'], a['ref'], a['note'])
             continue
-        for position, date, source, ref, note in a.get('completed', []):
-            stage_row(b, position, date, True, False, source, ref or phd_ref, note)
-        stage_row(b, a['stopped_at'], None, False, True, a['source'], a['ref'], a['note'])
+        if b['ended_at'] is None and not b['held']:
+            problems.append(
+                f"line {line} {b['short_title']!r} ended before Stage 3, and neither this "
+                f"script nor the stage-dates sheet says where. Record it before loading")
     return out, problems
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('xlsx', nargs='?', default=str(DEFAULT_XLSX))
+    ap.add_argument('--sessions', default='1,2',
+                    help='which sessions to write, comma separated (default 1,2)')
     ap.add_argument('--csv', required=True)
     args = ap.parse_args()
+
+    sessions = sorted({int(s) for s in args.sessions.split(',') if s.strip()})
+    if not sessions:
+        sys.exit('Refusing to run: no session named.')
+    missing = [s for s in sessions if s not in READ_ON]
+    if missing:
+        sys.exit('Refusing to run: no reading date recorded in READ_ON for Session(s) '
+                 + ', '.join(str(s) for s in missing) + '. Record when the dataset was read.')
 
     path = pathlib.Path(args.xlsx)
     print(f'read {path}')
     print(f'sha256 {hashlib.sha256(path.read_bytes()).hexdigest()}')
 
-    bills, phd = our_bills(), dataset(path)
-    print(f'{len(bills)} staging lines, {len(phd)} dataset rows for Sessions 1 and 2')
+    bills, phd = our_bills(sessions), dataset(path, sessions)
+    named = ', '.join(str(s) for s in sessions)
+    print(f'{len(bills)} staging lines, {len(phd)} dataset rows for Session(s) {named}')
     pairs, problems = match(bills, phd)
     if problems:
         sys.exit('Refusing to write:\n  ' + '\n  '.join(problems))
-    print(f'every line matched one dataset row ({len(MANUAL_PAIRS)} of them named in this script)')
+    named_here = sum(1 for line in MANUAL_PAIRS if line in bills)
+    print(f'every line matched one dataset row ({named_here} of them named in this script)')
 
     # A pair whose introduction dates disagree is not wrong in itself, but it is
     # the shape a wrong pairing would take, so it is always shown.
