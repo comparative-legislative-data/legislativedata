@@ -50,6 +50,17 @@ Update `STATE.md` in its shape, and add any decision that was settled to
   a line each, and rewrite "Now".
 - **If it grows, cut; do not append.** Working detail goes below the line.
 - **Record the sanity check** below the line, replacing the last one.
+- **Push.** A session ends with the commits pushed, unless there is a reason not
+  to, which is said out loud. The database is backed up nightly on the server;
+  the migrations, tools and docs exist only on this machine until they are
+  pushed, so an unpushed session is the one part of the work with no copy of it
+  anywhere. Do not wait to be asked.
+- **Then say whether it is safe to close**, and say it on the strength of
+  checking rather than of remembering: nothing uncommitted, nothing unpushed,
+  the data dictionary regenerating identical to the committed file, the error
+  checker and the gaps list read, the figures matching what `STATE.md` now says,
+  and no working copy left inside the database. If something is not right, say
+  what and leave it to the owner.
 
 ## How this project works
 
