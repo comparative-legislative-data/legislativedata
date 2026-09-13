@@ -7,6 +7,36 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — Anything read out of the Official Report cites the page on the line
+
+**The rule.** A staging line whose ending, or whose route to being rejected at
+Stage 1, is attributed to the Official Report must carry the address of the
+report it was read on in its own review note. The error checker asks for it, so
+a session cannot be admitted without it, and promotion cannot run while the
+checker holds anything.
+
+**Why, and how it was found.** `db/055` read five Session 3 bills' endings out
+of the Official Report and recorded the address on the stage-dates row only.
+Promotion writes a bill's provenance note from the line and takes the reference
+out of the line's own note, so it had nothing to cite. The three rejected at
+Stage 1 were refused outright — a route has had to carry its citation since
+`db/032` — but the Budget (Scotland) (No. 2) and Creative Scotland Bills would
+have reached the clean sheet with the reference simply empty, and nothing would
+have said so. It surfaced in the rehearsal of the promotion, before anything
+was written.
+
+**What it does not change.** The address stays on the stage-dates row as well;
+that row's own source is what dates a stage. This adds the line, because that
+is where promotion reads from. `db/058` put it on all five Session 3 lines,
+taken out of each bill's own stage row rather than retyped, and added the rule.
+
+**Proved, not assumed.** Taking the address off one line again makes the
+checker name that line and refuses the admission; running `db/058` a second
+time refuses rather than appending a second address; an anchor that is not on
+the line refuses rather than writing the address in the wrong place.
+
+**The owner approved both parts** before either was built.
+
 ## 2026-09-13 — The Autism Bill's Stage 1 date: the dataset is corrected
 
 **The owner's ruling**, on the disagreement Session 3's closure test turned up:
