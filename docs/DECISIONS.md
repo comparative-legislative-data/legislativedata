@@ -7,6 +7,43 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — Session 3 is closed, and a bill can end at no stage at all
+
+**Session 3 is closed.** All nine of the owner's sign-offs were given on
+13 September, across two sessions of that day, and are recorded against their
+own items in `docs/CLOSURE-TESTS.md`. Sessions 1, 2 and 3 are now finished: 216
+bills, what happened to each, and the time from introduction to every stage the
+Parliament decided, with every cell traceable to what said so.
+
+**The semantics question the owner raised, settled, because it will be asked
+again.** If a bill's general principles are agreed at Stage 1 and it then cannot
+proceed for want of a financial resolution, at what stage did it fall? Arguably
+Stage 1, arguably a no-man's land between the stages. The owner's ruling: it
+does not matter much which you call it, provided the unusual nature of it is
+caught — and it is caught by the data rather than by the argument. The Creative
+Scotland Bill has one stage row, Stage 1, completed and dated from the Official
+Report, and no stage at all is marked as where the bill ended. It is the only
+bill of 216 that ends that way. The ending sits on the bill and is not pinned to
+a stage, so the no-man's land is represented as no-man's land rather than forced
+onto Stage 1. M7 does not say so in terms and the owner did not require it to;
+`docs/HOW-THE-DATABASE-WORKS.md` now does, because on screen it looks like an
+oversight.
+
+**Why the explainer had to be fixed before the ninth sign-off could be given.**
+Sign-off 9 is the standing requirement that the owner can explain the database
+from the documents alone. `docs/HOW-THE-DATABASE-WORKS.md` had not been touched
+since 11 September, while Session 3 and nine migrations landed, and was six
+things out of date — the list of endings and the reader's notes each a row
+short, the note on a stage row still described as one note in three places, a
+bill ending with no stage marked not described at all, every session's dates
+described as still to come when `db/048` had filled them, and the provenance
+counts at promotion stopping at Session 2. Had the owner read it cold it would
+have failed on our bookkeeping rather than on anything real. **The lesson is the
+one `CLAUDE.md` already states and this session nearly proved the hard way: the
+explainer is kept true as the database changes, not caught up with at the end.**
+Two of the six were found only by doing the work, after four had been proposed —
+so the check is to read it against the database, not to remember what moved.
+
 ## 2026-09-13 — A stage row carries a general note and a detail note
 
 **What happened.** Nineteen bills across Sessions 1 to 3 stopped at a stage

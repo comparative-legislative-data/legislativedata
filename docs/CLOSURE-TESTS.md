@@ -65,8 +65,11 @@ points where a period could be counted, 743 are counted, 19 have no day because
 the stage never reached its terminal point, and 2 did not happen. No third
 category.
 
-**Part B is not marked.** The nine sign-offs are the owner's and are recorded
-here on the day they are given.
+**Part B is marked. All nine sign-offs were given on 2026-09-13**, across two
+sessions of that day: 1, 2, 3 and 7 in the first, and 4, 5, 6, 8 and 9 in the
+second. Each is recorded against its own item with what it was given on.
+
+**Session 3 is therefore closed.**
 
 **When to run it.** When Session 3 is on the clean sheet *and* its Stage 1 and
 Stage 2 dates are loaded. Closure means the session is finished, and Session 3
@@ -394,11 +397,24 @@ day it is given, and nowhere else.
    sessions after `db/061` gave them one general note and kept nine detail notes.
 4. **The Forth Crossing Act as a Hybrid Bill**, and that M4 says what you want
    said to a reader who is comparing our 44 government bills against the fact
-   sheet's 45.
+   sheet's 45. **Given 2026-09-13**, on M4 read in full beside the clean sheet's
+   row for the bill — recorded as a Hybrid Bill, and passed — and beside the
+   Session 3 counts it has to reconcile: 44 government, 13 members', 2 committee,
+   2 private and 1 Hybrid, against the fact sheet's stated 45 Executive.
 5. **The three adjudicated dates and the asp number**, and that the corrections
-   are the ones you intended.
+   are the ones you intended. **Given 2026-09-13**, on the four cells read off
+   the clean sheet beside what the fact sheet printed and what the dataset said:
+   two Royal Assent dates settled the dataset's way against legislation.gov.uk,
+   one introduction date settled the fact sheet's way against the Parliament's
+   bill page, and the asp number the fact sheet omits taken from the same page
+   that settles its Royal Assent — each with its source, its place in that
+   source, the value in the source's own words and the day it was read, and the
+   fact sheet's printed words left untouched beside them.
 6. **The ten names corrected in the dataset**, checked against the workbook's
-   Corrections sheet.
+   Corrections sheet. **Given 2026-09-13**, on the ten read off the Corrections
+   sheet as was and now — six slips against the Act's own title and the four
+   Budget Acts renamed by year — and on all ten of the corrected spellings being
+   found on the clean sheet, none missing.
 7. **The Autism (Scotland) Bill's Stage 1 date.** The dataset said 17 January
    2011; the Official Report of 12 January 2011 records the motion disagreed to,
    and the fact sheet gives 12 January as the day the bill fell.
@@ -409,10 +425,34 @@ day it is given, and nowhere else.
 8. **M7 as it now stands**, read in full: that it tells a reader what you want
    told about a bill falling for want of a financial resolution, and that saying
    the Parliament's own page is wrong about the Creative Scotland Bill is a
-   claim you are content to publish.
+   claim you are content to publish. **Given 2026-09-13**, on M7 read in full,
+   including that last claim.
+
+   **And a point of semantics the owner raised, recorded because it will be
+   asked again.** If a bill's general principles are agreed and it then cannot
+   proceed for want of a financial resolution, at what stage did it fall —
+   Stage 1, or a no-man's land between the stages? The owner's answer: arguably
+   either, and it does not matter much provided the unusual nature of it is
+   caught, which it is. It is caught by the data rather than by the argument:
+   the Creative Scotland Bill has one stage row, Stage 1, completed and dated
+   from the Official Report, and no stage at all is marked as where the bill
+   ended. It is the only bill of 216 that ends that way. The ending is recorded
+   on the bill and not pinned to a stage, so the no-man's land is represented as
+   no-man's land. M7 does not say so in terms, and the owner did not require it
+   to.
 9. **That you can explain how this database works** from the documents alone,
    without help. The standing requirement, put again because Session 3 added an
-   ending that behaves unlike the others.
+   ending that behaves unlike the others. **Given 2026-09-13**, on
+   `docs/HOW-THE-DATABASE-WORKS.md` read cold after it was brought up to date.
+   It was six things out of date, because it had not been touched since
+   11 September while Session 3 and nine migrations landed: the list of endings
+   and the reader's notes were each a row short; the note on a stage row was
+   still described as one note in three places; a bill ending with no stage
+   marked was not described at all, which is the very thing this item was put
+   again for; every session's dates were described as still to come when
+   `db/048` had filled them; and the provenance counts at promotion stopped at
+   Session 2. All six were corrected before the owner read it. Nothing in the
+   database changed.
 
 ### Part C — what this test does not check
 

@@ -22,7 +22,7 @@ not. There are four kinds, and only one kind is data you look after.
 
 **The ten `ref_` tabs are dropdown lists.** They are not data about bills.
 Each one is the list of values a particular column is allowed to hold, exactly
-like restricting a cell to a list in a spreadsheet. `ref_outcome` is seven
+like restricting a cell to a list in a spreadsheet. `ref_outcome` is eight
 words — passed, withdrawn, fell, and so on. `ref_stage` is nine stage names.
 That is the entire content of the tab. You will almost never open them.
 
@@ -41,7 +41,7 @@ wherever it came from.
 They fill up when promotion runs, one session at a time.
 
 **Two are context:** `session` (seven rows, one per parliament) and
-`methodology_note` (seven rows, the decisions a reader has to be told about).
+`methodology_note` (eight rows, the decisions a reader has to be told about).
 
 ## 2. Your sheets
 
@@ -114,7 +114,7 @@ before the factsheet's, before your PhD's, and the other stays here as the
 evidence it was checked.
 
 A stage completed on a date nobody can find is a row that says completed, with
-the date empty and a note saying why. That is a gap, not an error.
+the date empty and a detail note saying why. That is a gap, not an error.
 
 This sheet is permissive in the same way as the other. Neither sheet enforces
 the dropdown lists. A cell can be left empty. A bad reading lands as a row you
@@ -152,7 +152,7 @@ Nothing can be promoted while a session still has problems listed.
 The stage dates still to find, one row per missing date: a passed bill without
 its Stage 1 or Stage 2 date, a bill that ended early without the dates of the
 stages before, a bill that didn't pass with nothing saying where it ended, and
-a stage completed on a date not known, with its note.
+a stage completed on a date not known, with its detail note.
 
 Unlike the error checker, a gap does not stop a session being promoted. It is
 the to-do list your PhD dates work through.
@@ -172,6 +172,15 @@ in charge's own motion. It can also have been on that motion amended to reject
 the bill, or on a committee motion under Rule 9.14.18. The clean sheet refuses a
 Stage 1 rejection without one, and refuses one on any other bill.
 
+Nearly every bill that did not pass has one stage marked as where it ended. One
+does not, and it is worth knowing about because on screen it looks like an
+oversight. The Creative Scotland Bill won its Stage 1 vote and fell the same
+afternoon, because the Parliament did not agree the money its costs required. So
+its Stage 1 is recorded as completed, and no stage at all is marked as where the
+bill ended: there is no stage to put it on. The ending sits on the bill instead.
+It is the only bill of the 216 loaded so far that ends that way, and M7 is the
+note that tells a reader why.
+
 ### The stage dates (`stage_event`)
 
 One row per stage a bill actually reached, copied from an accepted row on your
@@ -186,7 +195,18 @@ Stage 2 against a Private Bill.
 
 A bill that fell at Stage 1 has one row here, not three. Each row says where
 its date came from, so stage dates need no provenance notes. And the clean
-sheet refuses a stage marked completed with no date unless a note says why.
+sheet refuses a stage marked completed with no date unless a note says why —
+the detail note, which is the next point.
+
+A stage row carries two notes, and they do different jobs. The **general note**
+is one sentence, the same words every time, on a stage where the bill stopped
+without the Parliament deciding anything — withdrawn by the member in charge, or
+still sitting there when the session ran out. It accounts for the empty date
+cell. Nobody types it: the database writes it from the row itself, so it cannot
+come out worded two ways. The **detail note** is the one you keep, and holds
+whatever a source says beyond that. Empty means no extra detail has been
+collected for that bill — not that none exists, and not that any was looked
+for.
 
 To see them back as columns — one line per bill, stages across the top — open
 the pivot table `v_bill_stage_dates`. That is what it is for.
@@ -203,6 +223,10 @@ this one fact, from the Official Report, seen on this date, worded there as
 this. A second note does the same for how each was rejected, quoting the
 Presiding Officer's announcement.
 
+The tab holds 71 notes in all: 57 about bills, 13 about the sessions' own
+dates, and 1 about a stage. Only the bill ones are written by promotion, which
+is why the promotion figure below is 57 and not 71.
+
 Two things about this tab. It records the value **as the source worded it**,
 not as we tidied it. And it is **rebuilt with the bill**, like the stage rows:
 promotion writes one note per fact, taking a session off removes them, and
@@ -212,12 +236,14 @@ a note needs your clearance.
 
 ### The two context tabs
 
-`session` is seven rows, one per parliament, and is where each session's dates
-will go. All seven date cells are still empty. Sessions 1 to 5 state their own
-dates on page 1 of their factsheets; Sessions 6 and 7 state them nowhere we
-have found.
+`session` is seven rows, one per parliament, holding each session's first
+meeting and its last day. Every cell is filled in except Session 7's last day,
+which is empty because that session is still running, not because nobody knows
+it. Each date records where it was read. The last days matter beyond tidiness:
+a bill is recorded as having run out of time when the day it ended is the day
+its session ended, so that coding can be checked rather than taken on trust.
 
-`methodology_note` is seven rows of prose, each one a decision a reader of the
+`methodology_note` is eight rows of prose, each one a decision a reader of the
 published figures has to be told about — why Executive and Government Bills are
 counted as one thing, why a passed bill isn't necessarily an Act, when a stage
 counts as completed. These exist to be shown on the front end beside the
@@ -235,8 +261,11 @@ your factsheet sheet marked `accepted`:
   your stage-dates sheet, taking the Official Report's where two sources give
   the same stage;
 - a provenance note is filed for each fact that didn't come from the row's
-  stated source — eleven for Session 1 and twelve for Session 2, each an
-  outcome or a route read from the Official Report, plus one corrected title;
+  stated source — fifty-seven so far, being twenty-two for Session 1, twenty for
+  Session 2 and fifteen for Session 3. Most are an outcome or a Stage 1
+  rejection route read from the Official Report; the rest are a date, a bill's
+  type, an asp number or a title settled against legislation.gov.uk or the
+  Parliament's own bill page;
 - your rows on both sheets are stamped with what they became and the date, so
   you can get from one to the other and back in either direction.
 
