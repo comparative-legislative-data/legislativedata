@@ -7,6 +7,64 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — Time is counted to every stage the Parliament decided, whatever it decided
+
+**The owner's ruling**, on three bills put to them — the Creative Scotland Bill,
+whose Stage 1 principles were agreed; the Autism Bill, whose were refused; and
+the Budget (Scotland) (No. 2) Bill, rejected at its Stage 3 vote: "For each of
+those 3 Bills we should count them as Stage 1 completed FOR THE PURPOSES OF
+COUNTING TIME. They reached the terminal point of Stage 1 and Parliament took a
+decision. I do not think it matters at all what the parliament decided OR what
+happened to the Bill after — in my view the counting period is equally
+legitimate in all cases."
+
+**The rule.** A period is counted to a stage where the stage reached its
+terminal point and the Parliament took a decision. Which way the decision went,
+and what became of the bill afterwards, are separate facts, recorded separately,
+and neither affects whether the period is counted or how long it is. A stage
+that never reached its terminal point — a bill withdrawn partway through Stage
+1, or one that ran out of time between two stages — gives no period, because
+there is no day to count to.
+
+**Why it matters, and it is not a nicety.** Until this, a period was counted
+only where the bill got through the stage. That removed the fourteen bills
+rejected at Stage 1 and the Budget Bill's last eight days, and it removed them
+one-sidedly: only Members' Bills lose Stage 1 votes, so the exclusion fell
+entirely on Members' Bills and never on Government ones. Session 2's Members'
+Bill figure for introduction to the Stage 1 debate rested on 3 bills when 9 have
+a dated debate, and read 342 days against 273 for the full set. A comparison
+between Government and Members' Bills built that way is a comparison between
+government legislation and the Members' Bills that survived.
+
+**The incoherence that showed it.** The rule was not even applied consistently:
+the Creative Scotland Bill and the Autism Bill both ended before Stage 3 with a
+partial set of dates, both had a Stage 1 debate on a recorded day, and only the
+first was counted. The difference between them was which way the vote went.
+
+**What makes the rule safe rather than lucky.** Every stage that reached its
+terminal point has a day recorded against it, and every stage that did not has
+none: a bill withdrawn during Stage 1 has no Stage 1 day, and the day it was
+withdrawn sits on the bill. The rule is to be stated and enforced in those
+terms, so that it stays true by requirement. Otherwise someone later records a
+withdrawal date against a stage and it silently counts.
+
+**stage_event.completed keeps its meaning** — the bill got through the stage —
+because that is a real and separately useful fact, and a chart of bills that
+completed their passage will want it. It is simply not what decides whether time
+is counted.
+
+**Two questions, kept apart**, at the owner's insistence: what the database
+calculates, settled here; and which bills a given chart covers, which is a
+front-end choice and is not settled by this. The database is to hold every
+period it can defend, so that the front end can offer, for example, introduction
+to Stage 1 across every bill that had a Stage 1 debate, or across only those
+that completed their passage, without either being baked in.
+
+**The check that goes with it**, asked for by the owner: every bill and every
+stage is either counted into a period or carries a stated reason why not, with
+no third category. `tools/duration_coverage.sql`. It is to be run before and
+after any change to how periods are calculated.
+
 ## 2026-09-13 — Anything read out of the Official Report cites the page on the line
 
 **The rule.** A staging line whose ending, or whose route to being rejected at
