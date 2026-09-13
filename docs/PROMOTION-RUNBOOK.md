@@ -545,3 +545,68 @@ stops unless the same seven come back. They did: lines 66, 71, 73, 148, 150,
 supplied but the PDF and the session number now match the staging sheet in all
 154 rows, none differing. All five ruled-table sessions give byte-identical
 output on the Mac and on the VPS.
+
+## Session 3, 13 September
+
+The owner checked Session 3's lines across 12 and 13 September and was content.
+`db/057` admitted its 62 lines and 62 stage dates, and the session was promoted.
+Safety copies first: `/var/tmp/legdata-before-057_2026-09-13.dump` on the server
+and `copy_before_057` inside the database, compared afterwards and dropped.
+
+**The rehearsal is what earned its keep.** `db/055` had recorded five Session 3
+outcomes from the Official Report with the address of the report on the
+stage-dates row and nowhere else, and promotion writes a bill's citation from
+the line. It refused on the three Stage 1 rejections; the Budget (Scotland)
+(No. 2) and Creative Scotland Bills would have been written with the reference
+empty and nothing would have said so. `db/058` put the address on all five lines,
+read out of each bill's own stage row rather than retyped, and gave the error
+checker the rule that asks for it. See `DECISIONS.md`, 2026-09-13.
+
+- 62 bills: 44 government, 1 hybrid, 13 Member's, 2 private, 2 committee; 53
+  passed, 2 withdrawn, 7 fallen (2 at dissolution, 3 rejected at Stage 1, 1
+  rejected at Stage 3, 1 for want of a financial resolution). Reconciled against
+  page 8 on `analysis_group`, which counts the hybrid bill under Executive as
+  the fact sheet does: 42/7/2/2 Acts, 0/2/0/0 withdrawn, 3/4/0/0 fallen,
+  45/13/2/2 in all.
+- 62 stage records: 51 Stage 3 and 2 Final Stage from the legislation fact
+  sheet, 5 from the Official Report, 4 from the Parliament's bill pages.
+- 15 provenance notes: 5 outcomes and 3 Stage 1 routes from the Official Report,
+  2 outcomes for the bills coded as having fallen at dissolution, and 5 cells
+  checked at review against the source that owns them.
+- The whole clean sheet: 216 bills, 475 stage records, 71 provenance notes. The
+  error checker empty, 108 gaps.
+- Compared with the copy: 62 bills, 62 stage records and 15 notes added, the 62
+  lines and 62 stage rows stamped, five review notes gaining their address.
+  Nothing else moved.
+
+Tested in rehearsal rather than assumed: taking the address off a line again
+makes the checker name it and the admission refuse; an anchor that is not on the
+line refuses rather than writing in the wrong place; and on the real database,
+running `db/058` a second time refuses rather than appending a second address.
+
+## Session 3's stage dates, 13 September
+
+`tools/phd_stage_dates.py --sessions 3` and `tools/load_phd_stage_dates.sql`.
+Safety copies first: `/var/tmp/legdata-before-s3-dates_2026-09-13.dump` and
+`copy_before_s3_dates`, compared afterwards and dropped.
+
+The reader knew Sessions 1 and 2 only. It now takes `--sessions`, and works to a
+rule stated in terms of what happened to the bill: one that reached Stage 3,
+whether it passed there or was rejected there, completed the two stages before
+it; one that ended before Stage 3 has the stage it ended at recorded from the
+source that says so, and nothing is written for it. Session 3 is the first
+session where that distinction does any work, because of the Budget (Scotland)
+(No. 2) Bill.
+
+- 108 rows loaded, all waiting for review: 52 Stage 1, 52 Stage 2, and
+  Preliminary and Consideration for the two Private Bills. Exactly the gaps
+  list, which is now empty.
+- Compared with the copy: 108 rows added, and nothing else at all. The clean
+  sheet is untouched until they are accepted.
+- Sessions 1 and 2 give byte-identical output from the reader before and after.
+
+Tested in rehearsal and thrown away first. Each of these was refused, naming the
+reason: a dataset date disagreeing with a date already held from another source
+(the Autism Bill's Stage 1 put back to 17 January); a dataset date for a stage
+nothing says the bill completed, on a bill that never reached Stage 3; and a
+session for which no reading date is recorded.
