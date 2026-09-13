@@ -178,7 +178,7 @@ oversight. The Creative Scotland Bill won its Stage 1 vote and fell the same
 afternoon, because the Parliament did not agree the money its costs required. So
 its Stage 1 is recorded as completed, and no stage at all is marked as where the
 bill ended: there is no stage to put it on. The ending sits on the bill instead.
-It is the only bill of the 216 loaded so far that ends that way, and M7 is the
+It is the only bill of the 302 loaded so far that ends that way, and M7 is the
 note that tells a reader why.
 
 ### The stage dates (`stage_event`)
@@ -223,9 +223,9 @@ this one fact, from the Official Report, seen on this date, worded there as
 this. A second note does the same for how each was rejected, quoting the
 Presiding Officer's announcement.
 
-The tab holds 71 notes in all: 57 about bills, 13 about the sessions' own
+The tab holds 86 notes in all: 72 about bills, 13 about the sessions' own
 dates, and 1 about a stage. Only the bill ones are written by promotion, which
-is why the promotion figure below is 57 and not 71.
+is why the promotion figure below is 72 and not 86.
 
 Two things about this tab. It records the value **as the source worded it**,
 not as we tidied it. And it is **rebuilt with the bill**, like the stage rows:
@@ -261,11 +261,11 @@ your factsheet sheet marked `accepted`:
   your stage-dates sheet, taking the Official Report's where two sources give
   the same stage;
 - a provenance note is filed for each fact that didn't come from the row's
-  stated source — fifty-seven so far, being twenty-two for Session 1, twenty for
-  Session 2 and fifteen for Session 3. Most are an outcome or a Stage 1
-  rejection route read from the Official Report; the rest are a date, a bill's
-  type, an asp number or a title settled against legislation.gov.uk or the
-  Parliament's own bill page;
+  stated source — seventy-two so far, being twenty-two for Session 1, twenty
+  for Session 2 and fifteen each for Sessions 3 and 4. Most are an outcome or a
+  Stage 1 rejection route read from the Official Report; the rest are a date, a
+  bill's type, an asp number or a title settled against legislation.gov.uk or
+  the Parliament's own bill page;
 - your rows on both sheets are stamped with what they became and the date, so
   you can get from one to the other and back in either direction.
 
