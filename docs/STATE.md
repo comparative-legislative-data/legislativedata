@@ -19,7 +19,7 @@ and 2 dates are added from your PhD.
 | 1 | 73 bills | yes | yes | yes; **closed** |
 | 2 | 81 bills | yes | yes | yes; **closed** |
 | 3 | 62 bills | yes | yes | yes; **closed** |
-| 4 | 86 bills | list cleared; **needs your sign-off** | no | no |
+| 4 | 86 bills | yes | **next: closure test, then promote** | no |
 | 5 | read in full | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
@@ -72,37 +72,34 @@ four mechanical checks and all nine of your sign-offs.
   a reconsideration was agreed is kept on the stage's detail note, not as a date
   anything is measured from.
 
-## Now: sign off Session 4's 86 lines
+## Now: write Session 4's closure test
 
-**The review list is empty.** You answered all eight items and each was read in
-the source it names, with the words quoted on the line (`db/063`):
+**Session 4 is reviewed and admitted.** You cleared the 86 lines; `db/066`
+accepted them and their 84 stage dates. Nothing is on the clean sheet yet, which
+is deliberate and explained below.
 
-- **All five bills that fell were rejected at Stage 1.** Four in the ordinary
-  way — the member's motion put and disagreed to. The fifth, the Transplantation
-  Bill, is the second case of the other route: its own motion amended into one
-  that did not agree to the general principles and then agreed to as amended, so
-  the motion carried and the bill fell. You called that before it was read, and
-  supplied the motion as amended, which is now recorded in full on the bill
-  (`db/064`) — the Parliament did not merely decline the principles, it resolved
-  what should happen instead.
-- **Land Reform's Royal Assent is 22 April 2016.** The factsheet is wrong.
-- **National Galleries' introduction is 25 June 2015.** The factsheet is right
-  and your dataset a day out, recorded on your own record because the
-  Parliament's page for that bill cannot be read.
-- **Higher Education Governance is 2016 asp 15**, title and number both.
+**The next session writes Session 4's closure test. The session after that runs
+it.** You set that order and it is better than the one before: no session marks
+its own work at either step.
 
-**What is left is yours, and nothing else is.** Promotion refuses while the 86
-lines are still marked new: accepting them is your sign-off that you have looked,
-and it is not mine to give. Session 3's took you two days. When they are
-accepted, the session is promoted and your Stage 1 and Stage 2 dates loaded.
+**Promotion waits until the test is written, and that is the whole point.**
+Session 3's test was written before the work it tested, so every expected answer
+was a prediction made from the factsheet, your dataset and the rules. If Session
+4 went onto the clean sheet first, the session writing the test would be
+describing a database it can already see, and the test would confirm whatever
+happened instead of checking it.
 
-**One thing to decide, and it is small.** Settling the Higher Education title
-needed the first citation whose value contains a bracket, which turned up two
-faults in how a citation is read — both fixed. The standard sentence on a
-provenance note changed with them, because it had been naming a column that does
-not exist. Sessions 1 to 3's stored notes keep the old sentence until those
-sessions are next re-promoted. Say whether to bring them into line now or leave
-them.
+So the order is: **closure test written → Session 4 promoted → your Stage 1 and
+Stage 2 dates loaded → a third session runs the test → your sign-offs → closed.**
+`tools/closure_check_session_3.sql` and `docs/CLOSURE-TESTS.md` are the shape.
+
+**Also done this session, and it was worse than the wording question I put to
+you.** Every one of the eighteen provenance notes that says a value was checked
+at review named a column that does not exist — fifteen of them with the prefix
+written twice, `raw_raw_date_royal_assent`. A note whose whole job is to let you
+follow a claim back to what said so, pointing at nothing, and reading like a
+citation while it does it. All eighteen now carry one sentence that is true of
+every column, and the checker for it is in the migration (`db/065`).
 
 ## After that, in order
 
@@ -202,14 +199,23 @@ went with them. **Nothing was written to the clean sheet.**
   Report for the bills that fell.
 - **The error checker is empty.** It held 8 items — the review list — and
   `db/063` answered every one.
-- **Session 4's 86 lines are all marked new**, which is what stops promotion.
-  Accepting them is the owner's sign-off and was not given here.
+- **Session 4 is admitted**: 86 lines and 84 stage dates accepted (`db/066`),
+  none promoted. Promotion waits for the closure test to be written.
+- **All 18 checked-at-review provenance notes rewritten** (`db/065`): every one
+  had named a column that does not exist. No value, source, address or date read
+  moved, which the migration fingerprints before and after.
 - **The gaps list holds 160**, up from empty, and every one is a Session 4
   Stage 1 or Stage 2 date not yet entered. They arrive from the owner's dataset
   after promotion, as in every session, and a gap does not stop promotion.
-- **64 migrations without a gap**, the data dictionary regenerating identical to
-  the committed file.
+- **66 migrations without a gap**, the data dictionary regenerating identical to
+  the committed file. A safety copy was taken before `db/065`, the one change
+  this session made to data already on the clean sheet:
+  `/var/tmp/legdata-before-065_2026-09-13.dump`.
 - **Nothing uncommitted, nothing unpushed, no working copy in the database.**
+
+**What the next session must do first.** Write Session 4's closure test, before
+Session 4 is promoted. Written after promotion it describes rather than predicts,
+and is worth nothing. See `DECISIONS.md`, 2026-09-13.
 
 **What the next session should be wary of.** The counts above the line and in
 `HOW-THE-DATABASE-WORKS.md` still say 216 bills and 71 provenance notes, and

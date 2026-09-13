@@ -302,7 +302,9 @@ UPDATE stage_candidate t
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at, note)
 SELECT 'stage_event', t.promoted_stage_event_id, m[1], m[3], m[4], m[2], m[5]::date,
-       'Checked at review against the source that owns this date.'
+       'Checked at review against the source that owns this value. The '
+       'factsheet''s own printed words are kept in the raw_ columns of '
+       'bill_candidate.'
   FROM stage_candidate t
   JOIN promoting p ON p.candidate_id = t.candidate_id
   CROSS JOIN LATERAL regexp_matches(

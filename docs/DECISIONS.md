@@ -7,6 +7,74 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — Session 4 admitted, provenance made consistent, and who writes the closure test
+
+### A provenance note must name a column that exists
+
+The owner asked for the provenance notes to be made consistent. Looking at them
+found something worse than a difference of wording.
+
+Promotion wrote the standard sentence on a checked value by working the raw
+column's name out of the column's own name: replace a leading `date_` with
+`raw_date_`, then put `bill_candidate.raw_` in front of the result. For a date
+that gives `bill_candidate.raw_raw_date_royal_assent` — the prefix twice. For
+anything else it gives a column that was never there. **All eighteen notes of
+this kind on the clean sheet named a column that does not exist:**
+
+| Column cited | Notes | The note said | The column really is |
+|---|---|---|---|
+| `date_royal_assent` | 10 | `raw_raw_date_royal_assent` | `raw_date_royal_assent` |
+| `date_introduced` | 5 | `raw_raw_date_introduced` | `raw_date_introduced` |
+| `asp_number` | 1 | `raw_asp_number` | `raw_title` — the number is inside the title |
+| `bill_type` | 1 | `raw_bill_type` | `raw_type` |
+| `date_completed` | 1 | no second sentence at all | — |
+
+**Why this is not tidiness.** A provenance note exists so a research claim can be
+followed back to what said so. One that sends the reader to a column that does
+not exist cannot be followed anywhere, and it fails silently, because it reads
+like a citation. Two of them also said "the source that owns this date" about an
+Act's number and a bill's type, neither of which is a date.
+
+**Decided and built (`db/065`).** One sentence, true of every column, rather than
+a name worked out per column — which is the thing that produced this. The raw_
+columns are described one by one in the data dictionary, so the note points at
+the group and the dictionary says which. Promotion writes the same sentence from
+now on, so a session taken off and put back reproduces it. No value, source,
+address or date read moved; the migration fingerprints all four before and after
+and refuses if any of them does.
+
+One note legitimately names `bill_candidate.raw_title` — `db/026`'s correction of
+a title — and it is right, so it stays. The migration now checks that every raw_
+column any note names actually exists, which is the check that would have caught
+this at the time.
+
+### Session 4 is admitted
+
+`db/066`, the gateway's admission step, as `db/016`, `db/034` and `db/057` were
+for Sessions 1 to 3. The owner cleared the 86 lines on 2026-09-13. 86 lines and
+84 stage dates accepted — 79 passing dates from the factsheet and 5 Stage 1 dates
+from the Official Report. Nothing promoted; the clean sheet is still 216 bills.
+
+### Who writes Session 4's closure test, and the one condition on it
+
+The rule has been that the session doing the work writes the test and a different
+session runs it. The owner set a different order for Session 4: **the next
+session writes it, and the session after runs it.** That is more independent, not
+less — no session marks its own work at either step.
+
+**The condition, which is what makes the test worth anything: Session 4 must not
+be promoted before the test is written.** Session 3's test was written before the
+work it tested, so its expected answers were predictions made from the factsheet,
+the dataset and the rules. If Session 4 were promoted first, the session writing
+the test would be describing a database it can already see, and the test would
+confirm whatever happened rather than check it. So promotion waits.
+
+The order is therefore: closure test written → Session 4 promoted → the owner's
+Stage 1 and Stage 2 dates loaded → a third session runs the test → the owner's
+sign-offs → closed.
+
+---
+
 ## 2026-09-13 — Session 4's review answered, and two faults in how a citation is read
 
 The owner answered all eight items on Session 4's review list. Each was then
