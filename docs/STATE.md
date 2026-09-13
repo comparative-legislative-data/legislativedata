@@ -18,13 +18,14 @@ and 2 dates are added from your PhD.
 |---|---|---|---|---|
 | 1 | 73 bills | yes | yes | yes; **closed** |
 | 2 | 81 bills | yes | yes | yes; **closed** |
-| 3 | 62 bills | yes | yes | yes; one step from closed |
+| 3 | 62 bills | yes | yes | yes; **test passed, your sign-off left** |
 | 4–5 | read in full | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
 Sessions 1 and 2 are finished: what happened to each bill, and the time from
 introduction to passing, with every cell traceable to what said so. Session 3
-now holds the same, and needs only its closure test run by another session.
+now holds the same, its closure test has been run and passes, and what is left
+is your sign-off on the nine things only you can answer.
 
 ## What has been done
 
@@ -35,75 +36,65 @@ now holds the same, and needs only its closure test run by another session.
 - **12 September.** The reader fixed; the thirteen disagreeing dates settled;
   Sessions 1 and 2 closed on the eighth sign-off after you found a real fault in
   what M8 said; Session 3's 62 bills read in and reconciled.
-- **13 September, earlier.** Session 3 reviewed and the error checker emptied;
-  the nine bills that did not pass coded from the Official Report and the
-  Parliament's bill pages, one of them a new way for a bill to end. Session 3's
-  closure test written and deliberately not run, and writing it turned up the
-  Autism Bill's Stage 1 date, which you ruled should be corrected in the
-  dataset.
+- **13 September, earlier.** Session 3 reviewed, the nine bills that did not
+  pass coded from the Official Report and the Parliament's bill pages, and the
+  session put on the clean sheet with your 108 Stage 1 and Stage 2 dates. How
+  time is counted was settled and built: a period is counted to any stage the
+  Parliament reached the end of and decided, whatever it decided. That moved
+  Session 2's Members' Bill figure for introduction to the Stage 1 debate from
+  342 days over 3 bills to 273 over 9. No recorded date moved.
 
-**13 September, this session. Session 3 is on the clean sheet, and its 108
-dates are loaded and waiting for you.**
-- **The rehearsal caught a real fault before anything was written.** Five
-  Session 3 bills have their ending read out of the Official Report, and
-  yesterday's work recorded the address of the report against the stage only,
-  not against the bill. Three of the five were refused outright; the Budget
-  (Scotland) (No. 2) and Creative Scotland Bills would have gone onto the clean
-  sheet with the citation simply blank and nothing would have said so. `db/058`
-  put the address on all five, taken out of each bill's own stage row rather
-  than retyped, and the error checker now asks for it, so no later session can
-  repeat it. You approved both parts before either was built.
-- **Session 3 promoted.** 216 bills, 475 stage records, 71 provenance notes. It
-  reconciles against page 8 in every cell and both margins, counting the Forth
-  Crossing Bill under Executive as the fact sheet does.
-- **Your 108 Stage 1 and Stage 2 dates loaded**, which is exactly what the gaps
-  list held; it is now empty. The reader that turns your dataset into rows knew
-  Sessions 1 and 2 only and now takes any session, and works to a rule stated in
-  terms of what happened to the bill: one that reached Stage 3, whether it
-  passed there or was rejected there, completed the two stages before it. That
-  matters for the first time here, because of the Budget (Scotland) (No. 2)
-  Bill, and M2 already said it.
-- **You read the 108 rows and were content**, so `db/059` admitted them, Session
-  3 came off the clean sheet and went back on with its dates, and the clean
-  sheet now holds 216 bills, 583 stage records and 71 provenance notes. 54 of
-  Session 3's 62 bills have all three stages dated; the other 8 are the bills
-  that did not get that far.
-- **How time is counted, settled and built.** A period is counted to any stage
-  the Parliament reached the end of and decided, whatever it decided. Until now
-  it was counted only where the bill got through, which dropped fifteen periods
-  whose two ends are both recorded — and dropped them one-sidedly, because only
-  Members' Bills lose Stage 1 votes. Session 2's Members' figure for
-  introduction to the Stage 1 debate was 342 days over 3 bills and is 273 over
-  9; no Government figure moved. The whole-bill table had the opposite fault and
-  showed the Budget Bill as taking 20 days "to passing" when it was rejected;
-  that column now says what it measures, and both tables carry whether the bill
-  passed so a chart can cover either set. No recorded date moved. `db/060`.
+**13 September, this session. Both tests run by a session that did none of the
+work they test, and everything a machine can check passes.**
+- **Session 3's closure test: all twenty-four mechanical checks pass.** Session
+  3 reconciles against page 8 of its own fact sheet in every cell and both
+  margins. All 53 Acts have their number, their assent and a year that agrees.
+  Every bill that did not pass says where it ended, and the four the Official
+  Report dates carry the Official Report's date and not your dataset's, which is
+  what the Autism correction was for. Taking Session 3 off and putting it back
+  inside a transaction that was thrown away gave the same 62 bills, 170 stage
+  records and 15 provenance notes, with not one unexpected difference.
+- **Three of the test's own predictions were wrong, and the data was right.**
+  The length of M2, which last session deliberately rewrote and nobody carried
+  forward; four Stage 1 dates predicted where there were always going to be
+  five, the fifth being the Budget Bill's, from your dataset; and eight cells
+  the reader must disagree with where there are ten, the two extra being the
+  bills that fell at dissolution, which the reader stopped deciding in `db/051`
+  precisely so the coding could be reproduced. Each was settled against
+  something other than the database being tested, then corrected in the test
+  with the reason beside it. Nothing in the database changed.
+- **The coverage check passes.** Of 764 points where a period could be counted,
+  743 are counted, 19 have no day because the stage never reached its terminal
+  point, and 2 did not happen. No third category.
+- **A rule recorded** for what a session marking a test may do about a
+  prediction it can show is wrong, and what it may not. `DECISIONS.md`.
 
-## Now: two tests, and both need a different session
+## Now: your nine sign-offs, and then Session 4
 
-**Nothing is waiting on you.** Session 3 is complete on the clean sheet and how
-time is counted is settled and built.
+Everything a machine can check about Session 3 is checked and passes. What is
+left is Part B of its closure test, which is yours and nobody else's:
 
-Two things have to be run by a session that did none of this one's work, because
-this session wrote both of them and did the work they test:
+1. What happened to each bill — the counts for Session 3.
+2. The five bills read in the Official Report, quotation and ending.
+3. The four endings you established from the Parliament's bill pages.
+4. The Forth Crossing Bill as a Hybrid, and what M4 tells a reader.
+5. The three adjudicated dates and the asp number.
+6. The ten corrected names, against the workbook's Corrections sheet.
+7. The Autism Bill's Stage 1 date.
+8. M7 read in full.
+9. That you can explain how this database works from the documents alone.
 
-1. **Session 3's closure test**, in `docs/CLOSURE-TESTS.md`: twenty-four
-   mechanical checks, nine sign-offs for you, six stated limits, written before
-   the work it tests.
-2. **The coverage check**, `tools/duration_coverage.sql`: every bill and every
-   stage counted into a period or carrying a stated reason why not, with no
-   third category. It reports 743 counted, 19 with no day recorded and 2 that
-   did not happen. Run it before and after any later change to how periods are
-   calculated.
+They are set out in `docs/CLOSURE-TESTS.md`, Part B. A sign-off is recorded
+there on the day it is given. **Session 3 is not closed until they are given.**
 
 **Then Session 4.**
 
-**Left unbuilt on purpose, and not blocking anything.** When the comparison could
-not pair ten bills it still recorded all 62 as compared. Nothing was written
-wrongly — the tool that loads stage dates refuses outright on an unpaired bill —
-but a bill that was never compared should not look compared. Settle it when a
-bill turns up that your dataset genuinely does not cover, so that both tools get
-the same answer at once.
+**Left unbuilt on purpose, and not blocking anything.** When the comparison
+could not pair ten bills it still recorded all 62 as compared. Nothing was
+written wrongly — the tool that loads stage dates refuses outright on an
+unpaired bill — but a bill that was never compared should not look compared.
+Settle it when a bill turns up that your dataset genuinely does not cover, so
+that both tools get the same answer at once.
 
 ## After that, in order
 
@@ -154,77 +145,64 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-13 (third session of the day)
+## Sanity check, 2026-09-13 (fourth session of the day)
 
-**At opening, everything matched and nothing needed a clean.** 154 bills on the
-clean sheet, 216 staging lines with all 62 Session 3 lines present and none
-accepted, 475 stage-date rows, 8 ways a bill can end, 8 notes for readers, 56
-migrations numbered without a gap, nothing uncommitted, the data dictionary
-regenerating identical to the committed file. Both lists were read: the error
-checker empty, the gaps list holding exactly the 108 Session 3 Stage 1 and Stage
-2 dates. The figures are those the previous session closed on.
+**At opening, everything matched and nothing needed a clean.** 216 bills, 583
+stage records, 71 provenance notes, 8 ways a bill can end, 8 notes for readers,
+60 migrations numbered without a gap, nothing uncommitted and nothing unpushed,
+the data dictionary regenerating identical to the committed file. The error
+checker and the gaps list were both empty. The figures are those the previous
+session closed on.
 
-**What the rehearsals found, before anything was written.** `db/055` recorded
-five Session 3 outcomes from the Official Report with the address of the report
-on the stage-dates row only; promotion takes a bill's citation off the line, so
-it had none. And the day a withdrawn bill left the process could be put onto a
-stage, where it would have counted as a period. Both are in `DECISIONS.md`.
+**This session ran the two tests the previous one wrote and deliberately left
+unrun.** It promoted nothing, loaded nothing and changed no data. The only
+changes it made are to `docs/`.
 
 **At close.**
 
+- **All twenty-four mechanical items of Session 3's closure test pass.** Three
+  expected answers were wrong and are corrected in the test with the reason
+  beside each: item 15 (M2 3661 → 4347, overtaken by `db/060`), item 19 (four
+  rows → five, the fifth being the Budget Bill's Stage 1 from the dataset, which
+  item 11 already predicted) and item 21 (eight worked-out cells → ten, the two
+  extra being the dissolution bills, which `db/051` stopped the reader
+  deciding). Part B, the nine sign-offs, is not marked and is the owner's.
+- **`tools/duration_coverage.sql` passes.** 764 points: 743 counted, 19 with no
+  day recorded, 2 that did not happen. No third category, and the script's own
+  guard confirmed it.
 - **216 bills, 583 stage records, 71 provenance notes**, the error checker
   empty, the gaps list empty, 60 migrations without a gap, the data dictionary
   regenerating identical to the committed file, nothing uncommitted.
-- **743 periods counted**, where 728 were before `db/060`; 19 stages have no day
-  recorded and 2 did not happen, and there is no third category.
-- **Session 3 reconciles against page 8** in every cell and both margins:
-  Acts 42/7/2/2 = 53, withdrawn 0/2/0/0 = 2, fallen 3/4/0/0 = 7, totals
-  45/13/2/2 = 62, counting the Forth Crossing Bill under Executive. Read off the
-  document itself, not off an earlier session's note of it.
-- **Compared cell by cell against copies taken beforehand**, four times. The
-  promotion: 62 bills, 62 stage records and 15 provenance notes added, the 62
-  lines and 62 stage rows stamped, five review notes gaining their address — 454
-  differences, every one intended. The date load: 108 rows added and nothing
-  else at all. Session 3 off and back on with its dates: 324 differences, being
-  the 108 rows accepted and the 108 stage records they became. `db/060`: no
-  difference anywhere on either sheet, because it changed no data.
-- **Safety dumps on the server**: `/var/tmp/legdata-before-057_2026-09-13.dump`,
-  `/var/tmp/legdata-before-s3-dates_2026-09-13.dump`,
-  `/var/tmp/legdata-before-059_2026-09-13.dump` and
-  `/var/tmp/legdata-before-060_2026-09-13.dump`. All four in-database copies
-  were compared and dropped.
+- **No working copy left in the database.** `copy_item23` was taken for item 23,
+  compared and dropped, and no schema named `copy%` remains.
 
-**Tested in rehearsal rather than assumed.**
+**How each of the three was settled, against something other than the database
+being tested.** This matters: correcting a prediction to match a result nobody
+can account for is how a test stops being a test.
 
-- Taking the Official Report's address off a line again makes the error checker
-  name that line, and the admission then refuses.
-- An anchor that is not on the line refuses rather than writing the address in
-  the wrong place.
-- Running `db/058` a second time, on the real database, refuses rather than
-  appending a second address.
-- The stage-date reader refuses a dataset date that disagrees with a date
-  already held from another source — the Autism Bill's Stage 1 put back to 17
-  January is caught and named — and refuses a dataset date for a stage that
-  nothing says the bill completed, on a bill that never reached Stage 3.
-- The reader refuses a session for which no reading date is recorded, and gives
-  byte-identical output for Sessions 1 and 2 before and after it was extended.
-- `db/059` refuses a row waiting for review that is not from the dataset, and
-  putting the session back refuses while any stage date is unreviewed.
-- Taking Session 3 off removed exactly what promotion had written — 62 bills, 62
-  stage records, 15 notes — and putting it back gave 62 bills, the same 15 notes
-  and 170 stage records.
-- **The one that was caught only by rehearsing it.** The day the Family Homes
-  and Homelessness Bill was withdrawn was put onto its Stage 1, and both sheets
-  took it: a bill that was never debated would have contributed a period as
-  though it had been. Marking the bill as having ended at that stage does not
-  separate the cases, because a withdrawn bill also ends there. Both sheets now
-  refuse a day on a stage the bill did not get through unless the Official
-  Report gives it, and both refusals were proved.
+- M2: `db/060` says in terms that it amended M2, and names the sentence it was
+  anchored on. The other seven lengths have not moved.
+- Item 19: item 11 of the same test derives the 108 dates as 54 bills × two
+  stages, the 54 being the 53 that passed plus the Budget Bill. The fifth row is
+  that bill, and the four the Official Report dates all say `official_report`.
+- Item 21: the dissolution rule was applied afresh to a fresh reading of the
+  fact sheet. Of its seven fallen bills exactly two concluded on Session 3's
+  last day of 22 March 2011 — Commissioner for Victims and Witnesses, and Long
+  Leases — which are exactly the two coded that way, none over and none missing.
 
-**Not done, and not this session's to do.** Two tests are written and unrun:
-Session 3's closure test, and `tools/duration_coverage.sql`. This session
-promoted the session, loaded and admitted the dates, and made the change the
-coverage check exists to check. A session does not mark its own work.
+**Tested rather than assumed.**
+
+- The fact-sheet reader was given nothing but the PDF and the session number.
+  All 62 lines pair and no raw column differs by a character.
+- Item 23 was rehearsed inside a transaction that was thrown away: 62 bills, 170
+  stage records and 15 provenance notes removed, leaving Sessions 1 and 2's own
+  154, 413 and 56 exactly; the same three counts written back; and the cell-by-
+  cell comparison reporting no unexpected difference on any of the five sheets.
+- The dataset's fingerprint was recomputed from the file, not read from a note:
+  `a9596ecf…57ed8b94`, matching `DECISIONS.md`.
+
+**Not done, and not this session's to do.** The nine sign-offs in Part B. Until
+they are given, Session 3 is not closed.
 
 ## The owner's standing positions, so they are not re-argued
 

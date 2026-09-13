@@ -7,6 +7,44 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — A marking session corrects an expected answer it can show is wrong, and says why
+
+**What happened.** Session 3's closure test was run by a session that did none
+of the work it tests. Twenty-one of its twenty-four mechanical items matched the
+answer written down in advance. Three did not, and in all three the database was
+right and the prediction was wrong: M2's length had been written against
+`db/055` and `db/060` then amended the note deliberately; item 19 expected four
+Stage 1 dates where the query it is written against returns five, the fifth
+being one this test's own item 11 predicts; and item 21 listed eight worked-out
+cells where ten differ, having missed the two bills that fell at dissolution,
+whose outcome `db/051` took away from the reader on purpose.
+
+**The decision.** A session marking a test may correct an expected answer, and
+only an expected answer, where it can show from something other than the
+database under test that the prediction was wrong or has been overtaken. The
+correction is written beside the item, dated, and says what it was, what it is,
+and why it moved. The run itself is recorded at the head of the test, as
+Sessions 1 and 2's already is.
+
+**What this does not license.** Changing a prediction to match a result the
+session cannot otherwise account for. Each of the three above was settled
+against something independent: a migration that says in terms what it changed to
+M2; another item of the same test that predicts the fifth row; and, for the
+dissolution bills, the rule applied afresh to a fresh reading of the fact sheet,
+which returns exactly those two bills and no others. A difference that cannot be
+accounted for that way is a failure, and it is reported as one.
+
+**Why it is needed.** A test written before the work it tests will sometimes
+predict wrongly — that is the price of writing it first, and the price is worth
+paying. What must not happen is that a wrong prediction stands, so that the next
+session reading the test is stopped by a figure that moved for a good reason, or
+worse, treats a real failure as one of the known-stale ones. See
+`docs/CLOSURE-TESTS.md`, and the standing rule that a test inherits and is not
+re-argued, which this does not disturb: what is corrected is the answer written
+down, never the question asked.
+
+---
+
 ## 2026-09-13 — Time is counted to every stage the Parliament decided, whatever it decided
 
 **The owner's ruling**, on three bills put to them — the Creative Scotland Bill,

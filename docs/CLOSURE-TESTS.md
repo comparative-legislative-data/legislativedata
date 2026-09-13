@@ -33,7 +33,40 @@ There is no universal test. Each ingest gets its own, newest first below.
 ## Session 3
 
 Written 2026-09-13 by the session that reviewed it and coded the nine bills that
-did not pass. **Not run. Not marked.**
+did not pass.
+
+**Run on 2026-09-13** by a session that did none of the work it tests: it did
+not promote Session 3, did not load or admit the stage dates, and did not make
+the change at `db/060`. **All twenty-four mechanical items pass.** Twenty-one
+matched the expected answer as written. Three did not, and in all three the
+data was right and the expected answer was wrong; each is corrected below with
+the reason beside it, and the corrections are the only change made to this
+test.
+
+- **Item 15**, M2's length. Written against `db/055` as 3661; `db/060` amended
+  M2 deliberately and it is 4347. The prediction went stale.
+- **Item 19**, the Stage 1 dates of bills that did not pass. Five rows, not
+  four. The fifth is the Budget (Scotland) (No.2) Bill's Stage 1 from the
+  dataset, which this test's own item 11 predicts. The four the Official Report
+  dates all say `official_report`, which is what the item checks.
+- **Item 21**, the reader. 62 rows and not one of the fact sheet's own words
+  differs, with nothing supplied but the PDF and the session number. Ten
+  worked-out cells differ, not eight: the two extra are the bills that fell at
+  dissolution, which `db/051` stopped the reader deciding. Applying the
+  dissolution rule afresh to that reading returns exactly those two, none over
+  and none missing.
+
+Item 23 was rehearsed inside a transaction that was thrown away: 62 bills, 170
+stage records and 15 provenance notes off, the same back on, and no unexpected
+difference anywhere on either sheet. The working copy was compared and dropped.
+
+`tools/duration_coverage.sql` was run in the same session and passes: of 764
+points where a period could be counted, 743 are counted, 19 have no day because
+the stage never reached its terminal point, and 2 did not happen. No third
+category.
+
+**Part B is not marked.** The nine sign-offs are the owner's and are recorded
+here on the day they are given.
 
 **When to run it.** When Session 3 is on the clean sheet *and* its Stage 1 and
 Stage 2 dates are loaded. Closure means the session is finished, and Session 3
@@ -197,10 +230,17 @@ Cells: `bill_page` 7, `legislation_gov_uk` 11, `official_report` 30,
 `spice_factsheet_legislation` 0.
 
 **15. The notes a reader is given.** M1 to M8, eight of them, none empty, and
-M7 the only one that mentions a financial resolution. Their lengths, which
-should not have moved since `db/055`: M1 358, M2 3661, M3 1088, M4 971, M5 1940,
-M6 1605, M7 4361, M8 2673. A length that has moved means somebody edited a note;
-find out who and why before marking anything.
+M7 the only one that mentions a financial resolution. Their lengths: M1 358,
+M2 4347, M3 1088, M4 971, M5 1940, M6 1605, M7 4361, M8 2673. A length that has
+moved means somebody edited a note; find out who and why before marking
+anything.
+
+**Corrected on 2026-09-13 by the session that ran this test.** The figures were
+written against `db/055` and M2 was given as 3661. `db/060` then amended M2
+deliberately, to say that a stage is counted where the Parliament took the
+decision that ends it whatever it decided, and the test was not brought forward
+with it. M2 is 4347 characters and the other seven have not moved. The check
+itself stands: a length that moves still means a note was edited.
 
 **16. Notes on the Session 3 staging lines.** 9 with a review note, 1 with a
 note for readers, 60 the reader remarked on. The one reader's note is the Forth
@@ -223,11 +263,24 @@ December 2010, Budget (No.2) `stage_3` 28 January 2009, every one
 `official_report` — and four are undated: the two withdrawn bills and the two
 that fell at dissolution, none of which ended on a decision of the Parliament.
 
-**19. The four Stage 1 dates the dataset also gives.** Four rows: Autism
-12 January 2011, Creative Scotland 18 June 2008, End of Life Assistance
-1 December 2010, Protection of Workers 22 December 2010. **Every one must say
-`official_report`.** If any says `phd`, the dataset's date has been carried in
+**19. The Stage 1 dates held for a Session 3 bill that did not pass.** Five
+rows. Four are the ones the Official Report dates, and **every one of those four
+must say `official_report`**: Autism 12 January 2011, Creative Scotland
+18 June 2008, End of Life Assistance 1 December 2010, Protection of Workers
+22 December 2010. If any says `phd`, the dataset's date has been carried in
 place of the Official Report's and this item fails.
+
+The fifth is the Budget (Scotland) (No.2) Bill, Stage 1 on 14 January 2009, and
+it must say `phd`. The Official Report gives that bill its Stage 3, not its
+Stage 1; its Stage 1 and Stage 2 come from the dataset like every other bill
+that reached Stage 3.
+
+**Corrected on 2026-09-13 by the session that ran this test.** The item was
+written expecting four rows and the query it is written against returns every
+Session 3 bill that did not pass and has a dated Stage 1, which is five. The
+fifth was predicted by this test's own item 11 — the 108 dates are 54 bills'
+worth, being the 53 that passed plus the Budget Bill — and the omission was in
+the expected answer, not in what was loaded.
 
 It mattered for one of them, and no longer does. The dataset dated the Autism
 Bill's Stage 1 at 17 January 2011 against the Official Report's 12 January; the
@@ -250,15 +303,35 @@ differing.
 **Nothing may be supplied to the reader but the PDF and the session number.**
 That is what this item is for.
 
-**The worked-out columns that must differ, and only these** — eight cells across
-seven bills:
+**The worked-out columns that must differ, and only these** — ten cells across
+nine bills:
 
-- `outcome` on five bills, none of which the fact sheet explains: Autism, Budget
-  (Scotland) (No.2), Creative Scotland, End of Life Assistance, Protection of
-  Workers.
+- `outcome` on all seven bills the fact sheet's Fallen table holds, because
+  since `db/051` the reader decides none of them. Five the fact sheet does not
+  explain, and which were read in the Official Report: Autism, Budget (Scotland)
+  (No.2), Creative Scotland, End of Life Assistance, Protection of Workers. Two
+  that ran out of time, which are worked out after the reading from the day the
+  session ended: Commissioner for Victims and Witnesses, and Long Leases.
 - `date_royal_assent` on two, corrected against legislation.gov.uk: Double
   Jeopardy and Forced Marriage etc.
 - `asp_number` on one, which the fact sheet omits: Forced Marriage etc.
+
+`outcome` must **not** differ on the two withdrawn bills. The reader reads the
+Withdrawn table and codes them itself.
+
+**Also check the dissolution rule afresh**, as Sessions 1 and 2's item 18 does:
+of the seven fallen bills in the fresh reading, exactly those concluding on
+Session 3's last day of 22 March 2011 are the ones coded `fell_dissolution`,
+none over and none missing. That is what makes the two extra differences a
+rule being applied rather than a coding nobody can reproduce.
+
+**Corrected on 2026-09-13 by the session that ran this test.** The item was
+written listing eight cells across seven bills, from what was changed after the
+load, and missed the two bills that fell at dissolution: `db/051` took that
+decision away from the reader precisely so that it would be reproducible from
+the session's last day, so their outcomes were always going to differ from a
+fresh reading. Sessions 1 and 2's test records the same behaviour for all
+eighteen of their fallen bills. The omission was in the expected answer.
 
 `bill_type` must **not** differ. The fact sheet's own table types the Forth
 Crossing Act H, and the owner's reading of the bill page agreed with it; only
