@@ -36,11 +36,35 @@ agreed to", then "For 65, Against 48, Abstentions 2. Motion, as amended, agreed
 to." The motion carried and the bill fell. The owner predicted this from the
 shape of the record before it was read, and was right.
 
-**What is not recorded, and why.** The amendment's own wording is not printed on
-the Official Report page for that day — the page gives the question the Presiding
-Officer put and both results, and nothing else. The note quotes what is there and
-does not reconstruct the rest. If the amendment's text is wanted for a reader it
-has to come from the Business Bulletin or the bill's own page.
+**The motion as amended is recorded in full** (`db/064`), from the owner. The
+Official Report page the division was read on gives the question the Presiding
+Officer put and both results and nothing else, and `db/063` ended by saying so;
+that was the wrong thing to leave on the only bill of its session rejected this
+way, and it is replaced by the text itself:
+
+> That the Parliament does not agree to the general principles of the
+> Transplantation (Authorisation of Removal of Organs etc.) (Scotland) Bill
+> because it has serious concerns about the practical impact of the specific
+> details in the bill that relate to organ donation rates and transplants; agrees
+> the merits of developing a workable soft opt-out system for Scotland, and calls
+> on the Scottish Government to commence work in preparation for a detailed
+> consultation on further methods to increase organ donations and transplants in
+> Scotland, including soft opt-out, as an early priority in the next
+> parliamentary session, learning from the experiences in Wales, which is
+> currently implementing its own opt-out legislation, and to consider bringing
+> forward legislation as appropriate.
+
+**Why this matters beyond one bill.** The resolution is the whole difference
+between this route and the ordinary one. On the ordinary route the Parliament
+declines the general principles and says nothing else. Here it declined them *and*
+resolved what should happen instead — a soft opt-out system, a consultation, and
+legislation in the next session if appropriate — so the rejection carries a policy
+direction that a count of rejections cannot see. That is what
+`ref_stage_1_rejection_route` means when it asks for the reason the resolution
+gives to be kept on the bill. Quoted in full and not summarised, because it is
+published beside the bill; checked character for character against what the owner
+supplied, 781 characters. The amendment's own wording is still not printed on
+that page, and the note says so.
 
 ### The two dates
 

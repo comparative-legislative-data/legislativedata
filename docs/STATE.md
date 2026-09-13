@@ -81,7 +81,10 @@ the source it names, with the words quoted on the line (`db/063`):
   way — the member's motion put and disagreed to. The fifth, the Transplantation
   Bill, is the second case of the other route: its own motion amended into one
   that did not agree to the general principles and then agreed to as amended, so
-  the motion carried and the bill fell. You called that before it was read.
+  the motion carried and the bill fell. You called that before it was read, and
+  supplied the motion as amended, which is now recorded in full on the bill
+  (`db/064`) — the Parliament did not merely decline the principles, it resolved
+  what should happen instead.
 - **Land Reform's Royal Assent is 22 April 2016.** The factsheet is wrong.
 - **National Galleries' introduction is 25 June 2015.** The factsheet is right
   and your dataset a day out, recorded on your own record because the
@@ -204,7 +207,7 @@ went with them. **Nothing was written to the clean sheet.**
 - **The gaps list holds 160**, up from empty, and every one is a Session 4
   Stage 1 or Stage 2 date not yet entered. They arrive from the owner's dataset
   after promotion, as in every session, and a gap does not stop promotion.
-- **62 migrations without a gap**, the data dictionary regenerating identical to
+- **64 migrations without a gap**, the data dictionary regenerating identical to
   the committed file.
 - **Nothing uncommitted, nothing unpushed, no working copy in the database.**
 
