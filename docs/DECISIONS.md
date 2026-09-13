@@ -7,6 +7,58 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — Session 3's closure test, written before the work it tests
+
+`docs/CLOSURE-TESTS.md` and `tools/closure_check_session_3.sql`, by the session
+that reviewed Session 3 and coded the nine bills that did not pass. Not run and
+not marked, which is the procedure.
+
+**A test written ahead of the work, and why that is better here.** Sessions 1
+and 2's test was written after those sessions were finished, so its expected
+answers described a database somebody had already looked at. Session 3 is not on
+the clean sheet and its Stage 1 and Stage 2 dates are not loaded, so this one's
+expected answers are worked out instead — from the fact sheet's own summary
+page, from the owner's dataset, and from the rules the earlier sessions set.
+That turns the test into a specification the promotion and the stage-date load
+have to satisfy, written by a session that will do neither. An expected answer
+taken from the database it is testing proves nothing; an expected answer written
+before that database exists cannot be taken from it.
+
+**It is therefore run at the end, not now.** Closure means the session is
+finished, and Session 3 is not finished until its dates are in. Twenty-four
+mechanical checks, nine sign-offs, six stated limits.
+
+**What the test predicts, and where each figure comes from.** 216 bills, being
+154 plus the fact sheet's own 62. 583 stage records, being 413 plus Session 3's
+170: 53 bills passed × 3 stages, plus 3 for the Budget (Scotland) (No.2) Bill
+which reached Stage 3, plus 1 for the Creative Scotland Bill which completed
+Stage 1, plus one each for the 7 that stopped at a stage. 71 provenance notes,
+being 56 plus 15. 108 stage dates to load, being 54 bills × two stages — counted
+in the dataset, not in the database.
+
+**Writing it found a disagreement nothing else would have.** Working out which
+54 bills the dataset supplies exposed four whose Stage 1 the Official Report
+already dates, and one of the four disagrees: the dataset gives the Autism
+(Scotland) Bill's Stage 1 as **17 January 2011**, while the Official Report of
+**12 January 2011** records the motion disagreed to and the fact sheet gives 12
+January as the day the bill fell. `tools/compare_sources.py` could not have
+caught it — it deliberately does not compare stage dates, because the fact sheet
+holds none. Sessions 1 and 2 hit the same shape and got away with it: the
+dataset agreed with ten of the eleven Stage 1 rejections and the eleventh was
+blank. It is the owner's to settle, and it has to be settled before the loader
+runs rather than at the end, because the loader's behaviour turns on it.
+
+**Three smaller things, recorded so they are not found twice.** Session 3's
+staging lines are all `new` rather than `accepted`, which is correct but blocks
+promotion until someone accepts them. `sp_bill_id` does not collide across
+sessions, contrary to `FACTSHEET-SURVEY.md` §4.2, because the rule is on the
+pair of session and number. And `in_progress` and
+`fell_financial_resolution_not_agreed` share a sort order, so any list of the
+endings puts those two in an arbitrary order; it wants a line in a later
+migration.
+
+---
+
 ## 2026-09-13 — Where four bills ended, and one that ended nowhere
 
 Both halves of this are loose ends from `db/055`, found when the owner asked

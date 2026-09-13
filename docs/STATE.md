@@ -35,58 +35,62 @@ introduction to passing, with every cell traceable to what said so.
   settled; each session's last day loaded; why a bill fell moved into the
   database.
 - **12 September.** Closure test run by a different session; you found a real
-  fault in what M8 said about Royal Assent dates, fixed in `db/053`.
-- **12 September.** Sessions 1 and 2 closed on the eighth sign-off. What the
-  clean sheet has to prove is settled: the test that counts comes at the end,
-  when all seven sessions are in and the charts and tables are compared against
-  what you built by hand off the PhD.
+  fault in what M8 said about Royal Assent dates, fixed in `db/053`. Sessions 1
+  and 2 closed on the eighth sign-off, and what the clean sheet has to prove is
+  settled: the test that counts comes at the end, when all seven sessions are in
+  and the charts are compared against what you built by hand off the PhD.
 - **12 September.** Session 3's 62 bills read in and reconciled; ten names
   corrected in your sheet so the two lists pair; your three dates settled and
   the Forth Crossing Act confirmed Hybrid. `db/054`.
+- **13 September, earlier.** Session 3 reviewed and the error checker emptied.
+  The five bills that fell without the factsheet saying why coded from the
+  Official Report — three rejected at Stage 1, one rejected at Stage 3 on the
+  Presiding Officer's casting vote, and the Creative Scotland Bill, which fell
+  for want of a financial resolution with its principles already agreed: a new
+  way for a bill to end, and M7 now names four. Where each of the other bills
+  that did not pass had got to recorded from the Parliament's bill pages.
+  `db/055`, `db/056`.
 
-**13 September, this session. Session 3 is reviewed and the checker is empty.**
-- **The five bills that fell without the factsheet saying why are coded**, each
-  from the Official Report of the day with the Presiding Officer's words quoted.
-  Three were rejected at Stage 1 in the ordinary way. The Budget (No.2) Bill was
-  rejected at Stage 3 — the first time this database has recorded that — on a
-  64–64 tie decided by the Presiding Officer's casting vote.
-- **A bill can fall for want of money, and now the database can say so.** The
-  Creative Scotland Bill's general principles were *agreed* on 18 June 2008; the
-  financial resolution was defeated the same afternoon, so the bill fell with its
-  principles carried. That is neither a defeat nor running out of time, so it has
-  its own ending rather than a general "fell for another reason". `db/055`.
-- **The Parliament's own website is wrong about that bill**, saying it "fell at
-  Stage 1". Stage 1 was completed. Recorded on the bill, because the same page
-  wording is used for bills that genuinely were rejected at Stage 1.
-- **M7 now names four reasons a bill can fall**, not three, and says why the
-  fourth must not be counted as a defeat.
-- **All 62 bills hold an outcome** — 53 passed, 3 rejected at Stage 1, 2 fell at
-  dissolution, 2 withdrawn, 1 rejected at Stage 3, 1 for want of a financial
-  resolution — and the error checker is empty.
-- **Where each bill that did not pass had got to is recorded**, for all eight of
-  them. Four needed your reading of the Parliament's bill pages: two withdrawn
-  by the member in charge before any Stage 1 debate, two that fell at
-  dissolution. None carries a date, because none ended on a decision of the
-  Parliament — the rule Sessions 1 and 2 set.
-- **A fault this session made, found and fixed.** The gaps list asks every bill
-  that did not pass where it ended. The Creative Scotland Bill did not end at a
-  stage, so the list was telling you its ending was not recorded, which was
-  false. It no longer asks. `db/056`.
+**13 September, this session. Session 3's closure test is written, and one date
+needs your ruling.**
+- **The test is written and deliberately not run.** `docs/CLOSURE-TESTS.md` and
+  `tools/closure_check_session_3.sql`: twenty-four mechanical checks, nine
+  sign-offs for you, six stated limits. A different session runs it and marks
+  it.
+- **It is written before the work it tests, on purpose.** Session 3 is not on
+  the clean sheet and its Stage 1 and 2 dates are not loaded, so every expected
+  answer is worked out from the factsheet, your dataset and the rules rather
+  than read out of the database. That is what makes it a real check on whoever
+  does those two jobs, instead of a description of what they happened to
+  produce.
+- **Writing it turned up a disagreement, and it is the one thing waiting on
+  you.** Your dataset dates the Autism Bill's Stage 1 at 17 January 2011. The
+  Official Report of 12 January 2011 records the motion disagreed to, and the
+  factsheet gives 12 January as the day the bill fell. Nothing on the clean
+  sheet is affected — Session 3 is not on it — but the tool that loads your
+  dates has to know which is right before it runs.
 
-## Now: Session 3 onto the clean sheet
+## Now: one date from you, then Session 3 onto the clean sheet
 
-Nothing is waiting on you. The 62 bills are reviewed, every cell names what said
-so, the error checker is empty, and nothing is listed as missing except the
-Stage 1 and 2 dates that have not been loaded yet.
+**The Autism (Scotland) Bill's Stage 1 date.** Your dataset says 17 January
+2011. The Official Report of 12 January 2011 records the motion in Hugh
+O'Donnell's name disagreed to, For 5 Against 109, and the factsheet gives 12
+January as the day the bill fell. Two of your own sources against one. Which is
+right, and if the dataset is wrong, may it be corrected the way the ten names
+and the Criminal Procedure date were?
+
+Nothing else is waiting on you. The 62 bills are reviewed, every cell names what
+said so, and the error checker and the gaps list both read as they should.
 
 **What is left for Session 3**, in order:
 
-1. **Its closure test**, written by this session and marked by the next. Not yet
-   written — that is the first task.
+1. **The Autism date settled**, and the dataset corrected if it is wrong. Before
+   anything else, because the loader's behaviour turns on it.
 2. **Session 3 onto the clean sheet**, through the promotion runbook.
 3. **Your Stage 1 and 2 dates for Session 3.** 108 dates, which is what the gaps
    list holds. The tool that loads them only knows Sessions 1 and 2 and needs
    extending first.
+4. **The closure test run and marked** by a session that did none of the above.
 
 **Left unbuilt on purpose, and not blocking anything.** When the comparison could
 not pair ten bills it still recorded all 62 as compared. Nothing was written
@@ -141,44 +145,47 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-13
+## Sanity check, 2026-09-13 (second session of the day)
 
-**At opening, everything matched and nothing needed a clean.** The figures were
-those the previous session closed on. The error checker reported five bills, all
-of them the fallen bills waiting for a reason, which is what `STATE.md` said.
+**At opening, everything matched and nothing needed a clean.** 154 bills on the
+clean sheet, 216 staging lines with all 62 Session 3 lines present, 475
+stage-date rows, 8 ways a bill can end, 8 notes for readers, 56 migrations
+numbered without a gap, nothing uncommitted, the data dictionary regenerating
+identical to the committed file. **Both lists were read**: the error checker is
+empty and the gaps list holds exactly the 108 Session 3 Stage 1 and Stage 2
+dates waiting for the PhD dataset. The figures are those the previous session
+closed on.
 
-**At close.** 154 bills on the clean sheet, unchanged — Session 3 is on the
-staging sheet only. 216 staging lines, all 62 Session 3 lines holding an outcome
-and every one that did not pass recording where it ended. 475 stage-date rows.
-8 ways a bill can end, up from 7. 8 notes for readers, unchanged — M7 was
-amended rather than a ninth added. 56 migrations numbered without a gap. **The
-error checker is empty, and the gaps list holds only the 108 Session 3 stage
-dates still to be loaded.** The data dictionary regenerates with two changes,
-both intended: its own date, and `ref_outcome`'s description, which `db/055`
-rewrote to say what an empty outcome means.
+**At close.** Nothing in the database changed: this session wrote a test and did
+not run it, and no migration was applied. The two new files are
+`tools/closure_check_session_3.sql` and the Session 3 section of
+`docs/CLOSURE-TESTS.md`.
 
-**Two faults of this session's own making, both found before close.**
-`db/055` added an ending that does not stop at a stage and did not tell the gaps
-list, which then reported something false about the Creative Scotland Bill.
-And the session reported "nothing is waiting on you" having read the error
-checker and not the gaps list, while four bills had no record of where they
-ended. Both are fixed in `db/056`. **Closing a session means reading both lists.**
+**What writing the test turned up.**
 
-**What was rehearsed.** `db/055` was run inside a transaction that was thrown
-away twice before it was applied: the first rehearsal caught a column name that
-does not exist on `methodology_note`, the second caught that the new note
-duplicated M7, which is why M7 was amended instead. `db/056` was rehearsed once
-and applied clean.
+- **The Autism date.** The dataset gives 17 January 2011 for that bill's Stage 1;
+  the Official Report of 12 January 2011 and the fact sheet both give 12
+  January. It is above the line because the loader turns on it. It surfaced only
+  because the test had to state, in advance, how many rows the load should write
+  and where each came from — the 108 comes out as 54 bills × two stages, and
+  working out which 54 is what exposed the four bills whose Stage 1 the dataset
+  also dates.
+- **Session 3's staging lines are all `new`, not `accepted`.** That is correct
+  and not a fault — nothing has been accepted yet — but promotion refuses until
+  they are, so whoever promotes does that first.
+- **`sp_bill_id` does not collide.** `FACTSHEET-SURVEY.md` §4.2 warns that it
+  will, because SP Bill 7 is in both Sessions 2 and 3. The rule is
+  `UNIQUE (session_number, sp_bill_id)`, so it does not. The survey's warning is
+  stale; it is a survey of the documents, not of the database, and is left as
+  written.
+- **Two endings share a sort order.** `in_progress` and
+  `fell_financial_resolution_not_agreed` are both 7, so any list of the endings
+  puts them in an arbitrary order. Nothing reads wrongly today; it wants one
+  line in a later migration, not one of its own.
 
-**A trap worth knowing about.** The Official Report PDFs are two-column, and
-reading them whole interleaves the columns into nonsense — a quotation taken
-that way looks plausible and is wrong. Every quotation in `db/055` was taken
-after cropping each page into halves. Anything that reads these PDFs in future
-must do the same.
-
-**Not marked by this session.** Session 3's closure test is still not written.
-This session did the work, so it writes that test and a different session runs
-it. It is the first task of the next session.
+**Not marked by this session, and not markable by it.** The test covers work
+that has not happened. Whoever promotes Session 3 and extends
+`tools/phd_stage_dates.py` must not be the session that runs it either.
 
 ## The owner's standing positions, so they are not re-argued
 
