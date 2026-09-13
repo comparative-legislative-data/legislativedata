@@ -7,6 +7,56 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — The Autism Bill's Stage 1 date: the dataset is corrected
+
+**The owner's ruling**, on the disagreement Session 3's closure test turned up:
+"The phd dataset clearly needs corrected, and that resolves the problem."
+
+**The disagreement.** The working dataset gave the Autism (Scotland) Bill's
+Stage 1 as 17 January 2011. The Official Report of 12 January 2011 records
+motion S3M-7676, in the name of Hugh O'Donnell, that the Parliament agrees to
+the general principles of the bill, disagreed to, For 5 Against 109 Abstentions
+2; and the SPICe legislation fact sheet gives 12 January 2011 as the day the
+bill fell. Two independent sources against one, and the one is the owner's own
+working copy.
+
+**Corrected to 12 January 2011**, in `sources/phd/Billdates-September2026.xlsx`,
+with the Corrections sheet carrying the change, the reason, and what it was
+checked against. The owner's original behind the 2021 thesis is held separately
+and is untouched, as before.
+
+**Fingerprints.** Before:
+`e04dc54042292e2b1f4bc9ea23a481d88f240adac587d68d38134d431c38ea75`. After:
+`a9596ecf997f186b0dd9d069642560f65120ab7ca97d0a2387863d0157ed8b94`.
+
+**Checked, against a copy taken before the change.** Exactly one cell differs on
+the data sheet — E199, the Autism Stage 1 date — and seventeen on the
+Corrections sheet, being the new note, its header row and its one entry. Nothing
+else moved. `tools/phd_stage_dates.py` gives byte-identical output from the file
+before and after, same checksum, so none of the 256 Stage 1 and Stage 2 dates
+Sessions 1 and 2 hold on the clean sheet is affected. `tools/compare_sources.py`
+finds all 73, 81 and 62 lines paired and no differences in any of the three
+sessions. All four Session 3 bills whose Stage 1 the Official Report dates now
+agree with it to the day.
+
+**Why it is worth an entry of its own.** The comparison that gates every session
+does not compare stage dates, and cannot: the fact sheet holds none. So a
+disagreement of this kind has no gate to catch it. This one surfaced only
+because a closure test had to state in advance how many rows the stage-date load
+should write and where each came from, which meant working out exactly which
+bills the dataset supplies. **Writing the expected answers is itself a check, and
+a different one from running them.** Sessions 1 and 2 had the same shape and got
+away with it — the dataset agreed with ten of the eleven Stage 1 rejections and
+the eleventh was blank.
+
+**What moves in the tests.** Sessions 1 and 2's item 19 is the one item that
+test said an outside change could move, and this is the second time it has
+moved; both moves are recorded beside the original and the item still passes.
+Session 3's item 22 now carries the new fingerprint, and its Part B item 7 is
+given.
+
+---
+
 ## 2026-09-13 — Session 3's closure test, written before the work it tests
 
 `docs/CLOSURE-TESTS.md` and `tools/closure_check_session_3.sql`, by the session

@@ -63,34 +63,33 @@ needs your ruling.**
   than read out of the database. That is what makes it a real check on whoever
   does those two jobs, instead of a description of what they happened to
   produce.
-- **Writing it turned up a disagreement, and it is the one thing waiting on
-  you.** Your dataset dates the Autism Bill's Stage 1 at 17 January 2011. The
-  Official Report of 12 January 2011 records the motion disagreed to, and the
-  factsheet gives 12 January as the day the bill fell. Nothing on the clean
-  sheet is affected — Session 3 is not on it — but the tool that loads your
-  dates has to know which is right before it runs.
+- **Writing it turned up a disagreement, and you settled it.** Your dataset
+  dated the Autism Bill's Stage 1 at 17 January 2011; the Official Report of 12
+  January 2011 and the factsheet both give 12 January. Your working copy is
+  corrected to 12 January, with the Corrections sheet saying why. Nothing on the
+  clean sheet moved: your Sessions 1 and 2 dates come out of the corrected file
+  byte for byte the same, and all three sessions still pair with no differences
+  at all.
+- **The comparison that gates every session could not have caught it**, because
+  it does not compare stage dates — the factsheet holds none. It surfaced only
+  because the test had to say in advance how many dates the load should write
+  and where each came from. Writing the expected answers is itself a check, and
+  a different one from running them.
 
-## Now: one date from you, then Session 3 onto the clean sheet
+## Now: Session 3 onto the clean sheet
 
-**The Autism (Scotland) Bill's Stage 1 date.** Your dataset says 17 January
-2011. The Official Report of 12 January 2011 records the motion in Hugh
-O'Donnell's name disagreed to, For 5 Against 109, and the factsheet gives 12
-January as the day the bill fell. Two of your own sources against one. Which is
-right, and if the dataset is wrong, may it be corrected the way the ten names
-and the Criminal Procedure date were?
-
-Nothing else is waiting on you. The 62 bills are reviewed, every cell names what
-said so, and the error checker and the gaps list both read as they should.
+Nothing is waiting on you. The 62 bills are reviewed, every cell names what said
+so, the error checker and the gaps list both read as they should, and the Autism
+date is settled.
 
 **What is left for Session 3**, in order:
 
-1. **The Autism date settled**, and the dataset corrected if it is wrong. Before
-   anything else, because the loader's behaviour turns on it.
-2. **Session 3 onto the clean sheet**, through the promotion runbook.
-3. **Your Stage 1 and 2 dates for Session 3.** 108 dates, which is what the gaps
+1. **Session 3 onto the clean sheet**, through the promotion runbook. Its lines
+   have to be accepted first; nothing has been yet.
+2. **Your Stage 1 and 2 dates for Session 3.** 108 dates, which is what the gaps
    list holds. The tool that loads them only knows Sessions 1 and 2 and needs
    extending first.
-4. **The closure test run and marked** by a session that did none of the above.
+3. **The closure test run and marked** by a session that did neither of those.
 
 **Left unbuilt on purpose, and not blocking anything.** When the comparison could
 not pair ten bills it still recorded all 62 as compared. Nothing was written
@@ -157,19 +156,26 @@ dates waiting for the PhD dataset. The figures are those the previous session
 closed on.
 
 **At close.** Nothing in the database changed: this session wrote a test and did
-not run it, and no migration was applied. The two new files are
+not run it, and no migration was applied. The new files are
 `tools/closure_check_session_3.sql` and the Session 3 section of
-`docs/CLOSURE-TESTS.md`.
+`docs/CLOSURE-TESTS.md`; the working dataset is corrected in one cell.
 
 **What writing the test turned up.**
 
-- **The Autism date.** The dataset gives 17 January 2011 for that bill's Stage 1;
-  the Official Report of 12 January 2011 and the fact sheet both give 12
-  January. It is above the line because the loader turns on it. It surfaced only
-  because the test had to state, in advance, how many rows the load should write
-  and where each came from — the 108 comes out as 54 bills × two stages, and
-  working out which 54 is what exposed the four bills whose Stage 1 the dataset
-  also dates.
+- **The Autism date, found and settled the same session.** The dataset gave 17
+  January 2011 for that bill's Stage 1; the Official Report of 12 January 2011
+  and the fact sheet both give 12 January. The owner ruled the dataset wrong and
+  it is corrected. It surfaced only because the test had to state, in advance,
+  how many rows the load should write and where each came from — the 108 comes
+  out as 54 bills × two stages, and working out which 54 is what exposed the
+  four bills whose Stage 1 the dataset also dates.
+- **What was checked for that correction**, against a copy taken beforehand:
+  exactly one cell differs on the data sheet and seventeen on the Corrections
+  sheet, being the new entry; `tools/phd_stage_dates.py` gives byte-identical
+  output before and after, so Sessions 1 and 2 are untouched; and
+  `tools/compare_sources.py` pairs all 73, 81 and 62 lines with no differences
+  in any session. Fingerprint now
+  `a9596ecf997f186b0dd9d069642560f65120ab7ca97d0a2387863d0157ed8b94`.
 - **Session 3's staging lines are all `new`, not `accepted`.** That is correct
   and not a fault — nothing has been accepted yet — but promotion refuses until
   they are, so whoever promotes does that first.

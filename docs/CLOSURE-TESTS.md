@@ -228,11 +228,11 @@ that fell at dissolution, none of which ended on a decision of the Parliament.
 `official_report`.** If any says `phd`, the dataset's date has been carried in
 place of the Official Report's and this item fails.
 
-It matters for one of them. The dataset dates the Autism Bill's Stage 1 at
-**17 January 2011**; the Official Report of **12 January 2011** records the
-motion disagreed to, and the fact sheet gives 12 January as the day the bill
-fell. The two sources disagree, and Part B item 7 is where that is settled. This
-item only checks that the load did not decide it silently.
+It mattered for one of them, and no longer does. The dataset dated the Autism
+Bill's Stage 1 at 17 January 2011 against the Official Report's 12 January; the
+owner settled it on 13 September and the dataset is corrected. All four now
+agree with the Official Report to the day, so this item is checking that the
+load left the more primary source in place, not adjudicating anything.
 
 ### Then, outside the script
 
@@ -270,12 +270,13 @@ changed after the load; a difference that is not on it is something to
 investigate, not to wave through.
 
 **22. The dataset's fingerprint** is sha256
-`e04dc54042292e2b1f4bc9ea23a481d88f240adac587d68d38134d431c38ea75`, recorded in
-`DECISIONS.md`, 2026-09-12, after the ten names and the Criminal Procedure date.
-**This is the one item a later session can move.** Settling the Autism date, or
-adjudicating a disagreement for Session 4 or beyond, corrects the file and the
-fingerprint changes with it. Record the new one beside the old; nothing else
-about Session 3 is reopened by it.
+`a9596ecf997f186b0dd9d069642560f65120ab7ca97d0a2387863d0157ed8b94`, recorded in
+`DECISIONS.md`, 2026-09-13, after the Autism Stage 1 date. It was
+`e04dc540…c38ea75` when this test was first drafted, and moved the same day.
+**This is the one item a later session can move.** Adjudicating a disagreement
+for Session 4 or beyond corrects the file and the fingerprint changes with it.
+Record the new one beside the old; nothing else about Session 3 is reopened by
+it.
 
 **23. Promotion is still reversible.** Take Session 3 off and put it back inside
 a transaction that is thrown away, and the result is identical. The procedure is
@@ -310,12 +311,13 @@ day it is given, and nowhere else.
    are the ones you intended.
 6. **The ten names corrected in the dataset**, checked against the workbook's
    Corrections sheet.
-7. **The Autism (Scotland) Bill's Stage 1 date.** The dataset says 17 January
+7. **The Autism (Scotland) Bill's Stage 1 date.** The dataset said 17 January
    2011; the Official Report of 12 January 2011 records the motion disagreed to,
-   and the fact sheet gives 12 January as the day the bill fell. Which is right,
-   and whether the dataset is corrected. **This one has to be settled before the
-   stage dates are loaded, not at the end**, because the loader's behaviour
-   depends on the answer.
+   and the fact sheet gives 12 January as the day the bill fell.
+   **Given 2026-09-13**: the dataset needed correcting, and it is corrected to
+   12 January. It had to be settled before the stage dates were loaded rather
+   than at the end, because the loader's behaviour turns on it. What is left for
+   the marking session is item 22, the new fingerprint.
 8. **M7 as it now stands**, read in full: that it tells a reader what you want
    told about a bill falling for want of a financial resolution, and that saying
    the Parliament's own page is wrong about the Creative Scotland Bill is a
@@ -531,6 +533,17 @@ session can move.** Adjudicating a disagreement for Session 3 or beyond may
 correct the dataset file, and the fingerprint changes when it does. Re-check
 this item then, and record the new fingerprint beside the old; nothing else
 about Sessions 1 and 2 is reopened by it.
+
+**Moved twice since the mark, and re-checked both times.**
+`c0d386c1…c688999` when this test was marked on 2026-09-12; then
+`e04dc540…c38ea75` later that day, after Session 3's ten names and the Criminal
+Procedure date; now
+`a9596ecf997f186b0dd9d069642560f65120ab7ca97d0a2387863d0157ed8b94`, on
+2026-09-13, after the Autism Stage 1 date. Nothing on the clean sheet moved on
+either occasion. `tools/phd_stage_dates.py` gives byte-identical output from
+every version of the file — checked across the first three on 2026-09-12 and
+across the last change on 2026-09-13 — so the 256 Stage 1 and Stage 2 dates
+Sessions 1 and 2 hold are untouched. Item 19 passes; no other item is reopened.
 
 **20. Promotion is still reversible.** Take a session off and put it back inside
 a transaction that is thrown away, and the result is identical. The procedure is
