@@ -7,6 +7,64 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-13 — Where four bills ended, and one that ended nowhere
+
+Both halves of this are loose ends from `db/055`, found when the owner asked
+whether the session was safe to close. It was not.
+
+**The error checker being empty is not the same as the work being done.** Four
+Session 3 bills that did not pass had nothing recording where they had got to —
+two withdrawn, two fallen at dissolution. Every one of the 26 such bills in
+Sessions 1 and 2 has that. The error checker does not carry this: a missing
+stage record is a gap, and gaps live in `v_stage_date_gaps`, which the session
+had not looked at. It had reported "nothing is waiting on you", which was wrong.
+**Closing a session means reading both lists, not one.**
+
+**The four, established by the owner from the Parliament's bill pages** as kept
+by the web archive: Criminal Sentencing (Equity Fines), withdrawn by the member
+in charge on 25 November 2010 before the Stage 1 debate was held; Palliative
+Care, withdrawn on 2 December 2010 before any Stage 1 debate; Commissioner for
+Victims and Witnesses, fell at dissolution during Stage 1; Long Leases, fell at
+dissolution before a Stage 1 debate took place. All four stopped at Stage 1
+without completing it.
+
+**None of the four carries a date**, which is the rule Sessions 1 and 2 set: a
+stage a bill did not complete has no completion date, because none of these
+bills ended on a decision of the Parliament. The day each concluded is on the
+bill, from the fact sheet, and for the two withdrawn bills the fact sheet's date
+agrees with the owner's reading of the bill page to the day — 25 November and
+2 December 2010.
+
+**The second half is a fault this session created.** `db/055` gave the Creative
+Scotland Bill an ending with no stage attached, deliberately: it completed
+Stage 1 and fell between Stage 1 and Stage 2, on a vote that is not part of any
+stage. But the gaps list asks every bill that did not pass where it ended, so it
+began reporting "where the bill ended is not recorded" for that bill — a false
+statement, permanently, in the list the owner opens to find what is missing.
+
+**The new ending is now exempt from that question**, with the reason written
+where the rule is. The owner agreed to a specific rule for financial
+resolutions. This is what "a change to how data is coded is finished before
+anything moves on" is for: the value, the checker and the notes were all built
+in `db/055`, and the change was still not finished, because a view nobody
+thought about was asking a question that no longer made sense.
+
+**What it says about adding a value to a list.** Adding `rejected_stage_3` cost
+nothing, because it behaves like the endings around it. Adding
+`fell_financial_resolution_not_agreed` cost two migrations, because it does not:
+it is the first ending in this database where the bill does not stop at a stage.
+The lesson is not "avoid new values" but that the thing to check is whether the
+new value breaks an assumption the old ones all shared. Here it did, and the
+assumption was not written down anywhere — it was implicit in a `NOT IN` list.
+
+**Checked.** Rehearsed inside a transaction that was thrown away, then applied.
+The error checker is empty. No bill is listed as not recording where it ended.
+The gaps list now holds 108 rows, every one of them a Session 3 Stage 1 or
+Stage 2 date waiting for the PhD dataset to be loaded, which is the next piece
+of work and not a fault.
+
+---
+
 ## 2026-09-13 — A bill can fall for want of money, and that is a fifth ending
 
 The five Session 3 bills the fact sheet says fell without saying why. The owner

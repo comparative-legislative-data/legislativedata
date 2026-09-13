@@ -40,11 +40,9 @@ introduction to passing, with every cell traceable to what said so.
   clean sheet has to prove is settled: the test that counts comes at the end,
   when all seven sessions are in and the charts and tables are compared against
   what you built by hand off the PhD.
-
-- **12 September.** Session 3's 62 bills read in and reconciled. Ten bills were
-  spelled differently in your sheet and the factsheet, so the two lists would
-  not pair; ten names corrected in your sheet. Your three dates settled and the
-  Forth Crossing Act confirmed Hybrid, in `db/054`.
+- **12 September.** Session 3's 62 bills read in and reconciled; ten names
+  corrected in your sheet so the two lists pair; your three dates settled and
+  the Forth Crossing Act confirmed Hybrid. `db/054`.
 
 **13 September, this session. Session 3 is reviewed and the checker is empty.**
 - **The five bills that fell without the factsheet saying why are coded**, each
@@ -65,19 +63,30 @@ introduction to passing, with every cell traceable to what said so.
 - **All 62 bills hold an outcome** — 53 passed, 3 rejected at Stage 1, 2 fell at
   dissolution, 2 withdrawn, 1 rejected at Stage 3, 1 for want of a financial
   resolution — and the error checker is empty.
+- **Where each bill that did not pass had got to is recorded**, for all eight of
+  them. Four needed your reading of the Parliament's bill pages: two withdrawn
+  by the member in charge before any Stage 1 debate, two that fell at
+  dissolution. None carries a date, because none ended on a decision of the
+  Parliament — the rule Sessions 1 and 2 set.
+- **A fault this session made, found and fixed.** The gaps list asks every bill
+  that did not pass where it ended. The Creative Scotland Bill did not end at a
+  stage, so the list was telling you its ending was not recorded, which was
+  false. It no longer asks. `db/056`.
 
 ## Now: Session 3 onto the clean sheet
 
 Nothing is waiting on you. The 62 bills are reviewed, every cell names what said
-so, and the error checker is empty.
+so, the error checker is empty, and nothing is listed as missing except the
+Stage 1 and 2 dates that have not been loaded yet.
 
 **What is left for Session 3**, in order:
 
 1. **Its closure test**, written by this session and marked by the next. Not yet
    written — that is the first task.
 2. **Session 3 onto the clean sheet**, through the promotion runbook.
-3. **Your Stage 1 and 2 dates for Session 3.** The tool that loads them only
-   knows Sessions 1 and 2 and needs extending first.
+3. **Your Stage 1 and 2 dates for Session 3.** 108 dates, which is what the gaps
+   list holds. The tool that loads them only knows Sessions 1 and 2 and needs
+   extending first.
 
 **Left unbuilt on purpose, and not blocking anything.** When the comparison could
 not pair ten bills it still recorded all 62 as compared. Nothing was written
@@ -139,18 +148,27 @@ those the previous session closed on. The error checker reported five bills, all
 of them the fallen bills waiting for a reason, which is what `STATE.md` said.
 
 **At close.** 154 bills on the clean sheet, unchanged — Session 3 is on the
-staging sheet only. 216 staging lines, all 62 Session 3 lines holding an
-outcome. 471 stage-date rows. 8 ways a bill can end, up from 7. 8 notes for
-readers, unchanged — M7 was amended rather than a ninth added. 55 migrations
-numbered without a gap. **The error checker is empty.** The data dictionary
-regenerates with two changes, both intended: its own date, and `ref_outcome`'s
-description, which `db/055` rewrote to say what an empty outcome means.
+staging sheet only. 216 staging lines, all 62 Session 3 lines holding an outcome
+and every one that did not pass recording where it ended. 475 stage-date rows.
+8 ways a bill can end, up from 7. 8 notes for readers, unchanged — M7 was
+amended rather than a ninth added. 56 migrations numbered without a gap. **The
+error checker is empty, and the gaps list holds only the 108 Session 3 stage
+dates still to be loaded.** The data dictionary regenerates with two changes,
+both intended: its own date, and `ref_outcome`'s description, which `db/055`
+rewrote to say what an empty outcome means.
+
+**Two faults of this session's own making, both found before close.**
+`db/055` added an ending that does not stop at a stage and did not tell the gaps
+list, which then reported something false about the Creative Scotland Bill.
+And the session reported "nothing is waiting on you" having read the error
+checker and not the gaps list, while four bills had no record of where they
+ended. Both are fixed in `db/056`. **Closing a session means reading both lists.**
 
 **What was rehearsed.** `db/055` was run inside a transaction that was thrown
-away twice before it was applied. The first rehearsal caught a column name that
-does not exist on `methodology_note`; the second caught that the new note
-duplicated M7, which is why M7 was amended instead. It was applied only after a
-clean run.
+away twice before it was applied: the first rehearsal caught a column name that
+does not exist on `methodology_note`, the second caught that the new note
+duplicated M7, which is why M7 was amended instead. `db/056` was rehearsed once
+and applied clean.
 
 **A trap worth knowing about.** The Official Report PDFs are two-column, and
 reading them whole interleaves the columns into nonsense — a quotation taken
