@@ -83,6 +83,19 @@ MANUAL_PAIRS = {
     260: 302,  # Land and Buildings Transaction Tax (Amendment) (Scotland) Act 2016 /
                # "(Amendment) Scotland)", a missing bracket in the dataset
     301: 284,  # Pentland Hills Regional Park Boundary Bill / "Boundaries"
+    # Session 5, confirmed on 2026-09-14 the same way: every pair below agrees
+    # on both dates the two sources share, introduction and Royal Assent.
+    # The four Budget Acts are the same pattern a third time.
+    303: 373,  # European Charter of Local Self-Government / "Self Government"
+    320: 328,  # Budget (Scotland) Act 2018 / Budget (Scotland) (No.2) Act 2018
+    321: 345,  # Budget (Scotland) Act 2019 / Budget (No.3) (Scotland) Act 2019
+    322: 366,  # Budget (Scotland) Act 2020 / Budget (Scotland) (No.4) Act 2020
+    323: 389,  # Budget (Scotland) Act 2021 / Budget (Scotland) (No.5) Act 2021
+    341: 313,  # Edinburgh Bakers' Widows' Fund Act 2018 / "Funds"
+    351: 323,  # Housing Amendment (Scotland) Act 2018 / "Housing (Amendment)"
+    353: 339,  # Hutchesons' Hospital / "Hutcheson's", the apostrophe moved
+    384: 357,  # UEFA European Championship (Scotland) Act 2020 / "Championships"
+    385: 380,  # UK Withdrawal ... (Continuity) (Scotland) Act 2021 / "Bill Act"
 }
 
 # What the owner established on 2026-09-11 for the bills that did not pass, with

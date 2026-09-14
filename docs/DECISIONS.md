@@ -8,6 +8,80 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — Session 5's three Stage 1 losses are rejections, and three dates are settled between the two sources
+
+**Three of Session 5's seven "fallen" bills did not run out of time.** The
+Culpable Homicide, Post-mortem Examinations (Defence Time Limit) and Restricted
+Roads (20 mph Speed Limit) Bills each lost a division on their own Stage 1
+motion. The fact sheet lists them under "Bills fallen" and says no more, exactly
+as Session 3's and Session 4's did. They are recorded as rejected at Stage 1 by
+the ordinary route, which is what the other 19 rejections on the clean sheet
+already use, and Session 5 now reads 3 rejected and 4 fallen at dissolution.
+Built as `db/073`.
+
+**The other four were checked rather than assumed.** The owner asked whether the
+four dissolution fallers were genuine. Each of their bill pages was read: the
+last activity on every one is a committee date months before, and none records a
+decision or a vote on 4 May 2021. Two things worth keeping: the Fair Rents page
+contradicts itself, its status line giving 4 May and a sentence below it 5 May,
+where the fact sheet and the session's own end date both give 4 May; and the
+Welfare of Dogs page has moved, the obvious address now redirecting into the
+National Records of Scotland web archive because the Session 6 bill of the same
+name has taken it.
+
+**Which source is cited, and why it is still the Official Report.** The owner
+found all three rejections on the Parliament's Session 5 bill pages, which print
+the division figures and name two of the three motions — more than the fact sheet
+gives and more than the bill pages gave for earlier sessions. Citing the bill
+page was proposed and then withdrawn, because the error checker has required the
+Presiding Officer's announcement and the Official Report's address on the line
+since `db/031` and `db/058`, and two of the three would have failed it. The
+alternative was to relax that rule, which is a coding change with all eight
+parts, for three bills whose figures are identical in both sources. So the
+Official Report was read for all three. **This is the 2026-09-13 order holding
+under pressure: the Official Report where the Parliament decided, the bill page
+where it did not.** The bill pages were still the right way to find the answers.
+
+**The Restricted Roads announcement does not name its motion.** The number and
+the member are taken from the bill page and the line says so. Only the Official
+Report's address appears on the line, because promotion cites the first address
+it finds and that must be the record of the decision.
+
+**Three dates disagreed between the fact sheet and the owner's dataset, and the
+split went both ways.** Settled at the source that owns each value, and recorded
+in the "Checked:" form `db/042` established. Built as `db/074`.
+
+| Bill | Fact sheet | Dataset | Settled at |
+|---|---|---|---|
+| Age of Criminal Responsibility (Scotland) Act 2019, Royal Assent | 11 Jun 2019 | 12 Jun 2019 | legislation.gov.uk: 11 June 2019 |
+| Heat Networks (Scotland) Act 2021, Royal Assent | 30 Mar 2021 | 20 Mar 2021 | legislation.gov.uk: 30 March 2021 |
+| Solicitors in the Supreme Courts of Scotland (Amendment) Act 2021, introduction | 26 Sep 2020 | 26 Sep 2019 | the Parliament's bill page: 26 September 2019 |
+
+The Solicitors Bill is the fact sheet being a year out, and the date is not a
+detail: that bill's committee was established on 31 October 2019 and reported at
+Preliminary Stage in January 2020, neither of which is possible on the fact
+sheet's date. **The working dataset was corrected for the other two**, under the
+rule settled earlier the same day, with the Corrections sheet carrying both and
+the fingerprint before the change. The database was settled first, so the record
+that the two sources ever disagreed survives the file being put right.
+
+**The Act number with no year, the first of its kind.** The Period Products
+(Free Provision) (Scotland) Act's number is printed as "(asp 1)" with no year,
+which `db/062` made a refusal rather than something to notice. legislation.gov.uk
+gives "2021 asp 1", and the year agrees with the Royal Assent date already on the
+line.
+
+**Ten names paired by hand, and one bill the dataset does not have.** The ten are
+spelling, as in every session so far — the four Budget Acts numbered within the
+session for a third time, an apostrophe moved in Hutchesons', a plural on UEFA
+European Championships — and every pair agrees on both dates the two sources
+share. **The Domestic Abuse (Protection) (Scotland) Act 2021 has no row in the
+dataset at all**, which is why Session 5 has 87 lines against the dataset's 86.
+Nothing depends on it yet; it matters when the Stage 1 and Stage 2 dates are
+typed, because that bill will have none to type.
+
+---
+
 ## 2026-09-14 — A bill that has passed and has no Royal Assent is blocked, and is recorded as its own session's fact sheet leaves it
 
 **The question.** Session 5's fact sheet has a fourth table, "Bills awaiting

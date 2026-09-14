@@ -20,109 +20,91 @@ and 2 dates are added from your PhD.
 | 2 | 81 bills | yes | yes | yes; **closed** |
 | 3 | 62 bills | yes | yes | yes; **closed** |
 | 4 | 86 bills | yes | yes | yes; **closed** |
-| 5 | read in full | no | no | no |
+| 5 | 87 bills | checks clean; **yours to do** | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
-**302 bills are now on the clean sheet**, what happened to each of them, and
-the time from introduction to every stage the Parliament decided, with every
-cell traceable to what said so. No bill on it is missing a stage date. Four of
-the seven sessions are finished and closed; the first piece of work is now
-about two-thirds done by bills.
+**302 bills are still on the clean sheet** and nothing on it moved today.
+Session 5's 87 lines are on the staging sheet with every cell settled, every
+disagreement adjudicated and nothing the error checker objects to. Four of the
+seven sessions are finished and closed.
 
 ## What has been done
 
-- **10–12 September.** Database built, all seven factsheets surveyed, Sessions 1
-  and 2 on the clean sheet and closed, your own dates loaded for all 154 bills,
-  and Session 3's 62 bills read in.
-- **13 September.** Session 3 promoted and closed. How time is counted settled
-  and built. Session 4's 86 bills read in, admitted and promoted with your 158
-  Stage 1 and Stage 2 dates.
-- **14 September, earlier.** Session 4's closure test run by a third session,
-  then **Session 4 closed on all nine of your sign-offs.** Six were
-  confirmations; three changed something — the rule that your working dataset is
-  corrected whenever it is found wrong, a test that asked about the wrong
-  methodology note, and two faults in the documents themselves.
+- **10–13 September.** Database built, all seven factsheets surveyed, Sessions 1
+  to 3 promoted and closed, your dates loaded, how time is counted settled, and
+  Session 4 read in, admitted and promoted.
+- **14 September, earlier.** Session 4 closed on all nine of your sign-offs. Then
+  what we record for a bill that has passed and has no Royal Assent yet, settled
+  and built for Session 5's three blocked bills.
 
-**14 September, this session. What we record for a bill that has passed and has
-no Royal Assent yet, settled and built.** Session 5's fact sheet has a fourth
-table of three: the European Charter, UNCRC and Legal Continuity Bills, each
-with a footnote saying the Supreme Court has ruled on a section 33 reference and
-the bill cannot be submitted for Royal Assent.
+**14 September, this session. Session 5 read in and reviewed.**
 
-- **You settled two things.** They are recorded as **blocked**, not awaiting —
-  the table's heading says awaiting, the footnotes say they are stopped. And
-  they are recorded as **Session 5's fact sheet leaves them**; what became of
-  them afterwards is Session 6's fact sheet to say, and it has not been read in.
-- **Nearly all the thinking was already done and none of the plumbing.** The
-  value "blocked", its definition, the cell for the date and methodology note M5
-  had existed since the database was built and had never once been used.
-- **It found a real hole.** A bill could have been recorded as passed, given no
-  Royal Assent date, left as not an Act with nothing saying why, and nothing
-  would have objected. It objects now.
-- **A published note was ahead of the published data.** M5 already told a reader
-  that two of these bills were later enacted and one withdrawn. Two sentences,
-  in your words, now say that a bill stays as the last fact sheet read in leaves
-  it.
-- **Nothing on the clean sheet moved.** 302 bills, 828 stage records, 86
-  provenance notes, error checker and gaps list both empty.
+- **The test written yesterday was run by a session that did none of that work,
+  and all nine items pass.** Items 7 to 9 could only answer after the load, and
+  they confirm the three blocked bills arrived carrying the fact sheet's own
+  footnote word for word.
+- **Three of the seven "fallen" bills had not run out of time.** Each lost a
+  division on its own Stage 1 motion, so each is recorded as rejected at Stage 1,
+  the way the other 19 rejections already are. Session 5 reads 3 rejected and 4
+  fallen at dissolution.
+- **You asked whether the other four were genuine, and they are.** Every one of
+  their pages gives a committee date months earlier as its last activity, and
+  none records a decision or a vote on the day the session ended.
+- **Three dates disagreed between the fact sheet and your dataset**, and the
+  split went both ways: the fact sheet was right twice, your dataset once. All
+  three are settled at the source that publishes the value. **Your working file
+  is corrected for the two it got wrong**, with the Corrections sheet carrying
+  both.
+- **One bill is missing from your Session 5 sheet:** the Domestic Abuse
+  (Protection) (Scotland) Act 2021. 87 bills against your 86 rows. It matters
+  when the dates are typed, because that one will have none to type.
 
-## Now: read in Session 5
+## Now: your review of Session 5, then promotion
 
-Nothing is owed before it. The coding question that was due is settled and
-built, and a thrown-away rehearsal of the whole load already reconciles: 87
-lines against the fact sheet's own summary of 63 government, 16 member's, 5
-private and 3 committee.
+Nothing is owed before it and nothing is half-built. The 87 lines are waiting in
+Postico as `new`, with every machine check clean: the error checker empty, all 87
+compared against your dataset, and the two sources now agreeing on every cell
+they share.
 
-Two things that session does, and they are the only two:
+Two things, and they are yours:
 
-1. **Run the test this session wrote and did not mark** — `tools/check_a_blocked_bill.sql`.
-   Nine items, each printing what it should say beside what it does say. Items 7
-   to 9 are blank until Session 5 is loaded, which is the point of running it
-   after the load as well as before.
-2. **Read Session 5 in, and review it.** The error checker will ask you for four
-   things: why three fallen bills fell, and the note a reader sees on each of the
-   three blocked bills. The wording of those three is already agreed and is in
-   `DECISIONS.md` under today's date; it is typed in, not decided again.
+1. **Read the 87 lines**, and the 162 rows on the gaps list — Session 5's Stage 1
+   and Stage 2 dates, to type. The steps are in `PROMOTION-RUNBOOK.md`.
+2. **Four lines to look at first**, because they are where judgement was used
+   rather than a document copied: the three rejections at Stage 1 (lines 306, 309
+   and 310) and the Solicitors Bill's introduction date (line 380), which moves a
+   year against what the fact sheet printed.
 
-The carry-over question and the double-count guard are still **not** due here.
-Both are before Session 6. Checked again this session rather than assumed: all
-three blocked bills were introduced in Session 5, so nothing in Session 5 trips
-them. An older comment in `db/071`'s predecessor says otherwise and is out of
-date; the comment, not the checks.
+Then promotion, which is rehearsed and undone before it is trusted, as always.
 
 ## After that, in order
 
-1. **Your write-up on what the charts present**, and the options they offer —
-   the second of the two questions you separated, the first being what the
-   database calculates, which is settled. Nothing is built on it and nothing
-   waits on it. It is yours to do when you want it done.
-2. Bills carried over between sessions: **before Session 6 is loaded**. Same
-   four bills as the double-count guard below, so the two are one job.
+1. **Your write-up on what the charts present**, and the options they offer. It
+   is yours to do when you want it done; nothing waits on it.
+2. Bills carried over between sessions: **before Session 6 is loaded**. Same four
+   bills as the double-count guard, so the two are one job.
 3. The double-count guard: before Session 6 is promoted.
 4. A prose reader for Sessions 6 and 7.
 5. Bring `docs/VARIABLES.md` up to date.
-6. **A layer of vote data**, decided on 14 September to be its own piece of work
-   rather than something improvised. The scope — which divisions, and how a
-   member's vote is held — is not opened yet.
+6. **A layer of vote data**, its own piece of work. Scope not opened.
 7. Then, and only then: the website, and reading from the Parliament's API.
 
 ## Waiting for your decision, and not blocking anything
 
 - **Whether the section 33 / 35 distinction becomes a variable.** Four bills;
-  revisit at a fifth. Both mechanisms are covered by "blocked" and which one
-  applied is in the bill's note, so nothing is lost while this waits.
+  revisit at a fifth.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
-  is deliberately outside version control, and it is now a file this project
-  corrects rather than only reads. It exists on this machine and nowhere else.
-  Nothing forces a decision, but the next correction makes it worse.
+  is deliberately outside version control and was corrected again today. It
+  exists on this machine and nowhere else. Nothing forces a decision, but each
+  correction makes it worse.
 - **How to record a published record being revised.** When the first case
   arrives.
-- **Whether to rename the dates factsheet's file** to match the others'
-  convention. Nothing depends on the name — the database cites the document and
-  page, not the file.
-- **Which source settles a disagreement about what kind of bill it was.** The
-  comparison now catches one; none has ever arisen. The Parliament's own bill
-  page is the obvious answer and is deliberately not assumed.
+- **Whether to rename the dates factsheet's file** to match the others'.
+- **Which source settles a disagreement about what kind of bill it was.** None
+  has ever arisen.
+- **The Fair Rents page contradicts itself** on the day the bill fell, 4 May in
+  its status line and 5 May a sentence below. The fact sheet and the session's
+  own end date both give 4 May, which is what we hold, so nothing turns on it.
 
 **Answered by use on 14 September, and off this list:** whether to keep the date
 a bill's Royal Assent was blocked. It is kept, because M5 depends on it.
@@ -142,83 +124,73 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-14, third session of the day
+## Sanity check, 2026-09-14, fourth session of the day
 
 **At opening, everything matched.** 302 bills on the clean sheet — 73, 81, 62 and
-86 — 828 stage records, 86 provenance notes, 8 methodology notes, the error
-checker empty, the gaps list empty, the data dictionary regenerating identical to
-the committed file at 17 tables and 160 columns, nothing uncommitted and nothing
-unpushed.
+86 — 828 stage records, 86 provenance notes, 8 methodology notes with M5 at 2331
+characters, the error checker empty, the gaps list empty, the data dictionary
+regenerating identical to the committed file at 17 tables and 162 columns,
+nothing uncommitted and nothing unpushed.
 
 **One thing carried over and still not blocking anything.** `db/066` has the same
 filename as `db/063`, `session_4_review.sql`, although one is the review and the
-other the admission. Recorded for the sixth time; nothing depends on it.
-
-**A contradiction between the documents, found and resolved.** The error
-checker's own comment, written at `db/044` and carried forward ever since, says
-the bills that appear in two fact sheets "must be handled before Session 5 is
-loaded". `STATE.md` says before Session 6. `STATE.md` is right, and it is now
-checked rather than argued: the three bills in Session 5's fourth table were all
-introduced in Session 5, so the session-date checks do not misfire on them, and
-a thrown-away load of all 87 lines raised none. The comment is the stale thing.
+other the admission. Recorded for the seventh time; nothing depends on it.
 
 ## What this session did
 
-**What we record for a bill that has passed and has no Royal Assent yet.**
-Settled on two questions and built in full. See `DECISIONS.md`, 2026-09-14, for
-the reasoning and for the three bill notes agreed word for word.
+**Session 5 read in and reviewed in full.** See `DECISIONS.md`, 2026-09-14, for
+the three rejections, the three adjudicated dates and the ten hand-paired names.
 
-**How the session went wrong first, because it is the useful part.** The opening
-reply recited the eight parts a coding change must have, as a checklist, without
-saying what the question was or what was being proposed. The owner said twice
-that it was unclear, the second time sharply. What fixed it was going and reading
-the three rows and the footnotes off the PDF and coming back with two yes/no
-questions and a recommendation for each. **The rows first, then the proposal.**
-Reciting the working rules is not the same as doing the work they describe.
+**How it went, in order.** The test from the previous session first — nine items,
+all passing, the last three only answerable after the load. Then the extract (87
+rows, no problems), the rehearsed load, the save, the test again for items 7 to
+9, the three blocked bills' notes typed in from the words agreed yesterday, and
+the error checker down from seven items to four. Then the four: three Stage 1
+rejections and one Act number.
+
+**Where it nearly went wrong, because that is the useful part.** The owner
+supplied the division figures from the Parliament's Session 5 bill pages and
+agreed to cite them there. Building it revealed that the error checker has
+required the Presiding Officer's announcement and the Official Report's address
+on every Stage 1 rejection since `db/031` and `db/058`, and two of the three
+would have been refused. The choice was put back to the owner as two options —
+read the Official Report for those two, or relax the rule with all eight parts of
+a coding change — rather than worked around, and the owner got the two Official
+Report quotes inside a minute. **Surfacing the conflict cost one exchange; going
+round it would have cost a rule.**
 
 **Built, in this order.**
 
-- `db/071`: two cells on the staging sheet, `date_assent_blocked` and
-  `raw_footnote`, and eight rules on the error checker. The rules are tested
-  inside the migration against a line built to break them, one spoiling at a
-  time, inside a savepoint that is rolled back.
-- `db/072`: two sentences on M5, 1940 → 2331 characters, the other seven notes
-  unmoved.
-- `tools/extract_factsheet.py`: reads the fourth table and the footnotes below
-  it. `mend_title` now also takes a footnote marker off the word "Bill", which
-  Session 5 prints hard against it.
-- `tools/load_session.sql`, `tools/promote_session.sql`: both cells carried, and
-  promotion writes a provenance note on the status and on the date with the
-  footnote as the words seen.
-- `tools/check_a_blocked_bill.sql`: the test, written here and **to be run by a
-  session that did none of this**.
+- `db/073`: the three Stage 1 rejections with their route, their stage rows and
+  the Presiding Officer quoted on each line, and the Period Products Act's number
+  settled at legislation.gov.uk. Nothing new in it — no column, no value, no rule.
+- `tools/phd_stage_dates.py`: ten Session 5 pairs added to `MANUAL_PAIRS`, each
+  confirmed by both dates its two sources share.
+- `tools/compare_sources.py` run for Session 5: all 87 lines stamped, three
+  differences written to the lines.
+- `db/074`: those three adjudicated, two confirming the fact sheet and one moving
+  a line by a year.
+- `sources/phd/Billdates-September2026.xlsx`: two Royal Assent dates corrected,
+  the Corrections sheet carrying both and the fingerprint before the change.
+  6614b3a1… became 4110d58f…. A copy of the file before the change is not kept;
+  the file still exists on this machine only.
 
-**Tested rather than assumed.**
-
-- **The first rehearsal refused the migration**, and rightly. Its error checker
-  had been copied from `db/058`, which `db/061` superseded by splitting the
-  stage note in two, so it referred to a column that no longer exists. The live
-  definition is `db/062`. A `grep` for the view's definition had been read with
-  `tail -3` on unsorted output, which is how the wrong file was picked.
-- **The extractor gives byte-identical output for Sessions 1 to 4**, compared
-  column by column against a copy of the old script, and Session 5 gains exactly
-  three rows: 84 → 87.
-- **A whole Session 5 load was rehearsed and thrown away.** 87 lines, the
-  reconciliation matching the fact sheet's printed summary in every margin, and
-  the error checker raising seven things — three blocked bills wanting the note
-  a reader sees, three fallen bills wanting your judgement, and one Act whose
-  asp number carries no year. All seven are the review list, not faults.
-- **The test was run by its author only to check its own predictions**, and two
-  were wrong and are corrected: promotion mentions the new date on six lines,
-  not four, and one rule's text is split across two string literals so a search
-  for the whole phrase missed it. Both now say what is true. **Whether the change
-  is right is not settled by that run**, and is the first item of the next
-  session.
+**Tested rather than assumed.** Both migrations were rehearsed inside a rollback
+before being applied, and both refuse themselves on a mistyped line number, a
+line from the wrong session, a line already coded, or a concluding date that does
+not match the source. `db/073` also refuses a bill decided on the day its session
+ended, which would make it a dissolution faller. `db/074` refuses a line carrying
+no recorded difference, so it cannot adjudicate something nobody found.
 
 **After the session.** 302 bills, 828 stage records, 86 provenance notes, 8
-methodology notes with M5 at 2331 characters, error checker empty, gaps list
-empty, data dictionary regenerating identical at 17 tables and **162** columns —
-160 before, plus the two added to the staging sheet.
+methodology notes — the clean sheet untouched. 389 staging lines, 909 staging
+stage rows, error checker empty, gaps list at 162, which is Session 5's Stage 1
+and Stage 2 dates waiting to be typed. Data dictionary regenerating identical at
+17 tables and 162 columns.
+
+**Not marked by this session.** `db/073` and `db/074` were built here. Whether
+they are right is for a session that did not build them, as `check_a_blocked_bill.sql`
+was.
 
 ## The owner's standing positions, so they are not re-argued
 
