@@ -63,6 +63,8 @@ CREATE TEMP TABLE extracted (
     asp_number            text,
     outcome               text,
     enactment_status      text,
+    date_assent_blocked   text,
+    raw_footnote          text,
     src_file              text,
     src_page              text,
     parser_note           text
@@ -70,7 +72,7 @@ CREATE TEMP TABLE extracted (
 
 -- HEADER MATCH refuses a CSV whose columns are not exactly these, in this
 -- order — for instance one written by an older version of the extractor.
-\copy extracted (session_number, raw_title, raw_type, raw_date_introduced, raw_introduced_by, raw_date_final, raw_date_royal_assent, raw_section, sp_bill_id, short_title, title_as_introduced, title_kind, bill_type, bill_type_stated, date_introduced, end_stage_3_date, date_concluded, date_royal_assent, asp_number, outcome, enactment_status, src_file, src_page, parser_note) FROM pstdin WITH (FORMAT csv, HEADER MATCH)
+\copy extracted (session_number, raw_title, raw_type, raw_date_introduced, raw_introduced_by, raw_date_final, raw_date_royal_assent, raw_section, sp_bill_id, short_title, title_as_introduced, title_kind, bill_type, bill_type_stated, date_introduced, end_stage_3_date, date_concluded, date_royal_assent, asp_number, outcome, enactment_status, date_assent_blocked, raw_footnote, src_file, src_page, parser_note) FROM pstdin WITH (FORMAT csv, HEADER MATCH)
 
 -- ---------------------------------------------------------------------------
 -- Before anything is written
@@ -115,7 +117,7 @@ INSERT INTO bill_candidate (
     sp_bill_id, short_title, title_as_introduced, title_kind,
     bill_type, bill_type_stated,
     date_introduced, date_concluded, date_royal_assent,
-    asp_number, outcome, enactment_status,
+    asp_number, outcome, enactment_status, date_assent_blocked, raw_footnote,
     source, source_ref, observed_at, src_file, src_page, parser_note)
 SELECT b.base + e.line,
        e.session_number::int,
@@ -125,6 +127,7 @@ SELECT b.base + e.line,
        e.bill_type, e.bill_type_stated,
        e.date_introduced::date, e.date_concluded::date, e.date_royal_assent::date,
        e.asp_number, e.outcome, e.enactment_status,
+       e.date_assent_blocked::date, e.raw_footnote,
        'spice_factsheet_legislation',
        'session ' || e.session_number || ', retrieved '
          || substring(e.src_file from 'retrieved-(\d{4}-\d{2}-\d{2})'),
@@ -205,6 +208,8 @@ BEGIN
         AND c.asp_number            IS NOT DISTINCT FROM e.asp_number
         AND c.outcome               IS NOT DISTINCT FROM e.outcome
         AND c.enactment_status      IS NOT DISTINCT FROM e.enactment_status
+        AND c.date_assent_blocked::text IS NOT DISTINCT FROM e.date_assent_blocked
+        AND c.raw_footnote          IS NOT DISTINCT FROM e.raw_footnote
         AND c.src_page::text        IS NOT DISTINCT FROM e.src_page
         AND c.parser_note           IS NOT DISTINCT FROM e.parser_note);
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % CSV line(s) did not arrive on the staging sheets unchanged.', n; END IF;

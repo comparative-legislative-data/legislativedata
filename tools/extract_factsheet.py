@@ -92,7 +92,62 @@ def mend_title(s):
         notes.append(f'a footnote marker was removed from the year {m.group(1)}')
         return m.group(1)
     mended = re.sub(r'\b((?:1[89]|20)\d{2})\d+\b', strip_marker, mended)
+    # Session 5 prints the marker against the word 'Bill' instead, so
+    # '... (Scotland) Bill' with footnote 1 reads as '... (Scotland) Bill1'.
+    # One or two digits only, and only where they run straight on from 'Bill':
+    # 'SP Bill 70' has a space and is left alone.
+    def strip_bill_marker(m):
+        notes.append('a footnote marker was removed from the word Bill')
+        return m.group(1)
+    mended = re.sub(r'\b(Bill)\d{1,2}\b', strip_bill_marker, mended)
     return mended, notes
+
+
+def footnote_marker(raw_title):
+    """The footnote number printed against 'Bill' in the title as printed.
+
+    Read off raw_title, before mend_title takes it out, so the row can be
+    joined to the footnote at the foot of its page. None where the factsheet
+    prints no marker.
+    """
+    if not raw_title:
+        return None
+    m = re.search(r'\bBill(\d{1,2})\b', re.sub(r'\s+', ' ', raw_title))
+    return int(m.group(1)) if m else None
+
+
+def page_footnotes(page, tables):
+    """The footnotes printed below the tables on a page, by their number.
+
+    Session 5 puts the reason a bill cannot be submitted for Royal Assent in a
+    footnote, so the row alone does not say what happened to the bill. The
+    region below the last table is read, and a line that begins with one or two
+    digits and then a capital starts a new footnote; a continuation line
+    beginning '1998 by the' or '2021 that some' does not, because a year is
+    four digits. The reference line SPICe prints at the foot is dropped.
+    """
+    if not tables:
+        return {}
+    bottom = max(t.bbox[3] for t in tables)
+    if bottom >= page.bbox[3]:
+        return {}
+    region = page.crop((page.bbox[0], bottom, page.bbox[2], page.bbox[3]))
+    text = region.extract_text() or ''
+    out, num, buf = {}, None, []
+    for line in text.split('\n'):
+        line = line.strip()
+        if not line or re.match(r'^Reference:', line):
+            continue
+        m = re.match(r'^(\d{1,2})\s+(?=[A-Z])(.*)$', line)
+        if m:
+            if num is not None:
+                out[num] = ' '.join(buf).strip()
+            num, buf = int(m.group(1)), [m.group(2)]
+        elif num is not None:
+            buf.append(line)
+    if num is not None:
+        out[num] = ' '.join(buf).strip()
+    return out
 
 
 def split_introduced(s):
@@ -145,19 +200,30 @@ def section_of(header):
     if 'fell' in last or 'fallen' in last:
         return 'fallen'
     if 'passed' in last and 'title' in first:
-        # Session 5: bills passed but not yet given Royal Assent. Recognised so
-        # it is never mistaken for a continuation of the table above it, but
-        # not extracted: what the database records for such a bill is not yet
-        # settled. See docs/STATE.md.
+        # Session 5 onwards: bills passed and not yet given Royal Assent. The
+        # heading says 'awaiting'; the footnote against each row says whether
+        # the bill is in fact stopped. Extracted since 2026-09-14.
         return 'awaiting_assent'
     return None
 
 
 SECTION_OUTCOME = {
-    'acts':      ('passed',    'enacted'),
-    'withdrawn': ('withdrawn', 'not_enacted'),
-    'fallen':    (None,        'not_enacted'),   # see note below
+    'acts':            ('passed',    'enacted'),
+    'withdrawn':       ('withdrawn', 'not_enacted'),
+    'fallen':          (None,        'not_enacted'),   # see note below
+    # A bill in this table has been passed and has not received Royal Assent.
+    # 'pending' is what the table's own heading says; where the bill's footnote
+    # says it cannot be submitted for Royal Assent, that is a block and build()
+    # proposes 'blocked' instead. Both are read off the page; neither is
+    # guessed. See methodology note M5.
+    'awaiting_assent': ('passed',    'pending'),
 }
+
+# The words SPICe uses in the footnote when a bill has been stopped. Matched on
+# the footnote's own text, not inferred from the table it sits under.
+BLOCKED_PHRASE = re.compile(r'cannot be submitted for Royal Assent', re.I)
+BLOCKED_DATE = re.compile(r'has ruled on (?P<d>\d{1,2} \w+ \d{4})\b', re.I)
+ORDER_DATE = re.compile(r'order .{0,40}? on (?P<d>\d{1,2} \w+ \d{4})\b', re.I)
 
 
 def column_bounds(table):
@@ -204,10 +270,12 @@ def recut(page, tables, cols):
 
 def extract(path, session):
     staged, summary, problems = [], [], []
+    notes_by_page = {}
     kind, cols = None, None
     with pdfplumber.open(path) as pdf:
         for pi, page in enumerate(pdf.pages, start=1):
             tables = page.find_tables()
+            notes_by_page[pi] = page_footnotes(page, tables)
             i = 0
             while i < len(tables):
                 data = tables[i].extract()
@@ -241,13 +309,6 @@ def extract(path, session):
                     summary.append({'page': pi,
                                     'rows': [[clean(c) for c in r] for r in data]})
                     continue
-                if kind == 'awaiting_assent':
-                    if header is not None:
-                        problems.append(
-                            f'p{pi}: {len([r for r in body if clean(r[0])])} bills '
-                            f'awaiting Royal Assent, not extracted: what the '
-                            f'database records for one is not settled')
-                    continue
                 for r in body:
                     cells = [clean(c) for c in r]
                     if not any(cells):
@@ -270,7 +331,7 @@ def extract(path, session):
     rows = []
     for st in staged:
         row = build(st['cells'], st['kind'], session, st['page'], path,
-                    problems)
+                    problems, notes_by_page.get(st['page'], {}))
         if st['rejoined']:
             note = 'read from a row the factsheet split across a page'
             row['parser_note'] = (f"{row['parser_note']}; {note}"
@@ -279,7 +340,7 @@ def extract(path, session):
     return rows, summary, problems
 
 
-def build(r, kind, session, page, path, problems):
+def build(r, kind, session, page, path, problems, footnotes=None):
     raw_title = clean(r[0])
     raw_type = clean(r[1])
     raw_intro = clean(r[2])
@@ -317,6 +378,40 @@ def build(r, kind, session, page, path, problems):
         notes.append(f'royal assent {e}')
 
     outcome, enactment = SECTION_OUTCOME[kind]
+    raw_footnote, d_blocked = None, None
+    marker = footnote_marker(raw_title)
+    if kind == 'awaiting_assent':
+        # The table says the bill has been passed and has no Royal Assent. Why
+        # not is in the footnote, and without it the row cannot be told apart
+        # from a bill simply waiting its turn. See methodology note M5.
+        if marker is None:
+            notes.append('no footnote marker against the title, so nothing on '
+                         'the page says why Royal Assent has not been given; '
+                         'proposed as pending for review')
+        else:
+            raw_footnote = (footnotes or {}).get(marker)
+            if raw_footnote is None:
+                problems.append(f'p{page}: {title!r} carries footnote marker '
+                                f'{marker}, and no footnote {marker} was found '
+                                f'on the page')
+                notes.append(f'footnote marker {marker} against the title, and '
+                             f'no footnote {marker} on the page')
+            elif BLOCKED_PHRASE.search(raw_footnote):
+                enactment = 'blocked'
+                m = BLOCKED_DATE.search(raw_footnote) or ORDER_DATE.search(raw_footnote)
+                if m:
+                    d_blocked, e = parse_date(m.group('d'))
+                    if e and e != 'empty':
+                        notes.append(f'date the bill was stopped {e}')
+                else:
+                    notes.append('the footnote gives no date for when the bill '
+                                 'was stopped, so date_assent_blocked is empty')
+                notes.append('the footnote says the bill cannot be submitted '
+                             'for Royal Assent, so blocked, not pending')
+            else:
+                notes.append('a footnote against the title does not say the '
+                             'bill cannot be submitted for Royal Assent; '
+                             'proposed as pending for review')
     if kind == 'fallen':
         # SPICe says which bills fell and never why. This reader reports what
         # the factsheet says and nothing more, so the outcome is left empty for
@@ -354,8 +449,11 @@ def build(r, kind, session, page, path, problems):
         'bill_type': bill_type,
         'bill_type_stated': stated,
         'date_introduced': d_intro,
-        'end_stage_3_date': d_final if kind == 'acts' else None,
-        'date_concluded': None if kind == 'acts' else d_final,
+        # A bill in the awaiting table has passed, so its last date is the
+        # date it passed, exactly as for an Act -- and it has not concluded,
+        # because nothing has ended it.
+        'end_stage_3_date': d_final if kind in ('acts', 'awaiting_assent') else None,
+        'date_concluded': None if kind in ('acts', 'awaiting_assent') else d_final,
         'date_royal_assent': d_assent,
         'asp_number': asp,
         # procedure is deliberately absent: no factsheet states it, and a
@@ -363,6 +461,8 @@ def build(r, kind, session, page, path, problems):
         # standard on no evidence. See db/010.
         'outcome': outcome,
         'enactment_status': enactment,
+        'date_assent_blocked': d_blocked,
+        'raw_footnote': raw_footnote,
         'src_file': path.split('/')[-1],
         'src_page': page,
         'parser_note': '; '.join(notes) or None,

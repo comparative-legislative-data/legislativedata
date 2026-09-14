@@ -149,13 +149,13 @@ SELECT DISTINCT ON (t.candidate_id, t.stage_order) t.*
 INSERT INTO bill (bill_id, session_number, sp_bill_id, short_title, bill_type,
                   procedure, date_introduced, outcome, enactment_status,
                   date_royal_assent, asp_number, date_concluded,
-                  bill_type_stated, title_as_introduced,
+                  date_assent_blocked, bill_type_stated, title_as_introduced,
                   stage_1_rejection_route, note,
                   source, source_ref, observed_at)
 SELECT p.candidate_id, p.session_number, p.sp_bill_id, p.short_title, p.bill_type,
        p.procedure, p.date_introduced, p.outcome, p.enactment_status,
        p.date_royal_assent, p.asp_number, p.date_concluded,
-       p.bill_type_stated, p.title_as_introduced,
+       p.date_assent_blocked, p.bill_type_stated, p.title_as_introduced,
        p.stage_1_rejection_route, p.bill_note,
        p.source, p.source_ref, p.observed_at
   FROM promoting p;
@@ -212,6 +212,34 @@ SELECT 'bill', p.candidate_id, 'outcome', 'official_report',
    AND NOT EXISTS (SELECT 1 FROM field_source f
                     WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
                       AND f.field_name = 'outcome');
+
+-- A bill that passed and was stopped before Royal Assent. The fact sheet says
+-- so in a footnote against the row, not in the row, so the words a reader would
+-- have to be shown are not in any cell the clean sheet carries: bill.note says
+-- what stopped the bill in our words, and this is where the fact sheet's own
+-- words are kept. One note for the status and, where the footnote gives a date,
+-- one for the date. See methodology note M5.
+INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
+                          value_seen, observed_at)
+SELECT 'bill', p.candidate_id, 'enactment_status', p.source, p.source_ref,
+       p.raw_footnote, p.observed_at
+  FROM promoting p
+ WHERE p.enactment_status = 'blocked'
+   AND coalesce(btrim(p.raw_footnote), '') <> ''
+   AND NOT EXISTS (SELECT 1 FROM field_source f
+                    WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
+                      AND f.field_name = 'enactment_status');
+
+INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
+                          value_seen, observed_at)
+SELECT 'bill', p.candidate_id, 'date_assent_blocked', p.source, p.source_ref,
+       p.raw_footnote, p.observed_at
+  FROM promoting p
+ WHERE p.date_assent_blocked IS NOT NULL
+   AND coalesce(btrim(p.raw_footnote), '') <> ''
+   AND NOT EXISTS (SELECT 1 FROM field_source f
+                    WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
+                      AND f.field_name = 'date_assent_blocked');
 
 -- How a bill came to be rejected at Stage 1, read from the Official Report. The
 -- value seen is the Presiding Officer's announcement, word for word, which is
@@ -364,6 +392,7 @@ BEGIN
        OR b.date_introduced   IS DISTINCT FROM c.date_introduced
        OR b.date_royal_assent IS DISTINCT FROM c.date_royal_assent
        OR b.date_concluded    IS DISTINCT FROM c.date_concluded
+       OR b.date_assent_blocked IS DISTINCT FROM c.date_assent_blocked
        OR b.asp_number        IS DISTINCT FROM c.asp_number
        OR b.sp_bill_id        IS DISTINCT FROM c.sp_bill_id
        OR b.bill_type_stated  IS DISTINCT FROM c.bill_type_stated
