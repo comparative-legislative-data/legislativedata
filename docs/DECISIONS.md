@@ -8,6 +8,35 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — What a stage date is measured against, now that a bill can be on the clean sheet without having ended
+
+**Session 5 is admitted and on the clean sheet** (`db/077`), the first session
+carried on with its Stage 1 and Stage 2 dates already on it rather than added
+afterwards. Nothing here reopens anything; this records one thing the admission
+had to settle.
+
+**The check that no stage date sits outside its own bill needed a ceiling**, and
+until now the ceiling could be the bill's own last stage date where the bill had
+neither a Royal Assent date nor a date it concluded. That was harmless while
+every bill on the clean sheet had ended. Session 5's three bills stopped from
+Royal Assent are the first that have not, and on those three the check compared
+a last stage date against itself: a Stage 3 dated any year at all would have
+passed it. Provoked in rehearsal, and it did pass.
+
+**The ceiling is now the day the bill ended, and where it has not ended, the day
+the session ended.** All 243 of Session 5's dates pass it, and both directions
+were provoked and refused. Nothing was ever wrong in the data: the error checker
+catches such a date by a different route, which is what the provocation showed,
+and `db/068`'s older version of the check had nothing to miss — Session 5's three
+are the only bills on the clean sheet with no ending date.
+
+**This will refuse a bill carried over into the next session**, whose later
+stages fall after its own session ended. None here is one. The four that are
+were already work `STATE.md` puts before Session 6 is loaded, and this check is
+now part of that work rather than a separate thing to remember.
+
+---
+
 ## 2026-09-14 — Where Session 5's six bills ended, the Domestic Abuse Act's two dates, and a month typed wrong
 
 **Six bills that did not pass had nothing saying where they ended**, and

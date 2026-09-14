@@ -188,7 +188,7 @@ oversight. The Creative Scotland Bill won its Stage 1 vote and fell the same
 afternoon, because the Parliament did not agree the money its costs required. So
 its Stage 1 is recorded as completed, and no stage at all is marked as where the
 bill ended: there is no stage to put it on. The ending sits on the bill instead.
-It is the only bill of the 302 loaded so far that ends that way, and M7 is the
+It is the only bill of the 389 loaded so far that ends that way, and M7 is the
 note that tells a reader why.
 
 ### The stage dates (`stage_event`)
@@ -271,11 +271,13 @@ your factsheet sheet marked `accepted`:
   your stage-dates sheet, taking the Official Report's where two sources give
   the same stage;
 - a provenance note is filed for each fact that didn't come from the row's
-  stated source — seventy-two so far, being twenty-two for Session 1, twenty
-  for Session 2 and fifteen each for Sessions 3 and 4. Most are an outcome or a
-  Stage 1 rejection route read from the Official Report; the rest are a date, a
-  bill's type, an asp number or a title settled against legislation.gov.uk or
-  the Parliament's own bill page;
+  stated source — ninety-one so far, being twenty-two for Session 1, twenty for
+  Session 2, fifteen each for Sessions 3 and 4 and nineteen for Session 5. Most
+  are an outcome or a Stage 1 rejection route read from the Official Report; the
+  rest are a date, a bill's type, an asp number or a title settled against
+  legislation.gov.uk or the Parliament's own bill page, and for Session 5 the
+  three bills that were stopped from Royal Assent, where the note carries the
+  fact sheet's footnote as the words that were seen;
 - your rows on both sheets are stamped with what they became and the date, so
   you can get from one to the other and back in either direction.
 

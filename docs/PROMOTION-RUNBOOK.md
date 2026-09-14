@@ -690,3 +690,63 @@ named; and a named line the sheet holds no dates for.
 because the dates were in an impossible order. A stage date that is wrong but
 still in order passes it. Nothing has compared Session 5's stage dates against
 the Parliament's bill pages — 87 pages, and its own piece of work.
+
+## Session 4's stage dates, 13 September
+
+Recorded here on 14 September, having been missed at the time: the gap the
+sanity check had been reporting for several sessions. `db/068` admitted the 158
+rows loaded on 13 September by `tools/phd_stage_dates.py --sessions 4` and
+`tools/load_phd_stage_dates.sql` — 74 Stage 1 and 74 Stage 2 for the public
+bills that reached Stage 3, and Preliminary and Consideration for the five
+Private Bills. Session 4 was then taken off the clean sheet and put back with
+them, as Sessions 1 to 3 were. The migration's own account is fuller than this
+line; what was missing was any entry at all.
+
+## Session 5 admitted and promoted, 14 September
+
+`db/077` admitted the 87 lines and all 243 stage dates, and
+`tools/promote_session.sql` carried them onto the clean sheet. Safety copies
+first: `/var/tmp/legdata-before-s5-promotion_2026-09-14.dump`, and
+`copy_before_s5_promotion` and `copy_after_s5_promotion`, both dropped after the
+comparison below.
+
+**The first session promoted with its Stage 1 and Stage 2 dates already on it.**
+Sessions 1 to 4 each went onto the clean sheet without them, and each had to be
+taken off and put back when they arrived. Session 5's were loaded before the
+review, so it goes on once and there is nothing to come back for.
+
+- The clean sheet went from 302 bills, 828 stage records and 86 provenance notes
+  to 389, 1071 and 105.
+- The totals reconcile with the fact sheet's own summary in every cell: 63
+  government, 16 Member's, 5 private, 3 committee; 78 passed — 75 Acts and the 3
+  stopped from Royal Assent — 2 withdrawn, 3 rejected at Stage 1 and 4 fallen at
+  dissolution.
+- The 243 stage records are 73 Stage 3 and 5 Final Stage from the legislation
+  fact sheet, 72 Stage 1 and 71 Stage 2 and 5 Preliminary and 5 Consideration
+  from the owner's dataset, 9 from the Parliament's bill pages and 3 from the
+  Official Report. No accepted date went uncarried: no two sources gave the same
+  stage of the same bill.
+- Error checker empty, gaps list empty.
+
+**Taken off and put back, to prove the recovery path rather than assume it.**
+Taking it off left 302 bills, 828 stage records and 86 notes, with the staging
+lines unstamped and still accepted; putting it back gave 389, 1071 and 105
+again. Compared cell by cell against a copy taken before it was taken off:
+**no unexpected differences.** The only cells that moved are the ones the
+comparison expects to — the numbers of the stage records and provenance notes,
+which are reissued, and the times things were written and stamped.
+
+**How Session 5 reads as finished data.** The three bills stopped from Royal
+Assent have a duration to the end of Stage 3 and none to Royal Assent, which is
+right, and they are the only three bills on the clean sheet in that position.
+The government stage-3-to-assent row counts 60 bills against 62 at Stage 3, and
+the Member's 7 against 8, which is those same three. The Coronavirus (Scotland)
+Act 2020 took one day from introduction to the end of Stage 3 and the Budget
+Acts 27 and 28, at the short end; the Pow of Inchaffray Drainage Commission Bill
+took 636, at the long end. The duration view holds the 78 bills that passed and
+not the 9 that did not, as it does for every session.
+
+**What this does not check**, unchanged from the stage-dates entry above:
+nothing has compared Session 5's stage dates against the Parliament's bill
+pages. That is 87 pages and its own piece of work, and the owner has settled
+that the dataset is taken as it is for now.
