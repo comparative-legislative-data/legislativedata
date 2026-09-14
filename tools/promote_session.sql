@@ -199,13 +199,18 @@ SELECT 'bill', p.candidate_id, 'short_title', 'manual',
 -- view of which limb of Rule 9.14.18 applied). Only the words before the first
 -- link are the value seen; everything from the link on is cut, so our
 -- commentary never reaches a provenance note.
+--
+-- The cut takes "Read at" with it. That phrase exists only to introduce the
+-- address, so cutting the address and leaving the phrase ended eight notes
+-- mid-sentence, in Sessions 4 and 5, in text a reader sees. Found on
+-- 2026-09-14 while the owner was signing Session 5 off; see DECISIONS.md.
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at)
 SELECT 'bill', p.candidate_id, 'outcome', 'official_report',
        substring(p.review_note from 'https?://\S+'),
        regexp_replace(
          regexp_replace(p.review_note, '^Outcome from the Official Report, not the factsheet:\s*', ''),
-         '\s*https?://.*$', ''),
+         '\s*(Read at\s*)?https?://.*$', ''),
        p.official_report_read_on
   FROM promoting p
  WHERE p.review_note ILIKE 'Outcome from the Official Report%'

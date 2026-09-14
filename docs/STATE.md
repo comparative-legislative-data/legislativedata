@@ -61,15 +61,31 @@ every mechanical item now stands.**
   are not Acts does — and those 54 are 51 not enacted and 3 stopped before Royal
   Assent, which is the split the test predicted. No line has an Act number
   without being an Act. The error checker and the gaps list are empty.
-- **Nothing was changed**, in the database or in the data. The only edits are the
-  run recorded in `docs/CLOSURE-TESTS.md` and this file.
+- **Then, while you were signing Session 5 off, eight notes turned out to end
+  mid-sentence.** Reading the three Official Report notes in full for sign-off 2
+  showed each stopping at the words "Read at". Five of Session 4's did the same.
+  The staging sheets were right; the step that copies a note onto the clean sheet
+  cut the address and kept the phrase that introduced it.
+- **Mended by the ordinary route.** The copying step was corrected, then Sessions
+  5 and 4 were taken off the clean sheet and put back, so the notes were written
+  afresh with nothing typed by hand. Rehearsed one session at a time first —
+  three cells, then five — and the real run moved those eight and nothing else.
+  **You agreed to reopening Session 4, which is closed**; no answer of its test
+  moves, and it is marked there.
+- **`db/079` teaches the database to refuse a note that ends that way**, on the
+  note itself rather than in the checker, because the staging sheets were never
+  wrong and there was nothing there to refuse. Item 32 asks the rule from
+  outside, and is written and deliberately not run.
 
-## Now: your nine sign-offs, then Sessions 6 and 7
+## Now: your seven remaining sign-offs, one test item, then Sessions 6 and 7
 
 1. **The nine sign-offs on Session 5**, which are yours and nobody else's. They
-   are listed in `docs/CLOSURE-TESTS.md` under Part B. Once they are given,
-   Session 5 is closed and the table says so.
-2. **Then Sessions 6 and 7**, with two jobs in front of them. **Bills carried
+   are listed in `docs/CLOSURE-TESTS.md` under Part B. **Sign-offs 1 and 2 were
+   given on 14 September**; seven remain. Once they are given, Session 5 is
+   closed and the table says so.
+2. **Item 32 of Session 5's test**, written this session and not run by it, for
+   the reason item 31 gives. A session that did not add the rule must ask it.
+3. **Then Sessions 6 and 7**, with two jobs in front of them. **Bills carried
    over between sessions**, before Session 6 is loaded: four bills appear in two
    factsheets, the double-count guard is the same four, and the mended check in
    `db/077` would refuse a carried-over bill's later stages — one job, not three.
@@ -160,8 +176,25 @@ not of the migration:
   missing one;
 - the error checker and the gaps list are both empty.
 
-Part A of Session 5's test now stands at thirty-one items, all answered as
-expected. **What remains for Session 5 is Part B, the owner's nine sign-offs.**
+Part A of Session 5's test then stood at thirty-one items, all answered as
+expected.
+
+**Then it took the owner through Part B, one sign-off at a time**, handing over
+the full text of what each rests on rather than a summary of it. Sign-offs 1 and
+2 were given on 14 September: the reconciliation and the seven fallen bills split
+three and four, and the three bills read in the Official Report.
+
+**Sign-off 2 turned up a fault nothing in the test asked about.** Read in full,
+all three of those notes stopped at the words "Read at" — and so did five of
+Session 4's. The staging lines were right; `tools/promote_session.sql` cuts a
+note at the first address, on purpose, and the phrase that introduced the address
+was left behind. On the owner's decision the copying step was mended and Sessions
+5 and 4 were taken off the clean sheet and put back, so nothing was typed into a
+provenance note by hand. Rehearsed one session at a time — three cells, then five
+— and the real run moved those eight cells and no others. `db/079` then put the
+rule on the note itself. See `DECISIONS.md`, 2026-09-14, and the runbook.
+
+**What remains for Session 5 is seven sign-offs and item 32.**
 
 ## The owner's standing positions, so they are not re-argued
 

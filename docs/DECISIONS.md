@@ -8,6 +8,65 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — A provenance note may not end mid-sentence, and a closed session may be reopened to mend one
+
+**Decided:** the eight provenance notes that ended with the words "Read at" and
+nothing after them are mended; they are mended by taking the sessions off the
+clean sheet and putting them back rather than by editing the notes where they
+sit; Session 4, which is closed, is reopened for it; and the database is taught
+to refuse a note that ends that way.
+
+**Found** on 14 September, while the owner was reading Session 5's three
+Official Report notes for sign-off 2 of its closure test. Nothing in the test
+asked about the wording of a note; it turned up because the sign-off hands the
+owner the full text rather than a summary of it.
+
+**Why it happened.** A bill whose outcome was read in the Official Report carries
+a note giving the outcome in the source's words. The staging line holds that note
+in full and was never wrong. `tools/promote_session.sql` cuts the note at the
+first address before filing it, deliberately, so that our own commentary can
+never be recorded as though the source had said it — but "Read at" exists only to
+introduce the address, so cutting the address and keeping the phrase left the
+sentence hanging. Eight notes: five in Session 4, three in Session 5. Sessions 1
+to 3 worded their review notes differently and had no address to cut.
+
+**Why by the ordinary route and not by hand.** The alternative was to reach in
+and edit the eight notes where they sit, which is less disruptive and touches no
+closed session. It was rejected because it puts hand-written words into the
+provenance record, which is the one thing the gateway arrangement exists to
+prevent. Here the staging sheet was already right, so mending the copying step
+and re-promoting corrects the notes with nothing typed by hand anywhere — a
+cleaner case than the Period Products title of the same day, where the staging
+sheet itself had to be corrected first.
+
+**Why a closed session may be reopened for this.** Closure is a statement about
+what has been checked, not a freeze. The owner agreed on 14 September, on the
+grounds that the change alters no fact Session 4 recorded and moves no answer of
+its test: item 5 counts the notes cited to the Official Report and says what each
+is cited to, not how its words end. The safeguard is the comparison, not the
+seal: a copy was taken first and the result differed in exactly the eight cells
+predicted and no others.
+
+**Where the rule lives, and why not with the others.** `v_candidate_problems`
+reads the staging sheets, and the staging sheets were never wrong — there was
+nothing there to refuse. A rule about what a note may say has to sit on the note
+itself, so `db/079` puts it there, where it binds every writer rather than the
+one route that produced this. The rule is narrow on purpose: a note may not end
+in "Read at". A vaguer rule about notes ending mid-sentence would refuse most of
+the 106, whose words are quoted verbatim and end in dates, numbers and titles.
+
+**What would reopen this.** A second connective phrase slipping through the same
+cut — "Taken from", "Seen at" — would say the narrow rule is too narrow and the
+cut should be described by what it is for rather than by the words it removes.
+
+**Rehearsed before it was run.** Session 5 alone moved three cells, Session 4
+alone five, and the two together for real moved eight: the eight notes, each
+eight characters shorter, and nothing else on any sheet. Bills stayed at 389,
+stage records at 1071 and provenance notes at 106 throughout.
+
+**Item 32 of Session 5's closure test** asks the rule from outside. It is written
+by the session that added it and deliberately not run by it.
+
 ## 2026-09-14 — An Act's title carries its year, and the error checker now asks for it
 
 **Decided.** The Period Products (Free Provision) (Scotland) Act's title is

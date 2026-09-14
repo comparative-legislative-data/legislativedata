@@ -750,3 +750,41 @@ not the 9 that did not, as it does for every session.
 nothing has compared Session 5's stage dates against the Parliament's bill
 pages. That is 87 pages and its own piece of work, and the owner has settled
 that the dataset is taken as it is for now.
+
+---
+
+## Sessions 5 and 4 off and back on to mend eight notes, 14 September
+
+The first time a session was taken off and put back to correct nothing on the
+staging sheet. The staging lines were right; the step that copies a note onto the
+clean sheet was not, and it had left eight notes ending with the words "Read at"
+and nothing after them. See `DECISIONS.md`, 2026-09-14, and `db/079`.
+
+**What was done, in order.**
+
+1. A read-only preview first, before anything was touched: of the twenty-four
+   lines whose outcome came from the Official Report, the mended step changes
+   exactly eight, each by eight characters, and all twenty-four still yield an
+   address for the note's reference.
+2. A copy taken with `tools/take_copy.sql`.
+3. `tools/promote_session.sql` mended, to cut "Read at" together with the address
+   it introduces.
+4. **Session 5 rehearsed alone** — taken off, put back, the whole thing thrown
+   away, compared against the copy. Three cells differed, the three notes.
+5. **Session 4 rehearsed alone**, the same way. Five cells differed.
+6. Only then run for real, Session 5 and then Session 4, and compared again.
+   **Eight cells differed and nothing else.** Bills 389, stage records 1071 and
+   provenance notes 106 throughout.
+7. `db/079` rehearsed and run, and the copy dropped.
+
+**Why the two sessions were rehearsed separately.** Both scripts make temporary
+tables that last until the transaction ends, so neither can run twice inside one
+rehearsal. Two rehearsals also make the expected answer sharper: three cells and
+five, which together are the eight the real run must show.
+
+**What to watch if this is done again.** The comparison counts the numbers given
+to stage records and notes, and the times things were written, as expected
+differences — they always move. Everything else is the answer. A session taken
+off and put back gives its stage records new numbers, so anything that had
+remembered an old one would be pointing at nothing; nothing does, and the
+comparison matches stage records by their bill and position for that reason.

@@ -53,8 +53,14 @@ date on the clean sheet is wrong.
 **Item 31 was added after that run** — it is the check on the rule `db/078`
 itself added, which the session that added it was not allowed to mark. **It was
 run on 2026-09-14 by a third session**, which added nothing to the database, and
-**all four of its parts answered as expected**. Part A is therefore thirty-one
-items, of which thirty-one now stand answered as expected.
+**all four of its parts answered as expected**.
+
+**Item 32 was added by that same third session and is not run.** While the owner
+was reading Session 5's three Official Report notes for sign-off 2, eight notes
+across Sessions 4 and 5 turned out to end mid-sentence. `db/079` mended them and
+added the rule; item 32 asks that rule from outside, and **a session that did not
+add it must run it**. Part A is therefore thirty-two items: thirty-one answered
+as expected, and item 32 outstanding.
 
 **Part B is not yet given.** The nine sign-offs are the owner's, and are recorded
 here on the day they are given and nowhere else.
@@ -739,16 +745,53 @@ and did not write this item. **All four parts answer as expected.**
 The rule was asked of the sheets and not of the migration, and `db/078` was not
 read while asking it.
 
+**32. The rule `db/079` added, asked of the notes rather than of the migration.**
+**Written on 2026-09-14 by the session that added it, and deliberately not run
+by it**, for the reason item 31 gives. Eight provenance notes ended with the
+words "Read at" and then stopped, because the step that files a note cuts it at
+the first address and that phrase existed only to introduce the address. The
+step is mended, the eight were rewritten by taking Sessions 5 and 4 off the
+clean sheet and putting them back, and the database now refuses a note that ends
+that way. Ask the notes:
+
+- **No note's words end in "Read at."** Expected 0 of 106, the 106 being item 1's
+  figure.
+- **The eight that did now end where their sentence ends**, in a closing
+  quotation mark or a full stop: five in Session 4 and three in Session 5, all of
+  them outcomes cited to the Official Report. The eight and the five-and-three
+  split were counted off the staging sheets before anything was moved, and the
+  two rehearsals moved three cells and five cells respectively.
+- **The address was never part of the words and is not lost.** All **24** notes
+  recording an outcome read in the Official Report still carry an address as
+  their reference — the 24 is item 5's table — and each still carries the day it
+  was read.
+- **Sessions 1 to 3 are untouched.** Their **16** outcome notes never had an
+  address to cut, because their review notes were worded differently, and none
+  contains the phrase at all. 16 is 24 less the eight.
+- **The rule binds a writer other than promotion.** It sits on the note itself
+  and not in the staging checker, because the staging sheets were never wrong:
+  their review notes carry the full sentence, address and all. So a change made
+  by hand that ends a note in "Read at" must be refused too, and the check is
+  worth making that way round rather than through promotion.
+- **And the checker still reports nothing at all.** Expected 0.
+
+If any of those is not what is found, `db/079` is the migration to read first.
+
 ### Part B — the owner's sign-off
 
 None of these is for anyone else to answer. A sign-off is recorded here on the
 day it is given, and nowhere else.
+
+**Given so far: 1 and 2, both on 2026-09-14.** Seven remain.
 
 1. **What happened to each bill.** The counts in items 6 and 7 are what you
    expect for Session 5: the reconciliation against the fact sheet's summary in
    every cell and both margins, including its fourth table for the first time,
    and the split of its seven fallen bills into three rejected at Stage 1 and
    four that ran out of time.
+   **Given on 2026-09-14**, against the reconciliation read back out of the clean
+   sheet and set beside the fresh extraction's table cell by cell, and against the
+   seven fallen bills listed by name under each heading.
 2. **The three bills read in the Official Report.** For each, the quotation on
    the line and the ending recorded against it. You found all three on the
    Parliament's bill pages, which print the divisions and name two of the three
@@ -756,6 +799,12 @@ day it is given, and nowhere else.
    Parliament decided, and the Restricted Roads motion's number and mover are
    from the bill page with the line saying so. The sign-off is on the record as
    it was read.
+   **Given on 2026-09-14**, with all three notes handed over in full rather than
+   summarised. **Reading them in full is what found the fault `db/079` mended**:
+   each ended with the words "Read at" and nothing after them. The sign-off was
+   given on the text as it then stood, and the eight characters removed since are
+   the dangling phrase and nothing else — the quotation, the ending recorded and
+   the citation are the same words the owner read.
 3. **The three bills stopped from Royal Assent.** The words a reader sees against
    each, read in full off the clean sheet rather than out of the decision that
    agreed them, and that `blocked` rather than `pending` is still what you want —
@@ -857,6 +906,17 @@ fingerprint. Item 8 named M4 where it meant M1, and the test is corrected. Item 
 found the explainer silent on the note a reader sees and M7 a session out of
 date, and both were put right before the document was read. **Session 4 is
 closed.**
+
+**Reopened on 2026-09-14, and closed again unchanged.** Five of Session 4's
+provenance notes ended mid-sentence, with the words "Read at" and nothing after
+them, and the fault was in the step that files a note rather than in anything
+Session 4 read or typed. Session 4 was taken off the clean sheet and put back so
+the five were rewritten by the ordinary route; see `db/079`. **No answer of this
+test moves.** Item 5 counts the notes cited to the Official Report and says what
+each is cited to, not how its words end, and its 21 is unchanged; the cells item
+5 lists in full are the other four, none of them affected. The comparison against
+a copy taken beforehand found those five cells and no others. This is marked here
+only so that a later reader who compares the wording is not puzzled.
 
 Session 4 was deliberately still off the clean sheet when this was written. So
 every expected answer below is a prediction made from page 9 of the Session 4
