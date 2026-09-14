@@ -33,8 +33,16 @@ There is no universal test. Each ingest gets its own, newest first below.
 ## Session 4
 
 Written 2026-09-13 by a session that did none of Session 4's work: it did not
-read the fact sheet in, did not build the review, and did not admit it. **Not
-yet run**, and not run by the session that wrote it.
+read the fact sheet in, did not build the review, and did not admit it.
+
+**Run on 2026-09-14** by a third session, which had done none of Session 4's
+work either. Twenty-five of the twenty-seven mechanical items matched their
+predictions exactly. Two did not, and both turned out to be faults in the
+prediction rather than in the data: item 26's arithmetic missed a period, and
+item 20 looked for a form of words the note never had. Both expected answers are
+corrected below, each marked and reasoned, so that what a later reader compares
+against is the corrected figure and not the original guess. Part B is the
+owner's and is not answered here.
 
 Session 4 was deliberately still off the clean sheet when this was written. So
 every expected answer below is a prediction made from page 9 of the Session 4
@@ -326,9 +334,16 @@ Cells: `bill_page` 7, `legislation_gov_uk` 14, `manual` 2, `official_report` 40,
 `spice_factsheet_legislation` 0. Those five add to 86, which is item 1.
 
 **15. The notes a reader is given.** M1 to M8, eight of them, none empty. Their
-lengths: M1 358, M2 5140, M3 1088, M4 971, M5 1940, M6 1605, M7 4361, M8 2673.
-A length that has moved means somebody edited a note; find out who and why
-before marking anything. **Session 4 brings no ending and no rejection route the
+lengths: M1 358, M2 5140, M3 1088, M4 971, M5 1940, M6 1605, M7 **5001** and
+M8 2673. A length that has moved means somebody edited a note; find out who and
+why before marking anything.
+
+**M7 was 4361 when this test was written, and moved on 2026-09-14**, after the
+test was run and before Session 4 was closed. `db/069` added a paragraph saying
+that where a division decided how a bill was rejected its figures are given in
+the note, and that a structured record of how members voted is not yet part of
+this resource. That is the only edit; the other seven are as predicted. See
+`DECISIONS.md`, 2026-09-14. **Session 4 brings no ending and no rejection route the
 notes do not already cover**, so nothing here should have needed to move — which
 is itself the check.
 
@@ -414,8 +429,26 @@ primary source in place. Its Stage 2 and the Inquiries into Deaths Bill's Stage 
 are both undated, `completed` false, `fell_here` true.
 
 **20. The Transplantation Bill's motion as amended, kept in full.** One row.
-characters **1376**, and all three of `keeps_the_resolution`,
-`names_the_amendment` and `quotes_the_division` true.
+characters **1448**, and all four of `keeps_the_resolution`,
+`names_the_amendment`, `gives_the_amendment_division` and
+`gives_the_motion_division` true.
+
+**Corrected on 2026-09-14, after the test was run.** As written, this item
+expected 1376 characters and a `quotes_the_division` that looked in the note for
+the Official Report's own phrase, "as amended, agreed to". It came back false,
+and the note had never contained that phrase: it says the same thing the other
+way round, "agreed to as amended". So the check tested a wording rather than a
+fact, and it was the only one of the twenty-seven to fail.
+
+Answering it turned up something real, though. The division figures were in the
+database — they are recorded against every one of the nineteen Stage 1
+rejections, in the Official Report's own words — but not in the text a reader
+sees. **The owner settled on 2026-09-14 that both divisions are published**, and
+`db/069` put them on the two bills rejected by this route, which took this note
+from 1376 characters to 1448. The check now looks for the two divisions
+themselves, which are facts read from the Official Report rather than a form of
+words, so it cannot fail again for the same reason. See `DECISIONS.md`,
+2026-09-14.
 
 The member in charge's own motion S4M-15128 was amended by S4M-15128.1 into a
 motion that did not agree to the general principles, and then agreed to as
@@ -517,19 +550,26 @@ first with five Private Bills in it, and the first whose promotion writes a
 provenance note for a bracketed value, so this is not a formality.
 
 **26. Every period is counted, or has a stated reason.** `tools/duration_coverage.sql`
-runs clean: **1064 counted**, and not counted 21 plus whatever points the two
+runs clean: **1065 counted**, and not counted 21 plus whatever points the two
 endings add — 19 of the 21 being stages that never reached their terminal point
 and 2 stages that never happened, all of them from Sessions 1 to 3. No third
 category; the script stops if one appears.
 
-1064 is 743 plus Session 4's 321: 79 bills passed, each counted at four points
-(introduction to the first stage, then each stage to the next, then the last stage
-to Royal Assent) = 316, and 5 bills rejected at Stage 1 counted from introduction
-to that decision = 5. The per-stage table should read:
+**Corrected on 2026-09-14, after the test was run: 1065, not 1064.** As written,
+this item said 1064 is 743 plus Session 4's 321 — 79 bills passed, each counted
+at four points (introduction to the first stage, then each stage to the next,
+then the last stage to Royal Assent) = 316, and 5 bills rejected at Stage 1
+counted from introduction to that decision = 5. **Session 4 has six non-passing
+bills with a dated Stage 1, not five.** The Footway Parking Bill completed Stage
+1 on 1 March 2016, three weeks before the session ended, so introduction to that
+stage is a real period of 286 days and is counted. That is the very thing the
+session before this one established, and the derivation was written without it.
+Session 4's figure is 322 and the total 1065; Sessions 1 to 3's 743 is unmoved.
+The per-stage table should read:
 
 | Counted to | Periods |
 |---|---|
-| introduction → stage_1 | 265 |
+| introduction → stage_1 | 266 |
 | introduction → preliminary | 17 |
 | introduction → final | 1 |
 | stage_1 → stage_2 | 244 |
@@ -845,6 +885,11 @@ itself stands: a length that moves still means a note was edited.
 **Corrected again on 2026-09-13, later the same day.** `db/061` amended M2 a
 second time, to say what the general note on a stage row is and what an empty
 detail note means. M2 is 5140 characters and the other seven have not moved.
+
+**M7 moved on 2026-09-14**, after Session 3 was closed: `db/069` added a
+paragraph about the division figures now published beside a bill rejected at
+Stage 1 by an unusual route. M7 is 5001 characters and the other six are as
+above. Nothing about Session 3's own data is reopened by it.
 
 **16. Notes on the Session 3 staging lines.** 9 with a review note, 1 with a
 note for readers, 60 the reader remarked on. The one reader's note is the Forth

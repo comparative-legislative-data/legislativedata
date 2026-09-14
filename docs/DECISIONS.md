@@ -7,6 +7,76 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — Both divisions are published beside a bill rejected by its own amended motion, and vote data is a layer for later
+
+### The decision
+
+A bill rejected at Stage 1 by its own motion being amended is decided twice, and
+**both divisions are given in the note published beside it**, in the order they
+were taken. Two bills are rejected this way: the Proportional Representation
+(Local Government Elections) (Scotland) Bill of Session 1 and the
+Transplantation (Authorisation of Removal of Organs etc.) (Scotland) Bill of
+Session 4. `db/069` put both on both.
+
+### Why both and not one
+
+The route decides a bill twice. The amendment turns the member in charge's own
+motion into its opposite; the motion as amended then formally ends the bill.
+**The two can differ widely enough that either alone would mislead.** The
+Transplantation Bill's amendment carried by three votes — For 59, Against 56 —
+and the motion as amended by seventeen, For 65, Against 48. A reader given only
+the second sees a comfortable majority rejecting a bill that was in fact lost on
+a margin of three; a reader given only the first does not see the decision that
+ended it.
+
+### What this is not
+
+**It is not vote data.** These are figures in prose beside two bills. They cannot
+be counted, filtered or joined to anything, and nothing should be built on them.
+A structured record of how members voted is intended as its own layer of this
+project, and when it arrives it supersedes these figures. M7 says so to a reader,
+in those terms, so that nobody mistakes a sentence for a dataset. This is written
+down because the cheap thing to do, when the vote layer is built, would be to
+parse these notes; that is not what they are for.
+
+### Which bills, and which are deliberately left alone
+
+**Every one of the nineteen Stage 1 rejections already carried its division**
+against the bill, in the Official Report's own words — that was never the gap.
+The gap was between what is recorded and what a reader sees. Only the two bills
+above gain it, because only they have a published note at all: the fifteen
+rejected on the ordinary route and the two rejected on a lead committee's motion
+have none, and a note that repeated a figure already recorded against the bill
+would earn its place less than one explaining an unusual route. If that is ever
+revisited, the figures are already there to draw on.
+
+### The two divisions on the Session 1 bill are both real
+
+That bill's note gave **For 65, Against 54, Abstentions 2** on the amendment,
+while what we recorded against it was **For 65, Against 53, Abstentions 3** on
+the motion as amended — the same For count, one member moving from abstaining to
+against between two votes minutes apart. That is exactly what a transcription
+slip looks like, so it was put to the owner rather than assumed, and the owner
+confirmed both are as the Official Report records them. Recorded here because a
+later reader meeting two near-identical figures is entitled to suspect one of
+them, and should find the answer at the same time as the doubt.
+
+### How it was built and checked
+
+`db/069` changes the staging line and the published note together and then checks
+the two are the same text, because a note is copied from its staging line every
+time a session is put on: changing the clean sheet alone would be undone by the
+next promotion. It was rehearsed in a transaction that was thrown away before it
+was applied, and one check failed there — an assertion that four bills carry a
+note when six do, the other two being the Robin Rigg and Forth Crossing Acts,
+whose notes are about something else. The check was rewritten to prove that no
+bill gains or loses a note rather than to count them. Afterwards, Session 4 was
+taken off and put back inside a transaction that was thrown away, to prove
+promotion carries the new text: it does, and the comparison found no unexpected
+difference.
+
+---
+
 ## 2026-09-13 — Where Session 4's two bills ended, and a bill page that disagrees with the Official Report
 
 ### The Inquiries into Deaths Bill stopped at Stage 1, undated

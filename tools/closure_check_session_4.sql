@@ -238,10 +238,17 @@ SELECT b.bill_id, left(b.short_title, 45) AS short_title, e.stage, e.stage_order
 
 \echo ''
 \echo '=== 20. The Transplantation Bill''s motion as amended, kept in full'
+-- quotes_the_division was replaced on 2026-09-14. It looked for the Official
+-- Report's phrase "as amended, agreed to" in a note that says the same thing the
+-- other way round, so it tested a wording rather than a fact, and it was the one
+-- item of the twenty-seven that failed. The two divisions below are read from
+-- the Official Report of 9 February 2016 and were published beside the bill by
+-- db/069. See docs/CLOSURE-TESTS.md, item 20.
 SELECT b.bill_id, length(b.note) AS characters,
-       b.note LIKE '%soft opt-out%'        AS keeps_the_resolution,
-       b.note LIKE '%S4M-15128.1%'         AS names_the_amendment,
-       b.note LIKE '%as amended, agreed to%' AS quotes_the_division
+       b.note LIKE '%soft opt-out%'                        AS keeps_the_resolution,
+       b.note LIKE '%S4M-15128.1%'                         AS names_the_amendment,
+       b.note LIKE '%(For 59, Against 56, Abstentions 0)%' AS gives_the_amendment_division,
+       b.note LIKE '%(For 65, Against 48, Abstentions 2)%' AS gives_the_motion_division
   FROM bill b
  WHERE b.session_number = 4 AND b.stage_1_rejection_route = 'member_motion_amended_agreed';
 
