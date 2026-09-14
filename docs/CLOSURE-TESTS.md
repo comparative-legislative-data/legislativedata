@@ -30,6 +30,705 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Session 5
+
+Written 2026-09-14 by a session that did none of Session 5's work: it did not
+read the fact sheet in, did not build the review, did not admit it and did not
+promote it.
+
+**Session 5 was already on the clean sheet when this was written, and had been
+marked closed by the session that promoted it.** That is the thing the procedure
+at the top of this file exists to prevent, and it is the second time it has
+happened — Sessions 1 and 2 on 12 September were the first. The mark was wrong
+and has been taken off; `STATE.md` now reads `next: closure test` for Session 5,
+as it did for Session 4 between promotion and marking.
+
+**What that costs, and what takes its place.** Sessions 3 and 4 had their tests
+written while the session was still off the clean sheet, so an expected answer
+could not have been copied out of the data even by accident. That protection is
+not available here. In its place, every expected answer below says where it comes
+from, and the sources are these, none of them the database:
+
+- **a fresh extraction of the Session 5 fact sheet**, run on 2026-09-14 from
+  `sources/factsheets/spice-legislation-session-5_retrieved-2026-09-10.pdf` with
+  nothing supplied to the reader but the PDF and the session number;
+- **the owner's dataset**, read directly out of the workbook — row counts, which
+  bills carry which stage dates, and the file's own fingerprint;
+- **`db/071` to `db/077` and the decisions they record**, which is where the
+  review's codings, adjudications and agreed wordings live;
+- **Session 4's closed test**, for anything covering the whole clean sheet that
+  Session 5 does not move.
+
+Where a figure could only have come from the database, the expected answer says
+so and is not dressed up as a prediction. There are two: the lengths of the six
+methodology notes Session 5 leaves alone, which are quoted from Session 4's test,
+and nothing else.
+
+**When to run it.** Now. Session 5 is on the clean sheet with its Stage 1 and
+Stage 2 dates on it, which is the state these answers describe.
+
+### What writing this test turned up — three things, none of them settled
+
+None is a matter of opinion about the data; each is a place where Session 5 was
+handled differently from Session 4 under a rule that has not changed. **They are
+put to the owner rather than fixed by the session that found them**, and the
+items they affect are marked below, so that a failure is read as the known thing
+and not as a discovery.
+
+**1. The Period Products Act's title has no year in it, and its number does.**
+The fact sheet prints the title as "Period Products (Free Provision) (Scotland)
+Act (asp 1)", with no year anywhere in it. `db/073` settled the number at
+legislation.gov.uk as `2021 asp 1` and left the title as the fact sheet printed
+it. Session 4's equivalent was settled both ways: the Higher Education Governance
+Act had **two** cells corrected, the number and the title, and Session 4's item 5
+lists both, because the title is the half a reader sees. So on the same fault,
+one session corrected the title and the next did not. `db/073`'s own note already
+quotes legislation.gov.uk giving "Period Products (Free Provision) (Scotland) Act
+2021", so the value is not in doubt and nothing needs to be looked up.
+
+**If the owner agrees the title should carry its year, items 1, 5, 9 and 26 move
+together**: provenance notes 105 becomes 106, item 5 gains a `short_title` /
+`legislation_gov_uk` row taking that pairing from 1 to 2, item 9's
+`acts_whose_title_has_no_year` becomes 0, and item 26 gains a tenth cell that
+must differ from a fresh reading. Nothing else is affected. **If the owner
+decides the fact sheet's title stands**, item 9's expected answer becomes 1 with
+a reason recorded here, and Session 4's handling is the one that needs revisiting
+— not this one.
+
+**2. M7 says the coding of why a bill fell has been done for four sessions.**
+Five have now been coded: Session 5's seven fallen bills were split into three
+rejected at Stage 1 and four out of time on 14 September. This is exactly what
+`db/070` had to fix at Session 4's closure, when M7 still said three. A published
+note saying less than the data holds is the fault `db/072` was written to prevent
+in M5, in the same week. Item 15 expects M7 to say Sessions 1 to 5 and is
+predicted to fail until a migration puts it right.
+
+**3. The explainer contradicts itself on how many provenance notes there are.**
+`docs/HOW-THE-DATABASE-WORKS.md` §3 says "The tab holds 86 notes in all: 72 about
+bills, 13 about the sessions' own dates, and 1 about a stage", and §4 of the same
+document says ninety-one, counting Session 5's nineteen. The second is current
+and the first is a session behind: 105 in all, 91 about bills. **Part B item 9
+cannot be put to the owner until that is fixed**, because it asks them to explain
+the database from that document.
+
+**The one item an outside change can move** is item 27, the dataset's
+fingerprint. Nothing else here is reopened by later work, and the three things
+above are not outside changes: they are this session's own business.
+
+### Part A — mechanical
+
+Run `tools/closure_check_session_5.sql`. It reads only and changes nothing.
+Compare each numbered result against the expected answer.
+
+**1. Counts.** bills 389, stage_records 1071, provenance_notes 105,
+checker_problems 0, gaps 0, staging_lines 389, stage_date_rows 1071.
+
+- **389** is 302 plus 87. The 87 is the Session 5 fact sheet's own summary total,
+  and the fresh extraction produces exactly 87 lines from the PDF.
+- **1071** is 828 plus Session 5's 243, and the 243 is a derivation to be checked
+  rather than a number to be accepted: 78 bills passed — 75 Acts plus the 3 the
+  fact sheet lists as awaiting Royal Assent — and each has three stages, which is
+  234; the 3 rejected at Stage 1 have one each, which is 3; the 6 that ended
+  where they stopped have one each, which is 6. 234 + 3 + 6 = 243. Every figure
+  in that sentence is off the fact sheet.
+- **The same 1071** for stage_date_rows. Every accepted stage-date row is carried
+  to exactly one stage record, so with the whole of Session 5 promoted the two
+  counts are equal. They are not equal at any point when a session is half on.
+- **105** is 86 plus 19, and the 19 is derived from what
+  `tools/promote_session.sql` writes a note for, against what Session 5's review
+  actually settled: 3 outcomes read in the Official Report and 3 Stage 1
+  rejection routes from the same pages (`db/073`); 4 bills coded as having fallen
+  at dissolution, whose note is the rule and not a quotation; 3 notes on
+  `enactment_status`, one per blocked bill, carrying the fact sheet's footnote as
+  the words that were seen; 2 on `date_assent_blocked`, because only two of the
+  three footnotes give a date; and 4 cells checked at review — two Royal Assent
+  dates at legislation.gov.uk, one introduction date at the Parliament's bill
+  page, and the Period Products Act's number (`db/073`, `db/074`).
+  3 + 3 + 4 + 3 + 2 + 4 = 19. **This is one of the two places the title question
+  bites:** correcting the title makes it 20 and the total 106.
+- **0 and 0 are the rule**, for the session and for everything before it.
+
+**2. Every staging line reviewed, admitted, on the clean sheet and compared.**
+Session 1: 73 accepted, 73 promoted, 73 compared. Session 2: 81, 81, 81.
+Session 3: 62, 62, 62. Session 4: 86, 86, 86. Session 5: 87, 87, 87. No other
+review status appears in any session. From the fact sheets' own totals and the
+rule that nothing reaches the clean sheet unaccepted.
+
+**3. Every stage-date row.** Session 1: 200 accepted, 200 carried. Session 2:
+213, 213. Session 3: 170, 170. Session 4: 245, 245. Session 5: 243, 243. No
+other status. Sessions 1 to 4 are from their own tests; Session 5's 243 is item
+1's derivation.
+
+**4. A recorded difference with no adjudication.** 0. Session 5 recorded three —
+two Royal Assent dates and the Solicitors Bill's introduction date — and all
+three were settled on 14 September, each with a `Checked:` line beside the
+`Differs:` line (`db/074`).
+
+**5. What has been checked against the source that owns it.**
+
+| Field | Source | Cells |
+|---|---|---|
+| `asp_number` | `legislation_gov_uk` | 3 |
+| `bill_type` | `bill_page` | 1 |
+| `date_assent_blocked` | `spice_factsheet_legislation` | 2 |
+| `date_completed` | `bill_page` | 1 |
+| `date_first_meeting` | `spice_factsheet_dates` | 7 |
+| `date_introduced` | `bill_page` | 6 |
+| `date_introduced` | `manual` | 1 |
+| `date_royal_assent` | `legislation_gov_uk` | 13 |
+| `date_session_end` | `spice_factsheet_dates` | 6 |
+| `enactment_status` | `spice_factsheet_legislation` | 3 |
+| `outcome` | `official_report` | 24 |
+| `outcome` | `spice_factsheet_dates` | 14 |
+| `short_title` | `legislation_gov_uk` | 1 |
+| `short_title` | `manual` | 1 |
+| `stage_1_rejection_route` | `official_report` | 22 |
+
+That is Session 4's table with Session 5's nineteen added, and it sums to 105.
+**Two of the pairings are new to the database**: a bill's `enactment_status` cited
+to the legislation fact sheet, and `date_assent_blocked` to the same. Both exist
+because the fact that stopped these bills is printed in a footnote rather than in
+the row, so the only place the source's own words can live is a provenance note.
+**If the title is corrected, `short_title` / `legislation_gov_uk` becomes 2.**
+
+**The nineteen Session 5 cells are then listed in full.** Nineteen rows, not
+eighteen and not twenty. Two of the blocked bills carry the same footnote twice
+over — once against the status and once against the date — which is not
+duplication: they are provenance for two different cells. The UK Withdrawal Bill
+has the status note only, its footnote giving no date. Every one of the nineteen was read on
+2026-09-14.
+
+**6. Reconciliation.** Our counts must match the fact sheet's own summary in
+every cell and both margins. These figures are from the fresh extraction of the
+Session 5 fact sheet, not out of the database:
+
+| Session 5 | Government | Member's | Private | Committee | Total |
+|---|---|---|---|---|---|
+| Acts of the Scottish Parliament | 60 | 7 | 5 | 3 | 75 |
+| Bills awaiting Royal Assent | 2 | 1 | 0 | 0 | 3 |
+| Bills withdrawn | 1 | 1 | 0 | 0 | 2 |
+| Bills fallen | 0 | 7 | 0 | 0 | 7 |
+| **Total** | **63** | **16** | **5** | **3** | **87** |
+
+The script's rows are `acts`, `awaiting_assent`, `withdrawn` and `fallen`, and
+its `government_or_hybrid` column answers the fact sheet's "Government".
+**This is the first reconciliation with four rows**, and the first in which our
+`passed` is two of the fact sheet's tables added together: 75 Acts plus 3
+awaiting. A three-row answer means the fourth table has not been read.
+
+**On `bill_type` alone**: government 63, members 16, private 5, committee 3 —
+**identical to the table above**, because Session 5 has no Hybrid Bill. A hybrid
+appearing here means the reader has typed something `H` that the fact sheet does
+not.
+
+**7. Outcomes.** passed and enacted 75; passed and blocked 3; rejected at Stage 1
+3, not enacted; withdrawn 2, not enacted; fell at dissolution 4, not enacted.
+
+The fact sheet gives the row totals only — 75 Acts, 3 awaiting Royal Assent, 2
+withdrawn, 7 fallen. Splitting the 7 into 3 + 4 is ours, methodology note M7:
+three from the Official Report of the day, four from the day the session ended.
+**No Session 5 bill was rejected at Stage 3, none fell for want of a financial
+resolution, and none is recorded as pending**; those three values should not
+appear. `pending` in particular is the value the fact sheet's own table heading
+proposes and the footnotes refuse: see `DECISIONS.md`, 2026-09-14.
+
+**8. Required cells.** Every column 0.
+
+The second line is the cells the fact sheet does not fill: **no_sp_bill_number
+75**, has_a_procedure 0, has_a_title_as_introduced 0. The Session 5 fact sheet
+prints an SP Bill number for the twelve bills that did not become Acts — the
+nine that did not pass and the three stopped before Royal Assent — and for none
+of the 75 Acts, which the fresh extraction confirms cell by cell. A smaller
+number here means a bill number has been invented.
+
+**9. Every Session 5 Act.** 75 enacted, 0 without an asp number, 0 without an
+assent date, 0 where the asp number's year disagrees with the assent year. The
+75 is the fact sheet's own Acts total, and the three blocked bills are correctly
+not among them: they have no number and no assent date, and they are not
+`enacted`.
+
+**And 0 Acts anywhere on the clean sheet whose number has no year** — the check
+`db/062` added, which Session 5's Period Products Act was the first to trip.
+
+**`acts_whose_title_has_no_year` — expected 0, and predicted to read 1.** This is
+the title question above. The one Act it names should be the Period Products
+(Free Provision) (Scotland) Act. **If a second name appears, that is not the
+known thing** and is to be reported as its own finding: it would mean an Act
+title has lost its year somewhere other than where the fact sheet printed it
+short.
+
+**10. Stage records per bill.** passed 3 stages × 78; rejected at Stage 1 1 × 3;
+withdrawn 1 × 2; fell at dissolution 1 × 4. This is item 1's derivation seen per
+bill, and the two must agree. The three blocked bills are inside the 78: being
+stopped before Royal Assent takes nothing off a bill's stages.
+
+**11. Where every Session 5 stage date came from.** `phd` 153 (all dated),
+`spice_factsheet_legislation` 78 (all dated), `official_report` 3 (all dated),
+`bill_page` 9 (6 undated), and nothing recorded as a stage that never happened.
+
+- **78** is the passing date of every bill that passed, off the fact sheet: 73
+  Stage 3 dates and 5 Final Stage dates.
+- **153** is the owner's dataset, counted in the workbook rather than in the
+  database: of its 86 Session 5 rows, 80 carry a Stage 1 date and 77 a Stage 2
+  date. The three with a Stage 1 date and no Stage 2 date are the three bills
+  rejected at Stage 1, whose date the Official Report already holds, so nothing
+  is written for them; the six with no Stage 1 date at all are the six that
+  ended where they stopped. That leaves 77 Stage 1 dates and 77 Stage 2 dates,
+  less the Civil Partnership Act's Stage 2, which the bill page holds because the
+  dataset had the month wrong (`db/076`): 77 + 76 = 153.
+- **9** is the six undated endings, the Domestic Abuse Act's Stage 1 and Stage 2,
+  and the Civil Partnership Act's Stage 2 — every one from the Parliament's own
+  bill pages (`db/075`, `db/076`).
+- **3** is the Stage 1 each rejected bill was rejected at.
+
+**By position**, which is where the derivation is actually checked: `phd` 77 at
+position 1 and 76 at position 2; `spice_factsheet_legislation` 78 at position 3;
+`official_report` 3 at position 1; `bill_page` 7 at position 1 and 2 at position
+2. Nothing at position 4: Session 5 has no Reconsideration stage, the two bills
+that had one having had it in Session 6.
+
+Across the whole clean sheet: `phd` 675, `spice_factsheet_legislation` 338,
+`official_report` 29 (3 undated), `bill_page` 29 (26 undated), 2 recorded as
+stages that never happened. Those four add to 1071, which is item 1's total.
+
+**12. Two accepted rows for the same stage.** 0, in every session, and the
+listing that follows returns nothing. Session 5's three Stage 1 dates come from
+the Official Report, and **the dataset's dates for the same three bills agree
+with it to the day** — Restricted Roads 13 June 2019, Culpable Homicide 21
+January 2021, Post-mortem Examinations 26 January 2021, read in the workbook
+before this test was written. The Civil Partnership Act's Stage 2 is the same
+shape: the bill page holds it, the dataset now agrees since the correction, and
+nothing should be written twice. A second row means the loader wrote the
+dataset's date over a more primary source even though the two agree.
+
+**13. How each Stage 1 rejection came about.** `member_motion_disagreed` 18
+bills, 0 with a note for readers; `member_motion_amended_agreed` 2 bills, 2 with
+notes; `committee_motion_9_14_18` 2 bills, 2 with notes. `other_route` should not
+appear. The 18 is Sessions 1 to 4's 15 plus Session 5's 3, none of which needs a
+reader's note: all three went the ordinary way.
+
+The listing gives the three bills and the day each ended. Every one must have
+`date_concluded` equal to its Stage 1 date and the source `official_report`:
+
+| Bill | Route | Ended |
+|---|---|---|
+| Restricted Roads (20 mph Speed Limit) | `member_motion_disagreed` | 13 June 2019 |
+| Culpable Homicide | `member_motion_disagreed` | 21 January 2021 |
+| Post-mortem Examinations (Defence Time Limit) | `member_motion_disagreed` | 26 January 2021 |
+
+**14. Every source on the list has a definition.** Nine sources, all true. Stage
+records as item 11. `bill_rows` is `spice_factsheet_legislation` 389 and every
+other source 0 — a bill's own line always comes from a legislation fact sheet.
+Cells: `bill_page` 8, `legislation_gov_uk` 17, `manual` 2, `official_report` 46,
+`spice_factsheet_dates` 27, `spice_factsheet_legislation` 5; `api`,
+`bill_document` and `phd` 0. Those six add to 105, which is item 1.
+
+**`spice_factsheet_legislation` holding cells at all is new**, and it is the
+footnotes: five cells, being the three blocked bills' status and the two dates.
+Before Session 5 a legislation fact sheet was the source of whole lines and never
+of a single cell.
+
+**15. The notes a reader is given.** M1 to M8, eight of them, none empty.
+
+Six are expected unchanged from Session 4's closed test, and those six figures
+are quoted from it rather than derived: M1 358, M2 5140, M3 1088, M4 971, M6
+1605, M8 2673. A length that has moved means somebody edited a note; find out who
+and why before marking anything.
+
+**M5 and M7 are the two Session 5 moves**, and neither is checked by its length:
+
+- **M5** was 1940 at Session 4's test and `db/072` added two sentences to it, so
+  that a reader is told the account of what became of the four blocked bills runs
+  ahead of the data until Session 6's fact sheet is read in. Expected:
+  `m5_counts_the_four_blocked_bills` true and `m5_says_it_runs_ahead_of_the_data`
+  true.
+- **M7** must say the coding of why a bill fell has been done for Sessions 1 to
+  5. Expected: `m7_says_five_sessions_are_coded` true and `m7_still_says_four`
+  false. **Predicted to fail on both**, which is the second of the three things
+  above. Read the note in full: what matters is not the phrase the check looks
+  for but whether a reader is told five sessions or four.
+
+**16. Notes on the Session 5 staging lines.** 3 with a note for readers, 85 the
+reader remarked on, and **at least 7 with a review note**.
+
+- **3 notes for readers** are the three blocked bills, and nothing else: the
+  three rejections took the ordinary route, which needs no explaining to a
+  reader.
+- **7 review notes** are lines 306, 309, 310 and 360 from `db/073` and the three
+  adjudicated lines from `db/074`. **If it reads 10**, the three blocked bills
+  carry one from review as well, which is likely and unobjectionable — read them
+  and say so. Any other number, or a note on a line not in that list, is
+  something to read out before marking.
+- **85, not 87.** The two lines the reader said nothing about are the two
+  withdrawn bills, the Children and Young People (Information Sharing) Bill and
+  the Liability for NHS Charges Bill: neither became an Act, so there was no Act
+  title to remark on, and neither fell unexplained. Session 4's single silent
+  line was the same shape.
+
+The reader's own remarks, and how many lines carry each, from the fresh
+extraction:
+
+| The reader said | Lines |
+|---|---|
+| title is the Act title, not the title as introduced | 72 |
+| the factsheet says the bill fell and not why; outcome left for review | 6 |
+| a footnote marker was removed from the word Bill; the footnote says the bill cannot be submitted… | 2 |
+| title is the Act title, not the title as introduced; read from a row the factsheet split across a page | 2 |
+| a footnote marker was removed from the word Bill; the footnote gives no date… | 1 |
+| the factsheet says the bill fell and not why; outcome left for review; read from a row the factsheet split… | 1 |
+| title is the Act title, not the title as introduced; the factsheet prints no year before the asp number | 1 |
+
+The script truncates each to 76 characters, so the three longest collapse to
+their openings; the counts are what to compare. **The three footnote remarks are
+the reader deciding `blocked` rather than `pending` from the footnote's own
+words**, which is the judgement `DECISIONS.md` records for 14 September, made by
+the reader and not by a person.
+
+**17. Where the Parliament changed what it called its own bills.** Government
+bills by session and by how the type was styled at the time: Session 1
+`executive` 51; Session 2 `executive` 53; Session 3 `executive` 44; Session 4
+`executive` 15 and `government` 52; **Session 5 `government` 63 and no
+`executive` at all.**
+
+Session 4 is where the styling changed inside a session. Session 5 is the first
+session with no Executive Bill in it, and the fresh extraction confirms why:
+every one of its 63 government bills is typed plainly `G`, with no `G*` footnote
+anywhere in the document. An `executive` count above 0 here means the reader has
+carried Session 4's footnote forward.
+
+**18. Every bill that did not pass says where it ended.** 0.
+
+The listing shows the nine Session 5 bills that did not pass. Three name Stage 1,
+dated from the Official Report, each date equal to the bill's `date_concluded` as
+item 13 sets out. The other six are undated and cite the bill page, because none
+of them ended on a decision of the Parliament: each stopped at Stage 1 without
+completing it, and there was no vote to date. See `DECISIONS.md`, 2026-09-14.
+
+**19. Every stage date held for a Session 5 bill that did not pass.** Nine rows,
+one per bill, every one at stage_order 1, `completed` false, `fell_here` true.
+
+The three rejections are dated as item 13 and **every one must say
+`official_report`**. If any says `phd`, the dataset's date has been carried in
+place of the Official Report's and this item fails — even though all three agree
+to the day, because what is being checked is that the load left the more primary
+source in place. The six endings are undated and say `bill_page`.
+
+**20. The three bills that passed and were stopped before Royal Assent.** The
+first bills on the clean sheet that have not finished.
+
+| Bill | Passed | Blocked on | Note characters |
+|---|---|---|---|
+| UK Withdrawal from the European Union (Legal Continuity) | 21 March 2018 | empty | 385 |
+| European Charter of Local Self-Government (Incorporation) | 23 March 2021 | 6 October 2021 | 357 |
+| United Nations Convention on the Rights of the Child (Incorporation) | 16 March 2021 | 6 October 2021 | 357 |
+
+Each must read `outcome` passed, `enactment_status` blocked, no Royal Assent
+date and no asp number. **The empty cell against the UK Withdrawal Bill is the
+fact sheet's own silence**, not a gap: its footnote gives no date for the ruling,
+and the note says so in words.
+
+The character counts are of the wording the owner agreed on 14 September, quoted
+in `DECISIONS.md`, counted from that text and not from the database. **A small
+difference means the words typed at review are not the words agreed** — which is
+worth knowing either way, so read the note out beside the decision rather than
+waving the number through or assuming the note is wrong.
+
+The phrase checks are of facts and not of wordings, for the reason Session 4's
+item 20 had to be rewritten: `opens_with_the_fact`, `names_the_mechanism`,
+`names_who_referred_it` and `says_what_was_ruled` true on all three;
+`gives_the_ruling_date` true on the two the fact sheet dates and false on the UK
+Withdrawal Bill; `says_the_fact_sheet_gives_no_date` the other way round — false,
+false, true.
+
+**Each of the three has 3 stage records and 3 periods counted**, its Stage 3
+dated and no fourth period, because there is no Royal Assent to count to. Their
+Stage 3 dates are the passing dates above. This is the difference between a bill
+that was stopped and a bill that is missing a date: the stages are complete and
+the period after them does not exist.
+
+**21. A bill that passed, has no Royal Assent date and does not say why.** 0, and
+0 blocked bills with nothing said to a reader.
+
+**This is the hole `db/071` found and closed**, and it is worth stating plainly
+because it was open for every session before this one: a bill could have been
+recorded as passed, given no Royal Assent date, left as not enacted with nothing
+on the line saying why, and the error checker would have admitted it. The rule is
+now worded about the Royal Assent date rather than about enactment. A non-zero
+answer means it is open again.
+
+**22. A Private Bill's stages are recorded under a Private Bill's names.**
+
+| Bill type | 1 | 2 | 3 |
+|---|---|---|---|
+| committee | stage_1 3 | stage_2 3 | stage_3 3 |
+| government | stage_1 63 | stage_2 62 | stage_3 62 |
+| members | stage_1 16 | stage_2 8 | stage_3 8 |
+| private | preliminary 5 | consideration 5 | final 5 |
+
+Government's 63 at position 1 is the 62 that passed plus the withdrawn Children
+and Young People Bill; members' 16 is the 8 that passed, the 3 rejected, the 1
+withdrawn and the 4 out of time. `stage_1` appearing against `private` means the
+loader has used the public names, and the comparison of a Private Bill's
+Consideration Stage with an ordinary bill's Stage 2 then rests on a claim the
+database is supposed to refuse.
+
+**23. `db/077`'s guards, derived again rather than re-run.** A migration's own
+provocations are the writer's account of itself; these are the same rules asked
+of the clean sheet from outside. All four counts 0.
+
+- **`stage_dates_before_introduction` 0** and
+  **`stage_dates_after_the_bill_or_its_session_ended` 0**. The second is the
+  guard that did not bite when `db/077` was written: its ceiling was the bill's
+  own last stage date where the bill had neither a Royal Assent date nor a date
+  it concluded, which on the three blocked bills is the date being checked, so a
+  Stage 3 dated any year at all passed it. The ceiling is now the day the bill
+  ended, and where it has not ended, the day the session ended — which is what
+  the query above measures against. See `DECISIONS.md`, 2026-09-14.
+- **`stages_out_of_order` 0.** This is the check that caught the Civil
+  Partnership Act's Stage 2 being typed three months before its Stage 1
+  (`db/076`), so it has bitten once for real.
+- **`session_5_stage_dates_from_another_source` 0.** The four sources Session 5's
+  review covered are the legislation fact sheet, the dataset, the Official Report
+  and the bill page. Anything else on a Session 5 stage record was not reviewed.
+- **The dateless listing is exactly six bills**, each at Stage 1: Disabled
+  Children and Young People (Transitions to Adulthood), Fair Rents, Travelling
+  Funfairs (Licensing), Welfare of Dogs, Children and Young People (Information
+  Sharing) and Liability for NHS Charges. Seven means a date has been lost; five
+  means one has been invented.
+
+**24. Every period counted for Session 5.**
+
+| Counted to | Periods |
+|---|---|
+| introduction → stage_1 | 76 |
+| introduction → preliminary | 5 |
+| stage_1 → stage_2 | 73 |
+| preliminary → consideration | 5 |
+| stage_2 → stage_3 | 73 |
+| consideration → final | 5 |
+| stage_3 → royal_assent | 70 |
+| final → royal_assent | 5 |
+
+312 in all. The 76 at the first row is the 73 public bills that passed plus the 3
+rejected at Stage 1; the 70 at `stage_3 → royal_assent` is those 73 less the
+three blocked, and that gap of three is the whole point of item 20. The six
+undated endings count nothing, which is item 29.
+
+**The shortest and longest roads from introduction to the end of Stage 3**, both
+predicted from the fact sheet's own introduction and passing dates:
+
+| | Days |
+|---|---|
+| Coronavirus (Scotland) Act 2020 | 1 |
+| Coronavirus (Scotland) (No.2) Act 2020 | 9 |
+| UK Withdrawal from the European Union (Legal Continuity) | 22 |
+| Planning (Scotland) Act 2019 | 563 |
+| Period Products (Free Provision) (Scotland) Act | 581 |
+| Pow of Inchaffray Drainage Commission (Scotland) Act 2018 | 636 |
+
+**Read the second and third rows carefully.** The session that promoted Session 5
+reported the three shortest as 1, 27 and 28 days, the last two being Budget Acts.
+The fact sheet's own dates make them 1, 9 and 22: the Coronavirus (No.2) Act was
+introduced on 11 May 2020 and passed on 20 May, and the UK Withdrawal (Legal
+Continuity) Bill on 27 February and 21 March 2018. If the answer here is 1, 9 and
+22, the clean sheet agrees with the fact sheet and the earlier account was loose
+prose. **If it is 1, 27 and 28, then two bills' Stage 3 dates on the clean sheet
+are not the fact sheet's**, and that is a finding about the data rather than
+about the prose.
+
+### Then, outside the script
+
+**25. The data dictionary is still true.**
+`python3 tools/make_data_dictionary.py` produces no difference from the committed
+file, at 17 tables and 162 columns. Session 5 added two columns to the staging
+sheet in `db/071` — `date_assent_blocked` and `raw_footnote` — so the committed
+dictionary must already describe both; if it does not, the script refuses to run
+and the dictionary has to be committed with the migration that made them.
+
+**26. The reader still reproduces what was loaded.** Extract the Session 5 fact
+sheet afresh and compare against the staging lines' raw columns: 87 rows,
+0 differing.
+
+    extract_factsheet.py <pdf> --session 5 --csv out.csv
+
+**Nothing may be supplied to the reader but the PDF and the session number.**
+That is what this item is for.
+
+**The worked-out columns that must differ, and only these** — nine cells across
+nine bills:
+
+- `outcome` on all seven bills the fact sheet's Fallen table holds, because since
+  `db/051` the reader decides none of them: Culpable Homicide, Post-mortem
+  Examinations (Defence Time Limit) and Restricted Roads (20 mph Speed Limit),
+  read in the Official Report; Disabled Children and Young People (Transitions to
+  Adulthood), Fair Rents, Travelling Funfairs (Licensing) and Welfare of Dogs,
+  worked out from the day the session ended.
+- `date_introduced` on one, corrected against the Parliament's bill page:
+  Solicitors in the Supreme Courts of Scotland (Amendment), 26 September 2019
+  where the fact sheet prints 2020.
+- `asp_number` on one, which the fact sheet prints with no year: Period Products
+  (Free Provision). **A tenth cell, `short_title` on the same bill, if the owner
+  settles the title question.**
+
+`outcome` must **not** differ on the two withdrawn bills. The reader reads the
+Withdrawn table and codes them itself.
+
+`enactment_status` and `date_assent_blocked` must **not** differ on the three
+blocked bills. The reader produces both from the footnotes since `db/071`, and a
+difference here means the review typed by hand what the reader already gives.
+
+`date_royal_assent` must **not** differ on the Age of Criminal Responsibility Act
+or the Heat Networks Act. Both disagreements were with the dataset, not with the
+fact sheet, and the fact sheet's dates are what stand; a difference here means
+the wrong source won.
+
+`bill_type` must **not** differ, on any of the 87. The reader produces no
+`stage_1_rejection_route`, `bill_note` or `official_report_read_on` at all, so
+those are not comparisons.
+
+**Also check the dissolution rule afresh**, as every session since the first
+does: of the seven fallen bills in the fresh reading, exactly the four concluding
+on Session 5's last day of **4 May 2021** are the four coded `fell_dissolution`,
+none over and none missing. That is what makes those four differences a rule
+being applied rather than a coding nobody can reproduce.
+
+**27. The dataset's fingerprint** is sha256
+`072184df1fd4fbc15ae9e66ca51f9e287de6bc9b3b8f4d8342f6cae4e79ac1d2`, computed
+from `sources/phd/Billdates-September2026.xlsx` on 2026-09-14.
+
+It was `6614b3a1…c135420f` when Session 4 closed, and Session 5 moved it twice
+under the rule the owner settled that day: first the two Royal Assent dates the
+fact sheet was right about, then the Civil Partnership Act's Stage 2 month, which
+the error checker caught because the dates were in an impossible order. The
+Corrections sheet carries all three, each with what it was checked against.
+
+The ten Session 5 names paired by hand in `tools/phd_stage_dates.py` are not
+corrections and do not move the fingerprint: the four Budget Acts, which the
+dataset numbers within the session for a third session running, and six wording
+slips. Every pair agrees on both dates the two sources share. **One Session 5
+line has no dataset row at all** — the Domestic Abuse (Protection) (Scotland) Act
+2021 — which is why 87 lines pair with 86 rows, and it is named in
+`NOT_IN_DATASET` with the bill page that holds its two dates instead.
+
+**This is the one item a later session can move.** Adjudicating a disagreement
+for Session 6 or beyond corrects the file and the fingerprint changes with it.
+Record the new one beside the old; nothing else about Session 5 is reopened by it.
+
+**28. Promotion is still reversible.** Take Session 5 off and put it back inside a
+transaction that is thrown away, and the result is identical. The procedure is in
+`docs/PROMOTION-RUNBOOK.md`. The session that promoted Session 5 did this and
+saved it, which is not the same as a session that did none of the work doing it:
+Session 5 is the first session whose promotion writes provenance for a blocked
+bill, and the first to go on with its Stage 1 and Stage 2 dates already there, so
+there are two things in it that have never been undone by anyone else.
+
+**29. Every period is counted, or has a stated reason.**
+`tools/duration_coverage.sql` runs clean: **1377 counted**, and 27 not counted —
+21 from Sessions 1 to 4, as Session 4's test settled, and 6 from Session 5, being
+the six undated endings. No third category; the script stops if one appears.
+
+1377 is Session 4's 1065 plus Session 5's 312, which is item 24's table. **Note
+what is not in the 27**: the three blocked bills contribute no uncounted period
+at all, because the script only adds a Royal Assent point for a bill that was
+enacted. A blocked bill is not a bill missing a period; it is a bill whose next
+period does not exist.
+
+**30. The repository is clean** and level with GitHub, and the migrations are
+numbered without a gap. `db/063` and `db/066` share a filename, which is known
+and accepted; see `STATE.md`, housekeeping.
+
+### Part B — the owner's sign-off
+
+None of these is for anyone else to answer. A sign-off is recorded here on the
+day it is given, and nowhere else.
+
+1. **What happened to each bill.** The counts in items 6 and 7 are what you
+   expect for Session 5: the reconciliation against the fact sheet's summary in
+   every cell and both margins, including its fourth table for the first time,
+   and the split of its seven fallen bills into three rejected at Stage 1 and
+   four that ran out of time.
+2. **The three bills read in the Official Report.** For each, the quotation on
+   the line and the ending recorded against it. You found all three on the
+   Parliament's bill pages, which print the divisions and name two of the three
+   motions; the citation is the Official Report because that is where the
+   Parliament decided, and the Restricted Roads motion's number and mover are
+   from the bill page with the line saying so. The sign-off is on the record as
+   it was read.
+3. **The three bills stopped from Royal Assent.** The words a reader sees against
+   each, read in full off the clean sheet rather than out of the decision that
+   agreed them, and that `blocked` rather than `pending` is still what you want —
+   the table's heading says awaiting, the footnotes say cannot be submitted, and
+   we followed the footnotes. Also that recording them as Session 5's fact sheet
+   leaves them, with what happened next left to Session 6, is right.
+4. **The six bills that ended where they stopped**, checked against the clean
+   sheet rather than against the note of them: each at Stage 1, not completed,
+   marked where the bill ended, and undated because there was no decision to
+   date.
+5. **The three adjudicated dates and the Act number the fact sheet printed
+   short**: the two Royal Assents settled the fact sheet's way against
+   legislation.gov.uk, the Solicitors Bill's introduction settled at 26 September
+   2019 against the fact sheet's 2020, and the Period Products Act's number at
+   2021 asp 1 — each with its source, its place in that source, the value in the
+   source's own words and the day it was read.
+   **And the question this test turned up: whether that Act's title should carry
+   its year too**, as Session 4's Higher Education Governance Act's did. Item 9
+   is written expecting yes.
+6. **The ten names paired by hand**, checked against the fact sheet and your
+   dataset side by side, and **the one bill your dataset does not have** — the
+   Domestic Abuse (Protection) (Scotland) Act 2021, whose Stage 1 and Stage 2
+   come from its own bill page instead, with the introduction, Stage 3 and Royal
+   Assent dates on that page agreeing with what the fact sheet already put on the
+   line.
+7. **The Civil Partnership Act's Stage 2 month**, settled at the bill page at 11
+   June 2020 where the dataset had 11 February, and the dataset corrected after
+   the database, so that the record the two sources disagreed survives the file
+   being put right.
+8. **M5 and M7 read in full**, as a reader will see them: M5 saying that its
+   account of what became of the four blocked bills runs ahead of the data, and
+   M7 saying which sessions the coding of why a bill fell has been done for.
+   **M7 is expected to be a session out of date** — see item 15.
+9. **That you can explain how this database works** from the documents alone,
+   without help. The standing requirement, put again because Session 5 is the
+   first session that puts an unfinished bill on the clean sheet. **Check
+   `docs/HOW-THE-DATABASE-WORKS.md` first**: §3 says the provenance tab holds 86
+   notes and §4 of the same document says ninety-one, so it contradicts itself
+   and must be brought to 105 and 91 before it is read.
+
+### Part C — what this test does not check
+
+- **Whether Session 5's stage dates are right.** The 153 from the dataset rest on
+  the dataset alone, and nothing has compared them against the Parliament's bill
+  pages — 87 pages, and its own piece of work. The owner's judgement on 14
+  September is that the error rate is likely very low and tolerable until there
+  is a methodology for the check. The error checker catches a date in an
+  impossible order, as it did for the Civil Partnership Act, and not one that is
+  wrong and still in order.
+- **Whether the 75 Royal Assent dates and 87 introduction dates nobody has
+  checked are right.** Two Royal Assents and one introduction date were checked
+  because the two sources disagreed; the rest agree between fact sheet and
+  dataset, which is corroboration and not verification. M8 says which a reader
+  has.
+- **Whether the Official Report was read correctly beyond the words quoted.**
+  Nobody has read the surrounding debate for any of the three rejections.
+- **What became of the three blocked bills.** Two were reconsidered and enacted
+  in Session 6 and one was withdrawn there. None of that is in the database, by
+  decision, until Session 6's fact sheet has been read in; M5 says so in words,
+  and passing this test says nothing about it.
+- **Whether the section 33 and section 35 distinction should be a variable.**
+  Four bills now sit under `blocked` by two different mechanisms. On the waiting
+  list, to be revisited at a fifth.
+- **Bills carried over between sessions.** Four bills appear in two fact sheets,
+  and the double-count guard cannot see two of them — the European Charter and
+  UNCRC Bills, which are "Bill" here and "Act" in Session 6. Nothing in Session 5
+  trips it, so this test does not exercise it and passing says nothing about it.
+- **The ceiling in item 23 as it will behave on a carried-over bill.** It will
+  refuse one, correctly for everything on the clean sheet now and wrongly for
+  Session 6. That is part of the carried-over-bills job `STATE.md` puts before
+  Session 6 is loaded.
+- **Anything about Sessions 6 and 7**, including the prose reader.
+
+---
+
 ## Session 4
 
 Written 2026-09-13 by a session that did none of Session 4's work: it did not

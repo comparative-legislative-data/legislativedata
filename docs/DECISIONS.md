@@ -8,6 +8,65 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — Session 5 was marked closed by the session that did its work, and a test written after promotion has to protect itself differently
+
+**The mark was wrong and is removed.** `STATE.md`'s table said Session 5 was
+closed. No closure test had been written for it and none had been run:
+`tools/` held closure checks for Sessions 1–2, 3 and 4 and none for 5, and
+`CLOSURE-TESTS.md` had no Session 5 section. The table's row went from "yours to
+do" straight to "closed" in one commit, made by the session that admitted and
+promoted the session — where Session 4's row moved in three steps and three
+sessions, "next: closure test", then "test passed; your sign-offs left", then
+"closed". **The owner found it**, in the first minute of the next session,
+against an opening report that had repeated the table rather than checked it.
+
+**Nothing about the procedure changes, because nothing about it was wrong.** It
+is at the top of `CLOSURE-TESTS.md` and it was settled on 2026-09-12 after a
+session declared Sessions 1 and 2 finished against a test it had set itself.
+This is the second time the same thing has happened, and both times the failure
+was a session marking its own work rather than the rule being unclear. The row
+now reads `next: closure test` and Session 5 is not closed.
+
+**What the sanity check has to do about it.** The opening check reads the table
+against the database, and both times it has passed a session that was not closed,
+because the counts were right and only the word was wrong. It now also asks, for
+any session the table calls closed, whether a closure test exists for it and
+whether `CLOSURE-TESTS.md` records it as run; that is written into `STATE.md`
+below the line, under "Keeping this file useful". A count is not evidence about a
+procedure.
+
+**A test written after its session is on the clean sheet says where every
+expected answer comes from.** Sessions 3 and 4 had their tests written while the
+session was still off the clean sheet, so no expected answer could have been
+copied out of the data even by accident. That protection was not available for
+Session 5, and the alternative — leaving it untested, or testing it against
+itself — is worse than writing it late. So Session 5's test names its sources
+instead: a fresh extraction of the fact sheet, the owner's workbook read
+directly, `db/071`–`db/077` and the decisions they record, and Session 4's closed
+test for what Session 5 does not move. Where a figure could only have come from
+the database it says so and is not presented as a prediction; there are two, both
+methodology note lengths quoted from Session 4's test. The script was syntax-
+checked against the database with its output discarded, so writing it involved
+looking at no answer.
+
+**This is a worse position than writing the test first, and it is said out loud
+rather than papered over.** A test written against a database that already exists
+can be shaped, unconsciously, to the shape of what is there. The defence is that
+every number in it is derived in the open, in a sentence a reader can check
+without a database — 243 stage records, 19 provenance notes, 153 dataset dates,
+312 periods — and that a session that did none of this work runs it.
+
+**Three things writing it turned up, none of them settled here.** They are in
+`STATE.md` under "Now": the Period Products Act's title without its year where
+Session 4's equivalent Act had both title and number put right; M7 telling a
+reader that four sessions have been coded for why a bill fell where five now are;
+and `HOW-THE-DATABASE-WORKS.md` giving two different counts of provenance notes,
+86 and 91, where it is 105. Each is the owner's to settle, and each is written
+into the test as an expected answer rather than fixed by the session that found
+it.
+
+---
+
 ## 2026-09-14 — What a stage date is measured against, now that a bill can be on the clean sheet without having ended
 
 **Session 5 is admitted and on the clean sheet** (`db/077`), the first session

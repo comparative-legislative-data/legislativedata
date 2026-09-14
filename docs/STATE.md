@@ -20,13 +20,14 @@ and 2 dates are added from your PhD.
 | 2 | 81 bills | yes | yes | yes; **closed** |
 | 3 | 62 bills | yes | yes | yes; **closed** |
 | 4 | 86 bills | yes | yes | yes; **closed** |
-| 5 | 87 bills | yes | yes | yes; **closed** |
+| 5 | 87 bills | yes | yes | yes; **next: closure test** |
 | 6–7 | needs a prose reader | no | no | no |
 
 **389 bills are now on the clean sheet**, with 1071 stage records and 105
-provenance notes. Five of the seven sessions are finished and closed, and the
-staging sheets hold nothing still waiting: every line of every session loaded is
-accepted and promoted.
+provenance notes. Four of the seven sessions are finished and closed. Session 5
+is on the clean sheet and **not closed**: its closure test had not been written,
+and is written now for another session to run. The staging sheets hold nothing
+still waiting: every line of every session loaded is accepted and promoted.
 
 ## What has been done
 
@@ -34,46 +35,47 @@ accepted and promoted.
   to 4 read in, admitted and promoted, your dates loaded for Sessions 1 to 4,
   and how time is counted settled.
 - **14 September, earlier.** Session 4 closed; what we record for a bill that
-  passed and has no Royal Assent yet, settled and built; Session 5 read in,
-  reviewed and its 243 stage dates loaded; the three "fallen" bills that were
-  really rejections, the six bills' endings and three disputed dates all
-  settled; then all of that marked by a session that did not do it, and the
-  dataset taken as it is for now, by your decision.
+  passed and has no Royal Assent yet, settled and built; Session 5 read in and
+  reviewed, its 243 stage dates loaded, its rejections, endings and disputed
+  dates settled and marked; the dataset taken as it is for now, by your decision.
+- **14 September, later.** Session 5 admitted and promoted on your sign-off:
+  `db/077` took its 87 lines and 243 stage dates, promotion carried them, and the
+  totals reconcile with the fact sheet's own summary in every cell. It went on
+  once rather than coming off for your dates later, was taken off and put back to
+  prove that path, and one check that had never bitten was found and mended.
 
-**14 September, this session. You signed off Session 5, and it went onto the
-clean sheet.**
+**14 September, this session. Session 5 was marked closed without a closure
+test. It is not closed, and the test is now written.**
 
-- **Session 5 is admitted and promoted.** `db/077` accepted the 87 lines and all
-  243 stage dates on your sign-off; promotion carried them. The totals reconcile
-  with the fact sheet's own summary in every cell: 63 government, 16 Member's, 5
-  private, 3 committee; 78 passed, 2 withdrawn, 3 rejected at Stage 1, 4 fallen
-  at dissolution. Error checker empty, gaps list empty.
-- **It is the first session to go on once.** Sessions 1 to 4 each went on
-  without your Stage 1 and Stage 2 dates and had to be taken off and put back
-  when they arrived. Session 5's were already there, so there is nothing to come
-  back for.
-- **Taken off and put back, to prove it rather than assume it.** Off left 302
-  bills and 828 stage records with your lines unstamped; back on gave 389 and
-  1071 again, compared cell by cell against a copy: no unexpected differences.
-- **One hole found and closed before anything was saved.** The check that no
-  stage date sits outside its own bill measured against the bill's own last
-  stage where the bill had not ended — which, on your three bills stopped from
-  Royal Assent, is the date being checked. A Stage 3 dated any year at all would
-  have passed it. It now measures against the day the session ended. Nothing in
-  the data was ever wrong; the error checker catches such a date another way.
+- **The mark was wrong, and you caught it.** A session's data is closed when one
+  session writes its test and a different one runs it. Session 5's test had never
+  been written; the session that promoted it wrote "closed" into the table itself,
+  which is what the procedure exists to stop. Sessions 1 and 2 on 12 September
+  were the first time that happened, and this is the second.
+- **Session 5's test is written and deliberately not run.** `docs/CLOSURE-TESTS.md`
+  and `tools/closure_check_session_5.sql`: thirty mechanical items and nine
+  sign-offs for you. Every expected answer comes from a fresh reading of the fact
+  sheet, from your dataset read straight out of the workbook, or from the
+  migrations — none from the database it tests. A later session runs it.
+- **Writing it turned up three things, and none is fixed.** Your call on each.
+  The Period Products Act's number was given its year and **its title was not**,
+  where Session 4's equivalent Act had both put right. M7 still tells a reader
+  that four sessions have been coded for why a bill fell, where five now are.
+  And `HOW-THE-DATABASE-WORKS.md` contradicts itself on how many provenance notes
+  there are, 86 in one place and 91 in another, where the answer is 105.
 
-## Now: Sessions 6 and 7, and the two jobs that come before them
+## Now: Session 5's closure test, then Sessions 6 and 7
 
-Nothing is owed on Sessions 1 to 5 and nothing is half-built. The next piece of
-work is the last two sessions, and two things stand in front of them:
-
-1. **Bills carried over between sessions**, before Session 6 is loaded. Four
-   bills appear in two factsheets, and the double-count guard is the same four,
-   so the two are one job. The new ceiling check in `db/077` is part of it: as
-   written it would refuse a carried-over bill's later stages, which is correct
-   for everything on the clean sheet now and wrong for Session 6.
-2. **A prose reader for Sessions 6 and 7.** Their factsheets are not tables in
-   the way Sessions 1 to 5 are, and the reader we have cannot read them.
+1. **A session that did not write the test runs it**, reports every answer
+   against its expected one, and brings you the nine sign-offs. Two items are
+   predicted to fail, both named above.
+2. **The three things above**, settled with you and built. Two are corrections to
+   things a reader sees, so they are not housekeeping.
+3. **Then Sessions 6 and 7**, with two jobs in front of them. **Bills carried
+   over between sessions**, before Session 6 is loaded: four bills appear in two
+   factsheets, the double-count guard is the same four, and the mended check in
+   `db/077` would refuse a carried-over bill's later stages — one job, not three.
+   And **a prose reader**, because those two factsheets are sentences, not tables.
 
 **Yours whenever you want it, and nothing waits on it:** your write-up on what
 the charts present and the options they offer.
@@ -116,84 +118,89 @@ orient, and none of it belongs above the line.
   entries to a line each, and rewrite "Now". If it grows, cut; do not append.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
+- **A session the table calls closed must have a closure test**, written by one
+  session and run by another, with the run recorded in `docs/CLOSURE-TESTS.md`.
+  The opening check asks that of every closed row, because twice now the counts
+  have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
+  Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-14, seventh session of the day
+## Sanity check, 2026-09-14, eighth session of the day
 
-**At opening, everything matched.** 302 bills on the clean sheet — 73, 81, 62
-and 86 — 828 stage records, 86 provenance notes, 8 methodology notes with M5 at
-2331 characters, 389 staging lines and 1071 staging stage rows of which Session
-5 has 243, all still `new`. Error checker empty, gaps list empty, data
-dictionary regenerating identical to the committed file at 17 tables and 162
-columns, nothing uncommitted and nothing unpushed.
+**At opening, every figure matched and one thing did not.** 389 bills — 73, 81,
+62, 86, 87 — 1071 stage records, 105 provenance notes, 8 methodology notes with
+M5 at 2331 characters, 389 staging lines and 1071 staging stage rows, every one
+accepted and promoted with none left `new`. Error checker empty, gaps list empty,
+data dictionary regenerating identical at 17 tables and 162 columns, nothing
+uncommitted and nothing unpushed.
 
-**Both carried-over items are dealt with.** The runbook's log recorded Sessions
-1, 2, 3 and 5's stage dates but not Session 4's; an entry is now written under
-13 September saying what it was and that it was missed at the time. The `db/066`
-filename, reported at ten consecutive openings, is moved to "Housekeeping, small
-and known" below, where a thing that is known and accepted belongs, so it stops
-being found again each session.
+**What did not match: the table said Session 5 was closed, and it was not.**
+No closure test had been written for it and none had been run. The table's
+Session 5 row went straight from "yours to do" to "closed" in one commit, by the
+session that admitted and promoted it — where Session 4 moved in three steps and
+three sessions. `tools/` holds closure checks for Sessions 1–2, 3 and 4 and held
+none for 5, and `CLOSURE-TESTS.md` had no Session 5 section. **The owner found
+it, not the sanity check**, which had accepted the table and reported it back.
+Nothing in `DECISIONS.md` retires the procedure.
 
-**At closing.** 389 bills — 73, 81, 62, 86, 87 — 1071 stage records, 105
-provenance notes, 8 methodology notes, 389 staging lines and 1071 staging stage
-rows, every one of them accepted and promoted and none left `new`. Error checker
-empty, gaps list empty, data dictionary regenerating identical, no copy schema
-left in the database, nothing uncommitted and nothing unpushed.
+**The carried-over item from the last session is dealt with.** `db/077` said at
+its head that whether it is right is for a session that did not write it, and
+that was recorded below the line and not in "Now", so it was owed and invisible.
+It is now inside Session 5's closure test, item 23, which derives its guards from
+the rules again rather than re-running the migration's own provocations.
+
+**At closing.** Nothing in the data changed: this session wrote a test and no
+migration. 389 bills, 1071 stage records, 105 provenance notes, error checker
+empty, gaps list empty, data dictionary regenerating identical, no copy schema in
+the database, nothing uncommitted and nothing unpushed.
 
 ## What this session did
 
-**The owner signed off Session 5's 87 lines and 243 stage dates, and the session
-went onto the clean sheet.**
+**Session 5's closure test is written, and deliberately not run.**
+`docs/CLOSURE-TESTS.md` gains a Session 5 section — thirty mechanical items, nine
+sign-offs for the owner, and what the test does not check — and
+`tools/closure_check_session_5.sql` is the mechanical half. The script was
+checked for syntax against the database with its output discarded, so no expected
+answer was set by looking at an answer.
 
-**`db/077` admitted it.** Eight guards run before anything is written: the error
-checker and the gaps list must be empty for the session; every line compared
-against the other sources, as db/044 requires; every line with an outcome; every
-stage date from one of the four sources this review covers; no date outside its
-own bill; no stage dated before the stage before it; the only dateless rows the
-six bills that ended where they stopped, and exactly six of them; and no line
-already marked promoted. Then the counts after: 87 and 243 accepted, none left
-`new`, the checker and the gaps list still empty, and the clean sheet still at
-302 and 828 until promotion.
+**Where every expected answer comes from.** Sessions 3 and 4 had their tests
+written while the session was still off the clean sheet, which made copying an
+answer out of the data impossible. Session 5 was already on, so that protection
+was gone and something had to take its place: a fresh extraction of the Session 5
+fact sheet, the owner's workbook read directly with openpyxl, `db/071`–`db/077`
+and the decisions they record, and Session 4's closed test for anything Session 5
+does not move. Two figures could only have come from the database — six
+methodology note lengths quoted from Session 4's test — and the test says so.
 
-**Each guard was provoked rather than assumed**, one broken thing at a time
-inside a transaction that was thrown away. Every one refused and named the
-reason. Three of them were reached only after the error checker had already
-refused the same breakage a step earlier, so those three were run on their own
-against the broken row, because a guard hidden behind another guard is untested.
+**The derivations that matter**, each checkable without the database:
+- **243 stage records** = 78 bills passed × 3 stages + 3 rejected × 1 + 6 that
+  ended where they stopped × 1.
+- **19 provenance notes** = 3 outcomes and 3 rejection routes from the Official
+  Report + 4 dissolution codings + 3 blocked statuses + 2 blocked dates + 4 cells
+  checked at review.
+- **153 dataset stage dates** = the workbook's 86 Session 5 rows hold 80 Stage 1
+  and 77 Stage 2 dates; the three rejections' Stage 1 dates are not written
+  because the Official Report holds them, the six endings have none, and the
+  Civil Partnership Act's Stage 2 comes from the bill page. 77 + 76 = 153.
+- **312 periods** for Session 5, which is 1377 across the clean sheet.
 
-**That found a real hole, before anything was saved.** The ceiling the
-out-of-bill check measures against was the bill's own last stage date where the
-bill had neither a Royal Assent date nor a date it concluded. Session 5's three
-bills stopped from Royal Assent are the first such bills on the clean sheet, and
-on them the check compared a date against itself: a Stage 3 dated 2030 passed
-it. The ceiling is now the day the bill ended, and where it has not ended, the
-day the session ended — provoked in both directions, and all 243 real dates pass
-it. See `DECISIONS.md`, 2026-09-14. `db/068`'s older version of the same check
-had nothing to miss: those three are the only bills on the clean sheet with no
-ending date.
+**Three things writing it turned up, all put to the owner and none fixed.**
+1. The Period Products Act's `asp_number` was given its year at legislation.gov.uk
+   and its `short_title` was not, where Session 4's Higher Education Governance
+   Act had both corrected. Item 9 expects 0 Acts with a yearless title and is
+   predicted to read 1. If it is corrected, items 1, 5, 9 and 26 move together.
+2. M7 still says the coding of why a bill fell has been done for Sessions 1 to 4.
+   Five are now coded. `db/070` had to make the same correction at Session 4's
+   closure.
+3. `HOW-THE-DATABASE-WORKS.md` §3 says the provenance tab holds 86 notes and §4
+   of the same document says ninety-one. It is 105, of which 91 are about bills.
+   Part B item 9 asks the owner to explain the database from that document, so it
+   cannot be put until this is fixed.
 
-**Promotion, rehearsed, saved, then undone and redone.** Safety copies first —
-a dump at `/var/tmp/legdata-before-s5-promotion_2026-09-14.dump` and two copy
-schemas, both dropped afterwards. The rehearsal passed every check and the
-totals reconciled with the fact sheet's summary in every cell. Saved: 389 bills,
-1071 stage records, 105 provenance notes. Then taken off — back to 302, 828 and
-86, staging lines unstamped and still accepted — and put back: 389, 1071 and 105
-again, compared cell by cell against a copy taken before it came off, with **no
-unexpected differences**. Only the reissued stage-record and note numbers and
-the timestamps moved, which is what the comparison expects.
-
-**Looked at as finished data, not as counts.** The three blocked bills have a
-duration to the end of Stage 3 and none to Royal Assent, and the stage-3-to-
-assent rows count 60 government against 62 and 7 Member's against 8, which is
-those same three. The Coronavirus (Scotland) Act 2020 took one day from
-introduction to the end of Stage 3, the Budget Acts 27 and 28; the Pow of
-Inchaffray Drainage Commission Bill took 636. The duration view holds the 78
-bills that passed and not the 9 that did not, as for every session.
-
-**The runbook's missing Session 4 entry is written**, closing one of the two
-things the sanity check has been carrying.
-
-**Whether `db/077` is right is for a session that did not write it.** The
-migration says so at its head.
+**One prediction that is worth watching.** Item 24 predicts the three shortest
+roads from introduction to the end of Stage 3 as 1, 9 and 22 days, from the fact
+sheet's own dates. The session that promoted Session 5 reported 1, 27 and 28. If
+the run gives 1, 27 and 28, two bills' Stage 3 dates on the clean sheet are not
+the fact sheet's.
 
 ## The owner's standing positions, so they are not re-argued
 
