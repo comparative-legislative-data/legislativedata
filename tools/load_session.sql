@@ -26,6 +26,13 @@
 -- sheet (stage_candidate), as the completed third stage of its bill type's
 -- sequence, arriving new like the line (db/033). The extractor is unchanged:
 -- the date is read from its CSV's end_stage_3_date column.
+--
+-- A line whose fact sheet gives it a Reconsideration Stage gets a second stage
+-- row, at position 4, from the CSV's two reconsideration columns: the day the
+-- Parliament agreed to reconsider the bill goes in date_reached and the day it
+-- approved the bill in date_completed (db/088, methodology note M11). Only the
+-- prose fact sheets state either; the ruled-table reader writes both columns
+-- empty so that both readers write one CSV.
 
 -- A line from the Fallen table arrives with an empty outcome, because no
 -- factsheet says why a bill fell. This script proposes fell_dissolution for one
@@ -67,6 +74,8 @@ CREATE TEMP TABLE extracted (
     raw_footnote          text,
     procedure             text,
     date_procedure_agreed text,
+    reconsideration_reached_date text,
+    reconsideration_ended_date   text,
     src_file              text,
     src_page              text,
     parser_note           text
@@ -74,7 +83,7 @@ CREATE TEMP TABLE extracted (
 
 -- HEADER MATCH refuses a CSV whose columns are not exactly these, in this
 -- order — for instance one written by an older version of the extractor.
-\copy extracted (session_number, raw_title, raw_type, raw_date_introduced, raw_introduced_by, raw_date_final, raw_date_royal_assent, raw_section, sp_bill_id, short_title, title_as_introduced, title_kind, bill_type, bill_type_stated, date_introduced, end_stage_3_date, date_concluded, date_royal_assent, asp_number, outcome, enactment_status, date_assent_blocked, raw_footnote, procedure, date_procedure_agreed, src_file, src_page, parser_note) FROM pstdin WITH (FORMAT csv, HEADER MATCH)
+\copy extracted (session_number, raw_title, raw_type, raw_date_introduced, raw_introduced_by, raw_date_final, raw_date_royal_assent, raw_section, sp_bill_id, short_title, title_as_introduced, title_kind, bill_type, bill_type_stated, date_introduced, end_stage_3_date, date_concluded, date_royal_assent, asp_number, outcome, enactment_status, date_assent_blocked, raw_footnote, procedure, date_procedure_agreed, reconsideration_reached_date, reconsideration_ended_date, src_file, src_page, parser_note) FROM pstdin WITH (FORMAT csv, HEADER MATCH)
 
 -- ---------------------------------------------------------------------------
 -- Before anything is written
@@ -159,6 +168,30 @@ SELECT c.candidate_id, s.stage, 3, e.end_stage_3_date::date, true, false,
  ORDER BY e.line;
 
 -- ---------------------------------------------------------------------------
+-- The Reconsideration Stage, where the fact sheet gives one
+-- ---------------------------------------------------------------------------
+
+-- Position 4 for every bill type (db/018). The stage is completed where the
+-- fact sheet says the bill was approved and the stage ended; a stage with only
+-- the day it was agreed is a stage reached and not completed, and carries no
+-- completed date. Same source, reference and date read as the line.
+INSERT INTO stage_candidate (candidate_id, stage, stage_order, date_reached,
+                             date_completed, completed, fell_here,
+                             source, source_ref, observed_at)
+SELECT c.candidate_id, s.stage, 4,
+       e.reconsideration_reached_date::date,
+       e.reconsideration_ended_date::date,
+       e.reconsideration_ended_date IS NOT NULL, false,
+       c.source, c.source_ref, c.observed_at
+  FROM extracted e
+  CROSS JOIN load_base b
+  JOIN bill_candidate c ON c.candidate_id = b.base + e.line
+  LEFT JOIN ref_bill_type_stage s ON s.bill_type = c.bill_type AND s.stage_order = 4
+ WHERE e.reconsideration_reached_date IS NOT NULL
+    OR e.reconsideration_ended_date IS NOT NULL
+ ORDER BY e.line;
+
+-- ---------------------------------------------------------------------------
 -- Checks. Any failure aborts, and nothing is written.
 -- ---------------------------------------------------------------------------
 
@@ -178,9 +211,15 @@ BEGIN
   SELECT count(*) INTO n
     FROM stage_candidate t JOIN bill_candidate c USING (candidate_id)
    WHERE c.session_number = s;
-  IF n <> (SELECT count(*) FROM extracted WHERE end_stage_3_date IS NOT NULL) THEN
-    RAISE EXCEPTION 'Check failed: % stage-dates rows, % passing dates in the CSV.',
-      n, (SELECT count(*) FROM extracted WHERE end_stage_3_date IS NOT NULL);
+  IF n <> (SELECT count(*) FROM extracted WHERE end_stage_3_date IS NOT NULL)
+         + (SELECT count(*) FROM extracted
+             WHERE reconsideration_reached_date IS NOT NULL
+                OR reconsideration_ended_date IS NOT NULL) THEN
+    RAISE EXCEPTION 'Check failed: % stage-dates rows, % passing dates and % Reconsideration Stages in the CSV.',
+      n, (SELECT count(*) FROM extracted WHERE end_stage_3_date IS NOT NULL),
+      (SELECT count(*) FROM extracted
+        WHERE reconsideration_reached_date IS NOT NULL
+           OR reconsideration_ended_date IS NOT NULL);
   END IF;
 
   -- Every staging line says exactly what the CSV said, dates included, and its
@@ -207,6 +246,12 @@ BEGIN
         AND (SELECT t.date_completed::text FROM stage_candidate t
               WHERE t.candidate_id = c.candidate_id AND t.stage_order = 3)
                                       IS NOT DISTINCT FROM e.end_stage_3_date
+        AND (SELECT t.date_reached::text FROM stage_candidate t
+              WHERE t.candidate_id = c.candidate_id AND t.stage_order = 4)
+                                      IS NOT DISTINCT FROM e.reconsideration_reached_date
+        AND (SELECT t.date_completed::text FROM stage_candidate t
+              WHERE t.candidate_id = c.candidate_id AND t.stage_order = 4)
+                                      IS NOT DISTINCT FROM e.reconsideration_ended_date
         AND c.date_concluded::text    IS NOT DISTINCT FROM e.date_concluded
         AND c.date_royal_assent::text IS NOT DISTINCT FROM e.date_royal_assent
         AND c.asp_number            IS NOT DISTINCT FROM e.asp_number
@@ -258,15 +303,23 @@ UPDATE bill_candidate c
 -- ---------------------------------------------------------------------------
 
 \echo ''
-\echo '--- Lines by factsheet table and type letter (compare with the factsheet''s own summary)'
-SELECT coalesce(c.raw_section, 'TOTAL') AS factsheet_table,
-       count(*) FILTER (WHERE c.raw_type IN ('E','G','G*')) AS executive_or_government,
-       count(*) FILTER (WHERE c.raw_type = 'M') AS members,
-       count(*) FILTER (WHERE c.raw_type = 'P') AS private,
-       count(*) FILTER (WHERE c.raw_type = 'C') AS committee,
-       count(*) FILTER (WHERE c.raw_type = 'H') AS hybrid,
-       count(*) FILTER (WHERE c.raw_type NOT IN ('E','G','G*','M','P','C','H')
-                           OR c.raw_type IS NULL) AS unrecognised,
+-- Counted on the bill's type, not on the letter the fact sheet printed. Until
+-- 2026-09-14 this counted the letters E, G, G*, M, P, C and H, which the ruled
+-- tables print and the prose fact sheets do not: Sessions 6 and 7 say
+-- "Government Bill" in a sentence, so every one of their bills was counted as
+-- unrecognised and the display this table exists for was useless for them. The
+-- type is read from the words by the reader, and a line whose type the reader
+-- could not read is counted as not read here.
+\echo '--- Lines by factsheet section and bill type (compare with the factsheet''s own summary)'
+SELECT coalesce(c.raw_section, 'TOTAL') AS factsheet_section,
+       count(*) FILTER (WHERE c.bill_type = 'government') AS government,
+       count(*) FILTER (WHERE c.bill_type = 'members') AS members,
+       count(*) FILTER (WHERE c.bill_type = 'private') AS private,
+       count(*) FILTER (WHERE c.bill_type = 'committee') AS committee,
+       count(*) FILTER (WHERE c.bill_type = 'hybrid') AS hybrid,
+       count(*) FILTER (WHERE c.bill_type IS NULL
+                           OR c.bill_type NOT IN ('government','members','private',
+                                                  'committee','hybrid')) AS not_read,
        count(*) AS total
   FROM bill_candidate c JOIN load_arg a USING (session_number)
  GROUP BY GROUPING SETS ((c.raw_section), ())
@@ -281,11 +334,20 @@ SELECT c.candidate_id, c.short_title, c.date_concluded,
  WHERE c.raw_section = 'fallen'
  ORDER BY c.candidate_id;
 
-\echo '--- Passing dates put on the stage-dates sheet, by stage name'
-SELECT t.stage, t.stage_order, t.source, t.review_status, count(*)
+\echo '--- Dates put on the stage-dates sheet, by stage name'
+SELECT t.stage, t.stage_order, t.source, t.review_status, count(*),
+       count(*) FILTER (WHERE t.date_reached IS NOT NULL) AS with_a_day_reached
   FROM stage_candidate t JOIN bill_candidate c USING (candidate_id)
   JOIN load_arg a ON a.session_number = c.session_number
  GROUP BY 1,2,3,4 ORDER BY 2,1;
+
+\echo '--- Reconsideration Stages, which only a prose fact sheet states'
+SELECT c.candidate_id, c.short_title, t.date_reached AS agreed_on,
+       t.date_completed AS ended_on, t.completed
+  FROM stage_candidate t JOIN bill_candidate c USING (candidate_id)
+  JOIN load_arg a ON a.session_number = c.session_number
+ WHERE t.stage = 'reconsideration'
+ ORDER BY c.candidate_id;
 
 \echo '--- Taken out of a title: SP Bill numbers and introduced titles'
 SELECT c.candidate_id, c.sp_bill_id, c.short_title, c.title_as_introduced

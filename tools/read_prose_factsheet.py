@@ -380,11 +380,16 @@ def build(entry, session, path):
         notes.append('the fact sheet states how the bill was handled under the '
                      "Parliament's rules; see methodology note M10")
 
+    d_recon_reached = d_recon_ended = None
     if 'reconsideration_agreed' in by_kind or 'reconsideration_ended' in by_kind:
+        if 'reconsideration_agreed' in by_kind:
+            d_recon_reached = parse_date(by_kind['reconsideration_agreed'][0]['date'])
+        if 'reconsideration_ended' in by_kind:
+            d_recon_ended = parse_date(by_kind['reconsideration_ended'][0]['date'])
         notes.append('the fact sheet gives this bill a Reconsideration Stage, '
-                     'with the day it was agreed and the day it ended; those '
-                     'dates are in these words only and are not on the '
-                     'stage-dates sheet')
+                     'with the day the Parliament agreed to it and the day it '
+                     'ended; both go on the stage-dates sheet — see '
+                     'methodology note M11')
 
     if section == 'withdrawn_from_earlier_session':
         notes.append('printed in a section of its own, as a bill of an earlier '
@@ -437,6 +442,12 @@ def build(entry, session, path):
         'raw_footnote': raw_footnote,
         'procedure': procedure,
         'date_procedure_agreed': d_procedure,
+        # A bill taken back by the Parliament after it was stopped before Royal
+        # Assent. The day the Parliament agreed to reconsider it is the day the
+        # bill reached the stage, and the day it approved the bill is the day
+        # the stage ended. See db/088 and methodology note M11.
+        'reconsideration_reached_date': d_recon_reached,
+        'reconsideration_ended_date': d_recon_ended,
         'src_file': path.split('/')[-1],
         'src_page': entry['page'],
         'parser_note': '; '.join(notes) or None,

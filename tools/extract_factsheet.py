@@ -470,6 +470,12 @@ def build(r, kind, session, page, path, problems, footnotes=None):
         # one contract to match. See db/087 and methodology note M10.
         'procedure': None,
         'date_procedure_agreed': None,
+        # Always empty here too, and for the same reason. No ruled-table fact
+        # sheet gives a bill a Reconsideration Stage: the only two bills that
+        # have one are Session 5 bills, and it is the Session 6 prose fact
+        # sheet that states both of their dates. See db/088 and M11.
+        'reconsideration_reached_date': None,
+        'reconsideration_ended_date': None,
         'src_file': path.split('/')[-1],
         'src_page': page,
         'parser_note': '; '.join(notes) or None,

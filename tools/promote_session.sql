@@ -275,10 +275,16 @@ UPDATE bill b
 -- Each row carries its own source, reference and date read, so stage dates
 -- need no provenance notes. The stage name was checked against the bill type
 -- by the error checker, and the trigger on stage_event checks it again.
-INSERT INTO stage_event (bill_id, stage, stage_order, date_completed, completed,
-                         fell_here, did_not_happen, source, source_ref, observed_at, detail_note)
-SELECT s.target_bill_id, s.stage, s.stage_order, s.date_completed, s.completed,
-       s.fell_here, s.did_not_happen, s.source, s.source_ref, s.observed_at, s.detail_note
+--
+-- date_reached, added at db/088, is the day the bill reached the stage where a
+-- source states one. It is empty on every stage but the Reconsideration Stage,
+-- and it travels with the row like every other cell on it.
+INSERT INTO stage_event (bill_id, stage, stage_order, date_reached, date_completed,
+                         completed, fell_here, did_not_happen, source, source_ref,
+                         observed_at, detail_note)
+SELECT s.target_bill_id, s.stage, s.stage_order, s.date_reached, s.date_completed,
+       s.completed, s.fell_here, s.did_not_happen, s.source, s.source_ref,
+       s.observed_at, s.detail_note
   FROM promoting_stages s
  ORDER BY s.target_bill_id, s.stage_order;
 

@@ -101,6 +101,7 @@ One row per stage a bill actually reached, under that stage's real name for that
 | `updated_at` | timestamp | yes |  | When this row was last changed. Set automatically. |
 | `did_not_happen` | true/false | yes |  | True where the bill never had this stage, because its procedure skipped it: a Private Bill reintroduced after falling does not repeat its earlier scrutiny. Only a Private Bill may have it. Such a row has no date, is neither completed nor where the bill ended, and must carry a note saying why; the database refuses it otherwise. False, the ordinary case, means the bill had this stage. |
 | `general_note` | text |  |  | The general note: one sentence, the same words every time, on a stage where the bill stopped without the Parliament deciding anything — withdrawn by the member in charge, or still at that stage when the session ended. It accounts for the empty date. Nobody types it and it has no provenance: the database writes it from this row, so it cannot be worded two ways. Empty means the row accounts for itself — a completed stage, a rejection, which carries the date of the decision, or a stage the bill never had. |
+| `date_reached` | date |  |  | The day the bill reached this stage, where a source states it. Empty means no source has told us, which is every stage record but the two Reconsideration Stage records: no fact sheet states when a bill reached Stage 1, 2 or 3, and this is never worked out from the stage before. The day the stage ended is date_completed. See methodology note M11. |
 
 ## Getting data in
 
@@ -183,6 +184,7 @@ The stage-dates staging sheet: one row per stage of a bill, per source, waiting 
 | `created_at` | timestamp | yes |  | When this row was put on the sheet. Set automatically. |
 | `updated_at` | timestamp | yes |  | When this row was last changed. Set automatically. A refreshed title on its own, or a save that changes nothing, does not count. |
 | `did_not_happen` | true/false | yes |  | True where the bill never had this stage, because its procedure skipped it, as on stage_event. Nothing in this table enforces the rules that go with it: the error checker flags a breach, and stage_event refuses one. False, the ordinary case, means the bill had this stage. |
+| `date_reached` | date |  |  | The day the bill reached this stage as the source appeared to say it, waiting for review. Empty means the source did not state one. It becomes stage_event.date_reached when the session is promoted. See methodology note M11. |
 
 ### `field_source`
 

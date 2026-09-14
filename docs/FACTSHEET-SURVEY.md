@@ -49,6 +49,14 @@ tested: 83 entries in Session 6 and 2 in Session 7, no sentence unmatched.
 it appears. A reader that matches line by line does not merely miss it; it
 swallows it into the next bill's title in silence. Work on reflowed text.
 
+**The reader that reads this grammar is `tools/read_prose_factsheet.py`**, built
+2026-09-14. It works on reflowed text for the reason above, matches a heading
+only as a complete printed line — the cover page describes the sections in a
+sentence containing three of them — and requires every character of both bodies
+to land in a heading, a sentence or a title. If SPICe prints a shape that is not
+on this list, the reader stops rather than guess, and this list is what it stops
+against.
+
     {Title} (SP Bill {n})
     {Type} Bill introduced on {date} by {name} MSP.
     Passed on {date}.
@@ -288,11 +296,14 @@ Two bills reached it, both in Session 6, and both print two dates:
     Reconsideration stage agreed on 4 February 2026.
     The Bill was approved and ended Reconsideration Stage on 3 March 2026.
 
-`db/018` provides for this: `reconsideration` sits at `stage_order` 4 for every
-bill type in `ref_bill_type_stage`. `stage_event` distinguishes reached from
-completed, so both dates have a home — but it has never been populated, and the
-"agreed" date is a stage *reached* date, which is exactly the case `db/018`
-claimed to serve and has not yet been tested against.
+`db/018` provides for the stage itself: `reconsideration` sits at `stage_order` 4
+for every bill type in `ref_bill_type_stage`. **Amended 2026-09-14: this section
+said both dates had a home, and only one did.** A stage record held the day the
+stage ended and nothing else, and `completed` says whether a stage was finished,
+not when it was reached. The day the Parliament agreed to reconsider the bill had
+nowhere to go until `db/088` added `date_reached` beside `date_completed`. Both
+dates are now recorded, for these two bills and for no others, and methodology
+note M11 says so to a reader.
 
 The full sequence for the UNCRC Bill is: introduced 1 Sep 2020 (Session 5),
 passed 16 Mar 2021, s.33 reference, Supreme Court ruling 6 Oct 2021,

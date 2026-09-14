@@ -30,6 +30,100 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The day a bill reached a stage
+
+Written 2026-09-14 by the session that built `db/088`, which may therefore not
+run it. **Seven items, all mechanical.** Nothing here needs the owner, and
+nothing here writes to the database: everything runs inside a transaction that
+is thrown away.
+
+`db/088` adds `date_reached` to both stage sheets, because the Session 6 fact
+sheet gives two bills a Reconsideration Stage and prints two days for it — the
+day the Parliament agreed to reconsider the bill and the day it approved it.
+The migration writes nothing to the clean sheet: it adds an empty cell to each
+stage sheet, two refusals to the clean sheet, three checks and one gaps-list
+branch to the staging sheets, methodology note M11, and one widened definition.
+
+**The fixture**, which every item after the first uses. One Session 6 staging
+line for the European Charter of Local Self-Government (Incorporation) Bill as
+review would leave it: a Member's Bill, introduced 5 May 2020, `continues_bill_id`
+303, the Act title and `2026 asp 10` filled in, `enacted`, Royal Assent
+15 April 2026, `s33_reference` and `reconsidered_passed`; with a Stage 3 row of
+23 May 2021 and a Reconsideration Stage row reached 4 February 2026 and ended
+3 March 2026. *The asp number is invented for the fixture; the real one is
+settled from legislation.gov.uk at review.*
+
+### The items
+
+1. **The rebuilt views lost nothing.** Build the error checker and the gaps list
+   as `db/087` left them beside the live ones under other names, read all four
+   definitions back out of the database, and compare them as text. **Expected:**
+   the error checker gains three checks and the new column arriving through its
+   stage-rows CTE; the gaps list gains one branch and the same column. Nothing
+   that was in a definition before is absent after. *From what the migration says
+   it changes.* **This is the item that matters most**, for the reason `db/062`,
+   `db/086` and `db/087` all say: a rebuild that drops a check is a rebuild that
+   stops finding faults, and a line count cannot tell a reformat from a loss.
+
+2. **A complete, consistent line is not complained about.** With the fixture
+   present. **Expected:** the error checker says nothing about it and nothing
+   anywhere else; the gaps list is empty, including for that line — its
+   Reconsideration Stage has both days. *From the rule: everything the new
+   checks ask about is satisfied.*
+
+3. **A day reached after the stage ended is refused.** Set the Reconsideration
+   Stage's `date_reached` to 4 March 2026. **Expected:** exactly one complaint,
+   *Reconsideration Stage, from spice_factsheet_legislation: reached on
+   2026-03-04, after it ended on 2026-03-03*. *From `db/088`.*
+
+4. **A day reached before the bill existed is refused.** Set it to 4 May 2020,
+   the day before the bill was introduced. **Expected:** one complaint,
+   *reached on 2020-05-04, before the bill was introduced on 2020-05-05*, and no
+   other. *From `db/088`.*
+
+5. **A day reached on a stage the bill never had is refused.** Mark the row as a
+   stage that did not happen, leaving the day reached. **Expected:** among the
+   complaints, *marked as a stage that did not happen, but reached on
+   2026-02-04*. The others are the rules `db/039` already had about a stage that
+   did not happen, and they are not findings about `db/088`. *From `db/088` and
+   `db/039`.*
+
+6. **A missing day reached is a gap on this stage and is asked for on no other.**
+   Put the row back as it was and empty `date_reached`. **Expected:** the error
+   checker says nothing, and the gaps list carries one entry for that line at
+   position 4, *the Reconsideration Stage has a day it ended and nothing says
+   when the Parliament agreed to it*. No other line anywhere gains an entry, and
+   no Stage 1, 2 or 3 row is ever asked for a day reached. *From the owner's
+   decision of 2026-09-14 that it be flagged rather than refused, and from
+   `db/088`.*
+
+7. **The clean sheet refuses what the staging sheet only complains about, and
+   promotion carries the cell.** First, try to write a stage record on the clean
+   sheet reached 4 March 2026 and ended 3 March 2026. **Expected:** refused by
+   `stage_event_reached_before_it_ended`. Then, with the fixture whole and the
+   error checker empty, promote Session 6. **Expected:** bill 303 gains a
+   Reconsideration Stage record reading 2026-02-04 and 2026-03-03, cited to the
+   Session 6 fact sheet retrieved 2026-09-10; its Stage 3 record still reads
+   2021-03-23, because promotion does not overwrite a stage the bill already has;
+   the bill reads the Act title, `2026 asp 10`, `enacted`, 2026-04-15 and
+   `reconsidered_passed`, with a provenance note behind each of the five changed
+   cells; and the counts are 389 bills, 1072 stage records and 115 provenance
+   notes. Taking Session 6 off again returns them to 389, 1071 and 112.
+   *From `db/088` and `tools/promote_session.sql`.*
+
+### What this test does not check
+
+- **Any stage but the Reconsideration Stage.** No source states a day reached
+  for any other, which is the whole point of M11, so nothing else is exercised.
+- **That the two bills' dates are right**, or that they are the right two bills.
+  That is the Session 6 ingest's own test, when there is one.
+- **The reader.** It is tested separately, and its own test covers the two
+  columns it now writes.
+- **That M11 says the right thing to a reader.** That is the owner's to judge,
+  and it is not a mechanical item.
+
+---
+
 ## The prose reader for Sessions 6 and 7
 
 Written 2026-09-14 by the session that built `tools/read_prose_factsheet.py`,
@@ -101,12 +195,13 @@ nothing else does is in `docs/FACTSHEET-SURVEY.md` §1.
    against the CSV.*
 
 8. **The review list is the one recorded, and every item on it is a question
-   for the owner rather than a fault in the reader.** **Expected:** 17 problems
+   for the owner rather than a fault in the reader.** **Expected:** 19 problems
    for Session 6 and 3 for Session 7, and every one of them either a bill
    introduced before its session began, a fallen bill whose outcome needs a
-   judgement, a blocked bill whose route and outcome are for review, an Act
-   whose title or number the fact sheet did not print, or the Dog Theft Act's
-   asp year. *From the rehearsal recorded on 2026-09-14 in `STATE.md`.*
+   judgement, a blocked bill whose route and outcome are for review, a bill with
+   a Reconsideration Stage that does not yet say it was reconsidered after being
+   stopped, an Act whose title or number the fact sheet did not print, or the
+   Dog Theft Act's asp year. *From the rehearsal recorded on 2026-09-14 in `STATE.md`.*
 
 ### What this test does not check
 

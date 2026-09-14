@@ -8,6 +8,112 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — A stage record gains the day the bill reached the stage
+
+**Decided, and built the same day** (`db/088`, the two readers, the loader and
+the promotion script). Agreed with the owner in full before anything was
+written, as a change to how data is coded must be. Found while building the
+prose reader for Sessions 6 and 7.
+
+### What was found
+
+The Session 6 fact sheet gives two bills a Reconsideration Stage and prints two
+days for it:
+
+> Reconsideration stage agreed on 4 February 2026.
+> The Bill was approved and ended Reconsideration Stage on 3 March 2026.
+
+The second had a home — `date_completed`, the day of the decision that ended the
+stage (M2). The first did not. `FACTSHEET-SURVEY.md` §5 had claimed both did, on
+the strength of `stage_event` distinguishing reached from completed; it does not.
+`completed` says whether a stage was finished, not when it was reached. The
+survey is corrected.
+
+**Why it was taken rather than left as words.** The day the Parliament agreed to
+take a bill back is a dated decision of the Parliament, printed by the source.
+Kept in prose it can be read and not counted, and "how long did the
+Reconsideration Stage take" is a question about two dates. The owner chose the
+cell over the prose, from three options put to them: a cell, the ended day only
+with the agreed day in words, or no Reconsideration Stage at all.
+
+### What is recorded
+
+**`stage_event.date_reached` and `stage_candidate.date_reached`**: the day the
+bill reached the stage, where a source states it.
+
+**Empty means no source has told us.** It never means the stage was reached and
+ended on the same day, and it is never worked out from the stage before. Two
+stage records out of an eventual 1073 carry it, both Reconsideration Stage
+records, both arriving with Session 6. Every one of the 1071 records already on
+the clean sheet is empty, and none of them is a Reconsideration Stage record at
+all, so nothing coded under the old approach had to be recoded.
+
+**Not a general start date.** Stages 1, 2 and 3 have the day the stage ended and
+nothing else, because that is what the sources state. This is the same rule
+`bill.procedure` carries at `db/087`: filled where a source states it, empty
+everywhere else.
+
+### What the checks ask
+
+On the clean sheet, two refusals: a day reached after the day the stage ended,
+and a day reached on a stage the bill never had. The clean sheet may not hold a
+contradiction.
+
+On the staging sheets, three complaints — the same two, and a day reached before
+the bill was introduced — because a staging sheet holds what a source appeared
+to say and the error checker is where a misreading is meant to be caught.
+
+The gaps list asks for a missing day reached **on a Reconsideration Stage record
+and on no other stage**, because that is the only stage any source states one
+for. A gap, not a contradiction: it does not stop promotion.
+
+### What a reader is told
+
+**M11**, beside M2: what the day reached means, that it is empty everywhere else
+and never inferred, which two bills carry it, and that a duration built from
+stage records is a duration between days stages ended for every stage but this
+one.
+
+### Settled at the same time, and smaller
+
+- **`pending` covers a bill still before the Parliament.** Its definition said
+  "passed, and awaiting Royal Assent", and Session 7's bill in progress has not
+  passed. No new value, and nothing already recorded changes meaning: every bill
+  carrying `pending` today has passed.
+- **The reconciliation display in `tools/load_session.sql` counts the bill's
+  type, not the letter the fact sheet printed.** The prose fact sheets print no
+  letters, so every bill in Sessions 6 and 7 was counted as unrecognised and the
+  display existed for nothing. A display, not data, so not a migration.
+- **The European Charter Bill's Act title and asp number come from
+  legislation.gov.uk at review**, with their own provenance, as the Period
+  Products and Higher Education Acts' numbers did. The Session 6 fact sheet
+  prints the Bill title and "(SP 70)" and no Act title or number, and the error
+  checker refuses to admit the line until both are settled.
+
+---
+
+## 2026-09-14 — A fifth thing the Session 6 fact sheet prints wrongly
+
+**Recorded.** Four were already listed in `STATE.md` when Sessions 6 and 7 were
+read: two Act titles with the word "Bill" left in, a bracket never closed inside
+the rename sentence, and the European Charter's number printed "(SP 70)".
+
+Running the reader found a fifth, which reading by eye had not: the **Dog Theft
+(Scotland) Act 2025 (asp 2)** received Royal Assent on 10 February 2026, and
+every other 2026 Act in the document carries 2026 in its title. The error checker
+raises it — *asp_number year does not match the year of Royal Assent*, a rule
+that has been there since `db/078` and had never fired.
+
+**Decided:** which of the two is wrong is settled from legislation.gov.uk at
+review, with its own provenance, as the European Charter's Act title and number
+are and as the Period Products Act's number was. Nothing is mended on a guess,
+and the fact sheet's own words stay in `raw_title` whatever is settled.
+
+The two the reader does mend are the "Bill Act" titles, because there the mend
+is not a guess: the word Bill is left in from the title the bill carried before
+it passed, and taking it out is the only reading. It says so in `parser_note`
+on both lines.
+
 ## 2026-09-14 — How a bill was handled becomes a variable
 
 **Decided, and built the same day** (`db/087`, and the loader, the reader and
