@@ -100,6 +100,19 @@ MANUAL_PAIRS = {
     353: 339,  # Hutchesons' Hospital / "Hutcheson's", the apostrophe moved
     384: 357,  # UEFA European Championship (Scotland) Act 2020 / "Championships"
     385: 380,  # UK Withdrawal ... (Continuity) (Scotland) Act 2021 / "Bill Act"
+    # Session 6, confirmed on 2026-09-14 the same way: every pair below agrees
+    # on both dates the two sources share, introduction and Royal Assent.
+    # The four Budget Acts are the same pattern a fourth time.
+    419: 412,  # Budget (Scotland) Act 2023 / Budget (No.2) (Scotland) Act 2023
+    420: 430,  # Budget (Scotland) Act 2024 / Budget (No.3) (Scotland) Act 2024
+    421: 445,  # Budget (Scotland) Act 2025 / Budget (Scotland) (No.4) Act 2025
+    422: 469,  # Budget (Scotland) Act 2026 / Budget (Scotland) (No.5) Act 2026
+    432: 395,  # Coronavirus (Discretionary Compensation for Self-Isolation) /
+               # "Discretionary Payments", a slip in the dataset: the Act is
+               # asp 2022/2 and legislation.gov.uk gives "Compensation"
+    453: 467,  # Non-Domestic Rates for Unoccupied Properties (Scotland) Act 2026 /
+               # "(Liability for Unoccupied Properties)", which is the Act's
+               # real title at asp 2026/1; the fact sheet printed it short
 }
 
 # What the owner established on 2026-09-11 for the bills that did not pass, with

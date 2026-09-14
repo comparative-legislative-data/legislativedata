@@ -8,6 +8,80 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — Session 6's five disagreements settled, and the fact sheet found to be out of date on seven Acts
+
+**Step 6 of the runbook, run for the first time since it was written down.** The
+comparison against the owner's dataset paired 74 of Session 6's 83 lines. Six of
+the nine unpaired lines were the same bill named differently and were confirmed
+on the dates the two sources share — the introduction and Royal Assent dates
+agree on every one — and added to `MANUAL_PAIRS`. Four of the five Budget Acts
+are the pattern seen in Sessions 2, 4 and 5 for a fourth time: the fact sheet
+gives the Act's short title, the dataset numbers them within the session. The
+other four unpaired lines are second appearances, each with its dataset row
+under the session it was introduced in and the introduction date agreeing:
+the UK Withdrawal (Legal Continuity), European Charter and UNCRC Bills under
+Session 5, and the Gender Recognition Reform Bill, Session 7's unpaired line,
+under Session 6.
+
+### The five cells, settled at the source that owns each
+
+`db/089`. Three dates the comparison found and two Act titles it cannot find,
+because it does not compare titles; those surfaced as lines it could not pair.
+Two dates go the dataset's way, one goes the fact sheet's, and the titles go one
+each way — the usual split.
+
+- Building Safety Levy (Scotland) Bill, introduction. Fact sheet 5 June 2025,
+  dataset 9 June. The Parliament's page for the bill gives 5 June; the line does
+  not move.
+- Carer's Allowance Supplement (Scotland) Act 2021, Royal Assent. Fact sheet
+  16 November 2021, dataset 15 November. `asp 2021/20` gives 15 November; the
+  line moves.
+- Transvaginal Mesh Removal (Cost Reimbursement) (Scotland) Act 2022, Royal
+  Assent. Fact sheet 4 March 2022, dataset 3 March. `asp 2022/1` gives 3 March;
+  the line moves.
+- The Coronavirus self-isolation Act 2022, title. The dataset says
+  "Discretionary Payments", the fact sheet "Discretionary Compensation".
+  `asp 2022/2` is the Coronavirus (Discretionary Compensation for
+  Self-isolation) (Scotland) Act 2022: the fact sheet has the right word. What
+  moves is the capital I, which the Act does not carry.
+- The Non-Domestic Rates Act 2026, title. The fact sheet dropped a word.
+  `asp 2026/1` is the Non-Domestic Rates (Liability for Unoccupied Properties)
+  (Scotland) Act 2026, which the dataset agrees with; the line moves. This is
+  `db/063` and `db/078` again.
+
+### The working dataset corrected, under the rule of earlier the same day
+
+`sources/phd/Billdates-September2026.xlsx`, Dates sheet: row 395's name and row
+462's introduction date, being the two cells where the dataset was the one found
+wrong. Before
+`072184df1fd4fbc15ae9e66ca51f9e287de6bc9b3b8f4d8342f6cae4e79ac1d2`, after
+`31b20b9cda180418ee78a62fcab6e30e076f1885c27d12ec62a6dea75324d69b`. Checked
+against a copy taken before the change: **exactly two cells differ on the data
+sheet** and twenty-five on the Corrections sheet, being the new note, its header
+row and its two entries; neither sheet changed shape. `tools/phd_stage_dates.py`
+gives **byte-identical output from the file before and after** for Sessions 1
+to 5, checksum
+`38e11f636b3ecd00db93c3d69c9b53a7d4dca48f6d1d416a38b8a45c00dc109c`, so none of
+the stage dates the clean sheet holds from the dataset is affected.
+
+### What the comparison could not see
+
+It compares a cell only when both sources have a value in it. **Seven of Session
+6's lines sit in the fact sheet's "awaiting assent" section with no Royal Assent
+date, and the dataset gives one for every one of them.** The comparison reported
+nothing, because one side was empty. legislation.gov.uk confirms all seven
+became Acts in May 2026, on exactly the dates the dataset gives.
+
+That is not settled here. It is a question about what a fact sheet's silence
+means and whether a second source may fill it, and it is the owner's; it is
+written at the top of `STATE.md` as the thing Session 6 waits on. The fault in
+the tool — that a cell one source leaves empty is passed over in silence, which
+is the same shape as the unpaired line stamped as compared that `db/044` has
+carried since it was built — is recorded there with it.
+
+
+---
+
 ## 2026-09-14 — The three steps between the load and the review are written down
 
 **Decided and done the same day**, after the owner asked whether Sessions 6 and
