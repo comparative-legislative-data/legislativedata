@@ -127,6 +127,71 @@ motion agreed 20 November 2024, passed 26 November 2024, Royal Assent 22 January
 - **That M10 says the right thing to a reader.** That is the owner's to judge,
   and it is not a mechanical item.
 
+### The run, 2026-09-14, by a session that built none of it
+
+**All seven items as expected.** Everything below happened inside transactions
+that were thrown away: 389 bills, 1071 stage records, 112 provenance notes,
+389 staging lines and 1071 staging stage rows before and after, the error
+checker and the gaps list both empty at the end.
+
+1. **The rebuilt views lost nothing. As expected.** The two definitions as
+   `db/082` and `db/086` left them were built beside the live ones under other
+   names, rather than replacing them, and the four texts were read out of the
+   database and compared as text. The error checker gains five blocks and loses
+   nothing: a date with no procedure, a date before introduction, a date after
+   passing, a date after concluding, and the refusal of a further appearance
+   that states a procedure — four checks and one refusal, which is what the
+   migration says it adds. The gaps list gains the two cells on its `lines`
+   list and carries them through its three branches, and gains one branch at
+   the end for an emergency bill with no date. Not a line of either definition
+   is absent afterwards.
+
+2. **A complete, consistent line is not complained about. As expected.** The
+   error checker says nothing about the fixture and nothing anywhere else. The
+   gaps list asks that line for its Stage 1 and Stage 2 dates and for nothing
+   else, which is its ordinary job on a line carrying only Stage 3.
+
+3. **A date with no procedure is refused. As expected.** Exactly one complaint,
+   *says a procedure was agreed on 2024-11-20, but does not say which
+   procedure*, and nothing anywhere else.
+
+4. **A date outside the bill's life is refused at both ends. As expected.**
+   1 November 2024 gives *procedure agreed on 2024-11-01, before the bill was
+   introduced on 2024-11-18*; 1 December 2024 gives *procedure agreed on
+   2024-12-01, after the bill had passed on 2024-11-26*. One complaint each
+   time and no other.
+
+5. **An emergency bill with no date is a gap and not a contradiction. As
+   expected, both ways.** The error checker says nothing; the gaps list carries
+   one entry with no stage named, *recorded as an emergency bill, and nothing
+   says when the Parliament agreed to treat it as one*, beside the line's two
+   ordinary stage gaps. With the procedure set to `budget` instead, that entry
+   goes and the two stage gaps remain.
+
+6. **A further appearance that states a procedure is refused. As expected.**
+   *continues bill 303 and states how the bill was handled…* Emptying both
+   cells leaves the line otherwise as it was, still continuing bill 303, and
+   the complaint goes.
+
+   **The first run of this item produced a second complaint, and it is about
+   the fixture rather than about `db/087`:** giving the line bill 303's
+   introduction date while its raw words still read "18 November 2024" is a
+   date that disagrees with the fact sheet it was read from, with no citation
+   for the change. The item was run again with the raw words moved too, and
+   `db/087`'s refusal was then the only thing said. Same shape as the note on
+   the gaps list test's fixture: a complaint about a cell invented for a
+   fixture is not a finding.
+
+7. **Promotion carries both cells, with provenance. As expected.** The bill
+   came onto the clean sheet as bill 395 reading `emergency` and 2024-11-20,
+   with two provenance notes behind it — `procedure` seen as `emergency` and
+   `date_procedure_agreed` seen as 2024-11-20, both citing the Session 6 fact
+   sheet retrieved 2026-09-10. Counts with the session on were 390 bills, 1072
+   stage records and 114 provenance notes: the fixture's own bill, its own
+   Stage 3 record and its own two notes, and nothing else moved. Taking the
+   session off again removed the bill, its stage record and both notes, and
+   returned the counts to 389, 1071 and 112.
+
 ---
 
 ## The gaps list, and a bill's second appearance

@@ -44,8 +44,8 @@ Sessions 6 and 7**, and nothing stands in front of them but the reader.
   checker had been taught. Then the four items on that, answered too, with
   nothing written to the database.
 
-**14 September, this session. Sessions 6 and 7 read end to end, and procedure
-becomes a variable.**
+**14 September, the previous session. Sessions 6 and 7 read end to end, and
+procedure becomes a variable.**
 
 - **Both factsheets were read against their own grammar, sentence by sentence,
   with nothing left over.** 83 entries in Session 6 and 2 in Session 7, which is
@@ -55,9 +55,7 @@ becomes a variable.**
   and the day the Parliament agreed it. On your agreement, **procedure is now a
   variable**, with a date beside it, an error checker that refuses a date that
   cannot be right, a gaps list that asks for a missing one without blocking
-  anything, and M10 to tell a reader it is five bills and not a survey. Nothing
-  on the clean sheet moved: 389 bills, 1071 stage records, 112 provenance notes,
-  before and after.
+  anything, and M10 to tell a reader it is five bills and not a survey.
 - **Session 6's own summary table has two cells wrong**, and its margins right.
   Bills awaiting Royal Assent reads 5 Government and 3 Member's where the
   entries are 6 and 2; Acts reads 56 and 4 where they are 55 and 5. The errors
@@ -67,6 +65,17 @@ becomes a variable.**
   title we propose and never in its own words: two Acts with the word "Bill"
   left in, one bracket never closed, and the European Charter's number printed
   "(SP 70)".
+
+**14 September, this session. The procedure change is marked.**
+
+The seven checks that session wrote for its own work were run by this one, which
+built none of it. **All seven came out as expected**: the two rebuilt lists lost
+nothing, a date with no procedure and a date outside the bill's life are both
+refused, an emergency bill with no date is asked about without being blocked, a
+second appearance that states a procedure is refused, and a promotion carried
+both cells with a note behind each and gave them all back when the session came
+off. Nothing was written: 389 bills, 1071 stage records and 112 provenance
+notes, before and after.
 
 ## Now: the prose reader for Sessions 6 and 7
 
@@ -141,77 +150,56 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-14, fifteenth session of the day
+## Sanity check, 2026-09-14, sixteenth session of the day
 
-**Everything matched and nothing contradicted anything.** 389 bills, 1071 stage
-records, 112 provenance notes; 389 staging lines and 1071 staging stage rows;
-error checker empty, gaps list empty; the data dictionary regenerating identical
-to the committed file at 19 tables and 177 columns; nothing uncommitted and
-nothing unpushed; `public` the only schema. Every session the table calls closed
-has its closure test run and recorded. `STATE.md`'s figures matched the database
-in every cell, and the newest `DECISIONS.md` entries and the last commit left
-exactly one thing open, which was this session's task.
+**Everything matched, and one thing was open that `STATE.md` did not say.** 389
+bills, 1071 stage records, 112 provenance notes, 73/81/62/86/87 by session;
+`procedure` empty on all 389, which is right until Session 6 is promoted; error
+checker empty, gaps list empty; the data dictionary regenerating identical to
+the committed file at 19 tables and 179 columns — two more than the fifteenth
+session's note, which is `db/087`'s two cells and was taken before it ran;
+nothing uncommitted and nothing unpushed. **What was open:** the seven-item test
+for `db/087`, written by the session that built it and not yet run. Every other
+closed row had its closure test run and recorded. It was proposed to the owner
+and run first, and is this session's work.
+
+**Old working files are sitting in `/tmp` on the server** — `cols.sql`,
+`look.sql`, `sanity.sql`, `reh/`, `reh.tgz` — left by earlier sessions. Nothing
+is inside the database and nothing depends on them. This session removed only
+what it put there itself.
 
 ## What the previous session did
 
-Ran the four items on `db/086` and answered all of them, writing nothing to the
-database: the fixture and every alteration went inside one transaction that was
-thrown away.
+Read the Session 6 and 7 fact sheets end to end and built `db/087`, which makes
+procedure a variable and adds the date beside it. It wrote the seven-item test
+for that change and, correctly, did not run it.
 
 ## What this session did
 
-**Read the Session 6 and 7 factsheets end to end**, and built the machinery for
-the one thing in them that had nowhere to go.
+**Ran the seven items on `db/087`**, which the session that built it wrote and
+could not run. Every answer is recorded in `docs/CLOSURE-TESTS.md` against its
+expected one. All seven as expected, and nothing written to the database.
 
-**The reading.** Both documents were split into sentences and matched against
-the grammar in `FACTSHEET-SURVEY.md` §1, with every character of both bodies
-having to land somewhere. 83 entries in Session 6 and 2 in Session 7, no
-sentence unmatched and no text left over. That agrees with M6's arithmetic
-exactly: 82 of Session 6's entries counted in its own totals, one excluded, 80
-distinct new bills.
+**How the first item was done, since `db/087` was already applied.** The item
+asks for the two view definitions before and after, and "before" no longer
+exists. The definitions as `db/082` and `db/086` left them were built beside the
+live ones under other names, inside a transaction that was thrown away, and all
+four texts read back out of the database with `pg_get_viewdef` and compared as
+text. That is the comparison the item wants, and it is name-independent: a view
+definition does not contain the view's own name. Both diffs are exactly the
+intended additions, and not a line of either definition is absent afterwards.
 
-**Three things the survey's "complete" grammar does not contain**, found by
-that exercise:
+**The one thing that did not come out clean first time was the fixture, not the
+change.** Item 6 gives the line another bill's introduction date; leaving its
+raw words reading "18 November 2024" makes it a date that disagrees with the
+fact sheet it was read from, and the error checker said so. Moving the raw words
+too left `db/087`'s refusal as the only thing said. Whoever writes the Session 6
+ingest test should expect the same: a fixture has to be consistent in every cell
+the checker reads, not only in the cells the item is about.
 
-- `Motion agreed to treat as Emergency Bill on {date}.` — five times, and the
-  reason for `db/087`.
-- `The following bill was introduced during Session 5 … Please note this bill is
-  not included in Summary of Legislation totals below.` — the excluded section's
-  own note, which the reconciliation has to obey.
-- The rename sentence **wraps across two printed lines**. A reader that matches
-  line by line never sees it, and silently swallows it into the next bill's
-  title. The reader must work on reflowed text, and the check that proves it is
-  that every sentence in the document matches a known shape.
-
-**What `db/087` built.** `bill.date_procedure_agreed` beside the procedure cell,
-the same two cells on the staging sheet, four new refusals and one more in the
-error checker, one branch on the gaps list, and M10. The loader, the promotion
-script and `extract_factsheet.py` all carry the two cells — the table extractor
-emits them empty, so both readers write the same CSV and the loader has one
-contract to match.
-
-**How it was rehearsed**, for whoever runs the next one:
-
-- **The two views were captured before and after and diffed as text**, not
-  compared by counting lines. The line count said one line had been lost from
-  the gaps list; the text diff showed it was a reformat, `c.continues_bill_id`
-  gaining a comma and two columns after it. A line-multiset comparison cannot
-  tell those apart, and this is the check `db/062` and `db/086` both exist
-  because of. Both diffs are exactly the intended additions and nothing else.
-- **The whole of `db/087`, a fixture line, all five new rules and a real
-  promotion ran inside one transaction that was thrown away** before any of it
-  was applied. The bill came out reading `emergency` and 2024-11-20 with two
-  provenance notes behind it, and 389 bills, 1071 stage records and 112
-  provenance notes were untouched.
-- **The SSH rate limit bit twice.** A dozen connections in quick succession gives
-  `Connection refused` for a while, and a failed `--scp` leaves the next psql
-  run reading a file that is not there rather than failing loudly. Batch the
-  work, and check the upload landed.
-
-**What was found and not acted on.** Session 6's summary table has two interior
-cells wrong with its margins right, and four titles are printed wrongly. Both
-are written up in `DECISIONS.md` and are the reader's and the reconciliation's
-business, not a schema question.
+**Everything ran in two connections**, one for each transaction, with the files
+sent as one bundle. The SSH rate limit bit once at the start of the session and
+cleared in under half a minute.
 
 ## The owner's standing positions, so they are not re-argued
 
