@@ -26,6 +26,13 @@
 -- source on the clean sheet, written from the "Checked: ..." line on the
 -- staging row (db/042, db/043). A date with no such note carries the source of
 -- the row it sits on, and nobody has checked it individually.
+--
+-- A line that names a bill already on the clean sheet in continues_bill_id is
+-- a further appearance of that bill, not a bill of its own: the fact sheet is
+-- listing a bill that was still live when an earlier session ended. Such a
+-- line UPDATES the bill it names and adds the stages that bill does not have,
+-- and makes nothing. See db/081 and methodology note M6. Everything else here
+-- treats the two kinds separately and says which it means.
 
 \set ON_ERROR_STOP on
 
@@ -81,11 +88,51 @@ END $$;
 
 -- The exact set being promoted in this run. Everything below reads from here,
 -- so a re-run cannot pick up a different set halfway through.
+--
+-- Two sets, because there are two things to do. promoting holds the lines that
+-- become bills. continuing holds the lines that are a further appearance of a
+-- bill already on the clean sheet, and updates it. target_bill_id is the bill
+-- each line's facts belong to, which for a new bill is its own number, since a
+-- bill's number is its staging line's number (db/026).
 CREATE TEMP TABLE promoting ON COMMIT DROP AS
-SELECT c.*
+SELECT c.*, c.candidate_id AS target_bill_id
   FROM bill_candidate c JOIN promote_arg a USING (session_number)
  WHERE c.review_status = 'accepted'
-   AND c.promoted_bill_id IS NULL;
+   AND c.promoted_bill_id IS NULL
+   AND c.continues_bill_id IS NULL;
+
+CREATE TEMP TABLE continuing ON COMMIT DROP AS
+SELECT c.*, c.continues_bill_id AS target_bill_id
+  FROM bill_candidate c JOIN promote_arg a USING (session_number)
+ WHERE c.review_status = 'accepted'
+   AND c.promoted_bill_id IS NULL
+   AND c.continues_bill_id IS NOT NULL;
+
+CREATE TEMP TABLE promoting_all ON COMMIT DROP AS
+SELECT candidate_id, target_bill_id FROM promoting
+UNION ALL
+SELECT candidate_id, target_bill_id FROM continuing;
+
+-- A line may not continue a bill that is not there yet, and may not continue
+-- one out of its own session's reach. The error checker says both of these of
+-- the staging sheet; this says them again at the gate, so that what was
+-- reviewed and what is written are the same thing.
+DO $$
+DECLARE n integer;
+BEGIN
+  SELECT count(*) INTO n FROM continuing c
+   WHERE NOT EXISTS (SELECT 1 FROM bill b WHERE b.bill_id = c.target_bill_id);
+  IF n > 0 THEN
+    RAISE EXCEPTION 'Refusing to promote: % line(s) continue a bill that is not on the clean sheet.', n;
+  END IF;
+
+  SELECT count(*) INTO n FROM continuing c JOIN bill b ON b.bill_id = c.target_bill_id
+   WHERE b.session_number >= c.session_number
+      OR b.date_introduced IS DISTINCT FROM c.date_introduced;
+  IF n > 0 THEN
+    RAISE EXCEPTION 'Refusing to promote: % line(s) continue a bill from a later or equal session, or one introduced on a different day.', n;
+  END IF;
+END $$;
 
 -- A bill that appears in two factsheets has two staging lines and must become
 -- one bill, not two. Sessions 5, 6 and 7 have them (M6). Stop rather than
@@ -97,10 +144,13 @@ SELECT c.*
 -- A bill counted in two factsheets keeps its introduction date; a reintroduced
 -- bill has a new one. So the test is the same title AND the same date.
 --
--- KNOWN GAP: this cannot see a bill whose title changed between its two
--- factsheets. The European Charter and UNCRC Bills are "Bill" in Session 5 and
--- "Act" in Session 6. It must be dealt with before Session 6 is promoted; see
--- docs/STATE.md.
+-- This cannot see a bill whose title changed between its two fact sheets: the
+-- UNCRC Bill is listed as an Act in Session 6. That is why it is no longer the
+-- only net. The error checker refuses a line whose introduction date falls
+-- before its own fact sheet's session began unless it names the bill it
+-- continues, and that catches a further appearance whatever its title does.
+-- This guard remains as the second net, and asks only about lines that are
+-- claiming to be bills of their own.
 DO $$
 DECLARE n integer;
 BEGIN
@@ -134,12 +184,24 @@ END $$;
 
 -- The stage-dates rows being carried: one per stage of each bill being
 -- promoted, from its most primary accepted source.
+--
+-- A continuing line only adds stages its bill does not already have. A bill
+-- listed in a second fact sheet has its earlier stages printed again, and the
+-- later document is not the source those stages were settled from: the Session
+-- 6 fact sheet says the European Charter Bill passed on 23 May 2021, and the
+-- Parliament's own bill page settles it at 23 March (DECISIONS.md,
+-- 2026-09-13). A restated stage stays on the staging sheet as what that
+-- document said, and a disagreement goes through the ordinary route for one --
+-- the "Checked: ..." citation the error checker demands.
 CREATE TEMP TABLE promoting_stages ON COMMIT DROP AS
-SELECT DISTINCT ON (t.candidate_id, t.stage_order) t.*
+SELECT DISTINCT ON (t.candidate_id, t.stage_order) t.*, p.target_bill_id
   FROM stage_candidate t
-  JOIN promoting p USING (candidate_id)
+  JOIN promoting_all p USING (candidate_id)
   LEFT JOIN stage_source_rank r ON r.source = t.source
  WHERE t.review_status = 'accepted'
+   AND NOT EXISTS (SELECT 1 FROM stage_event e
+                    WHERE e.bill_id = p.target_bill_id
+                      AND e.stage_order = t.stage_order)
  ORDER BY t.candidate_id, t.stage_order, r.rank;
 
 -- ---------------------------------------------------------------------------
@@ -151,14 +213,60 @@ INSERT INTO bill (bill_id, session_number, sp_bill_id, short_title, bill_type,
                   date_royal_assent, asp_number, date_concluded,
                   date_assent_blocked, bill_type_stated, title_as_introduced,
                   stage_1_rejection_route, note,
+                  assent_block_route, assent_block_outcome,
+                  reintroduced_from_bill_id,
                   source, source_ref, observed_at)
 SELECT p.candidate_id, p.session_number, p.sp_bill_id, p.short_title, p.bill_type,
        p.procedure, p.date_introduced, p.outcome, p.enactment_status,
        p.date_royal_assent, p.asp_number, p.date_concluded,
        p.date_assent_blocked, p.bill_type_stated, p.title_as_introduced,
        p.stage_1_rejection_route, p.bill_note,
+       p.assent_block_route, p.assent_block_outcome,
+       p.reintroduced_from_bill_id,
        p.source, p.source_ref, p.observed_at
   FROM promoting p;
+
+-- ---------------------------------------------------------------------------
+-- The bills a later fact sheet says more about
+-- ---------------------------------------------------------------------------
+
+-- Seven cells, and no others. A further appearance of a bill says what has
+-- happened to it since; it does not restate what the bill is. The session, the
+-- introduction date, the bill type, who introduced it and its SP Bill number
+-- belong to the bill's own session and are not touched, and neither is the
+-- note in our own words, which is written when a session is reviewed and not
+-- by a script. A cell the later fact sheet leaves empty is left as it was: a
+-- second appearance adds and corrects, and never blanks.
+--
+-- What each changed cell used to say is captured first, so that the provenance
+-- note below can say what it read before.
+CREATE TEMP TABLE continuing_changes ON COMMIT DROP AS
+SELECT c.candidate_id, c.target_bill_id, x.field_name, x.was, x.reads_now
+  FROM continuing c
+  JOIN bill b ON b.bill_id = c.target_bill_id
+  CROSS JOIN LATERAL (VALUES
+      ('short_title',          b.short_title,              c.short_title),
+      ('asp_number',           b.asp_number,               c.asp_number),
+      ('enactment_status',     b.enactment_status,         c.enactment_status),
+      ('date_royal_assent',    b.date_royal_assent::text,  c.date_royal_assent::text),
+      ('date_concluded',       b.date_concluded::text,     c.date_concluded::text),
+      ('assent_block_route',   b.assent_block_route,       c.assent_block_route),
+      ('assent_block_outcome', b.assent_block_outcome,     c.assent_block_outcome)
+  ) AS x(field_name, was, reads_now)
+ WHERE x.reads_now IS NOT NULL
+   AND x.reads_now IS DISTINCT FROM x.was;
+
+UPDATE bill b
+   SET short_title          = coalesce(c.short_title,          b.short_title),
+       asp_number           = coalesce(c.asp_number,           b.asp_number),
+       enactment_status     = coalesce(c.enactment_status,     b.enactment_status),
+       date_royal_assent    = coalesce(c.date_royal_assent,    b.date_royal_assent),
+       date_concluded       = coalesce(c.date_concluded,       b.date_concluded),
+       assent_block_route   = coalesce(c.assent_block_route,   b.assent_block_route),
+       assent_block_outcome = coalesce(c.assent_block_outcome, b.assent_block_outcome),
+       updated_at           = now()
+  FROM continuing c
+ WHERE b.bill_id = c.target_bill_id;
 
 -- ---------------------------------------------------------------------------
 -- The stages each bill reached
@@ -169,10 +277,10 @@ SELECT p.candidate_id, p.session_number, p.sp_bill_id, p.short_title, p.bill_typ
 -- by the error checker, and the trigger on stage_event checks it again.
 INSERT INTO stage_event (bill_id, stage, stage_order, date_completed, completed,
                          fell_here, did_not_happen, source, source_ref, observed_at, detail_note)
-SELECT s.candidate_id, s.stage, s.stage_order, s.date_completed, s.completed,
+SELECT s.target_bill_id, s.stage, s.stage_order, s.date_completed, s.completed,
        s.fell_here, s.did_not_happen, s.source, s.source_ref, s.observed_at, s.detail_note
   FROM promoting_stages s
- ORDER BY s.candidate_id, s.stage_order;
+ ORDER BY s.target_bill_id, s.stage_order;
 
 -- ---------------------------------------------------------------------------
 -- Where individual facts came from, when it was not the row's own source
@@ -246,6 +354,25 @@ SELECT 'bill', p.candidate_id, 'date_assent_blocked', p.source, p.source_ref,
                     WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
                       AND f.field_name = 'date_assent_blocked');
 
+-- How a bill that passed came to be stopped before Royal Assent, and what
+-- followed. Both are read from the same footnote as the enactment status, and
+-- the footnote is kept here in the fact sheet's own words. The route is put on
+-- its own cell rather than left to enactment_status because enactment_status
+-- moves on when the bill does -- a reconsidered bill becomes an enacted Act --
+-- and this must not move with it. See db/080 and methodology note M5.
+INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
+                          value_seen, observed_at)
+SELECT 'bill', p.candidate_id, f.field_name, p.source, p.source_ref,
+       p.raw_footnote, p.observed_at
+  FROM promoting p
+  CROSS JOIN LATERAL (VALUES ('assent_block_route'), ('assent_block_outcome'))
+       AS f(field_name)
+ WHERE p.assent_block_outcome IS NOT NULL
+   AND coalesce(btrim(p.raw_footnote), '') <> ''
+   AND NOT EXISTS (SELECT 1 FROM field_source g
+                    WHERE g.entity = 'bill' AND g.entity_id = p.candidate_id
+                      AND g.field_name = f.field_name);
+
 -- How a bill came to be rejected at Stage 1, read from the Official Report. The
 -- value seen is the Presiding Officer's announcement, word for word, which is
 -- what tells the three routes apart; the review note carries it in the fixed
@@ -316,17 +443,47 @@ SELECT 'bill', p.candidate_id, m[1], m[3], m[4], m[2], m[5]::date,
 -- Stamp the staging lines and the stage-dates rows
 -- ---------------------------------------------------------------------------
 
+-- A line that made a bill is stamped with its own number, because a bill's
+-- number is its staging line's (db/026). A line that added to a bill already
+-- there is stamped with that bill's number, which is how a re-run knows it has
+-- nothing left to do and how rollback finds it again.
 UPDATE bill_candidate c
-   SET promoted_bill_id = c.candidate_id,
+   SET promoted_bill_id = p.target_bill_id,
        promoted_at      = now()
-  FROM promoting p
+  FROM promoting_all p
  WHERE c.candidate_id = p.candidate_id;
+
+-- What a further appearance changed, and what it read before. One note per
+-- changed cell, replacing whatever the earlier fact sheet left there, so a
+-- reader always sees the provenance of the value in front of them. The
+-- footnote that explains the block is not lost with it: it sits on
+-- assent_block_route, which a later fact sheet never changes.
+DELETE FROM field_source f
+ USING continuing_changes ch
+ WHERE f.entity = 'bill' AND f.entity_id = ch.target_bill_id
+   AND f.field_name = ch.field_name;
+
+INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
+                          value_seen, observed_at, note)
+SELECT 'bill', ch.target_bill_id, ch.field_name, c.source, c.source_ref,
+       CASE WHEN ch.field_name = 'short_title' THEN c.raw_title END,
+       c.observed_at,
+       'Read off the Session ' || c.session_number || ' fact sheet, which lists '
+       || 'this bill again because it was still live when Session '
+       || b.session_number || ' ended. It read '
+       || coalesce(quote_literal(ch.was), 'nothing') || ' and now reads '
+       || quote_literal(ch.reads_now)
+       || '. The bill belongs to Session ' || b.session_number
+       || ', the session it was introduced in. See methodology note M6.'
+  FROM continuing_changes ch
+  JOIN continuing c ON c.candidate_id = ch.candidate_id
+  JOIN bill b ON b.bill_id = ch.target_bill_id;
 
 UPDATE stage_candidate t
    SET promoted_stage_event_id = e.stage_event_id,
        promoted_at             = now()
   FROM promoting_stages s
-  JOIN stage_event e ON e.bill_id = s.candidate_id AND e.stage_order = s.stage_order
+  JOIN stage_event e ON e.bill_id = s.target_bill_id AND e.stage_order = s.stage_order
  WHERE t.stage_candidate_id = s.stage_candidate_id;
 
 -- The same for a stage date checked at review. It hangs off the stage record
@@ -339,7 +496,7 @@ SELECT 'stage_event', t.promoted_stage_event_id, m[1], m[3], m[4], m[2], m[5]::d
        'factsheet''s own printed words are kept in the raw_ columns of '
        'bill_candidate.'
   FROM stage_candidate t
-  JOIN promoting p ON p.candidate_id = t.candidate_id
+  JOIN promoting_all p ON p.candidate_id = t.candidate_id
   CROSS JOIN LATERAL regexp_matches(
         coalesce(t.review_note, ''),
         'Checked: ([a-z0-9_]+) = ([^\n]+?) \(([a-z_]+), ([^,]+), (\d{4}-\d{2}-\d{2})\)',
@@ -378,12 +535,16 @@ BEGIN
    WHERE session_number = s AND review_status = 'accepted' AND promoted_bill_id IS NULL;
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % accepted line(s) were not promoted.', n; END IF;
 
-  -- One bill per accepted line, and no others.
+  -- One bill per accepted line that was a bill in its own right, and no
+  -- others. A line that is a further appearance of an earlier bill makes
+  -- nothing, which is the whole point of it, so it is not counted here.
   SELECT count(*) INTO n FROM bill WHERE session_number = s;
   IF n <> (SELECT count(*) FROM bill_candidate
-            WHERE session_number = s AND review_status = 'accepted')
-  THEN RAISE EXCEPTION 'Check failed: % bills on the clean sheet, % accepted lines.',
-       n, (SELECT count(*) FROM bill_candidate WHERE session_number = s AND review_status = 'accepted');
+            WHERE session_number = s AND review_status = 'accepted'
+              AND continues_bill_id IS NULL)
+  THEN RAISE EXCEPTION 'Check failed: % bills on the clean sheet, % accepted lines that are bills of their own.',
+       n, (SELECT count(*) FROM bill_candidate WHERE session_number = s
+            AND review_status = 'accepted' AND continues_bill_id IS NULL);
   END IF;
 
   -- Every bill says the same as the line it came from.
@@ -403,6 +564,9 @@ BEGIN
        OR b.bill_type_stated  IS DISTINCT FROM c.bill_type_stated
        OR b.title_as_introduced IS DISTINCT FROM c.title_as_introduced
        OR b.stage_1_rejection_route IS DISTINCT FROM c.stage_1_rejection_route
+       OR b.assent_block_route      IS DISTINCT FROM c.assent_block_route
+       OR b.assent_block_outcome    IS DISTINCT FROM c.assent_block_outcome
+       OR b.reintroduced_from_bill_id IS DISTINCT FROM c.reintroduced_from_bill_id
        OR b.note              IS DISTINCT FROM c.bill_note);
   IF bad IS NOT NULL THEN RAISE EXCEPTION 'Check failed: bill(s) % differ from their staging line.', bad; END IF;
 
@@ -425,13 +589,16 @@ BEGIN
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % stage record(s) do not match the stage-dates rows they come from.', n; END IF;
 
   -- Every row carried is stamped with its own record, and no other row in the
-  -- session is stamped.
+  -- session is stamped. Asked of the lines that became bills: a continuing
+  -- line's rows are stamped with a record on a bill of an earlier session, and
+  -- some of its rows are deliberately not carried at all, so both halves of
+  -- this would be false of it. They are checked separately below.
   SELECT count(*) INTO n
     FROM stage_candidate t
     JOIN bill_candidate c USING (candidate_id)
     LEFT JOIN carried_stages k ON k.stage_candidate_id = t.stage_candidate_id
     LEFT JOIN stage_event e ON e.stage_event_id = t.promoted_stage_event_id
-   WHERE c.session_number = s
+   WHERE c.session_number = s AND c.continues_bill_id IS NULL
      AND ((k.stage_candidate_id IS NOT NULL) <> (t.promoted_stage_event_id IS NOT NULL)
           OR e.bill_id <> t.candidate_id OR e.stage_order <> t.stage_order);
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % stage-dates row(s) stamped wrongly.', n; END IF;
@@ -498,6 +665,91 @@ BEGIN
      AND b.date_concluded IS DISTINCT FROM ss.date_session_end;
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % bill(s) fell at dissolution on a day that is not their session''s last.', n; END IF;
 
+  -- ------------------------------------------------------------------------
+  -- The bills this session added to rather than made
+  -- ------------------------------------------------------------------------
+
+  -- Every one of them is stamped with the bill it added to, and that bill is
+  -- still the bill it was: same session, same introduction date, same type.
+  SELECT count(*) INTO n
+    FROM bill_candidate c JOIN bill b ON b.bill_id = c.continues_bill_id
+   WHERE c.session_number = s AND c.review_status = 'accepted'
+     AND (c.promoted_bill_id IS DISTINCT FROM c.continues_bill_id
+       OR c.promoted_at IS NULL
+       OR b.session_number   >= c.session_number
+       OR b.date_introduced  IS DISTINCT FROM c.date_introduced
+       OR b.bill_type        IS DISTINCT FROM c.bill_type);
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % continuing line(s) are not stamped, or changed what their bill is.', n; END IF;
+
+  -- No continuing line made a bill.
+  SELECT count(*) INTO n FROM bill b
+    JOIN bill_candidate c ON c.candidate_id = b.bill_id
+   WHERE c.continues_bill_id IS NOT NULL;
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % continuing line(s) became bills of their own.', n; END IF;
+
+  -- Each of the seven cells a further appearance may change now reads what
+  -- that line says, where the line says anything.
+  SELECT string_agg(DISTINCT b.bill_id::text, ', ') INTO bad
+    FROM bill_candidate c JOIN bill b ON b.bill_id = c.continues_bill_id
+   WHERE c.session_number = s AND c.review_status = 'accepted'
+     AND ((c.short_title          IS NOT NULL AND b.short_title          IS DISTINCT FROM c.short_title)
+       OR (c.asp_number           IS NOT NULL AND b.asp_number           IS DISTINCT FROM c.asp_number)
+       OR (c.enactment_status     IS NOT NULL AND b.enactment_status     IS DISTINCT FROM c.enactment_status)
+       OR (c.date_royal_assent    IS NOT NULL AND b.date_royal_assent    IS DISTINCT FROM c.date_royal_assent)
+       OR (c.date_concluded       IS NOT NULL AND b.date_concluded       IS DISTINCT FROM c.date_concluded)
+       OR (c.assent_block_route   IS NOT NULL AND b.assent_block_route   IS DISTINCT FROM c.assent_block_route)
+       OR (c.assent_block_outcome IS NOT NULL AND b.assent_block_outcome IS DISTINCT FROM c.assent_block_outcome));
+  IF bad IS NOT NULL THEN RAISE EXCEPTION 'Check failed: bill(s) % do not say what the line continuing them says.', bad; END IF;
+
+  -- Every stage a continuing line carried is on its bill, and nothing it
+  -- restated overwrote a stage that was already there.
+  SELECT count(*) INTO n
+    FROM stage_candidate t
+    JOIN bill_candidate c USING (candidate_id)
+   WHERE c.session_number = s AND c.continues_bill_id IS NOT NULL
+     AND t.review_status = 'accepted'
+     AND t.promoted_stage_event_id IS NOT NULL
+     AND NOT EXISTS (SELECT 1 FROM stage_event e
+                      WHERE e.stage_event_id = t.promoted_stage_event_id
+                        AND e.bill_id = c.continues_bill_id
+                        AND e.stage_order = t.stage_order
+                        AND e.date_completed IS NOT DISTINCT FROM t.date_completed);
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % stage(s) from a continuing line are not on the bill they belong to.', n; END IF;
+
+  -- And every accepted row it did NOT carry is one the bill already had, at
+  -- the same position. That is the only reason a row may be left behind.
+  SELECT count(*) INTO n
+    FROM stage_candidate t
+    JOIN bill_candidate c USING (candidate_id)
+   WHERE c.session_number = s AND c.continues_bill_id IS NOT NULL
+     AND t.review_status = 'accepted'
+     AND t.promoted_stage_event_id IS NULL
+     AND NOT EXISTS (SELECT 1 FROM stage_event e
+                      WHERE e.bill_id = c.continues_bill_id
+                        AND e.stage_order = t.stage_order);
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % accepted stage(s) from a continuing line were neither carried nor already on the bill.', n; END IF;
+
+  -- Every changed cell carries a provenance note from the fact sheet that
+  -- changed it, and nothing changed without one.
+  SELECT count(*) INTO n
+    FROM continuing_changes ch
+   WHERE NOT EXISTS (SELECT 1 FROM field_source f
+                      WHERE f.entity = 'bill' AND f.entity_id = ch.target_bill_id
+                        AND f.field_name = ch.field_name
+                        AND f.note LIKE '%lists this bill again%');
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % changed cell(s) have no note saying which fact sheet changed them.', n; END IF;
+
+  -- A bill that was ever stopped before Royal Assent still says so, however
+  -- far it has since got. This is the whole reason the two cells exist.
+  SELECT count(*) INTO n
+    FROM bill b JOIN bill_candidate c ON c.continues_bill_id = b.bill_id
+   WHERE c.session_number = s
+     AND b.assent_block_outcome IS NULL
+     AND EXISTS (SELECT 1 FROM field_source f
+                  WHERE f.entity = 'bill' AND f.entity_id = b.bill_id
+                    AND f.field_name = 'assent_block_route');
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % bill(s) lost the record that they were stopped before Royal Assent.', n; END IF;
+
   RAISE NOTICE 'All checks passed.';
 END $$;
 
@@ -537,6 +789,20 @@ SELECT b.bill_id, left(b.short_title, 45) AS short_title, b.stage_1_rejection_ro
   FROM bill b JOIN promote_arg a USING (session_number)
  WHERE b.stage_1_rejection_route IS NOT NULL
  ORDER BY b.bill_id;
+
+\echo '--- Bills this session added to rather than made, and what changed'
+SELECT ch.target_bill_id AS bill_id, left(b.short_title, 45) AS short_title,
+       ch.field_name, coalesce(ch.was, '(empty)') AS was, ch.reads_now
+  FROM continuing_changes ch JOIN bill b ON b.bill_id = ch.target_bill_id
+ ORDER BY 1, 3;
+
+\echo '--- Stages added to a bill this session added to'
+SELECT c.continues_bill_id AS bill_id, t.stage, t.date_completed, t.source,
+       left(t.detail_note, 60) AS detail_note
+  FROM stage_candidate t JOIN bill_candidate c USING (candidate_id)
+  JOIN promote_arg a ON a.session_number = c.session_number
+ WHERE c.continues_bill_id IS NOT NULL AND t.promoted_stage_event_id IS NOT NULL
+ ORDER BY 1, t.stage_order;
 
 \echo '--- Provenance notes written'
 SELECT f.entity_id, f.field_name, f.source, left(f.value_seen, 60) AS value_seen

@@ -75,6 +75,9 @@ One row per bill. This is the checked, live data. A row only gets here by being 
 | `date_assent_blocked` | date |  |  | Date the bill was stopped from being sent for Royal Assent, by a Supreme Court ruling or by a UK Government order. Kept even if the block is later lifted. Empty means it never happened. |
 | `title_as_introduced` | text |  |  | The title the bill had when it was introduced. Empty means not known, which is the usual case. Empty never means the title did not change. |
 | `stage_1_rejection_route` | text |  | `ref_stage_1_rejection_route.code` | How the Parliament came to reject the bill's general principles at Stage 1: the member in charge's motion disagreed to; that motion amended to reject them and agreed to; or a committee motion under Rule 9.14.18 agreed to. Allowed values are in ref_stage_1_rejection_route. Filled for every bill whose outcome is rejected_stage_1 and for no other, and the database enforces both halves, so empty means only that the bill was not rejected at Stage 1. The 9.14.18 route is refused on anything but a Member's Bill. Our coding against the Official Report; see methodology note M7. |
+| `assent_block_route` | text |  | `ref_assent_block_route.code` | How the bill was stopped before Royal Assent after it had passed: a section 33 reference to the Supreme Court, or a section 35 order by a UK Government minister. Allowed values are in ref_assent_block_route. Empty means the bill was never stopped, which is all but three bills today, and will be all but four once Session 6 is loaded. Kept even after the block is lifted, so a bill that was reconsidered and is now an Act still says how it was held up. See methodology note M5. |
+| `assent_block_outcome` | text |  | `ref_assent_block_outcome.code` | What happened to the bill after it was stopped before Royal Assent: still blocked, withdrawn, reconsidered and passed, or reconsidered and fell. Allowed values are in ref_assent_block_outcome. Empty means the bill was never stopped, which is all but three bills today, and will be all but four once Session 6 is loaded. This cell, not enactment_status, is the lasting record that a bill was stopped: enactment_status says where the bill ended up and moves on when it does. See methodology note M5. |
+| `reintroduced_from_bill_id` | number |  | `bill.bill_id` | The earlier bill whose scrutiny this bill carried, by its number. Filled where a bill was reintroduced after an earlier one ended and did not have to repeat the stages the earlier one completed, so that a chart of how long the bill took can be built either from this bill's own introduction or from the earlier one's and say which it used. Empty means the bill did its own scrutiny, which is every bill but one: the Robin Rigg Offshore Wind Farm (Navigation and Fishing) (Scotland) Act 2003, whose Preliminary and Consideration Stages happened to the Session 1 bill of the same name. Both bills are counted. See methodology note M9. |
 
 ### `stage_event`
 
@@ -147,6 +150,10 @@ One row per line read off a factsheet. This is the staging area: nothing here is
 | `sources_compared_at` | date |  |  | The date this line's dates were compared against every other source that states them, by tools/compare_sources.py. Empty means the comparison has never been run for this line, and the error checker refuses to let it be accepted: a disagreement nobody looked for is a disagreement nobody finds. Comparing against every source there is and finding only one still counts, so a line with no row in any other source is stamped too. |
 | `date_assent_blocked` | date |  |  | The date the bill was stopped from being sent for Royal Assent, read from the fact sheet's footnote against the row. Carried to bill.date_assent_blocked at promotion. Empty means the footnote gives no date, which is the case for the UK Withdrawal from the European Union (Legal Continuity) Bill, or that nothing stopped the bill. |
 | `raw_footnote` | text |  |  | The footnote the fact sheet prints against this row, word for word, with its number taken off. This is where a fact sheet says why a bill that passed has not received Royal Assent, and the row alone does not say it. Empty means the row carries no footnote. |
+| `assent_block_route` | text |  |  | Proposed value for bill.assent_block_route: how the bill was stopped before Royal Assent, read from the fact sheet footnote kept in raw_footnote. Should be a code from ref_assent_block_route; nothing in this table enforces that, but bill.assent_block_route does. Empty means the bill was never stopped. Carried to the clean sheet at promotion. |
+| `assent_block_outcome` | text |  |  | Proposed value for bill.assent_block_outcome: what happened to the bill after it was stopped before Royal Assent. Should be a code from ref_assent_block_outcome; nothing in this table enforces that, but bill.assent_block_outcome does. Empty means the bill was never stopped. Carried to the clean sheet at promotion. |
+| `continues_bill_id` | number |  |  | The bill already on the clean sheet that this line is a further appearance of, by its number. Filled by hand at review for a line read off a fact sheet that lists a bill which was still live when an earlier session ended; promotion then adds this line's facts to that bill instead of making a second one. Empty means a bill in its own right, which is every line so far. A line whose introduction date falls before its own fact sheet's session began and which leaves this empty is refused by the error checker. See methodology note M6. |
+| `reintroduced_from_bill_id` | number |  |  | Proposed value for bill.reintroduced_from_bill_id: the earlier bill whose scrutiny this bill carried, by its number. Filled by hand at review. Empty means the bill did its own scrutiny, which is every line but one. A line with a stage row marked as a stage that never happened and this cell empty is refused by the error checker. Carried to the clean sheet at promotion. |
 
 ### `stage_candidate`
 
@@ -209,6 +216,28 @@ The judgement calls made in building this data, written out for readers rather t
 | `updated_at` | timestamp | yes |  | When this note was last changed. Set automatically. |
 
 ## Lists of allowed values
+
+### `ref_assent_block_outcome`
+
+What happened to a bill after it was stopped before Royal Assent. Every allowed value for bill.assent_block_outcome is a row here, with its own definition, so a value can be added or re-labelled without changing the schema and so each one carries the text explaining it to a reader. See methodology note M5.
+
+| Column | Type | Required | Points at | What it holds |
+|---|---|---|---|---|
+| `code` | text | yes |  | The short word stored in bill.assent_block_outcome and used in queries. Readable on purpose, so a row shows "reconsidered_passed" rather than a number that has to be looked up. |
+| `label` | text | yes |  | The wording shown to a reader wherever the value appears on the site. |
+| `definition` | text |  |  | What the value means, in enough detail for a reader to judge whether it is the right one. Empty means nobody has written the definition yet. |
+| `sort_order` | number | yes |  | The order the values are listed in, smallest first. Not alphabetical, so the list can read in the order that makes sense. |
+
+### `ref_assent_block_route`
+
+How a bill that had passed came to be stopped before Royal Assent. Every allowed value for bill.assent_block_route is a row here, with its own definition, so a value can be added or re-labelled without changing the schema and so each one carries the text explaining it to a reader. See methodology note M5.
+
+| Column | Type | Required | Points at | What it holds |
+|---|---|---|---|---|
+| `code` | text | yes |  | The short word stored in bill.assent_block_route and used in queries. Readable on purpose, so a row shows "s35_order" rather than a number that has to be looked up. |
+| `label` | text | yes |  | The wording shown to a reader wherever the value appears on the site. |
+| `definition` | text |  |  | What the value means, in enough detail for a reader to judge whether it is the right one. Empty means nobody has written the definition yet. |
+| `sort_order` | number | yes |  | The order the values are listed in, smallest first. Not alphabetical, so the list can read in the order that makes sense. |
 
 ### `ref_bill_type`
 

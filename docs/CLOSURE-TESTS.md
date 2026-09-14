@@ -30,6 +30,164 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Carried-over bills, and the blocked-bill record
+
+Written 2026-09-14 by the session that built the change, which may therefore not
+run it. Every item below asks about a rule that session added, and a session may
+not mark the check on a rule it added itself (`DECISIONS.md`, 2026-09-14).
+
+This is not a session ingest. It is a change to how data is coded, made before
+Session 6 is loaded, and it touches five bills. It is here because it added
+rules, and rules need marking by somebody else.
+
+**The change, in one line:** a fact sheet row that is a further appearance of a
+bill already on the clean sheet now lands on that bill instead of making a
+second one; a bill stopped before Royal Assent now records how and what
+followed; and the Robin Rigg Act now says whose scrutiny it carried. See
+`DECISIONS.md`, 2026-09-14, and `db/080`–`db/085`.
+
+**All items are mechanical.** Nothing here needs the owner's judgement, because
+nothing here is new data: the section 33 route is read from a footnote already
+on the staging sheet word for word, and the Robin Rigg dates are already on the
+clean sheet. What the owner has already agreed is the design, and that agreement
+is recorded in `DECISIONS.md`.
+
+**Where the expectations come from.** Items 1–4 from the Session 5 and Session 6
+fact sheets and the Session 1 bill's own stage records, all quoted in
+`DECISIONS.md`. Items 5–12 from the migrations' stated intent, checked against
+behaviour rather than against the migrations' account of themselves. Item 13
+from the figures read out of the database on 2026-09-14 and recorded in M9.
+
+### Part A — the values
+
+1. **Exactly three bills carry the blocked record**, and they are bills 303, 304
+   and 305. Each has `assent_block_route` = `s33_reference` and
+   `assent_block_outcome` = `still_blocked`, `outcome` = `passed` and
+   `enactment_status` = `blocked`. Bills 303 and 304 have
+   `date_assent_blocked` = 2021-10-06; bill 305 has none, because its footnote
+   gives none.
+
+2. **Each of those three carries the fact sheet's footnote as the provenance of
+   `assent_block_route`**, word for word, cited to the Session 5 legislation
+   fact sheet and read on 2026-09-10. Read the three notes out in full and
+   confirm each begins "Following a reference under section 33 of the Scotland
+   Act 1998 by the Attorney General and the Advocate General for Scotland" and
+   ends in a full stop.
+
+3. **Exactly one bill says whose scrutiny it carried**: bill 124, the Robin Rigg
+   Act, pointing at bill 71. Bill 71 is a Session 1 bill introduced 27 June
+   2002; bill 124 was introduced 15 May 2003.
+
+4. **The Robin Rigg Act's two empty stage rows each name their own stage.** Read
+   both in full. The Preliminary row ends "The Session 1 bill's Preliminary
+   Stage was on 9 January 2003." and the Consideration row ends "The Session 1
+   bill's Consideration Stage was on 11 March 2003." Both dates match bill 71's
+   own stage records. No other stage row in the database is marked as a stage
+   that never happened.
+
+### Part B — the rules on the clean sheet bite
+
+Each item plants the fault inside a transaction that is then thrown away, as
+`db/062` and `db/078` proved theirs. Expected: every one is refused.
+
+5. **`bill_block_cells_are_filled_together`.** Empty `assent_block_route` on
+   bill 303 and leave `assent_block_outcome`; then the reverse.
+
+6. **`bill_only_a_passed_bill_can_be_blocked`.** Put the block cells on a bill
+   whose outcome is `fell_dissolution`.
+
+7. **`bill_blocked_says_still_blocked`, both ways.** Set bill 303's
+   `enactment_status` to `enacted` while it still says `still_blocked`; then set
+   `assent_block_outcome` to `withdrawn` while `enactment_status` is `blocked`.
+
+8. **`bill_reconsidered_and_passed_is_enacted`.** Set bill 303 to
+   `reconsidered_passed` without making it enacted.
+
+9. **`bill_not_reintroduced_from_itself`.** Point bill 124 at bill 124.
+
+### Part C — the rules on the staging sheet bite
+
+Each plants the fault on a staging line inside a transaction that is thrown
+away, and reads `v_candidate_problems`. Expected: each names the fault, and the
+checker is empty again afterwards.
+
+10. **A line introduced before its own fact sheet's session began, and not
+    saying which bill it is.** The message must name `continues_bill_id`. Then
+    set `continues_bill_id` and confirm the complaint goes, and that "passed
+    after the session ended" and "concluded after the session ended" do not
+    fire on a line that carries dates outside its fact sheet's session.
+
+11. **A line continuing a bill that is not there, a bill introduced on a
+    different day, and a bill of the same or a later session.** Three separate
+    faults, three separate messages.
+
+12. **The block cells on a staging line**: one filled and one empty; a value not
+    in its list; `blocked` with nothing saying what followed; `still_blocked`
+    with an enactment status that is not `blocked`; `withdrawn` with no
+    concluding date; a Reconsideration Stage row with no cell saying it was
+    reconsidered, and a cell saying so with no row; and a stage marked as never
+    having happened on a line that names no earlier bill.
+
+### Part D — promotion and rollback
+
+13. **A further appearance updates and does not insert.** Plant one Session 6
+    staging line for the European Charter Bill with `continues_bill_id` = 303,
+    a Reconsideration Stage row, and a Stage 3 row restating the Session 6 fact
+    sheet's "Passed on 23 May 2021". Promote Session 6. Expected: the bill count
+    does not move; bill 303 gains the Reconsideration Stage; **its Stage 3 stays
+    23 March 2021**, because a further appearance never overwrites a stage that
+    is already there; the line is stamped with 303; and each changed cell
+    carries a note naming the Session 6 fact sheet, while `assent_block_route`
+    still carries the Session 5 footnote.
+
+14. **Rollback restores it exactly.** Take Session 6 off. Expected: bill 303
+    comes off with it, the script says to promote Session 5 again, and after
+    promoting Session 5 the bill is identical to what it was before item 13 —
+    every cell, and its three stage records. Compare cell by cell, not by count.
+
+15. **Taking a session off in the wrong order is refused, and says which.** With
+    Session 6 on the clean sheet, try to take Session 5 off. Expected: refused,
+    naming Session 6. Then try to take Session 1 off with Session 2 on the clean
+    sheet. Expected: refused, naming Session 2.
+
+### Part E — nothing else moved
+
+16. **The counts.** 389 bills, 1071 stage records, 112 provenance notes. The
+    error checker and the gaps list are both empty. Provenance was 106 before
+    this change and 112 after, the six being the two block cells on each of the
+    three bills.
+
+17. **Sessions 1 to 5 are as they were**, apart from the five cells this change
+    filled. Take a copy of `bill` and `stage_event` before the change from the
+    commit before `db/080`, and compare row by row.
+
+18. **M6 and M9 read as written.** Read both out in full. M6 gives the test —
+    did the first bill end? — both answers, and the arithmetic: 474 rows, 473
+    counted, 470 distinct bills, and 73, 81, 62, 86, 87, 80, 1 per session
+    against the fact sheets' 73, 81, 62, 86, 87, 82, 2. M9 gives 42, 132, 274
+    and 364 days. Check the four figures in M9 against the database, and the
+    per-session figures in M6 against the fact sheets.
+
+### What this test does not check
+
+- **Anything about Session 6's actual contents.** No Session 6 row has been
+  read in. Item 13's staging line is a fixture built by hand from the fact
+  sheet's printed words, and its Act title and number are invented, because
+  reading them off legislation.gov.uk is part of loading Session 6.
+- **That the European Charter Bill's Act title and number are what we will
+  record.** The Session 6 fact sheet prints neither: it lists the bill in its
+  Acts table under the bill's own title with an SP number. They are to be read
+  from legislation.gov.uk when Session 6 is loaded, as the Period Products and
+  Higher Education Acts' were.
+- **That `s35_order` works on a real bill.** No bill in the database was stopped
+  by a section 35 order. The Gender Recognition Reform Bill is a Session 6 bill
+  and is not loaded.
+- **That `reconsidered_fell` works on a real bill.** No bill has ever done it.
+- **Whether the design is right.** That is the owner's, and was agreed on
+  2026-09-14 before any of it was built.
+
+---
+
 ## Session 5
 
 Written 2026-09-14 by a session that did none of Session 5's work: it did not

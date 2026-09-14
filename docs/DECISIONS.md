@@ -8,6 +8,163 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — Carried-over bills: one bill or two, and what a blocked bill records
+
+**Decided, and built the same day** (`db/080`–`db/085`, and the two promotion
+scripts). Agreed with the owner in full before anything was written, as a change
+to how data is coded must be.
+
+### The test: did the first bill end?
+
+A bill's business crosses a session boundary in two ways, and they are counted
+differently. **If the bill did not end** — it was still live when the session
+closed — there is one bill and two fact sheet rows, and the second row's facts
+land on the bill already there. Four bills. **If it ended** and something was
+introduced afterwards, there are two bills, counted as two. Six pairs.
+
+That test is now in M6, with both answers and the arithmetic: 474 rows printed
+across the seven fact sheets, 473 of them counted in their own totals, 470
+distinct bills, and per session 73, 81, 62, 86, 87, 80 and 1 against the fact
+sheets' own 73, 81, 62, 86, 87, 82 and 2. **M6 is the note every chart of bill
+volumes carries.** The owner's instruction, in their words: "That way people are
+(a) aware of their existence and (b) understand our methodology, whether they
+agree with it or not."
+
+### A blocked bill records how it was blocked and what followed
+
+The owner: *"It is not enough to say passed alone. It is clearly essential that
+users (and us) know that the Bill passed, was blocked and was then withdrawn.
+That's the three elements which all of these cases share."*
+
+`outcome` stays **passed** for all four, because that is what the Parliament did
+with them. `enactment_status` still carries where the bill ended up. What was
+missing was the middle element, and it was genuinely missing: once the European
+Charter Bill becomes an enacted Act, nothing on its row would have said it was
+ever stopped, and the UK Withdrawal (Legal Continuity) Bill has no stopped date
+at all because its footnote gives none.
+
+So **`assent_block_outcome` is the lasting record that a bill was stopped**, and
+says what followed: still blocked, withdrawn, reconsidered and passed, or
+reconsidered and fell. The last has no bill; it is in the list so the next case
+has somewhere to go, and the owner agreed to it on that basis.
+
+**The section 33 / 35 distinction becomes a variable**, and comes off the
+waiting list where it had sat since 2026-09-11 marked "revisit at a fifth".
+There is no fifth. The owner: *"if we can record whether or not it was a s33 or
+s35 we should, because it's of scholarly interest."* It was taken now because
+the block was being given a shape anyway, and because taking it later would mean
+re-reading four footnotes and reopening whichever sessions they sit in. Three
+bills are section 33 references; the Gender Recognition Reform Bill, not yet
+loaded, is the section 35 order.
+
+The footnote that explains the block sits on `assent_block_route`, which no
+later fact sheet changes — so when a further appearance moves `enactment_status`
+from blocked to enacted and rewrites that cell's provenance, the fact sheet's own
+words are not lost with it.
+
+### The Robin Rigg Act, found by the owner
+
+The owner raised it: our rule counts a bill once, in the session it was
+introduced in, "but we do actually have one bill which is NOT handled in that
+way". They were right, and it turned out to be a different problem from the
+other four.
+
+**It is not a counting problem.** Two bills were introduced — Session 1's fell at
+dissolution, Session 2's was reintroduced — and counting two is right. It is a
+**duration** problem. A reintroduced Private Bill does not repeat the scrutiny
+the earlier bill completed, so the Session 2 Act went straight to the Final Stage
+vote and its journey reads **42 days**, against a next-shortest Private Bill of
+132 and a median of 274. The same business took 364 days from the first
+introduction. Its Preliminary and Consideration Stages are the only two rows in
+the database marked as stages that never happened.
+
+Every title that recurs across sessions was checked. Stirling-Alloa-Kincardine
+looks identical — fell 31 March 2003, reintroduced 15 May 2003, the same day as
+Robin Rigg — but it repeated everything, so its 413 days are a true measure.
+Gaelic Language, Long Leases, Register of Tartans and Prostitution Tolerance
+Zones are fresh bills after a gap. **Robin Rigg is the only one.**
+
+The fact was already recorded, in prose, on the bill and on both empty stage
+rows, with the archived bill page cited. **What prose cannot do is reach a
+chart.** So `bill.reintroduced_from_bill_id` now names the earlier bill, a chart
+can be built either way and must say which, and M9 is the note it carries. The
+owner agreed the narrow reading — the cell means *this bill carried the earlier
+one's scrutiny*, one bill, no new research — over the wide one, which would have
+meant establishing six pairs bill by bill from their own pages.
+
+**And one note named the wrong stage.** Both of the Act's empty stage rows
+carried the same sentence, ending "The Session 1 bill's Preliminary Stage was on
+9 January 2003." True on both, right on one: the Consideration row wanted 11
+March 2003, which was already on the clean sheet. Found while setting the cell,
+and mended by the ordinary route. The bill's own note has the same shape of gap —
+it names both stages and gives one date — and was left alone, because it is
+incomplete rather than wrong and mending it was not agreed.
+
+### How a further appearance is recognised, carried and undone
+
+**Recognised** by hand at review, from a named list. The rule that catches
+anything missed is the one that used to misfire: *a line whose introduction date
+falls before its own fact sheet's session began must name the bill it
+continues.* That catches a carried-over row whatever its title does, which
+title-matching cannot — the UNCRC Bill is listed as an Act in Session 6. The old
+title-and-date guard stays as a second net.
+
+**On the wrong-by-one in the docs.** `STATE.md` and `DECISIONS.md` said the
+double-count guard was blind to two bills, the European Charter and the UNCRC.
+On the words the Session 6 fact sheet prints it is blind to one. The European
+Charter's Session 6 row still carries its *Bill* title and its original
+introduction date, so the guard sees it and stops. Only the UNCRC's title
+changes. Read on 2026-09-14 out of the fact sheet itself.
+
+**Carried** by promotion, which now splits in two. A line with the cell empty
+becomes a bill as before. A line with it filled updates **seven cells and no
+others** — title, Act number, enactment status, Royal Assent date, concluding
+date and the two block cells — and adds the stages its bill does not have. It
+never touches the session, the introduction date, the bill type or the note in
+our own words, and **it never overwrites a stage that is already there**: the
+Session 6 fact sheet says the European Charter Bill passed on 23 May 2021, and
+the bill page settled that at 23 March on 2026-09-13.
+
+**Undone** by rollback taking the continued bill off with the session, and
+telling the operator to promote that bill's own session again. No copy of the
+previous values is kept: the bill is written again from its own staging line, by
+the ordinary route. Taking a session off in the wrong order is refused, naming
+what to take off first.
+
+### Two things rehearsal changed
+
+**The two staging cells are not links to the clean sheet, and the one on the
+bill is.** Made a link, taking Session 6 off deadlocked: the Session 6 line
+saying it continues bill 303 prevented bill 303 from being deleted. A staging
+cell holds a proposal, and a proposal must be able to name a bill that is off
+the clean sheet at the moment, because that is the state during a rollback.
+Nothing is lost: the error checker refuses a line naming a bill that is not
+there, and promotion refuses it again at the gate.
+
+**The constraints went on last.** Three bills were recorded as blocked with
+neither cell filled, so any rule tying the two together would have refused the
+database it was added to. The values reached the staging sheet in `db/084` and
+the clean sheet by Session 5 being taken off and put back; `db/085` added the
+rules once the data satisfied them. That is `db/078`'s order.
+
+### What was rehearsed, and what was not
+
+Everything was run inside a transaction that was thrown away before any of it was
+run for real: the six migrations, Sessions 5 and 2 taken off and put back, and a
+Session 6 staging line built by hand from the fact sheet's printed words,
+promoted, rolled back, and the bill compared cell by cell against what it was.
+It came back identical.
+
+**Not rehearsed, because no bill exists to rehearse it on:** the section 35
+route, and a bill reconsidered that fell. Both are recorded in the test as not
+checked.
+
+**None of the rules this session added were marked by it**, which is the rule
+settled on 2026-09-14. They are written up as eighteen items in
+`docs/CLOSURE-TESTS.md` for a session that did not write them.
+
+---
+
 ## 2026-09-14 — Session 5 is closed, and the four-session chain that closed it
 
 **Decided:** Session 5 is closed. Its 87 bills, 243 stage dates and the
