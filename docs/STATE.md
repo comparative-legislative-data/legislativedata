@@ -46,41 +46,38 @@ review is the next thing, and it waits on your word.
   by a session that built none of it, and the gaps list taught what the error
   checker had been taught. Then the four items on that, answered too, with
   nothing written to the database.
+- **14 September, later still.** Both prose factsheets read end to end against
+  their own grammar, with nothing left over: 83 entries in Session 6 and 2 in
+  Session 7. How a bill was handled became a variable, with a date beside it and
+  M10 to tell a reader it is five bills. Session 6's own summary table was found
+  to have two cells wrong and its margins right, and five titles printed wrongly.
+- **14 September, the previous session.** The prose reader built and both
+  documents read clean, and, on your agreement, a stage record given the day the
+  bill reached the stage as well as the day it ended (`db/088`) — two bills have
+  one, the UNCRC and European Charter Bills, both taken back by the Parliament
+  after the Supreme Court stopped them, and M11 says so to a reader.
 
-**14 September, the previous session.** Both prose factsheets read end to end
-against their own grammar, with nothing left over: 83 entries in Session 6 and 2
-in Session 7. How a bill was handled became a variable, with a date beside it and
-M10 to tell a reader it is five bills. Session 6's own summary table was found to
-have two cells wrong and its margins right, and four titles printed wrongly.
+**14 September, this session. The fifteen unrun checks are run, and they pass.**
 
-**14 September, this session. The prose reader is built, and a stage record can
-say when the bill reached the stage.**
-
-- **The seven checks on `db/087` were run** by a session that built none of it,
-  and all seven came out as expected. Nothing was written.
-- **The reader is built and reads both documents clean.** It works on reflowed
-  text, so a sentence printed across two lines is read rather than swallowed into
-  the next bill's title, and it requires every character of both documents to
-  land somewhere. 83 entries and 2, which is M6's arithmetic exactly. Both were
-  put through the loader with the save switch off: 83 bills and 71 dates for
-  Session 6, 2 and 1 for Session 7, all checks passed, everything thrown away.
-- **Counting the entries confirms the two wrong cells.** Bills awaiting Royal
-  Assent are 6 Government and 2 Member's where the factsheet prints 5 and 3;
-  Acts are 55 and 5 where it prints 56 and 4. The margins agree.
-- **A fifth wrongly printed thing, which reading by eye had missed.** The Dog
-  Theft (Scotland) Act 2025 (asp 2) received Royal Assent on 10 February 2026,
-  and every other 2026 Act in the document carries 2026 in its title. The error
-  checker raises it. legislation.gov.uk settles it at review, as it settles the
-  European Charter's Act title and number.
-- **On your agreement, a stage record now holds the day the bill reached the
-  stage** as well as the day the stage ended (`db/088`). Two bills have one: the
-  UNCRC Bill and the European Charter Bill, both taken back by the Parliament
-  after the Supreme Court stopped them. Empty everywhere else, and never worked
-  out from the stage before. M11 says so to a reader. Nothing on the clean sheet
-  moved: 389 bills, 1071 stage records, 112 provenance notes, before and after.
-- Also settled and built: a bill still before the Parliament is "awaiting an
-  Act" too, and the reconciliation display counts the bill's type rather than a
-  letter the prose factsheets never print.
+- **The seven on `db/088` and the eight on the reader**, both run by a session
+  that built neither. **All fifteen came out as expected**, and nothing was
+  written: 389 bills, 1071 stage records and 112 provenance notes before and
+  after, error checker and gaps list empty before and after.
+- **The check that matters most passed cleanly.** Both views as they stood
+  before `db/088` were rebuilt beside the live ones and compared as text, not by
+  counting lines. **Nothing was lost from either**: the error checker gained
+  exactly its three new checks, the gaps list exactly its one new question.
+- **Promotion carries the new cell, and putting the session back undoes it.**
+  Against a fixture, bill 303 gained its Reconsideration Stage reading 4 February
+  and 3 March 2026, kept its Stage 3, and got a provenance note behind each of
+  the five changed cells. Taking Session 6 off again and putting Session 5 back
+  returned every count and every cell exactly.
+- **Six small things the tests did not say**, all written into
+  `docs/CLOSURE-TESTS.md` beside the item they belong to, none of them a fault in
+  what was built. The two worth your eye: taking Session 6 off needs Session 5
+  put back after it, because bill 303 belongs to Session 5 and comes off with it,
+  and one refusal on the clean sheet cannot fire for a Member's Bill because an
+  older rule refuses first — it would take a Private Bill to exercise it.
 
 ## Now: put Sessions 6 and 7 on the staging sheet, and your review
 
@@ -104,8 +101,9 @@ than the reader's:
 - **The Gender Recognition Reform Bill** needs to say how it was stopped and what
   followed, in both sessions.
 
-Nothing is loaded until you have been through them, and `db/088`'s seven checks
-and the reader's eight are run by a session that built neither.
+Nothing is loaded until you have been through them. Everything that had to be
+checked first has been: `db/088`'s seven and the reader's eight were run this
+session by a session that built neither, and all fifteen passed.
 
 **Yours whenever you want it, and nothing waits on it:** your write-up on what
 the charts present and the options they offer.
@@ -169,72 +167,73 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-14, sixteenth session of the day
+## Sanity check, 2026-09-14, seventeenth session of the day
 
-**Everything matched, and one thing was open that `STATE.md` did not say.** 389
+**Everything matched, and nothing was open that `STATE.md` did not say.** 389
 bills, 1071 stage records, 112 provenance notes, 73/81/62/86/87 by session; error
 checker empty, gaps list empty; the data dictionary regenerating identical to the
-committed file; nothing uncommitted and nothing unpushed. **What was open:** the
-seven-item test for `db/087`, written by the session that built it and not run.
-It was proposed to the owner and run first.
+committed file; nothing uncommitted and nothing unpushed. The two written-and-unrun
+tests — `db/088`'s seven and the reader's eight — were both named at the top of
+`STATE.md` as this session's work, which is what the opening check asks for.
 
-**Old working files are sitting in `/tmp` on the server** — `cols.sql`,
-`look.sql`, `sanity.sql`, `reh/`, `reh.tgz` — left by earlier sessions. Nothing
-is inside the database and nothing depends on them. This session removed only
-what it put there itself.
+**Old working files are still sitting in `/tmp` on the server** — `cols.sql`,
+`look.sql`, `sanity.sql`, `reh.tgz` — left by earlier sessions. Nothing is inside
+the database and nothing depends on them. This session removed everything it put
+there itself and left no view or table behind.
 
 ## What the previous session did
 
-Read the Session 6 and 7 fact sheets end to end and built `db/087`, which makes
-procedure a variable. It wrote the seven-item test for that change and,
-correctly, did not run it.
+Built `tools/read_prose_factsheet.py` and `db/088`, wrote the tests for both and,
+correctly, ran neither.
 
 ## What this session did
 
-**Ran the seven items on `db/087`.** All as expected; every answer is in
-`docs/CLOSURE-TESTS.md`. The first item had to be done differently from the way
-it is written, because `db/087` was already applied and "the definition before"
-no longer existed: the two views as `db/082` and `db/086` left them were built
-beside the live ones under other names, inside a transaction that was thrown
-away, and all four texts read back out of the database and compared as text.
+**Ran all fifteen unrun items**, having built none of what they test, and wrote
+nothing: 389 bills, 1071 stage records and 112 provenance notes before and after,
+error checker and gaps list empty before and after, and no `_087` view or fixture
+row left behind. Every answer is in `docs/CLOSURE-TESTS.md` beside its item.
 
-**Built `tools/read_prose_factsheet.py`.** Three things are worth knowing if it
-ever has to be changed:
+**How the view comparison was done**, since it is the item that matters most and
+will have to be done again. `db/088` was already applied, so "the definition
+before" no longer existed in the database. The two view blocks were cut out of
+`db/087`'s text, renamed `v_candidate_problems_087` and `v_stage_date_gaps_087`,
+and created beside the live ones inside a transaction that was rolled back; all
+four definitions were then read back with `pg_get_viewdef(..., true)` and diffed
+as text. **Zero deleted lines in both diffs.** Reading them back out of the
+database rather than diffing the migration files is the point: it normalises both
+sides through the same printer, so a reformat cannot look like a loss and a loss
+cannot hide in a reformat.
 
-- **It works on reflowed text, not on printed lines.** The rename sentence wraps
-  across two lines in both places it appears, and a line-by-line reader swallows
-  it into the next bill's title in silence.
-- **A heading is matched only as a complete printed line.** The cover page
-  describes the sections in a sentence — "bills which have received Royal Assent
-  and become Acts of the Scottish Parliament" — and three headings appear inside
-  it. Matching a heading anywhere in the text puts the cover's own prose into the
-  first bill's title, which is exactly what happened on the first run.
-- **Nothing may be left over.** The reader puts its own pieces back together and
-  compares them with the body they came from. That is what would catch SPICe
-  printing a shape the grammar does not have.
+**Six things the tests did not say.** All are written up in `CLOSURE-TESTS.md`;
+these are the ones with consequences beyond their own item:
 
-**Built `db/088`**, agreed with the owner in full beforehand, and rehearsed whole
-inside transactions that were thrown away:
+- **Taking a session off can need two steps.** Taking Session 6 off alone gave
+  388 bills, 1068 stage records and 108 provenance notes, because bill 303 is a
+  Session 5 bill that Session 6 added to and comes off with it.
+  `rollback_promotion.sql` says so in its own output and tells you to promote
+  Session 5 again, in that order; doing so returned 389/1071/112 and every cell
+  of bill 303 exactly. Any test or runbook step that says "take the session off
+  and the counts return" must say both steps where a continued bill is involved.
+- **`stage_event_a_stage_that_did_not_happen_was_not_reached` cannot fire for a
+  public bill.** The older rule that only a Private Bill may skip a stage refuses
+  first. The CHECK is right and is currently unexercised; exercising it needs a
+  Private Bill fixture.
+- **A fixture must fill `bill_type_stated`.** The `db/088` fixture as written
+  omits it and the error checker rightly complains. This is the same trap the
+  previous session recorded: a fixture has to be consistent in every cell the
+  checker reads, not only the cells the item is about.
+- **Two true numbers for Session 6's stage dates.** The loader writes them in two
+  goes — 69 Stage 3 rows and 2 Reconsideration rows. A test saying "69" and a
+  note saying "71" are both right, about different things.
+- **The Legal Continuity Bill draws a complaint the reader's test does not list**
+  — *final stage completed, but the outcome is not passed* — because its Session
+  6 line is the bill's second appearance. A question for review, not a fault.
 
-- The two views were rebuilt from `db/087`'s text and **diffed as text against
-  the running ones**, never compared by counting lines. Both diffs are exactly
-  the intended additions.
-- All three new refusals, the gaps-list branch, the clean sheet's two CHECKs and
-  a real promotion were run against a fixture. The promotion put a Reconsideration
-  Stage record on bill 303 reading 2026-02-04 and 2026-03-03, left its Stage 3
-  record at 2021-03-23 — promotion does not overwrite a stage the bill already
-  has — and wrote a provenance note behind each of the five changed cells.
-- Both CSVs were then loaded through the changed loader, with the save switch
-  off, and both rolled back.
-
-**What the rehearsals cost in connections:** five, batched. The SSH rate limit
-bit twice, both times after a run of quick calls, and cleared in half a minute.
-
-**One trap for whoever writes the Session 6 ingest test.** A fixture has to be
-consistent in every cell the error checker reads, not only in the cells the item
-is about: a line given another bill's introduction date while its raw words still
-read the original is a date that disagrees with its own fact sheet, and the
-checker says so. That is a complaint about the fixture, not a finding.
+**What the run cost in connections:** about a dozen, and the SSH rate limit bit
+once. Two habits that saved several: send every script as one bundle and run the
+whole file with `psql -f`, and write `\o` output to a world-writable directory,
+because `psql` runs as `postgres` and cannot write into a directory owned by the
+login account.
 
 ## The owner's standing positions, so they are not re-argued
 

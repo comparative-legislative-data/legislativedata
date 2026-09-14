@@ -266,6 +266,19 @@ wrong on the staging sheet and promote again: all three are written afresh.
 (Until 11 September the provenance notes could not be removed; see
 `DECISIONS.md`, "Provenance notes are rebuilt with their bill".)
 
+**A session that added to an earlier session's bill comes off in two steps, and
+the script tells you so.** Where a line named a bill already on the clean sheet
+in `continues_bill_id`, that bill belongs to the earlier session and there is no
+copy of what its cells were before, deliberately. So it comes off too, and the
+earlier session has to be promoted again to put it back — `rollback_promotion.sql`
+prints which session and how many lines, and stops there, because promotion is a
+separate rehearsal with its own things to look at. Until you have run it, the
+counts will be **lower than they started**, and that is not a fault. Rehearsed on
+2026-09-14 against a Session 6 fixture: taking Session 6 off gave 388 bills, 1068
+stage records and 108 provenance notes; promoting Session 5 again returned 389,
+1071 and 112, and every cell of the bill. Sessions 6 and 7 are the first with
+such lines, four of them.
+
 ---
 
 ## What happened the first time this was run

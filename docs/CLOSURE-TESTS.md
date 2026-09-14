@@ -37,6 +37,75 @@ run it. **Seven items, all mechanical.** Nothing here needs the owner, and
 nothing here writes to the database: everything runs inside a transaction that
 is thrown away.
 
+**Run on 2026-09-14** by a further session, which built none of `db/088` and
+wrote nothing to the database: the counts were 389 bills, 1071 stage records and
+112 provenance notes before and after, the error checker and the gaps list were
+empty before and after, and no view or table was left behind on the server.
+**All seven items as expected.** Four things came up while running them that the
+test as written does not cover, and none of them is a fault in `db/088`:
+
+- **Item 2's fixture is described short.** As the fixture is written out above it
+  leaves `bill_type_stated` empty, and the error checker rightly says
+  *bill_type_stated not proposed*. Filled with `members`, which is what the
+  reader writes for this line, the checker says nothing at all and the gaps list
+  is empty, which is what the item asks. The fixture needs that cell.
+- **Item 5's complaint arrives among six, not alone.** The `db/088` one —
+  *marked as a stage that did not happen, but reached on 2026-02-04* — is there,
+  and the other five are `db/039`'s rules about a stage that did not happen,
+  which the item says are not findings about `db/088`.
+- **Item 7's second refusal could not be reached.** The clean sheet does refuse a
+  day reached after the stage ended, by `stage_event_reached_before_it_ended`,
+  exactly as the item says. But `stage_event_a_stage_that_did_not_happen_was_not_reached`
+  never fires for this bill: an older rule refuses first, because only a Private
+  Bill may skip a stage. The refusal exists and is unexercised, and exercising it
+  needs a Private Bill.
+- **Item 7's last sentence names one step where the scripts require two.**
+  Taking Session 6 off on its own gives 388 bills, 1068 stage records and 108
+  provenance notes, not 389, 1071 and 112 — because bill 303 is a Session 5 bill
+  that Session 6 added to, so it comes off with Session 6. This is
+  `rollback_promotion.sql` working as its own header says it does, and it prints
+  *Session 5 also came off ... Promote Session 5 again as well, and in that
+  order.* Doing that returns the counts to 389, 1071 and 112 exactly, and bill
+  303 to the Bill title, `blocked`, `still_blocked`, no Royal Assent date and
+  its three stage records. The expectation should say both steps.
+
+**What each item gave.**
+
+1. **The rebuilt views lost nothing.** Both views as `db/087` left them were
+   built beside the live ones under other names inside a transaction that was
+   thrown away, all four definitions read back out of the database, and the two
+   pairs compared as text rather than by counting lines. **Nothing was removed
+   from either: zero deleted lines in both diffs.** The error checker gains
+   exactly the three new checks; the gaps list gains exactly the one new branch,
+   *the Reconsideration Stage has a day it ended and nothing says when the
+   Parliament agreed to it*. `date_reached` appears once in each rebuilt
+   definition and only in the stage-rows CTE, which is how the new checks can see
+   it at all.
+2. **Nothing was said about a complete line.** No complaint about the fixture, no
+   complaint anywhere else in the database, and an empty gaps list.
+3. **A day reached after the stage ended.** Exactly one complaint, word for word:
+   *Reconsideration Stage, from spice_factsheet_legislation: reached on
+   2026-03-04, after it ended on 2026-03-03*.
+4. **A day reached before the bill existed.** Exactly one complaint:
+   *Reconsideration Stage, from spice_factsheet_legislation: reached on
+   2020-05-04, before the bill was introduced on 2020-05-05*.
+5. **A day reached on a stage that never happened.** The complaint is there, with
+   `db/039`'s five beside it as above.
+6. **A missing day reached.** The error checker says nothing. The gaps list
+   carries one entry in the whole database — line 390, position 4,
+   reconsideration, with the wording above. Putting the day back empties it. No
+   Stage 1, 2 or 3 row anywhere is asked for a day reached.
+7. **Refused on the clean sheet, carried by promotion.** The refusal is
+   `stage_event_reached_before_it_ended`, and the same row with the days the
+   right way round is accepted. Promoting Session 6 with the fixture whole and
+   the error checker empty gave bill 303 a Reconsideration Stage record reading
+   2026-02-04 and 2026-03-03, cited to the Session 6 fact sheet retrieved
+   2026-09-10; its Stage 3 still read 2021-03-23, cited to Session 5; the bill
+   read the Act title, `2026 asp 10`, `enacted`, 2026-04-15 and
+   `reconsidered_passed`, with a provenance note cited to Session 6 behind each
+   of the five changed cells; and the counts were 389 bills, 1072 stage records
+   and 115 provenance notes.
+
 `db/088` adds `date_reached` to both stage sheets, because the Session 6 fact
 sheet gives two bills a Reconsideration Stage and prints two days for it — the
 day the Parliament agreed to reconsider the bill and the day it approved it.
@@ -130,6 +199,37 @@ Written 2026-09-14 by the session that built `tools/read_prose_factsheet.py`,
 which may therefore not run it. **Eight items, all mechanical.** Nothing here
 needs the owner, and nothing here writes to the database: the two load
 rehearsals are run with `-v save=false`.
+
+**Run on 2026-09-14** by a further session, which built none of the reader and
+wrote nothing to the database: 389 bills, 1071 stage records and 112 provenance
+notes before and after, and both load rehearsals rolled back. **All eight items
+as expected.** Two notes, neither a fault in the reader:
+
+- **Item 7's "69 stage-dates rows" is one of two numbers, and `STATE.md`'s "71"
+  is the other.** The loader writes Session 6's stage dates in two goes: 69
+  Stage 3 rows and 2 Reconsideration rows, 71 in all. Both figures are right
+  about different things, and the item means the first.
+- **One of item 8's nineteen is of a kind the item does not list.** The Legal
+  Continuity Bill's Session 6 line draws *Stage 3, from
+  spice_factsheet_legislation: final stage completed, but the outcome is not
+  passed*, alongside the *introduced before the session began* the item does
+  name. It is still a question for the owner rather than a fault in the reader —
+  it is the same bill appearing a second time, and where its Stage 3 and its
+  outcome belong is settled at review — but the item's list should name it.
+
+**What each item gave.** 1: 83 rows and 2, with an empty `problems` list both
+times. 2: 8 awaiting Royal Assent, 10 fallen, 4 withdrawn, 1 in the Session 5
+section, 60 Acts; and 1 in progress, 1 awaiting Royal Assent. 3: awaiting Royal
+Assent 6 Government and 2 Member's against the summary table's 5 and 3; Acts 55
+and 5 against 56 and 4; fallen 0 and 10, withdrawn 1 and 3, the Session 5 bill
+Government, all as printed; margins 62 and 20, total 82. 4: both wrapped
+sentences read — the Care Reform Act as the National Care Service Bill, and the
+Recall of Members Bill as the Recall and Removal of Members Bill. 5: exactly five
+emergency bills, each with the date the fact sheet states. 6: both `Bill Act`
+titles still whole in `raw_title` and mended in `short_title` with a note saying
+so, and the European Charter row `sp_bill_id` 70 with its note, the Bill title
+and no asp number. 7: "All checks passed" both times, 83 lines and 2, and both
+rolled back. 8: 19 problems and 3, as above.
 
 The reader turns the Session 6 and 7 fact sheets, which are prose, into the same
 CSV the ruled-table reader writes for Sessions 1 to 5, so that
