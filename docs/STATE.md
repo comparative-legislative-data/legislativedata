@@ -35,40 +35,38 @@ Four of the seven sessions are finished and closed.
   Session 4 read in, admitted and promoted.
 - **14 September, earlier.** Session 4 closed on all nine of your sign-offs;
   what we record for a bill that has passed and has no Royal Assent yet, settled
-  and built; then Session 5 read in and reviewed, three of its seven "fallen"
-  bills turning out to be rejections at Stage 1 and three dates adjudicated
-  between the fact sheet and your dataset.
+  and built; Session 5 read in and reviewed; then all 162 rows the gaps list was
+  waiting for filled — 153 from your dataset, 9 from the Parliament's bill pages
+  — with six bills that did not pass given the stage they stopped at, the
+  Domestic Abuse Act's two dates taken from its own bill page, and a month typed
+  wrong in your dataset caught by the rehearsal and corrected.
 
-**14 September, this session. Session 5's stage dates loaded.**
+**14 September, this session. Last session's three pieces of work marked, and
+nothing changed.**
 
-- **All 162 rows the gaps list was waiting for are now filled** — 153 from your
-  dataset, 9 from the Parliament's bill pages — and the gaps list is empty.
-  Nothing has reached the clean sheet.
-- **Six bills that did not pass had nothing saying where they ended**, which
-  stopped the whole session's dates. All six stopped at Stage 1 without
-  completing it — their pages each say so in the same words — so each now carries
-  the same kind of row the other 21 bills that fell or were withdrawn already
-  have: the stage it stopped at, and no date, because there was no decision.
-- **The Domestic Abuse (Protection) Act's two dates came from its own bill
-  page**, since your dataset has no row for it: Stage 1 on 28 January 2021 and
-  Stage 2 on 23 February 2021. The same page agrees with the fact sheet on
-  everything else it gives.
-- **The rehearsal caught a month typed wrong in your dataset.** The Civil
-  Partnership Act's Stage 2 was dated 11 February 2020, three months before its
-  own Stage 1. The bill page gives 11 June 2020 and agrees with you on Stage 1.
-  Settled at the bill page, and **your working file is corrected**, with the
-  Corrections sheet carrying it.
-- **Nothing has compared Session 5's stage dates against the Parliament's bill
-  pages.** The checker caught that one because the dates were in an impossible
-  order; a wrong date in the right order would pass it. That check is 87 pages
-  and its own piece of work, and it is not scoped.
+- **All three pass.** The six endings, the Domestic Abuse Act's two dates and
+  the Civil Partnership Act's Stage 2 were checked against the Parliament's
+  pages directly rather than against what the migrations said about them. Every
+  quotation is word for word, and every surrounding date the pages give agrees
+  with what was already on the line.
+- **Session 5's 153 dates were rebuilt from your corrected dataset** and compared
+  against the 153 now in the database: same rows, no cell different anywhere.
+  Your working file's fingerprint before the correction matches what was
+  recorded, and row 360 now reads 11 June.
+- **The reader gives byte-identical output for Sessions 1 to 4** before and
+  after the change — 134, 141, 109 and 159 rows — and all three ways its new
+  check can refuse fire, naming the line each time.
+- **One line in the record, not a job.** The reader's new check looks for
+  Stages 1 and 2 on a bill absent from your dataset but not Stage 3. It does not
+  bite: a missing Stage 3 shows on the gaps list anyway.
 
 ## Now: your review of Session 5, then promotion
 
 Nothing is owed before it and nothing is half-built. The 87 lines and their 243
 stage rows are waiting in Postico as `new`, with every machine check clean: the
-error checker empty, the gaps list empty, and all 87 lines compared against your
-dataset.
+error checker empty, the gaps list empty, all 87 lines compared against your
+dataset, and the work that put the dates there marked by a session that did not
+do it.
 
 One thing, and it is yours: **read them, and mark each accepted.** Promotion
 refuses to run while anything is still `new`. The steps are in
@@ -137,91 +135,75 @@ orient, and none of it belongs above the line.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
 
-## Sanity check, 2026-09-14, fifth session of the day
+## Sanity check, 2026-09-14, sixth session of the day
 
 **At opening, everything matched.** 302 bills on the clean sheet — 73, 81, 62 and
 86 — 828 stage records, 86 provenance notes, 8 methodology notes with M5 at 2331
-characters, 389 staging lines and 909 staging stage rows, the error checker
-empty, the gaps list at 162, the data dictionary regenerating identical to the
-committed file at 17 tables and 162 columns, nothing uncommitted and nothing
-unpushed.
+characters, 389 staging lines and 1071 staging stage rows of which Session 5 has
+243, all still `new`. Error checker empty, gaps list empty, data dictionary
+regenerating identical to the committed file at 17 tables and 162 columns,
+nothing uncommitted and nothing unpushed.
 
-**One thing carried over and still not blocking anything.** `db/066` has the same
+**Two things carried over, neither blocking anything.** `db/066` has the same
 filename as `db/063`, `session_4_review.sql`, although one is the review and the
-other the admission. Recorded for the eighth time; nothing depends on it.
-
-**One thing this session noticed and did not act on.** The runbook's log of what
-happened records Sessions 1, 2 and 3's stage dates but not Session 4's, which
-were loaded on 13 September. Session 5's is written up below. Nothing depends on
-it; it is a gap in the record, not in the data.
+other the admission; recorded for the ninth time. And the runbook's log of what
+happened records Sessions 1, 2, 3 and 5's stage dates but not Session 4's, which
+were loaded on 13 September. Both are gaps in the record, not in the data.
 
 ## What this session did
 
-**Session 5's stage dates loaded in full.** See `DECISIONS.md`, 2026-09-14, for
-the six endings, the Domestic Abuse Act's two dates and the month typed wrong.
+**Marked the three pieces of work `db/075`, `db/076` and the change to
+`tools/phd_stage_dates.py`, which the session before this one built and left
+unmarked. Nothing was changed by the marking.** All three pass.
 
-**Why it took two migrations before the loader could run.** `db/075` first,
-because `tools/phd_stage_dates.py` refuses a session containing a bill that
-ended before Stage 3 with nothing saying where — and Session 5 had six. It
-would have refused all 87 lines for those six. Their bill pages were read: all
-six say the bill "fell on" a date under Stage 1 with "Stage 2 has not been
-reached yet" below, so all six stopped at Stage 1 without completing it, and
-none has a decision behind it. The same migration carries the Domestic Abuse
-Act's Stage 1 and Stage 2 from its own bill page, that bill having no row in the
-dataset at all.
+**The sources were read, not the migrations' account of them.** All eight bill
+pages `db/075` and `db/076` cite were fetched and read here. Every quotation in
+the two migrations appears on its page word for word, including the two
+withdrawn bills, 313 and 314, whose pages read "fell on 19 September 2019" and
+"fell on 22 December 2020" with "Stage 2 has not been reached yet" below —
+the migration's claim that all six pages say the same thing in the same words
+holds. The Fair Rents page does contradict itself, 4 May in its status line and
+5 May below, exactly as recorded; no date sits on a row of that kind, so nothing
+turns on it. For the two dated claims, every surrounding date the page gives
+agrees with what the fact sheet had already put on the line: the Domestic Abuse
+Act at introduction 2 October 2020, Stage 3 17 March 2021, Royal Assent 5 May
+2021; the Civil Partnership Act at introduction 30 September 2019, Stage 1
+19 May 2020, Stage 3 23 June 2020, Royal Assent 28 July 2020.
 
-**Where the rehearsal earned its keep, which is the useful part.** The first
-rehearsed load refused: the dataset dates the Civil Partnership Act's Stage 2 at
-11 February 2020 and its Stage 1 at 19 May 2020. The bill page gives 11 June —
-the day right, the month wrong — and agrees with the dataset on Stage 1 and with
-the fact sheet on everything else. `db/076` settled it at the bill page **before**
-the working file was corrected, so the record that the two disagreed survives the
-file being put right. Nothing was saved by the refused run.
+**The rows are in the database as described.** The six carry stage_1, not
+completed, fell here, no date, cited to their own bill pages at 2026-09-14. Line
+339 carries Stage 1 at 28 January 2021 and Stage 2 at 23 February 2021 from its
+bill page, with Stage 3 still from the fact sheet. Line 329 carries Stage 2 at
+11 June 2020 from its bill page, with Stage 1 from the dataset and Stage 3 from
+the fact sheet.
 
-**Built, in this order.**
+**Session 5's 153 dates rebuilt and compared cell by cell.** The reader was run
+again against the corrected working file and its 153 rows compared against the
+153 the database holds from the dataset for Session 5: the same 153 line-and-
+stage pairs, and no difference in any date, completed flag, fell-here flag,
+source or citation. The file's fingerprint is 072184df…, and the Corrections
+sheet records 4110d58f… as the fingerprint before the change, which is what was
+recorded at the time.
 
-- `db/075`: six endings and two dates, all from the Parliament's bill pages.
-  Nothing new in it — no column, no value, no rule.
-- `tools/phd_stage_dates.py`: `READ_ON` gains Session 5 at 14 September, the date
-  the corrected dataset was read; and a new `NOT_IN_DATASET` list names a line
-  the dataset has no row for, with a check that the sheet already holds what the
-  script would otherwise have written.
-- `db/076`: the Civil Partnership Act's Stage 2, and what the dataset said.
-- `sources/phd/Billdates-September2026.xlsx`: row 360's Stage 2 corrected, the
-  Corrections sheet carrying it and the fingerprint before the change.
-  4110d58f… became 072184df…. A copy of the file before the change is not kept;
-  the file still exists on this machine only.
-- `tools/load_phd_stage_dates.sql` with the reader's 153 rows: rehearsed, looked
-  at, saved.
+**The reader's change does not disturb what was already loaded.** The version
+before the change and the version after were both run against Sessions 1, 2, 3
+and 4 and their output compared byte for byte: identical, at 134, 141, 109 and
+159 rows. Its new refusals were each provoked rather than assumed, by driving
+`match()` with the real staging lines and dataset and then breaking one thing at
+a time: line 339 not named as absent is refused as having no row in the dataset;
+named as absent with nothing held for it from another source is refused by name;
+named as absent with only Stage 1 held is refused by name, and the message says
+which stage is short.
 
-**Tested rather than assumed.** Both migrations were rehearsed inside a rollback
-first. `db/075` refuses a line whose title does not match, a line from another
-session, a bill that passed, a line that already says where it ended, a line
-holding a stage the bill never reached, and two dates that do not run
-introduction to Royal Assent in order. `db/076` refuses a Stage 2 row already
-present and a date outside the bill's own life, naming the date it was given.
-The reader refuses a line absent from the dataset that is not named, and a named
-line the sheet holds no dates for — both planted and both refused by name.
-Sessions 1 to 4 give byte-identical output from the reader before and after.
+**One weakness found, and it does not bite.** The new check looks for Stages 1
+and 2 on a line named as absent from the dataset, but not Stage 3, so a future
+absent bill whose fact sheet gave no Stage 3 date could be excused into a gap
+there. It cannot pass unnoticed: `v_stage_date_gaps` expects all three stages of
+a bill that passed, so the gap would show on the gaps list. Recorded rather than
+built, there being one line named and its Stage 3 present.
 
-**Safety copies.** `/var/tmp/legdata-before-s5-dates_2026-09-14.dump` on the
-server and `copy_before_s5_dates` in the database, taken before the load and
-compared against it afterwards: 154 rows added — the reader's 153 and `db/076`'s
-one — no cell changed anywhere, nothing removed, and the clean sheet untouched.
-The copy was dropped afterwards. `db/075` was applied before the copy was taken;
-its eight rows were checked directly instead, and are the only Session 5 rows
-citing a bill page.
-
-**After the session.** 302 bills, 828 stage records, 86 provenance notes, 8
-methodology notes — the clean sheet untouched. 389 staging lines and 1071 staging
-stage rows, of which Session 5 has 243, all waiting for review. Error checker
-empty, gaps list empty. Data dictionary regenerating identical at 17 tables and
-162 columns.
-
-**Not marked by this session.** `db/075`, `db/076` and the change to
-`tools/phd_stage_dates.py` were built here. Whether they are right is for a
-session that did not build them.
-
+**Not marked by this session.** Nothing was built here, so nothing is waiting to
+be marked.
 
 ## The owner's standing positions, so they are not re-argued
 
