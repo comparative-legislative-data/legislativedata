@@ -8,6 +8,50 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — The gaps list is told what the error checker was told
+
+**Decided, and built the same day** (`db/086`). Found by running the closure
+test on `db/080`–`db/085`, not by anything the test asked about.
+
+`db/081` made a factsheet row that is a further appearance of a bill already on
+the clean sheet land on that bill, and `db/082` rebuilt the error checker so it
+reads such a row correctly. **The gaps list was left behind.** It asks every line
+that passed for all three of its stages, so the European Charter Bill's Session 6
+line would have been listed as missing its Stage 1 and Stage 2 dates. They are on
+the bill, from Session 5. Four bills would have done it — the two reconsidered
+Acts, the Legal Continuity Bill, and the Gender Recognition Reform Bill when
+Session 7 arrives — on the list the owner opens at the end of a promotion to see
+what the session went in without.
+
+**The rule:** a stage is not missing from a line that continues an earlier bill
+if the bill it continues already has that stage, either with a date or marked as
+one that never happened. The same shape as the rule `db/039` added for a stage a
+bill never had.
+
+**The alternative, rejected:** leave continuing lines off the gaps list
+altogether. A line that genuinely arrived with no stage dates at all would then
+show nothing, and the gaps list exists to catch exactly that. The rehearsal
+proved the distinction: with bill 303's Stage 2 date taken off inside a
+transaction that was thrown away, the Session 6 line was asked for Stage 2 and
+for nothing else.
+
+**Nothing is recorded differently.** No cell, no value, no dropdown list, nothing
+new on either sheet, nothing for promotion to carry, no provenance, and no
+methodology note, because no reader ever sees the gaps list. The error checker is
+untouched. Two descriptions gained a sentence:
+`HOW-THE-DATABASE-WORKS.md` on the gaps list, and the promotion runbook's step 1.
+
+**Why it was taken now rather than left on the list.** Nothing on the clean sheet
+moves and the list was empty before and after, because the first row that would
+trip it does not exist yet. Taking it later would mean taking it with four false
+entries already sitting in front of the owner, in the middle of loading Session
+6, which is the worst moment to be deciding whether a list is lying.
+
+**Not marked by the session that built it.** Four items are in
+`CLOSURE-TESTS.md` for the next session.
+
+---
+
 ## 2026-09-14 — Carried-over bills: one bill or two, and what a blocked bill records
 
 **Decided, and built the same day** (`db/080`–`db/085`, and the two promotion

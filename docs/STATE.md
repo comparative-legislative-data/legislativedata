@@ -35,47 +35,43 @@ Sessions 6 and 7**, and the one job that had to come before them is now done.
   to 4 read in, admitted and promoted, your dates loaded, and how time is
   counted settled.
 - **14 September, through the day.** Session 4 closed. Session 5 read in,
-  reviewed, admitted and promoted on your sign-off, its totals reconciling with
-  the factsheet in every cell; then its closure test written, run, and the two
-  things it predicted would fail, mended. Eight provenance notes that ended
-  mid-sentence found and mended. **Session 5 closed** on all thirty-two
-  mechanical items and all nine of your sign-offs.
+  reviewed, admitted, promoted on your sign-off and **closed** on all thirty-two
+  items and all nine of your sign-offs. Then the job that had to come before
+  Session 6: a second appearance of a bill lands on the bill already there; a
+  bill stopped before Royal Assent records how and what followed; the Robin Rigg
+  Act says whose scrutiny it carried; and M6 and M9 say all of it to a reader.
 
-**14 September, this session. Carried-over bills, and what a blocked bill
-records.**
+**14 September, this session. The eighteen items answered, and one thing they
+turned up.**
 
-- **The job that had to come before Session 6 is built, rehearsed and applied.**
-  A factsheet row that is a further appearance of a bill already on the clean
-  sheet now lands on that bill instead of making a second one. Four bills do
-  that; three of them are Session 5 bills, and their second appearance is in
-  Session 6.
-- **A bill stopped before Royal Assent now records how and what followed.** You
-  were right that "passed" alone loses it. Two new cells say which mechanism
-  stopped it — a section 33 reference or a section 35 order, which is now a
-  variable — and what came next: still blocked, withdrawn, reconsidered and
-  passed, or reconsidered and fell. Once the European Charter Bill becomes an
-  Act, those cells are the only thing that will still say it was ever stopped.
-- **The Robin Rigg Act now says whose scrutiny it carried**, which you spotted.
-  It is not a counting problem — two bills were introduced and two are counted —
-  it is a duration one: its journey reads 42 days against a next-shortest
-  Private Bill of 132, because eleven of its twelve months happened to the
-  Session 1 bill. A chart can now be built either way and must say which. It is
-  the only such bill; every recurring title was checked.
-- **Two notes a reader sees.** M6 now gives the test anyone can apply — did the
-  first bill end? — both answers, and our per-session figures beside the
-  factsheets' own. It is the note every chart of bill volumes carries. M9 is
-  new, and covers reintroduction. And one of the Robin Rigg Act's stage notes
-  gave the wrong stage's date; mended.
-- **Nothing else moved.** 389 bills and 1071 stage records, before and after.
-  Provenance is 106 to 112, being the two new cells on each of three bills. The
-  error checker and the gaps list are empty.
+- **All eighteen answered as expected**, by a session that built none of it and
+  wrote nothing to the database in order to be able to answer them. Every fault
+  was planted inside a transaction that was thrown away. The full run is in
+  `docs/CLOSURE-TESTS.md`. In particular a second appearance behaves as
+  designed: a Session 6 line for the European Charter Bill, built by hand,
+  landed on the bill already there, the count did not move, **its Stage 3 kept
+  the date it already had**, and taking the session off and putting it back
+  brought the bill back identical in every cell.
+- **The gaps list had not been taught what the error checker was taught**, and
+  the test did not ask about it. Once Session 6 was read in, four bills would
+  have sat on that list looking like missing stage dates that are in fact on the
+  bill already. Agreed with you and fixed the same day.
+- **Two things the run says about the tests themselves.** Two of the eighteen
+  planted a fault that broke two rules at once, so a neighbouring rule caught it
+  first and the named rule was never reached; faults that break only the named
+  rule were built instead, and both rules then refused. And one item asked for a
+  copy of the bills from before the change, which nobody had taken — see the
+  question below.
+- **Nothing moved.** 389 bills, 1071 stage records, 112 provenance notes, before
+  and after. The error checker and the gaps list are empty.
 
-## Now: first, the test this session may not mark
+## Now: the test on the gaps list, which this session may not mark
 
-The rules built this session were written by the session that built them, so it
-may not be the one to mark them. **Eighteen items are written up in
-`docs/CLOSURE-TESTS.md` and are the first task of the next session.** Nothing
-of Session 6 is read until they are answered.
+`db/086` was written by this session, so it is not the one to mark it. **Four
+items are in `docs/CLOSURE-TESTS.md` and are the first task of the next
+session.** They are short — all four are mechanical, and the fixture they use is
+the same hand-built Session 6 line as before. Nothing of Session 6 is read until
+they are answered.
 
 ## Then: Sessions 6 and 7
 
@@ -114,6 +110,13 @@ it too, and it goes in next time Session 2 comes off.
 - **Whether to rename the dates factsheet's file** to match the others'.
 - **Which source settles a disagreement about what kind of bill it was.** None
   has ever arisen.
+- **Whether to take a copy of the bills before a change that touches them.** One
+  of the eighteen items asked to compare the bills against how they were before,
+  and there was nothing to compare against: the only copy is the nightly backup
+  from that morning, which was taken before Session 5 was on the clean sheet, so
+  it answered for Sessions 1 to 4 and not Session 5. `tools/take_copy.sql`
+  already exists. The cost is one more thing that can be left behind inside the
+  database, which is why it is a question rather than a habit.
 
 **Settled on 14 September, and no longer on this list:** whether to check the
 stage dates against the Parliament's bill pages — the dataset is taken as it is
@@ -140,56 +143,59 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-14, twelfth session of the day
+## Sanity check, 2026-09-14, thirteenth session of the day
 
 **Everything matched and nothing contradicted anything.** 389 bills — 73, 81, 62,
-86, 87 — 1071 stage records, 106 provenance notes; 389 staging lines, every one
+86, 87 — 1071 stage records, 112 provenance notes; 389 staging lines, every one
 accepted and promoted; error checker empty, gaps list empty, data dictionary
-regenerating identical at 17 tables and 162 columns, nothing uncommitted and
-nothing unpushed. `STATE.md`'s figures matched the database in every cell.
-
-**Done in one connection where possible.** The dictionary regeneration hit the
-server's rate limit after several short queries and went through 30 seconds
-later; the batching rule below still holds.
+regenerating identical at 19 tables and 177 columns, nothing uncommitted and
+nothing unpushed. `STATE.md`'s figures matched the database in every cell. Note
+that the dictionary is 19 tables and 177 columns, not the 17 and 162 the
+previous sanity check recorded: `db/080` added the two blocked-bill lists and
+`db/080`–`db/081` the three new columns. Nothing was wrong; the earlier figure
+simply predated them.
 
 ## What the previous session did
 
-Ran item 32 — the check on `db/079`'s rule, which the session that added it was
-not allowed to make — writing nothing to the database in order to be able to.
-All six parts answered as expected, and **Session 5 closed** on thirty-two of
-thirty-two mechanical items and nine of nine sign-offs. Full detail in
-`docs/CLOSURE-TESTS.md` and `DECISIONS.md`, 2026-09-14.
+Built the carried-over bills job — `db/080` to `db/085`, the two promotion
+scripts split and taught, Sessions 5 and 2 taken off and put back so the new
+values arrived by the ordinary route — and rehearsed all of it in full before
+any of it was applied. It marked none of its own rules, and left eighteen items
+in `docs/CLOSURE-TESTS.md`.
 
 ## What this session did
 
-**Built the carried-over bills job**, which `STATE.md` put before Session 6 is
-loaded, together with two things the owner raised while it was being agreed.
-`DECISIONS.md`, 2026-09-14, carries the reasoning; this is what was run.
+**Ran the eighteen items**, writing nothing to the database in order to be able
+to. Every fault was planted inside a transaction that was thrown away; the two
+promotion rehearsals likewise; and for item 17 the nightly backup from 02:53
+that morning was restored into a scratch database, compared, and the scratch
+database dropped. All eighteen answered as expected. Full detail in
+`docs/CLOSURE-TESTS.md`.
 
-- `db/080` the two blocked-bill cells and their dropdown lists; `db/081` the
-  further-appearance cell on the staging sheet and the carried-scrutiny cell on
-  both; `db/082` the error checker rebuilt; `db/083` M6 rewritten and M9 added;
-  `db/084` the values for four bills; `db/085` the four constraints, added last
-  once the data satisfied them.
-- `tools/promote_session.sql` split into two paths, and
-  `tools/rollback_promotion.sql` taught to take a continued bill off with the
-  session that added to it.
-- Sessions 5 and 2 taken off the clean sheet and put back, so the new values
-  arrived by the ordinary route with their provenance.
+**Then built `db/086`**, on the owner's agreement, for the thing the run turned
+up: the gaps list asks a line that continues an earlier bill for stages the bill
+already has. Rehearsed in a transaction that was thrown away — the two false
+entries gone; a real gap still shown, by taking bill 303's Stage 2 date off
+inside the rehearsal and confirming the Session 6 line was then asked for Stage 2
+and nothing else; the Robin Rigg Act still not asked; the list still empty across
+all 389 lines. The rebuilt view was also diffed against the running one, which is
+how the stale `detail_note` alias `db/062` warned about was caught before it went
+back in: the only differences are `continues_bill_id` carried through and the one
+new clause.
 
-**Rehearsed before any of it was applied**, inside a transaction that was thrown
-away: all six migrations, both re-promotions, and a Session 6 staging line built
-by hand from the factsheet's printed words — promoted, rolled back, and bill 303
-compared cell by cell against what it had been. It came back identical, and the
-counts returned to 389 / 1071 / 112.
+**Two descriptions gained a sentence**, because the owner has to be able to
+explain the list: `HOW-THE-DATABASE-WORKS.md` on the gaps list, and the promotion
+runbook's step 1.
 
-**Two things rehearsal changed**, both recorded in `DECISIONS.md`: the two
-staging cells are plain numbers rather than links to the clean sheet, because a
-link deadlocked the rollback; and the stamping check had to be asked only of the
-lines that became bills.
+**`db/086` was not marked by the session that built it.** Four items are in
+`docs/CLOSURE-TESTS.md` for the next session.
 
-**Nothing this session added was marked by it.** Eighteen items are in
-`docs/CLOSURE-TESTS.md` for the next session, and they are its first task.
+**Left for whoever runs Session 6, and not written down anywhere else:** the
+promotion writes a provenance note with an empty "what the source said" for
+`asp_number` and `date_royal_assent`, which are printed facts rather than our
+coding. It is existing behaviour, not something this change introduced — the
+Session 5 notes on the same bill are the same — and it is not a rule anything
+breaks. Worth a look when Session 6 puts real values in those cells.
 
 ## The owner's standing positions, so they are not re-argued
 

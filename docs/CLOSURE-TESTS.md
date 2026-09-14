@@ -30,6 +30,74 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The gaps list, and a bill's second appearance
+
+Written 2026-09-14 by the session that built `db/086`, which may therefore not
+run it. **Four items, all mechanical.** They are the first task of the next
+session, and nothing of Session 6 is read until they are answered.
+
+**What the change did, in one line:** the gaps list no longer asks a line that
+continues an earlier bill for a stage the bill it continues already has.
+
+**Why it exists.** `db/081` made a factsheet row that is a further appearance of
+a bill already on the clean sheet land on that bill, and `db/082` rebuilt the
+error checker to read such a row correctly. The gaps list was not rebuilt, and
+it asks every line that passed for all three of its stages. Found on 2026-09-14
+while running the test above: the moment a Session 6 line for the European
+Charter Bill existed, the gaps list showed its Stage 1 and Stage 2 as missing
+dates. They are on the bill, from Session 5, 4 and 24 February 2021.
+
+**Where the expectations come from.** Items 1 and 2 from the rule's stated
+intent, checked against behaviour. Item 3 from `db/039`, which the change must
+leave alone. Item 4 from the figures this session read out of the database and
+recorded in `STATE.md`.
+
+**Nothing here is the owner's.** No cell, no value, no dropdown list, nothing on
+either sheet, no provenance, no methodology note. Only when a working list
+complains. The design was agreed with the owner on 2026-09-14 before it was
+built.
+
+Each item plants its fixture inside a transaction that is then thrown away. The
+fixture is the same hand-built Session 6 line for the European Charter Bill the
+test above used, and is not Session 6 data.
+
+1. **The false entries are gone, and were there before.** With the Session 6
+   line on the staging sheet, the gaps list must show nothing. Then put the view
+   back as `db/056` and `db/062` left it, and it must show two: Stage 1 and
+   Stage 2 of that line, both "date not yet entered".
+
+2. **The rule excuses only the stages that are really there.** Take bill 303's
+   Stage 2 date off the clean sheet inside the rehearsal. The Session 6 line
+   must then be asked for Stage 2, and for Stage 2 only — not Stage 1, which is
+   still there, and not Stage 3. Then take the link away: with
+   `continues_bill_id` empty and no stage rows of its own, the line must be
+   asked for all three. Put the link back and it must be asked for none.
+
+3. **The Robin Rigg Act is unmoved.** Its line is kept off the gaps list by the
+   rule `db/039` added, which is the rule this one sits beside. It must still
+   show nothing.
+
+4. **Nothing else moved.** 389 bills, 1071 stage records, 112 provenance notes.
+   The gaps list and the error checker are both empty across all 389 lines, as
+   they were before.
+
+### What this test does not check
+
+- **The half of the rule about a stage that never happened.** The rule excuses a
+  stage the earlier bill has *either* with a date *or* marked as one that never
+  happened. Only the first half can be tested today: a stage marked as never
+  having happened is allowed only on a Private Bill (`db/039`), and no Private
+  Bill has ever appeared in two factsheets. The second half is there so that the
+  two rules say the same thing, and it is untested until such a bill exists.
+- **Anything about Session 6's actual contents.** No Session 6 row has been read
+  in.
+- **The second half of the gaps list** — a bill that did not pass with nothing
+  saying where it ended. It is untouched by `db/086`, deliberately: a second
+  appearance is where the bill ended, so its own line is the one that has to
+  record the ending. No bill has ever appeared in three factsheets.
+
+---
+
 ## Carried-over bills, and the blocked-bill record
 
 Written 2026-09-14 by the session that built the change, which may therefore not
@@ -45,6 +113,101 @@ bill already on the clean sheet now lands on that bill instead of making a
 second one; a bill stopped before Royal Assent now records how and what
 followed; and the Robin Rigg Act now says whose scrutiny it carried. See
 `DECISIONS.md`, 2026-09-14, and `db/080`–`db/085`.
+
+**Run on 2026-09-14** by a further session, which built none of `db/080`–`db/085`
+and wrote nothing to the database in order to be able to run it: every fault was
+planted inside a transaction that was thrown away, and the two promotion
+rehearsals likewise. **All eighteen items answered as expected.** Two notes, and
+one thing the test did not ask about.
+
+- **Items 1 to 4, the values: as predicted in every limb.** Three bills carry the
+  blocked record, 303, 304 and 305, each `passed` / `blocked` / `s33_reference` /
+  `still_blocked`; 303 and 304 blocked on 2021-10-06 and 305 on no date. Each
+  carries the footnote word for word, beginning and ending as the item says,
+  cited to the Session 5 fact sheet and read on 2026-09-10 — and so, on the same
+  three bills, do `assent_block_outcome`, `enactment_status` and, where there is
+  one, `date_assent_blocked`. Bill 124 is the only bill saying whose scrutiny it
+  carried, pointing at bill 71, Session 1, introduced 2002-06-27 against 124's
+  2003-05-15. Its two empty stage rows name their own stages and give 9 January
+  and 11 March 2003, both matching bill 71's own records, and no other stage row
+  in the database is marked as a stage that never happened.
+
+- **Items 5 to 9, the rules on the clean sheet: all five refuse.** Two items
+  needed rewording to be a test at all. As written, item 6 puts the block cells
+  on a bill whose outcome is `fell_dissolution`, and item 8 sets
+  `reconsidered_passed` on a bill that is still recorded as blocked — each of
+  which breaks a second rule at the same time, and in both cases
+  `bill_blocked_says_still_blocked` refused it first, so the named rule was never
+  reached. Faults were built that break only the named rule: outcome changed to
+  `fell_dissolution` on a bill left blocked and still_blocked, which
+  `bill_only_a_passed_bill_can_be_blocked` refused; and `reconsidered_passed`
+  with `enactment_status` set to `not_enacted`, which
+  `bill_reconsidered_and_passed_is_enacted` refused. A control confirmed the
+  latter is allowed once the bill is made enacted. **This is a note about how two
+  items were written, not about the rules.**
+
+- **Items 10 to 12, the rules on the staging sheet: every one fires, and names
+  the fault.** Item 10 both ways: a line introduced before its own fact sheet's
+  session began and naming no bill is told that `continues_bill_id` must say
+  which; naming the bill removes the complaint; and with dates past the end of
+  Session 6 on a line that continues bill 303, neither "passed after the session
+  ended" nor "concluded after the session ended" fires, while emptying
+  `continues_bill_id` makes both fire at once. Items 11 and 12 fire on all
+  twelve faults, each with its own message, and the checker returns to empty when
+  the fixture is removed.
+
+- **Items 13 to 15, promotion and rollback: as predicted.** A hand-built Session
+  6 line for the European Charter Bill, carrying `continues_bill_id` = 303, a
+  Reconsideration Stage and a Stage 3 restating 23 May 2021, promoted: the bill
+  count did not move, 389 to 389; bill 303 gained its Reconsideration Stage;
+  **its Stage 3 stayed 2021-03-23**; the line was stamped with 303; five cells
+  changed, each carrying a note citing the Session 6 fact sheet, while
+  `assent_block_route` still cites the Session 5 footnote read on 2026-09-10.
+  Taking Session 6 off brought bill 303 off with it and said to promote Session 5
+  again; after doing so the bill compared **identical in every cell**, with all
+  three stage records and all seven provenance notes identical, the only
+  difference being `created_at` and `updated_at`, which the database sets itself.
+  Rolling back out of order was refused both ways, naming Session 6 and Session 2
+  respectively.
+
+- **Item 16: 389 bills, 1071 stage records, 112 provenance notes**, error checker
+  and gaps list both empty, and the six new notes are three on
+  `assent_block_route` and three on `assent_block_outcome`.
+
+- **Item 17 could only be half answered, and the reason is worth recording.** The
+  item asks for a copy of `bill` and `stage_event` from before `db/080`. No such
+  copy was taken, and the only independent one that exists is the nightly backup
+  of 2026-09-14 02:53, which is earlier than Session 5 reaching the clean sheet:
+  302 bills, 828 stage records, 86 provenance notes, Sessions 1 to 4 only. It was
+  restored into a scratch database, compared row by row on content — ignoring the
+  reissued row numbers and the automatic stamps — and dropped. **Sessions 1 to 4
+  differ in exactly four places, all attributable and only the last of them to
+  this change:** bills 68 and 302's notes gained division figures (`db/069`);
+  five provenance notes lost a trailing "Read at" (the mid-sentence mend of the
+  same day); and bill 124's Consideration Stage note now names the Consideration
+  Stage rather than the Preliminary (`db/084`, intended). Session 5 is not
+  covered by that copy and rests on its own closed test together with item 14's
+  cell-by-cell comparison of bill 303. **A copy taken before a change, rather
+  than looked for afterwards, is what would have answered this item in full.**
+
+- **Item 18: M6 and M9 read as written, and every figure checks.** M9's four:
+  bill 124 runs 42 days from introduction to its Final Stage; the next shortest
+  Private Bill is 132 (bill 207); the median of the 22 Private Bills that passed
+  is 274; and 364 days separate bill 71's introduction from bill 124's Final
+  Stage. M6's arithmetic against the fact sheets themselves: the Session 6 fact
+  sheet prints 83 bill entries — 8 awaiting assent, 10 fallen, 5 withdrawn, 60
+  Acts — and totals 82, its own footnote saying the total includes two bills
+  introduced in Session 5, with the fifth withdrawn entry being the Legal
+  Continuity Bill, printed and excluded; the Session 7 fact sheet prints 2 and
+  totals 2. 389 + 83 + 2 = 474; 473 counted; 470 distinct.
+
+**What the run turned up that the test did not ask about: the gaps list had not
+been taught what the error checker was taught.** The moment the Session 6 fixture
+existed, `v_stage_date_gaps` listed the European Charter Bill's Stage 1 and
+Stage 2 as missing dates, which are on the bill from Session 5. Four bills would
+have done this. Agreed with the owner and fixed the same day by `db/086`; its own
+four items are the test above.
+
 
 **All items are mechanical.** Nothing here needs the owner's judgement, because
 nothing here is new data: the section 33 route is read from a footnote already

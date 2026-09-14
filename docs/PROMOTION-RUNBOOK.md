@@ -86,7 +86,9 @@ a second time and it is accepted.
 connect again, so it shows the sheet as it now is.
 
 **1. Find what is missing.** Open `v_stage_date_gaps`. Each row is one missing
-date: the line number (`candidate_id`), the bill, and the stage.
+date: the line number (`candidate_id`), the bill, and the stage. A bill that
+appears in two factsheets is not asked twice: its earlier stages are on the
+bill already, and only what this appearance adds is listed.
 
 **2. Add a row.** Open `stage_candidate` and add a row with the + button at the
 bottom, or ⇧⌘N. Fill in:

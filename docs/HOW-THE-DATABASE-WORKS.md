@@ -154,6 +154,12 @@ its Stage 1 or Stage 2 date, a bill that ended early without the dates of the
 stages before, a bill that didn't pass with nothing saying where it ended, and
 a stage completed on a date not known, with its detail note.
 
+Two kinds of stage are never asked for. One a bill never had, because its
+procedure skipped it — the Robin Rigg Act's first two stages. And one that
+belongs to the same bill's earlier appearance in a previous factsheet: the
+European Charter Bill's Stage 1 and Stage 2 happened in Session 5 and are on
+the bill, so its Session 6 line is not asked for them again.
+
 Unlike the error checker, a gap does not stop a session being promoted. It is
 the to-do list your PhD dates work through.
 
