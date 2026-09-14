@@ -8,6 +8,108 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — How a bill was handled becomes a variable
+
+**Decided, and built the same day** (`db/087`, and the loader, the reader and
+the promotion script). Agreed with the owner in full before anything was
+written, as a change to how data is coded must be. Found while reading the
+Session 6 fact sheet for the prose reader.
+
+### What was found
+
+The Session 6 fact sheet prints a sentence no earlier fact sheet has ever
+printed, against five bills:
+
+> Motion agreed to treat as Emergency Bill on 22 June 2021.
+
+`bill.procedure` has existed since `db/010` and had never held a value, because
+no source consulted stated one and a default of `standard` would have recorded
+budget and emergency bills as standard procedure on no evidence. Session 6
+states one.
+
+**Why it was taken rather than left.** An emergency bill passes in days rather
+than months — Prisoners (Early Release) was introduced on 18 November 2024 and
+passed on 26 November — so a chart of how long a bill took cannot be read
+without knowing which bills those are. The owner: *"we should capture the
+procedure and date"*. Leaving it would also mean the reader meeting a sentence
+it had nowhere to put, and either dropping it in silence or stopping.
+
+### What is recorded
+
+`procedure` keeps its six values. **`bill.date_procedure_agreed` is new**: the
+day the Parliament agreed to handle the bill that way. It is empty where the
+procedure needed no such decision — a Budget Bill is one by its nature, and
+there is no motion — or where we have not been told.
+
+**An empty `procedure` means we have not been told.** It has never meant
+standard and does not now. After this change five bills out of an eventual 471
+carry a value, and M10 is the note that says so to a reader.
+
+**No cell for the sentence itself.** The Royal Assent block footnotes are kept
+word for word in `raw_footnote` because they carry reasoning the coded cells
+throw away; this sentence carries nothing the two cells do not, and `emergency`
+plus the date rebuild it exactly. The reader writes the fact sheet's own words
+into `parser_note`, where they stay on the staging line for ever, and provenance
+records the value as read — which is what `value_seen` already holds for
+`bill_type`, `asp_number` and `date_introduced`. The owner was shown the
+alternative and agreed.
+
+### What the checks ask
+
+A date with no procedure, a date before the bill was introduced, and a date
+after it passed or concluded are **contradictions**, and stop a session.
+
+An emergency bill with no date is a **gap**, and does not. The owner's
+instruction was that it be *"flagged for you to look at rather than refused"*,
+because a later source may state the procedure without giving the motion's date.
+It is the first entry on the gaps list that is not about a stage, and the view's
+description now says so.
+
+**And one silent loss was closed while the shape was being decided.** A further
+appearance of a bill carries seven cells onto the bill it continues, and
+procedure is not among them. No fact sheet states the procedure of a
+carried-over row, so nothing is missing today — but a line that did state one
+would have had it dropped without a word. The checker refuses that line instead,
+so that whoever meets the first one decides what should happen to it.
+
+### Backfilling is expected, and is not opened here
+
+Sessions 1 to 5 certainly had emergency bills, and their fact sheets do not
+mention procedure at all. Filling them in means a source not yet agreed — the
+Official Report, or the Parliament's own page for each bill. The owner expects
+to do it *"in due course"*. Until then a count of emergency bills is a count of
+the ones Session 6 happens to name, which is what M10 tells a reader.
+
+### The second thing settled the same day: SPICe's arithmetic
+
+Session 6's own summary table has **two cells wrong**. Its margins agree with a
+count of the entries printed above them — 62 Government, 20 Member's, 82 — but
+bills awaiting Royal Assent reads 5 Government and 3 Member's where the entries
+are 6 and 2, and Acts reads 56 and 4 where the entries are 55 and 5. The errors
+cancel, which is why the totals still add up and why nothing but a cell-by-cell
+count would have found it.
+
+**Decided:** the reconciliation counts every cell, and the two disagreements are
+written down with the bills named, rather than the gate being narrowed to the
+totals it agrees with. Session 7's grand total is wrong in the same document
+family and was settled the same way on 2026-09-10. The owner's reason for
+writing it down rather than quietly passing: a reader who adds up both sets of
+numbers and finds a difference can see we knew.
+
+The two Member's bills awaiting assent are Greyhound Racing (Offences) and
+Restraint and Seclusion in Schools. The five Member's Acts are Abortion Services
+(Safe Access Zones), Dog Theft, the European Charter of Local Self-Government
+(Incorporation), Schools (Residential Outdoor Education) and Welfare of Dogs.
+
+### Not marked by the session that built it
+
+Seven items are written up in `docs/CLOSURE-TESTS.md` for a session that wrote
+none of them. The first is the one that matters: `db/087` writes both the error
+checker and the gaps list out in full, from `db/082` and `db/086`, and a rebuild
+that quietly drops a check is a rebuild that stops finding faults.
+
+---
+
 ## 2026-09-14 — The gaps list is told what the error checker was told
 
 **Decided, and built the same day** (`db/086`). Found by running the closure

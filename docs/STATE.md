@@ -36,47 +36,48 @@ Sessions 6 and 7**, and nothing stands in front of them but the reader.
   to 4 read in, admitted and promoted, your dates loaded, and how time is
   counted settled.
 - **14 September, through the day.** Session 4 closed. Session 5 read in,
-  reviewed, admitted, promoted on your sign-off and **closed** on all thirty-two
-  items and all nine of your sign-offs. Then the job that had to come before
-  Session 6: a second appearance of a bill lands on the bill already there; a
-  bill stopped before Royal Assent records how and what followed; the Robin Rigg
-  Act says whose scrutiny it carried; and M6 and M9 say all of it to a reader.
+  reviewed, admitted, promoted and **closed** on all thirty-two items and all
+  nine of your sign-offs. Then the job that had to come before Session 6:
+  carried-over bills, blocked bills, the Robin Rigg Act, and M6 and M9.
 - **14 September, later.** All eighteen items on that job answered as expected
-  by a session that built none of it — and the run turned up that the gaps list
-  had never been taught what the error checker was taught, which was agreed with
-  you and mended the same day.
+  by a session that built none of it, and the gaps list taught what the error
+  checker had been taught. Then the four items on that, answered too, with
+  nothing written to the database.
 
-**14 September, this session. The four items on the gaps list answered, and
-nothing is left unmarked.**
+**14 September, this session. Sessions 6 and 7 read end to end, and procedure
+becomes a variable.**
 
-- **All four answered as expected**, by a session that built none of it and
-  wrote nothing to the database: the hand-built Session 6 line and every
-  alteration went inside one transaction that was thrown away. The run is in
-  `docs/CLOSURE-TESTS.md`.
-- **The list no longer asks for dates that are on the bill already**, and it
-  still asks for the ones that are genuinely missing. With bill 303's Stage 2
-  date taken off inside the rehearsal, the Session 6 line was asked for Stage 2
-  and for nothing else; with the line cut loose from the bill it continues, it
-  was asked for all three; joined up again, for none.
-- **The change bites in one place only.** Both versions of the list were read
-  side by side against all 389 lines at once, with every stage date in the
-  database taken away to make the comparison say something: they differ by three
-  rows, all three the hand-built line's, and there is not one entry the new list
-  asks for that the old one did not.
-- **Nothing moved.** 389 bills, 1071 stage records, 112 provenance notes, before
-  and after. The error checker and the gaps list are empty.
+- **Both factsheets were read against their own grammar, sentence by sentence,
+  with nothing left over.** 83 entries in Session 6 and 2 in Session 7, which is
+  exactly what M6 already says they should hold. The reader can be built.
+- **Session 6 states something no earlier factsheet ever has**: how five bills
+  were handled — "Motion agreed to treat as Emergency Bill on 22 June 2021" —
+  and the day the Parliament agreed it. On your agreement, **procedure is now a
+  variable**, with a date beside it, an error checker that refuses a date that
+  cannot be right, a gaps list that asks for a missing one without blocking
+  anything, and M10 to tell a reader it is five bills and not a survey. Nothing
+  on the clean sheet moved: 389 bills, 1071 stage records, 112 provenance notes,
+  before and after.
+- **Session 6's own summary table has two cells wrong**, and its margins right.
+  Bills awaiting Royal Assent reads 5 Government and 3 Member's where the
+  entries are 6 and 2; Acts reads 56 and 4 where they are 55 and 5. The errors
+  cancel, so the totals still add up. On your agreement the reconciliation
+  counts every cell and writes the disagreement down.
+- **Four titles the factsheet prints wrongly** are recorded, to be mended in the
+  title we propose and never in its own words: two Acts with the word "Bill"
+  left in, one bracket never closed, and the European Charter's number printed
+  "(SP 70)".
 
-## Now: Sessions 6 and 7
+## Now: the prose reader for Sessions 6 and 7
 
-**A prose reader**, because Sessions 6 and 7's factsheets are sentences, not
-tables. That is the only thing between here and Session 6, and nothing else is
-outstanding.
-
-Two things it will have to do that nothing else does: recognise "Withdrawn on
-…", which appears only in Session 6's excluded section, and cope with the
-European Charter Bill's number being printed "(SP 70)" rather than "(SP Bill
-70)". Its Act title and number are printed nowhere in the factsheet and come
-from legislation.gov.uk, as the Period Products and Higher Education Acts' did.
+Everything it needs is built. It has to read the sentences rather than a table,
+and the grammar is written down and tested. The three things it must get right
+that nothing else does: "Withdrawn on …", which appears only in Session 6's
+excluded section; the European Charter Bill's number printed "(SP 70)", which is
+a **Session 5** number and collides with Session 6's own SP Bill 70, the Ecocide
+Bill; and that bill's Act title and number, printed nowhere in the factsheet and
+coming from legislation.gov.uk, as the Period Products and Higher Education
+Acts' did.
 
 **Yours whenever you want it, and nothing waits on it:** your write-up on what
 the charts present and the options they offer.
@@ -84,8 +85,13 @@ the charts present and the options they offer.
 ## After that, in order
 
 1. Bring `docs/VARIABLES.md` up to date.
-2. **A layer of vote data**, its own piece of work. Scope not opened.
-3. Then, and only then: the website, and reading from the Parliament's API.
+2. **Filling in how Sessions 1 to 5's bills were handled.** Expected, not begun.
+   Their factsheets do not mention procedure at all, so it needs a source we
+   have not agreed — the Official Report, or the Parliament's page for each
+   bill. Until then a count of emergency bills counts only the ones Session 6
+   names, which is what M10 tells a reader.
+3. **A layer of vote data**, its own piece of work. Scope not opened.
+4. Then, and only then: the website, and reading from the Parliament's API.
 
 ## One small thing for you
 
@@ -104,18 +110,16 @@ it too, and it goes in next time Session 2 comes off.
 - **Whether to rename the dates factsheet's file** to match the others'.
 - **Which source settles a disagreement about what kind of bill it was.** None
   has ever arisen.
-- **Whether to take a copy of the bills before a change that touches them.** One
-  of the eighteen items asked to compare the bills against how they were before,
-  and there was nothing to compare against: the only copy is the nightly backup
-  from that morning, which was taken before Session 5 was on the clean sheet, so
-  it answered for Sessions 1 to 4 and not Session 5. `tools/take_copy.sql`
-  already exists. The cost is one more thing that can be left behind inside the
-  database, which is why it is a question rather than a habit.
+- **Whether to take a copy of the bills before a change that touches them.**
+  `tools/take_copy.sql` already exists. The cost is one more thing that can be
+  left behind inside the database, which is why it is a question rather than a
+  habit.
 
 **Settled on 14 September, and no longer on this list:** whether to check the
 stage dates against the Parliament's bill pages — the dataset is taken as it is
-for now, and may be come back to; and whether the section 33 / 35 distinction
-becomes a variable — it has.
+for now; whether the section 33 / 35 distinction becomes a variable — it has;
+and whether to record how a bill was handled under the Parliament's rules — it
+is recorded where a source says so, and empty everywhere else.
 
 ---
 
@@ -137,55 +141,77 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-14, fourteenth session of the day
+## Sanity check, 2026-09-14, fifteenth session of the day
 
 **Everything matched and nothing contradicted anything.** 389 bills, 1071 stage
 records, 112 provenance notes; 389 staging lines and 1071 staging stage rows;
 error checker empty, gaps list empty; the data dictionary regenerating identical
 to the committed file at 19 tables and 177 columns; nothing uncommitted and
-nothing unpushed; no working copy left inside the database — `public` is the only
-schema. `STATE.md`'s figures matched the database in every cell, and the newest
-`DECISIONS.md` entries and the last commit left exactly one thing open, which was
-this session's task.
+nothing unpushed; `public` the only schema. Every session the table calls closed
+has its closure test run and recorded. `STATE.md`'s figures matched the database
+in every cell, and the newest `DECISIONS.md` entries and the last commit left
+exactly one thing open, which was this session's task.
 
 ## What the previous session did
 
-Ran the eighteen items on `db/080`–`db/085` and answered all of them, writing
-nothing to the database. Then built `db/086` on the owner's agreement, for what
-the run turned up: the gaps list asks a line that continues an earlier bill for
-stages the bill already has. It marked none of its own rule, and left four items
-in `docs/CLOSURE-TESTS.md`.
+Ran the four items on `db/086` and answered all of them, writing nothing to the
+database: the fixture and every alteration went inside one transaction that was
+thrown away.
 
 ## What this session did
 
-**Ran the four items on `db/086`**, writing nothing to the database in order to
-be able to. The fixture — one Session 6 staging line for the European Charter
-Bill carrying `continues_bill_id` = 303, with a Stage 3 row and a Reconsideration
-Stage row — and every alteration to bill 303 and to the line went inside one
-transaction that was thrown away. **All four answered as expected.** Full detail
-in `docs/CLOSURE-TESTS.md`.
+**Read the Session 6 and 7 factsheets end to end**, and built the machinery for
+the one thing in them that had nowhere to go.
 
-Three things about how it was run, for whoever runs the next one:
+**The reading.** Both documents were split into sentences and matched against
+the grammar in `FACTSHEET-SURVEY.md` §1, with every character of both bodies
+having to land somewhere. 83 entries in Session 6 and 2 in Session 7, no
+sentence unmatched and no text left over. That agrees with M6's arithmetic
+exactly: 82 of Session 6's entries counted in its own totals, one excluded, 80
+distinct new bills.
 
-- **The pre-`db/086` view was rebuilt beside the live one, not over it**, under
-  another name, so the running view was never replaced to answer item 1. It is
-  also why item 1's comparison could be made on all 389 lines at once.
-- **`db/056`'s text does not run today as written.** `db/061` renamed the column
-  it calls `note`, and the live view carried the rename with it, so the
-  reconstruction had to put that one word back the way the rename put it — the
-  same trap `db/062` and `db/086` both wrote about. A view's text in an old
-  migration is not what is running.
-- **An empty list either side of a change proves very little**, which is why the
-  two views were compared on a state with every stage date taken away: 1021 rows
-  against 1018, the difference being three rows and all three the fixture line's,
-  and nothing the new view asks for that the old one did not.
+**Three things the survey's "complete" grammar does not contain**, found by
+that exercise:
 
-**One note on the fixture, which is not a finding.** Built with only the cells
-this test needs, it drew four complaints from the error checker — an Act with no
-year in its title, no ASP number, a title kind that is not `act`, and dates never
-compared against the other sources. All four are about cells invented for the
-fixture, none about the line continuing bill 303: a second fixture carrying those
-cells properly leaves the error checker silent and the gaps list empty.
+- `Motion agreed to treat as Emergency Bill on {date}.` — five times, and the
+  reason for `db/087`.
+- `The following bill was introduced during Session 5 … Please note this bill is
+  not included in Summary of Legislation totals below.` — the excluded section's
+  own note, which the reconciliation has to obey.
+- The rename sentence **wraps across two printed lines**. A reader that matches
+  line by line never sees it, and silently swallows it into the next bill's
+  title. The reader must work on reflowed text, and the check that proves it is
+  that every sentence in the document matches a known shape.
+
+**What `db/087` built.** `bill.date_procedure_agreed` beside the procedure cell,
+the same two cells on the staging sheet, four new refusals and one more in the
+error checker, one branch on the gaps list, and M10. The loader, the promotion
+script and `extract_factsheet.py` all carry the two cells — the table extractor
+emits them empty, so both readers write the same CSV and the loader has one
+contract to match.
+
+**How it was rehearsed**, for whoever runs the next one:
+
+- **The two views were captured before and after and diffed as text**, not
+  compared by counting lines. The line count said one line had been lost from
+  the gaps list; the text diff showed it was a reformat, `c.continues_bill_id`
+  gaining a comma and two columns after it. A line-multiset comparison cannot
+  tell those apart, and this is the check `db/062` and `db/086` both exist
+  because of. Both diffs are exactly the intended additions and nothing else.
+- **The whole of `db/087`, a fixture line, all five new rules and a real
+  promotion ran inside one transaction that was thrown away** before any of it
+  was applied. The bill came out reading `emergency` and 2024-11-20 with two
+  provenance notes behind it, and 389 bills, 1071 stage records and 112
+  provenance notes were untouched.
+- **The SSH rate limit bit twice.** A dozen connections in quick succession gives
+  `Connection refused` for a while, and a failed `--scp` leaves the next psql
+  run reading a file that is not there rather than failing loudly. Batch the
+  work, and check the upload landed.
+
+**What was found and not acted on.** Session 6's summary table has two interior
+cells wrong with its margins right, and four titles are printed wrongly. Both
+are written up in `DECISIONS.md` and are the reader's and the reconciliation's
+business, not a schema question.
 
 ## The owner's standing positions, so they are not re-argued
 
@@ -321,8 +347,40 @@ rehearsal, the check and the undo without being asked.
    European Charter and UNCRC Bills; the European Charter's Session 6 row still
    carries its *Bill* title, so the guard sees it.
 5. **The prose parser for Sessions 6 and 7.** The grammar is in
-   `FACTSHEET-SURVEY.md` §1. Empty sections are sentences ("No bills have
-   fallen in Session 7."), not empty tables.
+   `FACTSHEET-SURVEY.md` §1, and was tested against both documents on
+   2026-09-14: every sentence matches a known shape and nothing is left over,
+   83 entries in Session 6 and 2 in Session 7. Empty sections are sentences
+   ("No bills have fallen in Session 7."), not empty tables.
+   - **§1's list of shapes is incomplete.** It does not contain `Motion agreed
+     to treat as Emergency Bill on {date}.` (five times, Session 6) or the
+     excluded section's own note. Read the documents, not the list.
+   - **The reader must work on reflowed text, not on printed lines.** The rename
+     sentence wraps across two lines in both places it appears, and a line-by-
+     line matcher does not merely miss it — it swallows it into the next bill's
+     title without complaining. The test that catches this is requiring every
+     sentence in the document to match a shape.
+   - **Sections carry their own asterisked notes, inline.** The section 35 block
+     on the Gender Recognition Reform Bill is a paragraph sitting directly after
+     the bill it concerns, in both documents. Session 6 puts the asterisk on the
+     section heading and Session 7 puts it nowhere. Position attaches it, not
+     the marker — unlike Sessions 4 and 5, which number their footnotes and put
+     them at the foot of the page.
+   - **"(SP 70)" is a Session 5 number.** Session 6 has its own SP Bill 70, the
+     Ecocide Bill. Reading the European Charter's number as a Session 6 number
+     collides with a different bill.
+   - **Four titles are printed wrongly**, to be mended in the title we propose
+     and never in the factsheet's own words: "Agriculture and Rural Communities
+     (Scotland) **Bill** Act 2024 (asp 11)"; "Housing (Scotland) **Bill** Act
+     2025 (asp 13)"; "Scottish Parliament (Recall of Members **Bill** (SP Bill
+     55)", a bracket never closed, inside the rename sentence only; and the
+     European Charter's "(SP 70)". `mend_title` handles none of them yet.
+   - **The Acts section holds one entry that is not an Act title.** The European
+     Charter's entry prints its Bill title and no asp number, so a reader that
+     stamps `title_kind` = act on everything in that section is stamping it on a
+     Bill title.
+   - **Session 7 has a section Sessions 1 to 6 do not**, "Bills currently in
+     progress", holding one bill with only an introduction date. `ref_outcome`
+     already has `in_progress` for it.
 6. **The seven `session` rows: done on 2026-09-12 (`db/048`).** All seven carry
    a first meeting; all but Session 7, which is running, carry a last day. The
    source is SPICe's dates factsheet, agreeing to the day with the Parliament's
@@ -374,6 +432,17 @@ The gate compares our count against each factsheet's own summary table.
   "Bills awaiting Royal Assent", and the first where a reconciliation has to add
   two tables to reach our `passed`: 75 Acts plus those 3. No Hybrid Bill, so
   `bill_type` and `analysis_group` give the same table.
+- **Session 6.** Read out of the factsheet on 2026-09-14, entry by entry, not
+  taken from its summary. 83 entries are printed; 82 are counted in its own
+  totals, the Legal Continuity Bill being in an excluded section that says so in
+  its own words. Counted: awaiting Royal Assent 6 Government and 2 Member's;
+  fallen 10, all Member's; withdrawn 1 Government and 3 Member's; Acts 55
+  Government and 5 Member's. Column totals 62 Government and 20 Member's, 82.
+  **Its printed summary has two cells wrong and its margins right**: awaiting
+  Royal Assent reads 5 and 3, and Acts reads 56 and 4. The two errors cancel.
+  Settled on 2026-09-14: reconcile every cell and write the disagreement down
+  with the bills named. There are no Committee, Private or Hybrid Bills in
+  Session 6 or 7, so `bill_type` and `analysis_group` give the same table.
 - **Sessions 5 and 6** carry bills also counted in another session's totals.
   The factsheet totals are right for the factsheet and wrong for a count of
   distinct bills; see M6. This has not bitten yet: Session 5 reconciles against

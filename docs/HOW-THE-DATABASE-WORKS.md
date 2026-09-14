@@ -160,6 +160,12 @@ belongs to the same bill's earlier appearance in a previous factsheet: the
 European Charter Bill's Stage 1 and Stage 2 happened in Session 5 and are on
 the bill, so its Session 6 line is not asked for them again.
 
+One thing on the list is not a stage date at all. Where a bill is recorded as
+an emergency bill and nothing says when the Parliament agreed to treat it as
+one, that appears here too, with no stage named. It is on this list rather than
+the error checker's because a source can quite reasonably say a bill was handled
+as an emergency bill without giving the date of the motion.
+
 Unlike the error checker, a gap does not stop a session being promoted. It is
 the to-do list your PhD dates work through.
 

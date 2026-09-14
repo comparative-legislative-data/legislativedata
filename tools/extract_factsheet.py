@@ -463,6 +463,13 @@ def build(r, kind, session, page, path, problems, footnotes=None):
         'enactment_status': enactment,
         'date_assent_blocked': d_blocked,
         'raw_footnote': raw_footnote,
+        # Always empty here. The ruled-table fact sheets, Sessions 1 to 5, do
+        # not state how a bill was handled under the Parliament's rules; only
+        # the prose fact sheets do, in a sentence of their own. The columns are
+        # emitted so that both readers write the same CSV and the loader has
+        # one contract to match. See db/087 and methodology note M10.
+        'procedure': None,
+        'date_procedure_agreed': None,
         'src_file': path.split('/')[-1],
         'src_page': page,
         'parser_note': '; '.join(notes) or None,

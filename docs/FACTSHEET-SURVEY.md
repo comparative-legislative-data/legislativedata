@@ -37,10 +37,17 @@ Structural consequences beyond the two parsers already planned:
   mention. Session 2 is additionally labelled "Parliamentary Business: **Current**
   Series" for a session that ended in 2007.
 
-### The Session 6 / 7 prose grammar, complete
+### The Session 6 / 7 prose grammar
 
-Sixteen distinct line shapes across both documents, which is the whole
-vocabulary:
+**Corrected 2026-09-14**, by matching every sentence in both documents against
+the list and requiring nothing to be left over. As first written this section
+claimed sixteen shapes, listed nine, and called the list complete. It was
+neither complete nor sixteen. What follows is every shape, and it has been
+tested: 83 entries in Session 6 and 2 in Session 7, no sentence unmatched.
+
+**Two of these wrap across printed lines** — the rename sentence in both places
+it appears. A reader that matches line by line does not merely miss it; it
+swallows it into the next bill's title in silence. Work on reflowed text.
 
     {Title} (SP Bill {n})
     {Type} Bill introduced on {date} by {name} MSP.
@@ -52,6 +59,29 @@ vocabulary:
     The Bill was approved and ended Reconsideration Stage on {date}.
     Introduced as the {old title} (SP Bill {n}) and renamed on {date} to the
         {new title} (SP Bill {n}).
+    Motion agreed to treat as Emergency Bill on {date}.
+    No bills have fallen in Session {n}.
+    No bills have been withdrawn in Session {n}.
+    No bills have become Acts in Session {n}.
+    The following bill was introduced during Session {n} of the Scottish
+        Parliament and has subsequently been withdrawn during Session {m}.
+        Please note this bill is not included in Summary of Legislation
+        totals below.
+    *On {date} the UK Government intervened to block Scottish Parliament
+        legislation (under powers contained in s.35 of the Scotland Act 1998)
+        on the grounds that they believed it would have a negative impact on
+        UK law.
+
+**"Motion agreed to treat as Emergency Bill" is the only place any factsheet
+states a bill's procedure**, and it is why `bill.procedure` has values at all.
+Five bills carry it, all in Session 6. See `db/087` and methodology note M10.
+
+**The last two are notes, not facts about a bill.** The excluded-section note
+governs what the summary counts, and the reconciliation has to obey it. The
+starred note sits directly after the bill it concerns — Session 6 puts the
+asterisk on the section heading, Session 7 puts it nowhere — so position
+attaches it, not the marker. That is unlike Sessions 4 and 5, which number
+their footnotes and print them at the foot of the page.
 
 Only "Government Bill" and "Member's Bill" occur. There are no Committee,
 Private or Hybrid Bills in Sessions 6 or 7.

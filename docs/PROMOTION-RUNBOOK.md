@@ -90,6 +90,11 @@ date: the line number (`candidate_id`), the bill, and the stage. A bill that
 appears in two factsheets is not asked twice: its earlier stages are on the
 bill already, and only what this appearance adds is listed.
 
+One row on that list has no stage against it: a bill recorded as an emergency
+bill with nothing saying when the Parliament agreed to treat it as one. That is
+not a stage date and there is no row to add for it on the stage-dates sheet —
+the date goes in `date_procedure_agreed` on the bill's own line.
+
 **2. Add a row.** Open `stage_candidate` and add a row with the + button at the
 bottom, or ⇧⌘N. Fill in:
 

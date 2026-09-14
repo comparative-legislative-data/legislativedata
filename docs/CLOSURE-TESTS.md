@@ -30,6 +30,105 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Procedure, and the day the Parliament agreed to it
+
+Written 2026-09-14 by the session that built `db/087`, which may therefore not
+run it. **Seven items, all mechanical.** Nothing here needs the owner.
+
+`db/087` gives `bill.procedure` its first values and adds
+`bill.date_procedure_agreed` beside it, because the Session 6 fact sheet prints
+"Motion agreed to treat as Emergency Bill on 22 June 2021" against five bills
+and no earlier fact sheet states procedure at all. The migration writes nothing
+to the clean sheet: it adds two empty cells, rebuilds the error checker and the
+gaps list, and writes methodology note M10.
+
+**Everything below can be run inside one transaction that is thrown away.** The
+session that built this did exactly that to rehearse it; a fixture line is all
+that is needed, and no bill on the clean sheet has to move.
+
+**The fixture**, which every item after the first uses. One Session 6 staging
+line, accepted, for the Prisoners (Early Release) (Scotland) Act 2025 (asp 1) as
+the fact sheet prints it: a Government Bill introduced 18 November 2024, the
+motion agreed 20 November 2024, passed 26 November 2024, Royal Assent 22 January
+2025, with one accepted Stage 3 row of 26 November 2024, `procedure` =
+`emergency` and `date_procedure_agreed` = 2024-11-20.
+
+### The items
+
+1. **The rebuilt views lost nothing.** The error checker and the gaps list are
+   both written out in full in `db/087`, from `db/082` and `db/086`. Capture
+   each view's running definition before applying `db/087` and again after, and
+   compare the two texts. **Expected:** the only differences are the new blocks
+   `db/087` adds — four checks and one refusal in the error checker, one branch
+   and two extra columns on the `lines` list in the gaps list. Nothing that was
+   in a definition before is absent after. *The expectation comes from what the
+   migration says it changes, not from the database.* **This is the item that
+   matters most:** `db/062` and `db/086` both found that a view rebuilt from an
+   older migration's text quietly carries that text's stale names with it, and
+   a rebuild that drops a check is a rebuild that stops finding faults.
+
+2. **A complete, consistent line is not complained about.** With the fixture
+   present, the error checker says nothing about it. **Expected:** no rows for
+   that line. *From the rule: everything the new checks ask about is satisfied.*
+   The gaps list will ask that line for its Stage 1 and Stage 2 dates, because a
+   bill that passed should have all three and the fixture carries only Stage 3.
+   That is the gaps list doing its ordinary job and is not a finding.
+
+3. **A date with no procedure is refused.** Empty the line's `procedure`,
+   leaving the date. **Expected:** exactly one complaint, *says a procedure was
+   agreed on 2024-11-20, but does not say which procedure*. *From `db/087`.*
+
+4. **A date outside the bill's life is refused, at both ends.** Put the
+   procedure back and set the date to 1 November 2024, before the bill was
+   introduced. **Expected:** *procedure agreed on 2024-11-01, before the bill
+   was introduced on 2024-11-18*. Then set it to 1 December 2024, after the bill
+   passed. **Expected:** *procedure agreed on 2024-12-01, after the bill had
+   passed on 2024-11-26*. One complaint each time, and no other. *From `db/087`.*
+
+5. **An emergency bill with no date is a gap and not a contradiction.** Leave
+   `procedure` = `emergency` and empty the date. **Expected:** the error checker
+   says nothing about the line, and the gaps list carries one entry for it with
+   no stage named: *recorded as an emergency bill, and nothing says when the
+   Parliament agreed to treat it as one*. *From the owner's instruction on
+   2026-09-14, that it be flagged rather than refused, and from `db/087`.*
+   Check the other way too: a line whose procedure is not `emergency` — set it
+   to `budget` — must produce no such entry, because a Budget Bill has no motion
+   to date.
+
+6. **A further appearance that states a procedure is refused.** Give the line
+   `continues_bill_id` = 303 and the introduction date of the bill it continues,
+   5 May 2020, with the procedure and its date filled. **Expected:** a complaint
+   beginning *continues bill 303 and states how the bill was handled*. Empty
+   both cells and that complaint goes, while the line stays otherwise as it was.
+   *From `db/087`: promotion carries seven cells from a further appearance and
+   procedure is not among them, so a value there would be dropped in silence.*
+
+7. **Promotion carries both cells, with provenance.** With the fixture as a bill
+   of its own — no `continues_bill_id` — and the error checker empty, promote
+   Session 6. **Expected:** the bill reads `emergency` and 2024-11-20; two
+   provenance notes are written against it, `procedure` with the value seen
+   `emergency` and `date_procedure_agreed` with 2024-11-20, both citing the
+   Session 6 fact sheet retrieved 2026-09-10; and the counts for everything else
+   are unchanged at 389 bills, 1071 stage records and 112 provenance notes.
+   Then take the session off again and confirm the bill and both notes go with
+   it. *From `db/087` and `tools/promote_session.sql`.*
+
+### What this test does not check
+
+- **That the five bills are the right five, or that their dates are right.**
+  Nothing is loaded here. That is the Session 6 ingest's own test, when there is
+  one.
+- **Any procedure other than emergency.** Only emergency has ever been stated by
+  a source, so budget, consolidation and the three statute law values are
+  exercised nowhere except item 5's second limb, which only asks that they
+  produce no gap entry.
+- **Backfilling Sessions 1 to 5.** Not begun, and needs a source not yet agreed.
+- **The prose reader.** It is built next, on top of this, and gets its own test.
+- **That M10 says the right thing to a reader.** That is the owner's to judge,
+  and it is not a mechanical item.
+
+---
+
 ## The gaps list, and a bill's second appearance
 
 Written 2026-09-14 by the session that built `db/086`, which may therefore not

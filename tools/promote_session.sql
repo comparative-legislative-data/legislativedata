@@ -212,7 +212,7 @@ INSERT INTO bill (bill_id, session_number, sp_bill_id, short_title, bill_type,
                   procedure, date_introduced, outcome, enactment_status,
                   date_royal_assent, asp_number, date_concluded,
                   date_assent_blocked, bill_type_stated, title_as_introduced,
-                  stage_1_rejection_route, note,
+                  stage_1_rejection_route, note, date_procedure_agreed,
                   assent_block_route, assent_block_outcome,
                   reintroduced_from_bill_id,
                   source, source_ref, observed_at)
@@ -220,7 +220,7 @@ SELECT p.candidate_id, p.session_number, p.sp_bill_id, p.short_title, p.bill_typ
        p.procedure, p.date_introduced, p.outcome, p.enactment_status,
        p.date_royal_assent, p.asp_number, p.date_concluded,
        p.date_assent_blocked, p.bill_type_stated, p.title_as_introduced,
-       p.stage_1_rejection_route, p.bill_note,
+       p.stage_1_rejection_route, p.bill_note, p.date_procedure_agreed,
        p.assent_block_route, p.assent_block_outcome,
        p.reintroduced_from_bill_id,
        p.source, p.source_ref, p.observed_at
@@ -372,6 +372,36 @@ SELECT 'bill', p.candidate_id, f.field_name, p.source, p.source_ref,
    AND NOT EXISTS (SELECT 1 FROM field_source g
                     WHERE g.entity = 'bill' AND g.entity_id = p.candidate_id
                       AND g.field_name = f.field_name);
+
+-- How the bill was handled under the Parliament's rules, and the day the
+-- Parliament agreed to handle it that way. Both are read from a sentence the
+-- Session 6 and 7 fact sheets print against the bill -- "Motion agreed to
+-- treat as Emergency Bill on 22 June 2021" -- and no fact sheet for Sessions 1
+-- to 5 mentions procedure at all, so these notes exist only where a source
+-- actually said something. What is kept is the value as read, which is what
+-- value_seen holds for bill_type, asp_number and date_introduced; the fact
+-- sheet's own sentence is on the staging line, in parser_note. There is no
+-- cell for the sentence because it carries nothing the two values do not. See
+-- db/087 and methodology note M10.
+INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
+                          value_seen, observed_at)
+SELECT 'bill', p.candidate_id, 'procedure', p.source, p.source_ref,
+       p.procedure, p.observed_at
+  FROM promoting p
+ WHERE p.procedure IS NOT NULL
+   AND NOT EXISTS (SELECT 1 FROM field_source f
+                    WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
+                      AND f.field_name = 'procedure');
+
+INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
+                          value_seen, observed_at)
+SELECT 'bill', p.candidate_id, 'date_procedure_agreed', p.source, p.source_ref,
+       p.date_procedure_agreed::text, p.observed_at
+  FROM promoting p
+ WHERE p.date_procedure_agreed IS NOT NULL
+   AND NOT EXISTS (SELECT 1 FROM field_source f
+                    WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
+                      AND f.field_name = 'date_procedure_agreed');
 
 -- How a bill came to be rejected at Stage 1, read from the Official Report. The
 -- value seen is the Presiding Officer's announcement, word for word, which is
@@ -564,11 +594,34 @@ BEGIN
        OR b.bill_type_stated  IS DISTINCT FROM c.bill_type_stated
        OR b.title_as_introduced IS DISTINCT FROM c.title_as_introduced
        OR b.stage_1_rejection_route IS DISTINCT FROM c.stage_1_rejection_route
+       OR b.procedure         IS DISTINCT FROM c.procedure
+       OR b.date_procedure_agreed IS DISTINCT FROM c.date_procedure_agreed
        OR b.assent_block_route      IS DISTINCT FROM c.assent_block_route
        OR b.assent_block_outcome    IS DISTINCT FROM c.assent_block_outcome
        OR b.reintroduced_from_bill_id IS DISTINCT FROM c.reintroduced_from_bill_id
        OR b.note              IS DISTINCT FROM c.bill_note);
   IF bad IS NOT NULL THEN RAISE EXCEPTION 'Check failed: bill(s) % differ from their staging line.', bad; END IF;
+
+  -- A bill that says how it was handled says who said so. Added at db/087:
+  -- the value is read off a fact sheet sentence that is kept nowhere else on
+  -- the clean sheet, so without the note there is nothing behind the cell.
+  SELECT string_agg(b.bill_id::text, ', ') INTO bad
+    FROM bill b
+   WHERE b.session_number = s
+     AND b.procedure IS NOT NULL
+     AND NOT EXISTS (SELECT 1 FROM field_source f
+                      WHERE f.entity = 'bill' AND f.entity_id = b.bill_id
+                        AND f.field_name = 'procedure');
+  IF bad IS NOT NULL THEN RAISE EXCEPTION 'Check failed: bill(s) % say how they were handled with nothing recording where that came from.', bad; END IF;
+
+  SELECT string_agg(b.bill_id::text, ', ') INTO bad
+    FROM bill b
+   WHERE b.session_number = s
+     AND b.date_procedure_agreed IS NOT NULL
+     AND NOT EXISTS (SELECT 1 FROM field_source f
+                      WHERE f.entity = 'bill' AND f.entity_id = b.bill_id
+                        AND f.field_name = 'date_procedure_agreed');
+  IF bad IS NOT NULL THEN RAISE EXCEPTION 'Check failed: bill(s) % date the agreeing of a procedure with nothing recording where that came from.', bad; END IF;
 
   -- Every bill's stage records are exactly the stage-dates rows carried for
   -- it: one per stage, field by field, and none without one.
