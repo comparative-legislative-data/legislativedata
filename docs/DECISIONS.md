@@ -67,12 +67,20 @@ is then corrected, with the Corrections sheet carrying it and the fingerprint
 before the change: `4110d58f…` became `072184df…`. A copy of the file before the
 change is not kept; it still exists on this machine only.
 
-**What the checker does not catch, said plainly.** It found this because the
-dates were in an impossible order. A stage date that is wrong but still in order
-would pass it, and nothing has compared Session 5's stage dates against the
-Parliament's bill pages — the 14 September comparison covered introduction,
-passing and Royal Assent only. That check is 87 pages and its own piece of work.
-It is open, and not scoped.
+**What the checker does not catch, and the owner's decision about it.** It found
+this because the dates were in an impossible order. A stage date that is wrong
+but still in order would pass it, and nothing has compared Session 5's stage
+dates against the Parliament's bill pages — the 14 September comparison covered
+introduction, passing and Royal Assent only. Checking them is 87 pages and its
+own piece of work.
+
+**The owner's decision, 14 September: the dataset is taken as it is for now.**
+The error rate is likely to be very low and is tolerable until there is a
+methodology for checking it, and nothing waits on it, so it is not urgent. It
+may be come back to. This is the owner's judgement as the authority on the
+data, made with the limitation stated rather than around it, and it is not a
+question to reopen unasked: what would reopen it is a methodology for the check,
+or errors turning up often enough to say the rate is not what was assumed.
 
 ---
 

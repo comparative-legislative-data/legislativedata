@@ -117,10 +117,10 @@ a bill's Royal Assent was blocked, which is kept because M5 depends on it; and
 the Fair Rents page contradicting itself on the day the bill fell, which is moot
 now that the bill carries no date for where it ended.
 
-**Open, and not scoped:** nothing has compared Session 5's stage dates against
-the Parliament's bill pages. The error checker catches a date in an impossible
-order, as it did for the Civil Partnership Act, but not one that is wrong and
-still in order. 87 pages, and its own piece of work.
+**Settled on 14 September, and not on this list:** whether to check the stage
+dates against the Parliament's bill pages. **The dataset is taken as it is for
+now** — the error rate is likely to be very low and tolerable until there is a
+methodology for checking it, and nothing waits on it. It may be come back to.
 
 ---
 
@@ -224,6 +224,15 @@ session that did not build them.
 
 
 ## The owner's standing positions, so they are not re-argued
+
+- **The dataset is taken as it is, for now.** The error checker catches a stage
+  date in an impossible order, as it did for the Civil Partnership Act, but not
+  one that is wrong and still in order; checking Session 5's against the
+  Parliament's bill pages is 87 pages. The owner's judgement, 14 September, is
+  that the error rate is likely very low and tolerable until there is a
+  methodology for the check, and that nothing waits on it. Do not propose it
+  again unasked. What would reopen it: a methodology for checking, or errors
+  turning up often enough to say the rate is not what was assumed.
 
 - **The structure** is accepted as the price of academic-quality transparency.
   `ref_party` and `ref_procedure` have no data behind them, and are deliberate
