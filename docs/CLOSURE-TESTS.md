@@ -41,8 +41,17 @@ predictions exactly. Two did not, and both turned out to be faults in the
 prediction rather than in the data: item 26's arithmetic missed a period, and
 item 20 looked for a form of words the note never had. Both expected answers are
 corrected below, each marked and reasoned, so that what a later reader compares
-against is the corrected figure and not the original guess. Part B is the
-owner's and is not answered here.
+against is the corrected figure and not the original guess.
+
+**Part B is marked. All nine sign-offs were given on 2026-09-14**, in one
+session, each against the rows read back out of the database rather than out of
+a note about them. Three of the nine changed something. Item 7 settled that the
+working dataset is corrected whenever it is found wrong, so the National
+Galleries introduction date was corrected in the file and item 24 carries the new
+fingerprint. Item 8 named M4 where it meant M1, and the test is corrected. Item 9
+found the explainer silent on the note a reader sees and M7 a session out of
+date, and both were put right before the document was read. **Session 4 is
+closed.**
 
 Session 4 was deliberately still off the clean sheet when this was written. So
 every expected answer below is a prediction made from page 9 of the Session 4
@@ -543,6 +552,23 @@ numbers within the session, and four wording slips — not corrected either.
 Session 5 or beyond corrects the file and the fingerprint changes with it. Record
 the new one beside the old; nothing else about Session 4 is reopened by it.
 
+**Moved once since this was written, by Part B item 7 rather than by a later
+session.** On 2026-09-14 the owner ruled that the working file is corrected
+whenever it is found to be wrong, the original dataset behind the 2021 thesis
+being held separately for posterity, and the National Galleries introduction date
+was corrected in it from 26 to 25 June 2015. The fingerprint is now
+`6614b3a1871367284c452ff8564b213532c1ec786f344acb7d350131c135420f`; it was
+`a9596ecf…57ed8b94` when this test was marked. The eight paired names are still
+paired and not corrected, and the Land Reform Act's Royal Assent still stands as
+the dataset always had it. Checked against a copy taken before the change:
+exactly one cell differs on the data sheet -- D294 -- and seventeen on the
+Corrections sheet, being the new note, its header row and its one entry.
+`tools/phd_stage_dates.py` gives byte-identical output from the file before and
+after, checksum `47fe0846…be1b3384`, so none of the 522 stage dates the clean
+sheet holds from the dataset is affected, and `tools/compare_sources.py` now
+finds all 73, 81, 62 and 86 lines paired with no difference in any of the four
+sessions. Item 24 passes on the new fingerprint; no other item is reopened.
+
 **25. Promotion is still reversible.** Take Session 4 off and put it back inside a
 transaction that is thrown away, and the result is identical. The procedure is in
 `docs/PROMOTION-RUNBOOK.md`. Session 4 is the largest session yet at 86 bills, the
@@ -590,21 +616,39 @@ day it is given, and nowhere else.
 1. **What happened to each bill.** The counts in items 6 and 7 are what you
    expect for Session 4: the reconciliation against page 9 of the fact sheet in
    every cell and both margins, and the split of its six fallen bills into five
-   rejected at Stage 1 and one that ran out of time.
+   rejected at Stage 1 and one that ran out of time. **Given 2026-09-14**, on
+   the twelve cells and both margins read back beside page 9, and on the six
+   named bills split five rejected at Stage 1 -- Assisted Suicide, Pentland
+   Hills, Alcohol, Transplantation and Criminal Verdicts -- and one out of time
+   at dissolution, the Footway Parking and Double Parking Bill.
 2. **The five bills read in the Official Report.** For each, the quotation on the
    line and the ending recorded against it: Alcohol, Assisted Suicide, Criminal
    Verdicts and Pentland Hills rejected at Stage 1 on the member's own motion put
    and disagreed to; Transplantation rejected on that motion amended and agreed
    to. You predicted the fifth from the shape of the record before it was read;
    the sign-off is on the record as it was found, not on the prediction.
+   **Given 2026-09-14**, on the five lines read out in the source's own words
+   beside the ending recorded against each, including that the Criminal Verdicts
+   motion is the one of the five the page names no member for, and that the
+   Transplantation line's route quotes the division on the amendment, being what
+   the route records, with both divisions on the line recording the outcome.
 3. **The Transplantation Bill's motion as amended, read in full** as it will be
    published beside the bill, and that quoting the resolution — a soft opt-out
    system, a consultation, legislation next session if appropriate — is what you
    want a reader to see beside a bill counted as rejected at Stage 1.
+   **Given 2026-09-14**, on the published note read out in full as it stands
+   after `db/069`, with both divisions in it and the motion as amended quoted
+   entire.
 4. **The two endings you establish** for the Inquiries into Deaths Bill and the
    Footway Parking and Double Parking Bill, checked against the clean sheet
    rather than against the note of them, including whether the Footway Parking
    Bill's Stage 1 of 1 March 2016 is recorded and from what.
+   **Given 2026-09-14**, on both endings read off the clean sheet: the Inquiries
+   into Deaths Bill withdrawn on 24 September 2015 with one stage row, undated,
+   marked where the bill ended; and the Footway Parking Bill's Stage 1 recorded
+   as completed on 1 March 2016 from the Official Report of that day, ending at
+   an undated Stage 2, against the Parliament's current bill page labelling it
+   fallen at Stage 1.
 5. **The two adjudicated dates and the two cells the fact sheet prints short**,
    and that the corrections are the ones you intended: the Land Reform Act's
    Royal Assent settled your dataset's way against legislation.gov.uk; the
@@ -613,28 +657,57 @@ day it is given, and nowhere else.
    which the fact sheet prints with no year, taken from legislation.gov.uk — each
    with its source, its place in that source, the value in the source's own words
    and the day it was read, and the fact sheet's printed words left untouched
-   beside them.
+   beside them. **Given 2026-09-14**, on all four cells read out beside the fact
+   sheet's own printed words: the Land Reform Act's Royal Assent of 22 April 2016
+   against the fact sheet's 22 March; the National Galleries Act's introduction
+   of 25 June 2015 against the dataset's 26 June; and the Higher Education
+   Governance Act's title and number given their year, which the fact sheet
+   prints without.
 6. **The eight names paired by hand**, checked against the fact sheet and your
    dataset side by side: the four Budget Acts, which your dataset numbers within
    the session where the fact sheet gives the Act's short title, and the four
    wording slips. Every one agrees on both dates the two sources share.
+   **Given 2026-09-14**, on the eight pairs read out side by side with the dates
+   each shares -- the four Budget Acts and the four slips, Freedom of Information,
+   Inquiries into Fatal Accidents, Land and Buildings Transaction Tax and
+   Pentland Hills, the last sharing only its introduction date, having never
+   become an Act.
 7. **Whether the National Galleries introduction date should be corrected in your
    workbook.** Session 3's equivalent — the Autism Bill's Stage 1 date — was
    corrected in the file and the fingerprint moved with it. This one was settled
    on the staging line instead and the file left alone, so the dataset still says
    26 June 2015 where the database says 25 June. Either is defensible; they should
    not be decided differently by accident. Your call, and item 24 moves if you
-   correct it.
+   correct it. **Given 2026-09-14: corrected.** The owner ruled that this file is
+   the live working copy and is corrected whenever it is found to be wrong, the
+   original dataset behind the 2021 thesis being held separately for posterity.
+   So Session 3's handling is the rule and Session 4 now follows it. The cell was
+   changed from 26 to 25 June 2015, the Corrections sheet carries the change with
+   its reason and what it was checked against, and item 24 carries the new
+   fingerprint.
 8. **The Parliament's own styling changing inside Session 4**: 15 government
    bills recorded as introduced when they were styled Executive Bills and 52 as
-   Government Bills, against 67 counted as government throughout — and that M4
-   says what you want said to a reader who notices.
+   Government Bills, against 67 counted as government throughout — and that M1
+   says what you want said to a reader who notices. (**This item named M4 when it
+   was written, which is the Hybrid Bill note and the wrong one; the note that
+   covers the styling change is M1. Corrected on 2026-09-14 while the item was
+   being marked, and the correction put to the owner rather than made silently.**)
+   **Given 2026-09-14**, on the split read off the clean sheet -- 15 styled
+   Executive, introduced between 16 June 2011 and 27 June 2012, and 52 styled
+   Government, between 3 October 2012 and 28 January 2016, a clean break with no
+   overlap -- and on M1's wording read out in full.
 9. **That you can explain how this database works** from the documents alone,
    without help. The standing requirement, put again because Session 4 is the
    largest session so far and the first whose bills carry two different
    contemporaneous labels. Check `docs/HOW-THE-DATABASE-WORKS.md` is current
    before reading it: its counts still say 216 bills and 71 provenance notes, and
    the session that promotes Session 4 has to bring them to 302 and 86.
+   **Given 2026-09-14.** The document was checked first and found level with the
+   database at 302 and 86, but with one thing missing and one thing wrong, both
+   put right before it was read: it never said where the note a reader sees lives
+   on the clean sheet, which is where the two published divisions went, and M7
+   still said the coding of why a bill fell had been done for three sessions when
+   Session 4 made it four (`db/070`).
 
 ### Part C — what this test does not check
 
@@ -1001,6 +1074,13 @@ for Session 4 or beyond corrects the file and the fingerprint changes with it.
 Record the new one beside the old; nothing else about Session 3 is reopened by
 it.
 
+**Moved on 2026-09-14**, after the National Galleries introduction date was
+corrected while Session 4's Part B was marked, to
+`6614b3a1871367284c452ff8564b213532c1ec786f344acb7d350131c135420f`.
+`tools/phd_stage_dates.py` gives byte-identical output from the file before and
+after, so Session 3's stage dates are untouched. Item 22 passes on the new
+fingerprint; no other item about Session 3 is reopened.
+
 **23. Promotion is still reversible.** Take Session 3 off and put it back inside
 a transaction that is thrown away, and the result is identical. The procedure is
 in `docs/PROMOTION-RUNBOOK.md`. Session 3 is the first session promoted with a
@@ -1309,10 +1389,13 @@ about Sessions 1 and 2 is reopened by it.
 `e04dc540…c38ea75` later that day, after Session 3's ten names and the Criminal
 Procedure date; now
 `a9596ecf997f186b0dd9d069642560f65120ab7ca97d0a2387863d0157ed8b94`, on
-2026-09-13, after the Autism Stage 1 date. Nothing on the clean sheet moved on
-either occasion. `tools/phd_stage_dates.py` gives byte-identical output from
-every version of the file — checked across the first three on 2026-09-12 and
-across the last change on 2026-09-13 — so the 256 Stage 1 and Stage 2 dates
+2026-09-13, after the Autism Stage 1 date; and now
+`6614b3a1871367284c452ff8564b213532c1ec786f344acb7d350131c135420f`, on
+2026-09-14, after the National Galleries introduction date. Nothing on the clean
+sheet moved on any occasion. `tools/phd_stage_dates.py` gives byte-identical output from
+every version of the file — checked across the first three on 2026-09-12, across
+the fourth on 2026-09-13 and across the fifth on 2026-09-14 — so the 256 Stage 1
+and Stage 2 dates
 Sessions 1 and 2 hold are untouched. Item 19 passes; no other item is reopened.
 
 **20. Promotion is still reversible.** Take a session off and put it back inside

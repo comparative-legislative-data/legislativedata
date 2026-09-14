@@ -172,6 +172,16 @@ in charge's own motion. It can also have been on that motion amended to reject
 the bill, or on a committee motion under Rule 9.14.18. The clean sheet refuses a
 Stage 1 rejection without one, and refuses one on any other bill.
 
+Some bills carry a note written for a reader: one cell of plain English beside
+the bill, saying what the outcome on its own cannot. Two have one about how they
+were rejected — the Transplantation Bill of Session 4 and Session 1's
+Proportional Representation Bill, both ended by the member's own motion being
+turned into its opposite and then agreed to — and each gives the two votes the
+Parliament took and quotes the motion it ended up agreeing to. The note comes
+over with the bill from your sheet and is rewritten every time the session is
+put on, so it is always the latest reading of its source. The figures in it are
+sentences and not data: nothing can count or filter them, and M7 says so.
+
 Nearly every bill that did not pass has one stage marked as where it ended. One
 does not, and it is worth knowing about because on screen it looks like an
 oversight. The Creative Scotland Bill won its Stage 1 vote and fell the same

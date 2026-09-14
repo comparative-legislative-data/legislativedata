@@ -5,6 +5,111 @@ reason recorded as a new entry. Each says what was decided, when, and why —
 the why matters more than the what, because it is what tells a later session
 whether changed circumstances actually undermine the decision.
 
+
+---
+
+## 2026-09-14 — Session 4 is closed on all nine sign-offs
+
+**Given by the owner on 2026-09-14**, in one session, each against the rows read
+back out of the database rather than out of a note about them. Session 4's 86
+bills, 158 Stage 1 and Stage 2 dates and 9 provenance notes are final, subject
+only to the standing caveat that published records get revised.
+
+**Six were confirmations.** The reconciliation against page 9 in all twelve cells
+and both margins, with its six fallen bills split five rejected and one out of
+time; the five bills read in the Official Report, each quotation beside the
+ending recorded against it; the Transplantation Bill's published note in full,
+with both divisions and the motion as amended quoted entire; the two endings, the
+Footway Parking Bill's completed Stage 1 of 1 March 2016 standing against the
+Parliament's own bill page; the four adjudicated cells with the fact sheet's
+printed words beside each; and the eight names paired by hand, every pair agreeing
+on every date its two sources share.
+
+**Three changed something**, and that is the argument for Part B existing at all.
+Item 7 settled the rule about correcting the working dataset, and the National
+Galleries date with it — its own entry, above. Item 8 asked for a sign-off on M4
+where it meant M1, the Hybrid Bill note rather than the Executive-and-Government
+one; the test is corrected and the correction marked. Item 9, the standing
+requirement that the owner can explain the database from the documents alone,
+found the explainer silent on the note a reader sees — the cell the two divisions
+had just been published into — and M7 still saying the coding of why a bill fell
+had been done for three sessions when Session 4 made it four. Both were put right
+before the document was read: the explainer in prose, M7 by `db/070`.
+
+**What that says about the shape of the test.** Part A is where the database is
+checked against a prediction; **Part B is where the documents are checked against
+the database**, and it is the only part that looks at what a reader is told. Two
+of this session's three findings were in text a reader sees and neither was
+reachable by any mechanical check. Item 9 in particular earns its place as a
+standing item precisely because it is the one that cannot be automated.
+
+---
+
+## 2026-09-14 — The working dataset is corrected whenever it is wrong, and the National Galleries date is the first case under the rule
+
+### The owner's ruling
+
+"Correct it. We've already established the local version is a live and updatable
+doc and my original PhD dataset is kept separate for posterity."
+
+Session 3 corrected the Autism Bill's Stage 1 date in the file; Session 4 settled
+the National Galleries introduction date on the staging line and left the file
+alone. Both were defensible, and the Session 4 closure test put the difference to
+the owner as Part B item 7 rather than let two sessions decide the same question
+opposite ways by accident. **The rule is now Session 3's: the working file is
+corrected whenever it is found to be wrong.** The fingerprint exists to show the
+file changed, not to discourage changing it.
+
+### The correction
+
+`sources/phd/Billdates-September2026.xlsx`, Dates sheet, row 294, introduction
+date of the National Galleries of Scotland Act 2016: **26 June 2015 corrected to
+25 June 2015.** The SPICe legislation fact sheet gives 25 June, the Parliament's
+own page for the bill redirects into the National Records of Scotland web archive
+and cannot be read, and the owner's own record of the bill gives 25 June, which is
+what settled it on 13 September. The database has held 25 June since; the file now
+agrees. The Corrections sheet carries the change, the reason and what it was
+checked against, as it does for every correction before it.
+
+### Fingerprints
+
+Before: `a9596ecf997f186b0dd9d069642560f65120ab7ca97d0a2387863d0157ed8b94`.
+After: `6614b3a1871367284c452ff8564b213532c1ec786f344acb7d350131c135420f`.
+
+### Checked, against a copy taken before the change
+
+**Exactly one cell differs on the data sheet** — D294 — and seventeen on the
+Corrections sheet, being the new note, its header row and its one entry. Nothing
+else moved, and neither sheet changed shape.
+
+`tools/phd_stage_dates.py` gives **byte-identical output from the file before and
+after**, same checksum `47fe08466757786093c698cf1351d68ef962b65ec57de64e183748cdbe1b3384`
+across all four sessions, so none of the 522 stage dates the clean sheet holds
+from the dataset is affected. Its own report of the disagreement — "introduction
+dates differ: line 270 ... 2015-06-25 / dataset row 294 2015-06-26" — is gone.
+
+`tools/compare_sources.py` now finds **all 73, 81, 62 and 86 lines paired and no
+difference in any of the four sessions**. The SQL it writes was read and not run:
+nothing in the database needed to change, because the database was already right.
+
+### What moves in the tests, and what does not
+
+Sessions 1 and 2's item 19, Session 3's item 22 and Session 4's item 24 are the
+same item under three numbers — the one item an outside change may move — and all
+three now carry the new fingerprint beside the old. **Nothing else is reopened.**
+The eight Session 4 names that differ from the fact sheet's are still paired by
+hand in `tools/phd_stage_dates.py` and deliberately not corrected: they are
+wording, not error, and the fact sheet's form is not more right than the
+dataset's. The Land Reform Act's Royal Assent still stands as the dataset always
+had it, against the fact sheet.
+
+### Why the rule and not the case matters
+
+The dataset is the owner's research record and the check on every claim this
+project makes. A cell known to be wrong, left in it because correcting it would
+move a checksum, makes the record worth less and the checksum no more meaningful.
+The thesis dataset is a separate, frozen file; this one is working material.
+
 ---
 
 ## 2026-09-14 — Both divisions are published beside a bill rejected by its own amended motion, and vote data is a layer for later

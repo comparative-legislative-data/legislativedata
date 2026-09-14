@@ -19,80 +19,70 @@ and 2 dates are added from your PhD.
 | 1 | 73 bills | yes | yes | yes; **closed** |
 | 2 | 81 bills | yes | yes | yes; **closed** |
 | 3 | 62 bills | yes | yes | yes; **closed** |
-| 4 | 86 bills | yes | yes | yes; **test passed; your sign-offs left** |
+| 4 | 86 bills | yes | yes | yes; **closed** |
 | 5 | read in full | no | no | no |
 | 6–7 | needs a prose reader | no | no | no |
 
 **302 bills are now on the clean sheet**, what happened to each of them, and
 the time from introduction to every stage the Parliament decided, with every
-cell traceable to what said so. For the first time since the database was
-built, no bill on it is missing a stage date. Session 4's closure test has now
-been run and passed, so what is left before it closes is your nine sign-offs.
+cell traceable to what said so. No bill on it is missing a stage date. Four of
+the seven sessions are finished and closed; the first piece of work is now
+about two-thirds done by bills.
 
 ## What has been done
 
 - **10–12 September.** Database built, all seven factsheets surveyed, Sessions 1
   and 2 on the clean sheet and closed, your own dates loaded for all 154 bills,
   and Session 3's 62 bills read in.
-- **13 September.** Session 3 promoted and closed on all nine sign-offs. How time
-  is counted settled and built. Session 4's 86 bills read in, compared against
-  your dataset, admitted, and its closure test written by a session that did none
-  of its work. Where Session 4's last two bills ended established from the
-  sources.
-- **13 September, late.** Session 4 put on the clean sheet with your 158 Stage 1
-  and Stage 2 dates. Every count matched the closure test's prediction, written
-  before any of it was promoted.
+- **13 September.** Session 3 promoted and closed. How time is counted settled
+  and built. Session 4's 86 bills read in, admitted, promoted with your 158
+  Stage 1 and Stage 2 dates, and its closure test written by a session that did
+  none of its work.
+- **14 September, earlier.** Session 4's closure test run by a third session.
+  Twenty-five of twenty-seven mechanical items matched; the two that did not were
+  faults in the prediction, and answering one of them led to both divisions being
+  published beside the Transplantation and Proportional Representation Bills.
 
-**14 September, this session. Session 4's closure test run, and both divisions
-published beside two bills.**
-- **Twenty-five of the twenty-seven mechanical items matched exactly**, including
-  the reconciliation against page 9 in every cell, the factsheet re-read from the
-  PDF giving back the same 86 rows with exactly the nine cells we changed, and
-  Session 4 taken off and put back with no unexpected difference.
-- **The two that did not were both faults in the prediction**, not in the data:
-  one arithmetic (a period we do count was left out of the sum), one wording (a
-  check looked for a form of words the note never had). Both corrected, with the
-  reason written beside them.
-- **Answering the second turned up something real.** The vote figures were
-  recorded against all nineteen Stage 1 rejections but were not in the text a
-  reader sees. You settled that both divisions are published for a bill rejected
-  by its own amended motion, and `db/069` put them on the two bills concerned —
-  the Transplantation Bill and Session 1's Proportional Representation Bill.
+**14 September, this session. Session 4 closed on all nine of your sign-offs.**
+- **Six were confirmations**, each given against the rows read back out of the
+  database: the reconciliation, the five bills read in the Official Report, the
+  Transplantation note in full, the two endings, the four adjudicated cells and
+  the eight names paired by hand.
+- **Three changed something.** You settled that your working dataset is corrected
+  whenever it is found wrong — the thesis file being separate and frozen — so the
+  National Galleries date was corrected in it, from 26 to 25 June 2015, and all
+  three closure tests now carry the new fingerprint. The test asked for a
+  sign-off on the wrong methodology note and is corrected. And the documents
+  themselves had two faults, both fixed before you read them: the explainer never
+  said where the note a reader sees lives, and M7 still said the coding of why a
+  bill fell had been done for three sessions (`db/070`).
 - **Nothing else moved.** 302 bills, 828 stage records, 86 provenance notes, the
   error checker and gaps list both empty.
 
-## Now: Session 4's nine sign-offs
+## Now: your write-up on what the charts present
 
-The mechanical half is done and passed. What is left is Part B of
-`docs/CLOSURE-TESTS.md`, which is yours and nobody else's: the reconciliation and
-the split of the six fallen bills; the five bills read in the Official Report;
-the Transplantation Bill's motion **as it now reads, with both divisions in it**;
-the two endings you established; the two adjudicated dates and the two cells the
-fact sheet prints short; the eight names paired by hand; whether to correct the
-National Galleries date in your workbook; the Parliament's own styling changing
-inside the session; and that you can explain the database from the documents
-alone.
+The first of the two questions you separated — what the database calculates — is
+settled and built. This is the second: what the charts present, and the options
+they offer a reader. Nothing is built on it yet, and nothing else should start
+until it is written.
 
-Ask for any of them laid out and I will bring the rows. Session 4 closes when
-they are given, and not before.
+After it, Session 5 is the next session to load, and the three questions on the
+waiting list below are all due before it or before Session 6.
 
 ## After that, in order
 
-1. **Your write-up on what the charts present**, and the options they offer —
-   the second of the two questions you separated, the first being what the
-   database calculates, which is settled. Nothing is built on it yet.
-2. Bills carried over between sessions: **before Session 6 is loaded**, not
+1. Bills carried over between sessions: **before Session 6 is loaded**, not
    Session 5 — nothing in Sessions 4 or 5 trips the checks. Same four bills as
    the double-count guard below, so the two are one job.
-3. The double-count guard: before Session 6 is promoted.
-4. A prose reader for Sessions 6 and 7.
-5. Bring `docs/VARIABLES.md` up to date.
-6. **A layer of vote data**, decided on 14 September to be its own piece of work
+2. The double-count guard: before Session 6 is promoted.
+3. A prose reader for Sessions 6 and 7.
+4. Bring `docs/VARIABLES.md` up to date.
+5. **A layer of vote data**, decided on 14 September to be its own piece of work
    rather than something improvised. The division figures now published beside
    two bills are prose and cannot be counted; the figures recorded against all
    nineteen Stage 1 rejections are the obvious starting point, but the scope —
    which divisions, and how a member's vote is held — is not opened yet.
-7. Then, and only then: the website, and reading from the Parliament's API.
+6. Then, and only then: the website, and reading from the Parliament's API.
 
 ## Waiting for your decision, and not blocking anything
 
@@ -103,12 +93,10 @@ they are given, and not before.
 - **What we record for a bill that has passed and has no Royal Assent yet.**
   Session 5's factsheet has a fourth table of them, three bills. The reader
   knows the table and leaves it alone. Before Session 5.
-- **Whether to correct the National Galleries introduction date in your
-  workbook.** Session 3's equivalent, the Autism Bill's Stage 1 date, was
-  corrected in the file. This one was settled on the staging line instead and
-  the file left alone, so your dataset still says 26 June 2015 where the
-  database says 25 June. Either is defensible; they should not end up decided
-  differently by accident.
+- **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
+  is deliberately outside version control, and it is now a file this project
+  corrects rather than only reads. It exists on this machine and nowhere else.
+  Nothing forces a decision, but the next correction makes it worse.
 - **How to record a published record being revised.** When the first case
   arrives.
 - **Whether to rename the dates factsheet's file** to match the others'
@@ -133,74 +121,93 @@ orient, and none of it belongs above the line.
   entries to a line each, and rewrite "Now". If it grows, cut; do not append.
 - **The history of structure changes** is the numbered files in `db/` and
   `DECISIONS.md`. It is not repeated here.
-## Sanity check, 2026-09-14
+## Sanity check, 2026-09-14, second session of the day
 
 **At opening, everything matched.** 302 bills on the clean sheet — 73, 81, 62 and
-86 — 828 stage records, 86 provenance notes, 302 staging lines all accepted and
-all promoted and all compared, 828 stage-dates rows all accepted and all carried,
-the error checker empty, the gaps list empty, migrations numbered 001–068 without
-a gap, the data dictionary regenerating identical to the committed file at 17
-tables and 160 columns, `HOW-THE-DATABASE-WORKS.md` already saying 302 and 86,
-nothing uncommitted and nothing unpushed.
+86 — 828 stage records, 86 provenance notes, 19 Stage 1 rejections, the error
+checker empty, the gaps list empty, the data dictionary regenerating identical to
+the committed file at 17 tables and 160 columns, `HOW-THE-DATABASE-WORKS.md`
+already saying 302 and 86, nothing uncommitted and nothing unpushed. The first
+attempt to regenerate the dictionary failed on `Connection refused`: the SSH rate
+limit, not a fault, and it succeeded on the retry.
 
 **One thing carried over and still not blocking anything.** `db/066` has the same
 filename as `db/063`, `session_4_review.sql`, although one is the review and the
-other the admission. Recorded for the fourth time; nothing depends on it.
+other the admission. Recorded for the fifth time; nothing depends on it.
 
-**What this session did.** Ran Session 4's closure test — written by another
-session, and this one had done none of Session 4's work either. Then, on the
-owner's decision, `db/069` published both divisions beside the two bills rejected
-at Stage 1 by their own amended motion, and added a paragraph to M7.
+**The reconciliation, asked for and checked in full.** All four sessions match
+their fact sheets in every one of the forty-eight cells and every margin — pages
+7, 8, 8 and 9. Session 3 matches on the grouped reading, its stated Executive 45
+being our government 44 plus the one Hybrid Bill, which is M4.
 
-**The test's result: 25 of 27 mechanical items matched their predictions
-exactly.** The two that did not were both faults in the prediction.
+**What this session did. Session 4's Part B was marked, and Session 4 is closed.**
+All nine sign-offs were given on the rows read back out of the database. Six were
+confirmations. Three changed something, and the three are why Part B exists.
 
-- **Item 26 expected 1064 counted periods; there are 1065.** Every line of the
-  per-stage table matched but one: introduction → Stage 1 is 266, not 265. The
-  extra is the Footway Parking Bill's introduction to its Stage 1 of 1 March
-  2016, 286 days — a stage the Parliament completed, established the day before
-  and left out of the prediction's arithmetic. The not-counted side matched
-  exactly: 19 undated and 2 never-happened from Sessions 1 to 3, plus the two
-  Session 4 endings.
-- **Item 20's `quotes_the_division` came back false.** It looked in the published
-  note for the Official Report's phrase "as amended, agreed to"; the note says
-  "agreed to as amended". A wording, not a fact. The note itself was intact at
-  the 1376 characters predicted to the character.
+**Item 7 settled a rule, not just a cell.** The working dataset is corrected
+whenever it is found wrong; the thesis file is separate and frozen. So Session 3's
+handling is the rule and Session 4 follows it.
 
-**What answering item 20 turned up.** The division figures are recorded against
-every one of the nineteen Stage 1 rejections, in the Official Report's own words,
-but were not in the text a reader sees. Session 1's Proportional Representation
-Bill published the amendment's division and not the motion's; Session 4's
-Transplantation Bill published neither. The owner settled that both are given.
+- The National Galleries introduction date, Dates row 294, **26 June 2015
+  corrected to 25 June 2015**, with the Corrections sheet carrying the change,
+  its reason and what it was checked against.
+- Fingerprint `a9596ecf…57ed8b94` → **`6614b3a1871367284c452ff8564b213532c1ec786f344acb7d350131c135420f`**.
+- **Checked against a copy taken before the change**: exactly one cell differs on
+  the data sheet, and seventeen on the Corrections sheet, being the new note, its
+  header row and its one entry. Neither sheet changed shape.
+- **`tools/phd_stage_dates.py` gives byte-identical output before and after**,
+  checksum `47fe0846…be1b3384` across all four sessions, so none of the 522 stage
+  dates the clean sheet holds from the dataset is affected. Its own report of the
+  disagreement is gone.
+- **`tools/compare_sources.py` now pairs all 73, 81, 62 and 86 lines with zero
+  differences in every session.** The SQL it writes was read and not run; the
+  database was already right.
+- The new fingerprint is recorded beside the old in all three tests that carry it
+  — Sessions 1 and 2's item 19, Session 3's item 22, Session 4's item 24 — and
+  nothing else is reopened.
+
+**Item 8 was asking about the wrong note.** It sought a sign-off on M4, the
+Hybrid Bill note, where the styling change is M1. The test is corrected and the
+correction marked in it rather than made silently. The split itself stands: 15
+bills styled Executive at introduction, 16 June 2011 to 27 June 2012, and 52
+styled Government, 3 October 2012 to 28 January 2016 — a clean break with no
+overlap, against 67 counted as government throughout.
+
+**Item 9 found two faults in the documents, both fixed before they were read.**
+
+- `HOW-THE-DATABASE-WORKS.md` never said where the note a reader sees lives on
+  the clean sheet — the cell `db/069` had just published two divisions into. A
+  paragraph was added to "The clean sheet", in the owner's own vocabulary.
+- **M7 still said the coding of why a bill fell had been done for Sessions 1, 2
+  and 3.** Session 4 made it four, on 13 September. `db/070` corrects two
+  sentences and nothing else.
 
 **Tested rather than assumed.**
 
-- **`db/069` was rehearsed in a transaction that was thrown away before it was
-  applied**, and one of its own checks failed there: it asserted that four bills
-  carry a published note when six do, the other two being the Robin Rigg and
-  Forth Crossing Acts. Rewritten to prove that no bill gains or loses a note.
-- **Both notes were read in full by the owner before anything was saved.**
-- **The staging line and the published note are the same text**, checked inside
-  the migration, because a note is copied from its line every time a session is
-  put on.
-- **Session 4 was taken off and put back afterwards, in a transaction that was
-  thrown away**, to prove promotion carries the new text rather than reverting
-  it. It does, and the cell-by-cell comparison's verdict was "No unexpected
-  differences" — every difference a record number or a timestamp.
-- **Item 25 was run the same way before any of this**, with the same verdict.
-- **Item 23 was run from the PDF and the session number alone**: 86 rows, and
-  exactly the nine predicted differing cells across eight bills. The dissolution
-  rule applied afresh picks out only the Footway Parking Bill.
-- **Item 24**: the dataset's fingerprint is unchanged at sha256
-  `a9596ecf…57ed8b94`.
+- **`db/070` was rehearsed in a transaction that was thrown away, and the
+  rehearsal refused it.** Its own check asserted M7 would change by 8 characters;
+  the change is 2 — "1, 2 and 3." becomes "1, 2, 3 and 4." at +3, and "three"
+  becomes "four" at −1. The arithmetic was wrong, not the database. Corrected,
+  rehearsed again, then run for real. The reason is written into the file.
+- **`db/070` refuses to run at all** if any bill still carries the general fallen
+  code, if a fifth session has appeared on the clean sheet, if Session 4 is not
+  at 86 bills, or if more than one bill fell for want of a financial resolution —
+  because "four" and "one bill" would then be the wrong numbers too.
+- After it: exactly one note changed, by exactly two characters; M7 kept
+  everything it had including what `db/069` added; eight notes, 302 bills, error
+  checker and gaps list both empty.
+- The workbook edit was made against a copy taken first, and the copy compared
+  cell by cell on both sheets, not sampled.
 
-**After the change.** 302 bills, 828 stage records, 86 provenance notes, error
-checker empty, gaps list empty, the data dictionary regenerating with no
-difference but its own date line. Bill 68's note 621 → 706 characters, bill 302's
-1376 → 1448, M7 4361 → 5001, the other seven notes unmoved.
+**After the session.** 302 bills, 828 stage records, 86 provenance notes, error
+checker empty, gaps list empty, M7 5001 → 5003 characters, the other seven notes
+unmoved, the data dictionary regenerating identical to the committed file.
 
-**Not done, and deliberately.** Part B — the owner's nine sign-offs — is not
-answered here. Session 4 is not closed.
+**Found and not acted on.** `sources/phd/Billdates-September2026.xlsx` is not in
+version control — `sources/phd/*.xlsx` is deliberately ignored — so the working
+dataset exists only on this machine, and now that it is a file this project
+corrects, it has no copy anywhere. The pre-change copy this session took was in a
+scratch directory and will not survive. On the waiting list above.
 
 ## The owner's standing positions, so they are not re-argued
 
@@ -377,6 +384,11 @@ The gate compares our count against each factsheet's own summary table.
 - **Session 3.** Its summary has no Hybrid column and counts the Forth Crossing
   Bill under Executive. Its stated Executive 45 is our government 44 plus
   hybrid 1. Reconcile on `analysis_group`, not on `bill_type`.
+- **Session 4.** Page 9: Government 67, Member's 13, Private 5, Committee 1;
+  Acts 79 (67/6/5/1), withdrawn 1 (Member's), fallen 6 (all Member's: 5 rejected
+  at Stage 1, 1 at dissolution). Its column heading is **Government**, not
+  Executive: the Parliament's own styling changed inside this session. No Hybrid
+  Bill, so `bill_type` and `analysis_group` give the same table.
 - **Sessions 5 and 6** carry bills also counted in another session's totals.
   The factsheet totals are right for the factsheet and wrong for a count of
   distinct bills; see M6.
