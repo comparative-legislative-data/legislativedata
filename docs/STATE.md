@@ -59,30 +59,40 @@ about two-thirds done by bills.
 - **Nothing else moved.** 302 bills, 828 stage records, 86 provenance notes, the
   error checker and gaps list both empty.
 
-## Now: your write-up on what the charts present
+## Now: Session 5
 
-The first of the two questions you separated — what the database calculates — is
-settled and built. This is the second: what the charts present, and the options
-they offer a reader. Nothing is built on it yet, and nothing else should start
-until it is written.
+The next session to load. One thing is due before it, and only one: **what we
+record for a bill that has passed and has no Royal Assent yet.** Session 5's
+fact sheet has a fourth table of them, three bills. That is a coding question, so
+it is settled and built in full before Session 5 is admitted — what it records,
+which bills it applies to, where it sits on the clean sheet, how it reaches the
+staging sheet, how promotion carries it, what the error checker requires, and
+what the methodology note tells a reader. Nothing else about Session 5 starts
+until it is finished.
 
-After it, Session 5 is the next session to load, and the three questions on the
-waiting list below are all due before it or before Session 6.
+The carry-over question and the double-count guard are **not** due here. Both are
+before Session 6, and nothing in Session 5 trips them — checked rather than
+assumed when Session 4 closed.
 
 ## After that, in order
 
-1. Bills carried over between sessions: **before Session 6 is loaded**, not
+1. **Your write-up on what the charts present**, and the options they offer —
+   the second of the two questions you separated, the first being what the
+   database calculates, which is settled. Nothing is built on it yet, and nothing
+   waits on it: it was added to this list on 13 September and Session 4 was
+   loaded, promoted and closed past it. It is yours to do when you want it done.
+2. Bills carried over between sessions: **before Session 6 is loaded**, not
    Session 5 — nothing in Sessions 4 or 5 trips the checks. Same four bills as
    the double-count guard below, so the two are one job.
-2. The double-count guard: before Session 6 is promoted.
-3. A prose reader for Sessions 6 and 7.
-4. Bring `docs/VARIABLES.md` up to date.
-5. **A layer of vote data**, decided on 14 September to be its own piece of work
+3. The double-count guard: before Session 6 is promoted.
+4. A prose reader for Sessions 6 and 7.
+5. Bring `docs/VARIABLES.md` up to date.
+6. **A layer of vote data**, decided on 14 September to be its own piece of work
    rather than something improvised. The division figures now published beside
    two bills are prose and cannot be counted; the figures recorded against all
    nineteen Stage 1 rejections are the obvious starting point, but the scope —
    which divisions, and how a member's vote is held — is not opened yet.
-6. Then, and only then: the website, and reading from the Parliament's API.
+7. Then, and only then: the website, and reading from the Parliament's API.
 
 ## Waiting for your decision, and not blocking anything
 
@@ -202,6 +212,14 @@ overlap, against 67 counted as government throughout.
 **After the session.** 302 bills, 828 stage records, 86 provenance notes, error
 checker empty, gaps list empty, M7 5001 → 5003 characters, the other seven notes
 unmoved, the data dictionary regenerating identical to the committed file.
+
+**Corrected after the close, on the owner's challenge.** "Now" was rewritten to
+the charts write-up because it stood at number 1 of "After that, in order". That
+was an inference and not a decision: the item was added on 13 September and
+Session 4 was read in, promoted and closed past it, so the list was never being
+worked in order. Session 5 is the next piece of work, and the only thing due
+before it is the three bills passed with no Royal Assent yet. The write-up is
+back on the list, with a line saying nothing waits on it.
 
 **Found and not acted on.** `sources/phd/Billdates-September2026.xlsx` is not in
 version control — `sources/phd/*.xlsx` is deliberately ignored — so the working
