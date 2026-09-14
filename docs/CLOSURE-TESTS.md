@@ -30,6 +30,99 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The prose reader for Sessions 6 and 7
+
+Written 2026-09-14 by the session that built `tools/read_prose_factsheet.py`,
+which may therefore not run it. **Eight items, all mechanical.** Nothing here
+needs the owner, and nothing here writes to the database: the two load
+rehearsals are run with `-v save=false`.
+
+The reader turns the Session 6 and 7 fact sheets, which are prose, into the same
+CSV the ruled-table reader writes for Sessions 1 to 5, so that
+`tools/load_session.sql` has one contract to match. What it must get right that
+nothing else does is in `docs/FACTSHEET-SURVEY.md` §1.
+
+### The items
+
+1. **Both documents are read with nothing left over.** Run the reader on each
+   fact sheet. **Expected:** 83 rows for Session 6 and 2 for Session 7, and an
+   empty `problems` list both times. The reader puts its own pieces back
+   together and compares them with the document they came from, so an empty
+   list means every character of both bodies landed in a heading, a sentence or
+   a title. *The expectation comes from M6's arithmetic and from the reading
+   recorded on 2026-09-14, not from the reader.*
+
+2. **The sections are the ones the fact sheets print.** **Expected**, Session 6:
+   8 awaiting Royal Assent, 10 fallen, 4 withdrawn, 1 in the Session 5 section
+   of its own, 60 Acts. Session 7: 1 in progress, 1 awaiting Royal Assent.
+   *From the fact sheets' own headings and summary tables.*
+
+3. **The type counts are the reader's, and two of the fact sheet's own cells
+   disagree with them.** Count Session 6's rows by section and type.
+   **Expected:** awaiting Royal Assent 6 Government and 2 Member's where the
+   summary table prints 5 and 3; Acts 55 and 5 where it prints 56 and 4;
+   fallen 0 and 10, withdrawn 1 and 3, and the Session 5 bill Government, all
+   as printed. The margins agree: 62 Government and 20 Member's once the
+   excluded bill is left out, and 82 in total. *From reading the entries, and
+   from the summary table printed in the same document.*
+
+4. **A sentence that wraps across printed lines is read.** **Expected:** two
+   rows carry a `title_as_introduced` — the Care Reform Act, introduced as the
+   National Care Service (Scotland) Bill, and the Scottish Parliament (Recall
+   of Members) Bill, introduced as the Scottish Parliament (Recall and Removal
+   of Members) Bill. Both come from a sentence printed across two lines. A
+   reader working line by line finds neither, and swallows the sentence into
+   the next bill's title. *From `docs/FACTSHEET-SURVEY.md` §1 and §4.3.*
+
+5. **Five bills carry a procedure and its date.** **Expected:** exactly five
+   rows have `procedure` = `emergency`, and each has the date the fact sheet
+   states beside it: Coronavirus (Extension and Expiry) 2021-06-22, Cost of
+   Living (Tenant Protection) 2022-10-04, Post Office (Horizon System) Offences
+   2024-05-15, Prisoners (Early Release) 2024-11-20, Non-Domestic Rates for
+   Unoccupied Properties 2025-11-25. No row in Session 7. *From the fact sheet's
+   own sentences, quoted in `db/087`.*
+
+6. **What the fact sheet prints wrongly is mended in our title and never in its
+   own words.** **Expected:** `raw_title` still reads "Agriculture and Rural
+   Communities (Scotland) Bill Act 2024 (asp 11)" and "Housing (Scotland) Bill
+   Act 2025 (asp 13)", while `short_title` reads them without the word Bill and
+   `parser_note` says so. The European Charter row's `sp_bill_id` is 70 with a
+   note that the fact sheet prints "(SP 70)", and its `short_title` is the Bill
+   title with no `asp_number`, because the fact sheet prints neither the Act
+   title nor the number. *From the fact sheet, and from the four wrongly printed
+   titles recorded in `DECISIONS.md` on 2026-09-14.*
+
+7. **The CSV is the one the loader takes.** Load each CSV with
+   `-v save=false`. **Expected:** both say "All checks passed", 83 lines and 69
+   stage-dates rows for Session 6, 2 lines and 1 stage-dates row for Session 7,
+   and both roll back. Nothing is saved, and the counts afterwards are 389
+   bills, 1071 stage records and 112 provenance notes. *From
+   `tools/load_session.sql`'s own checks, which compare every cell of every line
+   against the CSV.*
+
+8. **The review list is the one recorded, and every item on it is a question
+   for the owner rather than a fault in the reader.** **Expected:** 17 problems
+   for Session 6 and 3 for Session 7, and every one of them either a bill
+   introduced before its session began, a fallen bill whose outcome needs a
+   judgement, a blocked bill whose route and outcome are for review, an Act
+   whose title or number the fact sheet did not print, or the Dog Theft Act's
+   asp year. *From the rehearsal recorded on 2026-09-14 in `STATE.md`.*
+
+### What this test does not check
+
+- **That the rows are right about the bills.** They are candidates. Whether
+  each is what the Parliament did is the owner's review, and the ingest test
+  for Sessions 6 and 7 is where it is checked.
+- **Anything loaded.** Nothing here is saved, so nothing here admits a session.
+- **The Reconsideration Stage dates**, which the reader keeps as words in
+  `parser_note` because there is nowhere else for them yet. Where they end up
+  is the decision this reader is waiting on.
+- **The reconciliation against the fact sheet's own summary**, beyond item 3's
+  counting. What to do about the two cells that disagree is settled in
+  `DECISIONS.md` and belongs to the ingest.
+
+---
+
 ## Procedure, and the day the Parliament agreed to it
 
 Written 2026-09-14 by the session that built `db/087`, which may therefore not
