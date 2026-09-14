@@ -21,17 +21,15 @@ and 2 dates are added from your PhD.
 | 3 | 62 bills | yes | yes | yes; **closed** |
 | 4 | 86 bills | yes | yes | yes; **closed** |
 | 5 | 87 bills | yes | yes | yes; **closed** |
-| 6 | 83 bills, read; not yet put on the sheet | no | no | no |
-| 7 | 2 bills, read; not yet put on the sheet | no | no | no |
+| 6 | 83 bills, on the staging sheet | not yet | no | no |
+| 7 | 2 bills, on the staging sheet | not yet | no | no |
 
 **389 bills are now on the clean sheet**, with 1071 stage records and 112
 provenance notes. **Five of the seven sessions are finished and closed.**
-Nothing of Sessions 1 to 5 is outstanding, every line of every session loaded is
-accepted and promoted, and every rule added before Session 6 has now been marked
-by a session that did not write it. **What is left of the first piece of work is
-Sessions 6 and 7.** Both are now read, and the reading has been through the
-loader twice with nothing kept. Putting them on the staging sheet for you to
-review is the next thing, and it waits on your word.
+Nothing of Sessions 1 to 5 is outstanding. **What is left of the first piece of
+work is Sessions 6 and 7.** Both are now on the staging sheet — 83 lines and 2 —
+and **neither is ready for you to review.** Three checks that come between the
+load and the review were not done, and are the next work.
 
 ## What has been done
 
@@ -57,53 +55,59 @@ review is the next thing, and it waits on your word.
   one, the UNCRC and European Charter Bills, both taken back by the Parliament
   after the Supreme Court stopped them, and M11 says so to a reader.
 
-**14 September, this session. The fifteen unrun checks are run, and they pass.**
+**14 September, earlier today.** The fifteen unrun checks on `db/088` and the
+prose reader were run by a session that built neither, and all fifteen passed;
+nothing was written.
 
-- **The seven on `db/088` and the eight on the reader**, both run by a session
-  that built neither. **All fifteen came out as expected**, and nothing was
-  written: 389 bills, 1071 stage records and 112 provenance notes before and
-  after, error checker and gaps list empty before and after.
-- **The check that matters most passed cleanly.** Both views as they stood
-  before `db/088` were rebuilt beside the live ones and compared as text, not by
-  counting lines. **Nothing was lost from either**: the error checker gained
-  exactly its three new checks, the gaps list exactly its one new question.
-- **Promotion carries the new cell, and putting the session back undoes it.**
-  Against a fixture, bill 303 gained its Reconsideration Stage reading 4 February
-  and 3 March 2026, kept its Stage 3, and got a provenance note behind each of
-  the five changed cells. Taking Session 6 off again and putting Session 5 back
-  returned every count and every cell exactly.
-- **Six small things the tests did not say**, all written into
-  `docs/CLOSURE-TESTS.md` beside the item they belong to, none of them a fault in
-  what was built. The two worth your eye: taking Session 6 off needs Session 5
-  put back after it, because bill 303 belongs to Session 5 and comes off with it,
-  and one refusal on the clean sheet cannot fire for a Member's Bill because an
-  older rule refuses first — it would take a Private Bill to exercise it.
+**14 September, this session. Sessions 6 and 7 are on the staging sheet, and a
+hole in the procedure is found and filled.**
 
-## Now: put Sessions 6 and 7 on the staging sheet, and your review
+- **The 83 lines and the 2 are loaded**, after a third rehearsal that matched
+  the recorded one in every figure. Line numbers 390 to 474. The clean sheet is
+  untouched: 389 bills, 1071 stage records, 112 provenance notes.
+- **You asked whether the fact sheet had been compared against your PhD
+  dataset. It had not**, and nor had the Official Report been read for the ten
+  bills Session 6 says fell. Both are steps every one of the first five sessions
+  took. I had told you the sheet was ready for review; it was not.
+- **The cause is one hole in one document.** `PROMOTION-RUNBOOK.md`'s staging
+  section ended at "Save" and the document resumed at typing stage dates.
+  Everything between the load and the review was written nowhere — it lived in
+  each session's closure test, after the fact, and in memory. Step 1 had pointed
+  at "the comparison at step 1a" since 13 September; there has never been a step
+  1a. It survived five sessions because the comparison broke or found a
+  disagreement every time, so nobody had to remember it.
+- **The runbook now has steps 6, 7 and 8**, and step 5 says in terms that the
+  session is not ready to be reviewed. `DECISIONS.md` records it.
+- **The comparison has been run but not applied.** Session 6 pairs 74 of 83,
+  Session 7 1 of 2. Six unpaired lines are the same bill named differently and
+  need hand-pairing; four are second appearances and are correctly unpaired;
+  three dates genuinely disagree and two Act titles differ by a word.
 
-Everything before it is done, and nothing has been kept: the loader has been run
-twice with the save switch off. Say the word and the 83 lines and the 2 go on the
-sheet for you to look at in Postico. They are not admitted by being put there,
-and nothing reaches the clean sheet until you have been through them.
+## Now: the three checks that come before your review
 
-The error checker already turns 19 of the 83 into questions that are yours rather
-than the reader's:
+Nothing about Sessions 6 and 7 should be reviewed until these are done, and none
+of them is yours. The session brings the evidence; you rule on what it means.
 
-- **Seven fallen bills need a reason.** Ten fell; three of them on 8 April 2026,
-  the day the session ended, and those three are proposed as having run out of
-  time. The other seven are for you.
-- **Four bills are in two factsheets** — the UNCRC Bill, the European Charter
-  Bill, the Legal Continuity Bill and the Gender Recognition Reform Bill — and
-  each needs to be pointed at the bill already on the clean sheet.
-- **The European Charter Bill's Act title and asp number** are printed nowhere
-  in the factsheet, and the Dog Theft Act's year disagrees with its Royal Assent.
-  Both come from legislation.gov.uk.
-- **The Gender Recognition Reform Bill** needs to say how it was stopped and what
-  followed, in both sessions.
+1. **Finish the comparison against your dataset.** Six hand-pairings to confirm,
+   then three disagreeing dates and two Act titles to settle at legislation.gov.uk
+   and the Parliament's bill pages.
+2. **Read the Official Report for all ten of Session 6's fallen bills.** Seven
+   concluded on a sitting day months before dissolution, which is the pattern
+   that turned three of Session 5's seven into Stage 1 rejections. The three the
+   loader proposed as having run out of time are checked too, not assumed.
+3. **Settle the rest of the error checker's list** — the four bills in two fact
+   sheets, the European Charter Act's title and number, the Dog Theft Act's year,
+   and how the Gender Recognition Reform Bill was stopped in both sessions.
 
-Nothing is loaded until you have been through them. Everything that had to be
-checked first has been: `db/088`'s seven and the reader's eight were run this
-session by a session that built neither, and all fifteen passed.
+**Before that, and waiting on your word:** a session that did not write the
+runbook checks its new steps 6, 7 and 8 against what Sessions 1 to 5 actually
+did, so the chain is certified by someone other than the person who wrote it
+down.
+
+**Also on the table, not yet agreed:** making the error checker name an
+uncompared line while it is still `new`, so it shows on the review list the
+moment a session is loaded instead of being invisible until after the review.
+That is a change to how data is coded and gets all eight parts settled first.
 
 **Yours whenever you want it, and nothing waits on it:** your write-up on what
 the charts present and the options they offer.
@@ -167,73 +171,53 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-14, seventeenth session of the day
+## Sanity check, 2026-09-14, eighteenth session of the day
 
-**Everything matched, and nothing was open that `STATE.md` did not say.** 389
-bills, 1071 stage records, 112 provenance notes, 73/81/62/86/87 by session; error
-checker empty, gaps list empty; the data dictionary regenerating identical to the
-committed file; nothing uncommitted and nothing unpushed. The two written-and-unrun
-tests — `db/088`'s seven and the reader's eight — were both named at the top of
-`STATE.md` as this session's work, which is what the opening check asks for.
+**Everything the check asks for matched.** 389 bills, 1071 stage records, 112
+provenance notes, 73/81/62/86/87 by session; error checker empty, gaps list
+empty; the data dictionary regenerating identical to the committed file; nothing
+uncommitted and nothing unpushed.
 
-**Old working files are still sitting in `/tmp` on the server** — `cols.sql`,
-`look.sql`, `sanity.sql`, `reh.tgz` — left by earlier sessions. Nothing is inside
-the database and nothing depends on them. This session removed everything it put
-there itself and left no view or table behind.
+**And it did not find what was actually wrong.** The opening check asks whether
+the counts match, whether anything is uncommitted, and whether a closed session
+has a test run by another session. It does not ask whether the session about to
+be worked on has had every step of the ingest chain done, because until today
+that chain was not written down anywhere to be checked against. The comparison
+against the PhD dataset and the Official Report for the fallen bills were both
+missing, and the check passed. Worth considering whether the opening check
+should read the runbook's steps 6 to 8 against the session in hand.
+
+**Old working files are still in `/tmp` on the server** — `cols.sql`, `look.sql`,
+`sanity.sql`, `reh.tgz`, from earlier sessions. Nothing is inside the database
+and nothing depends on them. This session removed everything it put there.
 
 ## What the previous session did
 
-Built `tools/read_prose_factsheet.py` and `db/088`, wrote the tests for both and,
-correctly, ran neither.
+Ran the fifteen unrun checks on `db/088` and the prose reader, having built
+neither. All fifteen passed and nothing was written.
 
 ## What this session did
 
-**Ran all fifteen unrun items**, having built none of what they test, and wrote
-nothing: 389 bills, 1071 stage records and 112 provenance notes before and after,
-error checker and gaps list empty before and after, and no `_087` view or fixture
-row left behind. Every answer is in `docs/CLOSURE-TESTS.md` beside its item.
+**Loaded Sessions 6 and 7 onto the staging sheet**, lines 390 to 474, after a
+rehearsal that matched the recorded one in every figure. Clean sheet untouched.
 
-**How the view comparison was done**, since it is the item that matters most and
-will have to be done again. `db/088` was already applied, so "the definition
-before" no longer existed in the database. The two view blocks were cut out of
-`db/087`'s text, renamed `v_candidate_problems_087` and `v_stage_date_gaps_087`,
-and created beside the live ones inside a transaction that was rolled back; all
-four definitions were then read back with `pg_get_viewdef(..., true)` and diffed
-as text. **Zero deleted lines in both diffs.** Reading them back out of the
-database rather than diffing the migration files is the point: it normalises both
-sides through the same printer, so a reformat cannot look like a loss and a loss
-cannot hide in a reformat.
+**Then found that three steps of the ingest chain had never been written down**,
+and that two of them had not been done for these sessions: the comparison
+against the PhD dataset, and the Official Report for every fallen bill. Wrote
+them into `PROMOTION-RUNBOOK.md` as steps 6, 7 and 8 with a new section heading,
+pointed the dangling "step 1a" reference at step 6, and recorded the whole thing
+in `DECISIONS.md`.
 
-**Six things the tests did not say.** All are written up in `CLOSURE-TESTS.md`;
-these are the ones with consequences beyond their own item:
+**The comparison was run and deliberately not applied.** Its SQL is in the
+session scratchpad and nothing was written to the database. Six lines need
+hand-pairing before it can be applied at all, because an unpaired line is
+stamped as compared anyway — the fault `db/044` has carried since it was built,
+which until now had no instance to see it on. It has nine.
 
-- **Taking a session off can need two steps.** Taking Session 6 off alone gave
-  388 bills, 1068 stage records and 108 provenance notes, because bill 303 is a
-  Session 5 bill that Session 6 added to and comes off with it.
-  `rollback_promotion.sql` says so in its own output and tells you to promote
-  Session 5 again, in that order; doing so returned 389/1071/112 and every cell
-  of bill 303 exactly. Any test or runbook step that says "take the session off
-  and the counts return" must say both steps where a continued bill is involved.
-- **`stage_event_a_stage_that_did_not_happen_was_not_reached` cannot fire for a
-  public bill.** The older rule that only a Private Bill may skip a stage refuses
-  first. The CHECK is right and is currently unexercised; exercising it needs a
-  Private Bill fixture.
-- **A fixture must fill `bill_type_stated`.** The `db/088` fixture as written
-  omits it and the error checker rightly complains. This is the same trap the
-  previous session recorded: a fixture has to be consistent in every cell the
-  checker reads, not only the cells the item is about.
-- **Two true numbers for Session 6's stage dates.** The loader writes them in two
-  goes — 69 Stage 3 rows and 2 Reconsideration rows. A test saying "69" and a
-  note saying "71" are both right, about different things.
-- **The Legal Continuity Bill draws a complaint the reader's test does not list**
-  — *final stage completed, but the outcome is not passed* — because its Session
-  6 line is the bill's second appearance. A question for review, not a fault.
-
-**What the run cost in connections:** about a dozen, and the SSH rate limit bit
-once. Two habits that saved several: send every script as one bundle and run the
-whole file with `psql -f`, and write `\o` output to a world-writable directory,
-because `psql` runs as `postgres` and cannot write into a directory owned by the
-login account.
+**What this session did not do, and should not:** certify its own runbook. The
+new steps were derived from the commit chain of Sessions 4 and 5 and from the
+database's rules, by the session that wrote them down. A different session
+should check them against what those sessions actually did.
 
 ## The owner's standing positions, so they are not re-argued
 

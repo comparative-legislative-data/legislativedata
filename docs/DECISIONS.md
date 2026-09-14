@@ -8,6 +8,74 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — The three steps between the load and the review are written down
+
+**Decided and done the same day**, after the owner asked whether Sessions 6 and
+7 had been compared against the PhD dataset. They had not. Nor had the Official
+Report been read for the ten bills the Session 6 fact sheet says fell. Both are
+steps the first five sessions took every time.
+
+### What was found
+
+`docs/PROMOTION-RUNBOOK.md` had a section for putting a session on the staging
+sheet whose last numbered step was "Save", and the next section in the document
+was typing the stage dates into Postico. Everything between the load and the
+owner's review — the comparison against the dataset, the Official Report for
+every fallen bill, and settling the error checker's list against the sources
+that own each fact — was in no document at all. It lived in each session's
+closure test, written after the fact, and in whatever the session doing the work
+remembered.
+
+Step 1 of that section had referred to "the comparison at step 1a" since
+`643a420` on 2026-09-13. There has never been a step 1a. The reference was
+written as a forward pointer to a step that was then not written, and no session
+between then and now read the section closely enough to notice that the thing it
+pointed at was missing.
+
+### Why it survived five sessions and failed on the sixth
+
+The comparison announced itself every previous time. In Sessions 1 and 2 it was
+done by hand and found thirteen disagreements, five of which were the fact sheet
+being wrong; the tool exists because of that. In Session 3 the tool and `db/044`
+were built. In Session 4 the pairing gate was found to be broken, eight names
+had to be hand-paired, and two dates genuinely disagreed. In Session 5 three
+dates disagreed and `db/074` settled them. Loading and comparing were one task,
+in one session, in one commit — `d175cf5` is called "Session 4 on the staging
+sheet, and the hand-pairing list ungated".
+
+Sessions 6 and 7 are the first where the reading was done by one session and the
+load by another, and the first where the comparison would have had nothing to
+announce. A step that is only carried by being noisy is not a step; it is luck.
+
+The same is true of the fallen bills. Session 5's three rejections were found
+because that session read the Official Report for all seven of its fallen bills.
+Nothing asks for that at the moment it is needed: the error checker's "outcome
+not proposed — needs a judgement" reads as a question for the owner, when it is
+first of all a source to be read.
+
+### What is recorded
+
+The runbook gains a section, "After the load, and before the review", with steps
+6, 7 and 8: the comparison, the Official Report for every fallen bill including
+the ones proposed as having run out of time, and the error checker's list
+settled against the sources that own each fact. Step 5 gains a sentence saying
+in terms that the session is not ready to be reviewed. The dangling reference to
+step 1a is pointed at step 6.
+
+### What is not fixed by this
+
+A written step depends on the document being read. The proposal on the table,
+not yet agreed, is that the error checker name an uncompared line while it is
+still `new`, so it appears on the review list the moment a session is loaded
+rather than being invisible until after the review. That is a change to how data
+is coded and gets all eight parts settled before anything is built.
+
+Nothing had reached the clean sheet. All 389 lines on it were compared before
+they were accepted, and all 22 Stage 1 rejections carry their route and the
+Presiding Officer's words.
+
+---
+
 ## 2026-09-14 — A stage record gains the day the bill reached the stage
 
 **Decided, and built the same day** (`db/088`, the two readers, the loader and

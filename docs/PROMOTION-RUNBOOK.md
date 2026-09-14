@@ -17,7 +17,7 @@ for review. Same pattern as promotion: rehearse, look, then save.
 
 **1. Extract.** Use the pinned environment (`tools/requirements.txt`; one is
 built at `/opt/legdata/venv` on the VPS; the VPS copy cannot run the comparison
-at step 1a, which needs a spreadsheet library it does not have).
+at step 6, which needs a spreadsheet library it does not have).
 
     python tools/extract_factsheet.py sources/factsheets/spice-legislation-session-2_retrieved-2026-09-10.pdf \
         --session 2 --csv s2.csv
@@ -73,6 +73,109 @@ its provenance note.
 
 **5. Save.** The same command with `save=true`. Refused if the session is
 already loaded.
+
+**The session is now on the staging sheet, and it is not ready to be reviewed.**
+Steps 6, 7 and 8 all write onto the lines the owner will read, and all three
+must be done before the review, not after it. A review of a line that has not
+been compared, or of a fallen bill nobody has looked up, is a review of half the
+evidence.
+
+---
+
+## After the load, and before the review
+
+Three checks. Each one adds to what the owner sees on the line, and each is the
+session's work, not the owner's: the session brings the evidence, the owner
+rules on what it means.
+
+None of this was written down until 2026-09-14, and Sessions 6 and 7 were
+loaded and announced as ready for review without any of it. It survived
+Sessions 1 to 5 because the comparison broke or produced a disagreement every
+single time, so nobody had to remember it. See `DECISIONS.md`.
+
+**6. Compare the session against the owner's PhD dataset.**
+
+    python tools/compare_sources.py --session 6 --sql cmp6.sql
+
+It compares the two dates a bill's own line holds — introduction and Royal
+Assent — and what kind of bill it was. It does not compare stage dates; those
+are checked when the dates go on, because the stage-dates sheet holds one row
+per source and the checker already requires two rows for the same stage to
+agree.
+
+It writes SQL to be read before it is run. **Do not run it until every line is
+either paired or knowingly unpaired**, because an unpaired line is stamped as
+compared anyway — a fault in the tool, known since `db/044` and first seen on
+real data in Session 6.
+
+Read its report and settle three things:
+
+- **Lines with no partner because the two sources name the bill differently.**
+  The dataset numbers Budget Acts within the session where the factsheet does
+  not, and small wording differences are common. Confirm each by the dates the
+  two sources share, then add it to `MANUAL_PAIRS` in
+  `tools/phd_stage_dates.py`, factsheet line first, dataset row second, and run
+  the comparison again.
+- **Lines with no partner because the bill has been compared already.** A bill
+  appearing in a second factsheet has its row in the dataset under the session
+  it was introduced in. Check that it is there and that the introduction dates
+  agree; then having no partner here is correct.
+- **Where the two sources disagree.** Each goes to the source that owns the
+  fact: legislation.gov.uk for Royal Assent and an Act's title and number, the
+  Parliament's own page for the bill for everything else (`db/067`). The
+  difference is written onto the line, and the checker will not let the session
+  be promoted until a `Checked: <column> = <value> (source, address, date read)`
+  citation sits beside it.
+
+Every line must end up stamped. The checker refuses to let an unstamped line be
+accepted.
+
+**7. Read the Official Report for every bill the factsheet says fell.**
+
+The factsheet's word "fallen" covers two different things, and the difference is
+one of the answers this database exists to give: a bill the Parliament voted
+down, and a bill that simply ran out of time. The factsheet does not distinguish
+them. Nothing else will either, if this step is skipped.
+
+Three of Session 5's seven fallen bills turned out to have lost a division on
+their own Stage 1 motion. They were rejections, not timings-out.
+
+- **Every fallen bill is looked up, including the ones the loader proposed as
+  `fell_dissolution` at step 4.** That proposal rests only on the bill having
+  concluded on the day the session ended, which is necessary and not sufficient.
+  Session 5's other four were confirmed by finding that each bill's last
+  recorded activity was a committee date months earlier and that nothing was
+  decided on the final day.
+- **A bill voted down at Stage 1** is recorded as `rejected_stage_1` with the
+  route it took — the member in charge's motion disagreed to, that motion
+  amended so that it did not agree to the general principles and agreed to as
+  amended, or a committee motion under Rule 9.14.18, which only a Member's Bill
+  can take. The route names the motion and its mover, and quotes the Presiding
+  Officer: `Result as recorded: "For 39, Against 61, Abstentions 18. Motion
+  disagreed to."` The Official Report is cited with the date it was read
+  (`db/031`, `db/032`, `db/058`).
+- **The bill's page is not good enough on its own** where the Parliament
+  decided something. `db/067` sets the order: the Official Report where the
+  Parliament decided, the bill page where it did not. Session 5's division
+  figures were available on the bill pages and the Official Report was read
+  anyway, because the rule says so.
+
+**8. Settle what is left on the error checker's list.**
+
+Open `v_candidate_problems` and work down it. Everything on it is either
+answered from a source, or it is a question for the owner — but the session
+finds out which before asking. What has come up so far:
+
+- a bill introduced before its session began, which is the same bill appearing a
+  second time and must be pointed at the bill already on the clean sheet;
+- an Act whose title or number the factsheet printed short, or printed wrongly,
+  settled at legislation.gov.uk;
+- a bill stopped before Royal Assent, which must say how it was stopped and what
+  followed;
+- a stage date out of order, which is a fault to be found and not reviewed away.
+
+**The list is empty, or every item on it has an answer with its source, before
+the owner is told the session is ready.**
 
 ---
 
