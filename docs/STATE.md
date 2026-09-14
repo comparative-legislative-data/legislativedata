@@ -25,9 +25,9 @@ and 2 dates are added from your PhD.
 
 **389 bills are now on the clean sheet**, with 1071 stage records and 106
 provenance notes. Four of the seven sessions are finished and closed. Session 5
-is on the clean sheet and **not yet closed**: its test has now been run, and
-twenty-eight of its thirty mechanical items answered as expected. What is left
-is the nine sign-offs, which are yours. The staging sheets hold nothing still
+is on the clean sheet and **not yet closed**: its test has now been run in full,
+and **all thirty-one mechanical items answered as expected**. What is left is
+the nine sign-offs, which are yours. The staging sheets hold nothing still
 waiting: every line of every session loaded is accepted and promoted.
 
 ## What has been done
@@ -43,42 +43,33 @@ waiting: every line of every session loaded is accepted and promoted.
   totals reconciling with the fact sheet's own summary in every cell; then its
   closure test written, after the session had been wrongly marked closed
   without one.
+- **14 September, later still.** Session 5's closure test run: twenty-eight of
+  thirty as expected, and the two failures the two the test predicted. Both
+  mended in `db/078` — the Period Products Act's title now carries its year, and
+  M7 says five sessions are coded. The error checker was taught the rule that
+  would have caught it.
 
-**14 September, this session. Session 5's test is run. It passed everywhere it
-was expected to, failed the two places it was expected to, and those two are now
-mended.**
+**14 September, this session. The last item of Session 5's test is answered, and
+every mechanical item now stands.**
 
-- **Twenty-eight of thirty as expected**, including the reconciliation against
-  the fact sheet's own summary, the three bills stopped before Royal Assent, and
-  a fresh reading of the PDF that reproduces all 87 lines with only the nine
-  worked-out cells differing. Promotion was taken off and put back by a session
-  that had done none of Session 5's work, and came back identical.
-- **The two failures were the two the test predicted**, so nothing new was found
-  in the data. **And one thing that had looked like a fault was not**: the three
-  quickest bills took 1, 9 and 22 days from introduction to the end of Stage 3,
-  which are the fact sheet's own dates. The earlier report of 1, 27 and 28 was
-  loose prose, not a wrong date.
-- **All three of your decisions are built.** The Period Products Act's title now
-  carries its year, settled at legislation.gov.uk and arriving by the ordinary
-  route — Session 5 was taken off the clean sheet and put back, so the title and
-  its note came in the same way every other admitted fact does. M7 now tells a
-  reader five sessions are coded. And the explainer's own count of provenance
-  notes is right for the first time.
-- **The error checker was taught the rule that would have caught it.** It already
-  refused an Act whose *number* had no year; it now asks the same of the *title*,
-  which is the half a reader sees. That is why this one got through.
+- **Item 31 was the one the last session was not allowed to mark**: it had added
+  the rule about an Act's title carrying its year, and a migration proving its
+  own rule is not a check on it. This session added nothing to the database, and
+  asked the rule of the sheets instead of the migration.
+- **All four parts answered as expected.** 335 of 335 Act titles carry their
+  year, on the clean sheet and the staging sheet alike. None of the 54 lines that
+  are not Acts does — and those 54 are 51 not enacted and 3 stopped before Royal
+  Assent, which is the split the test predicted. No line has an Act number
+  without being an Act. The error checker and the gaps list are empty.
+- **Nothing was changed**, in the database or in the data. The only edits are the
+  run recorded in `docs/CLOSURE-TESTS.md` and this file.
 
-## Now: your nine sign-offs, one thing to check, then Sessions 6 and 7
+## Now: your nine sign-offs, then Sessions 6 and 7
 
 1. **The nine sign-offs on Session 5**, which are yours and nobody else's. They
    are listed in `docs/CLOSURE-TESTS.md` under Part B. Once they are given,
    Session 5 is closed and the table says so.
-2. **One thing this session must not mark itself.** It added a rule to the error
-   checker, and proved the rule bites — but a migration proving itself is not a
-   check on it. Item 31 of Session 5's test asks the same rule of the sheets from
-   outside, and **a session that did not add it must run that item.** It is
-   written and deliberately not run.
-3. **Then Sessions 6 and 7**, with two jobs in front of them. **Bills carried
+2. **Then Sessions 6 and 7**, with two jobs in front of them. **Bills carried
    over between sessions**, before Session 6 is loaded: four bills appear in two
    factsheets, the double-count guard is the same four, and the mended check in
    `db/077` would refuse a carried-over bill's later stages — one job, not three.
@@ -131,88 +122,46 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-14, ninth session of the day
+## Sanity check, 2026-09-14, tenth session of the day
 
 **At opening, every figure matched and nothing contradicted anything.** 389
-bills — 73, 81, 62, 86, 87 — 1071 stage records, 105 provenance notes, 8
-methodology notes, 389 staging lines and 1071 staging stage rows, every one
-accepted and promoted with none left unreviewed. Error checker empty, gaps list
-empty, data dictionary regenerating identical at 17 tables and 162 columns,
-nothing uncommitted and nothing unpushed, no working copy in the database, and
-the migrations numbered without a gap beyond the known `db/063`/`db/066`
-filename clash.
+bills, 1071 stage records, 106 provenance notes, 8 methodology notes; 389
+staging lines and 1071 staging stage rows, every one accepted and promoted with
+none left unreviewed. Error checker empty, gaps list empty, data dictionary
+regenerating identical at 17 tables and 162 columns, nothing uncommitted and
+nothing unpushed, and only the one schema in the database — no working copy left
+behind. `STATE.md` said item 31 was written and unrun, and it was.
 
-**The one thing checkable in advance about the test that was about to be run**
-held: exactly one Act on the clean sheet had a title with no year, and it was
-the Period Products Act, which is what its item 9 predicted.
+**The server refused connections twice** for a few minutes at a time, early in
+the session, and came back on its own both times. Nothing was being written when
+it happened. Worth watching if it recurs.
 
-**At closing.** 389 bills, 1071 stage records, **106** provenance notes — the
-one new note is the Period Products Act's title — 8 methodology notes with M7 at
-5006 characters, error checker empty, gaps list empty, data dictionary
-regenerating identical, no copy schema left in the database, and the repository
-clean, level with GitHub and pushed.
+## What the previous session did
+
+Ran Session 5's Part A closure test, which it did not write; twenty-eight of
+thirty as expected and the two failures the two the test predicted. Then
+`db/078`: the Period Products Act's title settled at legislation.gov.uk and
+brought in by the ordinary route, the error checker taught to ask an Act's title
+for its year, and M7 brought to five sessions. Full detail is in
+`docs/CLOSURE-TESTS.md` and `DECISIONS.md`, 2026-09-14.
 
 ## What this session did
 
-**It ran Session 5's closure test, which it did not write, and reported every
-answer against its expected one.** Twenty-eight of thirty as expected. The two
-failures were the two the test predicted: item 9, the Period Products Act's
-yearless title, naming that Act and no other; and item 15, M7 saying four
-sessions where five are coded. Full detail and the run record are in
-`docs/CLOSURE-TESTS.md`, which is the place for it, not here.
+**It ran item 31**, the check the last session was not allowed to make on its
+own rule, and added nothing to the database in order to be able to. All four
+parts answered as expected, asked of the clean sheet and the staging sheets and
+not of the migration:
 
-**Item 24's watched prediction resolved in favour of the data.** The three
-shortest roads from introduction to the end of Stage 3 read 1, 9 and 22 days —
-the fact sheet's own dates. The session that promoted Session 5 had reported 1,
-27 and 28; that was loose prose and no Stage 3 date is wrong.
+- 335 of 335 enacted lines have a title ending in a four-digit year, on both
+  sheets;
+- 0 of 54 non-Act lines have one, and the 54 split 51 not enacted and 3 blocked,
+  which is what item 31 predicted;
+- no line has an `asp_number` without being enacted, and no enacted line is
+  missing one;
+- the error checker and the gaps list are both empty.
 
-**Item 28 was done properly for the first time.** Session 5 was taken off the
-clean sheet and put back inside a transaction that was thrown away, by a session
-that had done none of its work, and compared cell by cell against a copy: only
-record numbers and write times differed.
-
-**Then `db/078`, on the owner's decision, three things in one migration.**
-
-1. **The Period Products Act's title**, settled at legislation.gov.uk. Corrected
-   on the staging sheet with its citation, then Session 5 taken off and put back
-   for real so the title and its provenance note arrived by the ordinary route.
-   Provenance 105 to 106.
-2. **The rule that would have caught it.** The checker already refused an Act
-   whose number had no year (`db/062`); it now asks the same of the title. Keyed
-   on enactment, so it asks the 335 Act lines and never the 54 that are not Acts.
-3. **M7**, two sentences, four sessions to five. 5003 to 5006 characters.
-
-**Rehearsed before it was run**, with a copy taken and compared. The rehearsal
-and the real run moved the same seven cells and no others: the Act's title on
-the clean sheet and the staging sheet, the citation on its review note, its new
-provenance note, and its three stage-date rows, which carry the line's title and
-follow it automatically. Items 1, 5, 9, 14, 15 and 26 were then re-run against
-the expectations the test had written in advance; the whole run differed from
-the first by exactly those six answers and nothing else.
-
-**`docs/HOW-THE-DATABASE-WORKS.md` was wrong about its own contents** — 86 notes
-in §3, ninety-one in §4 — and both are now right at 106 and 92, with the
-per-session split read back out of the database.
-
-**Item 14 moved and the test had not foreseen it.** The test named items 1, 5, 9
-and 26 as the ones the title question would move. Item 14's cell counts move on
-the same arithmetic. It is marked in the test so the next reader is not puzzled.
-
-**What this session did not mark, and must not.** It added a rule to the error
-checker and proved the rule bites inside its own migration. That is the writer's
-account of itself. **Item 31 of Session 5's test asks the same rule of the
-sheets from outside, is written, and is deliberately not run** — it is in "Now"
-at the top of this file, not only here, because `db/077` was left owed and
-invisible exactly this way.
-
-**One thing worth knowing about the cost.** Proving the new rule leaves a
-touched timestamp on one Session 1 line: the migration takes a year off a title,
-reads the checker, and puts it back. The value is identical afterwards; only the
-stamp moved. `db/062` did the same.
-
-**A gap recorded rather than closed.** M7 has now lagged the data twice, found
-both times by hand while a closure test's Part B was being prepared. Nothing
-checks that a methodology note keeps step. See `DECISIONS.md`, 2026-09-14.
+Part A of Session 5's test now stands at thirty-one items, all answered as
+expected. **What remains for Session 5 is Part B, the owner's nine sign-offs.**
 
 ## The owner's standing positions, so they are not re-argued
 

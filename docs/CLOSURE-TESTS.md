@@ -50,6 +50,12 @@ shortest roads read 1, 9 and 22 days, which are the fact sheet's own dates. The
 session that promoted Session 5 had reported 1, 27 and 28. No bill's Stage 3
 date on the clean sheet is wrong.
 
+**Item 31 was added after that run** — it is the check on the rule `db/078`
+itself added, which the session that added it was not allowed to mark. **It was
+run on 2026-09-14 by a third session**, which added nothing to the database, and
+**all four of its parts answered as expected**. Part A is therefore thirty-one
+items, of which thirty-one now stand answered as expected.
+
 **Part B is not yet given.** The nine sign-offs are the owner's, and are recorded
 here on the day they are given and nowhere else.
 
@@ -718,6 +724,20 @@ sheets the rule again, from outside:
 - **And the checker still reports nothing at all.** Expected 0.
 
 If any of those is not what is found, `db/078` is the migration to read first.
+
+**Run on 2026-09-14** by a further session, which added nothing to the database
+and did not write this item. **All four parts answer as expected.**
+
+- **Every enacted line's title ends in a four-digit year: 335 of 335**, on the
+  staging sheets and on the clean sheet alike, with no line of either failing.
+- **No line that is not an Act has a year: 0 of 54**, and the 54 split 51 not
+  enacted and 3 blocked, which is the split the item predicted.
+- **No line carries an `asp_number` without being recorded as enacted**, and
+  none of the 335 enacted lines is missing one, on either sheet.
+- **The error checker reports nothing at all**, and the gaps list with it.
+
+The rule was asked of the sheets and not of the migration, and `db/078` was not
+read while asking it.
 
 ### Part B — the owner's sign-off
 
