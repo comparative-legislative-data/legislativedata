@@ -782,7 +782,15 @@ If any of those is not what is found, `db/079` is the migration to read first.
 None of these is for anyone else to answer. A sign-off is recorded here on the
 day it is given, and nowhere else.
 
-**Given so far: 1 and 2, both on 2026-09-14.** Seven remain.
+**All nine given on 2026-09-14**, in one session, each against the rows and the
+text read back out of the database rather than out of a note about them. Two of
+the nine changed something: sign-off 2 turned up eight provenance notes ending
+mid-sentence, mended by `db/079`, and sign-off 9 found the explainer silent about
+the rule that mend added, which was written into it before the document was read.
+
+**Part B is complete. Part A is not**: item 32 was added on the same day and is
+not run, and the session that wrote it may not run it. Session 5 is therefore
+not marked closed here.
 
 1. **What happened to each bill.** The counts in items 6 and 7 are what you
    expect for Session 5: the reconciliation against the fact sheet's summary in
@@ -811,10 +819,24 @@ day it is given, and nowhere else.
    the table's heading says awaiting, the footnotes say cannot be submitted, and
    we followed the footnotes. Also that recording them as Session 5's fact sheet
    leaves them, with what happened next left to Session 6, is right.
+   **Given on 2026-09-14**, against the three notes read in full off the clean
+   sheet with the fact sheet's own footnote set beside each, against the
+   definitions of `blocked` and `pending` as `ref_enactment_status` states them,
+   and against M5's own statement that its account of what became of these bills
+   runs ahead of the data. The UK Withdrawal Bill's missing block date was read as
+   part of it: the fact sheet gives no date for its ruling, the line says so, and
+   that is why these three carry five provenance notes and not six.
 4. **The six bills that ended where they stopped**, checked against the clean
    sheet rather than against the note of them: each at Stage 1, not completed,
    marked where the bill ended, and undated because there was no decision to
    date.
+   **Given on 2026-09-14**, against all six read off the clean sheet: one stage
+   row each, Stage 1, not completed, marked as where the bill ended, undated, and
+   each carrying the sentence the clean sheet writes for itself. Read with them:
+   the two withdrawn and the four out of time, their introduction and conclusion
+   dates, and that all four of the latter concluded on 4 May 2021, which
+   `session.date_session_end` gives as the day Session 5 ended and which is the
+   whole basis of the coding.
 5. **The three adjudicated dates and the Act number the fact sheet printed
    short**: the two Royal Assents settled the fact sheet's way against
    legislation.gov.uk, the Solicitors Bill's introduction settled at 26 September
@@ -827,27 +849,57 @@ day it is given, and nowhere else.
    sign-off is now on four cells and not three, the fourth being
    `short_title` = Period Products (Free Provision) (Scotland) Act 2021, from
    legislation.gov.uk, read that day.**
+   **Given on 2026-09-14**, all four cells together: each read back off the clean
+   sheet with its source, its place in that source, the source's own words and the
+   day it was read, and with the `Differs:` and `Checked:` lines from the staging
+   line beside it. The Solicitors Bill is the one of the four that moved the line;
+   the two Royal Assents did not, and the Period Products number and title were
+   both absent from the fact sheet rather than disputed.
 6. **The ten names paired by hand**, checked against the fact sheet and your
    dataset side by side, and **the one bill your dataset does not have** — the
    Domestic Abuse (Protection) (Scotland) Act 2021, whose Stage 1 and Stage 2
    come from its own bill page instead, with the introduction, Stage 3 and Royal
    Assent dates on that page agreeing with what the fact sheet already put on the
    line.
+   **Given on 2026-09-14**, against the ten pairs listed with the fact sheet's
+   wording beside the dataset's, and against the Domestic Abuse (Protection) Act
+   read off the clean sheet stage by stage: Stage 1 and Stage 2 cited to the bill
+   page with the page's own words, and introduction, Stage 3 and Royal Assent
+   agreeing with what the fact sheet had already put on the line — the agreement
+   `db/075` refuses the two new dates without.
 7. **The Civil Partnership Act's Stage 2 month**, settled at the bill page at 11
    June 2020 where the dataset had 11 February, and the dataset corrected after
    the database, so that the record the two sources disagreed survives the file
    being put right.
+   **Given on 2026-09-14**, against the bill page's own sentence, the four stage
+   dates as the clean sheet now holds them, the staging row that still carries the
+   whole account of the disagreement, and the file's Corrections sheet, which
+   records the fingerprint the file had before each change so the chain back to
+   the untouched thesis dataset is unbroken.
+
 8. **M5 and M7 read in full**, as a reader will see them: M5 saying that its
    account of what became of the four blocked bills runs ahead of the data, and
    M7 saying which sessions the coding of why a bill fell has been done for.
    **M7 was a session out of date and no longer is** — see item 15. Read it as
    it now stands.
+   **Given on 2026-09-14**, both read in full as a reader will see them, not
+   summarised. M7 was read at 5006 characters, saying Sessions 1, 2, 3, 4 and 5.
+   M5 was read with its closing sentence, which tells a reader outright that its
+   account of what became of the four blocked bills runs ahead of the data.
+
 9. **That you can explain how this database works** from the documents alone,
    without help. The standing requirement, put again because Session 5 is the
    first session that puts an unfinished bill on the clean sheet. **`docs/HOW-THE-DATABASE-WORKS.md` was wrong about its own
    contents when this was written**, §3 saying 86 notes and §4 ninety-one. Both
    were corrected on 2026-09-14 and it now says 106 and 92. It is ready to be
    read.
+   **Given on 2026-09-14.** The figures corrected that day were re-checked
+   against the database first and still stood at 106 and 92; nothing that day
+   changed how many notes there are. One sentence was added to the explainer
+   before it was read, saying that the notes tab now refuses a note whose words
+   end "Read at" — `db/079`'s rule, which the document would otherwise have been
+   silent about.
+
 
 ### Part C — what this test does not check
 

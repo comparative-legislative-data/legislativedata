@@ -20,15 +20,18 @@ and 2 dates are added from your PhD.
 | 2 | 81 bills | yes | yes | yes; **closed** |
 | 3 | 62 bills | yes | yes | yes; **closed** |
 | 4 | 86 bills | yes | yes | yes; **closed** |
-| 5 | 87 bills | yes | yes | yes; **test run, awaiting your sign-off** |
+| 5 | 87 bills | yes | yes | yes; **all nine sign-offs given; one test item to run** |
 | 6–7 | needs a prose reader | no | no | no |
 
 **389 bills are now on the clean sheet**, with 1071 stage records and 106
 provenance notes. Four of the seven sessions are finished and closed. Session 5
-is on the clean sheet and **not yet closed**: its test has now been run in full,
-and **all thirty-one mechanical items answered as expected**. What is left is
-the nine sign-offs, which are yours. The staging sheets hold nothing still
-waiting: every line of every session loaded is accepted and promoted.
+is on the clean sheet and **not yet closed**, and one thing stands between it and
+being closed. **You gave all nine sign-offs on 14 September.** Thirty-one of its
+thirty-two mechanical items are answered as expected. The thirty-second was
+written that same day, by the session that added the rule it asks about, and that
+session may not run it. **A session that did not write it must run item 32, and
+then Session 5 is closed.** The staging sheets hold nothing still waiting: every
+line of every session loaded is accepted and promoted.
 
 ## What has been done
 
@@ -49,8 +52,8 @@ waiting: every line of every session loaded is accepted and promoted.
   M7 says five sessions are coded. The error checker was taught the rule that
   would have caught it.
 
-**14 September, this session. The last item of Session 5's test is answered, and
-every mechanical item now stands.**
+**14 September, this session. Item 31 answered, eight broken notes mended, and
+all nine of your sign-offs given.**
 
 - **Item 31 was the one the last session was not allowed to mark**: it had added
   the rule about an Act's title carrying its year, and a migration proving its
@@ -76,16 +79,22 @@ every mechanical item now stands.**
   note itself rather than in the checker, because the staging sheets were never
   wrong and there was nothing there to refuse. Item 32 asks the rule from
   outside, and is written and deliberately not run.
+- **Then your nine sign-offs, one at a time**, each against the rows and the full
+  text read back out of the database rather than a summary of them. Two of the
+  nine changed something. Sign-off 2 is where the eight broken notes were found.
+  Sign-off 9 found the explainer silent about the rule that mend added, and one
+  sentence was written into it before you read it.
+- **Session 5 is not marked closed**, and one item stands in the way: item 32,
+  written this session and not runnable by it.
 
-## Now: your seven remaining sign-offs, one test item, then Sessions 6 and 7
+## Now: one test item, then Session 5 closes, then Sessions 6 and 7
 
-1. **The nine sign-offs on Session 5**, which are yours and nobody else's. They
-   are listed in `docs/CLOSURE-TESTS.md` under Part B. **Sign-offs 1 and 2 were
-   given on 14 September**; seven remain. Once they are given, Session 5 is
-   closed and the table says so.
-2. **Item 32 of Session 5's test**, written this session and not run by it, for
-   the reason item 31 gives. A session that did not add the rule must ask it.
-3. **Then Sessions 6 and 7**, with two jobs in front of them. **Bills carried
+1. **Item 32 of Session 5's test**, and it is the first task of the next session.
+   It is written in `docs/CLOSURE-TESTS.md` and was not run by the session that
+   wrote it. **Run it, record the run, and Session 5 is closed** — nothing else is
+   outstanding: all nine sign-offs were given on 14 September and the other
+   thirty-one items are answered.
+2. **Then Sessions 6 and 7**, with two jobs in front of them. **Bills carried
    over between sessions**, before Session 6 is loaded: four bills appear in two
    factsheets, the double-count guard is the same four, and the mended check in
    `db/077` would refuse a carried-over bill's later stages — one job, not three.
@@ -148,9 +157,18 @@ regenerating identical at 17 tables and 162 columns, nothing uncommitted and
 nothing unpushed, and only the one schema in the database — no working copy left
 behind. `STATE.md` said item 31 was written and unrun, and it was.
 
-**The server refused connections twice** for a few minutes at a time, early in
-the session, and came back on its own both times. Nothing was being written when
-it happened. Worth watching if it recurs.
+**At closing, after eight notes were rewritten and `db/079` run.** 389 bills —
+73, 81, 62, 86, 87 — 1071 stage records, **106** provenance notes still, 8
+methodology notes with M5 at 2331 characters and M7 at 5006, 389 staging lines
+and 1071 staging stage rows, every one accepted and promoted. Error checker
+empty, gaps list empty, data dictionary regenerating identical, the new rule
+present on the notes tab and no note anywhere ending "Read at", only the `public`
+schema in the database, and the repository clean, level with GitHub and pushed.
+
+**The server refused connections four times** for a few minutes at a time, and
+came back on its own each time. Nothing was mid-write when it happened. It is the
+rate limit described under "Connecting to the database", and this session hit it
+by making many short connections; batching work into fewer would have avoided it.
 
 ## What the previous session did
 

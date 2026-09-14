@@ -244,6 +244,12 @@ putting it back writes them again. So a note is the latest reading of its
 source. Approving a promotion clears the notes it writes; any other change to
 a note needs your clearance.
 
+One thing the tab now refuses, since 14 September: a note whose words end
+"Read at" and stop there. Eight did, because the step that files a note cuts
+off the web address and that phrase was only there to introduce it. The address
+was never lost — it sits in the note's own reference column — but the sentence
+was cut in half, and half a sentence is what a reader would have seen.
+
 ### The two context tabs
 
 `session` is seven rows, one per parliament, holding each session's first
