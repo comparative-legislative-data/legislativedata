@@ -8,6 +8,92 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — A bill that has passed and has no Royal Assent is blocked, and is recorded as its own session's fact sheet leaves it
+
+**The question.** Session 5's fact sheet has a fourth table, "Bills awaiting
+Royal Assent", with three bills in it: the European Charter of Local
+Self-Government (Incorporation), passed 23 March 2021; the UNCRC
+(Incorporation), passed 16 March 2021; and the UK Withdrawal from the European
+Union (Legal Continuity), passed 21 March 2018. Each carries a footnote saying
+that, following a reference under section 33 of the Scotland Act 1998 by the
+Attorney General and the Advocate General for Scotland, the Supreme Court has
+ruled some of its provisions outwith competence and it cannot be submitted for
+Royal Assent in its unamended form. The ruling is dated 6 October 2021 in the
+first two footnotes and undated in the third.
+
+**Decided, on two questions put to the owner and answered on 2026-09-14.**
+
+1. **Blocked, not pending.** "Awaiting" is the table's heading; the footnotes
+   are the fact, and they say the bills cannot be submitted. So the heading
+   alone proposes pending, and the footnote's own words are what make it
+   blocked. Neither is guessed: both are read off the page.
+2. **Recorded as Session 5's fact sheet leaves them.** Two of the three were
+   later reconsidered and enacted in Session 6, and one was withdrawn there.
+   That is Session 6's fact sheet to say, and it has not been read in. The
+   alternative was to code them now out of a document nobody has read into the
+   database, which is the opposite of how everything else here works.
+
+**Why it matters beyond three bills.** It is the first time the clean sheet
+holds a bill that has not finished. Everything on it until now had ended — 
+enacted, withdrawn, rejected or fallen — and the ending date was how a reader
+knew. These three have no ending date and are not missing one.
+
+**What was built for it, all of it on 2026-09-14.** Almost all of the thinking
+had been done years' worth of sessions earlier and none of the plumbing: the
+value `blocked`, its definition, `bill.date_assent_blocked` and methodology note
+M5 all existed and had never once been used.
+
+- `db/071` puts two cells on the staging sheet — the date the bill was stopped,
+  and the fact sheet's footnote word for word — and eight rules on the error
+  checker, each tested inside the migration against a row made to break it.
+- **The hole that found.** Until now a bill could be recorded as passed, given
+  no Royal Assent date, left as not enacted with nothing on the line saying why,
+  and the error checker would have admitted it. That rule is now there and is
+  worded about the Royal Assent date, not about enactment.
+- `tools/extract_factsheet.py` reads the fourth table and the footnotes below
+  it. Sessions 1 to 4 extract byte-identically; Session 5 goes from 84 lines to
+  87, which is what its own summary says.
+- `tools/load_session.sql` and `tools/promote_session.sql` carry both cells, and
+  promotion writes a provenance note on the status and on the date, with the
+  footnote as the words that were seen.
+- `db/072` adds two sentences to M5. **The reason it was needed is the useful
+  part:** M5 already told a reader that two of these bills were later enacted
+  and one withdrawn, which the clean sheet will not say until Session 6 is read
+  in. A published note was running ahead of the published data.
+
+**The words a reader sees on each of the three bills**, agreed by the owner
+before Session 5 is loaded, to be entered at review:
+
+> **European Charter of Local Self-Government (Incorporation):** Not submitted
+> for Royal Assent. Following a reference under section 33 of the Scotland Act
+> 1998 by the Attorney General and the Advocate General for Scotland, the
+> Supreme Court ruled on 6 October 2021 that some provisions of the bill were
+> outwith the Parliament's legislative competence, and it could not be submitted
+> for Royal Assent in its unamended form.
+
+> **United Nations Convention on the Rights of the Child (Incorporation):** Not
+> submitted for Royal Assent. Following a reference under section 33 of the
+> Scotland Act 1998 by the Attorney General and the Advocate General for
+> Scotland, the Supreme Court ruled on 6 October 2021 that some provisions of
+> the bill were outwith the Parliament's legislative competence, and it could
+> not be submitted for Royal Assent in its unamended form.
+
+> **UK Withdrawal from the European Union (Legal Continuity):** Not submitted
+> for Royal Assent. Following a reference under section 33 of the Scotland Act
+> 1998 by the Attorney General and the Advocate General for Scotland, the
+> Supreme Court ruled that some provisions of the bill were outwith the
+> Parliament's legislative competence, and it could not be submitted for Royal
+> Assent in its unamended form. The fact sheet states no date for the ruling.
+
+**What is still open and is not part of this.** Whether to keep the date a
+bill's Royal Assent was blocked was on the waiting list and is now answered by
+use: the date is kept, because M5 depends on it. Whether the section 33 and
+section 35 distinction becomes a variable of its own is **not** decided here —
+it stays on the waiting list, to be revisited at a fifth bill. Both mechanisms
+are covered by `blocked`, and which one applied is in the bill's note.
+
+---
+
 ## 2026-09-14 — Session 4 is closed on all nine sign-offs
 
 **Given by the owner on 2026-09-14**, in one session, each against the rows read
