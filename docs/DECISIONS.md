@@ -8,6 +8,74 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — Where Session 5's six bills ended, the Domestic Abuse Act's two dates, and a month typed wrong
+
+**Six bills that did not pass had nothing saying where they ended**, and
+`tools/phd_stage_dates.py` refuses a session with such a bill in it, so the
+whole of Session 5's dates waited on these six. Their bill pages all say the
+same thing in the same words: the bill "fell on" a date under Stage 1, with
+"Stage 2 has not been reached yet" below. So each stopped at Stage 1 without
+completing it, and none has a decision behind it. Each gets the row the other 21
+bills that fell or were withdrawn already have — Stage 1, not completed, fell
+here, and no date, because there was no decision to date. Lines 307, 308, 311
+and 312 fell at dissolution; 313 and 314 were withdrawn. Built as `db/075`.
+
+This also disposes of the Fair Rents page contradicting itself on the day the
+bill fell, 4 May in its status line and 5 May a sentence below: no date is
+recorded on a row of this kind, so nothing turns on which is right. That question
+is off the open list.
+
+**The Welfare of Dogs page has moved.** The plain address now redirects into the
+National Records of Scotland web archive, which refuses automated readers,
+because the Session 6 bill of the same name has taken it. The Session 5 bill is
+at the same address with `-session-5` on the end, which is the one cited.
+
+**The Domestic Abuse (Protection) (Scotland) Act 2021 has no row in the owner's
+dataset**, so its Stage 1 and Stage 2 dates come from its own bill page: a Stage
+1 debate on 28 January 2021, and Stage 2 ended on 23 February 2021. The same page
+gives introduction, Stage 3 and Royal Assent dates that all agree with what the
+fact sheet already put on the line. Two stage dates on the clean sheet already
+cite a bill page, so this is not new ground. Built as `db/075`.
+
+**A line the dataset has no row for is now named rather than guessed at.**
+`tools/phd_stage_dates.py` refuses to write anything unless every staging line
+pairs with a dataset row, which is right — attaching one bill's dates to another
+is the harm it guards against — but a bill the dataset simply does not have is
+not a pairing failure. Such a line is named in a new `NOT_IN_DATASET` list beside
+`MANUAL_PAIRS`, and excusing it is then checked: the stage-dates sheet must
+already hold, from another source, what the script would otherwise have written.
+A line can never be excused into having no dates at all. Sessions 1 to 4 give
+byte-identical output from the reader before and after the change.
+
+**Session 5's reading date is 14 September, not 13.** `READ_ON` records when the
+dataset was read for each session's bills, and the file was corrected again on
+the 14th. Same reason Session 3's is later than Sessions 1 and 2.
+
+**A month typed wrong in one cell, found by the rehearsal.** The dataset, row
+360, dated the Civil Partnership (Scotland) Act 2020's Stage 2 at 11 February
+2020 and its Stage 1 at 19 May 2020 — Stage 2 three months before Stage 1. The
+error checker refused it and nothing was saved. The bill page reads "The Bill
+ended Stage 2 on 11 June 2020", agrees with the dataset on Stage 1, and agrees
+with the fact sheet on introduction, Stage 3 and Royal Assent. The day was right
+and the month was not.
+
+Settled at the bill page and built as `db/076`, **before** the working file was
+corrected, under the rule settled earlier the same day: the database is settled
+first, so the record that the two sources disagreed survives the file being put
+right. The row carries what the dataset said, in its own words. The working file
+is then corrected, with the Corrections sheet carrying it and the fingerprint
+before the change: `4110d58f…` became `072184df…`. A copy of the file before the
+change is not kept; it still exists on this machine only.
+
+**What the checker does not catch, said plainly.** It found this because the
+dates were in an impossible order. A stage date that is wrong but still in order
+would pass it, and nothing has compared Session 5's stage dates against the
+Parliament's bill pages — the 14 September comparison covered introduction,
+passing and Royal Assent only. That check is 87 pages and its own piece of work.
+It is open, and not scoped.
+
+---
+
 ## 2026-09-14 — Session 5's three Stage 1 losses are rejections, and three dates are settled between the two sources
 
 **Three of Session 5's seven "fallen" bills did not run out of time.** The

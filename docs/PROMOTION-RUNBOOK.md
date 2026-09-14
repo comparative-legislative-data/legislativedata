@@ -636,3 +636,57 @@ it, compared afterwards and dropped.
 Tested in rehearsal rather than assumed: `db/059` refuses a row waiting for
 review that is not from the dataset, and putting the session back refuses while
 any one stage date is still unreviewed.
+
+## Session 5's stage dates, 14 September
+
+`tools/phd_stage_dates.py --sessions 5` and `tools/load_phd_stage_dates.sql`.
+Safety copies first: `/var/tmp/legdata-before-s5-dates_2026-09-14.dump` and
+`copy_before_s5_dates`, compared afterwards and dropped.
+
+**Two things had to be built before the reader would run at all**, and both are
+refusals working as intended rather than obstacles to get round.
+
+- Six bills that did not pass had nothing on the stage-dates sheet saying where
+  they ended, and the reader refuses a session containing such a bill. It would
+  have refused all 87 lines for those six. `db/075` recorded them from the
+  Parliament's bill pages.
+- The Domestic Abuse (Protection) Act has no row in the dataset at all, and the
+  reader refuses to write anything unless every line pairs one to one. Its two
+  dates came from its own bill page in the same migration, and the line is now
+  named in `NOT_IN_DATASET` — which excuses it from the pairing, and is itself
+  checked against what the sheet holds.
+
+**The rehearsal refused, and was right to.** The dataset dates the Civil
+Partnership (Scotland) Act 2020's Stage 2 at 11 February 2020 and its Stage 1 at
+19 May 2020. The error checker has refused a stage dated before the stage before
+it since the sheet was built. The bill page gives Stage 2 as 11 June 2020 — the
+day right, the month wrong — and agrees with the dataset on Stage 1 and with the
+fact sheet on introduction, Stage 3 and Royal Assent. `db/076` settled it at the
+bill page before the working file was corrected, so the record that the two
+sources disagreed survives the correction. Nothing was saved by the refused run,
+and the reader then produced 153 rows rather than 154, because a stage held from
+a source that outranks the dataset is compared rather than written.
+
+- 153 rows loaded, all waiting for review: 72 Stage 1, 72 Stage 2, and
+  Preliminary and Consideration for the five Private Bills. Exactly the gaps
+  list, which is now empty.
+- Session 5 now holds 243 stage rows: 153 from the dataset, 78 passing dates
+  from the legislation fact sheet, 9 from the Parliament's bill pages and 3 from
+  the Official Report.
+- Compared with the copy: 154 rows added — the reader's 153 and `db/076`'s one —
+  no cell changed anywhere, nothing removed. The clean sheet is untouched at 302
+  bills until they are accepted.
+- Sessions 1 to 4 give byte-identical output from the reader before and after the
+  change to it.
+
+Tested in rehearsal and thrown away first. Each of these was refused, naming the
+reason: a line whose title does not match its number; a line from another
+session; a bill that passed, given an ending; a line that already says where it
+ended; a line holding a stage the bill never reached; a Stage 2 date outside the
+bill's own life, in either direction; a line absent from the dataset that is not
+named; and a named line the sheet holds no dates for.
+
+**What this does not check.** The error checker found the Civil Partnership date
+because the dates were in an impossible order. A stage date that is wrong but
+still in order passes it. Nothing has compared Session 5's stage dates against
+the Parliament's bill pages — 87 pages, and its own piece of work.

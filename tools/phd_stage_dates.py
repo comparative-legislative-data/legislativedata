@@ -30,7 +30,10 @@ happened to the bill:
 Bills are matched to staging lines on session, tidied name and introduction
 date. Pairs that differ in wording enough to need naming are listed in
 MANUAL_PAIRS. The script refuses to write anything unless every bill in the
-sessions asked for matches one to one.
+sessions asked for matches one to one. The exception is a bill the dataset has
+no row for at all, which is named in NOT_IN_DATASET and excused -- but only
+after checking that the stage-dates sheet already holds, from another source,
+what this script would otherwise have written for it.
 
 Usage:  python3 tools/phd_stage_dates.py [XLSX] --sessions 3 --csv OUT.csv
 """
@@ -44,7 +47,8 @@ DEFAULT_XLSX = ROOT / 'sources' / 'phd' / 'Billdates-September2026.xlsx'
 # but the PDF and the session number: a date supplied each run is a date
 # recorded nowhere. Session 3's is later because the dataset was corrected on
 # 13 September (DECISIONS.md, the Autism Bill's Stage 1 date).
-READ_ON = {1: '2026-09-11', 2: '2026-09-11', 3: '2026-09-13', 4: '2026-09-13'}
+READ_ON = {1: '2026-09-11', 2: '2026-09-11', 3: '2026-09-13', 4: '2026-09-13',
+           5: '2026-09-14'}  # the dataset was corrected again on 14 September
 
 # Staging line -> row of the dataset, where the names differ too much to match.
 # Each was confirmed on 2026-09-11 by the dates the two sources share: the
@@ -157,6 +161,17 @@ ANSWERS = {
               note=None),
     154: dict(stopped_at=1, source='bill_document', ref=ARCHIVE_BILL + '25100.aspx',
               note=None),
+}
+
+# Staging lines the dataset has no row for at all. Not a pairing failure to be
+# fixed, and not something to pass over: the bill is real, the dataset simply
+# does not have it, so its dates come from somewhere else and are already on the
+# stage-dates sheet before this runs. Naming the line here excuses it from the
+# one-to-one match; excusing it is then checked, below, against what the sheet
+# actually holds, so a line can never be excused into having no dates at all.
+NOT_IN_DATASET = {
+    339: 'Domestic Abuse (Protection) (Scotland) Act 2021. Stage 1 and Stage 2 are '
+         'held from the Parliament\'s bill page by db/075. DECISIONS.md, 2026-09-14.',
 }
 
 # A bill that passed with no stage dates in the dataset: a note for the bill,
@@ -279,8 +294,25 @@ def match(bills, phd):
                 continue
         pairs[hits[0]['line']], taken[p['xrow']] = p, hits[0]['line']
     for line in bills:
-        if line not in pairs:
+        if line in pairs:
+            continue
+        if line not in NOT_IN_DATASET:
             problems.append(f"line {line} {bills[line]['short_title']!r} has no row in the dataset")
+            continue
+        # Named as absent. The sheet must already hold what this script would
+        # otherwise have written, or the line is being excused into a gap.
+        b = bills[line]
+        if b['outcome'] in ('passed', 'rejected_stage_3'):
+            short = [n for n in (1, 2) if n not in b['held']]
+            if short:
+                problems.append(
+                    f"line {line} {b['short_title']!r} is named as absent from the dataset, but "
+                    f"the stage-dates sheet holds no stage {', '.join(str(n) for n in short)} "
+                    f"for it from any other source")
+        elif b['ended_at'] is None:
+            problems.append(
+                f"line {line} {b['short_title']!r} is named as absent from the dataset, and "
+                f"nothing on the stage-dates sheet says where it ended")
     return pairs, problems
 
 
@@ -298,6 +330,8 @@ def rows_for(bills, pairs):
                         detail_note=note or ''))
 
     for line, b in sorted(bills.items()):
+        if line in NOT_IN_DATASET:
+            continue      # nothing to write: match() has checked the sheet holds it
         p = pairs[line]
         phd_ref = f"PhD thesis dataset, row {p['xrow']}"
         if line in BILL_NOTES:
