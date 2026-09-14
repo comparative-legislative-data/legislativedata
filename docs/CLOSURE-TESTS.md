@@ -55,15 +55,20 @@ itself added, which the session that added it was not allowed to mark. **It was
 run on 2026-09-14 by a third session**, which added nothing to the database, and
 **all four of its parts answered as expected**.
 
-**Item 32 was added by that same third session and is not run.** While the owner
-was reading Session 5's three Official Report notes for sign-off 2, eight notes
-across Sessions 4 and 5 turned out to end mid-sentence. `db/079` mended them and
-added the rule; item 32 asks that rule from outside, and **a session that did not
-add it must run it**. Part A is therefore thirty-two items: thirty-one answered
-as expected, and item 32 outstanding.
+**Item 32 was added by that same third session.** While the owner was reading
+Session 5's three Official Report notes for sign-off 2, eight notes across
+Sessions 4 and 5 turned out to end mid-sentence. `db/079` mended them and added
+the rule; item 32 asks that rule from outside. **It was run on 2026-09-14 by a
+fourth session**, which added nothing to the database and did not write it, and
+**all six of its parts answered as expected**.
 
-**Part B is not yet given.** The nine sign-offs are the owner's, and are recorded
-here on the day they are given and nowhere else.
+**Part A is thirty-two items, and all thirty-two are answered as expected.**
+
+**Part B is complete.** All nine sign-offs were given by the owner on 2026-09-14,
+and are recorded below on the day they were given and nowhere else.
+
+**Session 5 is closed**, on 2026-09-14, on the whole of Part A and the whole of
+Part B. No item of this test is outstanding.
 
 **Session 5 was already on the clean sheet when this was written, and had been
 marked closed by the session that promoted it.** That is the thing the procedure
@@ -777,6 +782,30 @@ that way. Ask the notes:
 
 If any of those is not what is found, `db/079` is the migration to read first.
 
+**Run on 2026-09-14** by a further session, which added nothing to the database
+and did not write this item. **All six parts answer as expected.**
+
+- **No note's words end in "Read at": 0 of 106.**
+- **The twenty-four outcome notes cited to the Official Report end where their
+  sentence ends**, every one of them, in a closing quotation mark or a full
+  stop. The eight are there: five in Session 4 and three in Session 5. Six of
+  them end in a quoted "Motion disagreed to."; the Restricted Roads Bill's ends
+  in the quoted title of the motion, and the Transplantation Bill's in the words
+  "not printed on this page."
+- **The address was never part of the words and is not lost.** All 24 carry an
+  address beginning `https://` as the note's reference, and all 24 carry the day
+  it was read.
+- **Sessions 1 to 3 are untouched: 16 notes**, five, six and five, and not one
+  of the 24 contains the phrase "Read at" anywhere at all any more.
+- **The rule binds a writer other than promotion.** Asked twice inside a
+  transaction that was then rolled back: adding " Read at" to the end of an
+  existing note by hand was refused, and so was a new note written from nothing
+  whose words ended that way. Nothing was left behind.
+- **The error checker reports nothing at all**, and the gaps list with it.
+
+The rule was asked of the notes and not of the migration, and `db/079` was not
+read while asking it.
+
 ### Part B — the owner's sign-off
 
 None of these is for anyone else to answer. A sign-off is recorded here on the
@@ -788,9 +817,8 @@ the nine changed something: sign-off 2 turned up eight provenance notes ending
 mid-sentence, mended by `db/079`, and sign-off 9 found the explainer silent about
 the rule that mend added, which was written into it before the document was read.
 
-**Part B is complete. Part A is not**: item 32 was added on the same day and is
-not run, and the session that wrote it may not run it. Session 5 is therefore
-not marked closed here.
+**Part B is complete, and so is Part A**: item 32 was run on 2026-09-14 by a
+session that did not write it, and answered as expected. **Session 5 is closed.**
 
 1. **What happened to each bill.** The counts in items 6 and 7 are what you
    expect for Session 5: the reconciliation against the fact sheet's summary in

@@ -8,6 +8,39 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — Session 5 is closed, and the four-session chain that closed it
+
+**Decided:** Session 5 is closed. Its 87 bills, 243 stage dates and the
+provenance behind them are final, subject only to the standing caveat that
+published records get revised. All thirty-two of Part A's mechanical items are
+answered as expected, and all nine of Part B's sign-offs were given by the owner
+on 2026-09-14.
+
+**What closed it was item 32**, run by a session that added nothing to the
+database. It asks the rule `db/079` added — that a note's words may not end in
+"Read at" — of the notes rather than of the migration. All six parts answered as
+expected: no note of the 106 ends that way; all 24 outcome notes cited to the
+Official Report end where their sentence ends and still carry an address and the
+day it was read; Sessions 1 to 3's 16 are untouched; and the rule refuses a note
+typed by hand as well as one filed by promotion, which was the point of putting
+it on the note rather than in the staging checker.
+
+**Why it took four sessions, and why that is the procedure working.** Session 5's
+test was written by a session that did none of its work. A second ran Part A and
+found the two failures the test predicted, mending both in `db/078` — and by
+doing so added a rule it could not then be the check on. A third ran that check
+as item 31, took the owner through the nine sign-offs, and found eight notes
+ending mid-sentence while doing it; mending those in `db/079` added another rule,
+and another item nobody who had written it could mark. A fourth ran item 32.
+
+**The rule that produced that chain is worth stating plainly: a session may not
+mark the check on a rule it added itself.** It cost three extra handovers here,
+and it caught two real faults in text a reader sees — the Period Products Act's
+title and the eight broken notes — neither of which any count would have shown.
+The cost is handovers; the alternative is a session marking its own work.
+
+---
+
 ## 2026-09-14 — A provenance note may not end mid-sentence, and a closed session may be reopened to mend one
 
 **Decided:** the eight provenance notes that ended with the words "Read at" and

@@ -20,18 +20,16 @@ and 2 dates are added from your PhD.
 | 2 | 81 bills | yes | yes | yes; **closed** |
 | 3 | 62 bills | yes | yes | yes; **closed** |
 | 4 | 86 bills | yes | yes | yes; **closed** |
-| 5 | 87 bills | yes | yes | yes; **all nine sign-offs given; one test item to run** |
+| 5 | 87 bills | yes | yes | yes; **closed** |
 | 6–7 | needs a prose reader | no | no | no |
 
 **389 bills are now on the clean sheet**, with 1071 stage records and 106
-provenance notes. Four of the seven sessions are finished and closed. Session 5
-is on the clean sheet and **not yet closed**, and one thing stands between it and
-being closed. **You gave all nine sign-offs on 14 September.** Thirty-one of its
-thirty-two mechanical items are answered as expected. The thirty-second was
-written that same day, by the session that added the rule it asks about, and that
-session may not run it. **A session that did not write it must run item 32, and
-then Session 5 is closed.** The staging sheets hold nothing still waiting: every
-line of every session loaded is accepted and promoted.
+provenance notes. **Five of the seven sessions are finished and closed**, Session
+5 as of 14 September: all thirty-two of its mechanical items are answered as
+expected and all nine of your sign-offs are given. Nothing of Sessions 1 to 5 is
+outstanding. The staging sheets hold nothing still waiting: every line of every
+session loaded is accepted and promoted. **What is left of the first piece of
+work is Sessions 6 and 7.**
 
 ## What has been done
 
@@ -52,53 +50,40 @@ line of every session loaded is accepted and promoted.
   M7 says five sessions are coded. The error checker was taught the rule that
   would have caught it.
 
-**14 September, this session. Item 31 answered, eight broken notes mended, and
-all nine of your sign-offs given.**
+- **14 September, later again.** Item 31 answered as expected; eight provenance
+  notes found ending mid-sentence while you were signing Session 5 off, mended by
+  taking Sessions 5 and 4 off the clean sheet and putting them back, with
+  `db/079` teaching the database to refuse a ninth; and all nine of your
+  sign-offs given, each against the rows and the full text read back out of the
+  database.
 
-- **Item 31 was the one the last session was not allowed to mark**: it had added
-  the rule about an Act's title carrying its year, and a migration proving its
-  own rule is not a check on it. This session added nothing to the database, and
-  asked the rule of the sheets instead of the migration.
-- **All four parts answered as expected.** 335 of 335 Act titles carry their
-  year, on the clean sheet and the staging sheet alike. None of the 54 lines that
-  are not Acts does — and those 54 are 51 not enacted and 3 stopped before Royal
-  Assent, which is the split the test predicted. No line has an Act number
-  without being an Act. The error checker and the gaps list are empty.
-- **Then, while you were signing Session 5 off, eight notes turned out to end
-  mid-sentence.** Reading the three Official Report notes in full for sign-off 2
-  showed each stopping at the words "Read at". Five of Session 4's did the same.
-  The staging sheets were right; the step that copies a note onto the clean sheet
-  cut the address and kept the phrase that introduced it.
-- **Mended by the ordinary route.** The copying step was corrected, then Sessions
-  5 and 4 were taken off the clean sheet and put back, so the notes were written
-  afresh with nothing typed by hand. Rehearsed one session at a time first —
-  three cells, then five — and the real run moved those eight and nothing else.
-  **You agreed to reopening Session 4, which is closed**; no answer of its test
-  moves, and it is marked there.
-- **`db/079` teaches the database to refuse a note that ends that way**, on the
-  note itself rather than in the checker, because the staging sheets were never
-  wrong and there was nothing there to refuse. Item 32 asks the rule from
-  outside, and is written and deliberately not run.
-- **Then your nine sign-offs, one at a time**, each against the rows and the full
-  text read back out of the database rather than a summary of them. Two of the
-  nine changed something. Sign-off 2 is where the eight broken notes were found.
-  Sign-off 9 found the explainer silent about the rule that mend added, and one
-  sentence was written into it before you read it.
-- **Session 5 is not marked closed**, and one item stands in the way: item 32,
-  written this session and not runnable by it.
+**14 September, this session. Item 32 run, and Session 5 closed.**
 
-## Now: one test item, then Session 5 closes, then Sessions 6 and 7
+- **Item 32 was the last thing outstanding.** It asks the rule `db/079` added —
+  that a note may not end in the words "Read at" — of the notes themselves rather
+  than of the migration that added it, and the session that wrote it was not
+  allowed to run it. This session wrote nothing to the database in order to be
+  able to.
+- **All six parts answered as expected.** No note anywhere ends in "Read at": 0
+  of 106. The twenty-four notes citing an outcome to the Official Report all end
+  where their sentence ends, and the eight that were cut short — five in Session
+  4, three in Session 5 — read properly now. Every one of the 24 still carries
+  its address and the day it was read; the address was never in the words.
+  Sessions 1 to 3's sixteen are untouched. And the rule refuses a note typed by
+  hand, not only one filed by the copying step: both ways of doing it were tried
+  inside a transaction that was then undone.
+- **Session 5 is therefore closed**, on all thirty-two mechanical items and all
+  nine of your sign-offs. Sessions 1 to 5 are finished.
 
-1. **Item 32 of Session 5's test**, and it is the first task of the next session.
-   It is written in `docs/CLOSURE-TESTS.md` and was not run by the session that
-   wrote it. **Run it, record the run, and Session 5 is closed** — nothing else is
-   outstanding: all nine sign-offs were given on 14 September and the other
-   thirty-one items are answered.
-2. **Then Sessions 6 and 7**, with two jobs in front of them. **Bills carried
-   over between sessions**, before Session 6 is loaded: four bills appear in two
-   factsheets, the double-count guard is the same four, and the mended check in
-   `db/077` would refuse a carried-over bill's later stages — one job, not three.
-   And **a prose reader**, because those two factsheets are sentences, not tables.
+## Now: Sessions 6 and 7
+
+1. **Bills carried over between sessions**, before Session 6 is loaded. Four
+   bills appear in two factsheets; the double-count guard cannot see them,
+   because they are called "Bill" in one and "Act" in the other; and the mended
+   check in `db/077` would refuse a carried-over bill's later stages. That is one
+   job, not three.
+2. **A prose reader**, because Sessions 6 and 7's factsheets are sentences, not
+   tables.
 
 **Yours whenever you want it, and nothing waits on it:** your write-up on what
 the charts present and the options they offer.
@@ -147,72 +132,56 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-14, tenth session of the day
+## Sanity check, 2026-09-14, eleventh session of the day
 
-**At opening, every figure matched and nothing contradicted anything.** 389
-bills, 1071 stage records, 106 provenance notes, 8 methodology notes; 389
-staging lines and 1071 staging stage rows, every one accepted and promoted with
-none left unreviewed. Error checker empty, gaps list empty, data dictionary
-regenerating identical at 17 tables and 162 columns, nothing uncommitted and
-nothing unpushed, and only the one schema in the database — no working copy left
-behind. `STATE.md` said item 31 was written and unrun, and it was.
+**Everything matched and nothing contradicted anything.** 389 bills — 73, 81, 62,
+86, 87 — 1071 stage records, 106 provenance notes, 8 methodology notes; 389
+staging lines and 1071 staging stage rows, every one accepted and promoted.
+Error checker empty, gaps list empty, data dictionary regenerating identical at
+17 tables and 162 columns, nothing uncommitted and nothing unpushed, and only the
+`public` schema in the database — no working copy left behind. `STATE.md` said
+item 32 was written and unrun, and it was.
 
-**At closing, after eight notes were rewritten and `db/079` run.** 389 bills —
-73, 81, 62, 86, 87 — 1071 stage records, **106** provenance notes still, 8
-methodology notes with M5 at 2331 characters and M7 at 5006, 389 staging lines
-and 1071 staging stage rows, every one accepted and promoted. Error checker
-empty, gaps list empty, data dictionary regenerating identical, the new rule
-present on the notes tab and no note anywhere ending "Read at", only the `public`
-schema in the database, and the repository clean, level with GitHub and pushed.
+**One contradiction inside a document, found and mended.** The head of
+`CLOSURE-TESTS.md`'s Session 5 section still read "Part B is not yet given" while
+Part B itself recorded all nine sign-offs given on 14 September. The head had not
+been brought forward when the sign-offs were recorded. Both now say the same
+thing.
 
-**The server refused connections four times** for a few minutes at a time, and
-came back on its own each time. Nothing was mid-write when it happened. It is the
-rate limit described under "Connecting to the database", and this session hit it
-by making many short connections; batching work into fewer would have avoided it.
+**Done in one connection**, after the last session hit the server's rate limit by
+making many short ones.
 
 ## What the previous session did
 
-Ran Session 5's Part A closure test, which it did not write; twenty-eight of
-thirty as expected and the two failures the two the test predicted. Then
-`db/078`: the Period Products Act's title settled at legislation.gov.uk and
-brought in by the ordinary route, the error checker taught to ask an Act's title
-for its year, and M7 brought to five sessions. Full detail is in
+Ran item 31, which it did not write, and all four parts answered as expected.
+Then, during the owner's sign-offs, found eight provenance notes ending
+mid-sentence: `tools/promote_session.sql` cut a note at the first address and
+left the phrase that introduced it. Mended the copying step, took Sessions 5 and
+4 off the clean sheet and put them back so the notes were rewritten by the
+ordinary route, and added `db/079`, the rule that refuses a note ending that way.
+Then took the owner through all nine sign-offs. Full detail in
 `docs/CLOSURE-TESTS.md` and `DECISIONS.md`, 2026-09-14.
 
 ## What this session did
 
-**It ran item 31**, the check the last session was not allowed to make on its
-own rule, and added nothing to the database in order to be able to. All four
-parts answered as expected, asked of the clean sheet and the staging sheets and
-not of the migration:
+**Ran item 32** — the check on `db/079`'s rule that the session which added it
+was not allowed to make — and wrote nothing to the database in order to be able
+to. All six parts answered as expected:
 
-- 335 of 335 enacted lines have a title ending in a four-digit year, on both
-  sheets;
-- 0 of 54 non-Act lines have one, and the 54 split 51 not enacted and 3 blocked,
-  which is what item 31 predicted;
-- no line has an `asp_number` without being enacted, and no enacted line is
-  missing one;
+- no note's words end in "Read at": 0 of 106;
+- all 24 Official Report outcome notes end in a closing quotation mark or a full
+  stop, the eight mended ones included, split five in Session 4 and three in
+  Session 5 as the item predicted;
+- all 24 still carry an address beginning `https://` as the note's reference, and
+  all 24 the day it was read;
+- Sessions 1 to 3's 16 are untouched and contain the phrase nowhere;
+- the rule binds a hand at the keyboard as well as promotion: appending " Read
+  at" to an existing note and writing a fresh note ending that way were both
+  refused, inside a transaction that was then rolled back;
 - the error checker and the gaps list are both empty.
 
-Part A of Session 5's test then stood at thirty-one items, all answered as
-expected.
-
-**Then it took the owner through Part B, one sign-off at a time**, handing over
-the full text of what each rests on rather than a summary of it. Sign-offs 1 and
-2 were given on 14 September: the reconciliation and the seven fallen bills split
-three and four, and the three bills read in the Official Report.
-
-**Sign-off 2 turned up a fault nothing in the test asked about.** Read in full,
-all three of those notes stopped at the words "Read at" — and so did five of
-Session 4's. The staging lines were right; `tools/promote_session.sql` cuts a
-note at the first address, on purpose, and the phrase that introduced the address
-was left behind. On the owner's decision the copying step was mended and Sessions
-5 and 4 were taken off the clean sheet and put back, so nothing was typed into a
-provenance note by hand. Rehearsed one session at a time — three cells, then five
-— and the real run moved those eight cells and no others. `db/079` then put the
-rule on the note itself. See `DECISIONS.md`, 2026-09-14, and the runbook.
-
-**What remains for Session 5 is seven sign-offs and item 32.**
+**Session 5 is therefore closed**: thirty-two of thirty-two mechanical items and
+nine of nine sign-offs. Recorded in `docs/CLOSURE-TESTS.md` and `DECISIONS.md`.
 
 ## The owner's standing positions, so they are not re-argued
 
@@ -314,10 +283,11 @@ rehearsal, the check and the undo without being asked.
      Provision) (Scotland) Act (asp 1)", Session 5, is 2021 asp 1, both from
      legislation.gov.uk. The checker now refuses an Act whose number does not
      begin with a four-digit year; it used to compare the year only where one
-     was printed, so a number with none passed unlooked-at. Session 4's line is
-     on the review list; Session 5's arrives with that session.
-   - Session 5's three bills awaiting Royal Assent are the missing 3. Before
-     Session 5.
+     was printed, so a number with none passed unlooked-at. Both lines are
+     settled and on the clean sheet; Session 5's title was mended again by
+     `db/078`, which made it carry its year.
+   - Session 5's three bills awaiting Royal Assent were the missing 3, and are
+     recorded as blocked (`DECISIONS.md`, 2026-09-14).
    - `Clackmann- anshire Council`, a Session 2 promoter broken by a line break,
      is still on that session's staging sheet. The repair is applied to the
      title we propose, not to the factsheet's own words, so it does not reach
@@ -362,13 +332,14 @@ rehearsal, the check and the undo without being asked.
    source is SPICe's dates factsheet, agreeing to the day with the Parliament's
    API and with each legislation factsheet's own page 1.
    - The session-window checks are awake from that point and fire on nothing in
-     Sessions 1 and 2. Item 3 is therefore still outstanding, and still bites
-     before Session 5: those checks compare a line's dates against the session
+     Sessions 1 and 2. Item 3 is therefore still outstanding, and bites
+     before Session 6: those checks compare a line's dates against the session
      of the factsheet it was read from, which is wrong for a carry-over row.
      **The failure is a false alarm, not a false pass** — the checks read only
      for dates outside the window, so a carry-over row is flagged and stops the
      session rather than passing silently. That has been read in the view, not
-     rehearsed; rehearse it before Session 5 is loaded.
+     rehearsed; rehearse it before Session 6 is loaded. Sessions 1 to 5 hold
+     no row that fires it.
 7. **`docs/VARIABLES.md`.** Everything factual is in the data dictionary; what
    remains is reasoning, and it is out of date:
    - §3.2 describes `procedure` as non-null and `date_outcome` as present, and
