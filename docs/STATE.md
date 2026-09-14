@@ -25,9 +25,10 @@ and 2 dates are added from your PhD.
 
 **389 bills are now on the clean sheet**, with 1071 stage records and 112
 provenance notes. **Five of the seven sessions are finished and closed.**
-Nothing of Sessions 1 to 5 is outstanding, and every line of every session
-loaded is accepted and promoted. **What is left of the first piece of work is
-Sessions 6 and 7**, and the one job that had to come before them is now done.
+Nothing of Sessions 1 to 5 is outstanding, every line of every session loaded is
+accepted and promoted, and every rule added before Session 6 has now been marked
+by a session that did not write it. **What is left of the first piece of work is
+Sessions 6 and 7**, and nothing stands in front of them but the reader.
 
 ## What has been done
 
@@ -40,43 +41,36 @@ Sessions 6 and 7**, and the one job that had to come before them is now done.
   Session 6: a second appearance of a bill lands on the bill already there; a
   bill stopped before Royal Assent records how and what followed; the Robin Rigg
   Act says whose scrutiny it carried; and M6 and M9 say all of it to a reader.
+- **14 September, later.** All eighteen items on that job answered as expected
+  by a session that built none of it — and the run turned up that the gaps list
+  had never been taught what the error checker was taught, which was agreed with
+  you and mended the same day.
 
-**14 September, this session. The eighteen items answered, and one thing they
-turned up.**
+**14 September, this session. The four items on the gaps list answered, and
+nothing is left unmarked.**
 
-- **All eighteen answered as expected**, by a session that built none of it and
-  wrote nothing to the database in order to be able to answer them. Every fault
-  was planted inside a transaction that was thrown away. The full run is in
-  `docs/CLOSURE-TESTS.md`. In particular a second appearance behaves as
-  designed: a Session 6 line for the European Charter Bill, built by hand,
-  landed on the bill already there, the count did not move, **its Stage 3 kept
-  the date it already had**, and taking the session off and putting it back
-  brought the bill back identical in every cell.
-- **The gaps list had not been taught what the error checker was taught**, and
-  the test did not ask about it. Once Session 6 was read in, four bills would
-  have sat on that list looking like missing stage dates that are in fact on the
-  bill already. Agreed with you and fixed the same day.
-- **Two things the run says about the tests themselves.** Two of the eighteen
-  planted a fault that broke two rules at once, so a neighbouring rule caught it
-  first and the named rule was never reached; faults that break only the named
-  rule were built instead, and both rules then refused. And one item asked for a
-  copy of the bills from before the change, which nobody had taken — see the
-  question below.
+- **All four answered as expected**, by a session that built none of it and
+  wrote nothing to the database: the hand-built Session 6 line and every
+  alteration went inside one transaction that was thrown away. The run is in
+  `docs/CLOSURE-TESTS.md`.
+- **The list no longer asks for dates that are on the bill already**, and it
+  still asks for the ones that are genuinely missing. With bill 303's Stage 2
+  date taken off inside the rehearsal, the Session 6 line was asked for Stage 2
+  and for nothing else; with the line cut loose from the bill it continues, it
+  was asked for all three; joined up again, for none.
+- **The change bites in one place only.** Both versions of the list were read
+  side by side against all 389 lines at once, with every stage date in the
+  database taken away to make the comparison say something: they differ by three
+  rows, all three the hand-built line's, and there is not one entry the new list
+  asks for that the old one did not.
 - **Nothing moved.** 389 bills, 1071 stage records, 112 provenance notes, before
   and after. The error checker and the gaps list are empty.
 
-## Now: the test on the gaps list, which this session may not mark
-
-`db/086` was written by this session, so it is not the one to mark it. **Four
-items are in `docs/CLOSURE-TESTS.md` and are the first task of the next
-session.** They are short — all four are mechanical, and the fixture they use is
-the same hand-built Session 6 line as before. Nothing of Session 6 is read until
-they are answered.
-
-## Then: Sessions 6 and 7
+## Now: Sessions 6 and 7
 
 **A prose reader**, because Sessions 6 and 7's factsheets are sentences, not
-tables. That is now the only thing between here and Session 6.
+tables. That is the only thing between here and Session 6, and nothing else is
+outstanding.
 
 Two things it will have to do that nothing else does: recognise "Withdrawn on
 …", which appears only in Session 6's excluded section, and cope with the
@@ -143,59 +137,55 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-14, thirteenth session of the day
+## Sanity check, 2026-09-14, fourteenth session of the day
 
-**Everything matched and nothing contradicted anything.** 389 bills — 73, 81, 62,
-86, 87 — 1071 stage records, 112 provenance notes; 389 staging lines, every one
-accepted and promoted; error checker empty, gaps list empty, data dictionary
-regenerating identical at 19 tables and 177 columns, nothing uncommitted and
-nothing unpushed. `STATE.md`'s figures matched the database in every cell. Note
-that the dictionary is 19 tables and 177 columns, not the 17 and 162 the
-previous sanity check recorded: `db/080` added the two blocked-bill lists and
-`db/080`–`db/081` the three new columns. Nothing was wrong; the earlier figure
-simply predated them.
+**Everything matched and nothing contradicted anything.** 389 bills, 1071 stage
+records, 112 provenance notes; 389 staging lines and 1071 staging stage rows;
+error checker empty, gaps list empty; the data dictionary regenerating identical
+to the committed file at 19 tables and 177 columns; nothing uncommitted and
+nothing unpushed; no working copy left inside the database — `public` is the only
+schema. `STATE.md`'s figures matched the database in every cell, and the newest
+`DECISIONS.md` entries and the last commit left exactly one thing open, which was
+this session's task.
 
 ## What the previous session did
 
-Built the carried-over bills job — `db/080` to `db/085`, the two promotion
-scripts split and taught, Sessions 5 and 2 taken off and put back so the new
-values arrived by the ordinary route — and rehearsed all of it in full before
-any of it was applied. It marked none of its own rules, and left eighteen items
+Ran the eighteen items on `db/080`–`db/085` and answered all of them, writing
+nothing to the database. Then built `db/086` on the owner's agreement, for what
+the run turned up: the gaps list asks a line that continues an earlier bill for
+stages the bill already has. It marked none of its own rule, and left four items
 in `docs/CLOSURE-TESTS.md`.
 
 ## What this session did
 
-**Ran the eighteen items**, writing nothing to the database in order to be able
-to. Every fault was planted inside a transaction that was thrown away; the two
-promotion rehearsals likewise; and for item 17 the nightly backup from 02:53
-that morning was restored into a scratch database, compared, and the scratch
-database dropped. All eighteen answered as expected. Full detail in
-`docs/CLOSURE-TESTS.md`.
+**Ran the four items on `db/086`**, writing nothing to the database in order to
+be able to. The fixture — one Session 6 staging line for the European Charter
+Bill carrying `continues_bill_id` = 303, with a Stage 3 row and a Reconsideration
+Stage row — and every alteration to bill 303 and to the line went inside one
+transaction that was thrown away. **All four answered as expected.** Full detail
+in `docs/CLOSURE-TESTS.md`.
 
-**Then built `db/086`**, on the owner's agreement, for the thing the run turned
-up: the gaps list asks a line that continues an earlier bill for stages the bill
-already has. Rehearsed in a transaction that was thrown away — the two false
-entries gone; a real gap still shown, by taking bill 303's Stage 2 date off
-inside the rehearsal and confirming the Session 6 line was then asked for Stage 2
-and nothing else; the Robin Rigg Act still not asked; the list still empty across
-all 389 lines. The rebuilt view was also diffed against the running one, which is
-how the stale `detail_note` alias `db/062` warned about was caught before it went
-back in: the only differences are `continues_bill_id` carried through and the one
-new clause.
+Three things about how it was run, for whoever runs the next one:
 
-**Two descriptions gained a sentence**, because the owner has to be able to
-explain the list: `HOW-THE-DATABASE-WORKS.md` on the gaps list, and the promotion
-runbook's step 1.
+- **The pre-`db/086` view was rebuilt beside the live one, not over it**, under
+  another name, so the running view was never replaced to answer item 1. It is
+  also why item 1's comparison could be made on all 389 lines at once.
+- **`db/056`'s text does not run today as written.** `db/061` renamed the column
+  it calls `note`, and the live view carried the rename with it, so the
+  reconstruction had to put that one word back the way the rename put it — the
+  same trap `db/062` and `db/086` both wrote about. A view's text in an old
+  migration is not what is running.
+- **An empty list either side of a change proves very little**, which is why the
+  two views were compared on a state with every stage date taken away: 1021 rows
+  against 1018, the difference being three rows and all three the fixture line's,
+  and nothing the new view asks for that the old one did not.
 
-**`db/086` was not marked by the session that built it.** Four items are in
-`docs/CLOSURE-TESTS.md` for the next session.
-
-**Left for whoever runs Session 6, and not written down anywhere else:** the
-promotion writes a provenance note with an empty "what the source said" for
-`asp_number` and `date_royal_assent`, which are printed facts rather than our
-coding. It is existing behaviour, not something this change introduced — the
-Session 5 notes on the same bill are the same — and it is not a rule anything
-breaks. Worth a look when Session 6 puts real values in those cells.
+**One note on the fixture, which is not a finding.** Built with only the cells
+this test needs, it drew four complaints from the error checker — an Act with no
+year in its title, no ASP number, a title kind that is not `act`, and dates never
+compared against the other sources. All four are about cells invented for the
+fixture, none about the line continuing bill 303: a second fixture carrying those
+cells properly leaves the error checker silent and the gaps list empty.
 
 ## The owner's standing positions, so they are not re-argued
 

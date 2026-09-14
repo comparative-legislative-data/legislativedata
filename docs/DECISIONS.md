@@ -47,8 +47,9 @@ trip it does not exist yet. Taking it later would mean taking it with four false
 entries already sitting in front of the owner, in the middle of loading Session
 6, which is the worst moment to be deciding whether a list is lying.
 
-**Not marked by the session that built it.** Four items are in
-`CLOSURE-TESTS.md` for the next session.
+**Not marked by the session that built it.** Four items were left in
+`CLOSURE-TESTS.md`, and a later session on 2026-09-14 ran all four and answered
+them as expected.
 
 ---
 

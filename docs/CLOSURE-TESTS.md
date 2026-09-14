@@ -33,8 +33,12 @@ There is no universal test. Each ingest gets its own, newest first below.
 ## The gaps list, and a bill's second appearance
 
 Written 2026-09-14 by the session that built `db/086`, which may therefore not
-run it. **Four items, all mechanical.** They are the first task of the next
-session, and nothing of Session 6 is read until they are answered.
+run it. **Four items, all mechanical.**
+
+**Run on 2026-09-14** by a further session, which built none of `db/086` and
+wrote nothing to the database in order to run it: the fixture and every
+alteration were planted inside one transaction that was thrown away. **All four
+answered as expected.** The run is written up after the items.
 
 **What the change did, in one line:** the gaps list no longer asks a line that
 continues an earlier bill for a stage the bill it continues already has.
@@ -95,6 +99,58 @@ test above used, and is not Session 6 data.
   saying where it ended. It is untouched by `db/086`, deliberately: a second
   appearance is where the bill ended, so its own line is the one that has to
   record the ending. No bill has ever appeared in three factsheets.
+
+### The run, 2026-09-14
+
+The fixture: one Session 6 staging line for the European Charter Bill, accepted,
+a Members' Bill that passed, introduced 5 May 2020 — before Session 6 began —
+carrying `continues_bill_id` = 303, with a Stage 3 row restating 23 May 2021 and
+a Reconsideration Stage row of 8 June 2021. Bill 303 on the clean sheet is
+unchanged throughout: Stage 1 on 4 February, Stage 2 on 24 February and Stage 3
+on 23 March 2021.
+
+1. **The false entries are gone, and were there before. As expected.** With the
+   line present, the gaps list shows nothing — not for that line, and not
+   anywhere: the whole list is empty. The view as `db/056` and `db/062` left it
+   was rebuilt beside it under another name, rather than replacing the live one,
+   and reading the same state it shows exactly two rows: the line's Stage 1 and
+   Stage 2, both "date not yet entered", and nothing else in the database.
+
+   **That reconstruction was checked rather than taken on trust.** `db/056`'s
+   text does not run today as written — `db/061` renamed the column it calls
+   `note`, and the live view carried the rename with it — so the one word was
+   put back the way the rename put it. The two views were then read side by side
+   on a state with every stage date in the database taken away, which asks both
+   of them about all 389 lines at once: 1021 rows against 1018, the difference
+   being three rows and all three the fixture line's, and **not one row that
+   `db/086` asks for and the older view does not.** The change bites in the one
+   place intended and nowhere else.
+
+2. **The rule excuses only the stages that are really there. As expected, in all
+   three limbs.** With bill 303's Stage 2 taken off the clean sheet, the line is
+   asked for Stage 2 and for nothing else — not Stage 1, which is still on the
+   bill, and not Stage 3. With bill 303 whole again, and the line stripped of its
+   own stage rows and of its link, it is asked for all three. Putting the link
+   back silences all three.
+
+3. **The Robin Rigg Act is unmoved. As expected.** Its line shows nothing, with
+   the fixture present and absent, and under both views. Its Preliminary and
+   Consideration Stages are still the only stage records in the database marked
+   as stages that never happened, which is what `db/039`'s rule reads.
+
+4. **Nothing moved. As expected.** 389 bills, 1071 stage records, 112 provenance
+   notes, 389 staging lines and 1071 staging stage rows, before and after; the
+   gaps list and the error checker both empty across all 389 lines; and the view
+   built for the comparison gone with the transaction.
+
+**One note on the fixture, which is not a finding about `db/086`.** The first
+fixture was built with only the cells this test needs, and the error checker
+complained four times about it — an Act with no year in its title, no ASP
+number, a title kind that is not `act`, and dates never compared against the
+other sources. Every complaint is about a cell invented for the fixture, none
+about the line continuing bill 303. A second fixture carrying those four cells
+properly leaves the error checker silent and the gaps list empty, which is what
+a real Session 6 line will look like.
 
 ---
 
