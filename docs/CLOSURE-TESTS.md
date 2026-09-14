@@ -36,6 +36,23 @@ Written 2026-09-14 by a session that did none of Session 5's work: it did not
 read the fact sheet in, did not build the review, did not admit it and did not
 promote it.
 
+**Part A run on 2026-09-14** by a further session, which did none of Session 5's
+work and did not write this test. **Twenty-eight of the thirty items answered as
+expected. The two that did not are the two this test predicted would not**: item
+9, the Period Products Act's title, and item 15, M7 a session out of date. Both
+were put right by `db/078` on the owner's decision the same day, and items 1, 5,
+9, 14, 15 and 26 were re-run against the expectations written above — the
+movements are marked **[moved by db/078]** where they occur. Nothing else in the
+run changed by a single cell.
+
+**One prediction resolved, and it was prose and not data.** Item 24's three
+shortest roads read 1, 9 and 22 days, which are the fact sheet's own dates. The
+session that promoted Session 5 had reported 1, 27 and 28. No bill's Stage 3
+date on the clean sheet is wrong.
+
+**Part B is not yet given.** The nine sign-offs are the owner's, and are recorded
+here on the day they are given and nowhere else.
+
 **Session 5 was already on the clean sheet when this was written, and had been
 marked closed by the session that promoted it.** That is the thing the procedure
 at the top of this file exists to prevent, and it is the second time it has
@@ -67,7 +84,11 @@ and nothing else.
 **When to run it.** Now. Session 5 is on the clean sheet with its Stage 1 and
 Stage 2 dates on it, which is the state these answers describe.
 
-### What writing this test turned up — three things, none of them settled
+### What writing this test turned up — three things, all settled on 2026-09-14
+
+**All three were put to the owner when Part A was reported, and all three were
+agreed and built the same day.** What follows is as it was written, because it
+is the account of what the test was for; each is marked with what was decided.
 
 None is a matter of opinion about the data; each is a place where Session 5 was
 handled differently from Session 4 under a rule that has not changed. **They are
@@ -86,6 +107,13 @@ one session corrected the title and the next did not. `db/073`'s own note alread
 quotes legislation.gov.uk giving "Period Products (Free Provision) (Scotland) Act
 2021", so the value is not in doubt and nothing needs to be looked up.
 
+**Settled: the title carries its year.** `db/078` made the correction on the
+staging sheet with its citation, and Session 5 was taken off the clean sheet and
+put back so the title and its provenance note arrived by the same route as every
+other admitted fact. It also added the rule that would have caught it: the error
+checker now asks an Act's title for its year as it already asked the number.
+**Item 14 moves too, which this paragraph did not foresee.**
+
 **If the owner agrees the title should carry its year, items 1, 5, 9 and 26 move
 together**: provenance notes 105 becomes 106, item 5 gains a `short_title` /
 `legislation_gov_uk` row taking that pairing from 1 to 2, item 9's
@@ -101,7 +129,8 @@ rejected at Stage 1 and four out of time on 14 September. This is exactly what
 `db/070` had to fix at Session 4's closure, when M7 still said three. A published
 note saying less than the data holds is the fault `db/072` was written to prevent
 in M5, in the same week. Item 15 expects M7 to say Sessions 1 to 5 and is
-predicted to fail until a migration puts it right.
+predicted to fail until a migration puts it right. **Settled: `db/078` put it
+right, in the two sentences db/070 had to change at Session 4's closure.**
 
 **3. The explainer contradicts itself on how many provenance notes there are.**
 `docs/HOW-THE-DATABASE-WORKS.md` §3 says "The tab holds 86 notes in all: 72 about
@@ -109,7 +138,11 @@ bills, 13 about the sessions' own dates, and 1 about a stage", and §4 of the sa
 document says ninety-one, counting Session 5's nineteen. The second is current
 and the first is a session behind: 105 in all, 91 about bills. **Part B item 9
 cannot be put to the owner until that is fixed**, because it asks them to explain
-the database from that document.
+the database from that document. **Settled: both passages were corrected on
+2026-09-14, after the title correction moved the figures again — 106 in all, 92
+about bills (22, 20, 15, 15 and 20 by session), 13 about the sessions' own dates
+and 1 about a stage, every figure read back out of the database. Part B item 9
+can now be put.**
 
 **The one item an outside change can move** is item 27, the dataset's
 fingerprint. Nothing else here is reopened by later work, and the three things
@@ -122,6 +155,7 @@ Compare each numbered result against the expected answer.
 
 **1. Counts.** bills 389, stage_records 1071, provenance_notes 105,
 checker_problems 0, gaps 0, staging_lines 389, stage_date_rows 1071.
+**[Read exactly that. Moved by db/078: provenance_notes 106.]**
 
 - **389** is 302 plus 87. The 87 is the Session 5 fact sheet's own summary total,
   and the fresh extraction produces exactly 87 lines from the PDF.
@@ -180,7 +214,7 @@ three were settled on 14 September, each with a `Checked:` line beside the
 | `enactment_status` | `spice_factsheet_legislation` | 3 |
 | `outcome` | `official_report` | 24 |
 | `outcome` | `spice_factsheet_dates` | 14 |
-| `short_title` | `legislation_gov_uk` | 1 |
+| `short_title` | `legislation_gov_uk` | 1 **[db/078: 2]** |
 | `short_title` | `manual` | 1 |
 | `stage_1_rejection_route` | `official_report` | 22 |
 
@@ -192,7 +226,8 @@ the row, so the only place the source's own words can live is a provenance note.
 **If the title is corrected, `short_title` / `legislation_gov_uk` becomes 2.**
 
 **The nineteen Session 5 cells are then listed in full.** Nineteen rows, not
-eighteen and not twenty. Two of the blocked bills carry the same footnote twice
+eighteen and not twenty. **[Read nineteen. Moved by db/078 to twenty, the
+twentieth being the Period Products Act's title.]** Two of the blocked bills carry the same footnote twice
 over — once against the status and once against the date — which is not
 duplication: they are provenance for two different cells. The UK Withdrawal Bill
 has the status note only, its footnote giving no date. Every one of the nineteen was read on
@@ -250,7 +285,10 @@ not among them: they have no number and no assent date, and they are not
 **And 0 Acts anywhere on the clean sheet whose number has no year** — the check
 `db/062` added, which Session 5's Period Products Act was the first to trip.
 
-**`acts_whose_title_has_no_year` — expected 0, and predicted to read 1.** This is
+**`acts_whose_title_has_no_year` — expected 0, and predicted to read 1.**
+**[Read 1, and the one Act it named was the Period Products Act, as predicted.
+No second name appeared. The owner settled the title question on 2026-09-14 and
+`db/078` corrected it; re-run, this reads 0 and names nothing.]** This is
 the title question above. The one Act it names should be the Period Products
 (Free Provision) (Scotland) Act. **If a second name appears, that is not the
 known thing** and is to be reported as its own finding: it would mean an Act
@@ -322,6 +360,9 @@ other source 0 — a bill's own line always comes from a legislation fact sheet.
 Cells: `bill_page` 8, `legislation_gov_uk` 17, `manual` 2, `official_report` 46,
 `spice_factsheet_dates` 27, `spice_factsheet_legislation` 5; `api`,
 `bill_document` and `phd` 0. Those six add to 105, which is item 1.
+**[moved by db/078: `legislation_gov_uk` 18, and the six add to 106. This test
+did not name item 14 among the items the title question moves, and it does move
+it — the same arithmetic as item 5, one row further down.]**
 
 **`spice_factsheet_legislation` holding cells at all is new**, and it is the
 footnotes: five cells, being the three blocked bills' status and the two dates.
@@ -345,7 +386,11 @@ and why before marking anything.
 - **M7** must say the coding of why a bill fell has been done for Sessions 1 to
   5. Expected: `m7_says_five_sessions_are_coded` true and `m7_still_says_four`
   false. **Predicted to fail on both**, which is the second of the three things
-  above. Read the note in full: what matters is not the phrase the check looks
+  above. **[Failed on both, as predicted, at 5003 characters. The owner agreed
+  the correction on 2026-09-14 and `db/078` made it: two sentences, "Sessions 1,
+  2, 3 and 4" to "1, 2, 3, 4 and 5" and "the first four sessions" to "the first
+  five", M7 three characters longer at 5006. Re-run, both read as expected. The
+  other seven notes did not move.]** Read the note in full: what matters is not the phrase the check looks
   for but whether a reader is told five sessions or four.
 
 **16. Notes on the Session 5 staging lines.** 3 with a note for readers, 85 the
@@ -555,7 +600,9 @@ sheet afresh and compare against the staging lines' raw columns: 87 rows,
 That is what this item is for.
 
 **The worked-out columns that must differ, and only these** — nine cells across
-nine bills:
+nine bills. **[Read exactly nine, then exactly ten after `db/078`, the tenth
+being the `short_title` this item already names below. 87 rows both times, every
+one pairing, and no column that must not differ did.]**
 
 - `outcome` on all seven bills the fact sheet's Fallen table holds, because since
   `db/051` the reader decides none of them: Culpable Homicide, Post-mortem
@@ -614,7 +661,13 @@ line has no dataset row at all** — the Domestic Abuse (Protection) (Scotland) 
 for Session 6 or beyond corrects the file and the fingerprint changes with it.
 Record the new one beside the old; nothing else about Session 5 is reopened by it.
 
-**28. Promotion is still reversible.** Take Session 5 off and put it back inside a
+**28. Promotion is still reversible.** **[Done on 2026-09-14 by the session
+that ran this test, which had done none of Session 5's work. Off: 0 bills, 0
+stage rows, no stamps on the staging lines, 302 bills left. Back on: 389, 1071,
+105. Compared cell by cell against a copy taken first, the only differences were
+record numbers and the times things were written. Thrown away; nothing left
+behind. Done a second time for real when `db/078` corrected the title, which is
+how that correction reached the clean sheet.]** Take Session 5 off and put it back inside a
 transaction that is thrown away, and the result is identical. The procedure is in
 `docs/PROMOTION-RUNBOOK.md`. The session that promoted Session 5 did this and
 saved it, which is not the same as a session that did none of the work doing it:
@@ -623,6 +676,12 @@ bill, and the first to go on with its Stage 1 and Stage 2 dates already there, s
 there are two things in it that have never been undone by anyone else.
 
 **29. Every period is counted, or has a stated reason.**
+**[Ran clean: 1377 counted, 27 with no day recorded — 21 from Sessions 1 to 4
+and Session 5's six undated endings — and, beside them, the 2 stages of the
+reintroduced Robin Rigg Bill that never happened, which item 11 already counts.
+So 29 stages are uncounted in all under two stated reasons, and the 27 this item
+names is the first of the two. Worth saying plainly because the number alone
+reads as a discrepancy and is not one.]**
 `tools/duration_coverage.sql` runs clean: **1377 counted**, and 27 not counted —
 21 from Sessions 1 to 4, as Session 4's test settled, and 6 from Session 5, being
 the six undated endings. No third category; the script stops if one appears.
@@ -636,6 +695,29 @@ period does not exist.
 **30. The repository is clean** and level with GitHub, and the migrations are
 numbered without a gap. `db/063` and `db/066` share a filename, which is known
 and accepted; see `STATE.md`, housekeeping.
+
+**31. The rule `db/078` added, derived again rather than re-run.** **Written on
+2026-09-14 by the session that added it, and deliberately not run by it.** The
+migration proves its own rule by taking a year off a title, reading the checker
+and putting it back; that is the writer's account of itself, and item 23 is here
+because such an account is not a check. Ask the clean sheet and the staging
+sheets the rule again, from outside:
+
+- **Every line recorded as having become an Act has a title ending in a four-digit
+  year.** Expected 335 of 335 on the staging sheets and 389 bills unaffected —
+  335 being the enacted lines across Sessions 1 to 5, counted before the rule
+  was added, when 334 of them already satisfied it.
+- **No line that did not become an Act has one.** Expected 0 of 54: the 51
+  recorded as not enacted and the 3 stopped before Royal Assent, whose titles
+  end in "Bill". This is the half that matters, because a rule that asked every
+  line for a year would quietly be wrong about every bill that never became an
+  Act.
+- **The rule is about enactment and not about the number.** A line with an
+  `asp_number` and no enactment is not what it keys on; there are none, and
+  there should be none.
+- **And the checker still reports nothing at all.** Expected 0.
+
+If any of those is not what is found, `db/078` is the migration to read first.
 
 ### Part B — the owner's sign-off
 
@@ -672,7 +754,10 @@ day it is given, and nowhere else.
    source's own words and the day it was read.
    **And the question this test turned up: whether that Act's title should carry
    its year too**, as Session 4's Higher Education Governance Act's did. Item 9
-   is written expecting yes.
+   is written expecting yes. **The owner said yes on 2026-09-14, so this
+   sign-off is now on four cells and not three, the fourth being
+   `short_title` = Period Products (Free Provision) (Scotland) Act 2021, from
+   legislation.gov.uk, read that day.**
 6. **The ten names paired by hand**, checked against the fact sheet and your
    dataset side by side, and **the one bill your dataset does not have** — the
    Domestic Abuse (Protection) (Scotland) Act 2021, whose Stage 1 and Stage 2
@@ -686,13 +771,14 @@ day it is given, and nowhere else.
 8. **M5 and M7 read in full**, as a reader will see them: M5 saying that its
    account of what became of the four blocked bills runs ahead of the data, and
    M7 saying which sessions the coding of why a bill fell has been done for.
-   **M7 is expected to be a session out of date** — see item 15.
+   **M7 was a session out of date and no longer is** — see item 15. Read it as
+   it now stands.
 9. **That you can explain how this database works** from the documents alone,
    without help. The standing requirement, put again because Session 5 is the
-   first session that puts an unfinished bill on the clean sheet. **Check
-   `docs/HOW-THE-DATABASE-WORKS.md` first**: §3 says the provenance tab holds 86
-   notes and §4 of the same document says ninety-one, so it contradicts itself
-   and must be brought to 105 and 91 before it is read.
+   first session that puts an unfinished bill on the clean sheet. **`docs/HOW-THE-DATABASE-WORKS.md` was wrong about its own
+   contents when this was written**, §3 saying 86 notes and §4 ninety-one. Both
+   were corrected on 2026-09-14 and it now says 106 and 92. It is ready to be
+   read.
 
 ### Part C — what this test does not check
 

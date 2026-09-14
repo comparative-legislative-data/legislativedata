@@ -233,9 +233,9 @@ this one fact, from the Official Report, seen on this date, worded there as
 this. A second note does the same for how each was rejected, quoting the
 Presiding Officer's announcement.
 
-The tab holds 86 notes in all: 72 about bills, 13 about the sessions' own
+The tab holds 106 notes in all: 92 about bills, 13 about the sessions' own
 dates, and 1 about a stage. Only the bill ones are written by promotion, which
-is why the promotion figure below is 72 and not 86.
+is why the promotion figure below is 92 and not 106.
 
 Two things about this tab. It records the value **as the source worded it**,
 not as we tidied it. And it is **rebuilt with the bill**, like the stage rows:
@@ -271,8 +271,8 @@ your factsheet sheet marked `accepted`:
   your stage-dates sheet, taking the Official Report's where two sources give
   the same stage;
 - a provenance note is filed for each fact that didn't come from the row's
-  stated source — ninety-one so far, being twenty-two for Session 1, twenty for
-  Session 2, fifteen each for Sessions 3 and 4 and nineteen for Session 5. Most
+  stated source — ninety-two so far, being twenty-two for Session 1, twenty for
+  Session 2, fifteen each for Sessions 3 and 4 and twenty for Session 5. Most
   are an outcome or a Stage 1 rejection route read from the Official Report; the
   rest are a date, a bill's type, an asp number or a title settled against
   legislation.gov.uk or the Parliament's own bill page, and for Session 5 the

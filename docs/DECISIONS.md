@@ -8,6 +8,84 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-14 — An Act's title carries its year, and the error checker now asks for it
+
+**Decided.** The Period Products (Free Provision) (Scotland) Act's title is
+settled as "Period Products (Free Provision) (Scotland) Act 2021" from
+legislation.gov.uk, read 2026-09-14. And the error checker refuses any line
+recorded as having become an Act whose title does not end in a four-digit year.
+
+**Why.** The Session 5 fact sheet prints the line as "Period Products (Free
+Provision) (Scotland) Act (asp 1)", with no year in either cell. `db/062` added
+a rule in Session 4 that an Act's *number* must carry its year, and it was that
+rule that made the number get settled at review. It said nothing about the
+title. So the number was corrected to `2021 asp 1` by `db/073` and the title was
+left as printed — where Session 4's equivalent line, the Higher Education
+Governance Act, had both cells settled by `db/063`.
+
+The same fault was therefore handled two ways in two consecutive sessions, and
+the half left wrong is the half a reader sees. A rule that catches one half of a
+fault and not the other is not a check on the fault; it is a check on one cell.
+The title rule closes it for Sessions 6 and 7, where the same printing may
+recur.
+
+**Why it is worded about enactment and not about the number.** A bill that has
+not become an Act carries a bill's title, and a bill's title has no year in it.
+Session 5's three bills stopped before Royal Assent are recorded as blocked and
+their titles rightly end in "Bill". The rule keys on `enactment_status` being
+`enacted`, so it asks the question only of the 335 lines that are Acts and never
+of the 54 that are not. See methodology note M3.
+
+**How it was done, and why not by hand.** The correction was made on the staging
+sheet with its citation in the form promotion reads, and Session 5 was then
+taken off the clean sheet and put back. The title and its provenance note
+therefore arrived the same way every other admitted fact does, rather than being
+typed onto the clean sheet by a migration. Provenance goes 105 to 106; Session
+5's other notes were rebuilt unchanged, which the owner's standing position on
+rehearsed promotions already clears. The whole sequence was rehearsed inside a
+transaction that was thrown away, compared cell by cell against a copy, and the
+seven cells that moved were the same seven in the rehearsal and for real: the
+Act's title on the clean sheet and the staging sheet, the citation on its review
+note, its new provenance note, and its three stage-date rows, which carry the
+line's title so a row can be recognised and follow it automatically.
+
+**What it costs.** Adding the rule leaves a touched timestamp on one Session 1
+line, because the migration proves the rule bites by taking a year off a title,
+reading the checker and putting it back. `db/062` did the same. The value is
+identical afterwards; only the stamp moved.
+
+**What would reopen it.** A fact sheet printing an Act's title short in a way
+that is not a printing convention but the Act's actual name. Nothing suggests
+one exists.
+
+---
+
+## 2026-09-14 — M7 says five sessions are coded, and this is the second time it has lagged
+
+**Decided.** M7 now tells a reader the coding of why a bill fell has been done
+for Sessions 1, 2, 3, 4 and 5, and that one bill in the first five sessions fell
+for want of a financial resolution. Two sentences, no other change to any note.
+
+**Why.** Session 5's seven fallen bills were coded on 2026-09-14 into three
+rejected at Stage 1 and four out of time. M7 still said four sessions. A
+methodology note that understates what the database holds tells a reader the
+work is less complete than it is, which is the same fault `db/072` was written
+to prevent in M5 in the same week.
+
+**Why it matters that this is the second time.** `db/070` had to make exactly
+this correction at Session 4's closure, and it was found the same way both
+times: while a closure test's Part B was being prepared, not by anything
+automatic. Nothing checks that a methodology note keeps step with the data, and
+after two occurrences that is a known gap rather than an accident. It is not
+closed here, and it is not obvious that it can be closed by a rule: M7 is prose,
+and what it must say is a judgement about what a reader needs. **It is recorded
+so that the third time is not a surprise**, and so that a session coding a new
+one is reminded to read the notes.
+
+**What would reopen it.** Session 6 or 7 being coded, which moves it again.
+
+---
+
 ## 2026-09-14 — Session 5 was marked closed by the session that did its work, and a test written after promotion has to protect itself differently
 
 **The mark was wrong and is removed.** `STATE.md`'s table said Session 5 was
