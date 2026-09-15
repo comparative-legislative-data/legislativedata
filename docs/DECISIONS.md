@@ -8,6 +8,54 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-15 — A check that says "nothing is wrong" must say whose fault it would be
+
+`tools/load_phd_stage_dates.sql` refused to keep anything unless the error
+checker was completely empty afterwards. That was written when the checker was
+always empty between pieces of work, and it stopped being true the moment
+something was left standing in it that nothing could answer yet: Session 7's
+Gender Recognition Reform line cannot say which bill on the clean sheet it
+continues until Session 6 is promoted. So the loader refused Session 6's 136
+stage dates over a line in another session that they have nothing to do with.
+
+**The check now compares the checker's findings before the load with its
+findings after, and requires that the load caused none of them.** Problem by
+problem, not by counting, so a problem disappearing while a new one arrives is
+still caught. It was proved both ways before it was used on real data: it passed
+Session 6's CSV, and refused the same CSV with one bill's Stage 2 date moved to
+before its own Stage 1.
+
+The general point, which is why this is here and not only in the runbook: a
+check that asserts the whole database is clean will eventually block work for a
+reason unrelated to that work, and the temptation then is to turn the check off.
+A check that asserts *this change broke nothing* does not have that failure, and
+is the stronger statement anyway.
+
+---
+
+## 2026-09-15 — A bill's second appearance is not asked for stages that belong to its first
+
+`tools/phd_stage_dates.py` refused Session 6 over three lines, saying each had no
+row in the owner's dataset: the UK Withdrawal from the European Union (Legal
+Continuity) Bill, and the two bills the Parliament took back and passed after
+reconsideration. The dataset is not missing them. A bill that appears in two fact
+sheets has one row, under the session it was introduced in, and its Stage 1 and
+Stage 2 belong to the line it continues — where they already are, on the clean
+sheet.
+
+`db/086` settled exactly this for the gaps list, which stopped asking a second
+appearance for stages it already has. The reader now does the same: **it writes
+nothing for a line that continues a bill already on the clean sheet.** It is not
+a blind skip. It first checks that the bill being continued really does hold both
+of its first two stages, and refuses if it does not, for the same reason the
+excuse for a bill genuinely absent from the dataset is checked: a line quietly
+excused is a line excused into a gap nobody will find.
+
+Sessions 1 to 5 give byte-identical output from the reader before and after,
+693 lines, which is how a change to it is tested.
+
+---
+
 ## 2026-09-15 — A session is reviewed with its stage dates already on
 
 **The owner's ruling:** "let's review with the dates added but happy to push that

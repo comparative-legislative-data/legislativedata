@@ -21,6 +21,11 @@ happened to the bill:
     they are on the stage-dates sheet already, and this script checks that they
     are rather than assuming it.
   - For the Session 2 Robin Rigg Act: a note for the bill, not a stage row.
+  - Nothing at all for a line that is a further appearance of a bill already on
+    the clean sheet. Its first two stages belong to the line it continues and
+    are held there; asking for them again is what db/086 stopped the gaps list
+    doing. The bill it continues is checked for them all the same, so that a
+    line is never excused into a gap.
 
   Where a stage is already held from another source and the dataset also dates
   it, the dataset's date is not written -- the Official Report and the bill
@@ -48,7 +53,8 @@ DEFAULT_XLSX = ROOT / 'sources' / 'phd' / 'Billdates-September2026.xlsx'
 # recorded nowhere. Session 3's is later because the dataset was corrected on
 # 13 September (DECISIONS.md, the Autism Bill's Stage 1 date).
 READ_ON = {1: '2026-09-11', 2: '2026-09-11', 3: '2026-09-13', 4: '2026-09-13',
-           5: '2026-09-14'}  # the dataset was corrected again on 14 September
+           5: '2026-09-14',  # the dataset was corrected again on 14 September
+           6: '2026-09-15'}  # and again on 15 September, over Session 6's two cells
 
 # Staging line -> row of the dataset, where the names differ too much to match.
 # Each was confirmed on 2026-09-11 by the dates the two sources share: the
@@ -226,18 +232,25 @@ def our_bills(sessions):
         "coalesce(c.review_note, ''), "
         "(SELECT s.stage FROM ref_bill_type_stage s WHERE s.bill_type = c.bill_type AND s.stage_order = 1), "
         "(SELECT s.stage FROM ref_bill_type_stage s WHERE s.bill_type = c.bill_type AND s.stage_order = 2), "
-        "(SELECT s.stage FROM ref_bill_type_stage s WHERE s.bill_type = c.bill_type AND s.stage_order = 3) "
+        "(SELECT s.stage FROM ref_bill_type_stage s WHERE s.bill_type = c.bill_type AND s.stage_order = 3), "
+        "coalesce(c.continues_bill_id::text, ''), "
+        # What the bill this line continues already holds on the clean sheet, so
+        # that skipping the line can be checked rather than assumed.
+        "(SELECT count(*) FROM stage_event e WHERE e.bill_id = c.continues_bill_id "
+        "AND e.stage_order IN (1, 2) AND e.date_completed IS NOT NULL) "
         f"FROM bill_candidate c WHERE c.session_number IN ({wanted}) ORDER BY 1) TO STDOUT WITH (FORMAT csv)")
     bills = {}
     for row in rows:
         (line, session, short_title, as_introduced, bill_type, introduced, outcome,
-         review_note, s1, s2, s3) = row
+         review_note, s1, s2, s3, continues, continues_holds) = row
         bills[int(line)] = dict(line=int(line), session=int(session), short_title=short_title,
                                 as_introduced=as_introduced, bill_type=bill_type,
                                 introduced=datetime.date.fromisoformat(introduced) if introduced else None,
                                 outcome=outcome, review_note=review_note,
                                 stages={1: s1, 2: s2, 3: s3}, held={}, held_any=set(),
-                                ended_at=None)
+                                ended_at=None,
+                                continues=int(continues) if continues else None,
+                                continues_holds=int(continues_holds or 0))
     # What the stage-dates sheet already holds for those lines: which stages it
     # has at all, which of them come from a source that outranks the dataset,
     # and the stage a bill ended at. All three are why a bill can need nothing
@@ -309,12 +322,24 @@ def match(bills, phd):
     for line in bills:
         if line in pairs:
             continue
+        b = bills[line]
+        # A further appearance of a bill already on the clean sheet. Its first
+        # two stages are that bill's and are held there, so the dataset's row
+        # for it sits under the session it was introduced in, not this one, and
+        # nothing is written here. db/086 settled the same point for the gaps
+        # list. The excuse is only allowed if those stages really are held.
+        if b['continues'] is not None:
+            if b['continues_holds'] < 2:
+                problems.append(
+                    f"line {line} {b['short_title']!r} is a further appearance of bill "
+                    f"{b['continues']}, but that bill holds only {b['continues_holds']} of its "
+                    f"first two stages on the clean sheet")
+            continue
         if line not in NOT_IN_DATASET:
             problems.append(f"line {line} {bills[line]['short_title']!r} has no row in the dataset")
             continue
         # Named as absent. The sheet must already hold what this script would
         # otherwise have written, or the line is being excused into a gap.
-        b = bills[line]
         if b['outcome'] in ('passed', 'rejected_stage_3'):
             short = [n for n in (1, 2) if n not in b['held']]
             if short:
@@ -343,7 +368,7 @@ def rows_for(bills, pairs):
                         detail_note=note or ''))
 
     for line, b in sorted(bills.items()):
-        if line in NOT_IN_DATASET:
+        if line in NOT_IN_DATASET or b['continues'] is not None:
             continue      # nothing to write: match() has checked the sheet holds it
         p = pairs[line]
         phd_ref = f"PhD thesis dataset, row {p['xrow']}"

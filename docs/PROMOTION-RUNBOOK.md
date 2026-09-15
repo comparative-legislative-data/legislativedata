@@ -804,6 +804,69 @@ Tested in rehearsal rather than assumed: `db/059` refuses a row waiting for
 review that is not from the dataset, and putting the session back refuses while
 any one stage date is still unreviewed.
 
+## Session 6's endings and stage dates, 15 September
+
+`db/095`, then `tools/phd_stage_dates.py --sessions 6` and
+`tools/load_phd_stage_dates.sql`. Safety copies first:
+`/var/tmp/legdata-before-s6-dates_2026-09-15.dump` and `copy_before_s6_dates`,
+compared afterwards and dropped.
+
+**Fourteen bills had to be settled before the reader would run at all**, the
+same refusal Session 5 met with six. `db/095` recorded where each ended: five
+rejected at Stage 1 and two at Stage 3 from the Official Report already quoted
+on their lines by `db/092`, and seven from the Parliament's page for the bill —
+the three that ran out of time and the four that were withdrawn. Only the four
+withdrawn bills needed reading; all four pages say the same thing in the same
+words, "This Bill was withdrawn at Stage 1 of the process to determine if it
+should become an Act", with "Stage 2 has not been reached yet" below it, and each
+gives the same withdrawal date the fact sheet already put on the line. Two of the
+three that ran out of time had completed Stage 1, so `db/095` carries those two
+dates as well, from the pages that state them, and the owner's dataset gives the
+same two dates independently. Sixteen rows in all, rehearsed inside a
+transaction that was thrown away before they were kept.
+
+**The reader had to be taught about a second appearance.** It refused Session 6
+over three lines — the UK Withdrawal (Legal Continuity) Bill and the two bills
+reconsidered and passed — saying each had no row in the dataset. It had not: a
+bill that appears in two fact sheets has its dates under the session it was
+introduced in, and its first two stages belong to the line it continues, which is
+what `db/086` settled for the gaps list. The reader now writes nothing for such a
+line, having first checked that the bill it continues really does hold those two
+stages on the clean sheet, so a line is never excused into a gap. Sessions 1 to 5
+give byte-identical output from the reader before and after the change, 693 lines.
+
+**The loader's last check had to be made precise, and was refusing for the wrong
+reason.** It required the error checker to be empty after loading. That held
+while nothing was ever left standing in it, and stopped holding when Session 7's
+line began waiting on Session 6's promotion — a wait, not a fault. It would have
+kept Session 6's dates out over a line that has nothing to do with them. The
+check now compares the checker's findings before and after and requires that the
+load caused none of them, problem by problem rather than by counting. Proved both
+ways before it was used: it passed the real CSV, and refused the same CSV with
+one bill's Stage 2 date moved to before its own Stage 1.
+
+- 136 rows loaded, all waiting for review: 68 Stage 1 and 68 Stage 2. Exactly
+  the gaps list, which now holds only Session 7's two.
+- Session 6 now holds 223 stage rows: 136 from the dataset, 71 passing and
+  reconsideration dates from the legislation fact sheet, 9 from the Parliament's
+  bill pages and 7 from the Official Report. All 223 are waiting for review.
+- Compared with the copy: 136 rows added, no cell changed anywhere, nothing
+  removed. The clean sheet is untouched at 389 bills, 1071 stage records and 112
+  provenance notes.
+- The error checker finds one problem, line 474's, which stood before this work
+  and waits on Session 6 being promoted.
+
+**Two things to know about running it.** The connector rate-limits about a dozen
+connections in quick succession, and the reader makes two per run, so a loop of
+runs fails in a way that looks like a bug in the change being tested. And piping
+the loader's output through `head` kills it before it commits: the run reports
+every check passing and saves nothing.
+
+**What this does not check.** Nothing has compared Session 6's stage dates
+against the Parliament's bill pages — 83 pages, and its own piece of work, as
+Session 5 left it. A stage date that is wrong but still in order passes the
+error checker.
+
 ## Session 5's stage dates, 14 September
 
 `tools/phd_stage_dates.py --sessions 5` and `tools/load_phd_stage_dates.sql`.

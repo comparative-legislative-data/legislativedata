@@ -12,7 +12,9 @@
 -- No default, so a mistyped run fails instead of guessing.
 --
 -- Every row must name a staging line whose title matches the one in the CSV,
--- which is the check that a line number is the bill it claims to be. A stage
+-- which is the check that a line number is the bill it claims to be. Nothing is
+-- kept if the load causes the error checker to find anything it did not find
+-- before the load ran. A stage
 -- already held from the same source is skipped if it says exactly the same
 -- thing, and refused if it does not, so a second run changes nothing.
 --
@@ -114,6 +116,18 @@ END $$;
 -- The rows
 -- ---------------------------------------------------------------------------
 
+-- What the error checker already found, before a single row is written. The
+-- check at the end is that this load added nothing to it. Until 15 September
+-- the check was that the checker was empty afterwards, full stop, which held
+-- only while nothing was ever left standing in it. Session 7's line cannot say
+-- which bill on the clean sheet it continues until Session 6 is promoted, and
+-- that is a wait, not a fault -- so demanding an empty checker would have kept
+-- Session 6's dates out for a reason that has nothing to do with them. The
+-- problems are compared one by one and not merely counted, so a problem
+-- disappearing while a new one arrives is still caught.
+CREATE TEMP TABLE problems_before ON COMMIT DROP AS
+SELECT candidate_id, problem FROM v_candidate_problems;
+
 CREATE TEMP TABLE already ON COMMIT DROP AS
 SELECT i.line, i.stage_order
   FROM incoming i JOIN stage_candidate t
@@ -160,13 +174,21 @@ BEGIN
    WHERE t.review_status <> 'new' AND t.promoted_at IS NULL;
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % loaded row(s) are not waiting for review.', n; END IF;
 
-  -- The error checker must be empty, for both sessions and everything else.
-  SELECT count(*) INTO n FROM v_candidate_problems;
+  -- The error checker must find nothing this load did not find before it.
+  SELECT count(*) INTO n FROM (
+    SELECT candidate_id, problem FROM v_candidate_problems
+    EXCEPT ALL
+    SELECT candidate_id, problem FROM problems_before) x;
   IF n > 0 THEN
-    RAISE EXCEPTION 'Check failed: the error checker finds % problem(s) after loading. Look at v_candidate_problems.', n;
+    RAISE EXCEPTION 'Check failed: the error checker finds % problem(s) this load has caused. Look at v_candidate_problems.', n;
   END IF;
 
-  RAISE NOTICE 'All checks passed.';
+  SELECT count(*) INTO n FROM problems_before;
+  IF n > 0 THEN
+    RAISE NOTICE 'All checks passed. % problem(s) stood in the error checker before this load and still do.', n;
+  ELSE
+    RAISE NOTICE 'All checks passed.';
+  END IF;
 END $$;
 
 -- ---------------------------------------------------------------------------

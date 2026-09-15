@@ -30,6 +30,108 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Session 6's endings, and its stage dates
+
+Written 2026-09-15 by the session that built `db/095` and changed
+`tools/phd_stage_dates.py` and `tools/load_phd_stage_dates.sql`, which may
+therefore not run it. **Nine items: eight mechanical and one sign-off.** Nothing
+here writes to the database; items 2 and 4 write only inside a transaction that
+is thrown away.
+
+**Not yet run.**
+
+1. **Every Session 6 bill that did not pass says where it stopped, once.**
+   Count the rows on the stage-dates sheet marked as where the bill ended, for
+   Session 6. **Expected: 14, one per bill, and no bill with two.** Then check
+   each sits at the right stage for its outcome: a bill rejected at Stage 1 ends
+   at Stage 1, one rejected at Stage 3 ends at Stage 3, and the twelve that did
+   not reach Stage 3 end before it. The expectation comes from the Parliament's
+   own pages and Official Report, quoted in `db/092` and `db/095`, not from the
+   database.
+
+2. **The refusals in `db/095` refuse.** In a thrown-away transaction, run the
+   migration again against the database it has already been applied to.
+   **Expected: it refuses, naming the lines that already hold a stage row.**
+   Then, still in a thrown-away transaction, alter its temp table one change at
+   a time and check each refusal fires with its own message: a line whose title
+   does not match its number; a line from another session; a bill that passed,
+   given an ending; a rejection dated on a day other than the one the bill
+   concluded; an ending dated where nothing decided anything; a completed stage
+   outside the bill's own life; a row citing a bill page for a rejection, or the
+   Official Report for a bill nothing decided; and a row citing an Official
+   Report page the line itself does not cite.
+
+3. **The four withdrawn bills' pages still say what `db/095` says they say.**
+   Read all four pages again: Desecration of War Memorials, Disability
+   Commissioner, Leases (Automatic Continuation etc.) and Prevention of Domestic
+   Abuse. **Expected, on each: "... fell on <date>" under Stage 1, "Stage 2 has
+   not been reached yet" below it, and "This Bill was withdrawn at Stage 1 of the
+   process to determine if it should become an Act."** The date on each page must
+   be the day the fact sheet already gives as the day the bill was withdrawn.
+   **This is the item an outside change can move**: the Parliament revises its
+   pages, and a page that now says something different is a finding, not a
+   failure. The same goes for the three that ran out of time, whose pages
+   `db/092` and `db/095` both rest on.
+
+4. **The reader really is checking the lines it skips.** `tools/phd_stage_dates.py`
+   writes nothing for a line that is a further appearance of a bill already on
+   the clean sheet, because that bill holds its first two stages. In a
+   thrown-away transaction, delete bill 303's Stage 1 record and run the reader
+   for Session 6. **Expected: it refuses, naming line 440 and saying bill 303
+   holds only one of its first two stages.** Put it back and it must run.
+
+5. **Sessions 1 to 5 are unmoved by the change to the reader.** Run
+   `tools/phd_stage_dates.py --sessions 1,2,3,4,5` and compare the CSV with one
+   produced from the commit before this session's. **Expected: byte-identical,
+   693 lines.** This is the same test the change to the reader passed when it
+   was made, and it is here because a later change to the same file must pass it
+   again.
+
+6. **The loader still refuses a load that causes a problem.** `db/095` changed
+   `tools/load_phd_stage_dates.sql` from "the error checker must be empty
+   afterwards" to "the error checker must find nothing this load caused". Take
+   Session 6's CSV, move one bill's Stage 2 date to before its own Stage 1, and
+   run the loader with `-v save=false`. **Expected: it refuses, saying the load
+   has caused one problem.** Run it unaltered and it must pass, reporting that
+   one problem stood before the load and still does.
+
+7. **What Session 6 now holds.** **Expected: 223 stage rows** — 136 from the
+   owner's dataset, 71 from the legislation fact sheet, 9 from the Parliament's
+   bill pages and 7 from the Official Report — **and all 223 waiting for
+   review**, none accepted. The 136 is the reader's own count for the run of
+   15 September; the 71, 9 and 7 are what the sheet held before it.
+
+8. **Nothing is left unasked, and nothing new is wrong.** **Expected: the gaps
+   list holds two rows, both Session 7's**, and **the error checker finds one
+   problem, line 474's**, which waits on Session 6 being promoted. And the clean
+   sheet is untouched by all of it: **389 bills, 1071 stage records, 112
+   provenance notes.**
+
+9. **Sign-off: should a committee meeting date count as the day a bill reached a
+   stage?** Ecocide and Freedom of Information Reform both completed Stage 1 and
+   then fell at Stage 2. Ecocide's page lists two Stage 2 committee meetings,
+   17 February and 10 March 2026. Freedom of Information Reform's lists none: its
+   financial resolution was not agreed until 5 March 2026, and until one is
+   agreed Stage 2 cannot get under way. So one bill was worked on at Stage 2 and
+   the other never was, and nothing in the data distinguishes them. `db/095`
+   left `date_reached` empty on both, because M11 says that day is recorded only
+   where a source states it and neither page states it. The question for the
+   owner is whether a committee meeting date should be read as stating it.
+
+### What this test does not check
+
+- **It does not check any stage date against the Parliament's bill pages.**
+  Session 6's 136 dataset dates are checked against each other and against what
+  the sheet already held, and the error checker refuses dates in an impossible
+  order — but a date that is wrong and still in order passes. 83 pages, and its
+  own piece of work, exactly as Session 5 left it.
+- **It does not check the review.** Every one of Session 6's 223 stage rows and
+  83 lines is still waiting for the owner. Nothing here says the data is right,
+  only that it is complete, consistent and traceable to what was read.
+- **It does not check line 474**, the one problem the checker still finds.
+
+---
+
 ## A bill that passed, was stopped, and was then withdrawn
 
 Written 2026-09-15 by the session that built `db/094`, which may therefore not

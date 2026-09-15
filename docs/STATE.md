@@ -1,6 +1,6 @@
 # State
 
-Updated: 2026-09-14
+Updated: 2026-09-15
 
 ## Where we've got to
 
@@ -21,15 +21,15 @@ and 2 dates are added from your PhD.
 | 3 | 62 bills | yes | yes | yes; **closed** |
 | 4 | 86 bills | yes | yes | yes; **closed** |
 | 5 | 87 bills | yes | yes | yes; **closed** |
-| 6 | 83 bills, checks all done | not yet | no | Stage 3 only |
+| 6 | 83 bills, checks all done | **ready for you** | no | yes, all on |
 | 7 | 2 bills, checks all done | not yet | no | Stage 3 only |
 
 **389 bills are now on the clean sheet**, with 1071 stage records and 112
 provenance notes. **Five of the seven sessions are finished and closed.**
 Nothing of Sessions 1 to 5 is outstanding. **What is left of the first piece of
-work is Sessions 6 and 7.** Both are on the staging sheet — 83 lines and 2 — and
-**neither is ready for you to review.** Two of the four checks that come between
-the load and the review are done; the other two are the next work.
+work is Sessions 6 and 7.** Both are on the staging sheet — 83 lines and 2 —
+and **Session 6 is now ready for you**, its bills and all of its dates together.
+Session 7 follows it.
 
 ## What has been done
 
@@ -38,105 +38,82 @@ the load and the review are done; the other two are the next work.
   loaded, how time is counted settled, and the jobs that had to come before
   Session 6 done: carried-over bills, blocked bills, the Robin Rigg Act, how a
   bill was handled, and the day a bill reached a stage.
-- **14 September, later.** Both prose fact sheets read end to end, and Sessions
-  6 and 7 loaded onto the staging sheet — 83 lines and 2, numbers 390 to 474.
-  Then the hole you found: `PROMOTION-RUNBOOK.md` stopped at "Save" and said
-  nothing about the three steps between loading a session and your review. They
-  are now steps 6, 7 and 8.
+- **14 September, later.** Both prose fact sheets read end to end, Sessions 6
+  and 7 loaded onto the staging sheet — 83 lines and 2, numbers 390 to 474 — and
+  the three steps between loading a session and your review written into the
+  runbook, which had said nothing about them.
 
-**15 September, this session. Session 6 compared against your dataset, and the
-fact sheet caught being out of date.**
+**15 September, earlier. Session 6 compared against your dataset, and the fact
+sheet caught being out of date.** Five cells disagreed and all five were settled
+at legislation.gov.uk or the Parliament's own page; your working file was
+corrected for the two where it was the one wrong. Seven bills the fact sheet
+leaves awaiting Royal Assent turned out to be Acts, four months before the sheet
+was read, and the three blind spots that hid it are fixed (`db/090`, `db/091`,
+M12). All ten of Session 6's fallen bills were read at the Official Report, where
+the one word "fell" turned out to be three different things (`db/092`). The
+error checker went from 22 problems to one.
 
-- **The comparison is done for both sessions.** 80 of Session 6's 83 lines pair
-  with your dataset and the three that do not are second appearances, each
-  checked against its own session's row. Six pairings were made by hand, all
-  six confirmed on the two dates the sources share.
-- **Five cells disagreed and all five are settled** at legislation.gov.uk or the
-  Parliament's own page for the bill (`db/089`). Two dates went your way, one
-  the fact sheet's, and of two Act titles one each way. **Your working file is
-  corrected** for the two cells where it was the one wrong, checked cell by cell
-  against a copy taken first.
-- **Seven Session 6 bills the fact sheet leaves awaiting Royal Assent are
-  Acts.** They received Royal Assent in May 2026, four months before the sheet
-  was read, on exactly the dates your dataset holds. Nothing in the database
-  could see it, for three separate reasons, all the same mistake: the comparison
-  says nothing about a cell one source leaves empty; the error checker only
-  asked where a date *contradicted* the sheet; and a bill in that table was not
-  allowed to become an Act. **All three are fixed** (`db/090`), the seven are
-  Acts with their dates, numbers and titles (`db/091`), and **M12** tells a
-  reader why those seven carry a different source from Session 6's other sixty.
-- **All twelve bills any fact sheet leaves awaiting assent are now looked up**,
-  the five that did not move included, and every future session must do the same
-  and say what it found even when the answer is "still waiting".
-- **All ten of Session 6's fallen bills are read at the Official Report.** The
-  fact sheet's one word "fell" turns out to be three different things: five were
-  rejected at Stage 1, two were rejected at Stage 3 after getting all the way
-  through, and three ran out of time.
-- **The error checker is down from 22 problems to one**, and that one is Session
-  7 waiting on Session 6 rather than a question. The Gender Recognition Reform
-  Bill now says how it was stopped, the European Charter and UNCRC bills say
-  they were stopped and then reconsidered and passed, and the Dog Theft Act's
-  year is right in both its title and its number.
-- **The bill that passed, was stopped and was then withdrawn.** The UK
-  Withdrawal (Legal Continuity) Bill needed three of the checker's rules to hold
-  at once and they could not. You settled which gives, and without it the clean
-  sheet would have gone on saying a bill withdrawn in 2022 is still waiting for
-  Royal Assent.
+**15 September, this session. Session 6's stage dates are on, and it is ready
+for you.**
 
-## Now: Session 6's stage dates, then your review
+- **Where each of the fourteen bills that did not pass stopped is recorded**
+  (`db/095`). Ten needed no new reading. **The four withdrawn bills were read at
+  the Parliament's page for each**, and all four say the same thing: the bill was
+  withdrawn at Stage 1, having not completed it, on the day the fact sheet
+  already gives. Two of the three that ran out of time had completed Stage 1, and
+  those two dates are recorded from the pages that state them — 5 and
+  17 February 2026, which your dataset gives independently.
+- **All 134 of your Stage 1 and Stage 2 dates are on** — 136 rows, over 68 bills.
+  Session 6 now holds 223 stage rows in all, and every one of them is waiting for
+  you. The gaps list is down to Session 7's two.
+- **The loader refused twice and was right once.** It refused three bills as
+  missing from your dataset: they are the three that appear in two fact sheets,
+  and their Stage 1 and 2 are on the earlier line, not missing. The reader now
+  knows that. It then refused the whole load because Session 7's line has a
+  problem nothing can answer until Session 6 is promoted — a wait, not a fault.
+  That check now asks whether the load itself broke anything, which is both
+  narrower and stronger; it was proved to still refuse a bad load before it was
+  used.
+- Nothing touched the clean sheet: 389 bills, 1071 stage records, 112 provenance
+  notes, compared cell by cell against a copy taken first.
 
-**Your decision, 15 September: you review Session 6 with its stage dates already
-on, in one pass rather than two.** The dates were pushed to the next session, so
-that session opens with them and nothing else.
+## Now: Session 6 is yours
 
-Session 6's own checks are all done and the error checker finds nothing on it.
-What it has so far is the day each bill passed — 69 bills, from the fact sheet —
-and the reconsideration dates for the two bills the Parliament took back. Stage 1
-and Stage 2 are missing for every bill: 134 dates.
+**83 lines and 223 stage rows, all waiting for you**, in one pass as you decided
+on 15 September. Everything that comes between loading a session and your review
+is done, and the error checker finds nothing at all on Session 6.
 
-**First, the fourteen bills that did not pass**, because the stage-date loader
-refuses a whole session outright if any of them has nothing saying where it
-stopped. This is Session 5's `db/075` again, where six bills had to be settled
-before the loader would run at all.
+What you are looking at, and where it came from:
 
-Seven of the fourteen were settled by the reading done on 15 September, and the
-dates are in `db/092`; nothing needs reading again:
+- **69 passed**, with the day each passed from the fact sheet and Stage 1 and
+  Stage 2 from your dataset. **Three of the 69 appear in two fact sheets** — the
+  two the Parliament took back and passed after reconsideration, and the one that
+  passed, was stopped and was then withdrawn. Each of those three adds to the
+  bill already on the clean sheet rather than making a second one, so its Stage 1
+  and Stage 2 stay where they are, on its earlier line.
+- **Fourteen did not pass**: five rejected at Stage 1 and two at Stage 3, each
+  dated from the Official Report with the motion and the division quoted; three
+  that ran out of time; and four withdrawn, each read at the Parliament's page
+  for the bill.
 
-- **Five stopped at Stage 1**, on the day their general principles were
-  rejected — lines 400, 403, 404, 405 and 407.
-- **Two stopped at Stage 3**, on the day the motion to pass them was disagreed
-  to — the Assisted Dying Bill (398) and the Recall of Members Bill (406).
+Session 7's two lines follow, and its one outstanding problem answers itself once
+Session 6 is on the clean sheet: the Gender Recognition Reform Bill's Session 7
+line must point at the Session 6 line for the same bill, and cannot until there
+is one.
 
-Three more were read the same day and need no decision, only a row each, with no
-date because nothing decided anything — they stopped where they had got to when
-the session ended:
-
-- **Ecocide (401)** and **Freedom of Information Reform (402)**, both partway
-  through Stage 2, Stage 1 completed 5 and 17 February 2026.
-- **Commissioner for Older People (399)**, which never completed Stage 1.
-
-**Four have not been looked at at all** — the withdrawn bills, lines 408 to 411:
-Desecration of War Memorials, Disability Commissioner, Leases (Automatic
-Continuation etc.) and Prevention of Domestic Abuse. Each needs the stage it was
-in when it was withdrawn, from the Parliament's page for the bill.
-
-**Then the dates themselves**, with `tools/phd_stage_dates.py --sessions 6` and
-`tools/load_phd_stage_dates.sql`, safety copies first, as Session 5's entry in
-`PROMOTION-RUNBOOK.md` sets out. Expect the loader to refuse at least once and
-to be right to: it refused Session 5 over a stage dated before the stage before
-it, and that turned out to be a typing slip in one cell of the working file.
-
-**Then Session 6 is yours**, bills and dates together.
-
-The one thing the error checker still finds is Session 7's, and it is not a
-question: the Gender Recognition Reform Bill's Session 7 line must point at the
-Session 6 line for the same bill, and cannot until Session 6 is on the clean
-sheet. It does not hold Session 6 up.
+**One question for you, and nothing waits on it.** Ecocide and Freedom of
+Information Reform both completed Stage 1 and then fell at Stage 2. Ecocide's
+committee met on it twice at Stage 2; Freedom of Information Reform's never met
+on it at all, because its financial resolution came too late for Stage 2 to get
+under way. Nothing in the data tells those two apart, and the column that could —
+the day a bill reached a stage — is only ever filled where a source says so in
+terms, which neither page does. Whether a committee meeting date should count as
+saying so is yours to settle.
 
 **Waiting for a session that built none of it:** the checks on `db/089` to
-`db/094`, the comparison tool and the prose of M12 are written in
-`CLOSURE-TESTS.md` and have not been run. Four tests, twenty-nine items,
-twenty-five mechanical and four for you.
+`db/095`, the comparison tool and the prose of M12 are written in
+`CLOSURE-TESTS.md` and have not been run. Five tests, thirty-eight items,
+thirty-three mechanical and five for you.
 
 **Yours whenever you want it, and nothing waits on it:** your write-up on what
 the charts present and the options they offer.
@@ -225,38 +202,78 @@ orient, and none of it belongs above the line.
 
 ## Sanity check, 2026-09-15, closing
 
-**Run at the end, on checking rather than on memory.** 389 bills, 1071 stage
-records, 112 provenance notes — the same three figures the session opened with,
-and nothing this session did touched the clean sheet. The error checker finds
-**one** problem, Session 7's line waiting on Session 6's promotion, and the gaps
-list **148**, which is two more than the session opened with and rightly so: 134
-are stage dates not yet typed, and 14 are bills that did not pass with no stage
-row yet saying where they ended — two of those being the Assisted Dying and
-Recall of Members bills, which had no outcome at all this morning and so were
-not being asked the question. Every one is answered when the stage dates go on.
-The data dictionary regenerates
-identical to the committed file. Nothing uncommitted, nothing unpushed. Only the
-`public` schema on the server: no working copy left inside the database, and
-every file this session put in `/tmp` removed.
+**Run at the end, on checking rather than on memory.** The clean sheet is
+untouched by everything this session did: **389 bills, 1071 stage records, 112
+provenance notes**, the same three figures the session opened with, and compared
+cell by cell against a copy taken before the stage dates were loaded — 136 rows
+added, no cell changed anywhere, nothing removed. The copy schema has been
+dropped; only `public` is left on the server. The error checker finds **one**
+problem, line 474's, which stood before this session and waits on Session 6 being
+promoted. The gaps list holds **two** rows, both Session 7's: Session 6 is asked
+nothing further. Session 6 holds **223 stage rows**, all waiting for review —
+136 from the dataset, 71 from the legislation fact sheet, 9 from bill pages,
+7 from the Official Report. The data dictionary regenerates identical to the
+committed file. Nothing uncommitted, nothing unpushed.
 
-**What the opening check found, and did not find**, is recorded in the entry
-above this one in `DECISIONS.md`: the counts all matched and the steps had been
-run, and seven bills that had become Acts months before the fact sheet was
-compiled were invisible to every check in the database. Steps 6 to 9 of the
-runbook now cover that for a session being loaded. Nothing yet asks the question
-of a session already closed.
+**The opening check found nothing wrong.** The table's counts matched the
+database, the last commit and the newest `DECISIONS.md` entries were carried into
+`STATE.md`, the data dictionary regenerated identical, and the tree was clean.
+
+**Two traps worth knowing, both met this session.** The connector rate-limits
+about a dozen connections in quick succession and the stage-date reader makes two
+per run, so a loop of test runs fails in a way that reads as a bug in whatever is
+being tested. And piping the loader's output through `head` kills psql before it
+commits: the run reports every check passing and saves nothing. Both are in the
+runbook entry.
 
 **Old working files are still in `/tmp` on the server** — `cols.sql`, `look.sql`,
-`sanity.sql`, `reh.tgz`, from earlier sessions. Nothing is inside the database
-and nothing depends on them.
+`sanity.sql`, `reh.tgz`, `load.tgz`, `probe_full.sql` and the rest, from this
+session and earlier ones. Nothing is inside the database and nothing depends on
+them. The safety dump
+`/var/tmp/legdata-before-s6-dates_2026-09-15.dump` is deliberate and kept.
 
 ## What the previous session did
 
-Loaded Sessions 6 and 7 onto the staging sheet, found that three steps of the
-ingest chain had never been written down, wrote them into the runbook as steps
-6, 7 and 8, and ran the comparison without applying it.
+Compared Session 6 against the owner's dataset, found seven bills the fact sheet
+leaves awaiting Royal Assent that had become Acts four months earlier, fixed the
+three blind spots that hid it, read all ten fallen bills at the Official Report,
+and took the error checker from 22 problems to one.
 
 ## What this session did
+
+**`db/095`: where all fourteen of Session 6's bills that did not pass stopped.**
+Ten were already read — `db/092` had the Official Report for the seven that were
+decided and the bill pages for the three that ran out of time — but none of the
+ten had a stage row, because `db/092` deliberately left that to the stage dates.
+The four withdrawn bills were read for the first time, at the Parliament's page
+for each, and all four say the same thing in the same words: withdrawn at Stage
+1, having not completed it, on the day the fact sheet already gives. Two of the
+three that ran out of time had completed Stage 1, and `db/095` carries those two
+dates from the pages that state them; the owner's dataset gives the same two
+independently. Sixteen rows, rehearsed inside a thrown-away transaction first,
+every refusal exercised.
+
+**Two tools had to change before the dates would load**, and both refusals were
+the tools working rather than obstacles. The reader did not know about a bill's
+second appearance and refused three lines as missing from the dataset; it now
+writes nothing for such a line, having checked that the bill it continues really
+holds the two stages in question. The loader required the error checker to be
+empty afterwards, which stopped being a statement about the load the moment
+something was left standing in the checker that nothing could answer yet; it now
+requires that the load caused nothing, problem by problem. Both changes are in
+`DECISIONS.md`. Sessions 1 to 5 give byte-identical output from the reader either
+side, 693 lines, and the loader was proved to still refuse a bad load before it
+was used on a real one.
+
+**136 stage rows loaded**, 68 Stage 1 and 68 Stage 2, over 68 bills — exactly the
+gaps list, which now holds only Session 7's two. Safety copies taken first and
+compared afterwards, then dropped.
+
+**What this session did not do, and should not:** run its own checks. The nine
+items on `db/095` and the two tools are written in `CLOSURE-TESTS.md` for a
+session that built none of it.
+
+## What the session before that did
 
 **Step 6 of the runbook, run for the first time since it was written down.**
 Six hand-pairings confirmed on the dates the two sources share and added to
