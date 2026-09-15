@@ -374,7 +374,7 @@ The run prints these tables. Look at each.
 
 Two sessions cannot be reconciled against their printed summary as it stands —
 Session 3 counts its Hybrid Bill under Executive, and Session 7's grand total
-cell reads 0. Both are written up in `STATE.md` under "Reconciliation figures,
+cell reads 0. Both are written up in `STANDING.md` under "Reconciliation figures,
 per session". Check those against the corrected figures there, not the page.
 
 ---

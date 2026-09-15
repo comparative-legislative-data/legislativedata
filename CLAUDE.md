@@ -12,10 +12,15 @@ The arc is in `docs/PLAN.md`. Where we are in it is in `docs/STATE.md`.
    next opens. Read it before proposing any work, so the work is in the phase.
 2. `docs/STATE.md` — where the project actually is. Read before doing anything.
 3. `docs/DECISIONS.md` — what has been settled, and why. Do not reopen these.
-4. `docs/HOW-THE-DATABASE-WORKS.md` — how the pieces fit together, written for
+   It opens with a generated contents page; read that rather than the file.
+4. `docs/STANDING.md` — what holds whatever session is running: the owner's
+   settled positions, what has been verified rather than assumed, and what was
+   deliberately left undone with what would reopen it. Read it before proposing
+   anything that sounds like a gap.
+5. `docs/HOW-THE-DATABASE-WORKS.md` — how the pieces fit together, written for
    the owner in spreadsheet terms. Read it before explaining anything about the
    database, and keep it true as the database changes.
-5. `docs/DATA-DICTIONARY.md` — what every table and column is, in plain English.
+6. `docs/DATA-DICTIONARY.md` — what every table and column is, in plain English.
    The single source of truth for what the database holds. **Generated from the
    database itself** by `tools/make_data_dictionary.py`; never edit it by hand.
 

@@ -4,15 +4,15 @@ Updated: 2026-09-15
 
 ## Where we've got to
 
+**Phase 0 — the dataset — is closed.** What comes next is in `docs/PLAN.md`,
+written today: Phase 1 is the site, Phase 2 is the data published on it, and
+both close before anything else opens.
+
 The first piece of work, across all seven sessions:
 
 1. **What happened to each bill**, by bill type.
 2. **How long each stage took**, by bill type and session. The main interest is
    introduction to the end of Stage 3.
-
-Each session goes through the same steps. Its factsheet is read onto the
-staging sheets, you review it, and it is copied onto the clean sheet. Stage 1
-and 2 dates are added from your PhD.
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
@@ -24,71 +24,56 @@ and 2 dates are added from your PhD.
 | 6 | 83 bills | yes | yes | yes; **closed** |
 | 7 | 2 bills | yes | yes | Stage 3 only; **closed** |
 
-**470 bills are now on the clean sheet**, with 1291 stage records and 186
+**470 bills are on the clean sheet**, with 1291 stage records and 186
 provenance notes. **The error checker and the gaps list are both empty.** All
-seven sessions are read in, reviewed, promoted and **closed**. Every test this
-project has written has been run by a session that did none of the work it
-tests, and every item passes. **The first piece of work is finished.**
+seven sessions are read in, reviewed, promoted and **closed**, and every test
+this project has written has been run by a session that did none of the work it
+tests.
 
 ## What has been done
 
 - **10–14 September.** Database built, all seven fact sheets surveyed, Sessions
   1 to 5 read in, reviewed, admitted, promoted and closed, your dates loaded,
-  how time is counted settled, and Sessions 6 and 7 loaded onto the staging
-  sheet.
-- **15 September, earlier.** Session 6 compared against your dataset, its ten
-  fallen bills read at the Official Report, your 134 stage dates loaded, and the
-  session closed on your four sign-offs. M12 cut from 290 words to 95. Session 7
-  then promoted, and M13 written for the first bill still before the Parliament
-  — counted like any other, with no ending, and shown blank, not nought, on a
-  chart of timescales. Session 7's closure test found one real fault: taking
-  Session 7 off took the Gender Recognition Reform bill with it, although
-  Session 7 had changed not one cell of it. You settled it the same afternoon,
-  and `db/103` was built, rehearsed and then tested by a further session — a
-  bill only restated stays put, a bill written over still comes off. All ten of
-  its items passed, and Session 7's item 18 with them.
+  and how time is counted settled.
+- **15 September, earlier.** Sessions 6 and 7 promoted and closed, your 134
+  stage dates loaded, M13 written for the first bill still before the
+  Parliament, and `db/103` built so that taking a session off leaves alone a
+  bill nothing was written over. The first piece of work finished.
 
-**15 September, this session. Session 7 closed, and the first piece of work
-with it.**
+**15 September, this session. The plan written, and the harness cleaned for it.**
 
-- **You gave the last sign-off**, that you can explain how this database works
-  from the documents alone. It was the only thing outstanding on two tests at
-  once: item 4 of Session 7's, and item 2 of `db/103`'s. Both are now complete,
-  and both are recorded in `CLOSURE-TESTS.md` on the day given, which is the
-  only place a sign-off is recorded.
-- **Nothing was written to the database.** Closing a session is a statement
-  about a procedure being finished, not a cell anywhere; the figures are the
-  same as they were this morning.
-- **The opening check found nothing wrong.** The table's counts match the
-  database, the data dictionary regenerates identical, the error checker and the
-  gaps list are empty, and the tree was clean and pushed.
+- **`docs/VARIABLES.md` cut back to the reasoning**, 221 lines to 174. It was
+  the last document still describing the database as it was several sessions
+  ago, and one paragraph claimed a rule you had reversed. Four things lived
+  only in it and are now recorded properly.
+- **`docs/PLAN.md` written** — the first plan this project has had, written from
+  a position of something delivered rather than in advance of it. **It is
+  waiting for your review.**
+- **The harness cleaned for the next phase.** `CLAUDE.md` reworked so the
+  opening check is not four database questions that will pass unread for a
+  month, so the data rules sit under a heading that says when they apply, and so
+  credentials and data about people are covered before there are accounts.
+- **Two generated indexes, so the record can be found without being copied.**
+  The data dictionary now indexes the thirteen methodology notes; `DECISIONS.md`
+  opens with a contents page of its 102 decisions. Both generated, because you
+  were right that a hand-written second copy would drift.
+- **`docs/STANDING.md` created**, and 261 lines lifted into it out of
+  `STATE.md`: your settled positions, what has been verified rather than
+  assumed, what was deliberately left undone and what would reopen it, the
+  reconciliation figures, the tools, and how to connect. Every line was checked
+  present in the new file before any was cut from the old.
 
-## Now: bringing `docs/VARIABLES.md` up to date
+## Now: your review of `docs/PLAN.md`
 
-It is the last document still describing the database as it was several sessions
-ago. Everything factual about the current schema is in `DATA-DICTIONARY.md`,
-which is generated from the database and cannot drift; what `VARIABLES.md` is
-for is the reasoning behind the variables, and that is what it should be cut
-back to. Nothing depends on it, and nothing else is blocked by it.
+Read it and mark it up. Nothing else should start until you have, because
+everything after it is a phase inside it.
 
-## After that, in order
+## After that: Phase 1 scoping
 
-1. **Filling in how Sessions 1 to 5's bills were handled.** Expected, not begun.
-   Their fact sheets do not mention procedure at all, so it needs a source we
-   have not agreed. Until then a count of emergency bills counts only the five
-   Session 6 names, which is what M10 tells a reader.
-2. **A layer of vote data**, its own piece of work. Scope not opened.
-3. **Taking bill data from live sources as the next five years run.** Your
-   words, 15 September: a fundamentally different thing from ingesting historic
-   fact sheets, to be designed separately and not now.
-4. Then, and only then: the website, and reading from the Parliament's API.
-   **This is where the choice M13 leaves open gets made**: which bills a figure
-   about time covers — every bill with any terminal point, or only bills that
-   completed every stage. The data carries both; nothing has to change to
-   support either.
-
-**Yours whenever you want it, and nothing waits on it:** your write-up on what
-the charts present and the options they offer.
+Infrastructure and styling, taking in views from outside this project rather
+than settling both from within it. Four questions are already written into the
+plan for that discussion: what the beta gate becomes after beta, what is held
+about a user, whether the site and the database share a machine, and the domain.
 
 ## Waiting for your decision, and not blocking anything
 
@@ -136,8 +121,16 @@ it too, and it goes in next time Session 2 comes off.
 
 # Notes for whoever runs the session
 
-Everything below the line is working detail. The owner does not need it to
-orient, and none of it belongs above the line.
+Everything below the line is working detail about the sessions that have run.
+The owner does not need it to orient, and none of it belongs above the line. It
+is cut as it ages.
+
+**What holds regardless of the session is in `docs/STANDING.md`**: the owner's
+settled positions, what has been verified rather than assumed, what was
+deliberately left undone and what would reopen it, the reconciliation figures,
+the tools, and how to connect to the database. Those moved out of here on
+15 September, because standing material in a file that gets cut every session is
+material waiting to be lost.
 
 ## Keeping this file useful
 
@@ -152,33 +145,33 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-15, the session that closed Session 7
+## Sanity check, 2026-09-15, the session that wrote the plan
 
-**Run at the opening, on checking rather than memory, and unchanged at the end
-because nothing was written to the database.** **470 bills, 1291 stage records,
-186 provenance notes.** Per session on the clean sheet: 73, 81, 62, 86, 87, 80,
-1; on the staging sheet: 73, 81, 62, 86, 87, 83, 2. The difference is the four
-bills that appear in two fact sheets, and it is the difference the table above
-describes. **The error checker finds nothing and the gaps list holds nothing.**
-The data dictionary regenerates identical to the committed file — 19 tables, 182
-columns, all described. The tree was clean and level with the remote at the
-start. No working copy inside the database: nothing matching copy, tmp, temp,
-before, backup, old, test or rehearsal exists outside the system schemas.
+Run at the start, and again at the end after everything below had moved.
 
-**Nothing in the docs, the instructions or the memory contradicts the database.**
-The last commit and the newest `DECISIONS.md` entry were already carried into
-this file.
-
-**Closing a session writes nothing.** There is no closed column anywhere; it was
-checked. A session is closed when its test is complete, and a test is complete
-when its mechanical items have been run by a session that did none of the work
-and its sign-offs have been given. Both now hold for all seven.
-
-**The one thing still outstanding is not in the database.** Six working files
-from the Session 6 dates work of 15 September are still in `/tmp/load` on the
-server. Proposed for removal on 15 September by the session that found them and
-again by this one; not removed either time, because removing them was not asked
-for.
+- **The counts match**: 470 bills, 1291 stage records, 186 provenance notes, and
+  the same four figures at the end of the session as at the start. Nothing was
+  written to the database all day.
+- **The error checker and the gaps list are empty**, at both ends.
+- **Both generated documents regenerate identical** to the committed files: the
+  data dictionary, 19 tables and 182 columns all described, and the new contents
+  block at the top of `DECISIONS.md`, 102 decisions over 6 days.
+- **The tree was clean and pushed** at the start.
+- **Contradictions found.** `VARIABLES.md` claimed provenance was append-only,
+  which was reversed on 11 September; it has been rewritten. Three counts of how
+  many previous attempts there have been disagree — `CLAUDE.md` says four died
+  in the gap, the owner says this is the tenth attempt, and `PLAN.md` says the
+  nine before it started from the APIs. **Not fixed: the owner has been asked
+  which is right.**
+- **`STATE.md` was two documents.** 942 lines, 807 below the line, of which 261
+  were standing material in a file whose discipline is to be cut every session.
+  Moved to `STANDING.md`, every line checked present in the new file before any
+  was cut from the old.
+- **One thing proposed, not done.** "M5 and M12, as a reader sees them today",
+  60 lines below the line here, is a hand-kept copy of two methodology notes.
+  It was checked against the database today and is accurate — but it is a copy,
+  and the questions it was kept for are settled. The bodies are in the database
+  and the dictionary now indexes them. Left in place for the owner to say.
 
 ## Session 7, and M13: working detail, 15 September
 
@@ -497,46 +490,6 @@ European Charter Act's title and number and the Dog Theft Act's year settled at
 legislation.gov.uk; and three second appearances pointed at the bills they
 continue. The error checker is at two.
 
-## The owner's standing positions, so they are not re-argued
-
-- **The dataset is taken as it is, for now.** The error checker catches a stage
-  date in an impossible order, as it did for the Civil Partnership Act, but not
-  one that is wrong and still in order; checking Session 5's against the
-  Parliament's bill pages is 87 pages. The owner's judgement, 14 September, is
-  that the error rate is likely very low and tolerable until there is a
-  methodology for the check, and that nothing waits on it. Do not propose it
-  again unasked. What would reopen it: a methodology for checking, or errors
-  turning up often enough to say the rate is not what was assumed.
-
-- **The structure** is accepted as the price of academic-quality transparency.
-  `ref_party` and `ref_procedure` have no data behind them, and are deliberate
-  future-proofing. What does not relax: the owner can fully understand it.
-- **A change to how data is coded is finished before anything moves on.** See
-  `CLAUDE.md`, working rules. "Not yet built" is not a state a decision may be
-  left in. This is not a race.
-- **The owner judges what is acceptable to claim as academic quality.** The
-  project's own rules are choices, not requirements of rigour. When one makes
-  a simple thing awkward, propose relaxing it rather than designing around it.
-- **Provenance notes may change, provided the owner clears the change.**
-  Approving a rehearsed promotion clears the notes it rebuilds. Any other
-  change to a note goes to the owner individually.
-- **The dataset is proved at the end, not session by session.** The test that
-  counts is whether the charts and tables built from all seven sessions match
-  what the owner built by hand off the PhD. A closure test proves that a
-  document's words reached the clean sheet unaltered and are traceable; it is
-  not evidence the data is right. See `DECISIONS.md`, 2026-09-12.
-- **A closure test inherits and is not re-argued.** It covers its own session
-  and the corrections made for it, and says which of its items an outside change
-  can move. Do not re-run a settled session's test for the sake of it.
-- **The owner does not run database steps.** The session runs them and reports
-  the results against what they should say. Step-by-step instructions are for
-  what the owner does do: filling in spreadsheets, and reviewing in Postico.
-
-**Before explaining anything about the database**, read
-`docs/HOW-THE-DATABASE-WORKS.md` and the rules in `CLAUDE.md`. **Before
-changing the clean data**, read `docs/PROMOTION-RUNBOOK.md`, and bring the
-rehearsal, the check and the undo without being asked.
-
 ## Stage dates: working detail
 
 - **Built in `db/033`:** the stage-dates staging sheet (`stage_candidate`), the
@@ -691,252 +644,3 @@ rehearsal, the check and the undo without being asked.
 One staging table serves all seven sessions, not one per session. The natural
 key carries `session_number`, and cross-session questions would otherwise need
 seven-way unions. Load one session at a time, each gated on reconciliation.
-
-## Reconciliation figures, per session
-
-The gate compares our count against each factsheet's own summary table.
-
-- **Session 1.** 51 Executive, 16 Member's, 3 Private, 3 Committee; 62 Acts, 3
-  withdrawn, 8 fallen. The summary's column order is Executive, Member's,
-  **Private, Committee**.
-- **Session 2.** Page 8: Executive 53, Member's 18, Private 9, Committee 1;
-  Acts 66 (53/3/9/1), withdrawn 5 (all Member's), fallen 10 (all Member's:
-  4 at dissolution, 6 rejected at Stage 1). Same column order as Session 1.
-- **Session 3.** Its summary has no Hybrid column and counts the Forth Crossing
-  Bill under Executive. Its stated Executive 45 is our government 44 plus
-  hybrid 1. Reconcile on `analysis_group`, not on `bill_type`.
-- **Session 4.** Page 9: Government 67, Member's 13, Private 5, Committee 1;
-  Acts 79 (67/6/5/1), withdrawn 1 (Member's), fallen 6 (all Member's: 5 rejected
-  at Stage 1, 1 at dissolution). Its column heading is **Government**, not
-  Executive: the Parliament's own styling changed inside this session. No Hybrid
-  Bill, so `bill_type` and `analysis_group` give the same table.
-- **Session 5.** Government 63, Member's 16, Private 5, Committee 3; Acts 75,
-  awaiting Royal Assent 3, withdrawn 2, fallen 7 (all Member's: 3 rejected at
-  Stage 1, 4 at dissolution). It is the first factsheet with a fourth table,
-  "Bills awaiting Royal Assent", and the first where a reconciliation has to add
-  two tables to reach our `passed`: 75 Acts plus those 3. No Hybrid Bill, so
-  `bill_type` and `analysis_group` give the same table.
-- **Session 6.** Read out of the factsheet on 2026-09-14, entry by entry, not
-  taken from its summary. 83 entries are printed; 82 are counted in its own
-  totals, the Legal Continuity Bill being in an excluded section that says so in
-  its own words. Counted: awaiting Royal Assent 6 Government and 2 Member's;
-  fallen 10, all Member's; withdrawn 1 Government and 3 Member's; Acts 55
-  Government and 5 Member's. Column totals 62 Government and 20 Member's, 82.
-  **Its printed summary has two cells wrong and its margins right**: awaiting
-  Royal Assent reads 5 and 3, and Acts reads 56 and 4. The two errors cancel.
-  Settled on 2026-09-14: reconcile every cell and write the disagreement down
-  with the bills named. There are no Committee, Private or Hybrid Bills in
-  Session 6 or 7, so `bill_type` and `analysis_group` give the same table.
-- **Sessions 5 and 6** carry bills also counted in another session's totals.
-  The factsheet totals are right for the factsheet and wrong for a count of
-  distinct bills; see M6. This has not bitten yet: Session 5 reconciles against
-  its own factsheet, and the double count appears only when Session 6 is loaded
-  beside it.
-- **Session 7.** Its grand total cell reads 0 where every margin reads 2. Trust
-  the margins; the extracted table grid confirms that is the document.
-
-A reconciliation proves no line was lost. It says nothing about what is inside
-a line: Session 2 reconciled exactly while fifteen titles still carried their
-SP Bill number.
-
-**When charting:** a chart of outcome by bill type must say whether it grouped
-on `bill_type` or `analysis_group`. They differ for the Forth Crossing Bill (44
-or 45 government bills in Session 3). That is methodology note M4, which the
-website has to surface.
-
-## What has been verified, not merely assumed
-
-**2026-09-10:**
-- The extractor gives byte-identical output on the Mac and on the VPS.
-- The Session 1 load matches a fresh extraction in all 73 rows and every raw
-  column, and every date re-parses.
-- Session 1 reconciles in all twelve cells of its summary, plus both margins.
-- Promotion is reversible: promoted, taken off and promoted again gave the same
-  73 bills with the same numbers.
-- The backup restores: fetched back from the storage box, restored into a
-  scratch database, checked and dropped.
-
-**2026-09-11:**
-- **The extractor changes left Session 1 untouched** in every column.
-  Session 2 changed only where intended, and Sessions 3–5 have nothing left
-  over in their titles.
-- **The Session 2 load is faithful.** A CSV in the old format and a wrong
-  session number were both refused, and no line numbers were used up by
-  rehearsals.
-- **The new title checks work.** An SP Bill number and an introduced title,
-  planted in a thrown-away rehearsal, were both caught.
-- **All eleven Official Report citations were read** against the Parliament's
-  page: motion, vote figures and date.
-- **The provenance and route change** was rehearsed twice, and the real run
-  matched.
-  - The old notes came back identical.
-  - The rules refuse a route on a passed bill, a Stage 1 rejection without a
-    route, and a 9.14.18 route on a Government Bill.
-- **Postico's user can read** the new list and the checker.
-- **The stage-dates move changed nothing** (`db/033`), rehearsed twice and then
-  run for real, with the figures in the runbook:
-  - all 139 dates arrived unchanged, and nothing else on either session's
-    staging lines changed;
-  - Session 1 off and on matched the copy cell by cell;
-  - eight planted mistakes were caught, an undated completed stage without a
-    note was refused, the Official Report won over an agreeing PhD date, and
-    an unreviewed stage date stopped promotion;
-  - Session 2 reloaded from a fresh extraction gave its 66 passing dates
-    identically;
-  - Postico's user can read the new sheet, the gaps list, the checker and the
-    list of stage names.
-- **Session 2 matches its factsheet on the clean sheet** (`db/034`), rehearsed
-  and then run for real: 53/18/9/1 by type; 66 passed, 5 withdrawn, 4 fell at
-  dissolution, 6 rejected at Stage 1; 72 stage records; 12 notes.
-
-**2026-09-12:**
-- **The reader changes left Sessions 1 and 2 untouched**, byte for byte, so
-  nothing on the clean sheet is affected. Sessions 3 and 4 reconcile in every
-  cell of their own summary tables; Session 5 in every cell but its three bills
-  awaiting Royal Assent. All five give identical output on the Mac and the VPS.
-- **The Session 4 Interests of Members Act** was never in any extraction before
-  today: the factsheet draws that row with no cell borders and the table finder
-  lost it between the two pieces.
-- **The order of precedence works**, tested on planted rows and thrown away.
-  A disagreement is flagged by the checker from both sides; two agreeing rows
-  promote the factsheet's and leave the PhD row marked not carried; a source
-  with no settled place in the order makes promotion refuse and write nothing.
-- **The order had never been exercised by the real data.** No stage of any bill
-  has two rows, so nothing had ever competed for a place on the clean sheet.
-- **All 62 of Session 3's factsheet bills pair one to one** with the PhD
-  dataset's 62 Session 3 bills, on name or on introduction date.
-
-**2026-09-13 is missing from this list.** Sessions 3 and 4 were promoted and
-Session 4's dates loaded that day, and what was checked is in the runbook's log
-and in the migrations, but nothing was written here. A later session should
-bring it across; nothing depends on it.
-
-**2026-09-14:**
-- **Session 5's admission refuses in eight ways**, each provoked one at a time
-  in a transaction that was thrown away, each naming its reason: a stage date
-  from an uncovered source; a line with no outcome; a line never compared
-  against the other sources; a date before its bill was introduced; a date after
-  its bill ended; a stage dated before the stage before it; a dateless row that
-  is not a bill ending where it stopped; a seventh such row when there are six;
-  a line already marked promoted; and a line left at `held`, which is not swept
-  into `accepted` and makes the count refuse.
-- **A guard behind another guard is not tested.** Three of those refusals were
-  reached only after the error checker had already refused the same breakage a
-  step earlier. Run on their own against the broken row, one of them did not
-  fire: the out-of-bill check measured a last stage date against itself on a
-  bill that had not ended. That is the hole `db/077` closes.
-- **Promotion is reversible with the dates on it.** Session 5 promoted, taken
-  off — 302 bills, 828 stage records, 86 notes, staging lines unstamped and
-  still accepted — and promoted again: 389, 1071 and 105, matching a copy taken
-  before it came off cell by cell, with no unexpected differences.
-- **Session 5 reconciles with its factsheet on the clean sheet**: 63/16/5/3 by
-  type; 78 passed, 2 withdrawn, 3 rejected at Stage 1, 4 fell at dissolution;
-  243 stage records; 19 notes. It is the first reconciliation that has to add
-  two of the factsheet's tables — 75 Acts and 3 awaiting Royal Assent — to reach
-  our `passed`.
-- **The three bills stopped from Royal Assent behave as intended in the
-  charts**: a duration to the end of Stage 3 and none to Royal Assent, and they
-  are exactly the difference between the stage-3 and stage-3-to-assent counts,
-  60 against 62 for government and 7 against 8 for Member's.
-
-## Tools
-
-- **`tools/load_session.sql`** puts a session's extracted CSV on the staging
-  sheets: its lines, and its passing dates on the stage-dates sheet.
-- **`tools/promote_session.sql`** copies a session to the clean sheet, and
-  **`tools/rollback_promotion.sql`** takes it off again.
-  - All three take `-v session=` and `-v save=`, with no default for either.
-  - `save=false` does the whole job and throws it away.
-- **`tools/take_copy.sql`** and **`tools/compare_with_copy.sql`** copy the
-  staging and clean sheets inside the database before a change, and compare
-  cell by cell after. Both take `-v copy=`.
-- **`tools/strip_for_rehearsal.py`** prepares migrations and scripts to be
-  dress-rehearsed together inside one transaction that is thrown away.
-- **`tools/check_stage_entry.sql`** reports on the stage dates the owner has
-  typed in: every row waiting for review, beside its bill, and the checker's
-  findings. Changes nothing.
-- **`tools/extract_factsheet.py`** reads the ruled-table factsheets (Sessions
-  1–5). Its pinned environment is in `tools/requirements.txt`.
-- **`tools/make_data_dictionary.py`** regenerates `docs/DATA-DICTIONARY.md`, and
-  refuses to run if anything lacks a description.
-- **`docs/PROMOTION-RUNBOOK.md`** is the procedure for loading and promoting,
-  with a record of each run.
-- **`docs/FACTSHEET-SURVEY.md`** is the survey of all seven factsheets.
-
-## Housekeeping, small and known
-
-- **Fourteen safety copies are on the VPS**, one before each change to data or
-  rules: six from 12 September (`-042_`, `-044_`, `-045_`, `-046_`, `-047_`,
-  `-051_`), five from 13 September (`-057_`, `-059_`, `-060_`, `-065_`, `-068_`
-  and `-s3-dates_`), and two from 14 September (`-s5-dates_` and
-  `-s5-promotion_`). **The eleven from 12 and 13 September can now be deleted**:
-  the nightly backup ran clean at 02:53 on 14 September, which is after all of
-  them. The two from 14 September are not yet covered; the next run covers them.
-  Proposed, not done — it is the owner's to say.
-- **No copy of the sheets is held inside the database.**
-  `copy_before_s5_promotion` and `copy_after_s5_promotion` were compared and
-  dropped on 14 September. Take a fresh one with `tools/take_copy.sql` before
-  the next change to data already held.
-- **`db/066` has the same filename as `db/063`**, `session_4_review.sql`,
-  although one is the review and the other the admission. Recorded here so the
-  sanity check stops rediscovering it: it is a gap in the record, not in the
-  data, and renaming an applied migration is not obviously worth doing. If it is
-  ever tidied, it is `db/066` that should change.
-- **`db/037` stays, doing nothing.** It sets day-first dates for Postico's
-  login, and Postico formats dates itself, so nothing changed on screen. The
-  owner judged it harmless. One line in the migration undoes it if wanted.
-- **The two blank PhD spreadsheets are deleted.** Dates come from the owner's
-  own dataset through `tools/phd_stage_dates.py`; the templates were never used.
-- **The backup service runs with no `HOME` or `XDG_CACHE_HOME`**, so restic
-  keeps no cache and re-reads everything in scope every night. That is harmless
-  at this size, but will not stay so. One `Environment=` line in the unit file
-  fixes it.
-- **The Justice 2 Committee's own record** of its decision on the Civil Appeals
-  (Scotland) Bill has not been found. Our view of the limb rests on the chamber
-  debate. Nothing waits on it. The older committee pages redirect to the
-  National Records of Scotland web archive, which blocks automated access.
-- **Asking whether a rule exists means reading three catalogues.**
-  `pg_constraint` does not list plain indexes; read `pg_indexes` and
-  `pg_trigger` too. While a copy schema exists, filter every catalogue
-  question to the `public` schema.
-- **The extraction environment on the Mac** is a throwaway virtual environment
-  built from `tools/requirements.txt` in the session scratchpad. The VPS copy at
-  `/opt/legdata/venv` is the standing one.
-
-## Connecting to the database
-
-**Postico** (the entry client) is configured already. It opens its own tunnel
-inside the application, on a port it picks per connection. There is no shared
-listener, and nothing outside Postico can use it. (An old version of this file
-described a shared tunnel on port 15432. It does not exist.)
-
-**From a shell, or for any scripted work,** go through the connector script.
-It holds the address, port, user and key, and keeps its own known-hosts file.
-It is not in this repository.
-
-    ~/.claude/legdata-vps 'whoami'
-    ~/.claude/legdata-vps 'sudo -u postgres psql -d legdata -c "SELECT ..."'
-    ~/.claude/legdata-vps --scp local/file /remote/path
-
-The login account has passwordless sudo, and `sudo -u postgres psql` connects by peer
-authentication, so no database password is stored on the Mac. Migrations are
-applied this way.
-
-**Dress-rehearsing a sequence of migrations and scripts:**
-1. Strip each file's own `BEGIN;`, `COMMIT;` and closing `\if :save … \endif`
-   block: `python3 tools/strip_for_rehearsal.py OUTDIR FILE…`.
-2. Include them in order inside one `BEGIN … ROLLBACK`, with `\set session N`.
-3. A script that makes temporary tables can run only once per rehearsal; test
-   a second run in a separate rehearsal.
-
-That is how `db/030`–`db/033` and the Session 1 re-promotions were rehearsed.
-Send the files as one bundle (`COPYFILE_DISABLE=1 tar czf …`), which keeps to
-one connection.
-
-**Do not use `legislativedata-vps` or `legislativedata-data` in
-`~/.ssh/config`.** They are leftovers from the old estate and point at machines that are not this
-project's. Which machine is, is in the private notes outside this repository.
-
-**The SSH rate limit bites you, not only attackers.** About a dozen connections
-in quick succession gives `Connection refused` for roughly 15 seconds. Batch
-work into few connections.
