@@ -33,7 +33,14 @@ There is no universal test. Each ingest gets its own, newest first below.
 ## A note we wrote is dated the day we wrote it
 
 Written 2026-09-15 by the session that built `db/101` and changed
-`tools/promote_session.sql`. **It has not been run, and not by that session.**
+`tools/promote_session.sql`.
+
+**Run 2026-09-15 by a session that built no part of it. All ten mechanical
+items pass. Nothing was written: items 8, 9 and 10 were built inside
+transactions that were thrown away, and 469 bills, 1291 stage records and 186
+provenance notes were the same before and after, with the error checker and the
+gaps list empty throughout. Item 3 was itself ambiguous and is rewritten; it was
+not a fault in the data. Part B is the owner's and is not run here.**
 
 `db/098` made a bill's note the eighth cell a further appearance carries, and
 said why the note differs from the other seven: they are read off a fact sheet
@@ -60,11 +67,18 @@ Found by item 14 of the Session 6 test above, which is what that item is for.
    three such rows in the database and no others.
 
 3. **Each row still says what it said before, and now says what it used to say
-   about itself.** Each of the three notes still contains the earlier wording
-   after "It read", and each ends with a sentence naming db/101, the date
+   about itself.** This is the provenance row's own `note` column, not the
+   bill's note, which item 6 requires to be untouched. Each of the three
+   provenance rows still contains the earlier wording of the bill's note after
+   "It read", and each ends with a sentence naming db/101, the date
    2026-09-10 and the reference it carried before.
    *Where from:* the same principle db/098 applied to the notes themselves —
    what a record said before is kept when it is rewritten.
+   *Rewritten 2026-09-15* by the session that ran this test. It first said
+   "Each of the three notes still contains the earlier wording after 'It read',
+   and each ends with a sentence naming db/101" and named no column, which reads
+   as the bill's note and contradicts item 6. Nothing in the data was wrong;
+   both readings were checked.
 
 4. **Nothing else in `field_source` moved.** Exactly three rows differ from what
    they were; none appeared and none vanished; 186 rows throughout.
@@ -121,6 +135,63 @@ Found by item 14 of the Session 6 test above, which is what that item is for.
    The alternative was to leave the fact sheet's reference beside a note we
    wrote. Agreed on 2026-09-15; put again here because it is what a reader sees
    against the note on three bills.
+
+### The run, 2026-09-15
+
+**Run by a session that wrote no part of `db/101`, of the change to
+`tools/promote_session.sql`, or of this test.** Nothing was written: items 8, 9
+and 10 were built inside transactions that were thrown away, and 469 bills,
+1291 stage records and 186 provenance notes were the same before and after,
+with the error checker and the gaps list empty throughout.
+
+**All ten mechanical items pass.**
+
+Worth naming from among them:
+
+- **Item 1, the twenty-six seconds.** The three Session 6 staging lines —
+  candidates 440, 468 and 412 — all carry `reviewed_at` 2026-09-15 11:40:30,
+  and the three provenance rows were created at 11:40:56. The date on the row
+  is the day the line was reviewed, as the rule says, and not the day anything
+  else happened.
+- **Item 4, taken the other way round.** The pre-`db/101` copy was restored into
+  a scratch database of its own and compared row by row against the live
+  `field_source`: 186 rows in both, no id appeared and none vanished, and
+  exactly three rows differ. In all three only `source_ref`, `observed_at` and
+  the row's own `note` moved; `source` was already `manual`. The scratch
+  database was dropped afterwards.
+- **Item 5, the trap.** It is a real trap. The three bills' provenance divides
+  three ways, not one: five rows cite "session 5, retrieved 2026-09-10" for
+  `assent_block_route` and `date_assent_blocked`, thirteen cite "session 6,
+  retrieved 2026-09-10" for the cells the Session 6 sheet gave, and three cite
+  "written at review of session 6" for the note. A check that assumed a single
+  citation would have passed while being wrong.
+- **Item 8, the tool without the migration.** Session 6 taken off, Session 5 and
+  then Session 6 promoted again with `tools/promote_session.sql` as this commit
+  leaves it: the three note rows came out citing "written at review of session
+  6" and dated 2026-09-15, with no sentence naming db/101 in them, because the
+  tool wrote them and not the migration. Every bill and every stage record was
+  identical to what it had been, cell by cell, ignoring only `created_at` and
+  `updated_at` — 469 bills unchanged, 1291 stage records unchanged.
+- **Item 9, the date comes from the line.** Moving candidate 440's `reviewed_at`
+  to 2026-08-01 and promoting again put 2026-08-01 on bill 303's note row and
+  left 304 and 305 at 2026-09-15. The date is read off the line, so Session 7
+  and after get it right without anybody remembering.
+- **Item 10, it refuses.** Run a second time, `db/101` stops with "Refusing: the
+  three note rows are not where this migration expects them."
+
+**Item 3 was itself ambiguous, and is rewritten** with what it first said. It
+asked that "each of the three notes" keep the earlier wording and end with a
+sentence naming db/101 — which reads as the bill's note, and item 6 requires the
+bill's notes to be untouched. What actually holds it is the provenance row's own
+`note` column, which does keep the earlier wording after "It read" and does end
+naming db/101, 2026-09-10 and the reference the row carried before. Both
+readings were checked; the data was right on the reading that was meant.
+
+**Item 14 of the Session 6 test was then run again, and passes.** The three
+rows carry `source` `manual`, `observed_at` 2026-09-15, and each keeps the
+earlier wording after "It read". Item 14's own text was not touched by the
+session that built `db/101` — it asked for 2026-09-15 before the failure and
+asks for it still.
 
 ### What this test does not check
 
@@ -418,8 +489,12 @@ Worth naming from among them:
   account of where the note came from was. **Mended by `db/101` the same day**,
   with `tools/promote_session.sql` changed so the next session writes it right
   in the first place. That migration has its own test below, written by the
-  session that built it and not run by it. **Item 14 is to be run again** once
-  that test is marked.
+  session that built it and not run by it. **That test was marked on 2026-09-15
+  by a session that wrote no part of it — all ten items pass — and item 14 was
+  then run again and passes:** `source` `manual`, `observed_at` 2026-09-15, and
+  each row keeping the earlier wording after "It read". Item 14's own text was
+  never touched, so it asked for the same answer before and after.
+
 
 **Two items were wrongly written, and neither is a fault in the data.**
 
@@ -444,9 +519,13 @@ the new Parliament". It does not. Session 5 ended 4 May 2021, the election was
 Parliament. The conclusion is untouched — the bill page settles the date at
 23 March — but the sentence supporting it was wrong.
 
+**Part A is finished.** Twenty items passed at the first run; item 14 failed,
+was mended by `db/101`, and passes on the re-run of 2026-09-15; items 19 and 23
+were rewritten that day to ask what had actually been settled, neither being a
+fault in the data.
+
 **Part B, the owner's four sign-offs, are outstanding.** Session 6 is on the
-clean sheet and **is not closed** until they are given and item 14 has been run
-again.
+clean sheet and **is not closed** until they are given.
 
 ### What this test does not check
 

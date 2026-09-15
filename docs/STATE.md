@@ -21,60 +21,60 @@ and 2 dates are added from your PhD.
 | 3 | 62 bills | yes | yes | yes; **closed** |
 | 4 | 86 bills | yes | yes | yes; **closed** |
 | 5 | 87 bills | yes | yes | yes; **closed** |
-| 6 | 83 bills | yes | yes | yes; **test run, 20 of 23 passed** |
+| 6 | 83 bills | yes | yes | yes; **tests done, your sign-offs outstanding** |
 | 7 | 2 bills, checks all done | not yet | no | Stage 3 only |
 
 **469 bills are now on the clean sheet**, with 1291 stage records and 186
 provenance notes. **The error checker and the gaps list are both empty.** What
-is left of the first piece of work is Session 7's two lines, your four sign-offs
-on Session 6, and one item of Session 6's test to be run again.
+is left of the first piece of work is Session 7's two lines and your sign-offs
+on Session 6. Everything mechanical is done.
 
 ## What has been done
 
 - **10–14 September.** Database built, all seven fact sheets surveyed, Sessions
   1 to 5 read in, reviewed, admitted, promoted and **closed**, your dates
-  loaded, how time is counted settled, and the jobs that had to come before
-  Session 6 done.
-- **14 September.** Both prose fact sheets read end to end, Sessions 6 and 7
-  loaded onto the staging sheet, and the three steps between loading a session
-  and your review written into the runbook, which had said nothing about them.
+  loaded, how time is counted settled, the two prose fact sheets read end to
+  end, and Sessions 6 and 7 loaded onto the staging sheet.
 - **15 September, earlier.** Session 6 compared against your dataset; seven
   bills the sheet leaves awaiting Royal Assent turned out to be Acts, and the
   three blind spots that hid it were fixed. All ten fallen bills read at the
-  Official Report, where "fell" was three different things. Session 6's stage
-  dates went on — all 134 of yours. Then the tests on that week were run by a
-  session that built none of it: thirty-five mechanical items, thirty-five
-  passes. M12 cut from 290 words to 95.
+  Official Report, where "fell" was three different things. All 134 of your
+  Session 6 stage dates went on. M12 cut from 290 words to 95.
 - **15 September, earlier again. Session 6 went on the clean sheet.** A bill's
   note became the eighth cell a second appearance carries (`db/098`), so two
   bills reconsidered and passed in Session 6 did not land as Acts carrying a
-  note saying they never got Royal Assent. Session 6 admitted and promoted
-  (`db/099`); Session 7's Gender Recognition Reform line pointed at its Session 6
-  bill (`db/100`); and the per-session closure test, which Session 6 had lost,
-  was put back.
+  note saying they never got Royal Assent. Session 6 admitted and promoted, and
+  the per-session closure test, which Session 6 had lost, was put back.
+- **15 September, earlier still.** Session 6's closure test run by a session that
+  wrote none of it: twenty of twenty-three passed, one failed and was right to —
+  three notes' provenance said they had been seen in a fact sheet five days
+  before we wrote them — and `db/101` mended it. Two more items were themselves
+  wrongly written and were rewritten.
 
-**15 September, this session. Session 6's closure test has been run**, by a
-session that wrote none of it and did none of the work it tests.
+**15 September, this session. `db/101`'s own test has been run**, by a session
+that wrote no part of it, and Session 6's item 14 with it.
 
-- **Twenty of the twenty-three mechanical items pass.** Nothing was written:
-  the two deliberate faults were built inside transactions that were thrown
-  away, and every count was the same before and after.
-- **One failed, and was right to.** The provenance on the three rewritten notes
-  said they had been seen in the Session 6 fact sheet on 10 September. We wrote
-  them, on the 15th. `db/101` mends it and `tools/promote_session.sql` now
-  writes it right for every session after this one.
-- **Two items were themselves wrong**, and are rewritten. One described settled
-  work as a discrepancy; the other cited `db/079` for a rule `db/079` declined
-  to make. Neither was a fault in the data.
-- **You were right that we had caught the European Charter date before.** It was
-  settled on 13 September. The reasoning recorded with it was wrong, though —
-  23 May 2021 is ten days *into* Session 6, not between dissolution and the new
-  Parliament. `DECISIONS.md` is corrected; the date itself was never in doubt.
+- **All ten items pass, and item 14 now passes too.** Nothing was written: the
+  three items that build something were built inside transactions that were
+  thrown away, and 469 bills, 1291 stage records and 186 provenance notes were
+  the same before and after, with the error checker and the gaps list empty
+  throughout.
+- **The tool writes it right on its own.** Session 6 was taken off and Sessions 5
+  and 6 promoted again with the changed `tools/promote_session.sql` and without
+  `db/101`: the three note rows came out citing us and dated the day the lines
+  were reviewed, and every bill and stage record was identical cell by cell.
+  Moving one line's review day moved that bill's date and left the other two, so
+  Session 7 and after get it right without anybody remembering.
+- **One item was itself ambiguous**, and is rewritten. It asked that the three
+  *notes* keep their earlier wording, which would contradict the item beside it
+  requiring the notes to be untouched; what keeps the earlier wording is the
+  provenance row next to each note. Both readings were checked. Not a fault in
+  the data.
 
-## Now: your four sign-offs, and one item to re-run
+## Now: your four sign-offs
 
-Session 6 is on the clean sheet and **is not closed**. Two things stand between
-it and closed, and the first is yours.
+Session 6 is on the clean sheet and **is not closed**. Everything mechanical is
+done; what stands between it and closed is yours alone.
 
 **Your four sign-offs**, all in Part B of the Session 6 test in
 `docs/CLOSURE-TESTS.md`, all printed there in full so nothing has to be looked
@@ -87,15 +87,12 @@ up:
    15 September**, before promotion. Recorded, nothing to do.
 4. That you can explain how this database works from the documents alone.
 
-**And one mechanical item to run again.** Item 14 failed, `db/101` mended it,
-and `db/101` has its own test — ten items and one sign-off — which I wrote and
-must not mark. A later session runs that test and then item 14 once more. Until
-both are done, Session 6 stays open and Session 7 does not start.
+**And a fifth, small**, in Part B of the `db/101` test: whether "written at
+review of session 6" is what a reader should be told about where those three
+notes came from. You agreed it on 15 September; it is written down there because
+it is what a reader sees.
 
-There is a fifth thing, small, and it is the sign-off on `db/101`: whether
-"written at review of session 6" is what a reader should be told about where
-those three notes came from. You agreed it today; it is in Part B because it is
-what a reader sees.
+Until they are given, Session 6 stays open and Session 7 does not start.
 
 ## After that, in order
 
@@ -173,19 +170,22 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-15, the session that ran Session 6's test, closing
+## Sanity check, 2026-09-15, the session that ran `db/101`'s test, closing
 
 **Run at the end, on checking rather than on memory.** **469 bills, 1291 stage
-records, 186 provenance notes** — unmoved, and this session did not intend to
-move them. `db/101` rewrote three provenance rows in place and added none. **The
-error checker finds nothing and the gaps list holds nothing.** The data
-dictionary regenerates identical to the committed file: no table or column
-changed. Only `public` on the server, no working copy inside the database, and
-every working file this session put in `/tmp` on the server has been removed and
-the removal confirmed by listing.
+records, 186 provenance notes** — unmoved, and this session did not set out to
+move them. Nothing was written to the clean data at all: every one of this
+session's builds was inside a transaction that was thrown away. **The error
+checker finds nothing and the gaps list holds nothing.** The data dictionary
+regenerates identical to the committed file — 19 tables, 181 columns, all
+described. Only `public` on the server, no working copy inside the database. The
+`dblink` extension was added to compare against the pre-`db/101` copy and has
+been dropped; the scratch database it read from has been dropped; every working
+file this session put in `/tmp` on the server has been removed, and the removals
+confirmed.
 
-**A copy of the database was taken before `db/101`** and is kept at
-`/var/tmp/legdata-before-db101_2026-09-15.dump`, beside
+**The copies taken before earlier changes are still there:**
+`/var/tmp/legdata-before-db101_2026-09-15.dump`,
 `/var/tmp/legdata-before-s6-promotion_2026-09-15.dump` and
 `/var/tmp/legdata-before-s6-dates_2026-09-15.dump`.
 
@@ -194,63 +194,69 @@ database exactly, the last commit and the newest `DECISIONS.md` entries were
 already carried into `STATE.md`, the data dictionary regenerated identical, and
 the tree was clean and pushed.
 
-**What this session could not check, and did not.** It built `db/101` and
-changed `tools/promote_session.sql`, so it did not mark them. That test is in
-`docs/CLOSURE-TESTS.md` and is the next session's. Its items 8, 9 and 10 need
-faults built and thrown away, and item 8 runs `promote_session.sql` twice in one
-rehearsal, so its temporary tables must be dropped in between.
+**One thing worth passing on about running item 14 again.** Before re-running
+it, this session checked in git whether item 14's own text had been edited by
+the session whose work it marks. It had not: the item asked for 2026-09-15
+before the failure and asks for it still. A re-run after a mend is only worth
+anything if the goalpost did not move, and that is cheap to check.
 
-**And one thing this session found out about itself, worth passing on.** It
-reported the European Charter Stage 3 disagreement to the owner as a new
-finding. It was not: it had been found, argued and settled on 13 September, and
-was recorded in `DECISIONS.md`, in the header of `tools/promote_session.sql` and
-in three places in `docs/CLOSURE-TESTS.md`. The owner remembered it and said so.
-A test item that reads as a surprise is a reason to search the documents for the
-subject before reporting it, not after. It also nearly led to a proposal that
-would have undone a settled decision.
+**What this session could not check, and did not.** Part B of both tests is the
+owner's. It also did not re-run items 19 and 23 of the Session 6 test, which the
+previous session rewrote — they were rewritten to describe behaviour already
+settled elsewhere, and re-running them would be marking that session's rewrite
+on its own terms.
 
 ## What this session did
 
-**Ran Session 6's closure test**, written by the session before it, which had
-promoted Session 6 and built `db/098` to `db/100`. Twenty-three mechanical
-items; **twenty pass as written**. Nothing was written to the database: items 16
-and 17 build deliberate faults, and each was built inside a transaction that was
-thrown away, with the counts, the checker and the gaps list identical before and
-after.
+**Ran `db/101`'s closure test**, written by the session that built `db/101` and
+changed `tools/promote_session.sql`. **All ten mechanical items pass.** Nothing
+was written: items 8, 9 and 10 build something, and each was built inside a
+transaction that was thrown away, with the counts, the checker and the gaps list
+identical before and after.
 
-**Item 14 failed, and the failure was real.** `db/098` moved the note's
-provenance `source` to `manual` on the reasoning that the note is ours and not
-the fact sheet's, and left `source_ref` and `observed_at` naming the Session 6
-fact sheet and 10 September. Each row therefore said the note had been seen in a
-document five days before it was written. **`db/101`** moves all three together
-and takes the date from the line's own `reviewed_at`, so it holds for every
-session after this one. `tools/promote_session.sql` changed in the same commit.
+- **Item 4** was done the way the item asks — the other way round from the
+  migration's own check. The pre-`db/101` dump was restored into a scratch
+  database and `field_source` compared row by row against the live one: 186 in
+  both, nothing appeared, nothing vanished, exactly three rows differ, and in
+  all three only `source_ref`, `observed_at` and the row's own `note` moved.
+- **Item 5's trap is real.** The three bills' provenance divides three ways, not
+  one: five rows cite the Session 5 footnote, thirteen cite the Session 6 sheet,
+  three cite us. A check assuming a single citation would have passed and been
+  wrong.
+- **Item 8** needed `promote_session.sql` run twice in one rehearsal, so its
+  seven temporary tables were dropped in between: `promote_arg`,
+  `stage_source_rank`, `promoting`, `continuing`, `promoting_all`,
+  `promoting_stages`, `continuing_changes`, `carried_stages`.
+- **Item 3 was itself ambiguous** and is rewritten with what it first said. It
+  asked that the three *notes* keep the earlier wording after "It read" and end
+  naming db/101 — which reads as the bill's note, and item 6 requires the bill's
+  notes to be untouched. What holds it is the provenance row's own `note`
+  column. Both readings were checked.
 
-**Rehearsed twice, both thrown away.** Once for the migration, which photographs
-every provenance row before it writes and proves afterwards that exactly three
-moved and none appeared or vanished. Once for the tool: Session 6 taken off,
-Sessions 5 and 6 promoted again, and every bill and every stage record compared
-against what it was — **identical cell by cell**, ignoring only the two
-timestamps the database sets itself. A copy was taken before it was applied.
+**Then item 14 of Session 6's test, run again, and it passes.** `source`
+`manual`, `observed_at` 2026-09-15, each row keeping the earlier wording after
+"It read".
 
-**Items 19 and 23 were themselves wrong**, and are rewritten with what they
-first said and why. Item 19 described a settled adjudication as though it were a
-discrepancy. Item 23 cited `db/079` for a rule `db/079` explicitly declined to
-make, and run as written returns four Sessions 1 and 2 notes that end in a web
-address and are not wrong. Rule 4 of the procedure asks where an expected answer
-comes from; both of these said, and both were wrong in a way only reading the
-cited migration would show.
+**Part A of the Session 6 test is now finished.** What remains is the owner's:
+four sign-offs there and one on `db/101`.
 
-**A sentence in `DECISIONS.md` contradicted the database**, found while checking
-item 19. The 13 September entry rejected the Session 6 fact sheet's 23 May 2021
-on the ground that it "falls between dissolution and the new Parliament". It
-does not — Session 5 ended 4 May 2021 and Session 6 first met on 13 May, so
-23 May is ten days into the new Parliament. The bill page settles the date at
-23 March and always did; the reason given was wrong. Corrected, with what it
-said before.
+## Session 6's closure test, 15 September
 
-**Session 6 is not closed.** Four sign-offs are the owner's, and item 14 waits
-on `db/101`'s own test being run by a session that did not write it.
+Run by the session before this one, which had not built it. Twenty of the
+twenty-three items passed. Item 14 failed and was real: `db/098` moved the
+note's provenance `source` to `manual` and left `source_ref` and `observed_at`
+naming the Session 6 fact sheet and 10 September, so each row said the note had
+been seen in a document five days before it was written. **`db/101`** moves all
+three together and takes the date from the line's own `reviewed_at`;
+`tools/promote_session.sql` changed in the same commit; both rehearsed twice
+inside transactions that were thrown away, with a copy taken first. Items 19 and
+23 were themselves wrongly written and are rewritten with what they first said —
+item 19 described a settled adjudication as a discrepancy, item 23 cited
+`db/079` for a rule `db/079` declined to make. A sentence in `DECISIONS.md` that
+contradicted the database was corrected at the same time: 23 May 2021 is ten
+days into Session 6, not between dissolution and the new Parliament. The date
+itself was never in doubt.
+
 
 ## Session 6's dates and endings, 15 September
 
