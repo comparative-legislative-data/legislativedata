@@ -107,23 +107,26 @@ promotion**, and the runbook says so.
 **Yours whenever you want it, and nothing waits on it:** your write-up on what
 the charts present and the options they offer.
 
-## Three questions the tests leave you
+## The three questions the tests left you: two answered, one open
 
-Each is a piece of published text or a published distinction, so none is mine to
-settle. None blocks your review.
+Each was a piece of published text or a published distinction, so none was mine
+to settle. None blocked your review.
 
-1. **M5's wording.** Two sentences have drifted: it says the mechanism that
-   stopped a bill is recorded in the bill's note, where since `db/084` it is also
-   a cell of its own; and it closes by saying a bill's recorded state comes from
-   the latest fact sheet read in, which M12 now qualifies. No data is wrong
-   either way. The full current wording is below the line.
+1. **M5's wording — still open, and noted rather than settled.** Two sentences
+   have drifted: it says the mechanism that stopped a bill is recorded in the
+   bill's note, where since `db/084` it is also a cell of its own; and it closes
+   by saying a bill's recorded state comes from the latest fact sheet read in,
+   which M12 now qualifies. No data is wrong either way. The full current wording
+   is below the line, and nothing waits on it.
 2. ~~**The two Stage 3 rejections.**~~ **Answered, 15 September: yes**, the
    distinction stands. Assisted Dying and Recall of Members stay recorded as
    rejected at Stage 3, not as bills that fell. Nothing needed building; it is
    in `DECISIONS.md`.
-3. **M12's prose.** Would a researcher reading only M12 understand why seven
-   Session 6 Acts carry a different source from the other sixty? The full
-   current wording is below the line.
+3. ~~**M12's prose.**~~ **Answered, 15 September, and done.** You read it whole
+   and asked why the simple fact that we found data to replace stale dates in
+   the fact sheet needed 290 words. It did not. `db/097` cuts it to 95 and
+   retitles it *A fact sheet is a snapshot*. It is below the line, and it is
+   what a reader sees now.
 
 ## After that, in order
 
@@ -149,6 +152,14 @@ of what we agreed, so it is untouched. Say if you want the Consideration date in
 it too, and it goes in next time Session 2 comes off.
 
 ## Waiting for your decision, and not blocking anything
+
+- **Whether the other eleven methodology notes should be cut the way M12 was.**
+  The rule M12 settled — a note says what the judgement is, and the reasoning
+  lives in `DECISIONS.md` and the migration — was settled for M12 only. Nobody
+  has read the rest against it. M2 is 5,140 characters and M7 is 5,006, against
+  M12's 631; the shortest, M1, is 358. They are what a reader of the published
+  data sees, so this is yours and not mine, and nothing waits on it. Raised
+  15 September.
 
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
   is deliberately outside version control. It exists on this machine and nowhere
@@ -203,8 +214,11 @@ orient, and none of it belongs above the line.
 
 ## Sanity check, 2026-09-15, the test-running session, closing
 
-**Run at the end, on checking rather than on memory.** Nothing was written to
-anything all session: **389 bills, 1071 stage records, 112 provenance notes**
+**Run at the end, on checking rather than on memory.** The only thing written to
+the database all session is `db/097`, which changes M12's title and body and
+nothing else — one row of one text table, rehearsed and read back first. No
+bill, line, stage record or provenance note was touched by it or by anything
+else: **389 bills, 1071 stage records, 112 provenance notes**
 before the first fixture and after the last, with Session 6's **223 stage rows
 all still `new`** — none accepted, none rejected. Only `public` on the server; no
 fixture view left behind; the three copies of the error checker built for the
@@ -251,6 +265,15 @@ comparison report.** Thirty-eight items: thirty-five mechanical, three for the
 owner. **All thirty-five mechanical items pass.** Nothing was written to
 anything; every fixture ran inside a transaction that was rolled back, and the
 three counts, the checker and the gaps list were the same before and after.
+
+**Then two of the three owner's items came back the same day.** The Stage 3
+distinction was confirmed and needed no build (`DECISIONS.md`). M12 was read
+whole and judged too long for what it says, and **`db/097` cuts it from 290
+words to 95** and retitles it *A fact sheet is a snapshot*. It was rehearsed
+inside a thrown-away transaction and read back before it was applied; it changes
+one row of one text table, touches no bill, line, stage record or provenance
+note, and leaves `applies_to` and the runbook procedure alone. M5's wording is
+the one item still open, and it is noted rather than settled.
 
 How each kind of item was run, since the method matters more than the result:
 
@@ -309,8 +332,8 @@ those corrections under 15 September. The workbook's date is the one to trust.
 
 ## M5 and M12, as a reader sees them today
 
-Kept here so the two questions above can be answered without opening the
-database. Neither has been changed.
+Kept here so the questions above can be weighed without opening the database.
+M5 is unchanged and its wording is still open; M12 was cut on 15 September.
 
 **M5 — Passing a bill is not the same as the bill being finished.**
 
@@ -351,35 +374,21 @@ bill.note" — since `db/084` it is also a cell of its own — and "A bill's rec
 state is the one given by the latest fact sheet that has been read in", which
 M12 now qualifies for bills left awaiting Royal Assent.
 
-**M12 — The fact sheets are a snapshot, and an Act made since is taken from
-legislation.gov.uk.**
+**M12 — A fact sheet is a snapshot.** As cut by `db/097`, 15 September, and as
+a reader sees it now.
 
-> Every bill in this resource was read from a SPICe legislation fact sheet, and a
-> fact sheet states where each bill had got to on the day it was compiled. It is
-> not a running record. A bill that had passed and was waiting for Royal Assent
-> when the sheet was written may have become an Act long before we read the
-> sheet, and the sheet will not say so.
+> A fact sheet says where each bill had got to on the day it was compiled, not
+> where it stands now. Seven bills the Session 6 sheet leaves awaiting Royal
+> Assent had become Acts four months before we read it.
 >
-> So every bill a fact sheet leaves awaiting Royal Assent is looked up at
-> legislation.gov.uk before it is admitted, and the answer is recorded whether or
-> not it changed anything. Where the Act has since been made, its date of Royal
-> Assent, its number and its title are taken from legislation.gov.uk, and each of
-> those facts carries a note saying so and giving the day it was read. The bill's
-> own line still says it came from the fact sheet, because that is where the line
-> came from; what changed is where those particular facts came from.
->
-> Seven bills of Session 6 are in this position. The Session 6 fact sheet was
-> read on 10 September 2026 and shows them as passed and awaiting Royal Assent;
-> all seven became Acts in May 2026. They are the Non-surgical Procedures and
-> Functions of Medical Reviewers, Building Safety Levy, Greyhound Racing
-> (Offences), Children (Care, Care Experience and Services Planning), Crofting
-> and Scottish Land Court, Visitor Levy (Amendment), and Restraint and Seclusion
-> in Schools Acts 2026.
->
-> A bill left awaiting Royal Assent because it was stopped — referred to the
-> Supreme Court, or subject to a section 35 order — is a different thing, and M5
-> covers it. Those bills are looked up in the same way and on the same schedule;
-> the answer for all four of them is that no Act has been made.
+> So every bill a fact sheet leaves awaiting Royal Assent is checked at
+> legislation.gov.uk before it is admitted, and the answer recorded either way —
+> including where no Act has been made, as for the four bills M5 covers. Where
+> the Act was made, its date of Royal Assent, its number and its title come from
+> legislation.gov.uk and say so, with the day each was read. The rest of the
+> bill's line still comes from the fact sheet.
+
+The 290-word version it replaces is in this file as committed at `ccac41c`.
 
 ## The previous session in detail
 

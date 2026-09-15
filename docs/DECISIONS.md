@@ -8,6 +8,54 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-15 — A methodology note says what the judgement was, not how we arrived at it
+
+**The owner, reading M12 whole:** "Why such a detailed explanation for the simple
+fact that we found the data to replace stale dates in the factsheet? Isn't that
+all we are saying?"
+
+Mostly it was. M12 ran to 290 words for a judgement that takes about ninety.
+`db/097` cuts it, and retitles it *A fact sheet is a snapshot*.
+
+**What was cut, and why none of it was load-bearing.** A second telling of "a
+fact sheet is not a running record", which the first sentence already says. A
+paragraph explaining in the abstract that the line came from the fact sheet while
+particular facts came from legislation.gov.uk — a reader does not need that
+argued, because every such cell carries its own note naming the source and the
+day it was read. The list of the seven Session 6 Acts, which duplicates the data
+and goes out of date the moment another session brings more. And a closing
+paragraph on blocked bills, reduced to a clause pointing at M5, which is where
+that case is actually explained.
+
+**What stays, because a reader is worse off without it.** That the sheet is a
+snapshot, with the seven Acts as the evidence that this is not hypothetical. That
+every bill a sheet leaves awaiting Royal Assent is checked **and the answer
+recorded either way** — the sentence that earns its place, because it is what
+lets a reader tell "looked up, still no Act" from "never looked at", and it is
+why the four blocked bills read blocked rather than unknown. And that where the
+Act was made, its date, number and title come from legislation.gov.uk with the
+day each was read.
+
+**The general rule this sets, and the reason it is here rather than only in the
+migration.** A methodology note is read by someone deciding whether to trust a
+number, not by someone auditing how we got it. It should say what the judgement
+is and what follows from it. The reasoning, the alternatives weighed and the
+blind spots found belong in `DECISIONS.md` and the migration that made the
+change, where a later session will look for them and a reader will not. M12 had
+absorbed all three.
+
+This settles how M12 is written. It does not settle anything about the other
+eleven notes, and none of them has been looked at against it. Whether they
+should be is raised in `STATE.md` as a question for the owner, not decided here.
+
+**What did not change.** `applies_to` still names the same four cells. The
+procedure in `PROMOTION-RUNBOOK.md` is untouched and still cites M12. The error
+checker's complaint on an awaiting-assent line without a look-up citation still
+says "see methodology note M12" and still means this note. The 290-word wording
+is quoted in `docs/STATE.md` as committed at `ccac41c`.
+
+---
+
 ## 2026-09-15 — A bill rejected at Stage 3 is recorded as that, not as a bill that fell
 
 **The owner's ruling, 15 September, asked whether recording the Assisted Dying

@@ -667,6 +667,22 @@ clears those 22 and are not part of this test.
     M12 would understand why seven Session 6 Acts carry a different source from
     the other sixty.
 
+    **Answered by the owner, 15 September, and the note is cut.** Reading it
+    whole, they asked: "Why such a detailed explanation for the simple fact that
+    we found the data to replace stale dates in the factsheet? Isn't that all we
+    are saying?" Mostly it was. `db/097` cuts M12 from 290 words to 95 and
+    retitles it *A fact sheet is a snapshot*. What goes: the second telling of
+    "not a running record", the paragraph explaining line-source against
+    field-source in the abstract, the list of the seven Acts — which duplicates
+    the data and goes stale as sessions are added — and the closing paragraph on
+    blocked bills, reduced to a clause pointing at M5. What stays: the snapshot
+    and the seven Acts as evidence of it; that every awaiting-assent bill is
+    checked **and the answer recorded either way**, which is what lets a reader
+    tell "looked up, still no Act" from "never looked at"; and that the Act's
+    date, number and title come from legislation.gov.uk with the day read. The
+    procedure in `PROMOTION-RUNBOOK.md` is unchanged and still cites M12. The
+    wording replaced is in `docs/STATE.md` as committed at `ccac41c`.
+
 ### What this test does not check
 
 - **It does not check steps 7 and 8 of the runbook.** The 22 problems the error
