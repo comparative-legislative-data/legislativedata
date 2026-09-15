@@ -8,6 +8,84 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-15 — A bill that passed, was stopped and was then withdrawn, and the rule that gives
+
+### The owner's ruling
+
+"agreed." — to the proposal below, put to them with the alternative and its
+consequence.
+
+### The bill
+
+The UK Withdrawal from the European Union (Legal Continuity) (Scotland) Bill
+passed on 21 March 2018, was stopped before Royal Assent when the Supreme Court
+ruled parts of it outwith the Parliament's legislative competence, and was
+withdrawn on 10 March 2022. Its Session 6 line is a further appearance of bill
+305 and says all three things at once, which no line had had to do before.
+
+### Three rules, one of which had to give
+
+- **Only a bill that passed can be stopped before Royal Assent.** So the cells
+  saying the bill was stopped and then withdrawn cannot sit on a line whose own
+  outcome reads `withdrawn`.
+- **A completed Stage 3 means the bill passed.** The line carries a Stage 3 row
+  dated 21 March 2018, read off the Session 6 fact sheet's own words.
+- **A bill that passed with no Royal Assent date must be recorded as blocked or
+  awaiting one.**
+
+The first two stand and the third gives. It was written at `db/020`, before the
+cells that say what followed a block existed at all (`db/084`). Its job is to
+stop a bill that passed being recorded as never becoming an Act with nothing
+saying why, and `assent_block_outcome` does that job better than the rule does.
+It now accepts one more answer: *or the line says what followed the block.*
+
+**The alternative, rejected**, was to leave the line saying the Parliament
+withdrew the bill. Two rules would then complain, the blocked-bill cells could
+not be filled, and — the deciding point — the clean sheet would go on recording
+a bill withdrawn in 2022 as still waiting for Royal Assent, because
+`assent_block_outcome` is one of the seven cells a further appearance carries
+and `still_blocked` would never be replaced.
+
+### The eight parts
+
+1. **What it records.** No new variable and no new cell. Line 412's outcome
+   becomes `passed`, and the two blocked-bill cells are filled: `s33_reference`
+   and `withdrawn`.
+2. **Which bills, and what empty means.** A line recording that a bill stopped
+   before Royal Assent was later withdrawn. One line today. An empty
+   `assent_block_outcome` still means the bill was never stopped.
+3. **Where it sits on the clean sheet.** Bill 305 keeps `passed` — promotion
+   carries seven cells onto a bill a line continues and `outcome` is not one of
+   them — and stops saying it is still blocked.
+4. **How it arrives.** By hand at review, from the fact sheet's own words.
+5. **Promotion and provenance.** Unchanged. Promotion already writes a note for
+   every cell a further appearance changes, saying what it read before and what
+   it reads now.
+6. **What the checker requires.** The one rule above, at `db/094`.
+7. **What a reader is told.** Nothing new. **M5 already names this bill** and
+   says it "was withdrawn on 10 March 2022, nearly four years after it passed".
+8. **Every bill coded the old way, rechecked.** Two questions asked of the whole
+   database: which lines have a completed final stage and an outcome that is not
+   `passed` — one, this one; and which say a bill passed, give no Royal Assent
+   date and are recorded as neither blocked nor pending — none, before or after.
+
+### Raised, not settled
+
+**M5 has drifted in two places** and was deliberately not touched. It says the
+mechanism that stopped a bill is recorded in `bill.note`, where since `db/084` it
+is also a cell of its own; and it closes by saying a bill's recorded state comes
+from the latest fact sheet read in, which M12 now qualifies. Neither makes any
+data wrong. M5 is text a reader sees, so any rewording goes to the owner in full
+before it is made.
+
+**The `withdrawn_from_earlier_session` section has no rule** tying it to an
+outcome, where the Acts, Withdrawn, Fallen and awaiting-assent sections all have
+one. One line has ever been read from it, and a rule written on one instance
+would be a guess at the next.
+
+
+---
+
 ## 2026-09-15 — A fact sheet is a snapshot, and an Act made since is taken from legislation.gov.uk
 
 ### The owner's ruling

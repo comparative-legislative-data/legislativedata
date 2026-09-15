@@ -30,6 +30,57 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## A bill that passed, was stopped, and was then withdrawn
+
+Written 2026-09-15 by the session that built `db/094`, which may therefore not
+run it. **Four items: three mechanical and one sign-off.** Nothing here writes to
+the database.
+
+**Not yet run.**
+
+1. **The rebuilt error checker lost nothing.** Build the `db/090` view and the
+   `db/094` view side by side under other names inside a transaction that is
+   thrown away, read both definitions back out of the database, and compare them
+   as text. **Expected: zero deleted lines, and the only change the one rule** —
+   a bill that passed with no Royal Assent date now also passes the check if
+   `assent_block_outcome` says what followed.
+
+2. **The rule still refuses what it was written to refuse.** In a thrown-away
+   transaction, empty line 412's two blocked-bill cells. **Expected: exactly one
+   complaint on that line**, saying it is recorded as `'not_enacted'` rather than
+   as blocked or awaiting one *and says nothing about what followed the bill
+   being stopped*. Put them back and it must go. Then check the whole database:
+   **no line at all is in the state the rule refuses.**
+
+3. **The clean sheet ends up right.** Line 412 reads `passed`, `not_enacted`,
+   `s33_reference`, `withdrawn`, concluded 2022-03-10, continuing bill 305.
+   Today bill 305 reads `passed` and `still_blocked`. **Rehearse a promotion of
+   Session 6 in a thrown-away transaction** — once Session 6 has been reviewed —
+   and check bill 305 comes out `passed` and `withdrawn` with 10 March 2022
+   beside it, and that a provenance note is written for
+   `assent_block_outcome` saying it read `'still_blocked'` and now reads
+   `'withdrawn'`. **This is the point of the whole change**: without it the clean
+   sheet goes on saying a bill withdrawn in 2022 is still waiting for assent.
+
+4. **Sign-off: is M5 still true enough?** `db/094` deliberately did not touch it.
+   Two sentences in it have drifted: it says the mechanism that stopped a bill is
+   recorded in `bill.note`, where since `db/084` it is also a cell of its own;
+   and it closes by saying a bill's recorded state is the one given by the latest
+   fact sheet read in, which M12 now qualifies for bills left awaiting Royal
+   Assent. Neither makes anything in the data wrong. The question for the owner
+   is whether the note a reader sees should be reworded, and if so the wording
+   goes to them in full before it is changed.
+
+### What this test does not check
+
+- **It does not check the `withdrawn_from_earlier_session` section.** It is the
+  one fact sheet section with no rule tying it to an outcome, and one line has
+  ever been read from it. `db/094` says so and leaves it.
+- **It does not check line 474**, the one problem the checker still finds. That
+  waits on Session 6 being promoted.
+
+---
+
 ## The blocked bills and two Act titles
 
 Written 2026-09-15 by the session that built `db/093`, which may therefore not

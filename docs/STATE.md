@@ -72,51 +72,39 @@ fact sheet caught being out of date.**
   fact sheet's one word "fell" turns out to be three different things: five were
   rejected at Stage 1, two were rejected at Stage 3 after getting all the way
   through, and three ran out of time.
-- **The error checker is down from 22 problems to two**, and only one of them is
-  a question for you.
+- **The error checker is down from 22 problems to one**, and that one is Session
+  7 waiting on Session 6 rather than a question. The Gender Recognition Reform
+  Bill now says how it was stopped, the European Charter and UNCRC bills say
+  they were stopped and then reconsidered and passed, and the Dog Theft Act's
+  year is right in both its title and its number.
+- **The bill that passed, was stopped and was then withdrawn.** The UK
+  Withdrawal (Legal Continuity) Bill needed three of the checker's rules to hold
+  at once and they could not. You settled which gives, and without it the clean
+  sheet would have gone on saying a bill withdrawn in 2022 is still waiting for
+  Royal Assent.
 
-## Now: one ruling from you, and Session 6 is ready to review
+## Now: Session 6 is ready for you to review
 
-All four checks between the load and your review are done. The error checker is
-down from 22 problems to **two**, and only one of them is a question.
+All four checks between the load and your review are done, and **the error
+checker finds nothing at all on Session 6.** 83 lines, waiting on you.
 
-1. **Line 412, the UK Withdrawal (Legal Continuity) Bill — your ruling.** It
-   passed in 2018, was stopped before Royal Assent by the Supreme Court, and was
-   withdrawn on 10 March 2022. Three of the checker's rules cannot all hold for
-   it at once and one has to give. The proposal, and why, is below under "One
-   ruling". Nothing else waits on it.
-2. **Line 474, the Gender Recognition Reform Bill in Session 7.** It must point
-   at the Session 6 line for the same bill, and cannot until Session 6 is on the
-   clean sheet. Sequencing, not a question, and it does not hold Session 6 up:
-   promotion looks only at the session being promoted.
+The one problem it still finds is Session 7's, and it is not a question: the
+Gender Recognition Reform Bill's Session 7 line must point at the Session 6 line
+for the same bill, and cannot until Session 6 is on the clean sheet. It does not
+hold Session 6 up — promotion looks only at the session being promoted — and it
+is set before Session 7 is promoted.
 
-**Then Session 6 is yours to review**, and after that its Stage 1 and 2 dates go
-on from your dataset, as every session before it.
+**After your review**, Session 6 is admitted and promoted, its Stage 1 and 2
+dates go on from your dataset as every session before it, and then Session 7,
+which is two lines.
 
-## One ruling: what line 412 should say
+**Waiting for a session that built none of it:** the checks on `db/089` to
+`db/094`, the comparison tool and the prose of M12 are written in
+`CLOSURE-TESTS.md` and have not been run. Four tests, twenty-nine items,
+twenty-five mechanical and four for you.
 
-Whatever we choose, the clean sheet will say the Parliament **passed** this bill,
-because a bill's outcome is never overwritten by a later fact sheet. What is in
-question is what the staging line says, and one thing that does carry: what
-followed the bill being stopped.
-
-- **If the line says the Parliament withdrew it**, two rules object — only a
-  bill that passed can be stopped before Royal Assent, and a completed Stage 3
-  means the bill passed — and the blocked-bill cells cannot be filled. The clean
-  sheet would then go on saying the bill is **still blocked**, which it is not.
-- **If the line says the Parliament passed it, that it never became an Act, and
-  that what followed the block was the withdrawal of 10 March 2022**, everything
-  reads true and the clean sheet ends up right. One rule objects: a bill that
-  passed with no Royal Assent date must be recorded as blocked or awaiting one.
-
-**The proposal is the second, and that rule gives.** It was written before the
-blocked-bill cells existed, and its job — stop a bill being recorded as never
-becoming an Act with no explanation — is done better by those cells than by the
-rule. It would learn one more acceptable answer: *or it says what followed the
-block.*
-
-That is a change to what the error checker requires, so it gets the eight parts
-before anything is built, as the seven Acts did.
+**Yours whenever you want it, and nothing waits on it:** your write-up on what
+the charts present and the options they offer.
 
 ## After that, in order
 
@@ -156,6 +144,12 @@ it too, and it goes in next time Session 2 comes off.
   when a later fact sheet adds to a bill — only seven cells are. The note stays
   true about Session 5, and a reader seeing it beside an Act of 2026 may not
   read it that way. Found 15 September.
+- **Whether M5 should be reworded.** Two sentences have drifted. It says the
+  mechanism that stopped a bill is recorded in the bill's note, where since
+  `db/084` it is also a cell of its own; and it closes by saying a bill's
+  recorded state comes from the latest fact sheet read in, which M12 now
+  qualifies. Neither makes any data wrong. M5 is text a reader sees, so the full
+  wording comes to you before anything is changed. Found 15 September.
 - **Whether Session 5's four bills that ran out of time should carry the note
   Session 6's three now do**, recording that the loader's proposal was checked
   and what was read. Session 5's carry nothing; the check was recorded in its
@@ -274,7 +268,14 @@ having been decided on 8 April 2026 or capable of being. `db/092`. For the
 Disabled Children bill a secondary summary gave division figures the Official
 Report does not record, which is what `db/067` exists for.
 
-**Step 9, thirteen of the checker's fifteen.** `db/093`: how the Gender
+**Step 9, all fifteen.** `db/094` settled the last of them on your ruling: the UK
+Withdrawal (Legal Continuity) Bill says the Parliament passed it, that it never
+became an Act, and that what followed the block was the withdrawal of 10 March
+2022. The rule that a passed bill with no Royal Assent date must read as blocked
+or awaiting one now also accepts a line that says what followed. Two things in
+M5 have drifted and were deliberately left for you; they are in the list below.
+
+**Step 9, thirteen of the fifteen first.** `db/093`: how the Gender
 Recognition Reform Bill was stopped, in both fact sheets; the European Charter
 and UNCRC bills recorded as stopped and then reconsidered and passed; the
 European Charter Act's title and number and the Dog Theft Act's year settled at
