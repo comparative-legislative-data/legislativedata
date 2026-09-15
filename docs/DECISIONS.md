@@ -8,6 +8,39 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-15 — A bill rejected at Stage 3 is recorded as that, not as a bill that fell
+
+**The owner's ruling, 15 September, asked whether recording the Assisted Dying
+and Recall of Members bills as Stage 3 rejections rather than as bills that
+simply fell is the distinction the published data should draw: "Yes".**
+
+The Session 6 legislation fact sheet says only "Fell" for all ten of that
+session's bills that did not pass. `db/092` read all ten at the Official Report
+and found the one word covering three different things: five bills whose general
+principles the Parliament disagreed to at Stage 1, two the Parliament refused to
+pass at Stage 3, and three that were never decided at all and ran out of time
+when the session ended. Those are three different events, and the sixth item of
+that migration's closure test put the Stage 3 pair to the owner because
+`rejected_stage_3` had one previous instance in the whole database — the Budget
+(Scotland) (No.2) Bill of Session 3, on the Presiding Officer's casting vote.
+
+**So the distinction stands**, and nothing needs building: Assisted Dying for
+Terminally Ill Adults is recorded as rejected at Stage 3 on 17 March 2026, on
+motion S6M-21005 in the name of Liam McArthur, For 57 Against 69 Abstentions 1;
+the Scottish Parliament (Recall of Members) Bill on 24 February 2026, on motion
+S6M-20904 in the name of Graham Simpson, For 30 Against 66 Abstentions 27. Each
+has its Stage 3 row marked as where the bill stopped, dated the day the
+Parliament decided, and each quotes the Presiding Officer on the line.
+
+**Why it matters for the research.** A bill the Parliament actively refused to
+pass, after it had completed Stages 1 and 2, is not the same event as a bill
+nobody ever voted on. Collapsing them would make "how long each stage took"
+count a rejected bill and an abandoned one as the same kind of ending, and would
+hide the only two occasions in twenty-five years on which the Parliament took a
+bill all the way to a final vote and turned it down.
+
+---
+
 ## 2026-09-15 — A stage a bill was in but never worked on is not a stage it reached
 
 **The owner's ruling:** "It was passed Stage 1 and Stage 2 started but no formal

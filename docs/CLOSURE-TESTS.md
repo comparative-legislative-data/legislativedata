@@ -369,8 +369,9 @@ pass; item 6 is for the owner.**
    8 April 2026, and the last activity recorded on each is before the recess:
    5 February 2026 (Commissioner for Older People), 4 March 2026 (Ecocide),
    25 March 2026 (Freedom of Information Reform). The loader's proposal stands.
-6. **For the owner.** Whether the two Stage 3 rejections should be drawn apart
-   from the rest. Untouched.
+6. **Answered by the owner, 15 September: yes.** The distinction stands — a bill
+   the Parliament refused to pass at Stage 3 is recorded as that, not as a bill
+   that fell. Nothing needed building. See `DECISIONS.md`, 2026-09-15.
 
 1. **The ten are answered, and split as `db/092` says.** Five `rejected_stage_1`,
    two `rejected_stage_3`, three `fell_dissolution`; no Session 6 fallen line

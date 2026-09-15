@@ -117,12 +117,10 @@ settle. None blocks your review.
    a cell of its own; and it closes by saying a bill's recorded state comes from
    the latest fact sheet read in, which M12 now qualifies. No data is wrong
    either way. The full current wording is below the line.
-2. **The two Stage 3 rejections.** The fact sheet says only "Fell" for all ten of
-   Session 6's fallen bills, and this week that became three different answers.
-   Assisted Dying and Recall of Members are recorded as rejected at Stage 3, a
-   value with one previous instance in the whole database — the Budget
-   (Scotland) (No.2) Bill of Session 3, on a casting vote. Is that the
-   distinction you want the published data to draw?
+2. ~~**The two Stage 3 rejections.**~~ **Answered, 15 September: yes**, the
+   distinction stands. Assisted Dying and Recall of Members stay recorded as
+   rejected at Stage 3, not as bills that fell. Nothing needed building; it is
+   in `DECISIONS.md`.
 3. **M12's prose.** Would a researcher reading only M12 understand why seven
    Session 6 Acts carry a different source from the other sixty? The full
    current wording is below the line.
