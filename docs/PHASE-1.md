@@ -25,7 +25,8 @@ The reason is that where the site runs and what it reads from decides what can
 be built on it. Style settled first would be settled against an unknown, and
 would then be re-argued the moment infrastructure moved under it.
 
-**Open now:** the infrastructure discussion. Style has not opened.
+**Both are closed as of 15 September.** Infrastructure first, then style, in
+that order. What is open now is building.
 
 ---
 
@@ -144,15 +145,62 @@ settled and recorded. **The infrastructure discussion is closed. Style opens.**
 
 ## Discussion 2 — style
 
-**Not open.** It opens when the infrastructure discussion has closed.
+**Opened and closed, 15 September.** It opened the moment infrastructure closed
+and every question on the list below was answered the same day.
 
 It is a deep dive and may go as deep as it earns. **The bound is on what gets
 built, not on what gets decided:** Phase 1 builds the pages named below and
 nothing else, whatever the deep dive settles.
 
-Its questions are written when it opens, not now. Writing them now would be
-scoping it against infrastructure answers we do not have, which is the reason
-the two were separated.
+### What it has to answer
+
+Agreed with the owner before the discussion started, so that the deep dive is
+scoped against a list rather than against whatever comes up.
+
+1. **Who the reader is, and what the site should feel like to them.** The test
+   a page is held against. The owner's words to start from: professional, not
+   flashy.
+2. **Type.** What text is set in, at what size, in how wide a column. On a site
+   that is almost entirely words, this is most of the decision.
+3. **Colour.** How little, and what it is allowed to mean.
+4. **Layout and navigation.** How a reader moves around.
+5. **What this commits Phase 2 to.** Phase 1 puts no data on a page, but the
+   type and spacing chosen now are what a dense table of bills later hangs off.
+   Style decided against seven pages of prose and then handed a table is where
+   this goes wrong.
+6. **Where a page shows the date of the data it was built from.** Settled as a
+   rule on 15 September; it needs somewhere to live on the page.
+7. **What the site is written with.** Not settled anywhere. Infrastructure only
+   bounded it: no part of the site may be in a form only one company can run.
+
+### Where it started from
+
+**The owner's own site, `essays.stevenmacgregor.uk`**, looked at together on
+15 September and adopted as the starting point. It is a side project of the
+owner's, a workspace for developing a piece of writing, and it is where
+"professional, not flashy" already exists in a form we can read values off.
+
+A list of other people's sites was offered first and rejected. The two projects
+share a starting point, not a dependency: this site does not track changes made
+to the other.
+
+### What closed it
+
+Every question above is answered and in `DECISIONS.md` under 15 September — six
+entries, from the house style through to the stack. The observed values and the
+shape of the whole discussion are in `docs/PHASE-1-STYLE.md`, which is thrown
+away with this file when the phase closes.
+
+**Two of the answers went against a recommendation**, and both are recorded that
+way: dark by default rather than light, and the stack, which carries the owner's
+condition that "the stack does not support it" is never a reason to cut a
+feature.
+
+### What it did not settle
+
+The chart palette, which waits for Phase 2 and something to plot; the wording of
+any page, written when the page is built; and whether the interface ever needs a
+second accent, which nothing so far does.
 
 ---
 

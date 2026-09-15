@@ -4,10 +4,11 @@ Updated: 2026-09-15
 
 ## Where we've got to
 
-**Phase 0 — the dataset — is closed. Phase 1 is the site.** Its infrastructure
-is now settled and **the style discussion is the next thing to open**. The arc
-is in `docs/PLAN.md`; Phase 1's own plan is `docs/PHASE-1.md`, and it is thrown
-away when the phase closes.
+**Phase 0 — the dataset — is closed. Phase 1 is the site, and both of its
+scoping discussions are now closed too.** Infrastructure on 15 September, style
+the same day. **What is open now is building.** The arc is in `docs/PLAN.md`;
+Phase 1's own plan is `docs/PHASE-1.md`, and it is thrown away when the phase
+closes.
 
 The dataset, unchanged and not moving while the site is built:
 
@@ -29,59 +30,50 @@ provenance notes. **The error checker and the gaps list are both empty.**
 - **10–15 September.** The database built, all seven fact sheets surveyed, every
   session read in, reviewed, promoted and closed, your dates loaded, and every
   test run by a session that did none of the work it tests.
-- **15 September, earlier.** `docs/PLAN.md` written, `docs/STANDING.md` split
-  out of this file, the plan reviewed and six questions closed, and
-  `docs/PHASE-1.md` written under the rule that every phase gets a plan it
-  throws away.
+- **15 September, earlier.** `docs/PLAN.md` and `docs/PHASE-1.md` written,
+  `docs/STANDING.md` split out of this file, and the site's infrastructure
+  settled end to end in six decisions — where it runs, three databases, the data
+  date on every page, no passwords, the domain, and your admin screen.
 
-**15 September, this session. The infrastructure of the site, settled end to
-end.** Six decisions, all in `DECISIONS.md`:
+**15 September, this session. The style discussion, opened and closed.** Six
+more decisions, all in `DECISIONS.md`:
 
-- **The site runs on the machine we already rent**, alongside the database.
-- **Three databases**: the working one, a published one holding only what is
-  published, and the accounts. A reader's page reads the published one and
-  cannot see the working one at all.
-- **Every page carries the date of the data it was built from.**
-- **No passwords.** Signing in is a code sent by email, good for 15 minutes and
-  once; a device stays signed in 30 days. Held about a person: email, name,
-  title, position, and the state of their application. Logs for 14 days. Never a
-  password, and never a record of what a researcher read.
-- **`legislativedata.org`**, sending through Resend, DNS through Cloudflare.
-- **Your account, and no other, sees an admin screen** where applications are
-  approved or refused on the site.
-
-Deferred by you, deliberately: **what access becomes after beta.** Nothing is
-built either way, and it is out of what closes Phase 1.
+- **The look comes from your own essays site.** You rejected a list of other
+  people's sites and pointed at that instead. We take its structure more than
+  its colours: a warm neutral ramp with names saying what each step is *for*,
+  Plex Sans for the machinery and Plex Serif for the substance. The two projects
+  share a starting point, not a dependency.
+- **Dark by default, light as a setting**, your decision against a
+  recommendation to default to light.
+- **Designed for someone who will cite it**, and every page held to two
+  questions: can a reader see where this came from and what we do not know, and
+  is anything here to impress rather than inform.
+- **An outcome is a word, never a colour.** No green for passed, no red for
+  fell — it would be the data editorialising, and a colour cannot be cited.
+- **Prose in a reading column, tables allowed out of it**, and the data date
+  beside the heading as well as in the footer, because a footer date is cropped
+  out of a screenshot.
+- **The site is written in Python** — Caddy, gunicorn, Flask — with no build
+  step, and with your condition attached: *"the stack does not support it" is
+  never a reason to cut a feature.*
 
 Nothing was written to the database today.
 
-## Now: the style discussion
+## Now: get the machine serving one page, with its undo
 
-Infrastructure is closed, and under your own rule from 14 September style opens
-only once it is. It is a deep dive and may go as deep as it earns; its questions
-get written when it opens, not before, because writing them earlier would scope
-it against answers we did not have.
+The smallest thing that proves the whole chain end to end, and the thing every
+later deploy rests on. Four new things go on the machine — Caddy, gunicorn,
+Flask, psycopg — and **the deploy procedure and its written undo are built with
+them, not after them**, the way a promotion is.
 
-**What the phase builds is fixed whatever the deep dive settles**: somebody
-applies, you approve or refuse them on the site, they sign in with a code, see
-they are signed in as themselves, sign out. A welcome page. **No data on any
-page** — no chart, no table, no figure. That is Phase 2 entire.
+**It is blocked on one of the three things below**: the certificate cannot be
+issued until `legislativedata.org` points at the machine.
 
-**Four things today's decisions added as build items**, so they are not
-discovered late:
+## Waiting for you, and one of them now blocks
 
-1. A plain-English page saying exactly what is held about a user, naming Resend.
-2. A way for you to delete an account and everything attached to it.
-3. A way for you to get in that does not depend on an email arriving — with
-   codes, a broken mailer locks out everyone including you.
-4. The accounts database in the nightly backup **before** the first real account
-   exists, rehearsed the way a promotion is.
-
-## Waiting for you, and not blocking anything
-
-- **Three things to confirm before anything is built against them:** that
-  `legislativedata.org` is still registered and you control where it points;
-  that a new Resend key is issued, the old one not assumed live; and **when the
+- **Three things to confirm.** That `legislativedata.org` is still registered
+  and you control where it points — **this now blocks the next task**; that a
+  new Resend key is issued, the old one not assumed live; and **when the
   machine's prepaid year runs out**, which is written down nowhere and now takes
   the site down with the data if it lapses. The date belongs in the private
   notes, not here.
@@ -89,7 +81,10 @@ discovered late:
   is deliberately outside version control, exists on this machine and nowhere
   else, and each correction makes that worse.
 - **Six working files left on the server** in `/tmp/load`, from the Session 6
-  dates work. Nothing depends on them. Proposed for removal three times.
+  dates work. Nothing depends on them. Proposed for removal four times.
+- **Two closure tests open with "It has not been run"** when their own run
+  records say they passed — `db/103` and Session 7. Two one-line fixes, offered
+  twice now.
 - **M5's wording has drifted in two sentences**, and **whether the other eleven
   methodology notes should be cut the way M12 was** — M2 is 5,140 characters
   against M12's 631, and they are what a reader sees. No data is wrong either
@@ -139,37 +134,58 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-15, the session that settled the infrastructure
+## Sanity check, 2026-09-15, the session that settled the style
 
 Run before the first reply. Nothing was written to the database at any point.
 
 - **The counts match** `STATE.md`: 470 bills, 1291 stage records, 186 provenance
-  notes, 13 methodology notes, 474 staging lines all accepted and all promoted.
+  notes, 13 methodology notes, 474 staging lines.
 - **The error checker and the gaps list are empty.** No working copy of the
-  sheets inside the database.
+  sheets inside the database, and the only databases on the machine are `legdata`
+  and `postgres` — the three-database decision is recorded and not yet built,
+  which is what the plan says.
 - **Both generated documents regenerate identical** to the committed files: the
   data dictionary at 19 tables and 182 columns, all described; and the contents
-  block of `DECISIONS.md`, 107 at the start of the session and 114 at the end.
+  block of `DECISIONS.md`, 114 at the start of the session and 120 at the end.
 - **The tree was clean and pushed at the start.**
-- **One contradiction found in the docs, and it is still there.** The `db/103`
-  closure test opens "It has not been run", and its own run record 130 lines
-  below says both parts passed on 15 September. A one-line fix, proposed to the
-  owner and not taken, because nothing turns on it and it was not what the
-  session was for. **Whoever runs the next session should offer it again.**
-- **One contradiction found outside the repository, and it was real.** The
-  private notes described the machine as a Hetzner VPS in one section and, in a
-  later section written 2026-09-09, said to treat that as an error — the machine
-  is HostBRR and Hetzner is the backup Storage Box. The two had never been
-  reconciled, and this session picked up the wrong half and repeated it into a
-  Phase 1 document and a commit message before catching it. **The notes are now
-  corrected at the point of the error.** Nothing in the hosting decision rested
-  on it.
-- **Six working files are still in `/tmp/load` on the server**, verified present
-  this session. Third time of asking.
-- **`/var/tmp` holds about ten pre-migration dumps** from 12–13 September. They
-  are safety copies rather than litter, but a sanity check recorded on the 15th
-  said `/var/tmp` had been cleared, which it had not. Recorded so the claim is
-  not repeated.
+- **The stale "It has not been run" is in two closure tests, not one.** The last
+  session recorded it for `db/103` only; the Session 7 test opens the same way
+  and its own run record says all eighteen items stand. Offered to the owner and
+  not taken up. **Whoever runs the next session should offer it a third time.**
+- **`PHASE-1.md` contradicted itself**, saying in two places that style had not
+  opened while its own closing paragraph and `STATE.md` said infrastructure was
+  closed and style opened. Left over from before the close. **Corrected this
+  session**, and the file now records both discussions closed.
+- **Six working files are still in `/tmp/load` on the server**, and about ten
+  pre-migration dumps in `/var/tmp`. Unchanged. Fourth time of asking.
+
+## The style discussion: working detail, 15 September
+
+**The owner rejected a curated list of reference sites and pointed at their own.**
+A list of eighteen was offered — political science datasets, legislative
+trackers, statistical agencies, reading-led magazines — and the answer was "I'm
+not a fan of many of those". The useful reference was
+`essays.stevenmacgregor.uk`, a side project of theirs. Worth remembering: for
+this owner, the way into a design question is something concrete they already
+have a view on, not a survey.
+
+**The values were read off the stylesheet, not guessed and not clicked.** The
+site's own Settings has a Mode control, and rather than switch the owner's
+stored preference to see the light palette, the compiled CSS was fetched from
+the page and the custom-property blocks parsed out. That gave both ramps, the
+accent, the type scale and the spacing scale without touching their account.
+All of it is in `docs/PHASE-1-STYLE.md`.
+
+**The machine was checked before the stack was recommended**, in one connection:
+no Node, no web server, Python 3.13, PostgreSQL 17 on localhost only. That is
+what made the recommendation honest — neither option was cheaper by inheritance.
+
+**Two recommendations were overruled, both reasonably.** Defaulting to light was
+overruled because people view the data on the site or download it rather than
+screenshotting it into papers. And an argument that Phase 1's pages had to
+persuade strangers to apply for beta access was simply wrong: nobody is expected
+to apply until there is data on the site. The style questions survived the
+second correction unchanged, aimed one phase later.
 
 ## Session 7, and M13: working detail, 15 September
 
