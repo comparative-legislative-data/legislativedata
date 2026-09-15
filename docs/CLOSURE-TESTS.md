@@ -206,6 +206,75 @@ day it is given, and nowhere else.
 4. **That you can explain how this database works** from the documents alone,
    without help. The standing requirement. **Outstanding.**
 
+### The run, 2026-09-15
+
+**Run by a session that reviewed no part of Session 7, wrote no part of
+`db/102`, and wrote no part of this test.** Nothing was written: items 11 and 18
+were built inside transactions that were thrown away, item 16 inside a scratch
+database that was dropped afterwards, and 470 bills, 1291 stage records and 186
+provenance notes were the same before and after, with the error checker and the
+gaps list empty throughout.
+
+**Seventeen of the eighteen mechanical items pass. Item 18 does not, and the
+fault is in what the item expected, not in the database.**
+
+Worth naming from among the seventeen:
+
+- **Item 11, the branch does bite.** With a Stage 2 row added to line 473 inside
+  a thrown-away transaction, the gaps list asks for exactly one thing: bill 473,
+  Stage 1, "date not yet entered". So item 10's empty list is empty because the
+  bill has reached no stage, not because the rule has been lost. The error
+  checker also raised one row in that state — "Stage 2: fell_here is empty" —
+  which is the invented row being incomplete and not a fault.
+- **Item 16, taken against the safety copy.**
+  `/var/tmp/legdata-before-db102-and-s7_2026-09-15.dump` was restored into a
+  scratch database, the live database dumped in beside it, and the two compared
+  row by row. One bill appeared, 473, and none vanished. Exactly one existing
+  bill differs in any cell at all — bill 393 — and the one cell that differs is
+  `updated_at`, from 11:40:56 to 13:27:40 on 15 September. No stage record and
+  no provenance note appeared, vanished or changed: 1291 and 186 on both sides,
+  identical row for row. M13 is the only methodology note that is new.
+- **Item 7, proved rather than asserted.** The cell-by-cell comparison above is
+  what settles it. Bill 393 reads exactly as it did before Session 7 was
+  promoted, in every column of the bill and not only the eight the promotion
+  writes, and `updated_at` is the only thing that moved.
+- **Item 9, the second source that agrees.** Line 474's single Stage 3 row, 22
+  December 2022, accepted, is still on the staging sheet with nothing saying it
+  was promoted.
+
+**Item 18 fails: rollback takes Session 6's bill off too.**
+
+*Expected:* 469 bills, bill 473 gone, bill 393 still present and unchanged, 1291
+stage records, 186 provenance notes, and both lines back to unpromoted.
+
+*Found:* 468 bills. Bill 473 goes, as expected, and both staging lines go back
+to unpromoted, as expected. But bill 393 comes off as well, taking its three
+stage records and its four provenance notes with it — 1288 stage records and 182
+provenance notes. The script says so while it runs: it lists bill 393 under
+"Bills of an earlier session that this session added to, and which come off with
+it", and it finishes "Session 6 also came off, because this session had added to
+1 of its bills. Promote Session 6 again as well, and in that order."
+
+This is what `tools/rollback_promotion.sql` has done since `db/081`, and its own
+opening paragraphs describe it: a bill of an earlier session that a later
+session's line points at has no copy of what it was before promotion, so it
+comes off too and its own session is promoted again to put it back. **Promotion
+is still undoable** — Session 6 and then Session 7 restores every cell by the
+ordinary route — but the undo is wider than the item described, and the item was
+written expecting the narrow one.
+
+**What the run cannot decide, and is the owner's.** The script goes by whether a
+line points at an earlier bill, not by whether the line changed anything. Session
+7's line 474 changed no cell of bill 393, and bill 393 comes off regardless.
+Whether that is right is a question about method, not a fault in the data.
+
+**One thing the run turned up that no item asked for.** The script's own "About
+to remove" table counts only the session being taken off. It printed 1 bill, 0
+stage records and 0 provenance notes, and then removed 2 bills, 3 stage records
+and 4 provenance notes. The bills listed in the table immediately above it are
+not counted in it. Anyone running the script with `save=false` to see what it
+would do is shown a figure smaller than what it then does.
+
 ### What this test does not check
 
 - **Whether the Session 7 fact sheet is right.** It was read on 2026-09-10 and
