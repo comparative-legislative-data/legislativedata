@@ -33,14 +33,13 @@ to the machine itself, the firewall lets nothing in but the way we log in, and
 it locks out anything hammering the door.
 
 **What it costs.** Nothing more than now. The machine is paid for because the
-bills are on it, so putting the site there adds £0 a month.
+bills are on it, and is prepaid for a year, so putting the site there adds
+nothing a month.
 
-One thing worth knowing: Hetzner raised its prices in June 2026, by roughly two
-and a half times on this class of machine. Existing arrangements were left
-alone; new orders and **resizes** were not. So the machine is cheap while it
-stays the size it is, and would reprice if we ever made it bigger.
-
-**Who else we depend on.** Nobody new. Hetzner, who we already depend on.
+**Who else we depend on.** Nobody new. Two companies we already depend on: the
+one the machine is rented from, and Hetzner, whose storage box the nightly
+backup is sent to. Which is which is in the private notes; **this file had it
+wrong on 2026-09-15 and the correction is recorded there.**
 
 **Where people's details sit.** On a machine we control, next to the bills,
 behind the firewall we set, inside the backup that already runs nightly.
@@ -123,7 +122,5 @@ site adds nothing to it either way — but the figure belongs in the record.
 
 ## Sources
 
-- [Hetzner cloud server price increases in 2026 — Northflank](https://northflank.com/blog/hetzner-cloud-server-price-increases)
-- [Hetzner Cloud Pricing After the April 2026 Increase — bitdoze](https://www.bitdoze.com/hetzner-cloud-cost-optimized-plans/)
 - [Cloudflare Pages Pricing 2026: Free Tier Limits](https://dev.to/nayankyada/cloudflare-pages-pricing-2026-free-tier-limits-workers-costs-when-to-upgrade-2ono)
 - [Vercel vs Netlify vs Cloudflare Pages 2026 — CoderFile](https://coderfile.io/blog/vercel-vs-netlify-vs-cloudflare-2026)
