@@ -37,78 +37,66 @@ tests.
   and how time is counted settled.
 - **15 September, earlier.** Sessions 6 and 7 promoted and closed, your 134
   stage dates loaded, M13 written for the first bill still before the
-  Parliament, and `db/103` built so that taking a session off leaves alone a
-  bill nothing was written over. The first piece of work finished.
+  Parliament, and `db/103` built. The first piece of work finished.
+- **15 September, the plan written.** `docs/PLAN.md` written for the first time.
+  `VARIABLES.md` cut back to the reasoning, generated contents pages added to
+  the dictionary and the decisions record, and 261 lines of standing material
+  lifted out of this file into the new `docs/STANDING.md`.
 
-**15 September, this session. The plan written, and the harness cleaned for it.**
+**15 September, this session. The plan reviewed, and three things added to it.**
 
-- **`docs/VARIABLES.md` cut back to the reasoning**, 221 lines to 174. It was
-  the last document still describing the database as it was several sessions
-  ago, and one paragraph claimed a rule you had reversed. Four things lived
-  only in it and are now recorded properly.
-- **`docs/PLAN.md` written** — the first plan this project has had, written from
-  a position of something delivered rather than in advance of it. **It is
-  waiting for your review.**
-- **The harness cleaned for the next phase.** `CLAUDE.md` reworked so the
-  opening check is not four database questions that will pass unread for a
-  month, so the data rules sit under a heading that says when they apply, and so
-  credentials and data about people are covered before there are accounts.
-- **Two generated indexes, so the record can be found without being copied.**
-  The data dictionary now indexes the thirteen methodology notes; `DECISIONS.md`
-  opens with a contents page of its 102 decisions. Both generated, because you
-  were right that a hand-written second copy would drift.
-- **`docs/STANDING.md` created**, and 261 lines lifted into it out of
-  `STATE.md`: your settled positions, what has been verified rather than
-  assumed, what was deliberately left undone and what would reopen it, the
-  reconciliation figures, the tools, and how to connect. Every line was checked
-  present in the new file before any was cut from the old.
+- **You read it and settled every open question in one pass.** Where the site
+  reads from — the working database, or a copy taken from it — becomes the first
+  infrastructure question, because it shapes the others. Phase 1's pages are
+  named: a welcome, who you are logged in as, change password, log out, and
+  nothing else. Style becomes a deep dive, with the bound moved off what gets
+  decided and onto what gets built. The dataset stays as it is while the site is
+  built. Phase 2 closes from a second account rather than yours.
+- **What we vouch for is written down**: the data as it stands when it is
+  accessed, stamped with the date it was taken, no archive of superseded
+  versions and no undertaking to serve one, and the citation is the user's. It
+  is now the third thing that makes the resource research grade.
+- **Every phase gets its own detailed plan, and closing the phase destroys it**
+  — your suggestion, and the best structural idea the plan has had. What
+  survives the sweep goes to the decisions record, the standing positions, a
+  runbook or a column description, each checked present before anything is cut,
+  and the sweep is run by a session that did none of the phase's work.
 
-## Now: your review of `docs/PLAN.md`
+Nothing was written to the database today.
 
-Read it and mark it up. Nothing else should start until you have, because
-everything after it is a phase inside it.
+## Now: `docs/PHASE-1.md`, the plan for building the site
 
-## After that: Phase 1 scoping
-
-Infrastructure and styling, taking in views from outside this project rather
-than settling both from within it. Four questions are already written into the
-plan for that discussion: what the beta gate becomes after beta, what is held
-about a user, whether the site and the database share a machine, and the domain.
+The first phase plan, written under the rule agreed today. It is the vehicle for
+Phase 1's two scoping discussions — infrastructure and style — and not a
+substitute for them: it sets out how they run and what each has to settle, then
+fills in as they settle it. It must not answer the infrastructure questions from
+inside this project, which is the whole point of holding the discussions.
 
 ## Waiting for your decision, and not blocking anything
 
-- **Six working files left on the server** from the Session 6 dates work, in
-  `/tmp/load`. Nothing depends on them and nothing in the database is wrong.
-  Proposed for removal twice now, not removed. Raised 15 September.
-- **M5's wording.** Two sentences have drifted: it says the mechanism that
-  stopped a bill is recorded in the bill's note, where since `db/084` it is also
-  a cell of its own; and it closes by saying a bill's recorded state comes from
-  the latest fact sheet read in, which M12 now qualifies. No data is wrong
-  either way. Raised 15 September.
-- **Whether the other eleven methodology notes should be cut the way M12 was.**
-  M2 is 5,140 characters and M7 is 5,006, against M12's 631. They are what a
-  reader of the published data sees, so this is yours. Raised 15 September.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
   is deliberately outside version control. It exists on this machine and nowhere
-  else. Each correction makes it worse.
+  else, and each correction makes that worse.
+- **Six working files left on the server** from the Session 6 dates work, in
+  `/tmp/load`. Nothing depends on them. Proposed for removal twice, not removed.
+- **M5's wording has drifted in two sentences** — the mechanism that stopped a
+  bill is now a cell of its own as well as a note, and M12 qualifies its closing
+  line. No data is wrong either way.
+- **Whether the other eleven methodology notes should be cut the way M12 was.**
+  M2 is 5,140 characters against M12's 631, and they are what a reader sees.
 - **Whether Session 5's four bills that ran out of time should carry the note
-  Session 6's three now do**, recording that the loader's proposal was checked
-  and what was read. Nothing is wrong with the data either way. Found
-  15 September.
-- **How to record a published record being revised.** When the first case
-  arrives.
+  Session 6's three now do.** Nothing is wrong either way.
+- **Three counts of how many previous attempts there have been disagree**:
+  `CLAUDE.md` says four died in the gap, you say this is the tenth, `PLAN.md`
+  says nine before it.
+- **How to record a published record being revised**, when the first case
+  arrives. Today's decision settles what we promise a reader, not this.
 - **Whether to rename the dates factsheet's file** to match the others'.
 - **Which source settles a disagreement about what kind of bill it was.** None
   has ever arisen.
 - **Whether to take a copy of the bills before a change that touches them.**
-  `tools/take_copy.sql` already exists. A full copy was taken before `db/102`
-  and Session 7's promotion: `/var/tmp/legdata-before-db102-and-s7_2026-09-15.dump`.
-
-**Settled on 15 September, and no longer on this list:** whether a bill's note
-should be rewritten when the bill is reconsidered and passed — it is, and the
-note is now the eighth cell a second appearance carries; the two Stage 3
-rejections, which stay recorded as rejections rather than as bills that fell;
-and how a bill still before the Parliament is recorded and charted (M13).
+  `tools/take_copy.sql` exists; the last full copy was taken before `db/102` and
+  Session 7's promotion.
 
 ## One small thing for you
 
@@ -145,33 +133,32 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-15, the session that wrote the plan
+## Sanity check, 2026-09-15, the session that reviewed the plan
 
-Run at the start, and again at the end after everything below had moved.
+Run at the start, and again at the end. Nothing was written to the database at
+any point.
 
-- **The counts match**: 470 bills, 1291 stage records, 186 provenance notes, and
-  the same four figures at the end of the session as at the start. Nothing was
-  written to the database all day.
+- **The counts match** `STATE.md` and are the same at both ends: 470 bills, 1291
+  stage records, 186 provenance notes, 13 methodology notes.
 - **The error checker and the gaps list are empty**, at both ends.
+- **No working copy of the sheets is inside the database**, at both ends.
 - **Both generated documents regenerate identical** to the committed files: the
-  data dictionary, 19 tables and 182 columns all described, and the new contents
-  block at the top of `DECISIONS.md`, 102 decisions over 6 days.
-- **The tree was clean and pushed** at the start.
-- **Contradictions found.** `VARIABLES.md` claimed provenance was append-only,
-  which was reversed on 11 September; it has been rewritten. Three counts of how
-  many previous attempts there have been disagree — `CLAUDE.md` says four died
-  in the gap, the owner says this is the tenth attempt, and `PLAN.md` says the
-  nine before it started from the APIs. **Not fixed: the owner has been asked
-  which is right.**
-- **`STATE.md` was two documents.** 942 lines, 807 below the line, of which 261
-  were standing material in a file whose discipline is to be cut every session.
-  Moved to `STANDING.md`, every line checked present in the new file before any
-  was cut from the old.
-- **One thing proposed, not done.** "M5 and M12, as a reader sees them today",
-  60 lines below the line here, is a hand-kept copy of two methodology notes.
-  It was checked against the database today and is accurate — but it is a copy,
-  and the questions it was kept for are settled. The bodies are in the database
-  and the dictionary now indexes them. Left in place for the owner to say.
+  data dictionary, 19 tables and 182 columns all described with the 13
+  methodology notes indexed; and the contents block at the top of
+  `DECISIONS.md`, now 106 decisions over 6 days.
+- **The tree was clean and pushed at the start**, and nothing from the previous
+  session was left open outside `STATE.md`.
+- **One contradiction is still open, and it is the owner's**: three counts of how
+  many previous attempts there have been. It was found by the previous session
+  and recorded only below the line, where the owner would not see it; it is now
+  on the waiting list above the line. That is the finding — not the discrepancy
+  itself, but that a question put to the owner was filed where they do not read.
+- **A hand-kept copy survives below this line.** "M5 and M12, as a reader sees
+  them today" is a second copy of two methodology notes whose home is the
+  database, and the decision taken earlier today — an index, never a second copy
+  — covers it. The previous session left it for the owner to say. It can go on a
+  word.
+
 
 ## Session 7, and M13: working detail, 15 September
 

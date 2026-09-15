@@ -29,6 +29,14 @@ enough that a user can accept them, or take the underlying data and do something
 different. This is the standard the whole resource is held to, and it decides
 arguments about what may be published.
 
+**What we vouch for is the data as it stands when it is accessed.** Every figure
+and every download carries the date it was taken. We do not keep an archive of
+superseded versions and do not undertake to serve one — the published record
+itself gets revised, and a resource promising otherwise would be promising
+something the Parliament does not. A user who needs a fixed version downloads it
+and keeps it; the stamp is what makes their copy citable. The citation is
+theirs.
+
 A concrete case, from a dashboard we looked at for design ideas on 15 September.
 Its headline chart of the longest passages had the Mental Health (Care and
 Treatment) Bill at 1408 days, from an introduction on 12 May 1999 — the day the
@@ -51,6 +59,50 @@ provenance is designed into the first screen rather than added to a later one.
   That is the shape that closed every session of Phase 0.
 - **Build only what the current phase needs.** No speculative schema, no
   speculative screens, no sources the phase does not require.
+- **Each phase gets its own detailed plan, and closing the phase destroys it.**
+  Only what belongs in the decisions record, the standing positions, a runbook
+  or this document survives. See below.
+
+
+## The phase plan, and throwing it away
+
+**Each phase gets its own detailed plan, and each phase plan is destroyed when
+the phase closes.** This document is the arc and stays short. The working detail
+of a phase — the order things get built in, what is being tried, what turned out
+not to work — goes in a file of its own, `docs/PHASE-1.md` and so on, and that
+file is deleted as part of closing the phase.
+
+**It is for whoever runs the session, not for the owner.** The owner orients
+from `STATE.md`. A phase plan that starts collecting status is a second
+`STATE.md`, growing in a place where nobody is cutting it.
+
+**Deleting it is safe, and that is the point.** The file stays in the
+repository's history, so nothing is destroyed — it leaves the places people
+actually read. This project's failures have been second copies rotting in plain
+sight, not things lost.
+
+**Closing a phase includes a sweep**, in which every line of the phase plan is
+one of these:
+
+- a decision that was settled → `DECISIONS.md`
+- a position that holds whatever session is running, something verified rather
+  than assumed, or something deliberately left undone and what would reopen it
+  → `STANDING.md`
+- how to run something, or how to undo it → the runbook for that thing
+- what a table or column holds → a `COMMENT` in a migration, so it reaches the
+  data dictionary
+- a change to the arc itself → this document
+- anything else → working detail, and it goes
+
+The list is the mechanism. "Keep what is essential" decided at the end of a long
+session is the instruction that let `STATE.md` reach 942 lines.
+
+**Nothing is cut until it is proved present in its new home** — the rule already
+used for moving data, and for the 261 lines that became `STANDING.md`.
+
+**The sweep is run by a session that did none of the phase's work**, like the
+closure test it forms part of. Whoever wrote the phase plan is the worst judge
+of which of their own notes are essential.
 
 ---
 
@@ -69,13 +121,26 @@ This is the proof of concept: a hybrid of the Parliament's published record and
 the PhD data, complete and checked, answering two real research questions across
 twenty-seven years.
 
+## The dataset, while the site is built
+
+**It stays as it is.** One bill is before the Parliament and nothing else is
+moving. The data grows very slowly, and Phase 0 closed it complete to that
+point. Keeping it current is not a phase and does not run alongside one; if
+something does need to go in, it goes in the way Phase 0's data went in.
+
+This is a choice rather than an oversight, and it is written down because a
+phase-at-a-time plan implies it silently, and what a plan implies is what gets
+argued about later.
+
 ## Phase 1 — the site
 
 **Delivers.** A place for the data to live. The site exists, is reachable, and
 has working accounts: somebody can apply, the owner can approve or refuse the
-application, and the approved person can log in and out. The infrastructure
-decisions are taken and written down. The first stylistic decisions are taken
-and written down.
+application, and the approved person can log in, see that they are logged in as
+themselves, change their password, and log out. A welcome, and the account
+working — that is the whole of what a logged-in person sees in this phase. The
+infrastructure decisions are taken and written down. The style decisions are
+taken and written down.
 
 **Opens when.** Phase 0 is closed. It is.
 
@@ -83,32 +148,45 @@ and written down.
 figures of any kind — those are Phase 2 in their entirety, and a figure put on
 a page in Phase 1 would be a figure published before the rules for publishing
 one exist. It must also not take on tools for users to build things, and must
-not take on new data.
+not take on new data. The temptation this phase has to survive is one chart on
+the welcome page to make it look like something; the welcome page is a welcome.
 
-**Closes when.** The owner can approve a beta application, log in, and log out.
-The infrastructure and style decisions are recorded. A written test has been run
-by a session that did none of the work. The owner signs off that they can
-explain what was built and how it runs.
+**Closes when.** The owner can approve a beta application, log in, change a
+password, and log out. The infrastructure and style decisions are recorded. A
+written test has been run by a session that did none of the work, which also
+sweeps and deletes `docs/PHASE-1.md`. The owner signs off that they can explain
+what was built and how it runs.
 
-**First work in the phase: scoping.** Infrastructure and styling, taking in
-views from outside this project rather than settling both from within it. That
-scoping comes before anything is built.
+**First work in the phase: two scoping discussions, before anything is built.**
+Infrastructure, and style. Both take in views from outside this project rather
+than settling either from within it.
 
-**Open questions, to settle in the Phase 1 discussion.**
+**Style is a deep dive**, and may go as deep as it earns. The bound is on what
+gets built, not on what gets decided: Phase 1 builds the pages above and nothing
+else, whatever the deep dive settles.
 
+**Infrastructure — the questions to settle.**
+
+- **Whether the site reads the working database, or a published copy taken from
+  it.** This one shapes the rest. The database we load sessions into is the one
+  we promote on and roll back on. Whether a reader's page looks at that, or at a
+  copy taken from it when we choose to take one, decides much of what follows.
+- Whether the site and the database share a machine.
+- What is held about a user, and why. Accounts mean personal data, which this
+  project has not had before.
 - What the beta gate becomes afterwards. During beta, access is by approval.
   This is meant to be a resource open to researchers, and whether a download
   stays behind a login once beta ends is not settled.
-- What is held about a user, and why. Accounts mean personal data, which this
-  project has not had before.
-- Whether the site and the database share a machine.
 - The domain.
 
 ## Phase 2 — the data, published
 
 **Delivers.** The current dataset, available and shown. Downloads of it, and our
 own charts and tables built from it. And, for both, the route back: a download
-carries its sources, and a chart says which coding decisions it rests on.
+carries its sources, and a chart says which coding decisions it rests on. Every
+download and every chart carries the date it was taken, and the site says
+plainly what that means — accuracy at the time of access, and no undertaking to
+serve a superseded version.
 
 **Opens when.** Phase 1 is closed.
 
@@ -120,7 +198,8 @@ also not take on tools for users to build their own tables and charts.
 **Closes when.** A researcher who is not us can download the dataset and read a
 chart, and in both cases find out where the numbers came from and what was
 decided in handling them. A written test has been run by a session that did none
-of the work. The owner signs off.
+of the work, from a second account rather than the owner's, and that session
+sweeps and deletes `docs/PHASE-2.md`. The owner signs off.
 
 ---
 
@@ -137,6 +216,14 @@ it. Bounded, before it is built, by a defined set of questions a researcher woul
 actually ask — taken from real research rather than invented — instead of being
 scoped as a general chart builder. "Build anything" is unbounded in the same way
 the Parliament's APIs were.
+
+## Candidate — a screen for entering new data
+
+A way to put a bill's progress in without a session writing it. The owner's
+screen, not a researcher's, and explicitly not a priority: one bill is live and
+the data grows slowly enough that the need is years off rather than months. It
+is named here so it is not reinvented, and so nothing built in the site makes it
+hard to add later.
 
 ## Candidate — data expansion, in narrow slices
 
