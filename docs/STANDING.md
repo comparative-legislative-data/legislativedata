@@ -77,6 +77,14 @@ what would reopen it.
   it. Settled 2026-09-15; see `DECISIONS.md` for why it was taken before the
   hosting question rather than alongside it.
 
+- **Three databases, and the site sees only one of them.** The working one
+  (staging sheet, clean sheet, notes, provenance), a published one holding only
+  what is published, and the accounts. Settled 2026-09-15. What holds whatever
+  session is running: the site can never reach the working one; the published
+  one is refreshed when we choose, not when a promotion happens; the working one
+  and the accounts are backed up off-site and the published one is not, being
+  rebuildable.
+
 - **The site runs on the machine the database is already on.** Settled
   2026-09-15. Two things follow and hold whatever session is running: no part of
   the site is written in a form only one company can run, because that is what

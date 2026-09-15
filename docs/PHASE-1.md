@@ -79,70 +79,32 @@ now that the site is on it too, one prepayment lapsing takes down the data and
 the site together. Host and account detail stays outside this repository; the
 date belongs in the private notes.
 
-### Question 2 — what the site reads from
+### Question 2 — what the site reads from — **SETTLED, 2026-09-15**
 
-**The choice:** a reader's page looks at the working database directly, or the
-data is copied somewhere the site reads and the working database is never
-reachable from the site at all.
+**The answer: three databases** — the working one, a published one taking only
+what is published, and the accounts. All on the machine the site runs on. The
+site reads the published one and cannot see the working one at all. Recorded in
+`DECISIONS.md` under "Three databases: the working one, the published one, and
+the accounts", which carries the reasons, the backup rule and the cost. The
+briefing it was decided from is `docs/PHASE-1-WHAT-THE-SITE-READS.md`.
 
-**Why this one leads.** The working database is the one sessions are loaded
-into, promoted on and rolled back on. Phase 0's entire discipline is the staging
-sheet held apart from the clean sheet, with a gate between them. A website
-reading the same database is a third surface on it, and it has never been
-placed.
+**Two things this puts into the phase as work, not as notes:**
 
-**The floor is already fixed, and narrows this.** The owner settled on
-2026-09-15, before the hosting question, that the working database is never
-reachable from the public internet. That rules out one thing only. Whether the
-site reads a copy or reads the working database itself, from inside the machine
-it shares with it, is exactly what is still open.
+1. **The accounts database must be in the nightly backup on the day the first
+   real person has an account.** The backup dumps one database and will not pick
+   up a new one by itself. Rehearsed like a promotion: back up, restore into a
+   scratch copy, confirm the account is really there. This repeats a failure
+   that has already happened once, on 2026-09-09.
+2. **Refreshing the published copy becomes a step in the promotion runbook**,
+   with its own rehearsal and written undo.
 
-**Question 1's answer changes the shape of this one**, and the briefing must be
-written against the answer rather than against both options. The site is on the
-same machine as the database. Nothing has to travel and no door has to be opened
-for it, so this is no longer a question about exposure — the floor and the
-hosting decision between them have dealt with that. What is left is a question
-about *trust in a moment*: whether a reader's page should ever look at a
-database that a session may be halfway through being promoted into.
+**Still open inside it:** whether every page carries the date of the data it was
+built from. Put to the owner in the briefing, not yet answered. It is what makes
+a stale copy visible, and staleness is what this shape is most exposed to.
 
-**Two things the briefing must now take account of**, both of which post-date
-the list below and neither of which answers the question:
-
-- **Phase 1 puts no bill data on any page.** The bills are not read by the site
-  until Phase 2. So there is a real option of settling the principle now and
-  building nothing for it until Phase 2 needs it — and an argument against,
-  which is that a principle with nothing built against it is the state
-  `CLAUDE.md` warns about. The briefing should say which, and why.
-- **Phase 1 does hold something the site must read and write: the accounts.**
-  Those are not in the working database today and nothing has said where they
-  go. Whether they sit in the same database as the bills, or a separate one, is
-  part of this question and not a separate one — it is the same question asked
-  about the only data Phase 1 actually has.
-
-**This question gets a written briefing before the discussion, not during it.**
-The owner asked to be guided, and a guide delivered mid-conversation is a guide
-nobody can weigh. It goes in a file, with one line saying where it is, and it
-covers:
-
-- what each option actually means, in spreadsheet terms, traced through one real
-  bill and one real session being loaded;
-- what can go wrong in each, written as what a reader would see happen;
-- what happens to the site *while* a session is being loaded, promoted or rolled
-  back — the moment when the working database is least trustworthy;
-- whether the site could ever show half-promoted data, and what stops it;
-- what "the site can only read" means in practice, and how much protection it
-  really is;
-- if a copy is taken: what it costs to keep in step, how stale it can get, and
-  how a reader would know;
-- **which option makes the date stamp honest.** What we vouch for is the data as
-  it stands when it is accessed, stamped with the date it was taken. That
-  promise is easier to keep truthfully under one of these options than the
-  other, and the briefing has to say which and why;
-- what the nightly backup covers in each case;
-- how each option would be undone.
-
-What has to come out of it: the answer, the reasons, and the rule written down
-plainly enough that it is not re-argued in six months.
+**Deliberately not closed:** writing the published data out as files at
+promotion time, so the site reads no database for bills at all. Cannot be
+settled before the style discussion says what a reader's tools are.
 
 ### The remainder, still to settle before the phase closes
 
