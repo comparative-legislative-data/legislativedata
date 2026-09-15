@@ -153,8 +153,8 @@ one exist. It must also not take on tools for users to build things, and must
 not take on new data. The temptation this phase has to survive is one chart on
 the welcome page to make it look like something; the welcome page is a welcome.
 
-**Closes when.** The owner can approve a beta application, log in, change a
-password, and log out. The infrastructure and style decisions are recorded. A
+**Closes when.** The owner can approve a beta application on the site, sign in
+with a code, and sign out. The infrastructure and style decisions are recorded. A
 written test has been run by a session that did none of the work, which also
 sweeps and deletes `docs/PHASE-1.md`. The owner signs off that they can explain
 what was built and how it runs.
@@ -167,19 +167,21 @@ than settling either from within it.
 gets built, not on what gets decided: Phase 1 builds the pages above and nothing
 else, whatever the deep dive settles.
 
-**Infrastructure — the questions to settle.**
+**Infrastructure — settled 2026-09-15.** All of it in `DECISIONS.md`; the
+reasoning that is still live is in `STANDING.md`.
 
-- **Whether the site reads the working database, or a published copy taken from
-  it.** This one shapes the rest. The database we load sessions into is the one
-  we promote on and roll back on. Whether a reader's page looks at that, or at a
-  copy taken from it when we choose to take one, decides much of what follows.
-- Whether the site and the database share a machine.
-- What is held about a user, and why. Accounts mean personal data, which this
-  project has not had before.
-- What the beta gate becomes afterwards. During beta, access is by approval.
-  This is meant to be a resource open to researchers, and whether a download
-  stays behind a login once beta ends is not settled.
-- The domain.
+- **What the site reads from.** Three databases on one machine: the working one,
+  a published one holding only what is published, and the accounts. The site
+  reads the published one and cannot see the working one.
+- **Whether the site and the database share a machine.** They do.
+- **What is held about a user.** No passwords — a code by email. Email, name,
+  title, position, the state of the application and when. Logs for 14 days.
+  Never a password, and never what a signed-in researcher read.
+- **The domain.** `legislativedata.org`.
+- **What the beta gate becomes afterwards — deferred**, by the owner, and taken
+  out of what closes Phase 1. Nothing is built either way, because Phase 1 puts
+  no data on a page. It must be settled before beta ends and before Phase 2
+  publishes to anyone who is not an approved beta user.
 
 ## Phase 2 — the data, published
 

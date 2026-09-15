@@ -117,9 +117,11 @@ optional.
   the first account exists: real data about a real person goes in no commit
   message, no document, no test fixture and not into the conversation. Settling
   this question is settling how little we can get away with holding.
-- **What the beta gate becomes afterwards.** During beta, access is by approval.
-  This is meant to be open to researchers, and whether a download stays behind a
-  login once beta ends is not settled.
+- **What the beta gate becomes afterwards — DEFERRED, 2026-09-15**, by the
+  owner, and out of what closes this phase. Nothing is built either way: Phase 1
+  puts no data on any page, so there is no download to put behind anything. What
+  reopens it, and it is not optional: beta ending, and before Phase 2 publishes
+  to anyone who is not an approved beta user.
 - **The domain — SETTLED, 2026-09-15.** `legislativedata.org`, already held by
   the owner, already connected to Resend for sending, DNS managed through
   Cloudflare. To establish when the site is built, not now: whether traffic is
@@ -132,6 +134,11 @@ Every question above answered and written down in its permanent home — a
 settled decision to `DECISIONS.md`, a position that holds whatever session is
 running to `STANDING.md`, anything about how to run or undo something to a
 runbook. Then style opens.
+
+**All four are answered as of 2026-09-15**, the fifth having been deliberately
+deferred by the owner and taken out of what closes this phase. Where the site
+runs, what it reads from, what is held about a user, and the domain are all
+settled and recorded. **The infrastructure discussion is closed. Style opens.**
 
 ---
 
@@ -156,6 +163,8 @@ The whole of it, from `PLAN.md`:
 - somebody can apply;
 - the owner can approve or refuse an application;
 - an approved person can ask for a code, receive it by email, and sign in;
+- the owner's account, and no other, sees an admin screen where applications are
+  approved or refused on the site;
 - they can see that they are signed in as themselves;
 - they can sign out on this device;
 - a welcome page.

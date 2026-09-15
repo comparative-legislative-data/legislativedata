@@ -15,6 +15,15 @@ gets cut every session is material waiting to be lost.
 
 ## What was deliberately left undone, and why
 
+- **What access becomes after beta.** Whether a download stays behind a sign-in
+  once beta ends, or the resource opens to anyone, is not answered and does not
+  need to be. Nothing is built either way — Phase 1 puts no data on a page, so
+  there is no download to put behind anything, and it is better answered with a
+  working site and some researchers using it than in the abstract. Deferred by
+  the owner 2026-09-15 and taken out of what closes Phase 1. **What reopens it,
+  and it is not optional:** beta ending, and Phase 2 publishing to anyone who is
+  not an approved beta user.
+
 Written down because the expensive mistake is not doing a thing twice — it is
 doing it again without knowing it was considered, weighed and parked. Each says
 what would reopen it.

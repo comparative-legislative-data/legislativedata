@@ -4,16 +4,12 @@ Updated: 2026-09-15
 
 ## Where we've got to
 
-**Phase 0 — the dataset — is closed. Phase 1, the site, is open.** The arc is
-in `docs/PLAN.md`: Phase 1 is the site, Phase 2 is the data published on it, and
-both close before anything else opens. Phase 1's own plan is `docs/PHASE-1.md`,
-and it is thrown away when the phase closes.
+**Phase 0 — the dataset — is closed. Phase 1 is the site.** Its infrastructure
+is now settled and **the style discussion is the next thing to open**. The arc
+is in `docs/PLAN.md`; Phase 1's own plan is `docs/PHASE-1.md`, and it is thrown
+away when the phase closes.
 
-The first piece of work, across all seven sessions:
-
-1. **What happened to each bill**, by bill type.
-2. **How long each stage took**, by bill type and session. The main interest is
-   introduction to the end of Stage 3.
+The dataset, unchanged and not moving while the site is built:
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
@@ -26,85 +22,87 @@ The first piece of work, across all seven sessions:
 | 7 | 2 bills | yes | yes | Stage 3 only; **closed** |
 
 **470 bills are on the clean sheet**, with 1291 stage records and 186
-provenance notes. **The error checker and the gaps list are both empty.** All
-seven sessions are read in, reviewed, promoted and **closed**, and every test
-this project has written has been run by a session that did none of the work it
-tests.
+provenance notes. **The error checker and the gaps list are both empty.**
 
 ## What has been done
 
-- **10–14 September.** Database built, all seven fact sheets surveyed, Sessions
-  1 to 5 read in, reviewed, admitted, promoted and closed, your dates loaded,
-  and how time is counted settled.
-- **15 September, earlier.** Sessions 6 and 7 promoted and closed, your 134
-  stage dates loaded, M13 written for the first bill still before the
-  Parliament, and `db/103` built. The first piece of work finished.
-- **15 September, the plan written.** `docs/PLAN.md` written for the first time.
-  `VARIABLES.md` cut back to the reasoning, generated contents pages added to
-  the dictionary and the decisions record, and 261 lines of standing material
-  lifted out of this file into the new `docs/STANDING.md`.
-- **15 September, the plan reviewed.** You settled six open questions in one
-  pass, what we vouch for was written down, and your own addition became the
-  rule that every phase gets a plan it throws away when the phase closes.
+- **10–15 September.** The database built, all seven fact sheets surveyed, every
+  session read in, reviewed, promoted and closed, your dates loaded, and every
+  test run by a session that did none of the work it tests.
+- **15 September, earlier.** `docs/PLAN.md` written, `docs/STANDING.md` split
+  out of this file, the plan reviewed and six questions closed, and
+  `docs/PHASE-1.md` written under the rule that every phase gets a plan it
+  throws away.
 
-**15 September, this session. `docs/PHASE-1.md`, and the order of the two
-discussions.**
+**15 September, this session. The infrastructure of the site, settled end to
+end.** Six decisions, all in `DECISIONS.md`:
 
-- **The Phase 1 plan is written**, under the rule you set yesterday. It sets out
-  how the two scoping discussions run and what each has to settle, and it fills
-  in as they settle it. It does not answer the infrastructure questions, which
-  is the point of holding the discussions.
-- **Infrastructure and style are separate, and infrastructure goes first** —
-  your decision. Where the site runs and what it reads from decides what can be
-  built on it, so style settled first would be settled against an unknown.
-- **The two infrastructure questions you named lead it**: where the front end
-  runs — the machine we rent, or a free tier — and whether the site reads our
-  working database or a copy taken from it. The three from the plan you did not
-  name today are still there and still have to be settled.
-- **The second question gets a written briefing before we discuss it**, not
-  during it, because a guide delivered mid-conversation is one nobody can weigh.
+- **The site runs on the machine we already rent**, alongside the database.
+- **Three databases**: the working one, a published one holding only what is
+  published, and the accounts. A reader's page reads the published one and
+  cannot see the working one at all.
+- **Every page carries the date of the data it was built from.**
+- **No passwords.** Signing in is a code sent by email, good for 15 minutes and
+  once; a device stays signed in 30 days. Held about a person: email, name,
+  title, position, and the state of their application. Logs for 14 days. Never a
+  password, and never a record of what a researcher read.
+- **`legislativedata.org`**, sending through Resend, DNS through Cloudflare.
+- **Your account, and no other, sees an admin screen** where applications are
+  approved or refused on the site.
+
+Deferred by you, deliberately: **what access becomes after beta.** Nothing is
+built either way, and it is out of what closes Phase 1.
 
 Nothing was written to the database today.
 
-## Now: the briefing on what the site reads from
+## Now: the style discussion
 
-The first infrastructure question is where the front end runs; the second is
-whether a reader's page looks at our working database — the one sessions are
-loaded into and promoted on — or at a copy taken from it. You asked to be guided
-on safe practice for the second, so the next session writes that briefing: what
-each choice means traced through one real bill, what a reader would see go
-wrong in each, what happens to the site while a session is being loaded, and
-which choice lets us stamp a figure with its date honestly. It goes in a file,
-with one line saying where. The discussion happens after you have read it.
+Infrastructure is closed, and under your own rule from 14 September style opens
+only once it is. It is a deep dive and may go as deep as it earns; its questions
+get written when it opens, not before, because writing them earlier would scope
+it against answers we did not have.
 
-Either question can be taken first. The briefing is the only piece of
-preparation either of them needs.
+**What the phase builds is fixed whatever the deep dive settles**: somebody
+applies, you approve or refuse them on the site, they sign in with a code, see
+they are signed in as themselves, sign out. A welcome page. **No data on any
+page** — no chart, no table, no figure. That is Phase 2 entire.
 
-## Waiting for your decision, and not blocking anything
+**Four things today's decisions added as build items**, so they are not
+discovered late:
 
+1. A plain-English page saying exactly what is held about a user, naming Resend.
+2. A way for you to delete an account and everything attached to it.
+3. A way for you to get in that does not depend on an email arriving — with
+   codes, a broken mailer locks out everyone including you.
+4. The accounts database in the nightly backup **before** the first real account
+   exists, rehearsed the way a promotion is.
+
+## Waiting for you, and not blocking anything
+
+- **Three things to confirm before anything is built against them:** that
+  `legislativedata.org` is still registered and you control where it points;
+  that a new Resend key is issued, the old one not assumed live; and **when the
+  machine's prepaid year runs out**, which is written down nowhere and now takes
+  the site down with the data if it lapses. The date belongs in the private
+  notes, not here.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
-  is deliberately outside version control. It exists on this machine and nowhere
+  is deliberately outside version control, exists on this machine and nowhere
   else, and each correction makes that worse.
-- **Six working files left on the server** from the Session 6 dates work, in
-  `/tmp/load`. Nothing depends on them. Proposed for removal twice, not removed.
-- **M5's wording has drifted in two sentences** — the mechanism that stopped a
-  bill is now a cell of its own as well as a note, and M12 qualifies its closing
-  line. No data is wrong either way.
-- **Whether the other eleven methodology notes should be cut the way M12 was.**
-  M2 is 5,140 characters against M12's 631, and they are what a reader sees.
-- **Whether Session 5's four bills that ran out of time should carry the note
-  Session 6's three now do.** Nothing is wrong either way.
+- **Six working files left on the server** in `/tmp/load`, from the Session 6
+  dates work. Nothing depends on them. Proposed for removal three times.
+- **M5's wording has drifted in two sentences**, and **whether the other eleven
+  methodology notes should be cut the way M12 was** — M2 is 5,140 characters
+  against M12's 631, and they are what a reader sees. No data is wrong either
+  way.
+- **Whether Session 5's four bills that ran out of time** should carry the note
+  Session 6's three now do.
 - **Three counts of how many previous attempts there have been disagree**:
   `CLAUDE.md` says four died in the gap, you say this is the tenth, `PLAN.md`
   says nine before it.
 - **How to record a published record being revised**, when the first case
-  arrives. Today's decision settles what we promise a reader, not this.
-- **Whether to rename the dates factsheet's file** to match the others'.
-- **Which source settles a disagreement about what kind of bill it was.** None
-  has ever arisen.
-- **Whether to take a copy of the bills before a change that touches them.**
-  `tools/take_copy.sql` exists; the last full copy was taken before `db/102` and
-  Session 7's promotion.
+  arrives; **whether to rename the dates factsheet's file**; **which source
+  settles a disagreement about what kind of bill it was**, none having arisen;
+  and **whether to take a copy of the bills before a change that touches them**.
 
 ## One small thing for you
 
@@ -141,27 +139,37 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-15, the session that wrote the Phase 1 plan
+## Sanity check, 2026-09-15, the session that settled the infrastructure
 
-Run at the start. Nothing was written to the database at any point.
+Run before the first reply. Nothing was written to the database at any point.
 
 - **The counts match** `STATE.md`: 470 bills, 1291 stage records, 186 provenance
-  notes, 13 methodology notes. The staging sheet holds 474 lines across the
-  seven sessions, all `accepted` and all promoted.
-- **The error checker and the gaps list are empty.**
-- **No working copy of the sheets is inside the database.** No schema other than
-  the database's own.
+  notes, 13 methodology notes, 474 staging lines all accepted and all promoted.
+- **The error checker and the gaps list are empty.** No working copy of the
+  sheets inside the database.
 - **Both generated documents regenerate identical** to the committed files: the
-  data dictionary, 19 tables and 182 columns all described with the 13
-  methodology notes indexed; and the contents block at the top of
-  `DECISIONS.md`, 106 decisions at the start of the session and 107 at the end.
-- **The tree was clean and pushed at the start**, and nothing the previous
-  session left open was outside `STATE.md`.
-- **Nothing new found.** The two items the previous check raised are both still
-  open and both are the owner's: the three disagreeing counts of how many
-  previous attempts there have been, and the hand-kept copy of M5 and M12 below
-  this line, which can go on a word.
-
+  data dictionary at 19 tables and 182 columns, all described; and the contents
+  block of `DECISIONS.md`, 107 at the start of the session and 114 at the end.
+- **The tree was clean and pushed at the start.**
+- **One contradiction found in the docs, and it is still there.** The `db/103`
+  closure test opens "It has not been run", and its own run record 130 lines
+  below says both parts passed on 15 September. A one-line fix, proposed to the
+  owner and not taken, because nothing turns on it and it was not what the
+  session was for. **Whoever runs the next session should offer it again.**
+- **One contradiction found outside the repository, and it was real.** The
+  private notes described the machine as a Hetzner VPS in one section and, in a
+  later section written 2026-09-09, said to treat that as an error — the machine
+  is HostBRR and Hetzner is the backup Storage Box. The two had never been
+  reconciled, and this session picked up the wrong half and repeated it into a
+  Phase 1 document and a commit message before catching it. **The notes are now
+  corrected at the point of the error.** Nothing in the hosting decision rested
+  on it.
+- **Six working files are still in `/tmp/load` on the server**, verified present
+  this session. Third time of asking.
+- **`/var/tmp` holds about ten pre-migration dumps** from 12–13 September. They
+  are safety copies rather than litter, but a sanity check recorded on the 15th
+  said `/var/tmp` had been cleared, which it had not. Recorded so the claim is
+  not repeated.
 
 ## Session 7, and M13: working detail, 15 September
 
