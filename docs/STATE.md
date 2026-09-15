@@ -188,30 +188,32 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-15, opening
+## Sanity check, 2026-09-15, closing
 
-**Everything the check asks for matched.** 389 bills, 1071 stage records, 112
-provenance notes; 73/81/62/86/87 on the five closed sessions and 83 and 2 on the
-staging sheet, lines 390 to 474; the data dictionary regenerating identical to
-the committed file; nothing uncommitted and nothing unpushed; only the `public`
-schema on the server, so no working copy left inside the database. The error
-checker's 22 items and the gaps list's 146 all belonged to Sessions 6 and 7 —
-nothing on the clean sheet had come loose.
+**Run at the end, on checking rather than on memory.** 389 bills, 1071 stage
+records, 112 provenance notes — the same three figures the session opened with,
+and nothing this session did touched the clean sheet. The error checker finds
+**one** problem, Session 7's line waiting on Session 6's promotion, and the gaps
+list **148**, which is two more than the session opened with and rightly so: 134
+are stage dates not yet typed, and 14 are bills that did not pass with no stage
+row yet saying where they ended — two of those being the Assisted Dying and
+Recall of Members bills, which had no outcome at all this morning and so were
+not being asked the question. Every one is answered when the stage dates go on.
+The data dictionary regenerates
+identical to the committed file. Nothing uncommitted, nothing unpushed. Only the
+`public` schema on the server: no working copy left inside the database, and
+every file this session put in `/tmp` removed.
 
-**It also read the runbook's new steps 6 to 8 against the session in hand**,
-which is what the last sanity check suggested it should. None of the 85 lines
-was stamped as compared, which was the work this session then did.
-
-**What it still did not find.** The check asks whether the counts match and
-whether the steps have been done. It does not ask whether what a step found is
-still true, and the seven bills that had become Acts since the fact sheet was
-compiled were invisible to every check in the database until the comparison was
-actually run and read by eye. Steps 6 to 9 now cover it for a session being
-loaded. Nothing yet asks the question of a session already closed.
+**What the opening check found, and did not find**, is recorded in the entry
+above this one in `DECISIONS.md`: the counts all matched and the steps had been
+run, and seven bills that had become Acts months before the fact sheet was
+compiled were invisible to every check in the database. Steps 6 to 9 of the
+runbook now cover that for a session being loaded. Nothing yet asks the question
+of a session already closed.
 
 **Old working files are still in `/tmp` on the server** — `cols.sql`, `look.sql`,
 `sanity.sql`, `reh.tgz`, from earlier sessions. Nothing is inside the database
-and nothing depends on them. This session removed everything it put there.
+and nothing depends on them.
 
 ## What the previous session did
 
