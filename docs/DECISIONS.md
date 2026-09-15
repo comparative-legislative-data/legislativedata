@@ -8,6 +8,95 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-15 — A session is finished by its own closure test, not by seven tests of its parts
+
+**The owner, on being told Session 6 was ready to promote:** "I remain deeply
+concerned that we previously had a robust process for finalising the data for
+each session which seems to have given way to a set of adhoc approaches."
+
+It had, and it is visible in the files. Sessions 1 to 5 each have one closure
+test in two parts — Part A mechanical, Part B the owner's sign-offs — written by
+the session that did the work, run by a different one, with a
+`closure_check_session_N.sql` beside it, and the session is not *closed* until
+both parts are complete. Session 6 had no such test. What it had instead was
+seven tests attached to pieces of work, each properly written and properly marked
+by another session, and nothing that tested the session. Nothing in the project
+would have said when Session 6 was finished.
+
+Two smaller instances of the same drift, recorded here because they are the same
+shape. The runbook's steps 6 to 9 — the comparison against the owner's dataset,
+the Official Report on every fallen bill, legislation.gov.uk on every bill left
+awaiting assent, and working the error checker's list to empty — were not written
+down until 2026-09-14, after Sessions 6 and 7 had been loaded and announced as
+ready for review without them. And the question of what happens to a bill's note
+when a later fact sheet changes the bill was found on 2026-09-15 and parked on a
+list headed "not blocking anything", when it was a question about how data is
+coded on bills that day's promotion was about to change.
+
+**What was decided.** Session 6 gets a closure test in the old shape — Part A
+mechanical with the source of every expected answer, Part B the owner's
+sign-offs, and `tools/closure_check_session_6.sql` beside it. It inherits the
+seven piece-tests rather than re-arguing them. It is written by the session that
+did the work and **run by a different session**, and Session 6 is not closed
+until both parts are done. Session 7 will have the same.
+
+**Why this is the rule rather than a preference.** The piece-tests were not worse
+than the session test; several were more thorough. What they could not do is
+answer the question "is this session finished", because none of them was about
+the session. A test per migration measures whether each change did what it said.
+A test per session measures whether the session's data is fit to be relied on.
+The project needs the second and had been producing only the first.
+
+---
+
+## 2026-09-15 — A bill's note is the eighth cell a second appearance carries
+
+**Settled with the owner on 2026-09-15**, in the parts a change to how data is
+coded has to be settled in, before anything was built. `db/098` builds it and
+`tools/promote_session.sql` carries it.
+
+**The problem.** When a later fact sheet lists a bill already on the clean sheet,
+promotion updated seven cells on that bill — title, the Act's number, whether it
+became an Act, the Royal Assent date, the date it ended, how it was stopped
+before Royal Assent, and what followed — and never touched the note. The note is
+written in our own words at review, and the reasoning was that a script has no
+business writing it. That is right about where a note comes from and wrong about
+where it goes.
+
+Session 6 is where it bit. The European Charter of Local Self-Government
+(Incorporation) and UNCRC (Incorporation) Bills were passed in Session 5, stopped
+before Royal Assent by a section 33 reference, and each carries a note ending
+"it could not be submitted for Royal Assent in its unamended form". Both were
+reconsidered and passed in Session 6 and are now Acts. Promoting Session 6 as
+things stood would have written each Act's title, number and Royal Assent date
+onto the bill and left that sentence standing beside them.
+
+**The rule.**
+- The note is carried like the other seven: a further appearance with a note of
+  its own replaces the note on the bill it continues.
+- An empty note on such a line means the earlier note stands, and promotion never
+  blanks one. But the error checker asks for a note wherever the bill being
+  continued has one, so leaving the earlier wording is a decision somebody made
+  rather than something nobody noticed. Where it is still right it is repeated,
+  which changes nothing and writes no provenance.
+- Promotion writes the note's provenance as it does the other seven, keeping what
+  it read before. That row says the note was rewritten at review, and its source
+  is `manual`, not the fact sheet — the note is ours, and its provenance should
+  not claim otherwise.
+- M6 closes by telling a reader this.
+- The four bills that appear in two fact sheets were rechecked. Three needed new
+  notes and have them. The fourth, the Gender Recognition Reform Bill, needed
+  none: its Session 7 line already carries the same note word for word.
+
+**Why a check that only speaks when something is wrong was not enough.** The
+alternative was a rule that flags a note contradicting the bill's own cells.
+Nobody can write that rule for free text, and the same reasoning was rejected at
+`db/090` a day earlier for the same reason: a check that goes quiet unless it
+happens to recognise the fault is not a check. Requiring somebody to say what the
+note should read is a question that always gets asked.
+
+---
+
 ## 2026-09-15 — A methodology note says what the judgement was, not how we arrived at it
 
 **The owner, reading M12 whole:** "Why such a detailed explanation for the simple

@@ -230,13 +230,24 @@ SELECT p.candidate_id, p.session_number, p.sp_bill_id, p.short_title, p.bill_typ
 -- The bills a later fact sheet says more about
 -- ---------------------------------------------------------------------------
 
--- Seven cells, and no others. A further appearance of a bill says what has
+-- Eight cells, and no others. A further appearance of a bill says what has
 -- happened to it since; it does not restate what the bill is. The session, the
 -- introduction date, the bill type, who introduced it and its SP Bill number
--- belong to the bill's own session and are not touched, and neither is the
--- note in our own words, which is written when a session is reviewed and not
--- by a script. A cell the later fact sheet leaves empty is left as it was: a
--- second appearance adds and corrects, and never blanks.
+-- belong to the bill's own session and are not touched. A cell the later fact
+-- sheet leaves empty is left as it was: a second appearance adds and corrects,
+-- and never blanks.
+--
+-- The note is the eighth, added at db/098. It was left out until then, on the
+-- reasoning that it is written when a session is reviewed rather than by a
+-- script -- which is true of where it comes from and wrong about where it goes.
+-- The note on a bill stopped before Royal Assent in Session 5 ends "it could
+-- not be submitted for Royal Assent in its unamended form", and Session 6 is
+-- where two such bills were reconsidered and became Acts. Leaving it out would
+-- have written each Act's title, number and Royal Assent date onto the bill and
+-- left that sentence standing beside them. It is still written when a session
+-- is reviewed: this carries what the review wrote. The error checker asks for a
+-- note on any line continuing a bill that has one, so an empty note here is a
+-- decision and not an oversight.
 --
 -- What each changed cell used to say is captured first, so that the provenance
 -- note below can say what it read before.
@@ -251,7 +262,8 @@ SELECT c.candidate_id, c.target_bill_id, x.field_name, x.was, x.reads_now
       ('date_royal_assent',    b.date_royal_assent::text,  c.date_royal_assent::text),
       ('date_concluded',       b.date_concluded::text,     c.date_concluded::text),
       ('assent_block_route',   b.assent_block_route,       c.assent_block_route),
-      ('assent_block_outcome', b.assent_block_outcome,     c.assent_block_outcome)
+      ('assent_block_outcome', b.assent_block_outcome,     c.assent_block_outcome),
+      ('note',                 b.note,                     c.bill_note)
   ) AS x(field_name, was, reads_now)
  WHERE x.reads_now IS NOT NULL
    AND x.reads_now IS DISTINCT FROM x.was;
@@ -264,6 +276,7 @@ UPDATE bill b
        date_concluded       = coalesce(c.date_concluded,       b.date_concluded),
        assent_block_route   = coalesce(c.assent_block_route,   b.assent_block_route),
        assent_block_outcome = coalesce(c.assent_block_outcome, b.assent_block_outcome),
+       note                 = coalesce(c.bill_note,           b.note),
        updated_at           = now()
   FROM continuing c
  WHERE b.bill_id = c.target_bill_id;
@@ -501,16 +514,34 @@ DELETE FROM field_source f
 
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at, note)
-SELECT 'bill', ch.target_bill_id, ch.field_name, c.source, c.source_ref,
+SELECT 'bill', ch.target_bill_id, ch.field_name,
+       -- The note is written by us at review, so it is not attributed to the
+       -- fact sheet the rest of the line was read off (db/098).
+       CASE WHEN ch.field_name = 'note' THEN 'manual' ELSE c.source END,
+       c.source_ref,
        CASE WHEN ch.field_name = 'short_title' THEN c.raw_title END,
        c.observed_at,
-       'Read off the Session ' || c.session_number || ' fact sheet, which lists '
-       || 'this bill again because it was still live when Session '
-       || b.session_number || ' ended. It read '
-       || coalesce(quote_literal(ch.was), 'nothing') || ' and now reads '
-       || quote_literal(ch.reads_now)
-       || '. The bill belongs to Session ' || b.session_number
-       || ', the session it was introduced in. See methodology note M6.'
+       CASE WHEN ch.field_name = 'note'
+            -- The note is in our own words, not the fact sheet's, so its
+            -- provenance says who wrote it and when rather than claiming it was
+            -- read off a sheet. What it said before is kept here, which is the
+            -- whole reason this row exists (db/098).
+            THEN 'Rewritten when Session ' || c.session_number || ' was reviewed, '
+                 || 'because that fact sheet lists this bill again and changed what '
+                 || 'the note had to say. It read '
+                 || coalesce(quote_literal(ch.was), 'nothing') || ' and now reads '
+                 || quote_literal(ch.reads_now)
+                 || '. The facts it states carry their own entries here. The bill '
+                 || 'belongs to Session ' || b.session_number
+                 || ', the session it was introduced in. See methodology note M6.'
+            ELSE 'Read off the Session ' || c.session_number || ' fact sheet, which lists '
+                 || 'this bill again because it was still live when Session '
+                 || b.session_number || ' ended. It read '
+                 || coalesce(quote_literal(ch.was), 'nothing') || ' and now reads '
+                 || quote_literal(ch.reads_now)
+                 || '. The bill belongs to Session ' || b.session_number
+                 || ', the session it was introduced in. See methodology note M6.'
+       END
   FROM continuing_changes ch
   JOIN continuing c ON c.candidate_id = ch.candidate_id
   JOIN bill b ON b.bill_id = ch.target_bill_id;
@@ -746,8 +777,9 @@ BEGIN
    WHERE c.continues_bill_id IS NOT NULL;
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % continuing line(s) became bills of their own.', n; END IF;
 
-  -- Each of the seven cells a further appearance may change now reads what
-  -- that line says, where the line says anything.
+  -- Each of the eight cells a further appearance may change now reads what
+  -- that line says, where the line says anything. The note joined them at
+  -- db/098.
   SELECT string_agg(DISTINCT b.bill_id::text, ', ') INTO bad
     FROM bill_candidate c JOIN bill b ON b.bill_id = c.continues_bill_id
    WHERE c.session_number = s AND c.review_status = 'accepted'
@@ -757,7 +789,8 @@ BEGIN
        OR (c.date_royal_assent    IS NOT NULL AND b.date_royal_assent    IS DISTINCT FROM c.date_royal_assent)
        OR (c.date_concluded       IS NOT NULL AND b.date_concluded       IS DISTINCT FROM c.date_concluded)
        OR (c.assent_block_route   IS NOT NULL AND b.assent_block_route   IS DISTINCT FROM c.assent_block_route)
-       OR (c.assent_block_outcome IS NOT NULL AND b.assent_block_outcome IS DISTINCT FROM c.assent_block_outcome));
+       OR (c.assent_block_outcome IS NOT NULL AND b.assent_block_outcome IS DISTINCT FROM c.assent_block_outcome)
+       OR (c.bill_note            IS NOT NULL AND b.note                 IS DISTINCT FROM c.bill_note));
   IF bad IS NOT NULL THEN RAISE EXCEPTION 'Check failed: bill(s) % do not say what the line continuing them says.', bad; END IF;
 
   -- Every stage a continuing line carried is on its bill, and nothing it

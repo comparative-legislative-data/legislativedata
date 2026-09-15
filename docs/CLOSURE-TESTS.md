@@ -30,6 +30,241 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Session 6
+
+Written 2026-09-15 by the session that admitted Session 6, promoted it, built
+`db/098` to `db/100` and changed `tools/promote_session.sql`. It has not been
+run. **A different session runs it**, as the procedure above requires.
+
+Sessions 1 to 5 each had a test of this shape and Session 6 did not, which is
+the drift the owner named on 2026-09-15: the week's work was tested in seven
+pieces, each properly marked by another session, and nothing tested the session.
+Those seven are below this entry and are **inherited, not re-argued**. What this
+adds is what only exists once the session is on the clean sheet.
+
+**Part A is mechanical.** Run `tools/closure_check_session_6.sql` and compare
+each numbered block against the expected answer below. Items 16 and 17 are
+deliberate faults and are not in the script; the session running this builds
+each one inside a transaction it throws away.
+
+**Part B is the owner's.** Nobody else can give those four.
+
+### Part A — the mechanical items
+
+1. **Counts.** 469 bills, 1291 stage records, 186 provenance notes, 0 problems
+   on the error checker, 0 rows on the gaps list, 474 staging lines, 1295
+   stage-date rows.
+   *Where from:* 389 bills before, plus 80 — the fact sheet prints 83 entries and
+   three of them are bills already on the clean sheet (M6). 1071 stage records
+   plus 220, being the 223 stage dates admitted less the three the continued
+   bills already had. The staging sheets do not move: nothing was loaded.
+   **186 is recorded from the run and is not a prediction** — 112 before, 64 new
+   notes on Session 6's own bills and 10 net on the three bills a second
+   appearance changed.
+   *An outside change can move this:* loading Session 7 moves every count.
+
+2. **Every staging line reviewed, admitted, promoted and compared.** Sessions 1
+   to 6 all `accepted`, with promoted and compared each equal to the number of
+   lines: 73, 81, 62, 86, 87, 83. Session 7's 2 lines still `new`, 0 promoted.
+   *Where from:* db/016, db/034, db/057, db/066, db/077 and db/099, each of which
+   refuses to run unless the count is what it says.
+
+3. **Every stage-date row reviewed and carried.** Session 6: 223 `accepted`, 220
+   carried. Sessions 1 to 5 all `accepted` and all carried. Session 7: 1 `new`,
+   0 carried.
+   *Where from:* db/099 admits 223 and item 19 accounts for the three.
+
+4. **No recorded difference left unadjudicated.** 0.
+   *Where from:* the error checker refuses to let a line be admitted with one
+   (db/044), and db/099 refuses to run while the checker finds anything.
+
+5. **Session 6 on the clean sheet, by type and outcome.** Government: 60 passed,
+   1 withdrawn. Member's: 6 passed, 5 rejected at Stage 1, 2 rejected at Stage 3,
+   3 fell at dissolution, 3 withdrawn. 61 Government and 19 Member's, 80 in all.
+   *Where from:* **the fact sheet's own counted summary**, read entry by entry on
+   2026-09-14 and recorded in `STATE.md`: 55 Government and 5 Member's Acts, 6
+   Government and 2 Member's awaiting Royal Assent, 10 fallen all Member's, 1
+   Government and 3 Member's withdrawn — 62 Government and 20 Member's, 82. The
+   two figures differ by exactly one Government bill and one Member's bill,
+   which are the UNCRC and European Charter Bills: the fact sheet counts them in
+   its Acts table and here they add to the Session 5 bills of the same name. So
+   55 + 6 − 1 = 60 Government passed, and 5 + 2 − 1 = 6 Member's passed. The
+   fallen 10 split 5 + 2 + 3 by db/092. The withdrawn 4 are the fact sheet's
+   own; the Legal Continuity Bill is the third second appearance and the fact
+   sheet excludes it from its totals in its own words.
+
+6. **The arithmetic.** 83 printed entries, 3 second appearances, 80 bills.
+   *Where from:* M6, which states 80 for Session 6 against the fact sheet's 82.
+
+7. **The fourteen that did not pass.** 5 rejected at Stage 1, 2 rejected at
+   Stage 3, 3 fell at dissolution, 4 withdrawn.
+   *Where from:* db/092, which read all ten of the fact sheet's fallen bills in
+   the Official Report, and the fact sheet's own withdrawn table.
+
+8. **The seven the fact sheet left awaiting Royal Assent.** All seven `enacted`,
+   with the numbers `db/091` records: 390 is 2026 asp 14, 391 asp 16, 392 asp 17,
+   394 asp 15, 395 asp 13, 396 asp 19, 397 asp 18, each with a Royal Assent date
+   in May 2026.
+   *Where from:* legislation.gov.uk, read 2026-09-15 and recorded in db/091,
+   where the dates also match the owner's dataset exactly.
+
+9. **The one bill still stopped before Royal Assent.** Bill 393, the Gender
+   Recognition Reform Bill: passed, `blocked`, `s35_order`, `still_blocked`,
+   stopped on 2023-01-16. It is the only one in the whole database.
+   *Where from:* the Session 6 fact sheet's footnote and db/093. The other three
+   that were blocked are no longer: two were reconsidered and passed and one was
+   withdrawn, all in Session 6.
+
+10. **The five bills handled under emergency procedure**, each with the day the
+    Parliament agreed to it: bills 433, 435, 453, 456 and 457.
+    *Where from:* the Session 6 fact sheet, which is one of only two that state
+    procedure, and db/087. Methodology note M10 tells a reader that a count of
+    emergency bills counts only these.
+
+11. **The three second appearances made no bills of their own.** 412 continues
+    305, 440 continues 303, 468 continues 304; each stamped with the bill it
+    continues, and none is a bill.
+    *Where from:* db/081 and M6.
+
+12. **The two bills reconsidered and passed.** Bill 303: `enacted`, 2026 asp 11,
+    Royal Assent 2026-04-15, Reconsideration Stage reached 2026-02-04 and ended
+    2026-03-03. Bill 304: `enacted`, 2024 asp 1, Royal Assent 2024-01-16,
+    Reconsideration Stage reached 2023-09-14 and ended 2023-12-07. No other bill
+    in the database has a Reconsideration Stage.
+    *Where from:* the Session 6 fact sheet for the stage dates, and
+    legislation.gov.uk for 303's title, number and assent date, read 2026-09-15
+    and quoted on line 440. 304's number is the fact sheet's and the list of Acts
+    for 2024 agrees.
+
+13. **The three rewritten notes, in full, as a reader sees them.** Word for word:
+
+    > **303** — Not submitted for Royal Assent when first passed. Following a
+    > reference under section 33 of the Scotland Act 1998 by the Attorney General
+    > and the Advocate General for Scotland, the Supreme Court ruled on 6 October
+    > 2021 that some provisions of the bill were outwith the Parliament's
+    > legislative competence, and it could not be submitted for Royal Assent in
+    > its unamended form. The Parliament reconsidered the bill in Session 6 and
+    > passed it again, and it received Royal Assent on 15 April 2026.
+
+    > **304** — the same, ending: and it received Royal Assent on 16 January 2024.
+
+    > **305** — Not submitted for Royal Assent. Following a reference under
+    > section 33 of the Scotland Act 1998 by the Attorney General and the
+    > Advocate General for Scotland, the Supreme Court ruled that some provisions
+    > of the bill were outwith the Parliament's legislative competence, and it
+    > could not be submitted for Royal Assent in its unamended form. The fact
+    > sheet states no date for the ruling. The bill was withdrawn on 10 March 2022.
+
+    *Where from:* the owner agreed each of the three on 2026-09-15, before they
+    were written; db/098 wrote them onto the staging lines and the promotion
+    carried them. Every date in them is sourced in db/098's own header.
+
+14. **What those notes said before.** Three provenance rows, one per bill, each
+    with source `manual`, observed 2026-09-15, and each keeping the earlier
+    wording after "It read".
+    *Where from:* db/098's rule that promotion writes the note's provenance as it
+    does the other seven cells, with the note's own row saying it was rewritten
+    at review rather than read off a fact sheet.
+
+15. **No Act carries a note saying it never received Royal Assent.** No rows.
+    *Where from:* this is the fault db/098 exists to prevent. Before it, promoting
+    Session 6 would have returned bills 303 and 304 here.
+
+16. **The new rule catches the fault it exists to catch.** *Not in the script.*
+    Inside a transaction that is thrown away: blank `bill_note` on line 412 and
+    the error checker raises "continues bill 305, which carries a note written
+    from an earlier fact sheet, and this line has no note of its own". Put the
+    note back and it goes quiet. Then set line 412's note to a string identical
+    to bill 305's note and confirm the checker is quiet, because repeating the
+    earlier wording is how a line says the note still stands.
+    *Where from:* db/098, which states the rule and does not test it.
+
+17. **Nothing the checker asked before db/098 stopped being asked.** *Not in the
+    script.* db/098 replaced the whole error checker in order to add one rule, so
+    the risk is a rule silently lost. Inside a transaction that is thrown away,
+    give it four faults it refused before and confirm each is still refused: an
+    Act's title with no year; a bill recorded as `blocked` with no note saying
+    what stopped it; a stage dated before the stage before it; and a line
+    continuing a bill from a later session.
+    *Where from:* db/078, db/071, the stage checks, and db/082 respectively.
+
+18. **Stage records for Session 6's bills.** Stage 1: 68 from the owner's
+    dataset, 7 from bill pages, 5 from the Official Report. Stage 2: 68 from the
+    dataset, 2 from bill pages. Stage 3: 66 from the fact sheet, 2 from the
+    Official Report. 218 in all, and the two Reconsideration Stage rows sit on
+    bills 303 and 304, which are Session 5 bills. 220 records written.
+    *Where from:* the 136 dataset dates split 68 and 68, the 9 bill-page dates
+    split 7 and 2, and the 7 Official Report dates split 5 and 2, which are the
+    figures db/099 admits. The fact sheet's 71 are 66 Stage 3 records, the 2
+    reconsideration rows, and the 3 at item 19.
+
+19. **Accepted stage dates not carried: three.** One each on lines 412, 440 and
+    468, all Stage 3, each already on the bill the line continues with the same
+    date.
+    *Where from:* promotion adds the stages a continued bill does not have
+    (db/086). The Session 6 sheet restates each bill's Stage 3, which its own
+    session already recorded.
+
+20. **Session 7's line.** Line 474 continues bill 393; both Session 7 lines still
+    `new` and unpromoted. The error checker finds nothing and the gaps list holds
+    nothing — the first time either has been empty since Session 6 was loaded.
+    *Where from:* db/100. The two gaps the list held against line 474 were never
+    missing dates: they are Stage 1 and Stage 2 on bill 393, from the owner's
+    dataset.
+
+21. **Nothing absurd in the durations.** No negative road to a final stage or to
+    Royal Assent, nothing over 2000 days, and no bill that passed with no road at
+    all. The five emergency bills reach their final stage in 3, 3, 6, 8 and 16
+    days.
+    *Where from:* the durations are read for the first time with Session 6 on.
+    **The five figures are recorded from the run and are not a prediction**; what
+    is predicted is that an emergency bill's road is short, which is what
+    emergency procedure means.
+
+22. **Every bill says where it came from.** No bill without a source, a reference
+    and the day it was read.
+    *Where from:* the standing rule, and Session 5's test item of the same shape.
+
+23. **No note on the clean sheet ends mid-sentence.** 0.
+    *Where from:* db/079, which added the rule after eight notes across Sessions 4
+    and 5 were found ending mid-sentence. Asked again because db/098 wrote three
+    new notes by hand.
+
+### Part B — the owner's sign-offs
+
+1. **The three notes as a reader now sees them**, read in full at item 13 — not
+   as drafts, which is how they were agreed, but as what is on the clean sheet
+   beside an Act of 2026 and an Act of 2024.
+
+2. **M6's new closing paragraph**, read in full: "THE NOTE ON SUCH A BILL is
+   written to cover the whole of its life, not the part of it the first fact
+   sheet could see. Where a later fact sheet changes what the note should say,
+   the note is rewritten, and what it read before is kept with the record of
+   where each fact came from."
+
+3. **That Session 6's 80 bills and its fourteen endings are right.**
+   **Given on 2026-09-15**, on the 83 staging lines and their 223 stage dates,
+   before promotion.
+
+4. **That you can explain how this database works** from the documents alone,
+   without help. The standing requirement, put again because Session 6 is the
+   first session that changes a bill already on the clean sheet in a way a reader
+   sees.
+
+### What this test does not check
+
+- **It does not check Session 7.** Its two lines are still `new`. Session 7 gets
+  its own test.
+- **It does not re-argue the seven piece-tests below it**, which a different
+  session ran on 2026-09-15 and which passed on 35 of 35 mechanical items.
+- **It does not check the three notes against a source for the Supreme Court's
+  ruling.** That sentence is carried unchanged from the notes db/071 and db/072
+  wrote off the Session 5 fact sheet's footnotes; only what follows it is new.
+- **It says nothing about how Sessions 1 to 5's bills were handled.** No fact
+  sheet before Session 6 states procedure, and M10 tells a reader so.
+
+---
+
 ## Session 6's endings, and its stage dates
 
 Written 2026-09-15 by the session that built `db/095` and `db/096` and changed
@@ -326,13 +561,16 @@ has been overtaken by `db/094`.**
 - **It does not settle line 412.** Three of the checker's rules cannot all hold
   for that bill at once and the owner has been asked which gives. Until then the
   line carries only `continues_bill_id`.
-- **It does not check `bill.note` for a continued bill.** Promotion does not
-  carry `bill_note` onto a bill a line continues — only the seven cells in the
-  `UPDATE` at `tools/promote_session.sql`. So bills 303 and 304 will keep the
-  note Session 5 gave them, which says the bill could not be submitted for Royal
-  Assent in its unamended form, while also reading as enacted in 2026. Whether
-  that note should be rewritten when a bill is reconsidered and passed is a
-  question for the owner and is raised in `STATE.md`, not a fault in `db/093`.
+- **It did not check `bill.note` for a continued bill.** When this was written,
+  promotion did not carry `bill_note` onto a bill a line continues — only seven
+  cells — so bills 303 and 304 would have kept the note Session 5 gave them,
+  saying the bill could not be submitted for Royal Assent in its unamended form,
+  while reading as enacted. That was raised in `STATE.md` as a question for the
+  owner rather than a fault in `db/093`, and it stayed there until 2026-09-15,
+  when the owner settled it: the note is the eighth cell a second appearance
+  carries (`db/098`). **This exclusion no longer stands**, and what replaces it
+  is items 13, 14 and 15 of the Session 6 test above. Nothing about `db/093` is
+  changed by it.
 
 ---
 
