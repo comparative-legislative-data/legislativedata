@@ -8,6 +8,52 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-15 — A bill only restated stays when the later session comes off
+
+**Decided:** where a fact sheet lists a bill belonging to an earlier session and
+changes nothing about it, taking the later session off the clean sheet **leaves
+that bill where it is**. Where the later session wrote over cells of it, the bill
+still comes off and its own session is promoted again to rebuild it, as it has
+since `db/081`. Which case a line is in is recorded on the line when it is
+promoted — `bill_candidate.continued_bill_cells_changed` — rather than worked out
+afterwards. Built as `db/103`, with both tools changed.
+
+**Why.** The Session 7 closure test found that taking Session 7 off took the
+Gender Recognition Reform Bill with it. That bill belongs to Session 6 and
+Session 7 changed not one cell of it. The owner: removing it would be rewriting
+the past incorrectly. The full procedure did restore it — take Session 7 off,
+put Session 6 back — so nothing was ever lost; the objection is that it is two
+steps and the second is the one a person forgets, for a bill that never needed
+touching.
+
+**Why it is written down rather than worked out.** The answer could have been
+read off the provenance notes, which name the fact sheet that changed each cell.
+The owner was shown both and chose recording it: a number written at the moment
+promotion knows the answer cannot drift, and deleting a bill is not a decision to
+take on the strength of matching prose. The number is checked from both ends —
+`db/103` filled the four existing lines by counting notes, and promotion, run
+again over Sessions 5, 6 and 7 in a rehearsal, worked out the same four from the
+staging lines and the clean sheet.
+
+**Not a change to what the data says.** Nothing on the clean sheet moved, no
+reader sees the new cell, and no methodology note was needed. What changed is
+what an undo does.
+
+**Where the rules on the new cell live, and why not the error checker.** It was
+proposed for `v_candidate_problems` and is not there. That list is what the owner
+reads when reviewing a session, and a missing internal number is not something
+the owner can do anything about. It is held instead by two checks on the table
+itself — a line that continues nothing may not carry a number, and a number may
+not be negative — by promotion's own end-of-run checks, and by the undo refusing
+to run when a promoted continuing line has no number. Stated here because it
+departs from what was agreed before building.
+
+**Mended at the same time, and not a decision:** the undo's own "about to
+remove" table counted only the session being taken off, so it said one bill and
+then removed two.
+
+---
+
 ## 2026-09-15 — A bill still before the Parliament is counted, and has no ending
 
 **Decided:** a bill the fact sheet leaves still before the Parliament goes on the

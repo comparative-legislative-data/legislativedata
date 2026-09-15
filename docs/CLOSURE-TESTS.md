@@ -30,6 +30,143 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## An undo leaves an untouched bill alone
+
+Written 2026-09-15 by the session that found the fault, built `db/103` and
+changed both `tools/promote_session.sql` and `tools/rollback_promotion.sql`.
+**It has not been run. Part A is for a session that did none of that work; Part
+B is the owner's.**
+
+The Session 7 test found that taking Session 7 off the clean sheet took the
+Gender Recognition Reform Bill off with it, although Session 7 changed not one
+cell of it. That bill belongs to Session 6. The owner's decision, 2026-09-15:
+a bill that was only restated stays put, and one that was written over still
+comes off, because there is no copy of what it read before. Which case a line
+is in is now recorded on the line when it is promoted, rather than worked out
+afterwards from the wording of provenance notes.
+
+**What to expect before starting.** At the time of writing: 470 bills, 1291
+stage records, 186 provenance notes, 13 methodology notes, an empty error
+checker and an empty gaps list. Four staging lines point at an earlier session's
+bill, and no more will exist until another session is read in.
+
+### Part A — mechanical
+
+1. **Four lines carry a number, and no other line does.** `bill_candidate`
+   holds `continued_bill_cells_changed` for candidates 412, 440, 468 and 474,
+   reading 4, 6, 6 and 0; every other line is empty. Both checks are on the
+   table: a line that continues nothing may not carry a number, and a number may
+   not be negative.
+   *Where from:* `db/103`. Those four are the only lines in the database that
+   point at a bill of an earlier session.
+
+2. **The four numbers are not taken on trust from the migration.** *Not in the
+   script.* Inside a transaction that is thrown away: take Session 7 off, then
+   Session 6 off, then promote Sessions 5, 6 and 7 again in that order, and read
+   the four numbers. Expected: 412=4, 440=6, 468=6, 474=0, worked out by
+   promotion from the staging lines and the clean sheet. Roll back.
+   *Where from:* the migration counted provenance notes; promotion compares each
+   line against the bill in front of it. Two routes with nothing in common, and
+   the answer only counts if they agree. A number here decides whether a bill is
+   deleted, so it is the one thing in this change that must not be assumed.
+
+3. **Taking Session 7 off leaves the Gender Recognition Reform Bill alone.**
+   *Not in the script.* Inside a transaction that is thrown away: take Session 7
+   off. Expected: 469 bills, bill 473 gone, **bill 393 still there and identical
+   in every column, its own timestamp included**, 1291 stage records, 186
+   provenance notes, bill 393 still carrying its three stage records and its
+   four provenance notes, and both Session 7 lines left with no bill number, no
+   date and no count. Roll back.
+   *Where from:* the owner's decision of 2026-09-15. This is the item the whole
+   change exists for. Bill 393 is a Session 6 bill and Session 6 is not being
+   taken off.
+
+4. **The tool says so on screen, and not only in the data.** In the same run:
+   the table headed "Bills of an earlier session that this session wrote over"
+   is empty, the table headed "which STAY" lists bill 393 with no stage records
+   coming off, and the closing message reads "Session 6 stayed where it is: this
+   session restated 1 of its bills and changed nothing on them, so they were left
+   alone. Nothing to promote again."
+   *Where from:* a person deciding whether to go ahead reads the screen. If the
+   data is right and the screen says the old thing, the change is half done.
+
+5. **Taking Session 6 off still takes its three Session 5 bills off.** *Not in
+   the script.* Inside a transaction that is thrown away: take Session 7 off,
+   then Session 6 off. Expected: bills 303, 304 and 305 gone, 386 bills, and the
+   closing message still reads "Session 5 also came off, because this session had
+   written over 3 of its bills. Promote Session 5 again as well, and in that
+   order." Roll back.
+   *Where from:* those three lines changed 6, 6 and 4 cells. The behaviour was
+   meant to narrow in one case and in no other, and this is what says it did.
+
+6. **The preview matches what the script then does.** In the two runs above,
+   compare the "About to remove" table against the difference between the
+   figures before and after. Expected for Session 7: 1 bill, 0 stage records, 0
+   provenance notes, and 470→469, 1291→1291, 186→186. Expected for Session 6:
+   83 bills, 229 stage records, 85 provenance notes, and 469→386, 1291→1062,
+   186→101.
+   *Where from:* the Session 7 test found this table under-reporting — it said
+   one bill and then removed two. It is the number a person reads before
+   deciding, so it is checked against the deletion rather than against itself.
+
+7. **It refuses rather than guesses.** *Not in the script.* Inside a transaction
+   that is thrown away: empty line 474's number, then take Session 7 off.
+   Expected: it stops with "Refusing: line(s) 474 point at an earlier session's
+   bill and do not record how many cells they changed", and nothing is deleted.
+   Roll back.
+   *Where from:* every line promoted before `db/103` had no number, and a
+   database restored from an older copy would have none either. A missing number
+   must never be read as nought, because nought is the answer that spares a bill
+   and a wrong sparing leaves a bill whose provenance cites a session that is no
+   longer there.
+
+8. **A stage record added to a bill that stays comes off, and nothing else of
+   that bill does.** *Not in the script.* Inside a transaction that is thrown
+   away: take Session 7 off; delete bill 393's Stage 3 record; promote Session 7
+   again, so that line 474's Stage 3 row is now carried onto the bill; then take
+   Session 7 off once more. Expected: bill 393 is still there with its other two
+   stage records untouched, the Stage 3 record Session 7 made is gone, the count
+   on line 474 is still 0 throughout, and line 474's stage row is back to
+   unpromoted. Roll back.
+   *Where from:* a line can restate a bill's cells and still bring a stage the
+   bill has not got. Session 7 happens not to, so the path is not exercised by
+   any real data and has to be built to be tested.
+
+9. **Nothing was written by any of this.** 470 bills, 1291 stage records, 186
+   provenance notes, error checker and gaps list empty, before and after the
+   whole of Part A.
+
+10. **Every column is still described.** `tools/make_data_dictionary.py`
+    produces no difference from the committed dictionary: 19 tables, 182
+    columns, all described.
+    *Where from:* the standing rule. The count went from 181 to 182 with the new
+    cell.
+
+### Part B — the owner's sign-off
+
+1. **That a bill only restated stays, and a bill written over still comes off.**
+   The decision itself, taken on 2026-09-15 after being shown the three ways it
+   could go and what each would cost. **Given on 2026-09-15.**
+
+2. **That you can explain how this database works** from the documents alone,
+   without help. The standing requirement. **Outstanding.**
+
+### What this test does not check
+
+- **Anything about Session 7's data.** Its own test covers that. This one is
+  about what happens when a session is taken off again.
+- **A line that changes cells on one bill and restates another, in the same
+  session.** No such session exists. The tool handles them one bill at a time
+  and item 5 shows the two cases separating, but the mixed case has no data
+  behind it.
+- **Taking sessions off in the wrong order.** The refusals that stop that are
+  older than this change and are untouched by it.
+- **Whether the four numbers describe the right cells.** Items 1 and 2 check
+  that two independent routes agree on how many. What the changed cells were is
+  the Session 6 test's business, and it has been run.
+
+---
+
 ## Session 7, and the first bill that has not finished
 
 Written 2026-09-15 by the session that reviewed Session 7, built `db/102` and
@@ -183,6 +320,14 @@ promoted; items 5 onwards should not.
     part of it Session 7 tests that no earlier session did — taking a session off
     when one of its lines added nothing to the bill it points at.
 
+    **Rewritten 2026-09-15, after the run below.** This item's expected answer
+    was written before `db/103` and did not describe what the tool then did: it
+    took bill 393 off as well. The owner's decision that day changed the tool to
+    match the item rather than the item to match the tool, so the expected answer
+    above now stands as written — and is checked properly in the `db/103` test,
+    which exercises both cases and the refusal. **This item is not evidence until
+    it is run again**, because the run recorded below was against the old tool.
+
 ### Part B — the owner's sign-off
 
 None of these is for anyone else to answer. A sign-off is recorded here on the
@@ -274,6 +419,13 @@ stage records and 0 provenance notes, and then removed 2 bills, 3 stage records
 and 4 provenance notes. The bills listed in the table immediately above it are
 not counted in it. Anyone running the script with `save=false` to see what it
 would do is shown a figure smaller than what it then does.
+
+**What happened next, the same day.** The owner took the wider undo as wrong:
+the bill belongs to Session 6, and Session 6 is not the session coming off.
+`db/103` records on each line how many cells it changed when it was promoted, and
+the undo leaves a bill alone where that number is nought. The under-counting
+preview was mended in the same change. Both are covered by their own test, above,
+which this session did not run either.
 
 ### What this test does not check
 

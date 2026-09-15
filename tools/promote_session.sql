@@ -496,9 +496,19 @@ SELECT 'bill', p.candidate_id, m[1], m[3], m[4], m[2], m[5]::date,
 -- number is its staging line's (db/026). A line that added to a bill already
 -- there is stamped with that bill's number, which is how a re-run knows it has
 -- nothing left to do and how rollback finds it again.
+-- A continuing line also records how many cells of that bill it changed, which
+-- is what tells rollback whether the bill can be left alone when this session
+-- comes off (db/103). It is written here, in the same statement as the stamp,
+-- because this is the last moment continuing_changes still says what the cells
+-- read before they were written over.
 UPDATE bill_candidate c
    SET promoted_bill_id = p.target_bill_id,
-       promoted_at      = now()
+       promoted_at      = now(),
+       continued_bill_cells_changed =
+         CASE WHEN c.continues_bill_id IS NULL THEN NULL
+              ELSE (SELECT count(*) FROM continuing_changes ch
+                     WHERE ch.candidate_id = c.candidate_id)
+         END
   FROM promoting_all p
  WHERE c.candidate_id = p.candidate_id;
 
@@ -828,6 +838,23 @@ BEGIN
                       WHERE e.bill_id = c.continues_bill_id
                         AND e.stage_order = t.stage_order);
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % accepted stage(s) from a continuing line were neither carried nor already on the bill.', n; END IF;
+
+  -- Every continuing line records how many cells it changed, and the number is
+  -- the number of changes there actually were (db/103). Rollback deletes a bill
+  -- or spares it on the strength of this, so it is checked here rather than
+  -- trusted.
+  -- Only the lines this run promoted: a re-run finds nothing to promote, and
+  -- continuing_changes is then empty for lines that were promoted earlier.
+  SELECT string_agg(DISTINCT c.candidate_id::text, ', ') INTO bad
+    FROM continuing cn JOIN bill_candidate c ON c.candidate_id = cn.candidate_id
+   WHERE c.continued_bill_cells_changed IS DISTINCT FROM
+         (SELECT count(*) FROM continuing_changes ch WHERE ch.candidate_id = c.candidate_id);
+  IF bad IS NOT NULL THEN RAISE EXCEPTION 'Check failed: line(s) % do not record how many cells they changed.', bad; END IF;
+
+  SELECT count(*) INTO n FROM bill_candidate c
+   WHERE c.session_number = s AND c.continues_bill_id IS NULL
+     AND c.continued_bill_cells_changed IS NOT NULL;
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % line(s) continue nothing and carry a count of changed cells.', n; END IF;
 
   -- Every changed cell carries a provenance note from the fact sheet that
   -- changed it, and nothing changed without one.
