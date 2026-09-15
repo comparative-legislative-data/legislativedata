@@ -72,6 +72,17 @@ what would reopen it.
 
 ## The owner's standing positions, so they are not re-argued
 
+- **The working database is never reachable from the public internet.** A floor,
+  not a preference, and it constrains every infrastructure answer taken after
+  it. Settled 2026-09-15; see `DECISIONS.md` for why it was taken before the
+  hosting question rather than alongside it.
+
+- **The site runs on the machine the database is already on.** Settled
+  2026-09-15. Two things follow and hold whatever session is running: no part of
+  the site is written in a form only one company can run, because that is what
+  keeps the undo cheap; and running the machine is ours — updates, certificate,
+  web server, and the response when something stops.
+
 - **The dataset is taken as it is, for now.** The error checker catches a stage
   date in an impossible order, as it did for the Civil Partnership Act, but not
   one that is wrong and still in order; checking Session 5's against the

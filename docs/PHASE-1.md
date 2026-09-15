@@ -54,28 +54,30 @@ have to be settled before the phase closes.
 **Host detail does not come into this repository.** The answers do; the
 addresses, keys and account names live in the private notes outside it.
 
-### Question 1 — where the front end runs
+### Question 1 — where the front end runs — **SETTLED, 2026-09-15**
 
-**The choice, as the owner put it:** the machine we already rent, or a provider
-with a free tier.
+**The answer: the machine we already rent.** The site and the database share it.
+Recorded in `DECISIONS.md` under "The front end runs on the machine we already
+rent", which carries the reasons, the price of the choice and the undo. The
+comparison it was decided from is `docs/PHASE-1-HOSTING.md`.
 
-Folded in here from `PLAN.md`: **whether the site and the database share a
-machine.** It is the same question asked from the other end, and splitting them
-would let one be answered without the other.
+**What it settles for the rest of the phase:**
 
-What has to come out of it:
+- `PLAN.md`'s question of whether the site and the database share a machine is
+  answered. They do.
+- The bills never have to travel and no door is opened for them from outside.
+- No part of the site may be written in a form only one company can run. That
+  is what keeps the undo cheap, and it is a constraint on the style discussion.
 
-- the answer, and the reasons for it;
-- what it costs, now and if the site gets used;
-- **who else we would then depend on.** `CLAUDE.md` requires asking before
-  adding a dependency, a service, or an account with somebody else, and a
-  hosting provider is all three at once;
-- **what it would take to move, if it turns out wrong.** A free tier is somebody
-  else's offer and can be withdrawn. The undo is part of the answer, not a thing
-  to work out later.
+**What it puts on us, and what the phase must therefore build:** the running of
+it — security updates (already automatic), the certificate, the web server in
+front of the site, and the response when something stops. The deploy procedure
+and its written undo are part of the phase, not an afterthought.
 
-What to prepare before the discussion: a straight comparison of the two, costed,
-with the move-away cost stated for each.
+**Still to record:** the machine's renewal date. It is prepaid for a year, and
+now that the site is on it too, one prepayment lapsing takes down the data and
+the site together. Host and account detail stays outside this repository; the
+date belongs in the private notes.
 
 ### Question 2 — what the site reads from
 
@@ -88,6 +90,34 @@ into, promoted on and rolled back on. Phase 0's entire discipline is the staging
 sheet held apart from the clean sheet, with a gate between them. A website
 reading the same database is a third surface on it, and it has never been
 placed.
+
+**The floor is already fixed, and narrows this.** The owner settled on
+2026-09-15, before the hosting question, that the working database is never
+reachable from the public internet. That rules out one thing only. Whether the
+site reads a copy or reads the working database itself, from inside the machine
+it shares with it, is exactly what is still open.
+
+**Question 1's answer changes the shape of this one**, and the briefing must be
+written against the answer rather than against both options. The site is on the
+same machine as the database. Nothing has to travel and no door has to be opened
+for it, so this is no longer a question about exposure — the floor and the
+hosting decision between them have dealt with that. What is left is a question
+about *trust in a moment*: whether a reader's page should ever look at a
+database that a session may be halfway through being promoted into.
+
+**Two things the briefing must now take account of**, both of which post-date
+the list below and neither of which answers the question:
+
+- **Phase 1 puts no bill data on any page.** The bills are not read by the site
+  until Phase 2. So there is a real option of settling the principle now and
+  building nothing for it until Phase 2 needs it — and an argument against,
+  which is that a principle with nothing built against it is the state
+  `CLAUDE.md` warns about. The briefing should say which, and why.
+- **Phase 1 does hold something the site must read and write: the accounts.**
+  Those are not in the working database today and nothing has said where they
+  go. Whether they sit in the same database as the bills, or a separate one, is
+  part of this question and not a separate one — it is the same question asked
+  about the only data Phase 1 actually has.
 
 **This question gets a written briefing before the discussion, not during it.**
 The owner asked to be guided, and a guide delivered mid-conversation is a guide
