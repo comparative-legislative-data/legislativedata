@@ -30,6 +30,200 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Session 7, and the first bill that has not finished
+
+Written 2026-09-15 by the session that reviewed Session 7, built `db/102` and
+promoted the session. **It has not been run. Part A is for a session that did
+none of that work; Part B is the owner's.**
+
+Session 7 is two staging lines and the smallest ingest this project will do, but
+it is the first that puts a bill on the clean sheet which has not finished, and
+the first where a further appearance restates an existing record without
+changing a cell of it. Both are what this test is about.
+
+**What to expect before starting.** At the time of writing: 470 bills, 1291
+stage records, 186 provenance notes, 13 methodology notes, an empty error
+checker and an empty gaps list. Items 1 to 4 move if another session is
+promoted; items 5 onwards should not.
+
+### Part A — mechanical
+
+1. **Session 7 is two lines, and put one bill on the clean sheet.** Both
+   `bill_candidate` lines for session 7 are `accepted` with `reviewed_at`
+   2026-09-15; line 473 promoted to bill 473 and line 474 to bill 393.
+   *Where from:* the fact sheet has two bills, one of them a further appearance
+   of a Session 6 bill, which by M6 belongs to the session it was introduced in
+   and so adds no bill.
+
+2. **The clean sheet is 470 bills**, of which exactly one belongs to session 7.
+   *Where from:* 469 before promotion plus the one new bill.
+
+3. **No stage record was added, and none was changed.** 1291 stage records,
+   the same number as before Session 7 was promoted.
+   *Where from:* bill 473 has completed no stage, and line 474's only stage row
+   is a Stage 3 the bill already has at the same date. Promotion adds the stages
+   a continued bill has not got and never overwrites one it has (db/086).
+
+4. **No provenance note was added.** 186, the same number as before.
+   *Where from:* line 473's facts all come from its own source, and line 474
+   changed no cell, so there was nothing for a note to describe. Promotion
+   writes a note only for a fact that did not come from the line's own source,
+   and for a further appearance only for a cell that changed.
+
+5. **Bill 473 reads as a live bill.** `outcome` `in_progress`, `enactment_status`
+   `pending`, `date_introduced` 2026-09-09, `sp_bill_id` 1, `bill_type`
+   `government`, and `date_concluded`, `date_royal_assent`, `asp_number` and
+   `note` all empty.
+   *Where from:* the Session 7 fact sheet, page 2: "Government Bill introduced
+   on 9 September 2026 by Jenny Gilruth MSP." It says nothing else about the
+   bill.
+
+6. **Bill 473 has no stage records at all.** No rows in `stage_event` for it.
+   *Where from:* the fact sheet records no stage for it, and the owner's dataset
+   has none either. This is the first bill on the clean sheet with none.
+
+7. **The further appearance changed nothing.** Bill 393's `outcome`, `note`,
+   `enactment_status`, `date_assent_blocked`, `assent_block_route`,
+   `assent_block_outcome`, `short_title` and `asp_number` each read exactly what
+   they read before Session 7 was promoted — `passed`, `blocked`, 2023-01-16,
+   `s35_order`, `still_blocked`, "Gender Recognition Reform (Scotland) Bill",
+   and an empty asp number, with the note beginning "Not submitted for Royal
+   Assent. On 16 January 2023 a Secretary of State made an order".
+   *Where from:* rehearsed twice on 2026-09-15 inside transactions that were
+   thrown away; the promotion's own "what changed" table returned no rows both
+   times. This is the check that Session 7's sheet confirms the Session 6 record
+   rather than disturbing it. **Bill 393's `updated_at` did move**, because
+   promotion writes the eight cells whether or not they differ; that is the
+   database's own stamp and not a cell a reader sees.
+
+8. **Bill 393's provenance still cites the Session 6 fact sheet.** Four rows —
+   `enactment_status`, `date_assent_blocked`, `assent_block_route`,
+   `assent_block_outcome` — all `spice_factsheet_legislation`, `source_ref`
+   "session 6, retrieved 2026-09-10", `observed_at` 2026-09-10.
+   *Where from:* provenance describes where the value in front of the reader came
+   from, and it came from the Session 6 sheet. `db/101` only rewrites a note's
+   provenance where the cell changed, and nothing changed here. A row citing
+   session 7 would mean a cell had moved.
+
+9. **Line 474's Stage 3 row stayed on the staging sheet.** One `stage_candidate`
+   row for candidate 474, `accepted`, 22 December 2022, with no
+   `promoted_stage_event_id`.
+   *Where from:* the bill already has that stage at that date, so the row stays
+   as the second source that agrees. The error checker is what requires two
+   sources for one stage to agree.
+
+10. **The error checker and the gaps list are both empty.** No rows in
+    `v_candidate_problems` or `v_stage_date_gaps`.
+    *Where from:* the gaps list was written with live bills in mind — it asks a
+    bill still before Parliament only for the stages below the furthest it has
+    reached, so a bill that has reached none is asked for none. A row against
+    bill 473 would mean that rule had been lost.
+
+11. **The gaps list stays quiet for the right reason, not by accident.**
+    *Not in the script.* Inside a transaction that is thrown away: add a Stage 2
+    row to line 473, completed, dated. Expected: the gaps list then asks for
+    Stage 1, because a live bill is asked for the stages below the furthest one
+    it has reached. Roll back.
+    *Where from:* the definition of `v_stage_date_gaps`, its `in_progress`
+    branch. If the list stays empty after this, it is not exercising that branch
+    and item 10 proves less than it appears to.
+
+12. **M13 exists and says what it was agreed to say.** One `methodology_note`
+    row, code M13, thirteen notes in all, `sort_order` 13, `applies_to`
+    `{bill.outcome,bill.enactment_status,bill.date_introduced,stage_event.date_completed}`,
+    and the body containing "not the same as a bill whose ending we could not
+    find", "decided when the figure is drawn, not here", "a figure can cover all
+    bills or only those that passed", "shown blank" and "nought days".
+    *Where from:* `db/102`, and the owner's agreement of 2026-09-15.
+
+13. **M13 does not contain either withdrawn draft.** The body contains neither
+    "the difference is the bills still before the Parliament" nor "never reached
+    its final stage".
+    *Where from:* both were drafted, both were wrong, and both were caught before
+    the note was applied. The first claimed the gap between a count of bills and
+    a count of bills with a duration is the live bills; it was already 62 before
+    Session 7 existed. The second stated a front-end decision as a property of
+    the data. See `DECISIONS.md`, 2026-09-15.
+
+14. **A timescale chart's Session 7 column is empty, not nought.**
+    `v_stage_duration_summary` returns no row at all for session 7, and
+    `v_bill_total_duration` holds no row for bill 473.
+    *Where from:* the owner's instruction of 2026-09-15. Both views are built on
+    periods between points a bill actually reached, so a bill with none
+    contributes nothing rather than a zero. **This item can be moved by an
+    outside change:** it moves the day a Session 7 bill completes a stage, which
+    is the intended behaviour and not a failure.
+
+15. **A bill that stopped early still has its periods.** In
+    `v_bill_stage_durations`, bill 72 (School Meals (Scotland) Bill, rejected at
+    Stage 1) has an introduction-to-Stage-1 period of 218 days with
+    `bill_got_through_this_stage` false.
+    *Where from:* the owner's instruction of 2026-09-15 that the flexibility to
+    cover every bill with any terminal point, or only bills that completed every
+    stage, must stay open. This item is the proof that M13 did not close it.
+
+16. **Nothing else on the clean sheet moved.** Every bill other than 393 and 473
+    has the same `updated_at` it had before Session 7 was promoted, and the
+    per-session bill counts are 73, 81, 62, 86, 87, 80, 1.
+    *Where from:* a promotion writes its own session's lines and the bills its
+    lines continue, and nothing else. The safety copy
+    `/var/tmp/legdata-before-db102-and-s7_2026-09-15.dump` is what to compare
+    against if this fails.
+
+17. **Every bill says where it came from.** No bill without a source, a
+    reference and the day it was read — bill 473 included.
+    *Where from:* the standing rule, and every earlier session's test item of the
+    same shape.
+
+18. **Rollback puts it back.** *Not in the script.* Inside a transaction that is
+    thrown away: run `tools/rollback_promotion.sql` for session 7. Expected: 469
+    bills, bill 473 gone, bill 393 still present and unchanged, 1291 stage
+    records, 186 provenance notes, and both lines back to unpromoted. Roll back.
+    *Where from:* the standing property that promotion is undoable, and the one
+    part of it Session 7 tests that no earlier session did — taking a session off
+    when one of its lines added nothing to the bill it points at.
+
+### Part B — the owner's sign-off
+
+None of these is for anyone else to answer. A sign-off is recorded here on the
+day it is given, and nowhere else.
+
+1. **That Session 7's two lines are right.** The new bill as the fact sheet
+   states it, and the Gender Recognition Reform bill's second appearance
+   restating the Session 6 record without changing it.
+   **Given on 2026-09-15**, against both lines read in full before promotion.
+
+2. **M13's wording, as a reader sees it.** Read in full on 2026-09-15, in three
+   drafts: the first agreed, then withdrawn as false; the second withdrawn for
+   writing a front-end decision into published methodology; the third agreed and
+   applied.
+   **Given on 2026-09-15.**
+
+3. **That a timescale chart shows Session 7 blank, with this note against it.**
+   The owner's own instruction, put here because it is what a reader sees.
+   **Given on 2026-09-15.**
+
+4. **That you can explain how this database works** from the documents alone,
+   without help. The standing requirement. **Outstanding.**
+
+### What this test does not check
+
+- **Whether the Session 7 fact sheet is right.** It was read on 2026-09-10 and
+  says what it says. Its two bills were compared against the owner's dataset and
+  looked up at legislation.gov.uk before review; the sheet being wrong about
+  something neither source covers is out of reach here.
+- **Anything about Sessions 1 to 6.** Their own tests cover them. Item 16 checks
+  only that Session 7 did not disturb them.
+- **The bill that has not finished, after today.** Bill 473 was introduced six
+  days before it was admitted. Everything about how it is recorded is provisional
+  in the ordinary way — the next Session 7 fact sheet will say more, and M12
+  governs what happens then.
+- **Whether a chart is drawn correctly.** Item 14 checks that the data gives a
+  chart nothing for Session 7. What a front end does with nothing is a front-end
+  question, and by the owner's instruction of 2026-09-15 it stays one.
+
+---
+
 ## A note we wrote is dated the day we wrote it
 
 Written 2026-09-15 by the session that built `db/101` and changed
@@ -135,6 +329,10 @@ Found by item 14 of the Session 6 test above, which is what that item is for.
    The alternative was to leave the fact sheet's reference beside a note we
    wrote. Agreed on 2026-09-15; put again here because it is what a reader sees
    against the note on three bills.
+   **Given on 2026-09-15.**
+
+**Part B is complete**, and with Part A's ten items it makes the `db/101` test
+finished. No item of this test is outstanding.
 
 ### The run, 2026-09-15
 
@@ -428,15 +626,25 @@ each one inside a transaction it throws away.
 
 ### Part B — the owner's sign-offs
 
+None of these is for anyone else to answer. A sign-off is recorded here on the
+day it is given, and nowhere else.
+
+**All four given on 2026-09-15**, in one session, against the notes and the
+paragraph read back in full rather than against a note about them. None of the
+four changed anything: the three notes and M6's paragraph were signed off as
+they stand. **Session 6 is closed.**
+
 1. **The three notes as a reader now sees them**, read in full at item 13 — not
    as drafts, which is how they were agreed, but as what is on the clean sheet
    beside an Act of 2026 and an Act of 2024.
+   **Given on 2026-09-15**, against all three read in full.
 
 2. **M6's new closing paragraph**, read in full: "THE NOTE ON SUCH A BILL is
    written to cover the whole of its life, not the part of it the first fact
    sheet could see. Where a later fact sheet changes what the note should say,
    the note is rewritten, and what it read before is kept with the record of
    where each fact came from."
+   **Given on 2026-09-15**, against the paragraph read in full.
 
 3. **That Session 6's 80 bills and its fourteen endings are right.**
    **Given on 2026-09-15**, on the 83 staging lines and their 223 stage dates,
@@ -446,6 +654,7 @@ each one inside a transaction it throws away.
    without help. The standing requirement, put again because Session 6 is the
    first session that changes a bill already on the clean sheet in a way a reader
    sees.
+   **Given on 2026-09-15.**
 
 ### The run, 2026-09-15
 
@@ -524,8 +733,9 @@ was mended by `db/101`, and passes on the re-run of 2026-09-15; items 19 and 23
 were rewritten that day to ask what had actually been settled, neither being a
 fault in the data.
 
-**Part B, the owner's four sign-offs, are outstanding.** Session 6 is on the
-clean sheet and **is not closed** until they are given.
+**Part B is complete. All four sign-offs were given on 2026-09-15**, none of
+them changing anything. **Session 6 is closed.** No item of this test is
+outstanding.
 
 ### What this test does not check
 

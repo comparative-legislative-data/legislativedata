@@ -8,6 +8,73 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-15 — A bill still before the Parliament is counted, and has no ending
+
+**Decided:** a bill the fact sheet leaves still before the Parliament goes on the
+clean sheet like any other, with its outcome recorded as in progress and nothing
+recorded about an Act. It is counted as a bill of its session. Where a chart
+shows timescales by session, a session whose bills have not yet completed a
+stage is shown **blank, with methodology note M13 against it** — blank meaning
+there is nothing yet to measure, not nought days. Built as `db/102`, which adds
+M13.
+
+**Why.** Session 7 brought the first bill this database has ever held that has
+not finished. Everything else about recording one was already in place and was
+rehearsed against Session 7 before anything was written: the values exist with
+definitions of their own, the loader sets them from the fact sheet's own table,
+promotion carries them, the error checker asks nothing extra, and
+`v_stage_date_gaps` already had an `in_progress` branch that asks such a bill
+only for the stages below the furthest it has reached. The only missing piece
+was the part a reader sees. M5 covers a bill that passed and was then stopped;
+nothing covered a bill that has simply not finished.
+
+**Which bills a figure about time covers is a front-end decision, and stays
+one.** The owner's instruction, given while the note was being drafted: the
+flexibility to cover every bill with any terminal point — a bill that completed
+Stage 1 only, say — or only bills that completed every stage, must stay open,
+because it is a decision about what to include and on what basis, not a question
+about the database. The database was already built this way and
+`v_bill_stage_durations` says so in its own description: a bill rejected at
+Stage 1 carries a real introduction-to-Stage-1 period, with a flag beside it
+saying the bill did not get through that stage, so that neither choice is built
+in. The School Meals (Scotland) Bill's 218 days is the worked example.
+
+**Two drafts of M13 were wrong and were withdrawn before it was applied.**
+Neither was a fault in the data; both were the note overreaching, and both are
+named in `db/102`'s header and in item 13 of Session 7's closure test so they
+cannot creep back.
+
+- The first said a count of bills and a count of bills with a recorded duration
+  differ by the number of live bills. They do not, and already differed by 62
+  before Session 7 existed: `v_bill_total_duration` measures introduction to
+  *final* stage, so a bill that stopped earlier is not in it. The rehearsal's
+  per-session counts showed this.
+- The second said a bill that never reached its final stage has no timing figure
+  either. That takes one view's scope for a property of the data, and would have
+  written the front-end decision above into published methodology.
+
+**Found by** rehearsing the promotion before writing the note, rather than
+after. Neither error would have been visible in the note read on its own.
+
+---
+
+## 2026-09-15 — Session 6 is closed, and Session 7 is promoted
+
+**Decided:** Session 6's four sign-offs were given and it is closed. Session 7's
+two lines were reviewed, admitted and promoted the same day, and its closure
+test is written for another session to run.
+
+**Why it is recorded.** Session 7 is the smallest ingest this project will do —
+two lines, one new bill — and it is the first where a further appearance
+restated an existing record without changing a single cell of it. The
+promotion's own "what changed" table returned no rows, which is the evidence
+that the Session 7 fact sheet confirms the Session 6 record rather than
+disturbing it. Bill 393's provenance therefore still cites the Session 6 sheet,
+which is correct: provenance describes where the value in front of the reader
+came from.
+
+---
+
 ## 2026-09-15 — A note we wrote is dated the day we wrote it, and cites us
 
 **Decided:** where promotion writes a provenance row for a bill's note, all
