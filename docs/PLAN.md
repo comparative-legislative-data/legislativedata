@@ -136,8 +136,10 @@ argued about later.
 
 **Delivers.** A place for the data to live. The site exists, is reachable, and
 has working accounts: somebody can apply, the owner can approve or refuse the
-application, and the approved person can log in, see that they are logged in as
-themselves, change their password, and log out. A welcome, and the account
+application, and the approved person can sign in with a code sent to their
+email, see that they are signed in as themselves, and sign out. **Amended
+2026-09-15**, when the owner settled that there are no passwords; this read
+"change their password" and no longer could. A welcome, and the account
 working — that is the whole of what a logged-in person sees in this phase. The
 infrastructure decisions are taken and written down. The style decisions are
 taken and written down.

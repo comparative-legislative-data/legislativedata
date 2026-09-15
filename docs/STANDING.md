@@ -77,6 +77,17 @@ what would reopen it.
   it. Settled 2026-09-15; see `DECISIONS.md` for why it was taken before the
   hosting question rather than alongside it.
 
+- **Nothing secret is held about a user, and nothing is held about what they
+  read.** There are no passwords: signing in is a code by email, 15 minutes, one
+  use, and a device stays signed in 30 days. Held: email, name, title, position,
+  which state the application is in and when. Web server logs for 14 days.
+  Never: a password, or any record of what a signed-in researcher looked at.
+  Settled 2026-09-15.
+
+- **Every page showing data carries the date of the data it was built from.**
+  Settled 2026-09-15. Maximum transparency, and it is also what makes a stale
+  published copy visible to everyone including us.
+
 - **Three databases, and the site sees only one of them.** The working one
   (staging sheet, clean sheet, notes, provenance), a published one holding only
   what is published, and the accounts. Settled 2026-09-15. What holds whatever

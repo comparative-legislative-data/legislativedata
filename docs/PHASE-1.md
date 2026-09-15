@@ -98,9 +98,10 @@ briefing it was decided from is `docs/PHASE-1-WHAT-THE-SITE-READS.md`.
 2. **Refreshing the published copy becomes a step in the promotion runbook**,
    with its own rehearsal and written undo.
 
-**Still open inside it:** whether every page carries the date of the data it was
-built from. Put to the owner in the briefing, not yet answered. It is what makes
-a stale copy visible, and staleness is what this shape is most exposed to.
+**Settled inside it, 2026-09-15:** every page showing data carries the date of
+the data it was built from. Maximum transparency, the owner's reason. It is also
+what makes a stale published copy visible, which is what this shape is most
+exposed to. Recorded in `DECISIONS.md`.
 
 **Deliberately not closed:** writing the published data out as files at
 promotion time, so the site reads no database for bills at all. Cannot be
@@ -119,7 +120,11 @@ optional.
 - **What the beta gate becomes afterwards.** During beta, access is by approval.
   This is meant to be open to researchers, and whether a download stays behind a
   login once beta ends is not settled.
-- **The domain.**
+- **The domain — SETTLED, 2026-09-15.** `legislativedata.org`, already held by
+  the owner, already connected to Resend for sending, DNS managed through
+  Cloudflare. To establish when the site is built, not now: whether traffic is
+  proxied through Cloudflare or DNS only, because that decides what the web
+  server actually sees and therefore what the logs contain.
 
 ### What closes the discussion
 
@@ -150,11 +155,18 @@ The whole of it, from `PLAN.md`:
 
 - somebody can apply;
 - the owner can approve or refuse an application;
-- an approved person can log in;
-- they can see that they are logged in as themselves;
-- they can change their password;
-- they can log out;
+- an approved person can ask for a code, receive it by email, and sign in;
+- they can see that they are signed in as themselves;
+- they can sign out on this device;
 - a welcome page.
+
+**Amended 2026-09-15**, when the owner settled that there are no passwords. The
+list read "they can change their password", which no longer exists. Three things
+were added to the phase by the same decision and are build items, not notes: a
+short plain-English page saying exactly what is held about a user; a way for the
+owner to delete an account and everything attached to it; and a way for the
+owner to get in that does not depend on an email arriving, since with codes a
+broken mailer locks everyone out including them.
 
 **Must not.** No data on any page. No charts, no tables of bills, no downloads,
 no figures of any kind — all of that is Phase 2 in its entirety, and a figure
