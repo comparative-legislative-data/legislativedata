@@ -165,6 +165,75 @@ bill, and no more will exist until another session is read in.
   that two independent routes agree on how many. What the changed cells were is
   the Session 6 test's business, and it has been run.
 
+### The run, 2026-09-15, by a session that built none of it
+
+**Run by a session that found no part of the fault, built no part of `db/103`,
+changed neither tool and wrote no part of this test.** Its own opening check had
+already read the same figures independently.
+
+**All ten mechanical items pass.** Nothing was written. Items 2, 3, 5, 7 and 8
+were each built inside a change that was thrown away, and 470 bills, 1291 stage
+records, 186 provenance notes, 13 methodology notes, an empty error checker and
+an empty gaps list were the figures before the first of them and after the last.
+
+Worth naming from among the ten:
+
+- **Item 2, the four numbers agree from the other end.** Session 7 was taken
+  off, then Session 6, and Sessions 5, 6 and 7 were put back in that order.
+  Promotion worked the numbers out for itself from the staging lines and the
+  clean sheet in front of it, and reached 412=4, 440=6, 468=6, 474=0 — the same
+  four the migration had filled in by counting provenance notes. The clean sheet
+  came back to 470 bills, 1291 stage records and 186 provenance notes.
+- **Item 3, the bill is untouched in every column.** With Session 7 off, bill
+  393 was compared against the copy of itself taken before the undo, column by
+  column across the whole row and not only the eight cells promotion writes.
+  Not one column differs, the database's own timestamp included. It still
+  carries its three stage records and its four provenance notes, bill 473 is
+  gone, and both Session 7 lines are left with no bill number, no date and no
+  count.
+- **Item 4, the screen says it too.** "Bills of an earlier session that this
+  session wrote over" is empty; "which STAY" lists bill 393, Session 6, Gender
+  Recognition Reform (Scotland) Bill, with 0 stage records coming off; and the
+  closing message reads word for word "Session 6 stayed where it is: this
+  session restated 1 of its bills and changed nothing on them, so they were left
+  alone. Nothing to promote again."
+- **Item 5, the narrowing is confined to the one case.** Taking Session 6 off
+  still takes bills 303, 304 and 305 with it, leaves 386 bills, and still says
+  "Session 5 also came off, because this session had written over 3 of its
+  bills. Promote Session 5 again as well, and in that order."
+- **Item 6, the preview now matches the deletion.** For Session 7 it printed 1
+  bill, 0 stage records, 0 provenance notes, and the figures went 470→469,
+  1291→1291, 186→186. For Session 6 it printed 83, 229 and 85, and the figures
+  went 469→386, 1291→1062, 186→101. Both match exactly, which is what the
+  Session 7 test found they did not.
+- **Item 7, it refuses.** With line 474's number emptied, taking Session 7 off
+  stops on "Refusing: line(s) 474 point at an earlier session's bill and do not
+  record how many cells they changed. Promote the session again with the current
+  tool, which writes it, before taking it off." Nothing was deleted: the counts
+  afterwards are 470, 1291 and 186.
+- **Item 8, the path no real data exercises.** Session 7 was taken off, bill
+  393's Stage 3 record deleted, and Session 7 promoted again, so that line 474's
+  Stage 3 row was carried onto the bill for the first time and stamped with the
+  record it made. Taking Session 7 off again removed that record and nothing
+  else: bill 393 is still there, its Stage 1 and Stage 2 records are the same two
+  records they were — the same numbers, not rebuilt ones — line 474's count read
+  0 throughout, and its stage row is back to unpromoted.
+- **Item 10.** The data dictionary regenerates with no difference from the
+  committed file: 19 tables, 182 columns, all described.
+
+**How the throwaway changes were made.** Both tools were run through
+`tools/strip_for_rehearsal.py` and included inside one change that ended in a
+discard, which is the standing method. The one thing added for this run was a
+line dropping the tools' working tables between runs, because each tool makes
+them afresh and a single change can only hold one set. That line touches nothing
+the tools read or write, and neither tool was altered.
+
+**One thing the run turned up that no item asked for.** Six working files from
+the Session 6 dates work of the morning of 15 September are still in `/tmp/load`
+on the server, although the sanity check recorded that day says every working
+file in `/tmp` and `/var/tmp` had been removed. Nothing depends on them and
+nothing is wrong in the database; the claim was simply wider than the fact.
+
 ---
 
 ## Session 7, and the first bill that has not finished
@@ -328,6 +397,12 @@ promoted; items 5 onwards should not.
     which exercises both cases and the refusal. **This item is not evidence until
     it is run again**, because the run recorded below was against the old tool.
 
+    **Run again on 2026-09-15 against the current tool, by a session that built
+    none of `db/103`: it passes.** 469 bills, bill 473 gone, bill 393 still
+    present and not one column of it changed, 1291 stage records, 186 provenance
+    notes, and both Session 7 lines back to unpromoted. Built inside a change
+    that was thrown away; nothing was written.
+
 ### Part B — the owner's sign-off
 
 None of these is for anyone else to answer. A sign-off is recorded here on the
@@ -361,7 +436,10 @@ provenance notes were the same before and after, with the error checker and the
 gaps list empty throughout.
 
 **Seventeen of the eighteen mechanical items pass. Item 18 does not, and the
-fault is in what the item expected, not in the database.**
+fault is in what the item expected, not in the database.** *Item 18 was run
+again on 2026-09-15 after `db/103`, against the mended tool, and passes; the
+account below is of the first run and is what the change came out of. All
+eighteen now stand.*
 
 Worth naming from among the seventeen:
 

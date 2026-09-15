@@ -22,15 +22,14 @@ and 2 dates are added from your PhD.
 | 4 | 86 bills | yes | yes | yes; **closed** |
 | 5 | 87 bills | yes | yes | yes; **closed** |
 | 6 | 83 bills | yes | yes | yes; **closed** |
-| 7 | 2 bills | yes | yes | Stage 3 only; `db/103` test unrun |
+| 7 | 2 bills | yes | yes | Stage 3 only; open on your sign-off |
 
 **470 bills are now on the clean sheet**, with 1291 stage records and 186
 provenance notes. **The error checker and the gaps list are both empty.** All
-seven sessions are read in, reviewed and promoted. Session 7's closure test has
-now been run by a session that did none of its work: seventeen of its eighteen
-items pass, and the one that does not was about how a session comes off the clean
-sheet again, not about any figure on it. That one has been settled and built as
-`db/103`, whose own test is written and unrun.
+seven sessions are read in, reviewed and promoted, and every test this project
+has written has now been run by a session that did none of the work it tests.
+Sessions 1 to 6 are closed. **Session 7 is finished in the data and waits on one
+thing only: your sign-off.**
 
 ## What has been done
 
@@ -39,70 +38,53 @@ sheet again, not about any figure on it. That one has been settled and built as
   loaded, how time is counted settled, the two prose fact sheets read end to
   end, and Sessions 6 and 7 loaded onto the staging sheet.
 - **15 September, earlier.** Session 6 compared against your dataset, its ten
-  fallen bills read at the Official Report, your 134 stage dates loaded, and the
-  session put on the clean sheet. M12 cut from 290 words to 95. A bill's note
-  became the eighth cell a second appearance carries (`db/098`). Session 6's
-  closure test run by another session: one item failed and was right to, and
-  `db/101` mended it — a note we wrote had been dated to a fact sheet five days
-  before we wrote it. `db/101`'s own test then run by a third session and passed.
-  Session 6 then closed on your four sign-offs, and Session 7 promoted: one new
-  bill and the Gender Recognition Reform bill appearing a second time, which
-  changed nothing. M13 written first, because Session 7 brought the first bill
-  still before the Parliament — counted like any other, with no ending, and shown
-  **blank, not nought** on a chart of timescales. Two drafts of M13 were wrong
-  and were caught by rehearsing; both are named in `db/102` so they cannot come
-  back.
+  fallen bills read at the Official Report, your 134 stage dates loaded, the
+  session put on the clean sheet and **closed** on your four sign-offs. M12 cut
+  from 290 words to 95. Session 7 then promoted: one new bill, and the Gender
+  Recognition Reform bill appearing a second time, which changed nothing. M13
+  written for the first bill still before the Parliament — counted like any
+  other, with no ending, and shown **blank, not nought**, on a chart of
+  timescales. Session 7's closure test then found the one real fault of the day:
+  taking Session 7 off the clean sheet took the Gender Recognition Reform bill
+  with it, although Session 7 had changed not one cell of it. You settled it the
+  same afternoon and `db/103` was built and rehearsed — a bill only restated
+  stays put, a bill written over still comes off — and its own test was written
+  and left unrun.
 
-**15 September, this session. Session 7's closure test run, the one thing it
-found, and the mending of it.**
+**15 September, this session. `db/103`'s test run, and the Session 7 item with
+it.**
 
-- **Seventeen of the eighteen items pass**, and nothing was written: the two
-  items that build something were built inside transactions that were thrown
-  away, and one inside a scratch copy that was dropped.
-- **Bill 393 is untouched by Session 7, and that is now proved rather than
-  asserted.** The safety copy taken before the promotion was restored and
-  compared against the live database bill by bill and cell by cell. One bill
-  appeared — the new one — and none vanished. Of the 469 bills already there,
-  exactly one differs in any cell at all, and the only cell that differs is the
-  database's own timestamp. Not one stage record and not one provenance note
-  appeared, vanished or changed.
-- **The gaps list is quiet for the right reason.** Given a Stage 2 invented for
-  the live bill, it immediately asked for Stage 1 and nothing else.
-- **Item 18 failed**, and you settled it the same afternoon. Taking Session 7
-  off the clean sheet took the Gender Recognition Reform bill with it, although
-  Session 7 changed not one cell of it. Nothing was ever lost — putting Session 6
-  back restored it — but it is two steps, and the second is the one a person
-  forgets, for a bill that never needed touching.
-- **`db/103` mends it.** A bill only restated now stays where it is when the
-  later session comes off. A bill that was written over still comes off, because
-  there is no copy of what it read before. Each line records which case it is at
-  the moment it goes on the clean sheet, so nothing has to be worked out
-  afterwards from the wording of a note. The undo's own "about to remove" table,
-  which said one bill and then removed two, was mended in the same change.
-- **Rehearsed end to end before anything was applied**, in a change that was
-  thrown away: Session 7 off and the bill stays, identical in every column;
-  Session 6 off and its three Session 5 bills still come off; Sessions 5, 6 and 7
-  all put back, and the clean sheet comes out bill for bill, stage for stage and
-  note for note what it was. Promotion worked the four numbers out for itself and
-  got the same four the migration had filled in.
-- **`db/103`'s own test is written and has not been run.** Ten mechanical items
-  and two sign-offs, for a session that did none of this work.
+- **All ten items pass, and nothing was written.** Five of them were built
+  inside changes that were thrown away, and the figures are the same before the
+  first and after the last.
+- **The bill stays, and it stays whole.** With Session 7 taken off, the Gender
+  Recognition Reform bill was compared against a copy of itself taken a moment
+  earlier — every column of the row, not only the cells a second appearance
+  writes. Not one column differs. It keeps its three stage dates and its four
+  provenance notes, and the screen says so in the words it was meant to say.
+- **The change is confined to the one case it was meant for.** Taking Session 6
+  off still takes its three Session 5 bills with it and still says to put
+  Session 5 back. A line whose count has been emptied makes the undo refuse
+  rather than guess, and nothing is removed.
+- **The four counts were worked out twice, by routes with nothing in common, and
+  agree.** Sessions 7 and 6 were taken off and Sessions 5, 6 and 7 put back;
+  promotion reached 4, 6, 6 and 0 on its own, and the clean sheet came back to
+  470 bills, 1291 stage records and 186 provenance notes.
+- **The figure a person reads before deciding now matches what then happens**,
+  for both sessions and on every one of the six numbers. That is what the
+  Session 7 test had found it did not.
+- **Item 18 of the Session 7 test was run again** against the mended tool, and
+  passes. All eighteen of that test's items now stand.
 
-## Now: `db/103`'s closure test, and one sign-off
+## Now: Session 7's last sign-off
 
-**The test is written and unrun**, in `docs/CLOSURE-TESTS.md` under "An undo
-leaves an untouched bill alone". Ten mechanical items, four of which build
-something inside a change that is thrown away. It must be run by a session that
-did none of this work.
+Everything mechanical is done. Session 7's data, `db/102` and `db/103` have all
+been tested by sessions that built none of them, and every item passes.
 
-**Item 18 of the Session 7 test now needs running again too.** Its expected
-answer was right all along; the tool has been changed to match it rather than the
-other way round. The run recorded against it was against the old tool, so it is
-not evidence until it is done again.
-
-**Session 7's fourth sign-off is still the standing one:** that you can explain
-how this database works from the documents alone, without help. Until it is
-given, Session 7 stays open.
+**What is left is yours: that you can explain how this database works from the
+documents alone, without help.** Until it is given, Session 7 stays open. The
+documents to read are `docs/HOW-THE-DATABASE-WORKS.md` and, for anything
+factual, `docs/DATA-DICTIONARY.md`.
 
 ## After that, in order
 
@@ -184,52 +166,47 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-15, the session that ran Session 7's test and built db/103
+## Sanity check, 2026-09-15, the session that ran `db/103`'s test
 
 **Run at the end, on checking rather than memory.** **470 bills, 1291 stage
 records, 186 provenance notes, 13 methodology notes.** Per session: 73, 81, 62,
 86, 87, 80, 1. **The error checker finds nothing and the gaps list holds
 nothing.** The data dictionary regenerates identical to the committed file — 19
-tables, **182** columns, all described, the new one included. Only the `legdata`
-database on the server: the scratch copy made for item 16 was dropped, checked by
-listing the databases afterwards. Every working file put in `/tmp` and
-`/var/tmp` has been removed; the safety copies in `/var/tmp` are untouched, and
-this session added `/var/tmp/legdata-before-db103_2026-09-15.dump`.
+tables, 182 columns, all described. Only the `legdata` database on the server,
+checked by listing them. The nineteen safety copies in `/var/tmp` are untouched
+and this session added none; the working files this session put on the server,
+in `/var/tmp/reh`, have been removed, and the scratchpad is outside the
+repository.
 
 **The opening check found nothing wrong.** The table's counts matched the
 database exactly, the last commit and the newest `DECISIONS.md` entry were
 already carried into `STATE.md`, the data dictionary regenerated identical, and
 the tree was clean and pushed.
 
-**Nothing was written by the test.** Items 11 and 18 build something, and each
-was built inside a change that was thrown away; item 16 was done in a scratch
-copy that was dropped.
+**Nothing was written by the test.** Items 2, 3, 5, 7 and 8 each build
+something, and each was built inside a change that was thrown away. The figures
+above were read before the first of them and again after the last, and are the
+same. No copy of the database was needed, because nothing was applied.
 
-**`db/103` was rehearsed before it was applied**, and the rehearsal is the whole
-reason to believe it. In one change that was thrown away: apply the migration;
-take Session 7 off and find bill 393 still there and identical in every column;
-put Session 7 back; take Session 7 and then Session 6 off and find Session 5's
-three bills gone as before; put Sessions 5, 6 and 7 back. The clean sheet came
-out bill for bill, stage for stage and note for note what it had been — stage
-records compared on what they say rather than on their numbers, because a rebuild
-gives them new ones. The only difference was the sentence `db/101` had appended
-to three provenance notes, which the tool does not write and the migration did;
-that was already known and is in the `db/101` test.
+**One thing the check turned up that nothing asked for.** Six working files from
+the Session 6 dates work of the morning of 15 September are still in `/tmp/load`
+on the server — `s6dates.csv`, a deliberately corrupted copy of it, a probe
+script and two output files — although the sanity check recorded that morning
+says every working file in `/tmp` and `/var/tmp` had been removed. Nothing
+depends on them and nothing in the database is wrong. Proposed for removal, not
+removed.
 
-**What this session did not do.** It did not run `db/103`'s test, which it wrote,
-and it did not re-run item 18 of the Session 7 test. Both are for a session that
-did none of this work, and both are named at the top of this file.
-
-**Worth passing on, twice over.**
-- **Compare against the copy, not against a memory of it.** Item 16 asks that
-  nothing else on the clean sheet moved. Looking at which bills carry a recent
-  timestamp cannot answer it, because Session 6 was promoted the same day.
-  Restoring the safety copy into a scratch database, dumping the live one in
-  beside it under another name, and comparing the two row by row does answer it.
-- **A number that decides whether a bill is deleted gets two sources.** `db/103`
-  filled the four existing lines by counting provenance notes; the rehearsal made
-  promotion work the same four out from the staging lines and the clean sheet.
-  Either alone would have been a guess dressed up as a check.
+**Worth passing on.**
+- **A tool that makes working tables can only run once inside one throwaway
+  change**, because it makes them afresh each time and the second run finds them
+  already there. Five of this test's ten items need the tools run two to five
+  times over. The way through is a line that drops those working tables between
+  runs, in the rehearsal and not in the tool. It is worth writing down because
+  every future test of promotion and its undo will hit it.
+- **Compare the row, not the cells the change writes.** Item 3 asks that a bill
+  is untouched. Checking the eight cells a second appearance writes would have
+  passed even if something else had moved. Taking a copy of the whole row before
+  the undo and comparing every column afterwards is what makes it evidence.
 
 ## Session 7, and M13: working detail, 15 September
 
@@ -264,12 +241,16 @@ note's wrong drafts. Doing it the other way round would have published either.
 
 ## What the session before this one did
 
-**Closed Session 6 on the owner's four sign-offs, promoted Session 7, and wrote
-M13** as `db/102`, because Session 7 brought the first bill this database has
-ever held that has not finished. Two drafts of M13 were wrong and were withdrawn
-before it was applied; `db/102` refuses the note if either phrase reappears. The
-promotion added one bill, no stage record and no provenance note. It wrote
-Session 7's closure test and did not run it.
+**Ran Session 7's closure test, and built `db/103` out of the one thing it
+found.** Seventeen of eighteen items passed. Item 18 did not: taking Session 7
+off the clean sheet took the Gender Recognition Reform bill with it, although
+Session 7 changed not one cell of it. The owner settled it the same afternoon —
+a bill only restated stays put, a bill written over still comes off — and
+`db/103` records on each line, at the moment it is promoted, how many cells it
+changed, so the undo does not have to work it out afterwards from the wording of
+a note. The under-counting "about to remove" preview was mended in the same
+change. It wrote `db/103`'s own closure test and did not run it, and left item 18
+to be run again against the mended tool.
 
 ## Session 6's closure test, 15 September
 
