@@ -4,18 +4,24 @@ A research resource for data about the Scottish Parliament. The goal is that a
 researcher can download the raw data, download variables built from it, see it
 visualised, and build their own tables and charts on the site without leaving it.
 
+The arc is in `docs/PLAN.md`. Where we are in it is in `docs/STATE.md`.
+
 ## Read this first, every session
 
-1. `docs/HOW-THE-DATABASE-WORKS.md` — how the pieces fit together, written for
+1. `docs/PLAN.md` — the phases, in order, and what each must deliver before the
+   next opens. Read it before proposing any work, so the work is in the phase.
+2. `docs/STATE.md` — where the project actually is. Read before doing anything.
+3. `docs/DECISIONS.md` — what has been settled, and why. Do not reopen these.
+4. `docs/HOW-THE-DATABASE-WORKS.md` — how the pieces fit together, written for
    the owner in spreadsheet terms. Read it before explaining anything about the
    database, and keep it true as the database changes.
-2. `docs/DATA-DICTIONARY.md` — what every table and column is, in plain English.
+5. `docs/DATA-DICTIONARY.md` — what every table and column is, in plain English.
    The single source of truth for what the database holds. **Generated from the
    database itself** by `tools/make_data_dictionary.py`; never edit it by hand.
-3. `docs/STATE.md` — where the project actually is. Read before doing anything.
-4. `docs/DECISIONS.md` — what has been settled, and why. Do not reopen these.
-5. `docs/VARIABLES.md` — the reasoning behind the variables. Superseded by the
-   data dictionary for anything factual about the current schema.
+
+Looked up when needed, not read every session: `docs/VARIABLES.md` for the
+reasoning behind the variables, `docs/PROMOTION-RUNBOOK.md` for loading and
+promoting, `docs/CLOSURE-TESTS.md` for how a piece of work is closed.
 
 ## Opening a session
 
@@ -27,16 +33,26 @@ session opens the same way:
 2. **Say what the sanity check found**, in a line or two, even if nothing.
 3. **Then the task under "Now".**
 
-**The sanity check, done before the first reply.** This project has a history
-of tasks half done and not carried over. Check:
-- that the table's counts match the database;
+**The sanity check, done before the first reply.** This project has a history of
+tasks half done and not carried over. The check asks one question — what would
+be embarrassing to discover later — and what is on it changes as the work
+changes. Items join it when a new kind of thing can go wrong, and leave it when
+they stop being live. A check that has passed unchanged for a month is not
+evidence of health; it is an item nobody reads.
+
+Always:
 - that everything the last session left open or unbuilt is in `STATE.md`: read
   the last commit message and the newest `DECISIONS.md` entries;
-- that `tools/make_data_dictionary.py` produces no difference from the
-  committed dictionary;
-- that nothing is left uncommitted;
+- that nothing is left uncommitted, and nothing left unpushed;
+- that `tools/make_decisions_index.py` produces no difference from the committed
+  contents block at the top of `DECISIONS.md`;
 - anything in the docs, these instructions or the memory that contradicts the
-  database or each other.
+  database, the plan, or each other.
+
+While there is data:
+- that the table's counts match the database;
+- that `tools/make_data_dictionary.py` produces no difference from the committed
+  dictionary.
 
 If something needs a clean, propose it; do not start it.
 
@@ -56,15 +72,19 @@ Update `STATE.md` in its shape, and add any decision that was settled to
   pushed, so an unpushed session is the one part of the work with no copy of it
   anywhere. Do not wait to be asked.
 - **Then say whether it is safe to close**, and say it on the strength of
-  checking rather than of remembering: nothing uncommitted, nothing unpushed,
-  the data dictionary regenerating identical to the committed file, the error
-  checker and the gaps list read, the figures matching what `STATE.md` now says,
-  and no working copy left inside the database. If something is not right, say
-  what and leave it to the owner.
+  checking rather than of remembering. Always: nothing uncommitted, nothing
+  unpushed, `STATE.md` saying what is actually true, and anything the project
+  runs still running. When the session touched data: the data dictionary
+  regenerating identical to the committed file, the error checker and the gaps
+  list read, the figures matching what `STATE.md` now says, and no working copy
+  left inside the database. If something is not right, say what and leave it to
+  the owner.
 
 ## How this project works
 
-**The database is the product.** Not the pipeline, not the API. The Scottish
+**The data is the product.** Not the pipeline, not the API, and not the site.
+The site is how a researcher reaches the data and it has to be good, but it does
+not become the point, and this stays true through every phase. The Scottish
 Parliament's data looks programmatic and turns out not to be; four previous
 attempts died inside that gap. The chain of variable → source → assessment →
 edge case → gap → reconciliation is too long to hold in one piece, and anything
@@ -83,20 +103,26 @@ hand produces the reference dataset and the list of real edge cases. Automation
 is then judged by whether it reproduces that answer. If it cannot, it does not
 ship.
 
-**Build only what the current slice needs.** No speculative schema, no tables
-for variables not yet defined, no extraction for sources not yet needed. The
-slice is finished, then the next one is opened.
+**Build only what the current phase needs.** No speculative schema, no tables
+for variables not yet defined, no speculative screens, no extraction for sources
+not yet needed. The phase is finished, then the next one is opened.
 
 **Published data changes.** The Parliament states that historical records may be
 revised, and they have been. Nothing is ever "loaded once and done"; a session
 being closed does not make its data final.
 
-## Explaining the database to the owner
+**Provenance reaches the reader.** Every figure published has a route back to
+what said so, and to the decisions made in handling it. Our decisions do not
+need to be correct; they need to be transparent enough that a user can accept
+them or take the data and do something different.
+
+## Explaining things to the owner
 
 The owner is a legislation researcher and the authority on bills. They are a
 beginner at running a database, by their own description, and they work in
 spreadsheets. Four attempts at explaining how the tables interact failed, in
-one session, for the same reason every time: jargon and length.
+one session, for the same reason every time: jargon and length. The same rules
+hold for explaining how the site runs, which has a jargon problem of its own.
 
 - **No SQL vocabulary in an explanation.** Not INSERT, UPDATE, SELECT, JOIN,
   foreign key, cascade, trigger, constraint, cardinality, normalisation. If a
@@ -117,17 +143,30 @@ one session, for the same reason every time: jargon and length.
 - Talk about bills and factsheets, not about tables. Table names are for when
   the owner is looking at Postico and needs to find the thing; they are not
   the subject of a sentence.
+- **The terminal is not a review surface.** Anything document-length goes in a
+  file, with one line saying where it is. Verbatim in the conversation is for
+  short public-facing wording only.
 
 ## Working rules
 
 - **Bring the testing plan; do not wait to be asked for it.** The owner should
   not have to suggest rehearsing a change, checking the result, undoing it and
-  doing it again. Anything that writes to the clean data gets a written
-  procedure and a rehearsal before it is trusted, and the procedure says what
-  to look at, not only what to type. See `docs/PROMOTION-RUNBOOK.md` for the
-  shape.
-- Ask before adding a source, a table, or a variable that the current slice does
-  not require.
+  doing it again. Anything that changes something other people depend on gets a
+  written procedure and a rehearsal before it is trusted, and the procedure says
+  what to look at, not only what to type. See `docs/PROMOTION-RUNBOOK.md` for
+  the shape. A deploy is the site's version of a promotion and gets the same
+  treatment, including the written undo.
+- **Ask before adding.** A source, a table or a variable the current phase does
+  not require; and equally a dependency, a service, or an account with somebody
+  else.
+- **Stop and look at the whole after a couple of changes.** Twenty-three schema
+  changes were made on 2026-09-10, each individually justified, and the result
+  was a database its owner could no longer explain. A good reason for one change
+  is not evidence that the whole still makes sense, and this is not about
+  schemas — it holds for any run of changes to how the thing is built.
+
+## When the session touches data
+
 - **A change to how data is coded is finished before anything moves on.** It is
   not settled until every part is settled, and not finished until every part is
   built:
@@ -154,16 +193,20 @@ one session, for the same reason every time: jargon and length.
   means. `tools/make_data_dictionary.py` refuses to run if anything is missing
   one. This is not tidiness: the owner is the check on every research claim this
   project makes, and cannot be that check for a column nobody described.
-- **Stop and look at the whole after a couple of migrations.** Twenty-three
-  schema changes were made on 2026-09-10, each individually justified, and the
-  result was a database its owner could no longer explain. A good reason for one
-  change is not evidence that the whole still makes sense.
 - Record provenance for anything admitted: what said so, and when it was seen.
 - Where the PhD coded a value, it is the check on a derivation — not the source
   of the schema.
-- Do not put host detail, credentials or connection strings in this repository.
-  They live in `~/.claude/legdata-vps`, `~/.claude/legdata-db` and
-  `~/.claude/legdata-vps-notes.md`.
+
+## Credentials, and data about people
+
+- **Nothing that unlocks anything goes in this repository.** Host detail,
+  connection strings, keys, certificates, session secrets, anything a third
+  party issues. They live in `~/.claude/legdata-vps`, `~/.claude/legdata-db`
+  and `~/.claude/legdata-vps-notes.md`.
+- **Real data about a real person does not leave the place it is held.** Once
+  there are accounts, this project holds data about people for the first time.
+  It goes in no commit message, no document, no test fixture and not into this
+  conversation. Where an example is needed, invent one.
 
 ## Infrastructure
 

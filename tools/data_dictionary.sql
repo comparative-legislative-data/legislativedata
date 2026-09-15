@@ -1,5 +1,10 @@
 -- Feeds tools/make_data_dictionary.py. Emits one pipe-delimited line per table
--- and per column, in the order the columns appear in the table.
+-- and per column, in the order the columns appear in the table, then one line
+-- per methodology note: code, title and the columns it applies to. The note
+-- bodies are deliberately not emitted. They live in the database, which is
+-- where they are published from, and a copy of them in the repository would be
+-- a second version to keep true. The index exists so that a column description
+-- saying "see methodology note M5" points at something a reader can name.
 WITH fk AS (
     SELECT con.conrelid, unnest(con.conkey) AS attnum,
            cl.relname AS ref_table,
@@ -31,3 +36,8 @@ SELECT line FROM (
     WHERE c.relkind = 'r'
 ) s
 ORDER BY t, ord;
+
+SELECT 'M|' || code || '|' || title || '|'
+       || array_to_string(applies_to, ', ')
+FROM methodology_note
+ORDER BY sort_order;

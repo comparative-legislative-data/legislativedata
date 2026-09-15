@@ -44,9 +44,13 @@ def run_query():
 
 
 def parse(lines):
-    tables = {}
+    tables, notes = {}, []
     for line in lines:
         if not line or '|' not in line:
+            continue
+        if line.startswith('M|'):
+            _, code, title, applies = (line.split('|', 3) + [''] * 3)[:4]
+            notes.append({'code': code, 'title': title, 'applies': applies})
             continue
         kind, table, col, dtype, required, fk, desc = (line.split('|', 6) + [''] * 6)[:7]
         if kind == 'T':
@@ -55,7 +59,7 @@ def parse(lines):
             tables.setdefault(table, {'desc': '', 'cols': []})['cols'].append(
                 {'name': col, 'type': dtype, 'required': required,
                  'fk': fk, 'desc': desc})
-    return tables
+    return tables, notes
 
 
 def tidy_type(t):
@@ -66,7 +70,7 @@ def tidy_type(t):
             'text[]': 'list of text'}.get(t, t)
 
 
-def render(tables):
+def render(tables, notes):
     today = datetime.date.today().isoformat()
     out = [
         '# Data dictionary',
@@ -113,6 +117,25 @@ def render(tables):
         '',
     ]
 
+    if notes:
+        out += [
+            '## The methodology notes',
+            '',
+            'What each note is called, and which columns it bears on. The notes '
+            'themselves are held in the database and published beside the data; '
+            'their wording is deliberately not copied here, because a second '
+            'copy is a second thing to keep true. Read one in Postico, in '
+            '`methodology_note`, or wherever the data is published.',
+            '',
+            '| Note | What it says | Applies to |',
+            '|---|---|---|',
+        ]
+        for n in notes:
+            applies = ', '.join(f'`{a}`' for a in n['applies'].split(', ') if a)
+            out.append(f"| **{n['code']}** | {n['title'].replace('|', chr(92) + '|')} "
+                       f"| {applies} |")
+        out.append('')
+
     named = [t for _, ts in GROUPS if ts for t in ts]
     rest = sorted(t for t in tables if t not in named)
 
@@ -140,7 +163,7 @@ def render(tables):
 def main():
     if not CONNECT.exists():
         sys.exit(f'connector script not found at {CONNECT}')
-    tables = parse(run_query())
+    tables, notes = parse(run_query())
     if not tables:
         sys.exit('no tables returned — is the query working?')
 
@@ -161,10 +184,10 @@ def main():
               'then run this again.', file=sys.stderr)
         sys.exit(1)
 
-    OUT.write_text(render(tables))
+    OUT.write_text(render(tables, notes))
     cols = sum(len(t['cols']) for t in tables.values())
     print(f'wrote {OUT.relative_to(ROOT)}: {len(tables)} tables, {cols} columns, '
-          f'all described')
+          f'all described; {len(notes)} methodology notes indexed')
 
 
 if __name__ == '__main__':

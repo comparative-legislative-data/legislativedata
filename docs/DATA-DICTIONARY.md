@@ -32,6 +32,26 @@ ref_* tables                     each holds the allowed values
 
 **Required** means the column cannot be left empty. **Points at** means the value must exist in that other table.
 
+## The methodology notes
+
+What each note is called, and which columns it bears on. The notes themselves are held in the database and published beside the data; their wording is deliberately not copied here, because a second copy is a second thing to keep true. Read one in Postico, in `methodology_note`, or wherever the data is published.
+
+| Note | What it says | Applies to |
+|---|---|---|
+| **M1** | Executive Bills and Government Bills are counted as one type | `bill.bill_type`, `bill.bill_type_stated` |
+| **M2** | A stage is completed on the date of the decision that ended it | `stage_event.stage`, `stage_event.date_completed`, `stage_event.completed`, `stage_event.detail_note`, `stage_event.source`, `stage_event.general_note` |
+| **M3** | Two titles are recorded, and the title at introduction is usually not known | `bill.short_title`, `bill.title_as_introduced`, `bill.asp_number` |
+| **M4** | Hybrid Bills are recorded as Hybrid Bills and counted as government bills | `bill.bill_type`, `ref_bill_type.analysis_group` |
+| **M5** | Passing a bill is not the same as the bill being finished | `bill.outcome`, `bill.enactment_status`, `bill.date_assent_blocked`, `bill.date_concluded`, `bill.assent_block_route`, `bill.assent_block_outcome` |
+| **M6** | A bill belongs to the session in which it was first introduced | `bill.session_number` |
+| **M7** | Why a bill fell is our coding, not the fact sheets' | `bill.outcome`, `bill.stage_1_rejection_route`, `bill.note` |
+| **M8** | Where each date comes from, and which source wins when two disagree | `bill.date_royal_assent`, `bill.date_introduced`, `stage_event.date_completed`, `bill.source`, `field_source.source` |
+| **M9** | A reintroduced bill is a second bill, and may not have repeated its scrutiny | `bill.reintroduced_from_bill_id`, `stage_event.did_not_happen`, `bill.session_number` |
+| **M10** | How a bill was handled is recorded only where a source says so | `bill.procedure`, `bill.date_procedure_agreed` |
+| **M11** | A stage record holds the day a stage ended, and sometimes the day it was reached | `stage_event.date_reached`, `stage_event.date_completed` |
+| **M12** | A fact sheet is a snapshot | `bill.date_royal_assent`, `bill.asp_number`, `bill.short_title`, `bill.enactment_status` |
+| **M13** | A bill still before the Parliament is counted, and has no ending | `bill.outcome`, `bill.enactment_status`, `bill.date_introduced`, `stage_event.date_completed` |
+
 ## The data
 
 ### `session`
