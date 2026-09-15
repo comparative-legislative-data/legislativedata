@@ -149,7 +149,11 @@ bill, and no more will exist until another session is read in.
    could go and what each would cost. **Given on 2026-09-15.**
 
 2. **That you can explain how this database works** from the documents alone,
-   without help. The standing requirement. **Outstanding.**
+   without help. The standing requirement. **Given on 2026-09-15**, on the same
+   reading that completed the Session 7 test.
+
+**Part B is complete**, and with Part A's ten items the `db/103` test is
+complete.
 
 ### What this test does not check
 
@@ -424,7 +428,11 @@ day it is given, and nowhere else.
    **Given on 2026-09-15.**
 
 4. **That you can explain how this database works** from the documents alone,
-   without help. The standing requirement. **Outstanding.**
+   without help. The standing requirement, read in `HOW-THE-DATABASE-WORKS.md`
+   with nobody walking through it. **Given on 2026-09-15.**
+
+**Part B is complete. All four sign-offs were given on 2026-09-15**, and with
+Part A's eighteen items the Session 7 test is complete. Session 7 is closed.
 
 ### The run, 2026-09-15
 

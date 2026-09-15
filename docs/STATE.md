@@ -22,83 +22,66 @@ and 2 dates are added from your PhD.
 | 4 | 86 bills | yes | yes | yes; **closed** |
 | 5 | 87 bills | yes | yes | yes; **closed** |
 | 6 | 83 bills | yes | yes | yes; **closed** |
-| 7 | 2 bills | yes | yes | Stage 3 only; open on your sign-off |
+| 7 | 2 bills | yes | yes | Stage 3 only; **closed** |
 
 **470 bills are now on the clean sheet**, with 1291 stage records and 186
 provenance notes. **The error checker and the gaps list are both empty.** All
-seven sessions are read in, reviewed and promoted, and every test this project
-has written has now been run by a session that did none of the work it tests.
-Sessions 1 to 6 are closed. **Session 7 is finished in the data and waits on one
-thing only: your sign-off.**
+seven sessions are read in, reviewed, promoted and **closed**. Every test this
+project has written has been run by a session that did none of the work it
+tests, and every item passes. **The first piece of work is finished.**
 
 ## What has been done
 
 - **10–14 September.** Database built, all seven fact sheets surveyed, Sessions
-  1 to 5 read in, reviewed, admitted, promoted and **closed**, your dates
-  loaded, how time is counted settled, the two prose fact sheets read end to
-  end, and Sessions 6 and 7 loaded onto the staging sheet.
+  1 to 5 read in, reviewed, admitted, promoted and closed, your dates loaded,
+  how time is counted settled, and Sessions 6 and 7 loaded onto the staging
+  sheet.
 - **15 September, earlier.** Session 6 compared against your dataset, its ten
-  fallen bills read at the Official Report, your 134 stage dates loaded, the
-  session put on the clean sheet and **closed** on your four sign-offs. M12 cut
-  from 290 words to 95. Session 7 then promoted: one new bill, and the Gender
-  Recognition Reform bill appearing a second time, which changed nothing. M13
-  written for the first bill still before the Parliament — counted like any
-  other, with no ending, and shown **blank, not nought**, on a chart of
-  timescales. Session 7's closure test then found the one real fault of the day:
-  taking Session 7 off the clean sheet took the Gender Recognition Reform bill
-  with it, although Session 7 had changed not one cell of it. You settled it the
-  same afternoon and `db/103` was built and rehearsed — a bill only restated
-  stays put, a bill written over still comes off — and its own test was written
-  and left unrun.
+  fallen bills read at the Official Report, your 134 stage dates loaded, and the
+  session closed on your four sign-offs. M12 cut from 290 words to 95. Session 7
+  then promoted, and M13 written for the first bill still before the Parliament
+  — counted like any other, with no ending, and shown blank, not nought, on a
+  chart of timescales. Session 7's closure test found one real fault: taking
+  Session 7 off took the Gender Recognition Reform bill with it, although
+  Session 7 had changed not one cell of it. You settled it the same afternoon,
+  and `db/103` was built, rehearsed and then tested by a further session — a
+  bill only restated stays put, a bill written over still comes off. All ten of
+  its items passed, and Session 7's item 18 with them.
 
-**15 September, this session. `db/103`'s test run, and the Session 7 item with
-it.**
+**15 September, this session. Session 7 closed, and the first piece of work
+with it.**
 
-- **All ten items pass, and nothing was written.** Five of them were built
-  inside changes that were thrown away, and the figures are the same before the
-  first and after the last.
-- **The bill stays, and it stays whole.** With Session 7 taken off, the Gender
-  Recognition Reform bill was compared against a copy of itself taken a moment
-  earlier — every column of the row, not only the cells a second appearance
-  writes. Not one column differs. It keeps its three stage dates and its four
-  provenance notes, and the screen says so in the words it was meant to say.
-- **The change is confined to the one case it was meant for.** Taking Session 6
-  off still takes its three Session 5 bills with it and still says to put
-  Session 5 back. A line whose count has been emptied makes the undo refuse
-  rather than guess, and nothing is removed.
-- **The four counts were worked out twice, by routes with nothing in common, and
-  agree.** Sessions 7 and 6 were taken off and Sessions 5, 6 and 7 put back;
-  promotion reached 4, 6, 6 and 0 on its own, and the clean sheet came back to
-  470 bills, 1291 stage records and 186 provenance notes.
-- **The figure a person reads before deciding now matches what then happens**,
-  for both sessions and on every one of the six numbers. That is what the
-  Session 7 test had found it did not.
-- **Item 18 of the Session 7 test was run again** against the mended tool, and
-  passes. All eighteen of that test's items now stand.
+- **You gave the last sign-off**, that you can explain how this database works
+  from the documents alone. It was the only thing outstanding on two tests at
+  once: item 4 of Session 7's, and item 2 of `db/103`'s. Both are now complete,
+  and both are recorded in `CLOSURE-TESTS.md` on the day given, which is the
+  only place a sign-off is recorded.
+- **Nothing was written to the database.** Closing a session is a statement
+  about a procedure being finished, not a cell anywhere; the figures are the
+  same as they were this morning.
+- **The opening check found nothing wrong.** The table's counts match the
+  database, the data dictionary regenerates identical, the error checker and the
+  gaps list are empty, and the tree was clean and pushed.
 
-## Now: Session 7's last sign-off
+## Now: bringing `docs/VARIABLES.md` up to date
 
-Everything mechanical is done. Session 7's data, `db/102` and `db/103` have all
-been tested by sessions that built none of them, and every item passes.
-
-**What is left is yours: that you can explain how this database works from the
-documents alone, without help.** Until it is given, Session 7 stays open. The
-documents to read are `docs/HOW-THE-DATABASE-WORKS.md` and, for anything
-factual, `docs/DATA-DICTIONARY.md`.
+It is the last document still describing the database as it was several sessions
+ago. Everything factual about the current schema is in `DATA-DICTIONARY.md`,
+which is generated from the database and cannot drift; what `VARIABLES.md` is
+for is the reasoning behind the variables, and that is what it should be cut
+back to. Nothing depends on it, and nothing else is blocked by it.
 
 ## After that, in order
 
-1. Bring `docs/VARIABLES.md` up to date. It is the last document still
-   describing the database as it was several sessions ago.
-2. **Filling in how Sessions 1 to 5's bills were handled.** Expected, not begun.
+1. **Filling in how Sessions 1 to 5's bills were handled.** Expected, not begun.
    Their fact sheets do not mention procedure at all, so it needs a source we
    have not agreed. Until then a count of emergency bills counts only the five
    Session 6 names, which is what M10 tells a reader.
-3. **A layer of vote data**, its own piece of work. Scope not opened.
-4. **Taking bill data from live sources as the next five years run.** Your
+2. **A layer of vote data**, its own piece of work. Scope not opened.
+3. **Taking bill data from live sources as the next five years run.** Your
    words, 15 September: a fundamentally different thing from ingesting historic
    fact sheets, to be designed separately and not now.
-5. Then, and only then: the website, and reading from the Parliament's API.
+4. Then, and only then: the website, and reading from the Parliament's API.
    **This is where the choice M13 leaves open gets made**: which bills a figure
    about time covers — every bill with any terminal point, or only bills that
    completed every stage. The data carries both; nothing has to change to
@@ -109,6 +92,9 @@ the charts present and the options they offer.
 
 ## Waiting for your decision, and not blocking anything
 
+- **Six working files left on the server** from the Session 6 dates work, in
+  `/tmp/load`. Nothing depends on them and nothing in the database is wrong.
+  Proposed for removal twice now, not removed. Raised 15 September.
 - **M5's wording.** Two sentences have drifted: it says the mechanism that
   stopped a bill is recorded in the bill's note, where since `db/084` it is also
   a cell of its own; and it closes by saying a bill's recorded state comes from
@@ -166,47 +152,33 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-15, the session that ran `db/103`'s test
+## Sanity check, 2026-09-15, the session that closed Session 7
 
-**Run at the end, on checking rather than memory.** **470 bills, 1291 stage
-records, 186 provenance notes, 13 methodology notes.** Per session: 73, 81, 62,
-86, 87, 80, 1. **The error checker finds nothing and the gaps list holds
-nothing.** The data dictionary regenerates identical to the committed file — 19
-tables, 182 columns, all described. Only the `legdata` database on the server,
-checked by listing them. The nineteen safety copies in `/var/tmp` are untouched
-and this session added none; the working files this session put on the server,
-in `/var/tmp/reh`, have been removed, and the scratchpad is outside the
-repository.
+**Run at the opening, on checking rather than memory, and unchanged at the end
+because nothing was written to the database.** **470 bills, 1291 stage records,
+186 provenance notes.** Per session on the clean sheet: 73, 81, 62, 86, 87, 80,
+1; on the staging sheet: 73, 81, 62, 86, 87, 83, 2. The difference is the four
+bills that appear in two fact sheets, and it is the difference the table above
+describes. **The error checker finds nothing and the gaps list holds nothing.**
+The data dictionary regenerates identical to the committed file — 19 tables, 182
+columns, all described. The tree was clean and level with the remote at the
+start. No working copy inside the database: nothing matching copy, tmp, temp,
+before, backup, old, test or rehearsal exists outside the system schemas.
 
-**The opening check found nothing wrong.** The table's counts matched the
-database exactly, the last commit and the newest `DECISIONS.md` entry were
-already carried into `STATE.md`, the data dictionary regenerated identical, and
-the tree was clean and pushed.
+**Nothing in the docs, the instructions or the memory contradicts the database.**
+The last commit and the newest `DECISIONS.md` entry were already carried into
+this file.
 
-**Nothing was written by the test.** Items 2, 3, 5, 7 and 8 each build
-something, and each was built inside a change that was thrown away. The figures
-above were read before the first of them and again after the last, and are the
-same. No copy of the database was needed, because nothing was applied.
+**Closing a session writes nothing.** There is no closed column anywhere; it was
+checked. A session is closed when its test is complete, and a test is complete
+when its mechanical items have been run by a session that did none of the work
+and its sign-offs have been given. Both now hold for all seven.
 
-**One thing the check turned up that nothing asked for.** Six working files from
-the Session 6 dates work of the morning of 15 September are still in `/tmp/load`
-on the server — `s6dates.csv`, a deliberately corrupted copy of it, a probe
-script and two output files — although the sanity check recorded that morning
-says every working file in `/tmp` and `/var/tmp` had been removed. Nothing
-depends on them and nothing in the database is wrong. Proposed for removal, not
-removed.
-
-**Worth passing on.**
-- **A tool that makes working tables can only run once inside one throwaway
-  change**, because it makes them afresh each time and the second run finds them
-  already there. Five of this test's ten items need the tools run two to five
-  times over. The way through is a line that drops those working tables between
-  runs, in the rehearsal and not in the tool. It is worth writing down because
-  every future test of promotion and its undo will hit it.
-- **Compare the row, not the cells the change writes.** Item 3 asks that a bill
-  is untouched. Checking the eight cells a second appearance writes would have
-  passed even if something else had moved. Taking a copy of the whole row before
-  the undo and comparing every column afterwards is what makes it evidence.
+**The one thing still outstanding is not in the database.** Six working files
+from the Session 6 dates work of 15 September are still in `/tmp/load` on the
+server. Proposed for removal on 15 September by the session that found them and
+again by this one; not removed either time, because removing them was not asked
+for.
 
 ## Session 7, and M13: working detail, 15 September
 
@@ -240,6 +212,15 @@ note's wrong drafts. Doing it the other way round would have published either.
   connections; it is in this file already and is worth heeding.
 
 ## What the session before this one did
+
+**Ran `db/103`'s closure test, and Session 7's item 18 with it.** All ten of
+`db/103`'s mechanical items passed and nothing was written; the four counts were
+reached twice by routes with nothing in common and agreed. Item 18 of the
+Session 7 test, run again against the mended undo, passed, so all eighteen of
+that test's items stood and Session 7 was left waiting on the owner's standing
+sign-off alone. It found the six working files in `/tmp/load`.
+
+## The session before that
 
 **Ran Session 7's closure test, and built `db/103` out of the one thing it
 found.** Seventeen of eighteen items passed. Item 18 did not: taking Session 7
