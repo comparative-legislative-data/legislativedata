@@ -32,11 +32,10 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ## Session 6's endings, and its stage dates
 
-Written 2026-09-15 by the session that built `db/095` and changed
+Written 2026-09-15 by the session that built `db/095` and `db/096` and changed
 `tools/phd_stage_dates.py` and `tools/load_phd_stage_dates.sql`, which may
-therefore not run it. **Nine items: eight mechanical and one sign-off.** Nothing
-here writes to the database; items 2 and 4 write only inside a transaction that
-is thrown away.
+therefore not run it. **Nine items, all mechanical.** Nothing here writes to
+the database; items 2 and 4 write only inside a transaction that is thrown away.
 
 **Not yet run.**
 
@@ -107,16 +106,17 @@ is thrown away.
    sheet is untouched by all of it: **389 bills, 1071 stage records, 112
    provenance notes.**
 
-9. **Sign-off: should a committee meeting date count as the day a bill reached a
-   stage?** Ecocide and Freedom of Information Reform both completed Stage 1 and
-   then fell at Stage 2. Ecocide's page lists two Stage 2 committee meetings,
-   17 February and 10 March 2026. Freedom of Information Reform's lists none: its
-   financial resolution was not agreed until 5 March 2026, and until one is
-   agreed Stage 2 cannot get under way. So one bill was worked on at Stage 2 and
-   the other never was, and nothing in the data distinguishes them. `db/095`
-   left `date_reached` empty on both, because M11 says that day is recorded only
-   where a source states it and neither page states it. The question for the
-   owner is whether a committee meeting date should be read as stating it.
+9. **The two bills that fell at Stage 2 read the same.** `db/095` described
+   Ecocide and Freedom of Information Reform as different — two Stage 2 committee
+   meetings on one, none on the other — and it was a misreading of the page. The
+   owner ruled on 15 September that both completed Stage 1 and no more, and
+   `db/096` corrected the notes. Check that **both Stage 2 rows say no Stage 2
+   proceedings took place, both have no date and no date reached, and both bills'
+   only completed stage is Stage 1**, dated 5 and 17 February 2026. Then read
+   Ecocide's page again and check it still says "A date for Stage 2 consideration
+   of the Bill was not set prior to the dissolution of Parliament", and that
+   Freedom of Information Reform's still lists no Stage 2 amendments. **This is
+   an item an outside change can move**, for the same reason as item 3.
 
 ### What this test does not check
 

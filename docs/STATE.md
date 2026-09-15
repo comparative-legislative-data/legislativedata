@@ -74,6 +74,11 @@ for you.**
   That check now asks whether the load itself broke anything, which is both
   narrower and stronger; it was proved to still refuse a bad load before it was
   used.
+- **One thing I got wrong, and you caught.** I read Ecocide's page as showing
+  Stage 2 committee meetings and treated it as a different case from Freedom of
+  Information Reform. The page says a date for Stage 2 consideration was never
+  set; neither bill had any Stage 2 proceedings. Both now read the same
+  (`db/096`).
 - Nothing touched the clean sheet: 389 bills, 1071 stage records, 112 provenance
   notes, compared cell by cell against a copy taken first.
 
@@ -101,19 +106,20 @@ Session 6 is on the clean sheet: the Gender Recognition Reform Bill's Session 7
 line must point at the Session 6 line for the same bill, and cannot until there
 is one.
 
-**One question for you, and nothing waits on it.** Ecocide and Freedom of
-Information Reform both completed Stage 1 and then fell at Stage 2. Ecocide's
-committee met on it twice at Stage 2; Freedom of Information Reform's never met
-on it at all, because its financial resolution came too late for Stage 2 to get
-under way. Nothing in the data tells those two apart, and the column that could —
-the day a bill reached a stage — is only ever filled where a source says so in
-terms, which neither page does. Whether a committee meeting date should count as
-saying so is yours to settle.
+**Settled while you were reading this.** Ecocide and Freedom of Information
+Reform both completed Stage 1 and then fell at Stage 2. I had read Ecocide's page
+as showing two Stage 2 committee meetings and drawn a distinction between the two
+bills; you pointed out the page says a date for Stage 2 consideration was never
+set. It does, and those meetings were not proceedings on the bill. **Both are now
+recorded the same way: Stage 1 completed and dated, Stage 2 as where the bill
+stopped, with no date** (`db/096`). Your line — that it would be different had
+amendments actually been considered — is in `DECISIONS.md`, and no bill has yet
+reached that case.
 
 **Waiting for a session that built none of it:** the checks on `db/089` to
-`db/095`, the comparison tool and the prose of M12 are written in
+`db/096`, the comparison tool and the prose of M12 are written in
 `CLOSURE-TESTS.md` and have not been run. Five tests, thirty-eight items,
-thirty-three mechanical and five for you.
+thirty-four mechanical and four for you.
 
 **Yours whenever you want it, and nothing waits on it:** your write-up on what
 the charts present and the options they offer.
@@ -206,7 +212,8 @@ orient, and none of it belongs above the line.
 untouched by everything this session did: **389 bills, 1071 stage records, 112
 provenance notes**, the same three figures the session opened with, and compared
 cell by cell against a copy taken before the stage dates were loaded — 136 rows
-added, no cell changed anywhere, nothing removed. The copy schema has been
+added, no cell changed anywhere, nothing removed. `db/096` afterwards changed two
+notes on the staging sheet and no date anywhere. The copy schema has been
 dropped; only `public` is left on the server. The error checker finds **one**
 problem, line 474's, which stood before this session and waits on Session 6 being
 promoted. The gaps list holds **two** rows, both Session 7's: Session 6 is asked
@@ -269,9 +276,17 @@ was used on a real one.
 gaps list, which now holds only Session 7's two. Safety copies taken first and
 compared afterwards, then dropped.
 
+**`db/096`: the one thing this session got wrong.** `db/095` described Ecocide
+and Freedom of Information Reform as different cases, on the strength of two
+meetings listed under Ecocide's Stage 2 heading. Those are the lead committee's
+meetings; further down the same page the Parliament says a date for Stage 2
+consideration was never set and no Marshalled List was produced. The owner
+caught it and ruled that both bills completed Stage 1 and no more. The dates
+were already right and unchanged; two notes were wrong and are corrected.
+
 **What this session did not do, and should not:** run its own checks. The nine
-items on `db/095` and the two tools are written in `CLOSURE-TESTS.md` for a
-session that built none of it.
+items on `db/095`, `db/096` and the two tools are written in `CLOSURE-TESTS.md`
+for a session that built none of it.
 
 ## What the session before that did
 

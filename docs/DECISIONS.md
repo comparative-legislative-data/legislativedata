@@ -8,6 +8,44 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-15 — A stage a bill was in but never worked on is not a stage it reached
+
+**The owner's ruling:** "It was passed Stage 1 and Stage 2 started but no formal
+meetings on amendments were held and then the Bill timed out. I think that needs
+to mean that the Bill only completed Stage 1 and that is the relevant date we
+would be interested in. Had there been any amendments considered at Stage 2 that
+would be different."
+
+The Ecocide Bill and the Freedom of Information Reform Bill both completed
+Stage 1 and then fell at Stage 2 when the session ended. `db/095` recorded them
+identically but described them as different, having read the lead committee's
+meetings listed under Ecocide's Stage 2 heading as Stage 2 proceedings on the
+bill. They were not. Further down the same page the Parliament says so: "A date
+for Stage 2 consideration of the Bill was not set prior to the dissolution of
+Parliament. Marshalled List and Groupings documents were therefore not
+produced." Amendments were lodged on 6, 10 and 24 February 2026 and never
+considered. Freedom of Information Reform's page carries no such section and
+lists no amendments at all.
+
+**So both bills are recorded the same way: Stage 1 completed and dated, Stage 2
+as where the bill stopped, with no date.** `db/096` corrects the two notes.
+
+This settles the question `db/095` left open, and settles it by removing it:
+whether a committee meeting date should be read as the day a bill reached
+Stage 2 does not arise, because those meetings were not that. **M11 stands
+unchanged** — the day a bill reached a stage is recorded only where a source
+states it in terms, and is never worked out from anything else. The owner's
+"had there been any amendments considered at Stage 2 that would be different"
+marks where the line falls if a bill ever does reach proceedings and stop inside
+them; no bill yet has.
+
+**What this is really about.** A bill can sit at a stage for months without
+anything happening to it. "How long each stage took" must not count that as
+time in the stage, or every bill that ran out of time acquires a long Stage 2
+it never had.
+
+---
+
 ## 2026-09-15 — A check that says "nothing is wrong" must say whose fault it would be
 
 `tools/load_phd_stage_dates.sql` refused to keep anything unless the error
