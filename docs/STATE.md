@@ -21,15 +21,13 @@ and 2 dates are added from your PhD.
 | 3 | 62 bills | yes | yes | yes; **closed** |
 | 4 | 86 bills | yes | yes | yes; **closed** |
 | 5 | 87 bills | yes | yes | yes; **closed** |
-| 6 | 83 bills | **yes** | **yes** | yes; **test written, not yet run** |
+| 6 | 83 bills | yes | yes | yes; **test run, 20 of 23 passed** |
 | 7 | 2 bills, checks all done | not yet | no | Stage 3 only |
 
 **469 bills are now on the clean sheet**, with 1291 stage records and 186
-provenance notes. **Session 6 went on today**, 80 bills of its own and three
-that added to bills already there. **The error checker and the gaps list are
-both empty for the first time since Session 6 was loaded.** What is left of the
-first piece of work is Session 7's two lines, and Session 6's closure test,
-which must be run by a session that did not write it.
+provenance notes. **The error checker and the gaps list are both empty.** What
+is left of the first piece of work is Session 7's two lines, your four sign-offs
+on Session 6, and one item of Session 6's test to be run again.
 
 ## What has been done
 
@@ -47,50 +45,57 @@ which must be run by a session that did not write it.
   dates went on — all 134 of yours. Then the tests on that week were run by a
   session that built none of it: thirty-five mechanical items, thirty-five
   passes. M12 cut from 290 words to 95.
+- **15 September, earlier again. Session 6 went on the clean sheet.** A bill's
+  note became the eighth cell a second appearance carries (`db/098`), so two
+  bills reconsidered and passed in Session 6 did not land as Acts carrying a
+  note saying they never got Royal Assent. Session 6 admitted and promoted
+  (`db/099`); Session 7's Gender Recognition Reform line pointed at its Session 6
+  bill (`db/100`); and the per-session closure test, which Session 6 had lost,
+  was put back.
 
-**15 September, this session. Session 6 is on the clean sheet.** You cleared it,
-and before it moved, the one thing that was going to come out wrong was fixed.
+**15 September, this session. Session 6's closure test has been run**, by a
+session that wrote none of it and did none of the work it tests.
 
-- **A bill's note is now the eighth cell a second appearance carries.** Two
-  bills stopped before Royal Assent in Session 5 were reconsidered and passed in
-  Session 6. Their notes ended "it could not be submitted for Royal Assent in
-  its unamended form", and nothing carried a note from one fact sheet to the
-  next — so both would have gone onto the clean sheet as Acts, carrying a note
-  saying they never received Royal Assent. `db/098` fixes it, you agreed the
-  three rewritten notes word for word, and what each said before is kept.
-- **Session 6 admitted and promoted** (`db/099`), rehearsed first and thrown
-  away, with a copy of the database taken beforehand. 61 Government and 19
-  Member's bills, against the fact sheet's own 62 and 20 — the difference being
-  the two bills it counts that here add to their Session 5 lines.
-- **Session 7's loose end closed itself** (`db/100`). Its Gender Recognition
-  Reform line now points at the Session 6 bill, which it could not do until
-  Session 6 was there.
-- **The closure test for Session 6 is written and has not been run.** See below.
+- **Twenty of the twenty-three mechanical items pass.** Nothing was written:
+  the two deliberate faults were built inside transactions that were thrown
+  away, and every count was the same before and after.
+- **One failed, and was right to.** The provenance on the three rewritten notes
+  said they had been seen in the Session 6 fact sheet on 10 September. We wrote
+  them, on the 15th. `db/101` mends it and `tools/promote_session.sql` now
+  writes it right for every session after this one.
+- **Two items were themselves wrong**, and are rewritten. One described settled
+  work as a discrepancy; the other cited `db/079` for a rule `db/079` declined
+  to make. Neither was a fault in the data.
+- **You were right that we had caught the European Charter date before.** It was
+  settled on 13 September. The reasoning recorded with it was wrong, though —
+  23 May 2021 is ten days *into* Session 6, not between dissolution and the new
+  Parliament. `DECISIONS.md` is corrected; the date itself was never in doubt.
 
-## Now: the process you were right about
+## Now: your four sign-offs, and one item to re-run
 
-You said a robust process for finalising each session had given way to ad hoc
-approaches. It had, and here is where. Sessions 1 to 5 each have **one closure
-test** — mechanical items, then your sign-offs, written by the session that did
-the work and run by a different one, with a script beside it. A session is not
-*closed* until both halves are done. **Session 6 had no such test.** It had seven
-tests attached to pieces of work, each properly marked by another session, and
-nothing that tested the session. Nothing would have told us when Session 6 was
-finished.
+Session 6 is on the clean sheet and **is not closed**. Two things stand between
+it and closed, and the first is yours.
 
-That is put back. `docs/CLOSURE-TESTS.md` now opens with a Session 6 test: 23
-mechanical items with the source of every expected answer, and four sign-offs
-that are yours. `tools/closure_check_session_6.sql` sits beside it. It inherits
-the seven piece-tests rather than re-arguing them.
+**Your four sign-offs**, all in Part B of the Session 6 test in
+`docs/CLOSURE-TESTS.md`, all printed there in full so nothing has to be looked
+up:
 
-**It has not been run, and cannot be run by me** — I wrote it, and I did the work
-it tests. **The first task of the next session is to run it**, and to report
-every answer against the expected one. Until it passes, Session 6 is on the clean
-sheet but not closed, and Session 7 does not open.
+1. The three rewritten notes as a reader now sees them, beside an Act of 2026,
+   an Act of 2024 and a withdrawn bill.
+2. M6's new closing paragraph.
+3. That Session 6's 80 bills and its fourteen endings are right — **given on
+   15 September**, before promotion. Recorded, nothing to do.
+4. That you can explain how this database works from the documents alone.
 
-**Your four sign-offs** are in Part B, and the first two are short:
-the three rewritten notes as a reader now sees them, and M6's new closing
-paragraph. Both are printed in full in the test.
+**And one mechanical item to run again.** Item 14 failed, `db/101` mended it,
+and `db/101` has its own test — ten items and one sign-off — which I wrote and
+must not mark. A later session runs that test and then item 14 once more. Until
+both are done, Session 6 stays open and Session 7 does not start.
+
+There is a fifth thing, small, and it is the sign-off on `db/101`: whether
+"written at review of session 6" is what a reader should be told about where
+those three notes came from. You agreed it today; it is in Part B because it is
+what a reader sees.
 
 ## After that, in order
 
@@ -168,23 +173,20 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-15, the promoting session, closing
+## Sanity check, 2026-09-15, the session that ran Session 6's test, closing
 
-**Run at the end, on checking rather than on memory.** Session 6 went onto the
-clean sheet this session, so the counts moved on purpose: **469 bills, 1291 stage
-records, 186 provenance notes**, against 389, 1071 and 112 before. Each is
-accounted for — 80 new bills (83 lines less the three that add to bills already
-there), 220 stage records (223 admitted less the three Stage 3 rows the continued
-bills already had), and 74 provenance notes (64 on Session 6's bills, 10 net on
-the three a second appearance changed). **The error checker finds nothing and the
-gaps list holds nothing**, for the first time since Session 6 was loaded. The
-data dictionary regenerates identical to the committed file: nothing this session
-changed a table or a column. Only `public` on the server, no working copy inside
-the database, and the working files this session put in `/tmp` on the server have
-been removed.
+**Run at the end, on checking rather than on memory.** **469 bills, 1291 stage
+records, 186 provenance notes** — unmoved, and this session did not intend to
+move them. `db/101` rewrote three provenance rows in place and added none. **The
+error checker finds nothing and the gaps list holds nothing.** The data
+dictionary regenerates identical to the committed file: no table or column
+changed. Only `public` on the server, no working copy inside the database, and
+every working file this session put in `/tmp` on the server has been removed and
+the removal confirmed by listing.
 
-**A copy of the database was taken before the promotion** and is kept at
-`/var/tmp/legdata-before-s6-promotion_2026-09-15.dump`, beside the earlier
+**A copy of the database was taken before `db/101`** and is kept at
+`/var/tmp/legdata-before-db101_2026-09-15.dump`, beside
+`/var/tmp/legdata-before-s6-promotion_2026-09-15.dump` and
 `/var/tmp/legdata-before-s6-dates_2026-09-15.dump`.
 
 **The opening check found nothing wrong.** The table's counts matched the
@@ -192,68 +194,63 @@ database exactly, the last commit and the newest `DECISIONS.md` entries were
 already carried into `STATE.md`, the data dictionary regenerated identical, and
 the tree was clean and pushed.
 
-**What this session could not check, and did not.** It wrote Session 6's closure
-test and it did the work that test is about, so it did not run it. That is the
-next session's first task, and until then Session 6 is promoted but **not
-closed**. Two of the test's items — 16 and 17 — are deliberate faults that must
-be built and thrown away by whoever runs it; item 17 exists because `db/098`
-replaced the whole error checker in order to add one rule, and a rule silently
-lost is the risk that creates.
+**What this session could not check, and did not.** It built `db/101` and
+changed `tools/promote_session.sql`, so it did not mark them. That test is in
+`docs/CLOSURE-TESTS.md` and is the next session's. Its items 8, 9 and 10 need
+faults built and thrown away, and item 8 runs `promote_session.sql` twice in one
+rehearsal, so its temporary tables must be dropped in between.
 
-**Traps worth knowing.** The connector refuses connections intermittently and
-rate-limits about a dozen in quick succession, so a loop of runs fails in a way
-that reads as a bug in whatever is being tested — batch the work into few
-connections and retry on refusal. Piping the loader's output through `head` kills
-psql before it commits. And `~/.claude/legdata-vps --scp` writes as the login
-account, so a file psql wrote as `postgres` needs `sudo rm` to clear.
-
-**Old working files from earlier sessions are still in `/tmp` on the server** —
-`cols.sql`, `look.sql`, `sanity.sql`, `reh.tgz`, `q1.sql` to `q6.sql` and the
-rest. Nothing is inside the database and nothing depends on them.
+**And one thing this session found out about itself, worth passing on.** It
+reported the European Charter Stage 3 disagreement to the owner as a new
+finding. It was not: it had been found, argued and settled on 13 September, and
+was recorded in `DECISIONS.md`, in the header of `tools/promote_session.sql` and
+in three places in `docs/CLOSURE-TESTS.md`. The owner remembered it and said so.
+A test item that reads as a surprise is a reason to search the documents for the
+subject before reporting it, not after. It also nearly led to a proposal that
+would have undone a settled decision.
 
 ## What this session did
 
-**Session 6 is on the clean sheet.** The owner cleared its 83 lines and 223 stage
-dates, and then said what this session's real subject turned out to be: that a
-robust process for finalising each session had given way to ad hoc approaches.
-It had. Both things were dealt with before anything moved.
+**Ran Session 6's closure test**, written by the session before it, which had
+promoted Session 6 and built `db/098` to `db/100`. Twenty-three mechanical
+items; **twenty pass as written**. Nothing was written to the database: items 16
+and 17 build deliberate faults, and each was built inside a transaction that was
+thrown away, with the counts, the checker and the gaps list identical before and
+after.
 
-**`db/098`: a bill's note is the eighth cell a second appearance carries.**
-Promotion updated seven cells on a bill a later fact sheet lists again, and never
-the note. The European Charter and UNCRC Bills were stopped before Royal Assent
-in Session 5, carry notes ending "it could not be submitted for Royal Assent in
-its unamended form", and were reconsidered and passed in Session 6. Promoting as
-things stood would have written each Act's title, number and Royal Assent date
-onto the bill and left that sentence beside it. The change was settled in all its
-parts with the owner before a line of it was built: the rule, what an empty note
-means, how it arrives, how promotion carries it, what the error checker asks,
-what M6 tells a reader, and every bill already coded the old way rechecked. The
-three rewritten notes were agreed word for word. `tools/promote_session.sql`
-carries the cell and writes its provenance as `manual`, because the note is ours
-and its provenance should not claim the fact sheet said it.
+**Item 14 failed, and the failure was real.** `db/098` moved the note's
+provenance `source` to `manual` on the reasoning that the note is ours and not
+the fact sheet's, and left `source_ref` and `observed_at` naming the Session 6
+fact sheet and 10 September. Each row therefore said the note had been seen in a
+document five days before it was written. **`db/101`** moves all three together
+and takes the date from the line's own `reviewed_at`, so it holds for every
+session after this one. `tools/promote_session.sql` changed in the same commit.
 
-**`db/099`: Session 6 admitted**, 83 lines and 223 stage dates, on the same
-guards Session 5 had plus one new one — a further appearance may not leave an
-earlier note unanswered.
+**Rehearsed twice, both thrown away.** Once for the migration, which photographs
+every provenance row before it writes and proves afterwards that exactly three
+moved and none appeared or vanished. Once for the tool: Session 6 taken off,
+Sessions 5 and 6 promoted again, and every bill and every stage record compared
+against what it was — **identical cell by cell**, ignoring only the two
+timestamps the database sets itself. A copy was taken before it was applied.
 
-**Promoted**, rehearsed in full first and thrown away, with a copy of the
-database taken beforehand. 80 bills of its own; the three second appearances
-added to bills 303, 304 and 305, which now read as two Acts and a withdrawn bill,
-each with a note that covers the whole of the bill's life and keeps what it said
-before. 61 Government and 19 Member's, against the fact sheet's own 62 and 20 —
-the difference being exactly the two bills it counts in its Acts table that here
-add to their Session 5 lines.
+**Items 19 and 23 were themselves wrong**, and are rewritten with what they
+first said and why. Item 19 described a settled adjudication as though it were a
+discrepancy. Item 23 cited `db/079` for a rule `db/079` explicitly declined to
+make, and run as written returns four Sessions 1 and 2 notes that end in a web
+address and are not wrong. Rule 4 of the procedure asks where an expected answer
+comes from; both of these said, and both were wrong in a way only reading the
+cited migration would show.
 
-**`db/100`: Session 7's Gender Recognition Reform line points at the Session 6
-bill.** It could not until Session 6 was there. The error checker and the gaps
-list are now both empty.
+**A sentence in `DECISIONS.md` contradicted the database**, found while checking
+item 19. The 13 September entry rejected the Session 6 fact sheet's 23 May 2021
+on the ground that it "falls between dissolution and the new Parliament". It
+does not — Session 5 ended 4 May 2021 and Session 6 first met on 13 May, so
+23 May is ten days into the new Parliament. The bill page settles the date at
+23 March and always did; the reason given was wrong. Corrected, with what it
+said before.
 
-**The per-session closure test is back.** `docs/CLOSURE-TESTS.md` opens with a
-Session 6 test in the shape Sessions 1 to 5 had: Part A, 23 mechanical items each
-saying where its expected answer comes from; Part B, four sign-offs that are the
-owner's. `tools/closure_check_session_6.sql` sits beside it. It inherits the seven
-piece-tests below it rather than re-arguing them. **It has not been run**, and not
-by this session, which wrote it and did the work it tests.
+**Session 6 is not closed.** Four sign-offs are the owner's, and item 14 waits
+on `db/101`'s own test being run by a session that did not write it.
 
 ## Session 6's dates and endings, 15 September
 

@@ -516,11 +516,19 @@ INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at, note)
 SELECT 'bill', ch.target_bill_id, ch.field_name,
        -- The note is written by us at review, so it is not attributed to the
-       -- fact sheet the rest of the line was read off (db/098).
+       -- fact sheet the rest of the line was read off (db/098). All three of
+       -- source, source_ref and observed_at have to move together, or the row
+       -- says it was written by hand and then cites a document and a date it
+       -- was never in -- which is what db/098 left and db/101 mended.
        CASE WHEN ch.field_name = 'note' THEN 'manual' ELSE c.source END,
-       c.source_ref,
+       CASE WHEN ch.field_name = 'note'
+            THEN 'written at review of session ' || c.session_number
+            ELSE c.source_ref END,
        CASE WHEN ch.field_name = 'short_title' THEN c.raw_title END,
-       c.observed_at,
+       -- The day the note was written is the day the line was reviewed, taken
+       -- from the line itself so no future session has to remember (db/101).
+       CASE WHEN ch.field_name = 'note' THEN c.reviewed_at::date
+            ELSE c.observed_at END,
        CASE WHEN ch.field_name = 'note'
             -- The note is in our own words, not the fact sheet's, so its
             -- provenance says who wrote it and when rather than claiming it was

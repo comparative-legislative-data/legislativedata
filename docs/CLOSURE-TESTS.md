@@ -30,6 +30,111 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## A note we wrote is dated the day we wrote it
+
+Written 2026-09-15 by the session that built `db/101` and changed
+`tools/promote_session.sql`. **It has not been run, and not by that session.**
+
+`db/098` made a bill's note the eighth cell a further appearance carries, and
+said why the note differs from the other seven: they are read off a fact sheet
+and the note is written by us at review. It moved `source` to `manual` and left
+`source_ref` and `observed_at` naming the Session 6 fact sheet and the day it
+was retrieved. `db/101` moves all three together, and takes the date from the
+line's own `reviewed_at` so no future session has to remember.
+
+Found by item 14 of the Session 6 test above, which is what that item is for.
+
+### Part A — the mechanical items
+
+1. **The three rows now cite us, and are dated the day the notes were written.**
+   Bills 303, 304 and 305: `source` = `manual`, `source_ref` = "written at
+   review of session 6", `observed_at` = 2026-09-15.
+   *Where from:* the three staging lines' own `reviewed_at`, which is
+   2026-09-15 11:40:30 for all three, twenty-six seconds before the promotion
+   that wrote these rows.
+
+2. **No note row anywhere cites anything else.** Every `field_source` row with
+   `field_name` = 'note' has a `source_ref` beginning "written at review of
+   session ".
+   *Where from:* db/101's own closing check, asked again from outside. There are
+   three such rows in the database and no others.
+
+3. **Each row still says what it said before, and now says what it used to say
+   about itself.** Each of the three notes still contains the earlier wording
+   after "It read", and each ends with a sentence naming db/101, the date
+   2026-09-10 and the reference it carried before.
+   *Where from:* the same principle db/098 applied to the notes themselves —
+   what a record said before is kept when it is rewritten.
+
+4. **Nothing else in `field_source` moved.** Exactly three rows differ from what
+   they were; none appeared and none vanished; 186 rows throughout.
+   *Where from:* db/101 photographs every row before it writes and compares
+   afterwards, character for character. This item asks the question the other
+   way round: take a copy of `field_source` from
+   `/var/tmp/legdata-before-db101_2026-09-15.dump` and compare.
+
+5. **`assent_block_route` and `date_assent_blocked` still cite the Session 5
+   footnote.** Five rows across bills 303, 304 and 305, `source_ref` = "session
+   5, retrieved 2026-09-10".
+   *Where from:* db/081's rule that a further appearance never changes those
+   cells, and the Session 6 test's item of the same shape. **This is the trap in
+   this migration:** the other cells are *not* all cited to the Session 6 sheet,
+   so any check that assumed one citation would pass while being wrong.
+
+6. **The notes on the clean sheet are untouched.** Bills 303, 304 and 305 read
+   exactly as item 13 of the Session 6 test prints them, word for word.
+   *Where from:* the owner agreed those three word for word on 2026-09-15. This
+   migration is about provenance only and must not have moved them.
+
+7. **The counts did not move.** 469 bills, 1291 stage records, 186 provenance
+   notes, 0 on the error checker, 0 on the gaps list.
+   *Where from:* the figures `STATE.md` carries, and db/101's own closing check.
+
+8. **Promotion now writes these rows right without db/101.** Inside a
+   transaction that is thrown away: take Session 6 off, promote Session 5 again,
+   promote Session 6 again, and confirm the three note rows come out with
+   `source_ref` "written at review of session 6" and `observed_at` 2026-09-15
+   with no sentence naming db/101 in them — because the tool, not the migration,
+   wrote them. Then confirm every bill and every stage record is identical to
+   what it was, cell by cell, ignoring only `created_at` and `updated_at`.
+   *Where from:* `tools/promote_session.sql` as this commit leaves it. Note that
+   `promote_session.sql` makes temporary tables and is run twice here, so they
+   must be dropped between the two runs.
+
+9. **The date is taken from the line, not written in.** Change one of the three
+   lines' `reviewed_at` to another day inside a thrown-away transaction, promote
+   as in item 8, and confirm that bill's note row carries the new date while the
+   other two do not.
+   *Where from:* the rule as settled — the day the note was written is the day
+   the line was reviewed — and the reason for taking it from the line: so that
+   this holds for Session 7 and after without anybody remembering.
+
+10. **The migration refuses a database that is not where it expects.** Inside a
+    thrown-away transaction, run `db/101` a second time and confirm it refuses,
+    naming the three note rows as not being where it expects them.
+    *Where from:* its own opening guards. A migration that would run twice is
+    one that could be run twice by accident.
+
+### Part B — the owner's sign-off
+
+1. **That "written at review of session 6" is what a reader should be told.**
+   The alternative was to leave the fact sheet's reference beside a note we
+   wrote. Agreed on 2026-09-15; put again here because it is what a reader sees
+   against the note on three bills.
+
+### What this test does not check
+
+- **It does not check the notes themselves.** Their wording was agreed word for
+  word on 2026-09-15 and is item 13 and sign-off 1 of the Session 6 test.
+- **It does not check the other seven cells' provenance beyond item 5**, which
+  the Session 6 test already covers.
+- **It says nothing about sessions after 6.** Item 8 proves the tool writes the
+  row correctly; whether Session 7's promotion does so in fact is Session 7's
+  test.
+- **It does not check M6**, which says nothing about dates and did not change.
+
+---
+
 ## Session 6
 
 Written 2026-09-15 by the session that admitted Session 6, promoted it, built
@@ -199,11 +304,20 @@ each one inside a transaction it throws away.
     reconsideration rows, and the 3 at item 19.
 
 19. **Accepted stage dates not carried: three.** One each on lines 412, 440 and
-    468, all Stage 3, each already on the bill the line continues with the same
-    date.
-    *Where from:* promotion adds the stages a continued bill does not have
-    (db/086). The Session 6 sheet restates each bill's Stage 3, which its own
-    session already recorded.
+    468, all Stage 3. Lines 412 and 468 restate the date already on the bill
+    they continue. **Line 440 does not, and must not:** it restates the Session 6
+    fact sheet's "Passed on 23 May 2021", and bill 303's Stage 3 is 23 March
+    2021. Both are expected. Promotion adds the stages a continued bill has not
+    got and never overwrites one it has, so the bill keeps the adjudicated date
+    while the staging line keeps what the Session 6 sheet printed.
+    *Where from:* db/086 for the rule, and `DECISIONS.md` 2026-09-13 for the
+    adjudication: the two fact sheets disagree, the Parliament's own bill page
+    gives 23 March 2021, and the Session 6 date is deliberately kept on the
+    staging sheet as what that document said. The item that proves the
+    behaviour is item 13 of "Carried-over bills, and the blocked-bill record"
+    below, which used this bill and this date as its fixture on 2026-09-14.
+    *Corrected 2026-09-15*, having first been written as though all three
+    restated the same date.
 
 20. **Session 7's line.** Line 474 continues bill 393; both Session 7 lines still
     `new` and unpromoted. The error checker finds nothing and the gaps list holds
@@ -225,10 +339,21 @@ each one inside a transaction it throws away.
     and the day it was read.
     *Where from:* the standing rule, and Session 5's test item of the same shape.
 
-23. **No note on the clean sheet ends mid-sentence.** 0.
-    *Where from:* db/079, which added the rule after eight notes across Sessions 4
-    and 5 were found ending mid-sentence. Asked again because db/098 wrote three
-    new notes by hand.
+23. **No provenance note's words are left hanging, and the three new notes end
+    in a full stop.** No `field_source` row whose `value_seen` ends in "Read at",
+    and each of bills 303, 304 and 305's notes ends in one.
+    *Where from:* db/079, which is the only rule this project has ever settled
+    about a note ending mid-sentence, and it is narrow on purpose: it forbids the
+    one phrase "Read at", and its own words explain why a general rule was
+    rejected — a source's words are quoted verbatim and end in dates, numbers,
+    titles and web addresses, so a rule expecting a full stop would refuse most
+    of the 106. The second half is db/098's own check on the three notes it
+    wrote, asked here from outside.
+    *Corrected 2026-09-15.* This item first asked for no note on the clean sheet
+    ending in anything but `. ? ! "`, expected none, and cited db/079 for it.
+    That is the rule db/079 considered and declined. Run as written it returns
+    four Sessions 1 and 2 notes, every one of which rightly ends in a web
+    address.
 
 ### Part B — the owner's sign-offs
 
@@ -250,6 +375,78 @@ each one inside a transaction it throws away.
    without help. The standing requirement, put again because Session 6 is the
    first session that changes a bill already on the clean sheet in a way a reader
    sees.
+
+### The run, 2026-09-15
+
+**Run by a session that wrote none of `db/098` to `db/100`, promoted nothing and
+wrote no part of this test.** Nothing was written to the database by the run:
+the two deliberate faults were built inside transactions that were thrown away,
+and the bill count, stage count, provenance count, error checker and gaps list
+were identical before and after.
+
+**Twenty of the twenty-three mechanical items pass as written.** Items 1 to 13,
+15, 16, 17, 18, 20, 21 and 22 each returned exactly their expected answer.
+
+Worth naming from among them:
+
+- **Item 16, the new rule.** Blanking line 412's `bill_note` brings the
+  complaint out word for word as db/098 wrote it; restoring the note silences
+  it; and setting the line's note to bill 305's wording character for character
+  leaves the checker quiet, which is the "repeating the earlier wording" case
+  the rule was designed to allow.
+- **Item 17, nothing silently lost.** All four rules that existed before db/098
+  still bite: an Act's title with no year, a bill recorded as blocked with no
+  note saying what stopped it, a stage dated before the stage before it, and a
+  line continuing a bill from a later session. Two of the four needed the fault
+  rebuilding: dating a stage to 2019 and pointing a line at a bill that is not
+  on the clean sheet each tripped a *different* rule first and never reached the
+  one under test. The faults that do reach it are a Stage 3 dated between Stage 1
+  and Stage 2 on a line that carries all three, and a Session 6 line pointed at a
+  Session 6 bill.
+- **Item 21, the durations.** Read for the first time with Session 6 on: nothing
+  negative, nothing over 2000 days, no bill that passed with no road at all, and
+  the five emergency bills reaching their final stage in 3, 3, 6, 8 and 16 days.
+
+**One item failed, and the failure was real.**
+
+- **Item 14.** The three note provenance rows carry `observed_at` 2026-09-10 and
+  `source_ref` "session 6, retrieved 2026-09-10". The item expected 2026-09-15.
+  db/098 set out to stop the note being attributed to the fact sheet and moved
+  `source` to `manual`, but left the reference and the date pointing at the
+  Session 6 sheet — so each row said the note had been seen in a document on a
+  day when it did not yet exist. Nothing on the clean sheet was wrong; the
+  account of where the note came from was. **Mended by `db/101` the same day**,
+  with `tools/promote_session.sql` changed so the next session writes it right
+  in the first place. That migration has its own test below, written by the
+  session that built it and not run by it. **Item 14 is to be run again** once
+  that test is marked.
+
+**Two items were wrongly written, and neither is a fault in the data.**
+
+- **Item 19** described all three uncarried Stage 3 dates as already on the bill
+  with the same date. Line 440's is not: it restates the Session 6 sheet's
+  23 May 2021 against bill 303's 23 March 2021. That disagreement was found,
+  argued and settled on 2026-09-13, is recorded in `DECISIONS.md`, is written
+  into the header of `tools/promote_session.sql`, and was used as the fixture
+  for item 13 of the carried-over bills test on 2026-09-14. The behaviour is
+  exactly what was decided. The item has been rewritten to say so.
+- **Item 23** asked for no note on the clean sheet ending in anything but a
+  full stop, question mark, exclamation mark or closing quote, and cited db/079.
+  db/079 declined that rule in terms. Run as written it returns four notes from
+  Sessions 1 and 2, each ending in a web address, and none of them wrong. The
+  item has been rewritten to ask what db/079 actually settled.
+
+**One thing in the documents contradicts the database**, found while checking
+item 19 and mended in `DECISIONS.md` the same day: the 2026-09-13 entry gave as
+its reason for rejecting 23 May 2021 that the date "falls between dissolution and
+the new Parliament". It does not. Session 5 ended 4 May 2021, the election was
+6 May and Session 6 first met on 13 May, so 23 May is ten days into the new
+Parliament. The conclusion is untouched — the bill page settles the date at
+23 March — but the sentence supporting it was wrong.
+
+**Part B, the owner's four sign-offs, are outstanding.** Session 6 is on the
+clean sheet and **is not closed** until they are given and item 14 has been run
+again.
 
 ### What this test does not check
 

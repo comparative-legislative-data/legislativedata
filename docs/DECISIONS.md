@@ -8,6 +8,76 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-15 — A note we wrote is dated the day we wrote it, and cites us
+
+**Decided:** where promotion writes a provenance row for a bill's note, all
+three of `source`, `source_ref` and `observed_at` describe us, not the fact
+sheet. `source` stays `manual`; `source_ref` becomes "written at review of
+session N"; `observed_at` becomes the day the staging line was reviewed, taken
+from the line's own `reviewed_at` rather than written in, so it holds for every
+session after this one without anybody remembering. The other seven cells a
+further appearance carries are read off a fact sheet and go on citing it, on the
+day it was retrieved.
+
+**Why.** `db/098` said in terms that the note is different from the other seven
+because it is written by us at review, and moved `source` to `manual` on that
+reasoning. It left `source_ref` and `observed_at` naming the Session 6 fact sheet
+and 10 September. So each of the three rows said, in one breath, that the note
+was written by hand and that it had been seen in a document five days before it
+was written. Half a change is worse than none here: the row looks sourced and is
+not.
+
+**Found by** item 14 of Session 6's closure test, run on 2026-09-15 by a session
+that wrote no part of the work it tests. That is the whole argument for the
+two-session rule, arriving on the first test run after the rule was put back.
+
+**Built** as `db/101`, with `tools/promote_session.sql` changed in the same
+commit so the next session writes the row right in the first place. Rehearsed
+twice inside transactions that were thrown away: once for the migration, and
+once by taking Session 6 off the clean sheet, promoting Session 5 and Session 6
+again with the changed tool, and comparing every bill and every stage record
+against what it was — identical cell by cell, ignoring only the two timestamps
+the database sets itself. A copy was taken first, at
+`/var/tmp/legdata-before-db101_2026-09-15.dump`.
+
+**What each row said before is kept** in the row's own words, which is what
+`db/098` did for the notes themselves. Nothing on the clean sheet moved.
+
+**Not marked by the session that built it.** Its test is in
+`docs/CLOSURE-TESTS.md`, "A note we wrote is dated the day we wrote it": ten
+mechanical items and one sign-off.
+
+---
+
+## 2026-09-15 — Two items of Session 6's test were wrong, and are rewritten
+
+**Decided:** items 19 and 23 of Session 6's closure test are corrected, and the
+corrections say what they first said and why it was wrong. Neither was a fault
+in the data.
+
+**Item 19** said all three uncarried Stage 3 dates were already on the bill with
+the same date. Line 440's restates the Session 6 fact sheet's 23 May 2021
+against bill 303's 23 March 2021 — which is the settled position of 2026-09-13,
+not a discrepancy: the bill keeps the adjudicated date and the staging line keeps
+what the document printed. The expected answer was written carelessly against
+work already done and recorded in three places.
+
+**Item 23** asked that no note on the clean sheet end in anything but `. ? ! "`
+and cited `db/079` for it. `db/079` considered that rule and rejected it in
+terms, because a source's words are quoted verbatim and end in dates, numbers,
+titles and web addresses. Run as written it returns four Sessions 1 and 2 notes,
+every one ending in a web address, none of them wrong. It now asks what `db/079`
+actually settled: no provenance note's words end in "Read at".
+
+**Why this is worth an entry.** A test that cites a migration for a rule the
+migration declined is a test that will be believed. Rule 4 of the procedure says
+each expected answer must say where it comes from; both of these did, and both
+citations were wrong in a way only reading the migration would show. **Reading
+the cited source is part of running a test, not part of writing one.**
+
+
+---
+
 ## 2026-09-15 — A session is finished by its own closure test, not by seven tests of its parts
 
 **The owner, on being told Session 6 was ready to promote:** "I remain deeply
@@ -2059,15 +2129,25 @@ that decides which session a bill belongs to rather than only a date.
 - Session 5 factsheet, p.2, *Bills awaiting Royal Assent*: `23 March 2021`.
 - Session 6 factsheet, p.7, *Acts of the Scottish Parliament*: `Passed on 23 May 2021.`
 
-Session 5 ended 4 May 2021 and Session 6 first met on 13 May 2021, so 23 May
-falls between dissolution and the new Parliament — no Parliament existed to pass
-it. The Scottish Parliament's own bill page settles it: *"The Bill ended Stage 3
+Session 5 ended 4 May 2021, the election was on 6 May and Session 6 first met on
+13 May 2021, so 23 May 2021 falls ten days into the new Parliament — seventeen
+days after an election, in a Parliament that had only just met, on a bill
+belonging to the one before it. The Session 5 Parliament no longer existed to
+pass it and the Session 6 Parliament had not had it before it. The Scottish
+Parliament's own bill page settles it: *"The Bill ended Stage 3
 on 23 March 2021"*, 114 for, 0 against. The bill page is already recorded as
 definitive for dates other than Royal Assent, so this needed no new source.
 
 **Decided:** 23 March 2021, cited to the bill page, with the Session 6
 factsheet's date kept on the staging sheet as what that document said. Applied
 when Session 5 is read; nothing to build now.
+
+*Corrected 2026-09-15.* This entry first gave as its reason that 23 May "falls
+between dissolution and the new Parliament — no Parliament existed to pass it".
+It does not: 23 May is after Session 6 first met, and the database's own session
+dates say so. The conclusion was never in doubt and nothing built on this moved;
+the sentence supporting it was wrong, and contradicted the database. Found while
+running item 19 of Session 6's closure test.
 
 The same page gives the Stage 1 debate as 4 February 2021 and Stage 2 ending
 24 February 2021, which will be wanted then.
