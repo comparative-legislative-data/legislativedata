@@ -68,30 +68,55 @@ fact sheet caught being out of date.**
 - **All twelve bills any fact sheet leaves awaiting assent are now looked up**,
   the five that did not move included, and every future session must do the same
   and say what it found even when the answer is "still waiting".
+- **All ten of Session 6's fallen bills are read at the Official Report.** The
+  fact sheet's one word "fell" turns out to be three different things: five were
+  rejected at Stage 1, two were rejected at Stage 3 after getting all the way
+  through, and three ran out of time.
+- **The error checker is down from 22 problems to two**, and only one of them is
+  a question for you.
 
-## Now: the two checks that come before your review
+## Now: one ruling from you, and Session 6 is ready to review
 
-Session 6 and 7 should not be reviewed until these are done, and neither is
-yours. The session brings the evidence; you rule on what it means. The error
-checker has 22 items left and they are all in these two.
+All four checks between the load and your review are done. The error checker is
+down from 22 problems to **two**, and only one of them is a question.
 
-1. **Read the Official Report for all ten of Session 6's fallen bills.** Seven
-   concluded on a sitting day months before dissolution, which is the pattern
-   that turned three of Session 5's seven into Stage 1 rejections. The three the
-   loader proposed as having run out of time are checked too, not assumed.
-2. **Settle the rest of the error checker's list** — the four bills appearing in
-   two fact sheets, the European Charter Act's title and number, the Dog Theft
-   Act's year, and how the Gender Recognition Reform Bill was stopped in both
-   sessions. Two of these already have their answer from the reading done this
-   session and are not yet applied: the European Charter Act is **2026 asp 11**,
-   and the Dog Theft Act is **2026**, not 2025.
+1. **Line 412, the UK Withdrawal (Legal Continuity) Bill — your ruling.** It
+   passed in 2018, was stopped before Royal Assent by the Supreme Court, and was
+   withdrawn on 10 March 2022. Three of the checker's rules cannot all hold for
+   it at once and one has to give. The proposal, and why, is below under "One
+   ruling". Nothing else waits on it.
+2. **Line 474, the Gender Recognition Reform Bill in Session 7.** It must point
+   at the Session 6 line for the same bill, and cannot until Session 6 is on the
+   clean sheet. Sequencing, not a question, and it does not hold Session 6 up:
+   promotion looks only at the session being promoted.
 
-**Waiting for a session that built none of it:** the checks on `db/089`, `db/090`
-and `db/091` are written in `CLOSURE-TESTS.md` and have not been run. Fourteen
-items, thirteen mechanical and one for you — whether M12 tells a reader enough.
+**Then Session 6 is yours to review**, and after that its Stage 1 and 2 dates go
+on from your dataset, as every session before it.
 
-**Yours whenever you want it, and nothing waits on it:** your write-up on what
-the charts present and the options they offer.
+## One ruling: what line 412 should say
+
+Whatever we choose, the clean sheet will say the Parliament **passed** this bill,
+because a bill's outcome is never overwritten by a later fact sheet. What is in
+question is what the staging line says, and one thing that does carry: what
+followed the bill being stopped.
+
+- **If the line says the Parliament withdrew it**, two rules object — only a
+  bill that passed can be stopped before Royal Assent, and a completed Stage 3
+  means the bill passed — and the blocked-bill cells cannot be filled. The clean
+  sheet would then go on saying the bill is **still blocked**, which it is not.
+- **If the line says the Parliament passed it, that it never became an Act, and
+  that what followed the block was the withdrawal of 10 March 2022**, everything
+  reads true and the clean sheet ends up right. One rule objects: a bill that
+  passed with no Royal Assent date must be recorded as blocked or awaiting one.
+
+**The proposal is the second, and that rule gives.** It was written before the
+blocked-bill cells existed, and its job — stop a bill being recorded as never
+becoming an Act with no explanation — is done better by those cells than by the
+rule. It would learn one more acceptable answer: *or it says what followed the
+block.*
+
+That is a change to what the error checker requires, so it gets the eight parts
+before anything is built, as the seven Acts did.
 
 ## After that, in order
 
@@ -124,6 +149,18 @@ it too, and it goes in next time Session 2 comes off.
 - **How to record a published record being revised.** When the first case
   arrives.
 - **Whether to rename the dates factsheet's file** to match the others'.
+- **Whether a bill's note should be rewritten when the bill is reconsidered and
+  passed.** Bills 303 and 304 carry a Session 5 note saying the bill could not
+  be submitted for Royal Assent in its unamended form. Both are about to be
+  recorded as reconsidered and passed, and the note is not carried or replaced
+  when a later fact sheet adds to a bill — only seven cells are. The note stays
+  true about Session 5, and a reader seeing it beside an Act of 2026 may not
+  read it that way. Found 15 September.
+- **Whether Session 5's four bills that ran out of time should carry the note
+  Session 6's three now do**, recording that the loader's proposal was checked
+  and what was read. Session 5's carry nothing; the check was recorded in its
+  closure test instead. Nothing is wrong with the data either way. Found
+  15 September.
 - **Which source settles a disagreement about what kind of bill it was.** None
   has ever arisen.
 - **Whether to take a copy of the bills before a change that touches them.**
@@ -225,6 +262,24 @@ fourteen items on `db/089`, `db/090`, `db/091` and the two tools are written in
 `CLOSURE-TESTS.md` for a session that built none of it. Nor did it certify the
 runbook's steps 6 to 8 against Sessions 1 to 5 — the owner ruled on 15 September
 that this is not needed.
+
+
+**Step 7, the Official Report for all ten of Session 6's fallen bills.** The
+fact sheet's one word covers three things. Five were rejected at Stage 1, every
+one on the member in charge's own motion being disagreed to; two were rejected
+at Stage 3 having completed Stages 1 and 2 — the Assisted Dying and Recall of
+Members bills, only the second and third `rejected_stage_3` in the database; and
+three ran out of time, the loader's proposal checked and standing, nothing
+having been decided on 8 April 2026 or capable of being. `db/092`. For the
+Disabled Children bill a secondary summary gave division figures the Official
+Report does not record, which is what `db/067` exists for.
+
+**Step 9, thirteen of the checker's fifteen.** `db/093`: how the Gender
+Recognition Reform Bill was stopped, in both fact sheets; the European Charter
+and UNCRC bills recorded as stopped and then reconsidered and passed; the
+European Charter Act's title and number and the Dog Theft Act's year settled at
+legislation.gov.uk; and three second appearances pointed at the bills they
+continue. The error checker is at two.
 
 ## The owner's standing positions, so they are not re-argued
 
