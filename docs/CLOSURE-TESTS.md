@@ -30,6 +30,61 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The blocked bills and two Act titles
+
+Written 2026-09-15 by the session that built `db/093`, which may therefore not
+run it. **Five items, all mechanical.** Nothing here writes to the database.
+
+**Not yet run.**
+
+1. **The checker finds exactly two problems**, one on line 412 and one on line
+   474, and nothing anywhere else. **Expected: 2.** Where the expectation comes
+   from: `db/093`'s own closing check, and the two are the ones its header says
+   it deliberately leaves.
+
+2. **The two Act titles are right.** **Read them off legislation.gov.uk again**,
+   not from here and not from the database: the Dog Theft (Scotland) Act 2026 at
+   `asp/2026/2` and the European Charter of Local Self-Government
+   (Incorporation) (Scotland) Act 2026 at `asp/2026/11`. Check the title, the
+   number and that the Royal Assent date on each page matches the one already on
+   the line — 2026-02-10 and 2026-04-15. Then check `title_kind` reads `act` on
+   both. The Dog Theft line is the one to look at hardest: the fact sheet had the
+   year wrong in the title and in the number, and only the number tripped a rule.
+
+3. **The Gender Recognition Reform Bill says how it was stopped, in both fact
+   sheets.** Lines 393 and 474: `s35_order`, `still_blocked`, and a `bill_note`
+   that quotes the fact sheet's own footnote. **Check the footnote in
+   `raw_footnote` against the quotation in the note, word for word.** The route
+   must not be `s33_reference`: `ref_assent_block_route` explains why an
+   executive order and a court ruling are not the same value, and getting it
+   wrong would put this bill in with Session 5's three.
+
+4. **The two reconsidered bills say so.** Lines 440 and 468:
+   `reconsidered_passed`, `enacted`, and a Reconsideration Stage row on the line.
+   **Then check the consequence:** promotion carries `assent_block_outcome` onto
+   bills 303 and 304, which today read `still_blocked`. Rehearse a promotion of
+   Session 6 in a thrown-away transaction once the two standing problems are
+   gone, and check both bills come out `reconsidered_passed`.
+
+5. **The second appearances point at the right bills.** 412 → 305, 440 → 303,
+   468 → 304, by name as well as by number. Line 474 points at nothing, and
+   must not: line 393 is not on the clean sheet.
+
+### What this test does not check
+
+- **It does not settle line 412.** Three of the checker's rules cannot all hold
+  for that bill at once and the owner has been asked which gives. Until then the
+  line carries only `continues_bill_id`.
+- **It does not check `bill.note` for a continued bill.** Promotion does not
+  carry `bill_note` onto a bill a line continues — only the seven cells in the
+  `UPDATE` at `tools/promote_session.sql`. So bills 303 and 304 will keep the
+  note Session 5 gave them, which says the bill could not be submitted for Royal
+  Assent in its unamended form, while also reading as enacted in 2026. Whether
+  that note should be rewritten when a bill is reconsidered and passed is a
+  question for the owner and is raised in `STATE.md`, not a fault in `db/093`.
+
+---
+
 ## Why Session 6's ten bills fell
 
 Written 2026-09-15 by the session that built `db/092`, which may therefore not
