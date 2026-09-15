@@ -30,6 +30,80 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Why Session 6's ten bills fell
+
+Written 2026-09-15 by the session that built `db/092`, which may therefore not
+run it. **Six items: five mechanical and one sign-off.** Nothing here writes to
+the database.
+
+**Not yet run.**
+
+1. **The ten are answered, and split as `db/092` says.** Five `rejected_stage_1`,
+   two `rejected_stage_3`, three `fell_dissolution`; no Session 6 fallen line
+   without an outcome; and the error checker silent on all ten. **Expected: 5,
+   2, 3, none and none.**
+
+2. **Every rejection was read at the Official Report, and says so.** For the
+   seven: `official_report_read_on` = 2026-09-15, a `Result as recorded: "…"`
+   quotation, and an address. For the three that ran out of time:
+   `official_report_read_on` **empty**, because nothing on those lines came from
+   the Official Report — they were read at the Parliament's page for each bill,
+   which is what `db/067` prescribes where the Parliament decided nothing.
+
+3. **The seven divisions are right.** **Open each of the seven addresses and
+   check the figures and the motion off the page itself** — not from the table
+   below, and not from the database:
+
+   | Line | Date | Motion | Mover | For / Against / Abstentions |
+   |---|---|---|---|---|
+   | 400 | 2023-11-23 | S6M-11381 | Pam Duncan-Glancy | 19 / 90 / 0 |
+   | 405 | 2024-04-18 | S6M-12882 | Mark Griffin | 20 / 95 / 0 |
+   | 404 | 2025-10-09 | S6M-19128 | Douglas Ross | 52 / 63 / 0 |
+   | 407 | 2026-01-22 | S6M-20414 | Sarah Boyack | 25 / 91 / 0 |
+   | 403 | 2026-02-03 | S6M-20627 | Ash Regan | 54 / 64 / 0 |
+   | 406 | 2026-02-24 | S6M-20904 | Graham Simpson | 30 / 66 / 27 |
+   | 398 | 2026-03-17 | S6M-21005 | Liam McArthur | 57 / 69 / 1 |
+
+   **This item matters more than it looks.** A secondary summary of line 400's
+   division gave figures that are not the ones the Official Report records. If
+   any figure here disagrees with the page, the page wins and the line is wrong.
+
+4. **A route sits only on a Stage 1 rejection.** The five have
+   `member_motion_disagreed`; the two Stage 3 rejections and the three
+   dissolutions have none. **Expected: exactly five routes across Session 6.**
+
+5. **The three that ran out of time could not have been decided.** Check the
+   session row: Session 6 ends 2026-04-08 and its note records a pre-election
+   recess from 26 March 2026. Then **open each of the three bill pages** and
+   check that the last recorded activity is before the recess and that the page
+   says the bill fell at dissolution. **Expected: all three confirmed, and the
+   loader's proposal standing.**
+
+6. **Sign-off: are the two Stage 3 rejections rightly separated from the rest?**
+   The fact sheet says only "Fell" for all ten. This session has made that into
+   three different answers, and `rejected_stage_3` had one instance in the whole
+   database before today — the Budget (Scotland) (No.2) Bill of Session 3, on a
+   casting vote. The question for the owner is whether recording the Assisted
+   Dying and Recall of Members bills as Stage 3 rejections, rather than as bills
+   that simply fell, is the distinction they want the published data to draw.
+
+### What this test does not check
+
+- **It does not check any stage record.** None of the ten has one yet. Which
+  stage each bill ended at, and `fell_here`, come with the stage dates, and the
+  error checker's rules about them apply then — including whether a bill
+  recorded as rejected at Stage 1 has a Stage 2 row it should not have.
+- **It does not check the fifteen problems the checker still finds**, which are
+  step 9's work.
+- **It does not settle whether the Session 6 Disabled Children bill is a
+  reintroduction** of the Session 5 bill of the same name by the same member.
+  `reintroduced_from_bill_id` is left empty, which the data dictionary says
+  means the bill did its own scrutiny — and it did, with its own committee
+  report. Whether the published data should nonetheless link the two is a
+  question for the owner, not a fault here.
+
+---
+
 ## A fact sheet is a snapshot, and Session 6's comparison
 
 Written 2026-09-15 by the session that built `db/089`, `db/090` and `db/091`,
