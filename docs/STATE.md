@@ -4,9 +4,10 @@ Updated: 2026-09-15
 
 ## Where we've got to
 
-**Phase 0 — the dataset — is closed.** What comes next is in `docs/PLAN.md`,
-written today: Phase 1 is the site, Phase 2 is the data published on it, and
-both close before anything else opens.
+**Phase 0 — the dataset — is closed. Phase 1, the site, is open.** The arc is
+in `docs/PLAN.md`: Phase 1 is the site, Phase 2 is the data published on it, and
+both close before anything else opens. Phase 1's own plan is `docs/PHASE-1.md`,
+and it is thrown away when the phase closes.
 
 The first piece of work, across all seven sessions:
 
@@ -42,35 +43,42 @@ tests.
   `VARIABLES.md` cut back to the reasoning, generated contents pages added to
   the dictionary and the decisions record, and 261 lines of standing material
   lifted out of this file into the new `docs/STANDING.md`.
+- **15 September, the plan reviewed.** You settled six open questions in one
+  pass, what we vouch for was written down, and your own addition became the
+  rule that every phase gets a plan it throws away when the phase closes.
 
-**15 September, this session. The plan reviewed, and three things added to it.**
+**15 September, this session. `docs/PHASE-1.md`, and the order of the two
+discussions.**
 
-- **You read it and settled every open question in one pass.** Where the site
-  reads from — the working database, or a copy taken from it — becomes the first
-  infrastructure question, because it shapes the others. Phase 1's pages are
-  named: a welcome, who you are logged in as, change password, log out, and
-  nothing else. Style becomes a deep dive, with the bound moved off what gets
-  decided and onto what gets built. The dataset stays as it is while the site is
-  built. Phase 2 closes from a second account rather than yours.
-- **What we vouch for is written down**: the data as it stands when it is
-  accessed, stamped with the date it was taken, no archive of superseded
-  versions and no undertaking to serve one, and the citation is the user's. It
-  is now the third thing that makes the resource research grade.
-- **Every phase gets its own detailed plan, and closing the phase destroys it**
-  — your suggestion, and the best structural idea the plan has had. What
-  survives the sweep goes to the decisions record, the standing positions, a
-  runbook or a column description, each checked present before anything is cut,
-  and the sweep is run by a session that did none of the phase's work.
+- **The Phase 1 plan is written**, under the rule you set yesterday. It sets out
+  how the two scoping discussions run and what each has to settle, and it fills
+  in as they settle it. It does not answer the infrastructure questions, which
+  is the point of holding the discussions.
+- **Infrastructure and style are separate, and infrastructure goes first** —
+  your decision. Where the site runs and what it reads from decides what can be
+  built on it, so style settled first would be settled against an unknown.
+- **The two infrastructure questions you named lead it**: where the front end
+  runs — the machine we rent, or a free tier — and whether the site reads our
+  working database or a copy taken from it. The three from the plan you did not
+  name today are still there and still have to be settled.
+- **The second question gets a written briefing before we discuss it**, not
+  during it, because a guide delivered mid-conversation is one nobody can weigh.
 
 Nothing was written to the database today.
 
-## Now: `docs/PHASE-1.md`, the plan for building the site
+## Now: the briefing on what the site reads from
 
-The first phase plan, written under the rule agreed today. It is the vehicle for
-Phase 1's two scoping discussions — infrastructure and style — and not a
-substitute for them: it sets out how they run and what each has to settle, then
-fills in as they settle it. It must not answer the infrastructure questions from
-inside this project, which is the whole point of holding the discussions.
+The first infrastructure question is where the front end runs; the second is
+whether a reader's page looks at our working database — the one sessions are
+loaded into and promoted on — or at a copy taken from it. You asked to be guided
+on safe practice for the second, so the next session writes that briefing: what
+each choice means traced through one real bill, what a reader would see go
+wrong in each, what happens to the site while a session is being loaded, and
+which choice lets us stamp a figure with its date honestly. It goes in a file,
+with one line saying where. The discussion happens after you have read it.
+
+Either question can be taken first. The briefing is the only piece of
+preparation either of them needs.
 
 ## Waiting for your decision, and not blocking anything
 
@@ -133,31 +141,26 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-15, the session that reviewed the plan
+## Sanity check, 2026-09-15, the session that wrote the Phase 1 plan
 
-Run at the start, and again at the end. Nothing was written to the database at
-any point.
+Run at the start. Nothing was written to the database at any point.
 
-- **The counts match** `STATE.md` and are the same at both ends: 470 bills, 1291
-  stage records, 186 provenance notes, 13 methodology notes.
-- **The error checker and the gaps list are empty**, at both ends.
-- **No working copy of the sheets is inside the database**, at both ends.
+- **The counts match** `STATE.md`: 470 bills, 1291 stage records, 186 provenance
+  notes, 13 methodology notes. The staging sheet holds 474 lines across the
+  seven sessions, all `accepted` and all promoted.
+- **The error checker and the gaps list are empty.**
+- **No working copy of the sheets is inside the database.** No schema other than
+  the database's own.
 - **Both generated documents regenerate identical** to the committed files: the
   data dictionary, 19 tables and 182 columns all described with the 13
   methodology notes indexed; and the contents block at the top of
-  `DECISIONS.md`, now 106 decisions over 6 days.
-- **The tree was clean and pushed at the start**, and nothing from the previous
-  session was left open outside `STATE.md`.
-- **One contradiction is still open, and it is the owner's**: three counts of how
-  many previous attempts there have been. It was found by the previous session
-  and recorded only below the line, where the owner would not see it; it is now
-  on the waiting list above the line. That is the finding — not the discrepancy
-  itself, but that a question put to the owner was filed where they do not read.
-- **A hand-kept copy survives below this line.** "M5 and M12, as a reader sees
-  them today" is a second copy of two methodology notes whose home is the
-  database, and the decision taken earlier today — an index, never a second copy
-  — covers it. The previous session left it for the owner to say. It can go on a
-  word.
+  `DECISIONS.md`, 106 decisions at the start of the session and 107 at the end.
+- **The tree was clean and pushed at the start**, and nothing the previous
+  session left open was outside `STATE.md`.
+- **Nothing new found.** The two items the previous check raised are both still
+  open and both are the owner's: the three disagreeing counts of how many
+  previous attempts there have been, and the hand-kept copy of M5 and M12 below
+  this line, which can go on a word.
 
 
 ## Session 7, and M13: working detail, 15 September
