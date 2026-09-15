@@ -37,7 +37,56 @@ Written 2026-09-15 by the session that built `db/095` and `db/096` and changed
 therefore not run it. **Nine items, all mechanical.** Nothing here writes to
 the database; items 2 and 4 write only inside a transaction that is thrown away.
 
-**Not yet run.**
+**Run 2026-09-15 by a session that built none of it. All nine pass.**
+
+1. Passes. Fourteen endings, one per bill, no bill with two. Five
+   `rejected_stage_1` at Stage 1, two `rejected_stage_3` at Stage 3, three that
+   ran out of time at Stage 1 (Commissioner for Older People) and Stage 2
+   (Ecocide, Freedom of Information Reform), four withdrawn at Stage 1. No
+   Session 6 bill that did not pass is without one.
+2. Passes, and more completely than asked. Run again unchanged it refuses:
+   *Refusing: 24 line(s) already hold a stage row.* Each of the eight faults was
+   then introduced on its own and each raised its own message: a mistyped line
+   number (*name a line whose title does not match*), a Session 7 line (*not in
+   Session 6*), a bill that passed (*passed or have no outcome*), a rejection
+   dated a day late (*not dated the day the bill concluded*), a withdrawal given
+   a date (*dated where nothing decided anything*), Ecocide's Stage 1 dated 2020
+   (*outside the bill's life*), a bill page cited for a rejection and the
+   Official Report cited for a withdrawal (both *cite the wrong kind of source
+   for the outcome*), and an Official Report address the line does not carry
+   (*cite a different Official Report page from the line*). A control run with
+   the stage rows removed and nothing else altered passed, so the refusals are
+   not simply refusing everything.
+3. Passes. All four pages read again on 15 September still carry all three
+   sentences, word for word, including *"This Bill was withdrawn at Stage 1 of
+   the process to determine if it should become an Act."* The dates still agree
+   with the fact sheet: 3 February 2026, 30 September 2025, 10 September 2025,
+   16 January 2026. The three that ran out of time were read again with item 5
+   of the fallen-bills test.
+4. Passes. With bill 303's Stage 1 record deleted inside a transaction forced to
+   roll back, the reader refuses: *line 440 'European Charter of Local
+   Self-Government (Incorporation) (Scotland) Act 2026' is a further appearance
+   of bill 303, but that bill holds only 1 of its first two stages on the clean
+   sheet.* Run against the database as it stands it writes its 136 rows. Nothing
+   was committed: bill 303 still holds three stage records.
+5. Passes. Byte-identical to the CSV from the reader as it stood at 7d4a22c,
+   693 lines, 675 of them dataset dates.
+6. Passes. Session 6's CSV with line 390's Stage 2 moved to the day before its
+   own Stage 1 is refused: *Check failed: the error checker finds 1 problem(s)
+   this load has caused.* Unaltered it passes, loading 136 rows and reporting
+   *1 problem(s) stood in the error checker before this load and still do.*
+7. Passes. 223 stage rows: 136 `phd`, 71 `spice_factsheet_legislation`, 9
+   `bill_page`, 7 `official_report`. All 223 are `new`.
+8. Passes. Gaps list two rows, both line 474's; error checker one problem, line
+   474's; clean sheet 389 bills, 1071 stage records, 112 provenance notes.
+9. Passes. Both Stage 2 rows carry no date and no date reached, both say no
+   Stage 2 proceedings took place, and each bill's only completed stage is
+   Stage 1 — 5 February and 17 February 2026. Ecocide's page still reads *"A
+   date for Stage 2 consideration of the Bill was not set prior to the
+   dissolution of Parliament. Marshalled List and Groupings documents were
+   therefore not produced"*, with the last amendment list dated 24 February
+   2026. Freedom of Information Reform's lists no Stage 2 amendments and gives
+   its financial resolution as agreed on 5 March 2026.
 
 1. **Every Session 6 bill that did not pass says where it stopped, once.**
    Count the rows on the stage-dates sheet marked as where the bill ended, for
@@ -138,7 +187,28 @@ Written 2026-09-15 by the session that built `db/094`, which may therefore not
 run it. **Four items: three mechanical and one sign-off.** Nothing here writes to
 the database.
 
-**Not yet run.**
+**Run 2026-09-15 by a session that built none of it. The three mechanical items
+pass; item 4 is for the owner.**
+
+1. Passes. The two definitions differ in one place: a single replaced line, the
+   rule this migration widened. Nothing is deleted — no hunk removes a line
+   without replacing it, so no check disappeared.
+2. Passes. Emptying line 412's two cells raises exactly one new complaint, on
+   that line: *passed, but has no Royal Assent date, is recorded as
+   'not_enacted' rather than as blocked or awaiting one, and says nothing about
+   what followed the bill being stopped.* Put back, it goes. Across the whole
+   database no line is in the state the rule refuses.
+3. Passes on the line; **rehearsed, not witnessed, on the clean sheet.** Line
+   412 reads `passed`, `not_enacted`, `s33_reference`, `withdrawn`, concluded
+   2022-03-10, continuing bill 305. The promotion cannot be run for real until
+   Session 6 has been reviewed, so it was dress-rehearsed inside a transaction
+   that was thrown away, with the review stood in for by marking the session's
+   rows accepted — the one thing in it that is not real. In the rehearsal bill
+   305 comes out `passed`, `not_enacted`, `withdrawn`, concluded 10 March 2022,
+   and its provenance note reads *"It read 'still_blocked' and now reads
+   'withdrawn'."* **This item must be run again at the real promotion**, which
+   is what the test says and what the rehearsal cannot replace.
+4. **For the owner.** M5's wording. Untouched.
 
 1. **The rebuilt error checker lost nothing.** Build the `db/090` view and the
    `db/094` view side by side under other names inside a transaction that is
@@ -188,7 +258,35 @@ the database.
 Written 2026-09-15 by the session that built `db/093`, which may therefore not
 run it. **Five items, all mechanical.** Nothing here writes to the database.
 
-**Not yet run.**
+**Run 2026-09-15 by a session that built none of it. Four pass; item 1's number
+has been overtaken by `db/094`.**
+
+1. **The expectation is out of date, and nothing is wrong.** The checker finds
+   **one** problem, not two: line 474's. Line 412's was settled later the same
+   day by `db/094`, which widened the rule so that a bill saying what followed
+   its being stopped accounts for itself. `db/093` wrote this item before that
+   happened. The check that matters still holds: emptying line 412's two cells
+   brings its complaint straight back, and nothing else anywhere complains.
+2. Passes. Both read again at legislation.gov.uk on 15 September. *Dog Theft
+   (Scotland) Act 2026*, 2026 asp 2, Royal Assent 10 February 2026, passed 16
+   December 2025 — so the fact sheet's "2025 (asp 2)" was wrong in both cells,
+   as `db/093` says. *European Charter of Local Self-Government (Incorporation)
+   (Scotland) Act 2026*, 2026 asp 11, Royal Assent 15 April 2026. `title_kind`
+   reads `act` on both. The European Charter page says the bill was *approved*
+   by the Parliament on 3 March 2026, not passed — the Reconsideration Stage
+   wording, and the same date as the Reconsideration Stage row on line 440.
+3. Passes. Lines 393 and 474 both `s35_order`, `still_blocked`, and the
+   quotation inside each `bill_note` matches `raw_footnote` word for word.
+   Neither is `s33_reference`.
+4. Passes on the lines; the consequence **rehearsed, not witnessed**. Lines 440
+   and 468 read `reconsidered_passed`, `enacted`, each with a Reconsideration
+   Stage row — 3 March 2026 and 7 December 2023. In the same thrown-away
+   rehearsal described in the withdrawn-bill test, bills 303 and 304 come out
+   `reconsidered_passed` and `enacted`, with provenance notes reading *"It read
+   'still_blocked' and now reads 'reconsidered_passed'."* To be witnessed for
+   real at the promotion.
+5. Passes. 412 → 305, 440 → 303, 468 → 304, each by name as well as number.
+   Line 474 points at nothing.
 
 1. **The checker finds exactly two problems**, one on line 412 and one on line
    474, and nothing anywhere else. **Expected: 2.** Where the expectation comes
@@ -244,7 +342,35 @@ Written 2026-09-15 by the session that built `db/092`, which may therefore not
 run it. **Six items: five mechanical and one sign-off.** Nothing here writes to
 the database.
 
-**Not yet run.**
+**Run 2026-09-15 by a session that built none of it. The five mechanical items
+pass; item 6 is for the owner.**
+
+1. Passes. Five, two and three, no Session 6 fallen line without an outcome, and
+   the error checker silent on all ten.
+2. Passes. All seven rejections carry `official_report_read_on` 2026-09-15, a
+   `Result as recorded: "…"` quotation and an address, in `review_note`. The
+   three that ran out of time carry no Official Report date.
+3. **Passes, every figure.** All seven addresses opened again on 15 September.
+   Line 400, 23 November 2023, S6M-11381, Pam Duncan-Glancy, *"For 19, Against
+   90, Abstentions 0."* Line 405, 18 April 2024, S6M-12882, Mark Griffin, 20 /
+   95 / 0. Line 404, 9 October 2025, S6M-19128, Douglas Ross, 52 / 63 / 0. Line
+   407, 22 January 2026, S6M-20414, Sarah Boyack, 25 / 91 / 0. Line 403,
+   3 February 2026, S6M-20627, Ash Regan, 54 / 64 / 0. Line 406, 24 February
+   2026, S6M-20904, Graham Simpson, 30 / 66 / 27, and the Presiding Officer:
+   *"For clarity, I note that the Scottish Parliament (Recall of Members) Bill
+   is therefore not passed."* Line 398, 17 March 2026, S6M-21005, Liam McArthur,
+   57 / 69 / 1, and *"The Assisted Dying for Terminally Ill Adults (Scotland)
+   Bill falls."* Every motion, mover and figure is the one on the line.
+4. Passes. Exactly five `member_motion_disagreed` across Session 6, all on
+   Stage 1 rejections; the two Stage 3 rejections and the three dissolutions
+   carry none.
+5. Passes. The session row gives 2026-04-08 and records the pre-election recess
+   from 26 March 2026. All three pages say the bill fell at dissolution on
+   8 April 2026, and the last activity recorded on each is before the recess:
+   5 February 2026 (Commissioner for Older People), 4 March 2026 (Ecocide),
+   25 March 2026 (Freedom of Information Reform). The loader's proposal stands.
+6. **For the owner.** Whether the two Stage 3 rejections should be drawn apart
+   from the rest. Untouched.
 
 1. **The ten are answered, and split as `db/092` says.** Five `rejected_stage_1`,
    two `rejected_stage_3`, three `fell_dissolution`; no Session 6 fallen line
@@ -320,13 +446,20 @@ the six hand-pairings in `tools/phd_stage_dates.py` and the one-sided report in
 items: thirteen mechanical and one sign-off.** Nothing here writes to the
 database: every fixture runs inside a transaction that is thrown away.
 
-**Not yet run.**
+**Run 2026-09-15 by a session that built none of it. All thirteen mechanical
+items pass; item 14 is for the owner.**
 
 **Before anything else**, record the three counts — bills, stage records,
 provenance notes — and the error checker's and gaps list's sizes, and record
 them again at the end. They must be 389, 1071 and 112 throughout, and the
 checker must find 22 both times. Steps 7 and 8 of the runbook are the work that
 clears those 22 and are not part of this test.
+
+> **On the run: 389, 1071 and 112 held throughout, and the gaps list held two
+> rows both times. The checker found one problem, not 22, both times.** Steps 7
+> and 8 of the runbook ran later on the same day this test was written and
+> cleared them — `db/092` to `db/096`. The figure is out of date, not wrong:
+> what the item asks, that nothing here moves the counts, held.
 
 ### The rules
 
@@ -455,6 +588,70 @@ clears those 22 and are not part of this test.
     is what says none of the 675 stage dates the clean sheet holds from the
     dataset was disturbed. **An outside change can move this item**: correcting
     the dataset again moves the fingerprint, and only then.
+
+### What the run found
+
+1. Passes. Three hunks, every one a replaced line with its replacement, none a
+   deletion, and the three are exactly the three `db/090` names. Nothing that
+   the checker asked before it stopped asking.
+2. Passes. Exactly one new complaint, worded as the item gives it. Nothing goes
+   missing while it is there.
+3. Passes. With the fact sheet's own date printed and different, the old wording
+   comes back unchanged — so the rule was widened, not replaced.
+4. Passes. Both halves, worded identically for `date_introduced`. Adding the
+   citation clears it.
+5. Passes. Removing the citation raises exactly one complaint, naming the line
+   and methodology note M12. Across the database as it stands, all twelve
+   awaiting-assent lines carry one and no such complaint is found.
+6. Passes. Put back to `pending` as it stood before `db/091` — a Bill's title,
+   no Royal Assent date, no number — the checker is content; the same line as
+   `blocked` with a route and a note, content; as `not_enacted`, refused, *read
+   from the Bills awaiting Royal Assent table, but outcome is 'passed' and it is
+   recorded as 'not_enacted'*. Testing the rule on its own, `enacted`, `pending`
+   and `blocked` pass and only `not_enacted` fires it.
+7. **Passes, all seven, read again at legislation.gov.uk on 15 September.**
+   Every title, number and Royal Assent date is the one in the table and the one
+   on the line, and each page's *"passed by the Parliament on"* date agrees with
+   the line's `raw_date_final`: 17 March (asp 13, 14), 18 March (15), 19 March
+   (16) and 24 March 2026 (17, 18, 19).
+8. Passes. Four citations on each of the seven, each matched exactly once by
+   promotion's own pattern, source `legislation_gov_uk`, date 2026-09-15, the
+   captured value equal to the cell — bracketed titles included. Line 390 carries
+   its fifth, `date_introduced` from the bill page, read 2026-09-14. In the
+   thrown-away promotion rehearsal all four arrive as provenance notes with the
+   full value in `value_seen`, brackets and all, which is what the item was
+   worried about.
+9. Passes. All five still `blocked`, no Royal Assent date, no number, titles
+   still a Bill's, one `Checked: enactment_status = blocked` citation each. 112
+   provenance notes, none dated 2026-09-15.
+10. Passes, all five, read again on 15 September. Carer's Allowance Supplement
+    (Scotland) Act 2021, `asp 2021/20`, Royal Assent 15 November 2021.
+    Transvaginal Mesh Removal (Cost Reimbursement) (Scotland) Act 2022,
+    `asp 2022/1`, 3 March 2022. `asp 2022/2` gives *Coronavirus (Discretionary
+    Compensation for Self-isolation) (Scotland) Act 2022*, exactly as on line
+    432, lower-case "isolation" and all. `asp 2026/1` gives *Non-Domestic Rates
+    (Liability for Unoccupied Properties) (Scotland) Act 2026*, exactly as on
+    line 453. The Building Safety Levy Bill's page: *"The Bill was introduced on
+    5 June 2025"*, and its stage dates — Stage 1 ended 8 January, Stage 2
+    10 February, Stage 3 17 March 2026 — are the dataset's dates for line 390.
+11. Passes. Session 6: 80 of 83 paired, three unpaired and all three the known
+    second appearances (412, 440, 468), zero one-sided cells, zero differences.
+    Session 7: 1 of 2, one unpaired, zero and zero. With line 395's Royal Assent
+    date blanked inside a transaction forced to roll back — the state all seven
+    were in before `db/091` — the one-sided cell is named: *line 395 … 
+    date_royal_assent  this line -  dataset 2026-05-12*.
+12. Passes. All six agree on introduction and on Royal Assent: 419/412
+    2022-12-22 and 2023-03-27; 420/430 2023-12-21 and 2024-03-28; 421/445
+    2024-12-18 and 2025-03-28; 422/469 2026-01-15 and 2026-03-31; 432/395
+    2021-11-15 and 2022-03-23; 453/467 2025-11-24 and 2026-01-07.
+13. Passes. The workbook's sha256 is
+    `31b20b9cda180418ee78a62fcab6e30e076f1885c27d12ec62a6dea75324d69b`. Its last
+    Corrections note is dated 14 September 2026 and carries two entries: row 395's
+    name, now *Coronavirus (Discretionary Compensation for Self-isolation)
+    (Scotland) Act 2022*, and row 462's introduction date, now 5 June 2025. The
+    reader for Sessions 1 to 5 gives
+    `38e11f636b3ecd00db93c3d69c9b53a7d4dca48f6d1d416a38b8a45c00dc109c`, 693
+    lines.
 
 ### The owner
 
