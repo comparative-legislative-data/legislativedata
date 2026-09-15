@@ -8,6 +8,59 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-15 — Durations are calendar days, and `VARIABLES.md` is the reasoning, not the schema
+
+**Two things settled, on the owner's challenge.** `VARIABLES.md` was the last
+document still describing the database as it was several sessions ago, and the
+proposal was to cut it back to the reasoning behind the variables. The owner
+asked what would actually be lost, since presentation is about to begin and
+ingestion will resume after it. Checking each section against `DECISIONS.md`
+rather than assuming showed the answer was: mostly nothing, but not nothing.
+
+**What the four documents each do.** `DATA-DICTIONARY.md` says what every column
+is, and is generated so it cannot drift. A methodology note tells a reader what a
+judgement was, and by the entry below does not say how we got there.
+`DECISIONS.md` records each decision on its day. `VARIABLES.md` holds the
+reasoning behind the shape of the variables and the questions still parked, and
+nothing factual about the schema. A question settled there moves here.
+
+**D3 is settled: calendar days now, sitting days later.** Recess makes calendar
+days misleading and the Parliament's rules count some intervals in sitting days,
+so sitting days are in one sense truer. They need a calendar of when the
+Parliament sat, which is its own body of work and is not built; calendar days
+need nothing beyond the dates held. So every duration published today is calendar
+days and says so, and sitting days are added later as an alternative measure.
+
+**Why that is safe to build on.** No derived measure is stored — every duration
+is worked out from the stage dates when asked for, never written down as a
+number. Adding a sitting-day measure later therefore changes nothing already
+recorded. That rule was stated in `VARIABLES.md` from the start and is recorded
+here because it is the rule the presentation layer inherits.
+
+**Why it was not already here.** D3 lived only in an "open decisions" list as a
+proposal, and `DECISIONS.md` assumed it in passing — one line about recesses
+getting their own tab "when sitting days become a variable" — without ever
+recording it. Three other things were in the same position: the rule above, the
+financial resolution parked as a stage event, and the finding that the
+Parliament's API returns truncated and duplicated records. All four are now
+either here or kept in `VARIABLES.md` deliberately.
+
+**Still open, and kept in `VARIABLES.md`.** Whether the financial resolution is
+recorded as an event between Stages 1 and 2 — it can hold a bill up, so it may
+explain Stage 1 to Stage 2 intervals that otherwise look odd. Revisit if those
+figures turn out not to be explainable without it. A bill *falling* for want of
+one is a separate matter and is already recorded.
+
+**Found while checking.** The party column, settled on 10 September, is empty for
+every bill: the first slice's two questions do not need a member, so it was never
+filled. For bills introduced by a Law Officer and for Private Bills, brought by a
+promoter, the empty cell is the right answer and not a gap to chase. Recorded in
+`VARIABLES.md` against the slice that fills it.
+
+**Nothing was written to the database.**
+
+---
+
 ## 2026-09-15 — A bill only restated stays when the later session comes off
 
 **Decided:** where a fact sheet lists a bill belonging to an earlier session and
