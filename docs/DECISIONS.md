@@ -8,6 +8,103 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-15 — A fact sheet is a snapshot, and an Act made since is taken from legislation.gov.uk
+
+### The owner's ruling
+
+"We should bring them up to date - as you say, the fact sheet is simply out of
+date, and we should modify the source references accordingly." And, on what
+comes after: taking bill data from live sources as the next five years run "is
+a fundamentally different thing than ingesting historic fact sheets", to be
+designed separately and **not now**.
+
+### What was found
+
+The Session 6 fact sheet was retrieved on 2026-09-10 and leaves seven bills in
+its "Bills awaiting Royal Assent" table. All seven received Royal Assent in May
+2026 — four months before the sheet was read — on exactly the dates the owner's
+dataset holds, and legislation.gov.uk confirms every one.
+
+Nothing in the database could have noticed, for three separate reasons, each of
+which is the same mistake in a different place:
+
+- `tools/compare_sources.py` compares a cell only when both sources have a value
+  in it. Seven lines with an empty Royal Assent cell and a dataset row that
+  filled it produced not a word.
+- The error checker asked for a `Checked:` citation only where a date
+  *contradicted* the fact sheet's printed words. A date filled into a cell the
+  sheet left empty needed none, so a value from another source could have
+  reached the clean sheet with nothing saying where it came from.
+- A line read from the awaiting-assent table could only be recorded as `pending`
+  or `blocked`. Becoming an Act was not a state it was allowed to reach.
+
+This is the third time in two days that a check turned out to be carried only by
+being noisy — after the comparison that went unrun for two sessions, and the
+unpaired line stamped as compared anyway. The pattern is now explicit in the
+runbook: a check that only speaks when it finds something is not a check.
+
+### What was settled, in all eight parts
+
+Agreed before anything was built, under the rule of 2026-09-11.
+
+1. **What it records.** No new variable and no new cell. Five existing cells
+   take the Act's values.
+2. **Which bills, and what empty means.** Any line a fact sheet puts in an
+   awaiting-assent table and codes as passed. Seven in Session 6. After the
+   check, an empty Royal Assent cell means legislation.gov.uk still showed no
+   Act on the day we looked — not that nobody looked.
+3. **Where it sits on the clean sheet.** Nowhere new; they become ordinary Acts.
+4. **How it arrives.** By hand at review, never by the reader, whose only input
+   is the PDF and must stay so. Runbook step 8, with the old step 8 becoming 9.
+5. **Promotion and provenance.** Unchanged machinery. Four `Checked:` citations
+   per bill, so promotion writes one provenance note per fact. The line's own
+   source stays the fact sheet, because that is still where the line came from;
+   `raw_title` keeps the sheet's own printing.
+6. **What the checker requires.** `db/090`: a Royal Assent date filled where the
+   sheet printed none needs a citation, as one that contradicts it does; and
+   every awaiting-assent line that passed must carry
+   `Checked: enactment_status = …` before it can be admitted, whether or not the
+   answer changed anything. The identical hole on the introduction date rule was
+   closed at the same time — told to the owner after the eight parts were agreed,
+   not before, on the ground that leaving one half of a two-sided fault open
+   would repeat the fault being fixed.
+7. **What a reader is told.** Methodology note M12, sibling of M5.
+8. **Every bill coded the old way, rechecked.** Twelve lines sit in an
+   awaiting-assent table. Seven move. Five do not and now say so: the Gender
+   Recognition Reform Bill in Sessions 6 and 7, subject to a section 35 order and
+   still stopped, and Session 5's three bills stopped before Royal Assent. Of
+   those three, two have Acts of the same name — 2026 asp 11 and 2024 asp 1 — but
+   by M6 those belong to the bills' second appearances in Session 6, which carry
+   them, and not to the Session 5 lines. The lists of Acts for 2023, 2024, 2025
+   and 2026 were read on 2026-09-15 for all five. Sessions 1 to 4 have no such
+   lines. Session 7's remaining bill was introduced on 2026-09-09 and is in
+   progress; it was looked up too and there is no Act.
+
+**The standing cost, accepted.** Every future session must look up every
+awaiting-assent bill even when the answer is "still waiting", and say so.
+
+### What was built
+
+`db/090` changed the rules and moved no data; the error checker went from 22
+problems to 34, the twelve new ones being the lines nobody had looked up.
+`db/091` looked all twelve up and cleared them, leaving 22 — the same 22 that
+steps 7 and 8 of the runbook exist to clear. 389 bills, 1071 stage records and
+112 provenance notes before and after both.
+
+`tools/compare_sources.py` now reports a cell one source fills and the other
+leaves empty. It writes nothing for one: what to do about it is a judgement for
+review, and M12 is the answer in this case but need not be in the next.
+
+### What is not settled, and is not opened
+
+How bill data is taken from live sources as the Parliament sits over the next
+five years. The owner has said plainly that it is a different problem from
+ingesting historic fact sheets and is not to be designed now. Nothing in M12
+or in `db/090` presumes an answer to it.
+
+
+---
+
 ## 2026-09-14 — Session 6's five disagreements settled, and the fact sheet found to be out of date on seven Acts
 
 **Step 6 of the runbook, run for the first time since it was written down.** The

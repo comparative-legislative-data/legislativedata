@@ -27,87 +27,68 @@ and 2 dates are added from your PhD.
 **389 bills are now on the clean sheet**, with 1071 stage records and 112
 provenance notes. **Five of the seven sessions are finished and closed.**
 Nothing of Sessions 1 to 5 is outstanding. **What is left of the first piece of
-work is Sessions 6 and 7.** Both are now on the staging sheet — 83 lines and 2 —
-and **neither is ready for you to review.** Three checks that come between the
-load and the review were not done, and are the next work.
+work is Sessions 6 and 7.** Both are on the staging sheet — 83 lines and 2 — and
+**neither is ready for you to review.** Two of the four checks that come between
+the load and the review are done; the other two are the next work.
 
 ## What has been done
 
-- **10–13 September.** Database built, all seven factsheets surveyed, Sessions 1
-  to 4 read in, admitted and promoted, your dates loaded, and how time is
-  counted settled.
-- **14 September, through the day.** Session 4 closed. Session 5 read in,
-  reviewed, admitted, promoted and **closed** on all thirty-two items and all
-  nine of your sign-offs. Then the job that had to come before Session 6:
-  carried-over bills, blocked bills, the Robin Rigg Act, and M6 and M9.
-- **14 September, later.** All eighteen items on that job answered as expected
-  by a session that built none of it, and the gaps list taught what the error
-  checker had been taught. Then the four items on that, answered too, with
-  nothing written to the database.
-- **14 September, later still.** Both prose factsheets read end to end against
-  their own grammar, with nothing left over: 83 entries in Session 6 and 2 in
-  Session 7. How a bill was handled became a variable, with a date beside it and
-  M10 to tell a reader it is five bills. Session 6's own summary table was found
-  to have two cells wrong and its margins right, and five titles printed wrongly.
-- **14 September, the previous session.** The prose reader built and both
-  documents read clean, and, on your agreement, a stage record given the day the
-  bill reached the stage as well as the day it ended (`db/088`) — two bills have
-  one, the UNCRC and European Charter Bills, both taken back by the Parliament
-  after the Supreme Court stopped them, and M11 says so to a reader.
+- **10–14 September.** Database built, all seven fact sheets surveyed, Sessions
+  1 to 5 read in, reviewed, admitted, promoted and **closed**, your dates
+  loaded, how time is counted settled, and the jobs that had to come before
+  Session 6 done: carried-over bills, blocked bills, the Robin Rigg Act, how a
+  bill was handled, and the day a bill reached a stage.
+- **14 September, later.** Both prose fact sheets read end to end, and Sessions
+  6 and 7 loaded onto the staging sheet — 83 lines and 2, numbers 390 to 474.
+  Then the hole you found: `PROMOTION-RUNBOOK.md` stopped at "Save" and said
+  nothing about the three steps between loading a session and your review. They
+  are now steps 6, 7 and 8.
 
-**14 September, earlier today.** The fifteen unrun checks on `db/088` and the
-prose reader were run by a session that built neither, and all fifteen passed;
-nothing was written.
+**15 September, this session. Session 6 compared against your dataset, and the
+fact sheet caught being out of date.**
 
-**14 September, this session. Sessions 6 and 7 are on the staging sheet, and a
-hole in the procedure is found and filled.**
+- **The comparison is done for both sessions.** 80 of Session 6's 83 lines pair
+  with your dataset and the three that do not are second appearances, each
+  checked against its own session's row. Six pairings were made by hand, all
+  six confirmed on the two dates the sources share.
+- **Five cells disagreed and all five are settled** at legislation.gov.uk or the
+  Parliament's own page for the bill (`db/089`). Two dates went your way, one
+  the fact sheet's, and of two Act titles one each way. **Your working file is
+  corrected** for the two cells where it was the one wrong, checked cell by cell
+  against a copy taken first.
+- **Seven Session 6 bills the fact sheet leaves awaiting Royal Assent are
+  Acts.** They received Royal Assent in May 2026, four months before the sheet
+  was read, on exactly the dates your dataset holds. Nothing in the database
+  could see it, for three separate reasons, all the same mistake: the comparison
+  says nothing about a cell one source leaves empty; the error checker only
+  asked where a date *contradicted* the sheet; and a bill in that table was not
+  allowed to become an Act. **All three are fixed** (`db/090`), the seven are
+  Acts with their dates, numbers and titles (`db/091`), and **M12** tells a
+  reader why those seven carry a different source from Session 6's other sixty.
+- **All twelve bills any fact sheet leaves awaiting assent are now looked up**,
+  the five that did not move included, and every future session must do the same
+  and say what it found even when the answer is "still waiting".
 
-- **The 83 lines and the 2 are loaded**, after a third rehearsal that matched
-  the recorded one in every figure. Line numbers 390 to 474. The clean sheet is
-  untouched: 389 bills, 1071 stage records, 112 provenance notes.
-- **You asked whether the fact sheet had been compared against your PhD
-  dataset. It had not**, and nor had the Official Report been read for the ten
-  bills Session 6 says fell. Both are steps every one of the first five sessions
-  took. I had told you the sheet was ready for review; it was not.
-- **The cause is one hole in one document.** `PROMOTION-RUNBOOK.md`'s staging
-  section ended at "Save" and the document resumed at typing stage dates.
-  Everything between the load and the review was written nowhere — it lived in
-  each session's closure test, after the fact, and in memory. Step 1 had pointed
-  at "the comparison at step 1a" since 13 September; there has never been a step
-  1a. It survived five sessions because the comparison broke or found a
-  disagreement every time, so nobody had to remember it.
-- **The runbook now has steps 6, 7 and 8**, and step 5 says in terms that the
-  session is not ready to be reviewed. `DECISIONS.md` records it.
-- **The comparison has been run but not applied.** Session 6 pairs 74 of 83,
-  Session 7 1 of 2. Six unpaired lines are the same bill named differently and
-  need hand-pairing; four are second appearances and are correctly unpaired;
-  three dates genuinely disagree and two Act titles differ by a word.
+## Now: the two checks that come before your review
 
-## Now: the three checks that come before your review
+Session 6 and 7 should not be reviewed until these are done, and neither is
+yours. The session brings the evidence; you rule on what it means. The error
+checker has 22 items left and they are all in these two.
 
-Nothing about Sessions 6 and 7 should be reviewed until these are done, and none
-of them is yours. The session brings the evidence; you rule on what it means.
-
-1. **Finish the comparison against your dataset.** Six hand-pairings to confirm,
-   then three disagreeing dates and two Act titles to settle at legislation.gov.uk
-   and the Parliament's bill pages.
-2. **Read the Official Report for all ten of Session 6's fallen bills.** Seven
+1. **Read the Official Report for all ten of Session 6's fallen bills.** Seven
    concluded on a sitting day months before dissolution, which is the pattern
    that turned three of Session 5's seven into Stage 1 rejections. The three the
    loader proposed as having run out of time are checked too, not assumed.
-3. **Settle the rest of the error checker's list** — the four bills in two fact
-   sheets, the European Charter Act's title and number, the Dog Theft Act's year,
-   and how the Gender Recognition Reform Bill was stopped in both sessions.
+2. **Settle the rest of the error checker's list** — the four bills appearing in
+   two fact sheets, the European Charter Act's title and number, the Dog Theft
+   Act's year, and how the Gender Recognition Reform Bill was stopped in both
+   sessions. Two of these already have their answer from the reading done this
+   session and are not yet applied: the European Charter Act is **2026 asp 11**,
+   and the Dog Theft Act is **2026**, not 2025.
 
-**Before that, and waiting on your word:** a session that did not write the
-runbook checks its new steps 6, 7 and 8 against what Sessions 1 to 5 actually
-did, so the chain is certified by someone other than the person who wrote it
-down.
-
-**Also on the table, not yet agreed:** making the error checker name an
-uncompared line while it is still `new`, so it shows on the review list the
-moment a session is loaded instead of being invisible until after the review.
-That is a change to how data is coded and gets all eight parts settled first.
+**Waiting for a session that built none of it:** the checks on `db/089`, `db/090`
+and `db/091` are written in `CLOSURE-TESTS.md` and have not been run. Fourteen
+items, thirteen mechanical and one for you — whether M12 tells a reader enough.
 
 **Yours whenever you want it, and nothing waits on it:** your write-up on what
 the charts present and the options they offer.
@@ -116,12 +97,17 @@ the charts present and the options they offer.
 
 1. Bring `docs/VARIABLES.md` up to date.
 2. **Filling in how Sessions 1 to 5's bills were handled.** Expected, not begun.
-   Their factsheets do not mention procedure at all, so it needs a source we
+   Their fact sheets do not mention procedure at all, so it needs a source we
    have not agreed — the Official Report, or the Parliament's page for each
    bill. Until then a count of emergency bills counts only the ones Session 6
    names, which is what M10 tells a reader.
 3. **A layer of vote data**, its own piece of work. Scope not opened.
-4. Then, and only then: the website, and reading from the Parliament's API.
+4. **Taking bill data from live sources as the next five years run.** Your
+   words, 15 September: a fundamentally different thing from ingesting historic
+   fact sheets, to be designed separately and not now. Nothing built this
+   session presumes an answer to it; M12 is about sheets that are snapshots,
+   which they will always be.
+5. Then, and only then: the website, and reading from the Parliament's API.
 
 ## One small thing for you
 
@@ -171,21 +157,26 @@ orient, and none of it belongs above the line.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-14, eighteenth session of the day
+## Sanity check, 2026-09-15, opening
 
 **Everything the check asks for matched.** 389 bills, 1071 stage records, 112
-provenance notes, 73/81/62/86/87 by session; error checker empty, gaps list
-empty; the data dictionary regenerating identical to the committed file; nothing
-uncommitted and nothing unpushed.
+provenance notes; 73/81/62/86/87 on the five closed sessions and 83 and 2 on the
+staging sheet, lines 390 to 474; the data dictionary regenerating identical to
+the committed file; nothing uncommitted and nothing unpushed; only the `public`
+schema on the server, so no working copy left inside the database. The error
+checker's 22 items and the gaps list's 146 all belonged to Sessions 6 and 7 —
+nothing on the clean sheet had come loose.
 
-**And it did not find what was actually wrong.** The opening check asks whether
-the counts match, whether anything is uncommitted, and whether a closed session
-has a test run by another session. It does not ask whether the session about to
-be worked on has had every step of the ingest chain done, because until today
-that chain was not written down anywhere to be checked against. The comparison
-against the PhD dataset and the Official Report for the fallen bills were both
-missing, and the check passed. Worth considering whether the opening check
-should read the runbook's steps 6 to 8 against the session in hand.
+**It also read the runbook's new steps 6 to 8 against the session in hand**,
+which is what the last sanity check suggested it should. None of the 85 lines
+was stamped as compared, which was the work this session then did.
+
+**What it still did not find.** The check asks whether the counts match and
+whether the steps have been done. It does not ask whether what a step found is
+still true, and the seven bills that had become Acts since the fact sheet was
+compiled were invisible to every check in the database until the comparison was
+actually run and read by eye. Steps 6 to 9 now cover it for a session being
+loaded. Nothing yet asks the question of a session already closed.
 
 **Old working files are still in `/tmp` on the server** — `cols.sql`, `look.sql`,
 `sanity.sql`, `reh.tgz`, from earlier sessions. Nothing is inside the database
@@ -193,31 +184,47 @@ and nothing depends on them. This session removed everything it put there.
 
 ## What the previous session did
 
-Ran the fifteen unrun checks on `db/088` and the prose reader, having built
-neither. All fifteen passed and nothing was written.
+Loaded Sessions 6 and 7 onto the staging sheet, found that three steps of the
+ingest chain had never been written down, wrote them into the runbook as steps
+6, 7 and 8, and ran the comparison without applying it.
 
 ## What this session did
 
-**Loaded Sessions 6 and 7 onto the staging sheet**, lines 390 to 474, after a
-rehearsal that matched the recorded one in every figure. Clean sheet untouched.
+**Step 6 of the runbook, run for the first time since it was written down.**
+Six hand-pairings confirmed on the dates the two sources share and added to
+`MANUAL_PAIRS`; four unpaired lines confirmed as second appearances, each with
+its dataset row under the session it was introduced in. All 85 lines of Sessions
+6 and 7 now carry the comparison stamp. `db/089` settles the five cells the two
+sources disagree on. The working dataset is corrected for the two cells where it
+was the one wrong: before
+`072184df1fd4fbc15ae9e66ca51f9e287de6bc9b3b8f4d8342f6cae4e79ac1d2`, after
+`31b20b9cda180418ee78a62fcab6e30e076f1885c27d12ec62a6dea75324d69b`, exactly two
+cells differing on the data sheet and the stage dates for Sessions 1 to 5
+byte-identical either side.
 
-**Then found that three steps of the ingest chain had never been written down**,
-and that two of them had not been done for these sessions: the comparison
-against the PhD dataset, and the Official Report for every fallen bill. Wrote
-them into `PROMOTION-RUNBOOK.md` as steps 6, 7 and 8 with a new section heading,
-pointed the dangling "step 1a" reference at step 6, and recorded the whole thing
-in `DECISIONS.md`.
+**Then the finding that stopped the session.** Seven Session 6 lines sit in the
+fact sheet's awaiting-assent table while the dataset gives a Royal Assent date
+for each; legislation.gov.uk confirms all seven became Acts in May 2026. Three
+separate mechanisms should have caught it and none did. Put to the owner with
+the evidence, and nothing built until all eight parts were agreed.
 
-**The comparison was run and deliberately not applied.** Its SQL is in the
-session scratchpad and nothing was written to the database. Six lines need
-hand-pairing before it can be applied at all, because an unpaired line is
-stamped as compared anyway — the fault `db/044` has carried since it was built,
-which until now had no instance to see it on. It has nine.
+**`db/090` changed the rules and moved no data.** The error checker went from 22
+problems to 34, the twelve new ones being every line in an awaiting-assent table
+that nobody had looked up. **`db/091` looked all twelve up and cleared them**,
+leaving the same 22 that steps 7 and 8 exist to clear. Both rehearsed inside a
+thrown-away transaction first, and the rehearsal caught a fault — in the test,
+not the data: line 390 carries five citations, not four, because `db/089` had
+already given it one.
 
-**What this session did not do, and should not:** certify its own runbook. The
-new steps were derived from the commit chain of Sessions 4 and 5 and from the
-database's rules, by the session that wrote them down. A different session
-should check them against what those sessions actually did.
+**`tools/compare_sources.py` now reports a cell one source fills and the other
+leaves empty**, and writes nothing for it. Re-run afterwards, Session 6 gives 80
+of 83 paired, zero one-sided cells and zero differences.
+
+**What this session did not do, and should not:** run its own checks. The
+fourteen items on `db/089`, `db/090`, `db/091` and the two tools are written in
+`CLOSURE-TESTS.md` for a session that built none of it. Nor did it certify the
+runbook's steps 6 to 8 against Sessions 1 to 5 — the owner ruled on 15 September
+that this is not needed.
 
 ## The owner's standing positions, so they are not re-argued
 

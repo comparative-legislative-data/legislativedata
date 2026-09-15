@@ -30,6 +30,183 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## A fact sheet is a snapshot, and Session 6's comparison
+
+Written 2026-09-15 by the session that built `db/089`, `db/090` and `db/091`,
+the six hand-pairings in `tools/phd_stage_dates.py` and the one-sided report in
+`tools/compare_sources.py`. It may therefore not run any of this. **Fourteen
+items: thirteen mechanical and one sign-off.** Nothing here writes to the
+database: every fixture runs inside a transaction that is thrown away.
+
+**Not yet run.**
+
+**Before anything else**, record the three counts — bills, stage records,
+provenance notes — and the error checker's and gaps list's sizes, and record
+them again at the end. They must be 389, 1071 and 112 throughout, and the
+checker must find 22 both times. Steps 7 and 8 of the runbook are the work that
+clears those 22 and are not part of this test.
+
+### The rules
+
+1. **The rebuilt error checker lost nothing.** Build the `db/088` view and the
+   `db/090` view side by side under other names inside a transaction that is
+   thrown away, read both definitions back out of the database, and compare
+   them as text rather than by counting lines. **Expected: nothing removed —
+   zero deleted lines — and the only additions are the three named in `db/090`:**
+   the awaiting-assent look-up check, `'enacted'` joining the two values the
+   awaiting-assent table may take, and the two date rules losing their
+   `raw_… IS NOT NULL` condition and gaining the "fills a cell the fact sheet
+   left empty" wording. Where the expectation comes from: `db/090`'s own header,
+   which lists exactly what it changes.
+
+2. **A Royal Assent date that fills an empty cell is now caught.** On a fixture
+   line with `raw_date_royal_assent` empty, `date_royal_assent` set, and no
+   citation in `review_note`: **expected exactly one new complaint,
+   *date_royal_assent fills a cell the fact sheet left empty, but review_note
+   carries no "Checked: date_royal_assent = ..." citation*.** Add the citation
+   and the complaint must go. Where it comes from: this is the hole `db/090`
+   says it closes, and the fault that let seven bills through.
+
+3. **A Royal Assent date that contradicts the fact sheet is still caught.** The
+   same fixture with `raw_date_royal_assent` printed and a different parsed
+   date: **expected the old wording, *differs from the factsheet's own words
+   (…)*, unchanged.** This is the item that proves `db/090` widened the rule
+   rather than replacing it.
+
+4. **The introduction date rule does both the same way.** Both halves of item 2
+   and item 3 again for `date_introduced`. **Expected: the same two complaints,
+   worded the same way.** Where it comes from: `db/090` closes this rule's
+   identical hole at the same time, which the owner was told about after the
+   eight parts were agreed and not before.
+
+5. **Every awaiting-assent line must say it was looked up.** Take the
+   `Checked: enactment_status = …` citation off one of the twelve lines in a
+   thrown-away transaction: **expected exactly one complaint naming that line,
+   and its text must name methodology note M12.** Put it back and the complaint
+   must go. Then check the reverse: **expected zero such complaints across the
+   whole database as it stands**, which is what `db/091` left.
+
+6. **An awaiting-assent line may now be an Act, and could not be before.** In a
+   thrown-away transaction, set one of the seven back to `pending` and check the
+   checker is content, then to `not_enacted` and check it complains *read from
+   the Bills awaiting Royal Assent table, but …*. **Expected: `enacted`,
+   `pending` and `blocked` all pass, and nothing else does.**
+
+### The bills
+
+7. **The seven hold what `db/091` says.** For lines 390, 391, 392, 394, 395,
+   396 and 397: `enactment_status` enacted, `title_kind` act, a Royal Assent
+   date, an `asp_number` whose year is 2026, and a `short_title` ending in 2026.
+   **Expected: all seven complete, and these exact values** —
+
+   | Line | Act | Number | Royal Assent |
+   |---|---|---|---|
+   | 395 | Non-surgical Procedures and Functions of Medical Reviewers (Scotland) Act 2026 | 2026 asp 13 | 2026-05-12 |
+   | 390 | Building Safety Levy (Scotland) Act 2026 | 2026 asp 14 | 2026-05-13 |
+   | 394 | Greyhound Racing (Offences) (Scotland) Act 2026 | 2026 asp 15 | 2026-05-14 |
+   | 391 | Children (Care, Care Experience and Services Planning) (Scotland) Act 2026 | 2026 asp 16 | 2026-05-15 |
+   | 392 | Crofting and Scottish Land Court Act 2026 | 2026 asp 17 | 2026-05-18 |
+   | 397 | Visitor Levy (Amendment) (Scotland) Act 2026 | 2026 asp 18 | 2026-05-21 |
+   | 396 | Restraint and Seclusion in Schools (Scotland) Act 2026 | 2026 asp 19 | 2026-05-26 |
+
+   Where the expectation comes from: **read each of the seven again at
+   `https://www.legislation.gov.uk/asp/2026/<number>/introduction/enacted` and
+   check the title, the number and the Royal Assent date off the page itself.**
+   Do not take them from this table or from the database. `db/091` also records
+   the day each bill passed as the fact sheet gives it; check that the page's
+   "passed by the Parliament on" date agrees with the `raw_date_final` on the
+   line, for all seven.
+
+8. **Each of the seven carries four citations in the form promotion reads.**
+   Apply promotion's own pattern —
+   `Checked: ([a-z0-9_]+) = ([^\n]+?) \(([a-z_]+), ([^,]+), (\d{4}-\d{2}-\d{2})\)` —
+   to each line's `review_note`. **Expected: `enactment_status`,
+   `date_royal_assent`, `asp_number` and `short_title` each matched exactly
+   once, with source `legislation_gov_uk` and date 2026-09-15, and the captured
+   value equal to the value in the cell.** Line 390 carries a fifth, its
+   introduction date from `db/089`. This matters because the value captured is
+   what reaches the clean sheet as the provenance note's `value_seen`; a title
+   with brackets in it is the case that could go wrong.
+
+9. **The five that did not move did not move.** Lines 303, 304, 305, 393 and
+   474: still `blocked`, still no Royal Assent date, no `asp_number`, title
+   still a Bill's. **Expected: all five unchanged, each with exactly one
+   `Checked: enactment_status = blocked` citation.** And on the clean sheet,
+   bills 303, 304 and 305 unchanged in every cell and their provenance notes
+   untouched — **expected 112 notes, none of them dated 2026-09-15.**
+
+10. **`db/089`'s five cells.** Line 390 introduced 2025-06-05; line 424 Royal
+    Assent 2021-11-15; line 465 Royal Assent 2022-03-03; line 432
+    `Coronavirus (Discretionary Compensation for Self-isolation) (Scotland) Act
+    2022`; line 453 `Non-Domestic Rates (Liability for Unoccupied Properties)
+    (Scotland) Act 2026`. Where the expectations come from: **the Parliament's
+    page for the Building Safety Levy Bill, and `asp 2021/20`, `asp 2022/1`,
+    `asp 2022/2` and `asp 2026/1` respectively, read again.**
+
+### The tools
+
+11. **The comparison now runs clean on both sessions.** Run
+    `tools/compare_sources.py` for Session 6 and for Session 7 and read the
+    report; do not run the SQL. **Expected for Session 6: 80 of 83 lines paired,
+    three unpaired and all three the known second appearances, zero one-sided
+    cells, zero differences. For Session 7: 1 of 2 paired, one unpaired, zero
+    and zero.** Then check the new report works at all: run it against the
+    workbook as it was before this session — the copy is not kept, so rebuild
+    the case by blanking one line's Royal Assent date in a thrown-away
+    transaction — and **expect the one-sided cell to be named**.
+
+12. **The six hand-pairings are right.** For each pair added to `MANUAL_PAIRS`
+    at lines 419, 420, 421, 422, 432 and 453, check that the staging line and
+    the named dataset row agree on both dates the two sources share. **Expected:
+    all six agree on introduction and on Royal Assent.** This is the check that
+    stops a bill's stage dates being attached to a different bill, which is the
+    harm `MANUAL_PAIRS` exists to guard against.
+
+13. **The working dataset.** `sources/phd/Billdates-September2026.xlsx`:
+    **expected sha256
+    `31b20b9cda180418ee78a62fcab6e30e076f1885c27d12ec62a6dea75324d69b`**, the
+    Corrections sheet carrying a note dated 14 September 2026 with two entries,
+    row 395's name reading "Discretionary Compensation for Self-isolation" and
+    row 462's introduction date 5 June 2025. And **`tools/phd_stage_dates.py`
+    for Sessions 1 to 5 must still give checksum
+    `38e11f636b3ecd00db93c3d69c9b53a7d4dca48f6d1d416a38b8a45c00dc109c`**, which
+    is what says none of the 675 stage dates the clean sheet holds from the
+    dataset was disturbed. **An outside change can move this item**: correcting
+    the dataset again moves the fingerprint, and only then.
+
+### The owner
+
+14. **Sign-off: does M12 tell a reader the truth, and enough of it?** Read it
+    whole. It says the fact sheets are snapshots; that every bill left awaiting
+    Royal Assent is looked up at legislation.gov.uk before it is admitted and
+    the answer recorded either way; that where the Act has been made its date,
+    number and title come from legislation.gov.uk with the day each was read;
+    that the line still says it came from the fact sheet; and it names the seven
+    bills. It also sends a reader to M5 for a bill that was stopped rather than
+    waiting. The question for the owner is whether a researcher reading only
+    M12 would understand why seven Session 6 Acts carry a different source from
+    the other sixty.
+
+### What this test does not check
+
+- **It does not check steps 7 and 8 of the runbook.** The 22 problems the error
+  checker still finds are that work, untouched here.
+- **It does not check promotion.** Session 6 cannot be promoted while those 22
+  stand, so nothing here proves that four provenance notes per bill actually
+  arrive on the clean sheet. Item 8 checks the citations are in the form
+  promotion reads, which is not the same thing. The first promotion of Session 6
+  must check it.
+- **It does not check the other 71 Session 6 lines** beyond what the comparison
+  says about them.
+- **It does not check that legislation.gov.uk is right.** It is the source of
+  record for an Act and is treated as such.
+- **It cannot tell whether any other bill in the database has gone out of date
+  since it was read.** The new rule covers bills a fact sheet left awaiting
+  Royal Assent, which is where the problem showed itself. A fact sheet could in
+  principle be stale about something else.
+
+---
+
 ## The day a bill reached a stage
 
 Written 2026-09-14 by the session that built `db/088`, which may therefore not

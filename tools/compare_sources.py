@@ -36,6 +36,12 @@ Nothing is written for a line with no row in the other source: it is reported,
 and the stamp is still applied, because comparing against every source there is
 and finding only one is a real comparison.
 
+Nothing is written either for a cell one source fills and the other leaves
+empty, but since 2026-09-15 they are reported. They used to be invisible, and
+seven Session 6 bills went through the comparison without a word while the
+dataset held a Royal Assent date the fact sheet did not. See methodology note
+M12 and DECISIONS.md, 2026-09-15.
+
 Usage:  python3 tools/compare_sources.py --session 3 --sql out.sql
 """
 import argparse, csv, datetime, hashlib, pathlib, subprocess, sys
@@ -111,9 +117,8 @@ def pair_up(lines, rows, session):
     return pairs, unmatched
 
 
-def differences(lines, pairs):
-    """Everything the two sources state differently: the two dates, and the type."""
-    out = []
+def cells(lines, pairs):
+    """Every cell the two sources both speak about, paired line by line."""
     for line, b in sorted(lines.items()):
         r = pairs.get(line)
         if not r:
@@ -121,9 +126,36 @@ def differences(lines, pairs):
         for column, ours, theirs in (('date_introduced', b['date_introduced'], r['introduced']),
                                      ('date_royal_assent', b['date_royal_assent'], r['assent']),
                                      ('bill_type', b['bill_type'], TYPES.get(r['type']))):
-            if ours and theirs and ours != theirs:
-                out.append(dict(line=line, short_title=b['short_title'], column=column,
-                                ours=ours, theirs=theirs, source='phd', xrow=r['xrow']))
+            yield line, b, r, column, ours, theirs
+
+
+def differences(lines, pairs):
+    """Everything the two sources state differently: the two dates, and the type."""
+    out = []
+    for line, b, r, column, ours, theirs in cells(lines, pairs):
+        if ours and theirs and ours != theirs:
+            out.append(dict(line=line, short_title=b['short_title'], column=column,
+                            ours=ours, theirs=theirs, source='phd', xrow=r['xrow']))
+    return out
+
+
+def one_sided(lines, pairs):
+    """Cells one source fills and the other leaves empty.
+
+    Reported, never written. Until 2026-09-15 these were passed over in silence,
+    because a comparison that asks "do the two values differ" has nothing to say
+    when there is only one value. Seven Session 6 bills sat in the fact sheet's
+    awaiting-assent table with an empty Royal Assent cell while the dataset gave
+    a date for every one of them, and this said nothing. An empty cell on one
+    side is not agreement; it is a question. What to do about it is a judgement
+    for review -- the fact sheet may simply be older than the other source, which
+    is what methodology note M12 is about -- so nothing is written here.
+    """
+    out = []
+    for line, b, r, column, ours, theirs in cells(lines, pairs):
+        if bool(ours) != bool(theirs):
+            out.append(dict(line=line, short_title=b['short_title'], column=column,
+                            ours=ours, theirs=theirs, source='phd', xrow=r['xrow']))
     return out
 
 
@@ -192,6 +224,14 @@ def main():
         print(f'  unpaired: {u}')
 
     diffs = differences(lines, pairs)
+    gaps = one_sided(lines, pairs)
+    print(f'\n{len(gaps)} cell(s) one source fills and the other leaves empty.')
+    if gaps:
+        print('Nothing is written for these. Each is a question for review: see M12.')
+    for g in gaps:
+        print(f"  line {g['line']:>3} {g['short_title'][:44]:46s} {g['column']:18s} "
+              f"this line {str(g['ours'] or '-'):12s} dataset {str(g['theirs'] or '-')}")
+
     print(f'\n{len(diffs)} difference(s) between the two sources:')
     for d in diffs:
         print(f"  line {d['line']:>3} {d['short_title'][:44]:46s} {d['column']:18s} "

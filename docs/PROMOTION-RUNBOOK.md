@@ -84,7 +84,7 @@ evidence.
 
 ## After the load, and before the review
 
-Three checks. Each one adds to what the owner sees on the line, and each is the
+Four checks. Each one adds to what the owner sees on the line, and each is the
 session's work, not the owner's: the session brings the evidence, the owner
 rules on what it means.
 
@@ -160,7 +160,36 @@ their own Stage 1 motion. They were rejections, not timings-out.
   figures were available on the bill pages and the Official Report was read
   anyway, because the rule says so.
 
-**8. Settle what is left on the error checker's list.**
+**8. Read legislation.gov.uk for every bill the fact sheet leaves awaiting
+Royal Assent.**
+
+A fact sheet states where a bill had got to on the day it was compiled, and
+nothing after that. Seven of Session 6's bills sat in its "Bills awaiting Royal
+Assent" table having become Acts four months before the sheet was read, and
+nothing in the database could see it: the comparison says nothing about a cell
+one source leaves empty, and the error checker only asked for a citation where a
+date contradicted the sheet. Both were changed at `db/090`. See methodology
+note M12.
+
+- **Every line in that table is looked up, whatever it says**, and the answer is
+  written on the line whether or not it changed anything. The checker will not
+  let the line be admitted without a
+  `Checked: enactment_status = <value> (legislation_gov_uk, <address>, <date read>)`
+  citation. A check that only speaks when it finds something is not a check.
+- **Where the Act has since been made**, four values come off legislation.gov.uk
+  — the date of Royal Assent, the Act's number, the Act's title and `enacted` in
+  place of `pending` — and each carries its own citation, so promotion writes a
+  provenance note per fact. `raw_title` keeps the fact sheet's own printing of
+  the bill's title, and the line's own source stays the fact sheet, because that
+  is still where the line came from.
+- **A bill stopped before Royal Assent is a different thing** — referred to the
+  Supreme Court, or subject to a section 35 order. That is M5's case, not M12's.
+  It is looked up on the same schedule and the citation still written; the
+  answer is normally that no Act has been made.
+- **The lists of Acts by year** at `https://www.legislation.gov.uk/asp/<year>`
+  answer a negative in one read, which is what a bill with no Act needs.
+
+**9. Settle what is left on the error checker's list.**
 
 Open `v_candidate_problems` and work down it. Everything on it is either
 answered from a source, or it is a question for the owner — but the session
