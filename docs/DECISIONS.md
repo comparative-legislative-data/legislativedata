@@ -8,6 +8,28 @@ whether changed circumstances actually undermine the decision.
 
 ---
 
+## 2026-09-15 — A session is reviewed with its stage dates already on
+
+**The owner's ruling:** "let's review with the dates added but happy to push that
+back to another sesson."
+
+Sessions 1 to 4 were reviewed and then had their stage dates typed on. Session 5
+had its dates loaded first and was reviewed once, with everything on the sheet.
+Nothing had ever chosen between the two; both happened. Session 5's way is now
+the rule: **the owner reviews a session once, with its stage dates already on
+the staging sheet.**
+
+Why it matters beyond tidiness: the stage-date loader refuses a whole session if
+any bill that did not pass has nothing saying where it stopped, so loading the
+dates surfaces work that the review would otherwise have been asked to accept
+without. Session 5 found six such bills that way, and Session 6 has fourteen.
+
+Promotion stays last, and the dates are reviewed like everything else on the
+sheet: nothing reaches the clean sheet unaccepted.
+
+
+---
+
 ## 2026-09-15 — A bill that passed, was stopped and was then withdrawn, and the rule that gives
 
 ### The owner's ruling

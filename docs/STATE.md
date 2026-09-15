@@ -21,8 +21,8 @@ and 2 dates are added from your PhD.
 | 3 | 62 bills | yes | yes | yes; **closed** |
 | 4 | 86 bills | yes | yes | yes; **closed** |
 | 5 | 87 bills | yes | yes | yes; **closed** |
-| 6 | 83 bills, on the staging sheet | not yet | no | no |
-| 7 | 2 bills, on the staging sheet | not yet | no | no |
+| 6 | 83 bills, checks all done | not yet | no | Stage 3 only |
+| 7 | 2 bills, checks all done | not yet | no | Stage 3 only |
 
 **389 bills are now on the clean sheet**, with 1071 stage records and 112
 provenance notes. **Five of the seven sessions are finished and closed.**
@@ -83,20 +83,55 @@ fact sheet caught being out of date.**
   sheet would have gone on saying a bill withdrawn in 2022 is still waiting for
   Royal Assent.
 
-## Now: Session 6 is ready for you to review
+## Now: Session 6's stage dates, then your review
 
-All four checks between the load and your review are done, and **the error
-checker finds nothing at all on Session 6.** 83 lines, waiting on you.
+**Your decision, 15 September: you review Session 6 with its stage dates already
+on, in one pass rather than two.** The dates were pushed to the next session, so
+that session opens with them and nothing else.
 
-The one problem it still finds is Session 7's, and it is not a question: the
-Gender Recognition Reform Bill's Session 7 line must point at the Session 6 line
-for the same bill, and cannot until Session 6 is on the clean sheet. It does not
-hold Session 6 up — promotion looks only at the session being promoted — and it
-is set before Session 7 is promoted.
+Session 6's own checks are all done and the error checker finds nothing on it.
+What it has so far is the day each bill passed — 69 bills, from the fact sheet —
+and the reconsideration dates for the two bills the Parliament took back. Stage 1
+and Stage 2 are missing for every bill: 134 dates.
 
-**After your review**, Session 6 is admitted and promoted, its Stage 1 and 2
-dates go on from your dataset as every session before it, and then Session 7,
-which is two lines.
+**First, the fourteen bills that did not pass**, because the stage-date loader
+refuses a whole session outright if any of them has nothing saying where it
+stopped. This is Session 5's `db/075` again, where six bills had to be settled
+before the loader would run at all.
+
+Seven of the fourteen were settled by the reading done on 15 September, and the
+dates are in `db/092`; nothing needs reading again:
+
+- **Five stopped at Stage 1**, on the day their general principles were
+  rejected — lines 400, 403, 404, 405 and 407.
+- **Two stopped at Stage 3**, on the day the motion to pass them was disagreed
+  to — the Assisted Dying Bill (398) and the Recall of Members Bill (406).
+
+Three more were read the same day and need no decision, only a row each, with no
+date because nothing decided anything — they stopped where they had got to when
+the session ended:
+
+- **Ecocide (401)** and **Freedom of Information Reform (402)**, both partway
+  through Stage 2, Stage 1 completed 5 and 17 February 2026.
+- **Commissioner for Older People (399)**, which never completed Stage 1.
+
+**Four have not been looked at at all** — the withdrawn bills, lines 408 to 411:
+Desecration of War Memorials, Disability Commissioner, Leases (Automatic
+Continuation etc.) and Prevention of Domestic Abuse. Each needs the stage it was
+in when it was withdrawn, from the Parliament's page for the bill.
+
+**Then the dates themselves**, with `tools/phd_stage_dates.py --sessions 6` and
+`tools/load_phd_stage_dates.sql`, safety copies first, as Session 5's entry in
+`PROMOTION-RUNBOOK.md` sets out. Expect the loader to refuse at least once and
+to be right to: it refused Session 5 over a stage dated before the stage before
+it, and that turned out to be a typing slip in one cell of the working file.
+
+**Then Session 6 is yours**, bills and dates together.
+
+The one thing the error checker still finds is Session 7's, and it is not a
+question: the Gender Recognition Reform Bill's Session 7 line must point at the
+Session 6 line for the same bill, and cannot until Session 6 is on the clean
+sheet. It does not hold Session 6 up.
 
 **Waiting for a session that built none of it:** the checks on `db/089` to
 `db/094`, the comparison tool and the prose of M12 are written in

@@ -208,6 +208,21 @@ the owner is told the session is ready.**
 
 ---
 
+## When the stage dates go on
+
+**Before the owner's review, not after.** Settled 2026-09-15: the owner reads a
+session once, with its stage dates already on the staging sheet. Sessions 1 to 4
+were reviewed first and had their dates added afterwards; Session 5 was done this
+way and it is now the rule.
+
+The order for a session is therefore: load it (steps 1 to 5), the four checks
+that come before the review (steps 6 to 9), the stage dates, the owner's review,
+then promotion.
+
+The loader refuses a whole session if any bill that did not pass has nothing on
+the stage-dates sheet saying where it stopped, so that work comes first — see
+Session 5's entry below, where six bills had to be settled before it would run.
+
 ## Typing stage dates into Postico
 
 Your PhD dates go straight onto the stage-dates sheet, `stage_candidate`, one
