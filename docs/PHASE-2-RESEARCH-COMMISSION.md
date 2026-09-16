@@ -1,12 +1,14 @@
 # Phase 2 — the research commission
 
 Written 16 September by the session that checked and redrafted `docs/PHASE-2.md`.
-**Not to be run until the owner has reviewed that draft and said which of R1, R2
-and R3 go ahead**, and with what changes. Whatever the owner changes, change it
-here first, so the session that runs a piece reads one version.
+**All three pieces go ahead as written**, by the owner's decision of
+16 September; the owner reviews this file with the reports and the updated plan
+rather than before. Whatever the owner changes later, change it here first, so
+the session that runs a piece reads one version.
 
-**Who runs it.** A fresh session for each piece, one that wrote neither the plan
-nor this file. By the owner's decision of 16 September: the session that framed
+**Who runs it.** One normal session for each piece, one that wrote neither the
+plan nor this file, doing the reading itself rather than handing it to
+background helpers. By the owner's decision of 16 September: the session that framed
 the questions is the worst placed to answer them, for the same reason a session
 does not mark its own work. The pieces are independent and may run in any order.
 

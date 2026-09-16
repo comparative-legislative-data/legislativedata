@@ -31,35 +31,31 @@ provenance notes. **The error checker and the gaps list are both empty.**
   promoted and closed; Phase 1's scoping discussions settled.
 - **16 September.** The site live, the accounts built and backed up by theme,
   and Phase 1 closed on a test run by another session. Phase 2 opened, beta users
-  only, and its plan drafted.
+  only, and its plan drafted; then checked by another session, redrafted as
+  proposals, and three pieces of outside research commissioned.
 
-**16 September, this session. Phase 2's plan checked, redrafted, and the
-research commissioned.**
+**16 September, this session. The research started and stopped; how it runs
+now is settled.**
 
-- **The check found ten things**, in `docs/PHASE-2-CHECK.md`. The biggest: the
-  order had files-or-a-database last when it decides what the published copy
-  is; the plan misworded your ruling on counting time, so that bills rejected at
-  Stage 1 would drop out; and M5 gives the Legal Continuity Bill's Supreme Court
-  ruling the 2021 date, when it was 13 December 2018. The bills are recorded
-  correctly; only the note is wrong, and it is untouched.
-- **The plan's second draft** writes every finding in as a proposal marked
-  *(check n)*, for you to accept or strike. Nothing in it is decided.
-- **External research comes before the plan is final**, by your direction. The
-  commission is `docs/PHASE-2-RESEARCH-COMMISSION.md`: three pieces, how a
-  dataset is handed to a researcher, the licence, and how others show the
-  working behind a figure. A fresh session runs each.
+- **I started all three research pieces at once**, as background helpers,
+  without saying how long they would take or what they would cost. You stopped
+  them. Nothing was written, and the licence piece's reading was lost.
+- **Your decision**: one normal session for each piece, then a session that
+  brings the conclusions into an updated plan. You review the plan, the
+  commission and the reports together. The commission and the plan now say so.
 
 Nothing in the dataset or the site changed.
 
 ## Now
 
-**You review `docs/PHASE-2.md` and the commission**, and say which research goes
-ahead. Then a fresh session runs the first piece agreed, one that wrote neither
-file.
+**A normal session runs the licence research, R2**, from
+`docs/PHASE-2-RESEARCH-COMMISSION.md`, then R1 and R3, one session each. Then a
+session updates `docs/PHASE-2.md` from the reports, and you review.
 
 ## Waiting for you
 
-- **The plan's second draft and the research commission**, above.
+- **The plan and the research commission**, once the research is in and the
+  plan updated, above.
 - **Who runs Phase 2's closing test**: a test account used by another session,
   or a real researcher you invite. Needed before that test is written, not now.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
@@ -117,7 +113,7 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-16, the session that checked Phase 2's plan
+## Sanity check, 2026-09-16, the session that started the research
 
 Run before the first reply.
 
@@ -131,6 +127,34 @@ Run before the first reply.
   `legdata`.
 - **The site and Caddy active, the page answering; the backup's last run
   `success`.** The failed one-off unit is still listed.
+- **One small disagreement**: `CLAUDE.md` says twenty-three schema changes on
+  10 September, the memory says twenty-four. Nothing depends on it.
+
+## For the session that updates Phase 2's plan: gaps already seen
+
+Found on 16 September by reading the plan against `STANDING.md`, the check and
+the data dictionary, before any research. Candidates, not findings; weigh them
+with the reports.
+
+- **Nothing in the plan puts the data behind the sign-in.** Phase 2 is for
+  approved beta users only, but no piece says every data page and download
+  sits behind it, or how that is tested from a signed-out visitor.
+- **Downloads and the privacy page.** The page promises nothing is held about
+  what a signed-in researcher read. How a download is served touches the web
+  server log, and `STANDING.md` says a change there is re-checked with
+  `tools/check_privacy.sh`.
+- **The notes name columns.** Methodology notes' `applies_to` and their bodies
+  use `bill.outcome` and the like. If the published copy relabels columns for
+  readers (groundwork 1, question 4), the notes and that layout are one
+  decision, and the note text a reader sees is in database words.
+- **A page for the bills themselves.** `PLAN.md` says the dataset is "available
+  and shown", and groundwork 3 speaks of reaching a single bill's provenance,
+  but the owner's list is charts only; nothing asks whether there is a list of
+  every bill or a page per bill.
+- **How charts are drawn is a dependency.** A charting library, or drawing them
+  on the machine, is a choice to put to the owner under "ask before adding".
+- **Where the licence and the suggested citation land.** R2 and R1 research
+  them; no groundwork piece settles the wording, which is public text.
 
 ## Checking Phase 2's plan: working detail, 16 September
 

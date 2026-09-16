@@ -26,13 +26,15 @@ from `STATE.md`. Nothing here is a progress report.
 
 **What happens next, by the owner's direction:**
 
-1. The owner reviews this draft and the commission, and says which research
-   goes ahead.
-2. A fresh session runs each piece agreed, one that wrote neither this plan nor
-   the commission.
-3. The owner reads the reports.
-4. The plan is finalised in the light of them, and the decisions go into
-   `DECISIONS.md`. Then the groundwork opens.
+1. **All three pieces of research go ahead** (owner, 16 September, later the
+   same day).
+2. One normal session runs each piece, one that wrote neither this plan nor the
+   commission.
+3. A further session brings the reports' conclusions into a third draft of this
+   plan, still as proposals, and adds any gaps it finds.
+4. The owner reviews that draft, the commission and the reports together. The
+   plan is finalised, and the decisions go into `DECISIONS.md`. Then the
+   groundwork opens.
 
 ---
 
