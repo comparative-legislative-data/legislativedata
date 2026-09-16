@@ -307,6 +307,76 @@ recorded here with the run.
   is not in `PROMOTION-RUNBOOK.md`, because there is no published database. It
   belongs with Phase 2, and the sweep puts it where Phase 2 will find it.
 
+### The run, 2026-09-16
+
+**Run by a session that built nothing in Phase 1 and wrote no part of this
+test.** No row, address or name from the accounts came into the conversation;
+every look at them was a count or a yes/no.
+
+**Part A: all twenty items pass.** Before starting, 470, 1291, 186, 13 and 474,
+checker 0, gaps 0, one person in the accounts.
+
+- **Items 1–5, done for real.** Live was `2026-09-16T16-01-09Z`, identical to
+  `site/` at `968ce1e`, 23 files. Rolled back to `15-02-54Z`, health and apex
+  `200`. Deployed again as `2026-09-16T16-28-17Z`: rehearsal `200` and `200`,
+  then `200, 200, 301, 308, 200`; identical to the commit, the last of 8 lines
+  in `switched`. `--stage-only` staged `16-37-00Z`, rehearsal `200` and `200`;
+  `current` and `switched` unchanged. Certificate to 15 December 2026.
+- **The site was on `15-02-54Z`, without the privacy page, from about 16:26 to
+  16:28**, because auto mode's permission check refused the deploy in item 4
+  after allowing the rollback in item 3. The owner switched modes and the deploy
+  was run by the session. Nobody applied in the gap. **Lesson for anyone running
+  items 3 and 4:** check the permission mode allows a deploy before rolling
+  back, not after.
+- **Items 6, 7, 12.** Seven pages `200`, `/admin` and the five data addresses
+  `404`, `/health` `200`; the footer reads `No data published yet` on all seven;
+  no `Set-Cookie` on any, nor on a `POST` to `/apply` refused with `400`. Both
+  log counts `0`.
+- **Items 8–11.** The site's login refused on `legdata`; the databases exactly
+  as listed; the one mention of `legdata` in the release is a comment naming the
+  owner-code script. 5432 and 8000 unreachable from the Mac, loopback only on
+  the machine. Three tables, nine columns in order, no forbidden column name;
+  `f|f|f`.
+- **Item 13**, against `16-28-17Z` in one connection: apply FAIL at 1 then 21 of
+  21; sign-in FAIL at 7 then 45 of 45; admin FAIL at 1 then 28 of 28; privacy
+  FAIL at 2 then 15 of 15. Every clean-up line `left: 0`, the first three
+  `everyone else as they were: yes`, broken runs included. One person before and
+  after; no test port left listening.
+- **Items 14–15.** Installed backup script identical to `deploy/legdata-backup`;
+  each database sorted. Timer active, last run `success` at 15:54; the newest
+  copies are `28a16463`, `be59a66c`, `adc2c406`, all from that run. The restore
+  check: neither copy holds the other's database, the site's login saved, 1
+  person, permissions intact, 21 of 21 described, 470, 1291, 186, 13, 474, 0, 0;
+  databases as listed and `/tmp/restore-check` gone afterwards.
+- **Items 16, 18, 19, 20.** Every heading present and the index unchanged; every
+  runbook section present. The dictionary regenerated identical, every column
+  described in both databases, at the start of this session; nothing changed
+  the structure of either database afterwards. No migration outside
+  `db/accounts/` since `db/103`, 15 September 15:15.
+- **Item 17 passes, with a note on the item.** All seven questions are answered
+  on reading, but two point at the wrong entry: typefaces and sizes are in "The
+  house style comes from the owner's own site", not "Prose runs narrow"; how a
+  reader moves around ("No left rail") is in "Prose runs narrow", not the
+  house-style entry.
+- **Found, not asked for:** the house-style entry promises a test page "built
+  locally and never deployed". The owner's rule since 16 September is that
+  nothing runs on the Mac, so it cannot be built as written. Taken to the owner
+  with the sweep.
+- **A slip of the runner's**: one command meant to write a file on the Mac also
+  opened a connection that could at most have copied the restore check into
+  `/tmp` on the machine. It ran nothing; the next step removed it.
+
+**Part B.**
+
+- **B1: done.** The owner applied with a second address, approved it, signed in
+  and out, and deleted it. Confirmed by counts: two people while it existed, one
+  approved and not the owner; one, the owner, afterwards. No `email not sent` in
+  the site's log from 16:40.
+- **B2 and B3: done**, the owner's word: "all pages and text looks fine", and
+  both to be marked done.
+- **B4: declined by the owner.** `PLAN.md` makes it a condition of closing the
+  phase; the phase closes without it, on the owner's decision.
+
 ### What this test does not check
 
 - **That the site is secure.** No one has reviewed the site's code or the
