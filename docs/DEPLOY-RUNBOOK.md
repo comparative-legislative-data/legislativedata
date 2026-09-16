@@ -108,6 +108,12 @@ deploy adds to the list when it switches; a rollback does not, so rolling back
 twice goes back two versions. If the list is missing, the rollback refuses
 rather than guessing.
 
+**Rehearsed on 16 September 2026.** Live was `12-29-55Z`; a staged-only
+`12-27-43Z` sat between it and `07-31-17Z` in the folder list. The rollback went
+to `07-31-17Z`, the one actually live before, with health and the apex both
+`200`. A second rollback refused, nothing having been live before that, and
+switched nothing. Then deployed again as `12-34-06Z`, all five checks as above.
+
 **Rolling back past 16 September's 12:29 deploy puts back a site that reads no
 database.** Its health check does not ask about the accounts, so a `200` from it
 says less than a `200` from anything later.
