@@ -208,16 +208,13 @@ second accent, which nothing so far does.
 
 ## What gets built, after both discussions
 
-**Where the building has got to, 16 September.** The machine serves the welcome
-page over its own certificate, and the deploy and its undo are built, rehearsed
-and written down in `docs/DEPLOY-RUNBOOK.md`. **The accounts database is built,
-empty, in the nightly backup and proved to restore from the storage box**, with
-the website's login unable to see the working data (`docs/ACCOUNTS-RUNBOOK.md`).
-That was build item 4 of the no-passwords decision, done before any page rather
-than on the day of the first account. Every page below is still to do. The site
-does not yet connect to any database. The driver it needs, psycopg, was named in
-the stack the owner chose on 15 September, so it is not a new dependency; the
-16 September handover asked for it again in error, and the owner confirmed.
+**Where the building has got to, 16 September, end of day.** The site is live
+with its deploy and undo rehearsed, and everything on the list below is built,
+checked on the machine and tested by the owner on the live site: applying, approving and
+refusing on the admin screen, a code by email, signing in, seeing who is signed
+in, signing out, deleting an account, and the owner's way in without email. The
+accounts runbook holds how each works and was checked. **Still to build: the
+page saying exactly what is held.** Then the closing test and the sweep.
 
 The whole of it, from `PLAN.md`:
 

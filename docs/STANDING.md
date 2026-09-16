@@ -256,6 +256,12 @@ bring it across; nothing depends on it.
   invented practice person was restored from snapshot `c927a990`, approved, with
   the site's permissions intact; the working database restored beside it with
   every count matching.
+- **Accounts work end to end on the live site**, tested by the owner by hand:
+  apply, see it on the admin screen, approve (the email arrives with no code),
+  ask for a code by email, sign in, a non-owner cannot see the admin screen,
+  refuse (the email arrives, the application goes), delete an account (a code
+  asked for afterwards is not sent), sign out. Before that, on the machine:
+  apply 19/19, sign-in 44/44, admin 27/27, each check first made to fail.
 
 ## Reconciliation figures, per session
 

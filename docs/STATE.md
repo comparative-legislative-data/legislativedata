@@ -4,11 +4,13 @@ Updated: 2026-09-16
 
 ## Where we've got to
 
-**Phase 0 — the dataset — is closed. Phase 1 is the site, and it is being
-built.** The site serves its welcome page at `legislativedata.org`, and **the
-place accounts will be kept now exists**, empty, backed up and proved to come
-back from the backup. What is left in the phase is the pages that let someone
-in. The arc is in `docs/PLAN.md`; Phase 1's own plan is `docs/PHASE-1.md`.
+**Phase 0 — the dataset — is closed. Phase 1 is the site, and most of it is
+built.** At `legislativedata.org` someone can apply for an account, you approve
+or refuse them on the admin screen, the site emails them, and they sign in with
+a code by email and sign out. **You tested every step of that on the live site
+today.** What is left is the page saying what is held about a user, and closing
+the phase. The arc is in `docs/PLAN.md`; Phase 1's own plan is
+`docs/PHASE-1.md`.
 
 The dataset, unchanged and not moving while the site is built:
 
@@ -29,49 +31,51 @@ provenance notes. **The error checker and the gaps list are both empty.**
 
 - **10–15 September.** The database built, every session read in, reviewed,
   promoted and closed, and both of Phase 1's scoping discussions settled.
-- **16 September, earlier.** The site went live, with the deploy and its undo
-  rehearsed; you settled Cloudflare and that the site records nothing about a
-  visitor; the landing page was cut back; the server's leftovers cleared.
+- **16 September, earlier.** The site went live with its deploy and undo
+  rehearsed; it records nothing about a visitor; the accounts database built,
+  backed up and proved to come back.
 
-**16 September, this session. The accounts have somewhere to live.**
+**16 September, this session. Accounts work, end to end.**
 
-- **A separate workbook for accounts**, holding exactly what you settled on 15
-  September and nothing more. Delete a person and their codes and signed-in
-  devices go with them.
-- **The website cannot see the bills at all.** Its login was tried against the
-  working database and refused. It also cannot mark anyone as the owner.
-- **The backup now takes every database on the machine** unless one is named as
-  left out on purpose, so a new one cannot be missed the way one was on 9
-  September. Proved by bringing an invented person back from the off-site copy.
-- **Everything was rehearsed under another name and undone first**, and the
-  checks were shown to fail when they should. Procedure in
-  `docs/ACCOUNTS-RUNBOOK.md`; the reasoning in `DECISIONS.md`.
-- **Three stale lines corrected**: the two closure tests that said they had not
-  been run, and "change a password" in the phase's closing test. Two wrong
-  counts in `HOW-THE-DATABASE-WORKS.md` corrected, and a section added on the
-  accounts.
+- **Applying, approving, refusing, deleting, a code by email, signing in and
+  signing out** are live. Each was checked on the machine by a check first shown
+  able to fail, and then tested by you.
+- **Your account exists**, and your way in without email: a session makes you
+  a code on the machine, and you type it on the ordinary page.
+- **Emails go through Resend** with a key that can only send.
+- **What you settled** is in `DECISIONS.md` under 16 September: a refused
+  application deleted once they are told; the address for deletion requests; no
+  email on applying; three codes an hour; the email sent before anything changes.
+- **Caught before they did harm:** the undo could go back to a version that was
+  never live; a form check would have refused every sign-in; an address would
+  have been written into the access log.
 
 Nothing in the dataset changed.
 
-## Now: the pages that let someone in
+## Now: the page saying what is held
 
-In order: the site connects to the accounts; **somebody can apply**; your own
-account is made on the machine, with your way in that does not need email; the
-admin screen where you approve or refuse; a code by email and signing in;
-seeing you are signed in, and signing out; the page saying what is held; and
-deleting an account.
+The apply form says what applying keeps. Nothing yet says the rest: the one
+cookie signing in sets, how long codes and signed-in devices last, and that
+Resend sees addresses and keeps its own record of what it sent. **Anyone can
+apply from today**, so this comes next. It is public wording, so it comes to you
+in full before it is built.
 
-**The first thing needs your say-so.** For the site to read and write the
-accounts it needs a database driver added to its requirements (`psycopg`, the
-standard one for Python and PostgreSQL). That is a new dependency, so it is
-asked rather than assumed.
+**Before the first real applicant**, for whoever runs the session: the three
+checks on the machine refuse to run once anyone but you is in the accounts, so
+they need a different shape.
+
+Then the phase closes: a written test run by a session that did none of the
+work, the sweep of `PHASE-1.md`, and your sign-off.
 
 ## Waiting for you
 
-- **Nothing tells anyone if the nightly backup fails.** It would show only on
-  the machine. The heartbeat service in the old notes belonged to an earlier
-  attempt. Adding one is a new outside service, so it is yours to decide; it
-  matters more from the day a real person applies.
+- **Nothing tells anyone if the nightly backup fails.** It matters more now: the
+  accounts hold real people from the first application. Adding an alert is a new
+  outside service, so it is yours to decide.
+- **The page shown if signing in can't reach the accounts** was written by me to
+  match the apply page's, and not yet agreed: "Signing in isn't possible right
+  now. Please try again later."
+- **`site/.venv` on this Mac**, 22 MB, which nothing needs: delete it?
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
   is deliberately outside version control and exists on this machine only.
 - **M5's wording has drifted in two sentences**, and **whether the other eleven
@@ -122,51 +126,54 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-16, the session that built the accounts
+## Sanity check, 2026-09-16, the session that built accounts end to end
 
-Run before the first reply.
+Run before the first reply, and again at the close.
 
 - **The counts match** `STATE.md`: 470 bills, 1291 stage records, 186 provenance
-  notes, 13 methodology notes, 474 staging lines. The error checker and the gaps
-  list are both empty, and no working copy is inside the database.
-- **Both generated documents regenerated identical** to the committed files,
-  apart from the dictionary's generation date: 19 tables, 182 columns; 123
-  decisions.
+  notes, 13 methodology notes, 474 staging lines; checker and gaps list empty; 19
+  tables, so no working copy inside the database. The same at the close.
+- **Both generated documents regenerated identical**, at the open and the close.
 - **The tree was clean and pushed at the start**, and the site, Caddy and the
-  backup timer were running.
-- **Three stale lines found, all fixed this session**: the `STATE.md` heading
-  saying one waiting item blocked, when none did; "change a password" in
-  `PHASE-1.md`'s closing test; and the two closure-test openers, offered for the
-  fourth time and taken up.
-- **Found while working, not in the opening check:** `HOW-THE-DATABASE-WORKS.md`
-  said eight methodology notes and 92 provenance notes; both corrected. And
-  nothing alerts anyone when the backup fails — put to the owner above.
-- **Asked of the owner in error:** how long a code and a signed-in device are
-  kept. That was settled on 15 September (15 minutes, 30 days). Said so at once.
+  backup timer running; at the close the same, and last night's backup
+  `success`.
+- **One contradiction found at the open**: `STATE.md` and `PHASE-1.md` asked the
+  owner's say-so for psycopg, which the 15 September stack decision had already
+  named. Confirmed by the owner and corrected.
+- **Found while working:** `STANDING.md` and `PLAN.md` still said web server logs
+  are kept 14 days; corrected. The 15 September decision said the owner's
+  address was in the private notes; it never was; corrected by a new entry.
+- **Went wrong this session, and said so:** a local copy of the site was started
+  on the owner's Mac unasked. The owner does not want the Mac used for this;
+  stopped, and saved to memory. The earlier quick checks on the Mac had also
+  added psycopg to `site/.venv`.
+- **At the close:** the accounts hold the owner only, with no signed-in device;
+  three spent codes from the owner's testing are removed the next time anyone
+  asks for or tries a code.
 
-## The accounts: working detail, 16 September
+## Accounts end to end: working detail, 16 September
 
-**Everything is in `docs/ACCOUNTS-RUNBOOK.md`**, including what happened at each
-step. What a next session needs that the runbook does not lead with:
+**Everything is in `docs/ACCOUNTS-RUNBOOK.md`** (applying, signing in, the owner's
+way in, the admin screen and email, both keys, every check and its run) and
+`docs/DEPLOY-RUNBOOK.md` (the undo now reads `/srv/site/switched`). The wording
+and the owner's answers are in `docs/PHASE-1-APPLY.md`,
+`docs/PHASE-1-SIGN-IN.md` and `docs/PHASE-1-ADMIN-AND-EMAIL.md`, which go when
+the phase closes. What a next session needs that those do not lead with:
 
-- **The site does not connect to any database yet.** `site/app.py` reads nothing,
-  and `site/requirements.txt` has no driver. Connecting it is the first build
-  step and needs the owner's agreement to the dependency.
-- **The site should connect as `legsite` over the local socket, with no
-  password** — the machine account and the database login share the name, and
-  that is the whole of the authentication. No connection string with a secret
-  in it is needed or wanted.
-- **Cleaning up spent codes and devices is not built.** The descriptions say
-  rows go once used or run out; that becomes true when the sign-in pages are
-  built, and the privacy page must not say it before then.
-- **The owner's account** is made on the machine, with `is_owner` set, by
-  `postgres` — the site's login cannot set it. The owner's address is in the
-  private notes, not here.
-- **The SSH limit is six connections in 30 seconds**, not about a dozen. It
-  refused a connection once this session; nothing was half-done, because the
-  upload had landed and the install had not started.
-- **`deploy/first_install.sh` is still untested as a file**, as the last session
-  recorded.
+- **Do not run anything on the owner's Mac** — no local server, no local tests.
+  Checks run on the machine against a staged release.
+- **The SSH limit bites on every multi-step job.** Send several scripts as one
+  tar over standard input and run them in one connection. The deploy script
+  opens a connection per step; its step 5 was refused once after the switch had
+  already happened, and the checks were made from outside instead.
+- **The three machine checks refuse once anyone but the owner is in the
+  accounts.** That is correct for today and wrong from the first application.
+- **The owner's code:** `~/.claude/legdata-vps 'sudo /usr/local/sbin/legdata-owner-code'`.
+- **The two keys** are in `/var/lib/legislativedata/`, not in the backup, on
+  purpose. The full-access Resend key in `~/.claude/legdata-resend` stays off the
+  machine.
+- **13 releases on the machine**, never pruned.
+- **`deploy/first_install.sh` is still untested as a file**, as recorded before.
 
 ## The first deploy: working detail, 16 September
 
