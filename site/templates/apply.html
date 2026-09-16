@@ -1,6 +1,7 @@
 {#
   Applying for an account. Every word here is from docs/PHASE-1-APPLY.md, as
-  settled by the owner on 2026-09-16; change the wording there first.
+  settled by the owner on 2026-09-16; change the wording there first. The last
+  line of "What this form keeps" is from docs/PHASE-1-WHAT-IS-HELD.md.
 #}
 {% extends "base.html" %}
 
@@ -77,6 +78,7 @@
       <li>Nothing else: not your IP address, not your browser, and nothing about your visit.</li>
       <li>An approved application is kept while you have an account. A refused one is deleted once you have been told. To have yours deleted, write to <a href="mailto:comparativelegislativedata@gmail.com">comparativelegislativedata@gmail.com</a>.</li>
       <li>Emails from the site, including the decision on your application, are sent through Resend, which therefore sees your email address.</li>
+      <li>Everything the site holds, and your rights, are on the <a href="{{ url_for('privacy') }}">Privacy</a> page.</li>
     </ul>
   </div>
 

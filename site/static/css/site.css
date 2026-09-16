@@ -206,6 +206,16 @@ h2 {
 }
 .prose p { margin: 0 0 var(--s4); }
 .prose p:last-child { margin-bottom: 0; }
+.prose ul { margin: 0 0 var(--s4); padding-left: var(--s4); }
+.prose li { margin-bottom: var(--s2); }
+.prose code { font-size: 0.9em; }
+
+/* When a page of public wording last changed. */
+.changed {
+  margin: var(--s12) 0 0;
+  font-size: var(--t-md);
+  color: var(--text-muted);
+}
 
 .standfirst {
   font-family: var(--serif);

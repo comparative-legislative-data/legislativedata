@@ -70,6 +70,13 @@ def welcome():
     return render_template("welcome.html")
 
 
+# What the site holds about a person, and their rights. Wording settled by the
+# owner on 2026-09-16, docs/PHASE-1-WHAT-IS-HELD.md. Reads nothing.
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html")
+
+
 @app.route("/health")
 def health():
     """What the deploy checks against.
