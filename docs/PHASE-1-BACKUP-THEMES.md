@@ -97,6 +97,14 @@ because anyone can apply now.
 
 ### 5. Is there a copy of the backup's password anywhere but the machine?
 
+**Answered, 16 September: there was not, and now there is.** The owner held the
+storage box's login, which is a different password. The backup's own password
+was copied to a file on the owner's Mac, never shown in the conversation, for
+the owner to move somewhere safe. The copy was proved: it opens the backup, and
+the same test refuses a wrong password.
+
+What follows is the question as it was put.
+
 **This one is a question, not a recommendation.** The password that opens the
 backup is on the machine. The private notes call it the single point of
 failure, and don't say whether a copy exists anywhere else. Every restore check
