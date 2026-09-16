@@ -12,12 +12,14 @@
 # check can fail.
 #
 # It starts the release as the site's own login on a port nothing points at. The
-# live site is not touched. It refuses to start unless the only person in the
-# accounts is the owner (or nobody) and the owner has no code still working. The
-# owner may be signed in elsewhere; only devices and codes this check made are
-# removed. It prints counts and yes/no answers only: never the owner's address,
-# and never a code. It deletes the invented people and stops its copy, whether
-# it passes or fails.
+# live site is not touched. It does not mind who else is in the accounts. It
+# refuses to start if one of its invented people is already there, or the owner
+# has a code still working. The owner may be signed in elsewhere; only devices
+# and codes this check made are removed. It prints counts and yes/no answers
+# only: never the owner's address, and never a code. It deletes exactly its
+# invented people and stops its copy, whether it passes or fails. Everyone else
+# is fingerprinted before and after (who they are, their state, when it was
+# decided), and it passes only if nothing about them changed.
 
 set -uo pipefail
 
@@ -26,6 +28,7 @@ BREAK="${BREAK:-0}"
 P1="delivered+signin@resend.dev"
 P2="delivered+waiting@resend.dev"
 P3="delivered+codes@resend.dev"
+MINE="'$P1', '$P2', '$P3'"
 WORK=/tmp/sign-in-check
 PORT=8002
 S="http://127.0.0.1:$PORT"
@@ -36,7 +39,9 @@ pass() { n=$((n+1)); echo "PASS $n  $1"; }
 fail() { n=$((n+1)); echo "FAIL $n  $1"; failed=1; exit 1; }
 expect() { if [ "$2" = "$3" ]; then pass "$1"; else fail "$1 (got '$2', wanted '$3')"; fi; }
 
-others() { sql "select count(*) from person where not is_owner"; }
+mine() { sql "select count(*) from person where email in ($MINE)"; }
+fingerprint() { sql "select md5(coalesce(string_agg(person_id || ':' || email || ':' || state || ':' || coalesce(decided_at::text, '') || ':' || is_owner, ',' order by person_id), '')) from person where email not in ($MINE)"; }
+untouched() { [ "$(fingerprint)" = "$BEFORE" ] && echo yes || echo no; }
 START=$(date -u +%Y-%m-%dT%H:%M:%S.%NZ)
 owner_codes() { sql "select count(*) from sign_in_code c join person p using (person_id) where p.is_owner and c.created_at >= '$START'"; }
 owner_devices() { sql "select count(*) from signed_in_device d join person p using (person_id) where p.is_owner and d.signed_in_at >= '$START'"; }
@@ -65,20 +70,21 @@ generic() { grep -c "That code didn't work. Codes work once, within 15 minutes, 
 cleanup() {
   [ -f "$WORK/pid" ] && kill "$(cat "$WORK/pid")" 2>/dev/null
   sleep 1
-  sql "delete from person where email in ('$P1', '$P2', '$P3')" >/dev/null
+  sql "delete from person where email in ($MINE)" >/dev/null
   sql "delete from sign_in_code where created_at >= '$START' and person_id in (select person_id from person where is_owner)" >/dev/null
   sql "delete from signed_in_device where signed_in_at >= '$START' and person_id in (select person_id from person where is_owner)" >/dev/null
-  left="$(others) others, $(owner_codes) owner codes, $(owner_devices) owner devices"
+  left="$(mine) invented, $(owner_codes) owner codes, $(owner_devices) owner devices, everyone else as they were: $(untouched)"
   rm -rf "$WORK"
   echo "---"
   echo "cleaned up: copy stopped, invented people deleted; left: $left"
-  if [ "$failed" = 0 ] && [ "$left" = "0 others, 0 owner codes, 0 owner devices" ]; then echo "All $n pass"; else echo "NOT PASSED"; fi
+  if [ "$failed" = 0 ] && [ "$left" = "0 invented, 0 owner codes, 0 owner devices, everyone else as they were: yes" ]; then echo "All $n pass"; else echo "NOT PASSED"; fi
 }
 
 [ -d "$REL" ] || { echo "Refusing: $REL is not a release on this machine."; exit 2; }
-[ "$(others)" = 0 ] || { echo "Refusing: the accounts hold people other than the owner."; exit 2; }
+[ "$(mine)" = 0 ] || { echo "Refusing: an invented person from this check is already in the accounts."; exit 2; }
 [ "$(owner_live_codes)" = 0 ] || { echo "Refusing: the owner has a code still working, so may be signing in right now."; exit 2; }
 
+BEFORE=$(fingerprint)
 trap cleanup EXIT
 failed=1
 mkdir -p "$WORK" && chown legsite:legsite "$WORK"
@@ -171,5 +177,7 @@ else
   echo "(no owner's account yet: the owner's own way in is not checked)"
   expect "the log names nobody"                  "$(grep -ciE -e 'example\.org' -e 'resend\.dev' -e 'Practice' -e 'Waiting' -e 'Cody' $WORK/log)" 0
 fi
+
+expect "everyone else in the accounts is as they were" "$(untouched)" yes
 
 failed=0

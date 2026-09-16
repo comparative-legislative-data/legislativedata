@@ -13,10 +13,14 @@
 # that nothing changes when an email cannot be sent. The live site is not
 # touched. It signs the owner in on its copies by making a device marker of its
 # own, and removes exactly that marker afterwards; the owner may be signed in
-# elsewhere. It refuses to start unless the only person in the accounts is the
-# owner. It prints counts and yes/no answers only, never the owner's address,
-# and deletes the invented people and stops both copies whether it passes or
-# fails.
+# elsewhere. It does not mind who else is in the accounts, and refuses to start
+# if one of its invented people is already there or there is no owner. It prints
+# counts and yes/no answers only, never the owner's address, and never keeps the
+# admin screen on disk, since the screen lists real people. It deletes exactly
+# its invented people and stops both copies whether it passes or fails. Everyone
+# else is fingerprinted before and after (who they are, their state, when it was
+# decided), and it passes only if nothing about them changed: nobody real was
+# approved, refused or deleted.
 
 set -uo pipefail
 
@@ -26,6 +30,7 @@ A1="delivered+approve@resend.dev"
 A2="delivered+refuse@resend.dev"
 A3="delivered+unsent@resend.dev"
 MEMBER="delivered+member@resend.dev"
+MINE="'$A1', '$A2', '$A3', '$MEMBER'"
 WORK=/tmp/admin-check
 GOOD=8002
 BAD=8003
@@ -38,7 +43,9 @@ pass() { n=$((n+1)); echo "PASS $n  $1"; }
 fail() { n=$((n+1)); echo "FAIL $n  $1"; failed=1; exit 1; }
 expect() { if [ "$2" = "$3" ]; then pass "$1"; else fail "$1 (got '$2', wanted '$3')"; fi; }
 
-others() { sql "select count(*) from person where not is_owner"; }
+mine() { sql "select count(*) from person where email in ($MINE)"; }
+fingerprint() { sql "select md5(coalesce(string_agg(person_id || ':' || email || ':' || state || ':' || coalesce(decided_at::text, '') || ':' || is_owner, ',' order by person_id), '')) from person where email not in ($MINE)"; }
+untouched() { [ "$(fingerprint)" = "$BEFORE" ] && echo yes || echo no; }
 pid_of() { sql "select person_id from person where email = '$1'"; }
 state_of() { sql "select coalesce((select state || ':' || (decided_at is not null) from person where email = '$1'), 'gone')"; }
 
@@ -53,19 +60,20 @@ device_for() {  # person_id
 cleanup() {
   for port in $GOOD $BAD; do [ -f "$WORK/$port.pid" ] && kill "$(cat "$WORK/$port.pid")" 2>/dev/null; done
   sleep 1
-  sql "delete from person where email in ('$A1', '$A2', '$A3', '$MEMBER')" >/dev/null
+  sql "delete from person where email in ($MINE)" >/dev/null
   [ -n "${OWNER_M:-}" ] && sql "delete from signed_in_device where marker_hash = encode(sha256('$OWNER_M'::bytea), 'hex')" >/dev/null
-  left="$(others) others, $( [ -n "${OWNER_M:-}" ] && sql "select count(*) from signed_in_device where marker_hash = encode(sha256('$OWNER_M'::bytea), 'hex')" || echo 0) check devices"
+  left="$(mine) invented, $( [ -n "${OWNER_M:-}" ] && sql "select count(*) from signed_in_device where marker_hash = encode(sha256('$OWNER_M'::bytea), 'hex')" || echo 0) check devices, everyone else as they were: $(untouched)"
   rm -rf "$WORK"
   echo "---"
   echo "cleaned up: both copies stopped, invented people deleted, the check's own sign-in removed; left: $left"
-  if [ "$failed" = 0 ] && [ "$left" = "0 others, 0 check devices" ]; then echo "All $n pass"; else echo "NOT PASSED"; fi
+  if [ "$failed" = 0 ] && [ "$left" = "0 invented, 0 check devices, everyone else as they were: yes" ]; then echo "All $n pass"; else echo "NOT PASSED"; fi
 }
 
 [ -d "$REL" ] || { echo "Refusing: $REL is not a release on this machine."; exit 2; }
-[ "$(others)" = 0 ] || { echo "Refusing: the accounts hold people other than the owner."; exit 2; }
+[ "$(mine)" = 0 ] || { echo "Refusing: an invented person from this check is already in the accounts."; exit 2; }
 [ "$(sql "select count(*) from person where is_owner")" = 1 ] || { echo "Refusing: there is no owner's account."; exit 2; }
 
+BEFORE=$(fingerprint)
 trap cleanup EXIT
 failed=1
 mkdir -p "$WORK" && chown legsite:legsite "$WORK"
@@ -100,9 +108,11 @@ expect "someone else signed in: no such page"    "$(code -H "$N" $G/admin)" 404
 expect "  and no Admin in their top bar"         "$(curl -sS -H "$N" $G/ | grep -c '>Admin</a>')" 0
 expect "the owner sees the screen"               "$(code -H "$O" $G/admin)" 200
 expect "  and it is not to be kept"              "$(curl -sS -D - -o /dev/null -H "$O" $G/admin | grep -ci '^cache-control: no-store')" 1
-curl -sS -H "$O" $G/admin > "$WORK/admin"
-expect "  three waiting, with their details"     "$(grep -cE 'Dr (Ann Approve|Rex Refuse|Una Unsent) — An invented position — delivered\+(approve|refuse|unsent)@resend\.dev — applied' $WORK/admin)" 3
-expect "  the owner's own account, marked you"   "$(grep -c ' — you</p>' $WORK/admin)" 1
+# Held in memory only: the screen lists real people.
+ADMIN_PAGE=$(curl -sS -H "$O" $G/admin)
+expect "  three waiting, with their details"     "$(grep -cE 'Dr (Ann Approve|Rex Refuse|Una Unsent) — An invented position — delivered\+(approve|refuse|unsent)@resend\.dev — applied' <<< "$ADMIN_PAGE")" 3
+expect "  the owner's own account, marked you"   "$(grep -c ' — you</p>' <<< "$ADMIN_PAGE")" 1
+unset ADMIN_PAGE
 
 expect "someone else cannot approve"             "$(post -H "$N" $G/admin/approve/$(pid_of $A1)):$(state_of $A1)" "404 :applied:false"
 expect "the owner approves"                      "$(post -H "$O" $G/admin/approve/$(pid_of $A1))" "303 $G/admin?done=approved"
@@ -130,5 +140,7 @@ expect "the owner deletes an account"            "$(post -H "$O" $G/admin/delete
 expect "  and it is gone, with its devices"      "$(state_of $A1):$(sql "select count(*) from signed_in_device where marker_hash = encode(sha256('$A1_M'::bytea), 'hex')")" "gone:0"
 
 expect "the logs name nobody"                    "$(cat $WORK/$GOOD.log $WORK/$BAD.log | grep -cE 'resend\.dev|Ann Approve|Rex Refuse|Una Unsent|Mel Member')" 0
+
+expect "everyone else in the accounts is as they were" "$(untouched)" yes
 
 failed=0

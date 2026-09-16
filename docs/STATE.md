@@ -33,36 +33,37 @@ provenance notes. **The error checker and the gaps list are both empty.**
 - **16 September, earlier.** The site live, recording nothing about a visitor;
   the accounts database built and backed up; applying, approving, refusing,
   deleting, codes by email, signing in and out, all tested by you.
+- **16 September, later.** The privacy page live and read by you; the backup
+  split into system, data and accounts, the accounts kept five weeks; you hold a
+  copy of the backup's password.
 
-**16 September, this session. The privacy page, and the backup by theme.**
+**16 September, this session. The server's checks survive the first applicant.**
 
-- **The privacy page is live** at `/privacy`, linked first in every page's
-  header, naming you, with rights and complaints. A check on the machine proves
-  it is the settled wording word for word, and that what it says about the
-  cookie and codes matches the code. You read it on the live site.
-- **The backup is separated by theme**, as you directed: system, data and
-  accounts, each its own copy. The accounts are kept five weeks, the rest ten
-  years as before. Rehearsed, installed, and each theme restored from the
-  storage box on its own.
-- **Found and fixed: the backup's own password existed only on the machine.**
-  Losing the machine would have made the backup unreadable. You now hold a copy,
-  proved to open it.
-- **What you settled** is in `DECISIONS.md` under 16 September: the backup by
-  theme, and the privacy page, including your name on it as an exception to
-  keeping your details out of the repository.
+- **The checks for applying, signing in and the admin screen now run whoever
+  else has an account.** Before, the first real application would have stopped
+  them for good. Each makes its own invented people and deletes exactly those.
+- **Each also proves it left everyone else alone**: it notes who else is there,
+  their state and when it was decided, before and after, and passes only if
+  nothing changed. It says yes or no, never a name.
+- **Rehearsed with two invented stand-ins** for real people, one waiting and one
+  approved and signed in. All three checks passed, 21, 45 and 28 items, and the
+  stand-ins came through untouched. A copy doctored to approve a stand-in was
+  caught. Each check was also shown to fail when broken on purpose.
+- **Two faults in the first rehearsal**, neither in anything live: one in the
+  rehearsal's own set-up, one in the apply check. Both fixed and the whole run
+  repeated.
 
-Nothing in the dataset changed.
+Nothing in the dataset changed, and nothing on the live site changed.
 
-## Now: before the first real applicant, then closing the phase
+## Now: closing Phase 1
 
-**First, the three older checks on the machine** (apply, sign-in, admin screen)
-refuse to run once anyone but you has an account. From the first application
-they could never be run again. They need the shape the privacy check already
-has: add one invented person, check, delete exactly that person, whoever else
-is there.
+Nothing is left to build. What closes the phase, from `PHASE-1.md`:
 
-**Then the phase closes:** a written test, run by a session that did none of
-the work; the sweep of `PHASE-1.md`; and your sign-off.
+1. **A written test of the phase**, written by a session that did the work, and
+   run by a session that did none of it.
+2. **That second session sweeps `PHASE-1.md`**: every line to its new home, then
+   the file deleted.
+3. **Your sign-off** that you can explain what was built and how it runs.
 
 ## Waiting for you
 
@@ -126,24 +127,42 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-16, the session that built the privacy page
+## Sanity check, 2026-09-16, the session that reshaped the machine's checks
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
-  `STATE.md`.
+  `STATE.md`, and the newest decisions were all reflected in it.
 - **Both generated documents regenerated identical.**
 - **The counts match**: 470 bills, 1291 stage records, 186 provenance notes, 13
-  methodology notes, 474 staging lines; checker and gaps list empty; 19 tables.
-- **The site, Caddy and the backup timer running**; the last backup `success`.
-- **One thing out of place, harmless:** a one-off check from 12:26 that day,
-  run as a transient unit and meant to fail (a login trying to reach the working
-  database), is still listed as failed on the machine. Added to "Waiting for you"
-  with the unpruned releases.
-- **Found while working, and put right:** the accounts were kept ten years in
-  the bills' backup; the backup's password had no copy off the machine; the
-  16 September sign-in decision would have kept the owner's name off the privacy
-  page, so the exception is recorded.
+  methodology notes, 474 staging lines, 19 tables; checker and gaps list empty;
+  no copy schema left in the working database.
+- **Every database on the machine is sorted into a backup theme**: `legdata`
+  (the working one), `accounts` (`ACCOUNTS_DATABASES`), `postgres`
+  (`NOT_BACKED_UP`).
+- **The site and Caddy active; the backup timer set**, its last run `success`.
+- **Nothing new out of place.** The failed one-off unit from 12:26 is still
+  listed, as already in "Waiting for you".
+- **The SSH limit bit again**: retrying a refused connection straight away kept
+  it refused. Waiting a full minute without trying cleared it.
+
+## The machine's checks with real people: working detail, 16 September
+
+**The record is `docs/ACCOUNTS-RUNBOOK.md`**, "The three checks, with real
+people in the accounts", and the decision is in `DECISIONS.md` the same day.
+
+- **Expected totals now**: apply 21, sign-in 45, admin 28; `BREAK=1` fails at 1,
+  7 and 1. The privacy check is unchanged at 15.
+- **The rehearsal driver was not committed.** It lived in the session
+  scratchpad: add two stand-ins, run each check broken and then properly,
+  compare the stand-ins cell by cell, try the refusal, run a one-line-altered
+  copy that approves a stand-in, remove the stand-ins. Sent as one bundle and
+  run in one connection; it took about a minute.
+- **The fingerprint's function lines are byte-identical in all three checks**,
+  which is why one altered copy proves all three. Keep them identical if any is
+  edited, or prove each separately.
+- **The checks' last item and clean-up line both say whether everyone else is
+  as they were**, so a failure earlier in a run still reports it.
 
 ## The privacy page and the backup by theme: working detail, 16 September
 

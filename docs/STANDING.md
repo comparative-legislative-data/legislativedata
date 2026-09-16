@@ -273,6 +273,11 @@ bring it across; nothing depends on it.
   refuse (the email arrives, the application goes), delete an account (a code
   asked for afterwards is not sent), sign out. Before that, on the machine:
   apply 19/19, sign-in 44/44, admin 27/27, each check first made to fail.
+- **The apply, sign-in and admin checks run with other people in the accounts,
+  and prove they left them alone.** Rehearsed with two invented stand-ins, one
+  waiting and one approved and signed in: apply 21/21, sign-in 45/45, admin
+  28/28, the stand-ins unchanged in every cell. A copy altered to approve a
+  stand-in failed on the check that everyone else is as they were.
 
 ## Reconciliation figures, per session
 

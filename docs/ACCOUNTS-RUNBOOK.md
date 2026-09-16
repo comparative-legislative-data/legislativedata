@@ -215,19 +215,20 @@ existed, and the switch was then taken out.
 staged release. It starts that release twice as `legsite`, on ports 8002 and
 8003, once reaching the accounts and once pointed at a database that does not
 exist, and sends applications with an invented person at `example.org`. It
-refuses to start unless the accounts are empty, prints only counts and yes/no
-answers about the invented person, and deletes them and stops both copies
+refuses to start if its invented person is already there, prints only counts and
+yes/no answers about the invented person, and deletes them and stops both copies
 whether it passes or fails.
 
 Send it and run it **in one connection**, because of the SSH limit:
 
     ~/.claude/legdata-vps 'cat > /tmp/check_apply.sh && sudo bash /tmp/check_apply.sh /srv/site/releases/<release>' < tools/check_apply.sh
 
-It must print `All 19 pass` and `people left: 0`. Run with `sudo BREAK=1 bash …`
-it must fail at item 1, which shows it can fail.
+It must print `All 21 pass`, `left: 0` and `everyone else as they were: yes`.
+Run with `sudo BREAK=1 bash …` it must fail at item 1, which shows it can fail.
 
-**Once anyone real has applied, it refuses to run**, by design. It will need an
-invented-person-only way of checking before then, or retiring.
+**It does not mind who else is in the accounts**, and nor do the sign-in and
+admin checks, since 16 September; see "The three checks, with real people in the
+accounts" below.
 
 **2026-09-16**, on `2026-09-16T12-47-30Z`. The first run meant to fail did fail,
 but because the two copies never started: the site's login cannot read the
@@ -275,10 +276,11 @@ in one connection:
     ~/.claude/legdata-vps 'cat > /tmp/check_sign_in.sh && sudo bash /tmp/check_sign_in.sh /srv/site/releases/<release>' < tools/check_sign_in.sh
 
 It uses invented people at Resend's test addresses and, if the owner's account
-exists, the owner's own command and code. It refuses to start if anyone but the
-owner is in the accounts, or the owner has a code still working. It prints counts and yes/no
+exists, the owner's own command and code. It refuses to start if one of its
+invented people is already there, or the owner has a code still working. It prints counts and yes/no
 answers only, never a code or the owner's address, and deletes everything it
-made whether it passes or fails. With `BREAK=1` it must fail at item 7.
+made whether it passes or fails. It must print `All 45 pass`. With `BREAK=1` it
+must fail at item 7.
 
 ## The admin screen and email
 
@@ -310,9 +312,9 @@ failed email changes nothing. It signs the owner in on its own copies with a
 marker it makes and removes. `tools/check_sign_in.sh` now also covers asking for
 a code and the three-an-hour limit, and no longer refuses while the owner is
 signed in somewhere; it refuses only while the owner has a code still working.
-All three checks refuse to run once anyone but the owner is in the accounts.
-**That is the day they need a different shape**, and it is close: the first real
-application stops all three.
+Until 16 September all three refused to run once anyone but the owner was in
+the accounts; see the next section. The admin check must print `All 28 pass`,
+and with `BREAK=1` fail at item 1.
 
 **2026-09-16**, on `2026-09-16T15-01-28Z`. Each check run with `BREAK=1` first
 and failed where designed. Then apply 19 of 19 and sign-in 44 of 44. The admin
@@ -326,6 +328,43 @@ outside, `/admin` "not found" to anyone but the owner, one person (the owner),
 no codes, no devices, no errors, no address in the access log. The deploy's own
 step 5 was refused by the SSH limit after the switch; its checks were made from
 outside and in a later connection instead.
+
+## The three checks, with real people in the accounts
+
+**Since 16 September the apply, sign-in and admin checks run whoever is in the
+accounts**, the shape the privacy check already had. Each:
+
+- refuses to start if one of its own invented people is already there;
+- looks only at its invented people, and deletes exactly them, pass or fail;
+- **fingerprints everyone else** before and after — who they are, their state,
+  when it was decided, whether they are the owner — and passes only if nothing
+  changed, as its last item and again in its clean-up line. It prints yes or no,
+  never a row. Someone real applying, or being approved on the live site, in the
+  seconds a check runs would fail it; that is the safe way round, and the answer
+  is to run it again;
+- never keeps the admin screen on disk, since it lists real people (the admin
+  check holds it in memory only).
+
+The fingerprint looks at people, not at their codes or devices: approving,
+refusing or deleting someone all change it, and the owner signing in elsewhere
+does not.
+
+**2026-09-16**, rehearsed against the live release `16-01-09Z` in one
+connection, with two invented stand-ins for real people: one waiting, one
+approved and signed in on a device. Each check with `BREAK=1` failed where
+designed (apply 1, sign-in 7, admin 1); then apply 21 of 21, sign-in 45 of 45,
+admin 28 of 28, and both stand-ins unchanged in every cell, device included.
+The apply check refused to start with its invented person already there. A copy
+of the apply check altered by one line, to approve the waiting stand-in just
+before its last item, failed at that item, `everyone else as they were: no`. The
+three checks' fingerprint lines are identical, so that proof covers all three.
+Stand-ins removed; one person left, the owner; no test port left listening.
+
+The first attempt had two faults, neither in anything live: the rehearsal failed
+to add the approved stand-in (dated decided before applied, which the accounts
+refuse), and the apply check's item 19, the case where the accounts cannot be
+reached, counted both invented addresses when only the second is sent there.
+Both fixed and the whole rehearsal run again, with the result above.
 
 ## The privacy page, and its check
 
@@ -349,7 +388,8 @@ code limits against the release's own code; and that the page loads nothing from
 elsewhere but its one link to the ICO. To see the header signed in it adds one
 invented person at a Resend test address with a device of its own, and deletes
 exactly that person, pass or fail. **It does not mind who else is in the
-accounts**, unlike the three checks before it. `BREAK=1` changes "five weeks" to
+accounts**, and it was the shape the other three took on 16 September. It has no
+fingerprint of everyone else, because it changes nobody. `BREAK=1` changes "five weeks" to
 "four weeks" in its copy of the wording.
 
 **2026-09-16.** Against the release then live, which had no page: FAIL at item 1.
