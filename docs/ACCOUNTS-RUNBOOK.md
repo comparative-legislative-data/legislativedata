@@ -327,6 +327,40 @@ no codes, no devices, no errors, no address in the access log. The deploy's own
 step 5 was refused by the SSH limit after the switch; its checks were made from
 outside and in a later connection instead.
 
+## The privacy page, and its check
+
+`site/templates/privacy.html`, at `/privacy`, linked as "Privacy" first in the
+header of every page, and from the last line of the apply page's "What this form
+keeps". Every word is `docs/PHASE-1-WHAT-IS-HELD.md`; change the wording there
+first, and the "Last changed" date with it. Reads nothing.
+
+**It states facts about other parts of the machine**, and goes untrue if they
+change without it: the cookie's name and 30 days, codes' 15 minutes and three an
+hour, the log holding nothing about a visitor, Resend's 30 days, and the
+accounts' five weeks in the backup. A change to any of those changes the page in
+the same piece of work.
+
+**The check is `tools/check_privacy.sh`**, run as root on the machine against a
+staged release, with the wording file sent alongside. It starts the release as
+`legsite` on port 8004 and checks: the page against the wording, block by block,
+in both directions; "Privacy" in the header of five pages not signed in and two
+signed in; the apply page's line; the cookie's name, the device's 30 days and the
+code limits against the release's own code; and that the page loads nothing from
+elsewhere but its one link to the ICO. To see the header signed in it adds one
+invented person at a Resend test address with a device of its own, and deletes
+exactly that person, pass or fail. **It does not mind who else is in the
+accounts**, unlike the three checks before it. `BREAK=1` changes "five weeks" to
+"four weeks" in its copy of the wording.
+
+**2026-09-16.** Against the release then live, which had no page: FAIL at item 1.
+Staged `16-00-00Z` with `BREAK=1`: FAIL at item 2, naming the one block. Staged,
+for real: FAIL at item 4, a fault in the check (the apply page now links to
+Privacy twice, once in its own text), fixed to look in the header only; then 15
+of 15, and `BREAK=1` still failing at item 2. Deployed as `16-01-09Z`, all five
+of the deploy's checks as they should be, `/privacy` `200` from outside, and the
+check run against the live release: 15 of 15. Nothing invented left in the
+accounts.
+
 ## The undo, once there are real people
 
 `db/accounts/001_undo.sql` drops the database. **Once anyone real has applied,

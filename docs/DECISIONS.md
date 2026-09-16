@@ -170,7 +170,8 @@ something an entry does not. Newest first, as the file is.
 ## 2026-09-16 — The privacy page: what it says, who it names, and where it sits
 
 **The owner's decisions**, on `docs/PHASE-1-WHAT-IS-HELD.md`, which holds the page
-word for word. Settled, not yet built.
+word for word. Settled, and built and live the same day (`docs/ACCOUNTS-RUNBOOK.md`,
+"The privacy page, and its check").
 
 **One page, at `/privacy`, linked as "Privacy" in the header of every page**,
 signed in or not, with rights and complaints as its last section. The owner's
@@ -198,7 +199,7 @@ removed the next time anyone asks for or tries a code, not on a timer, so the
 page promises that they stop working, not when they are removed. Light mode is
 mentioned as kept in the reader's own browser, or "one cookie" would mislead.
 
-**It does not go live before the backup is separated by theme**, the entry
+**It did not go live before the backup was separated by theme**, the entry
 below, because it says a deletion is gone from the backups within five weeks.
 
 ---

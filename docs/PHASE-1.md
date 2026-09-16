@@ -213,8 +213,10 @@ with its deploy and undo rehearsed, and everything on the list below is built,
 checked on the machine and tested by the owner on the live site: applying, approving and
 refusing on the admin screen, a code by email, signing in, seeing who is signed
 in, signing out, deleting an account, and the owner's way in without email. The
-accounts runbook holds how each works and was checked. **Still to build: the
-page saying exactly what is held.** Then the closing test and the sweep.
+accounts runbook holds how each works and was checked. **The page saying
+exactly what is held is live at `/privacy`**, 16 September, after the backup was
+separated by theme so that what it says about backups is true; it waits for the
+owner to read it on the live site. Then the closing test and the sweep.
 
 The whole of it, from `PLAN.md`:
 
