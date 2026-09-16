@@ -244,8 +244,9 @@ make it look like something. The welcome page is a welcome.
 
 ## How the phase closes
 
-1. The owner can approve a beta application, log in, change a password, and log
-   out.
+1. The owner can approve a beta application, sign in with a code, and sign out.
+   (Read "log in, change a password, and log out" until 2026-09-16; passwords
+   were dropped on 2026-09-15.)
 2. The infrastructure decisions are recorded.
 3. The style decisions are recorded.
 4. A written test has been run by a session that did none of the work.

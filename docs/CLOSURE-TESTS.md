@@ -34,8 +34,8 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 Written 2026-09-15 by the session that found the fault, built `db/103` and
 changed both `tools/promote_session.sql` and `tools/rollback_promotion.sql`.
-**It has not been run. Part A is for a session that did none of that work; Part
-B is the owner's.**
+**It has been run and has passed**, on 2026-09-15: Part A by a session that did
+none of that work, and Part B by the owner. The run is recorded below.
 
 The Session 7 test found that taking Session 7 off the clean sheet took the
 Gender Recognition Reform Bill off with it, although Session 7 changed not one
@@ -243,8 +243,10 @@ nothing is wrong in the database; the claim was simply wider than the fact.
 ## Session 7, and the first bill that has not finished
 
 Written 2026-09-15 by the session that reviewed Session 7, built `db/102` and
-promoted the session. **It has not been run. Part A is for a session that did
-none of that work; Part B is the owner's.**
+promoted the session. **It has been run and has passed**, on 2026-09-15: Part A
+by a session that did none of that work, and Part B by the owner. Item 18 failed
+at the first run and passed when run again after `db/103`. The run is recorded
+below.
 
 Session 7 is two staging lines and the smallest ingest this project will do, but
 it is the first that puts a bill on the clean sheet which has not finished, and
