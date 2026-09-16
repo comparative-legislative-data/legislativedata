@@ -1,8 +1,12 @@
 #!/bin/bash
-# Restores the newest data snapshot from the storage box into two scratch
-# databases, checks what came back, then removes every trace of the restore,
-# including on failure. Proves the backup can be read back from off the machine,
-# which a job that exits cleanly does not prove.
+# Restores the newest copy of each theme from the storage box, checks what came
+# back, then removes every trace of the restore, including on failure. Proves the
+# backup can be read back from off the machine, which a job that exits cleanly
+# does not prove.
+#
+# Since 2026-09-16 the backup is separated by theme (deploy/legdata-backup), so
+# the bills come from the newest `data` copy and the accounts from the newest
+# `accounts` copy, each on its own. The `system` copy is listed, not restored.
 #
 # Run as root on the machine:  bash restore_check.sh
 # Prints counts only. The practice line is true only during a rehearsal that put
@@ -17,17 +21,26 @@ cleanup() {
 }
 trap cleanup EXIT
 rm -rf "$R"
-SNAP=$(restic snapshots --tag data --json --latest 1 | python3 -c 'import json,sys; print(json.load(sys.stdin)[-1]["short_id"])')
-echo "snapshot restored from the storage box: $SNAP"
-restic restore "$SNAP" --target "$R" --include /srv/legdata/postgres >/dev/null
+newest() { restic snapshots --tag "$1" --json --latest 1 | python3 -c 'import json,sys; print(json.load(sys.stdin)[-1]["short_id"])'; }
+SYS=$(newest system); DATA=$(newest data); ACC=$(newest accounts)
+echo "copies restored from the storage box: system $SYS (listed), data $DATA, accounts $ACC"
+echo "-- the system copy holds the machine's settings and our scripts:"
+restic ls "$SYS" | grep -cE '^/etc/caddy/Caddyfile$|^/usr/local/sbin/legdata-backup$'
+restic restore "$DATA" --target "$R/data" --include /srv/legdata/postgres >/dev/null
+restic restore "$ACC" --target "$R/accounts" --include /srv/legdata-accounts/postgres >/dev/null
 chown -R postgres:postgres "$R"
-D="$R/srv/legdata/postgres"
-ls "$D"
-echo "-- the site's login is in the saved logins:"
-grep -c 'CREATE ROLE legsite' "$D/globals.sql"
+D="$R/data/srv/legdata/postgres"
+A="$R/accounts/srv/legdata-accounts/postgres"
+echo "-- data copy:"; ls "$D"
+echo "-- accounts copy:"; ls "$A"
+echo "-- each copy is only its own theme (both should say 0):"
+ls "$D" | grep -c '^accounts\.dump$' || true
+ls "$A" | grep -c '^legdata\.dump$' || true
+echo "-- the site's login is in the accounts copy's saved logins:"
+grep -c 'CREATE ROLE legsite' "$A/globals.sql"
 runuser -u postgres -- createdb accounts_restore_check
 runuser -u postgres -- createdb legdata_restore_check
-runuser -u postgres -- pg_restore --exit-on-error -d accounts_restore_check "$D/accounts.dump"
+runuser -u postgres -- pg_restore --exit-on-error -d accounts_restore_check "$A/accounts.dump"
 runuser -u postgres -- pg_restore --exit-on-error -d legdata_restore_check "$D/legdata.dump"
 echo "-- accounts, restored: the practice person, and counts"
 runuser -u postgres -- psql -X -At -d accounts_restore_check -c "
@@ -44,5 +57,5 @@ runuser -u postgres -- psql -X -At -d legdata_restore_check -c "
       || ', provenance ' || (SELECT count(*) FROM field_source) || ', notes ' || (SELECT count(*) FROM methodology_note)
       || ', lines ' || (SELECT count(*) FROM bill_candidate)
       || ', checker ' || (SELECT count(*) FROM v_candidate_problems) || ', gaps ' || (SELECT count(*) FROM v_stage_date_gaps);"
-echo "-- manifest in the snapshot:"
-cat "$D/manifest.txt"
+echo "-- manifests in the copies:"
+cat "$D/manifest.txt" "$A/manifest.txt"

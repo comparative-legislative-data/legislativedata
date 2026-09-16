@@ -3,163 +3,191 @@
 # repository is the copy of record. It takes no arguments, and whatever it is
 # passed it runs the whole nightly job.
 #
-# TWO SEPARATE SNAPSHOTS, and the separation is the point.
+# THREE THEMES, EACH ITS OWN SNAPSHOT, EACH AGED BY ITS OWN RULE.
 #
-# System configuration and project data are different things with different
-# lifetimes. The first version of this script put /etc and /srv/legdata in one
-# snapshot, and on 2026-09-09 that turned out to be a design flaw: the project's
-# data had to be destroyed, and destroying it meant destroying the machine's
-# only rebuild material in the same act, because both lived in the same
-# snapshot. Deleting one kind of thing must never require deleting the other.
+#   system    what the machine needs to run: /etc and /usr/local/sbin
+#   data      the working database of bills, with the logins
+#   accounts  the accounts database, with the logins
 #
-# So: /etc is tagged "system", the data store is tagged "data", and retention is
-# applied within each tag group so the two never count against one another.
+# The separation is the point, and it has been learnt twice.
+#
+# On 2026-09-09 the project's data had to be destroyed, and system configuration
+# lived in the same snapshot, so destroying one meant destroying the machine's
+# only rebuild material. Deleting one kind of thing must never require deleting
+# the other. That split system from data.
+#
+# On 2026-09-16 the accounts were found sharing the data snapshot, and so kept
+# up to ten years like the bills. A person deleted from the site would have
+# stayed in the backup for a decade, which the page saying what is held cannot
+# honestly leave out. The owner's direction was to separate the backup by
+# theme. The accounts are now their own snapshot, kept five weeks
+# (DECISIONS.md, 2026-09-16, "The backup is separated by theme").
+#
+# Each database theme carries the logins (globals.sql), so either database can
+# be restored without the other theme.
+#
+# Left out of every theme, on purpose: the site's code (rebuilt from GitHub by
+# the deploy), Caddy's certificate (fetched again by itself), the logs, the
+# site's two keys in /var/lib/legislativedata, and the password that opens this
+# backup, which cannot live inside what it opens. The owner holds a copy of it.
+#
+# HISTORY. 2026-09-10: the database is dumped before the data snapshot, having
+# not been backed up at all (legdata-backup.pre-pgdump.bak). 2026-09-16: every
+# database is dumped, not one named one (legdata-backup.pre-accounts.bak).
+# 2026-09-16: three themes (legdata-backup.pre-themes.bak).
 #
 # Repository and password come from /root/.legdata-backup.env; transport comes
 # from the "legdata-storagebox" entry in /root/.ssh/config. Neither is in the
 # project repository.
 #
-# AMENDED 2026-09-10. Until then the "data" snapshot was never taken, because
-# /srv/legdata had not existed since the 2026-09-09 clearance and the script
-# treats its absence as normal. Meanwhile the PostgreSQL database lived in
-# /var/lib/postgresql, which nothing backed up at all. Step 2 below dumps the
-# database into the directory the data snapshot covers, so the existing
-# retention, verification and off-site transport apply to it unchanged.
-# That version is kept as legdata-backup.pre-pgdump.bak.
-#
-# AMENDED 2026-09-16. Every database on the machine is dumped, not one named
-# database. The accounts database arrived today, and the decision that made it
-# (DECISIONS.md, 2026-09-15, "Three databases") named the failure exactly: a
-# backup that dumps one database will not pick up a new one by itself, and will
-# succeed quietly every night while missing it. Nothing tells anyone when this
-# job fails, so a check that complains would complain to nobody. Instead a new
-# database is backed up by default, and one that should not be — the published
-# copy, when it exists, being rebuildable from the working one — has to be named
-# below on purpose. Forgetting to name it costs some disk; forgetting a database
-# the other way round cost the data once already. That version is kept as
-# legdata-backup.pre-accounts.bak.
+# REHEARSAL ONLY: LEGDATA_BACKUP_ENV and LEGDATA_BACKUP_ROOT point the job at a
+# throwaway store and throwaway directories. The timer sets neither.
 set -euo pipefail
-set -a; source /root/.legdata-backup.env; set +a
+set -a; source "${LEGDATA_BACKUP_ENV:-/root/.legdata-backup.env}"; set +a
 
-DATA_DIR=/srv/legdata
-DUMP_DIR="$DATA_DIR/postgres"
+ROOT="${LEGDATA_BACKUP_ROOT:-}"
+DATA_DIR="$ROOT/srv/legdata"
+DATA_DUMPS="$DATA_DIR/postgres"
+ACCOUNTS_DIR="$ROOT/srv/legdata-accounts"
+ACCOUNTS_DUMPS="$ACCOUNTS_DIR/postgres"
 
-# Databases deliberately not backed up, with the reason beside each. `postgres`
-# is PostgreSQL's own empty housekeeping database.
+# Every database on the machine is backed up unless named here as not, and goes
+# into the data theme unless named as accounts. Nothing tells anyone when this
+# job fails, so an unsorted database is kept rather than refused: refusing would
+# be no backup at all, silently. The session sanity check asks that every
+# database is named in one of these or is the working database.
+#
+# Not backed up, with the reason beside each. `postgres` is PostgreSQL's own
+# empty housekeeping database. The published database, when it exists, goes here,
+# being rebuilt from the working one rather than restored.
 NOT_BACKED_UP="postgres"
+# Databases that hold people. Kept five weeks.
+ACCOUNTS_DATABASES="accounts"
 
-# 1. System configuration. Always taken.
-restic backup --tag system --exclude-caches /etc
+# 1. System. Always taken.
+restic backup --tag system --exclude-caches /etc /usr/local/sbin
 
-# 2. Dump the databases into the data store.
-#
-#    globals.sql carries the logins — without it a restore produces a database
-#    whose owner does not exist. Each database is its own <name>.dump, in the
-#    custom format so that a restore can be selective rather than all-or-nothing.
-#
-#    Each file is written to a temporary name and moved into place only once it
-#    has been proved readable. A dump that fails half way must not overwrite last
-#    night's good one: a corrupt backup that looks fine is worse than a missing
-#    one. All of them are proved before any is moved, so the set on disk is
-#    always from one night.
-#
-#    No date in the filenames. restic holds the history, and dated files would
-#    accumulate forever inside a store that is snapshotted whole.
-install -d -m 700 -o root -g root "$DUMP_DIR"
-
+# 2. Sort the databases into their themes.
 mapfile -t DATABASES < <(runuser -u postgres -- psql -X -At -d postgres -c "
     SELECT datname FROM pg_database
      WHERE NOT datistemplate AND datallowconn ORDER BY datname")
 
-TO_DUMP=()
+DATA_DBS=()
+ACCOUNTS_DBS=()
 for db in "${DATABASES[@]}"; do
-  case " $NOT_BACKED_UP " in
-    *" $db "*) echo "legdata-backup: $db is not backed up, on purpose." ;;
-    *)         TO_DUMP+=("$db") ;;
-  esac
+  if [[ " $NOT_BACKED_UP " == *" $db "* ]]; then
+    echo "legdata-backup: $db is not backed up, on purpose."
+  elif [[ " $ACCOUNTS_DATABASES " == *" $db "* ]]; then
+    ACCOUNTS_DBS+=("$db")
+  else
+    [ "$db" = legdata ] || echo "legdata-backup: $db is not sorted into a theme; backed up with the data."
+    DATA_DBS+=("$db")
+  fi
 done
 
-# The working database is the product. If it is not in the list, something is
-# badly wrong and a backup of everything else would hide it.
-case " ${TO_DUMP[*]} " in
-  *" legdata "*) ;;
-  *) echo "legdata-backup: the working database legdata was not found; refusing." >&2; exit 1 ;;
-esac
+# The working database is the product. If it is not there, something is badly
+# wrong and a backup of everything else would hide it.
+[[ " ${DATA_DBS[*]} " == *" legdata "* ]] || {
+  echo "legdata-backup: the working database legdata was not found; refusing." >&2; exit 1; }
 
-runuser -u postgres -- pg_dumpall --globals-only > "$DUMP_DIR/globals.sql.tmp"
-test -s "$DUMP_DIR/globals.sql.tmp"
+# 3. Dump one theme's databases into its directory.
+#
+#    globals.sql carries the logins: without it a restore produces a database
+#    whose owner does not exist. Each database is its own <name>.dump, in the
+#    custom format so a restore can be selective.
+#
+#    Each file is written to a temporary name and moved into place only once it
+#    has been proved readable. A dump that fails half way must not overwrite last
+#    night's good one. All are proved before any is moved, so the set on disk is
+#    always from one night.
+#
+#    No date in the filenames. restic holds the history.
+#
+#    A dump in the directory for a database not in this theme tonight is removed:
+#    the database no longer exists, or has moved theme. Its history stays in
+#    restic; left here, it would be carried into every snapshot of this theme.
+#
+#    Counts go beside the dumps, so a restore can be checked against what was
+#    there on the night. Counts only: nothing that names a person is written.
+#    A count that fails is written down as failing and does not stop the job.
+dump_theme() {
+  local theme=$1 dir=$2; shift 2
+  local dbs=("$@") db f name
+  install -d -m 700 -o root -g root "$dir"
 
-for db in "${TO_DUMP[@]}"; do
-  # Written through root's shell, not by pg_dump itself: the dump directory is
-  # root-only, and postgres has no business being able to write into it.
-  runuser -u postgres -- pg_dump --format=custom --compress=9 \
-          --dbname="$db" > "$DUMP_DIR/$db.dump.tmp"
-  pg_restore --list "$DUMP_DIR/$db.dump.tmp" > /dev/null
-done
-
-chmod 600 "$DUMP_DIR"/*.tmp
-for db in "${TO_DUMP[@]}"; do
-  mv -f "$DUMP_DIR/$db.dump.tmp" "$DUMP_DIR/$db.dump"
-done
-mv -f "$DUMP_DIR/globals.sql.tmp" "$DUMP_DIR/globals.sql"
-
-# A dump of a database that no longer exists is removed from the store. Its
-# history stays in restic; leaving it here would carry it into every snapshot
-# from now on and make tonight's set look larger than it is.
-for f in "$DUMP_DIR"/*.dump; do
-  [ -e "$f" ] || continue
-  name=$(basename "$f" .dump)
-  case " ${TO_DUMP[*]} " in
-    *" $name "*) ;;
-    *) echo "legdata-backup: $name no longer exists; removing its old dump from the store."
-       rm -f "$f" ;;
-  esac
-done
-
-# Counts alongside the dumps, so a restore can be checked against what was
-# actually there on the night rather than against an assumption. Counts only:
-# nothing that names a person is ever written here.
-# A count that fails is written down as failing and does not stop the snapshot:
-# the dumps are already proved readable, and they are what matters.
-{
-  echo "taken: $(date -u '+%Y-%m-%d %H:%M:%S+00')"
-  echo "databases dumped: ${TO_DUMP[*]}"
-  for db in "${TO_DUMP[@]}"; do
-    case "$db" in
-      legdata)
-        runuser -u postgres -- psql -X -At -d legdata -c "
-            SELECT 'bill: '||count(*) FROM bill;
-            SELECT 'bill_candidate: '||count(*) FROM bill_candidate;
-            SELECT 'bill_candidate accepted: '||count(*) FROM bill_candidate
-              WHERE review_status='accepted';
-            SELECT 'field_source: '||count(*) FROM field_source;" \
-          || echo "$db: counts could not be taken" ;;
-      accounts)
-        runuser -u postgres -- psql -X -At -d accounts -c "
-            SELECT 'accounts person: '||count(*) FROM person;
-            SELECT 'accounts person approved: '||count(*) FROM person WHERE state='approved';
-            SELECT 'accounts sign_in_code: '||count(*) FROM sign_in_code;
-            SELECT 'accounts signed_in_device: '||count(*) FROM signed_in_device;" \
-          || echo "$db: counts could not be taken" ;;
-      *)
-        echo "$db: dumped; no counts defined for it" ;;
-    esac
+  runuser -u postgres -- pg_dumpall --globals-only > "$dir/globals.sql.tmp"
+  test -s "$dir/globals.sql.tmp"
+  for db in "${dbs[@]}"; do
+    # Written through root's shell: the directory is root-only, and postgres has
+    # no business being able to write into it.
+    runuser -u postgres -- pg_dump --format=custom --compress=9 \
+            --dbname="$db" > "$dir/$db.dump.tmp"
+    pg_restore --list "$dir/$db.dump.tmp" > /dev/null
   done
-} > "$DUMP_DIR/manifest.txt.tmp"
-chmod 600 "$DUMP_DIR/manifest.txt.tmp"
-mv -f "$DUMP_DIR/manifest.txt.tmp" "$DUMP_DIR/manifest.txt"
+  chmod 600 "$dir"/*.tmp
+  for db in "${dbs[@]}"; do
+    mv -f "$dir/$db.dump.tmp" "$dir/$db.dump"
+  done
+  mv -f "$dir/globals.sql.tmp" "$dir/globals.sql"
 
-# 3. Project data. Only when there is any. Its absence is not an error: the store
-#    is created by the fetch, and between phases there may be nothing to hold.
-if [ -d "$DATA_DIR" ]; then
-  restic backup --tag data --exclude-caches "$DATA_DIR"
+  for f in "$dir"/*.dump; do
+    [ -e "$f" ] || continue
+    name=$(basename "$f" .dump)
+    [[ " ${dbs[*]} " == *" $name "* ]] || {
+      echo "legdata-backup: $name is not in the $theme theme tonight; removing its old dump from $dir."
+      rm -f "$f"; }
+  done
+
+  {
+    echo "theme: $theme"
+    echo "taken: $(date -u '+%Y-%m-%d %H:%M:%S+00')"
+    echo "databases dumped: ${dbs[*]}"
+    for db in "${dbs[@]}"; do
+      case "$db" in
+        legdata)
+          runuser -u postgres -- psql -X -At -d legdata -c "
+              SELECT 'bill: '||count(*) FROM bill;
+              SELECT 'bill_candidate: '||count(*) FROM bill_candidate;
+              SELECT 'bill_candidate accepted: '||count(*) FROM bill_candidate
+                WHERE review_status='accepted';
+              SELECT 'field_source: '||count(*) FROM field_source;" \
+            || echo "$db: counts could not be taken" ;;
+        accounts)
+          runuser -u postgres -- psql -X -At -d accounts -c "
+              SELECT 'accounts person: '||count(*) FROM person;
+              SELECT 'accounts person approved: '||count(*) FROM person WHERE state='approved';
+              SELECT 'accounts sign_in_code: '||count(*) FROM sign_in_code;
+              SELECT 'accounts signed_in_device: '||count(*) FROM signed_in_device;" \
+            || echo "$db: counts could not be taken" ;;
+        *)
+          echo "$db: dumped; no counts defined for it" ;;
+      esac
+    done
+  } > "$dir/manifest.txt.tmp"
+  chmod 600 "$dir/manifest.txt.tmp"
+  mv -f "$dir/manifest.txt.tmp" "$dir/manifest.txt"
+}
+
+dump_theme data "$DATA_DUMPS" "${DATA_DBS[@]}"
+restic backup --tag data --exclude-caches "$DATA_DIR"
+
+if [ ${#ACCOUNTS_DBS[@]} -gt 0 ]; then
+  dump_theme accounts "$ACCOUNTS_DUMPS" "${ACCOUNTS_DBS[@]}"
+  restic backup --tag accounts --exclude-caches "$ACCOUNTS_DIR"
 else
-  echo "legdata-backup: $DATA_DIR does not exist, so no data snapshot was taken."
+  echo "legdata-backup: no accounts database, so no accounts snapshot was taken."
 fi
 
-# 4. Retention, grouped by tag so that system and data are aged independently.
-restic forget --prune --group-by host,tags \
+# 4. Retention. Each rule is applied only to its own themes, and grouped by tag
+#    so no theme's copies count against another's. `--tag a --tag b` means
+#    either. Snapshots are only marked here; the prune that removes their data
+#    runs once, after both.
+restic forget --group-by host,tags --tag system --tag data \
   --keep-daily 14 --keep-weekly 8 --keep-monthly 12 --keep-yearly 10
+# Five weeks at most: 14 nightly, and the last of each of 4 weeks.
+restic forget --group-by host,tags --tag accounts \
+  --keep-daily 14 --keep-weekly 4
+restic prune
 
 # 5. Verify.
 restic check --read-data-subset=5%
