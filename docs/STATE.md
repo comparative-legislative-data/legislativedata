@@ -56,6 +56,14 @@ rehearsed rather than just written.
   wrong, and it is written down in `DECISIONS.md` so the shape of the mistake
   survives.
 
+- **You stripped the landing page back**, and you were right: it argued a case
+  the site has not earned yet. What is there now says the name of the thing,
+  that it is in preparation, and what is not here.
+- **The leftovers are gone.** The Session 6 working files, sixteen superseded
+  pre-migration dumps, eight seconds of journal from before the logging was
+  fixed, and a stale second copy of the private infrastructure notes that had
+  been drifting since 10 September. The backup was checked healthy first.
+
 Nothing was written to the database today.
 
 ## Now: the pages that let someone in
@@ -71,24 +79,15 @@ not notes: a plain-English page saying exactly what is held about a user, a way
 for you to delete an account and everything attached to it, and a way for you to
 get in that does not depend on an email arriving.
 
-**It needs one thing from you first:** a new Resend key. Nothing that sends an
-email can be built or tested without one, and the old one is not assumed live.
+**Nothing blocks it.** The Resend key is held, outside this repository, and goes
+onto the machine when there is code that sends an email — not before, so that an
+unused key is not sitting in `/etc` waiting to be got wrong.
 
 ## Waiting for you, and one of them now blocks
 
-- **A new Resend key**, the old one not assumed live. **This now blocks the
-  next task**, because every remaining page in Phase 1 leads to an email.
-- **When the machine's prepaid year runs out.** Written down nowhere, and it now
-  takes the site down with the data if it lapses. The date belongs in the
-  private notes, not here.
-- **Whether to purge eight seconds of the system journal** from before the
-  logging was fixed. One address, a bot probing for `.env` files, not a person.
-  It ages out by itself. Say if you would rather it went now.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
   is deliberately outside version control, exists on this machine and nowhere
   else, and each correction makes that worse.
-- **Six working files left on the server** in `/tmp/load`, from the Session 6
-  dates work. Nothing depends on them. Proposed for removal five times.
 - **Two closure tests open with "It has not been run"** when their own run
   records say they passed — `db/103` and Session 7. Two one-line fixes, offered
   three times now.
@@ -160,8 +159,16 @@ Run before the first reply. Nothing was written to the database at any point.
 - **The stale "It has not been run" is in two closure tests, not one** — `db/103`
   and Session 7 — while their own run records say they passed. **Offered a third
   time and not taken up.** Whoever runs the next session should offer it again.
-- **Six working files are still in `/tmp/load` on the server**, and about ten
-  pre-migration dumps in `/var/tmp`. Unchanged. Fifth time of asking.
+- **The server leftovers are gone**, after five sessions of asking: `/tmp/load`
+  and sixteen `legdata-before-*.dump` files in `/var/tmp`. Removed only after
+  the backup was checked — sixteen snapshots, integrity check passed, and a
+  dump whose counts match this file. What remains as the safety net is the
+  nightly backup and nothing else.
+- **The backup ran an unscheduled extra time**, because `legdata-backup` takes
+  no arguments and runs the whole job whatever it is passed; it was invoked with
+  a `--list` that does not exist. No harm — a fresh dump, a prune within its own
+  retention rule, and a passing check. **Worth knowing before anyone reaches for
+  that script to look at something.**
 
 ## The first deploy: working detail, 16 September
 
