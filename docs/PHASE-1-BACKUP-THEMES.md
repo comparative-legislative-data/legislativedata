@@ -5,7 +5,11 @@ at the cost of a more complicated backup. Their starting themes were the system,
 the data, and the users. This is the proposal, then what was found on the
 machine, then how it is built and tested.
 
-Nothing here is built. This file goes when Phase 1 closes.
+**Settled by the owner and built, 16 September.** Questions 1 to 4 as
+recommended; question 5 answered below. Question 4 turned out not to apply: the
+first run replaced the only data copy that held the accounts, and it was pruned.
+The record is `DECISIONS.md`, "The backup is separated by theme", and
+`docs/ACCOUNTS-RUNBOOK.md`. This file goes when Phase 1 closes.
 
 ---
 

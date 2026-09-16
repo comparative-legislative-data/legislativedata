@@ -256,6 +256,14 @@ bring it across; nothing depends on it.
   invented practice person was restored from snapshot `c927a990`, approved, with
   the site's permissions intact; the working database restored beside it with
   every count matching.
+- **The backup is separated by theme, and the accounts are kept five weeks.**
+  Rehearsed against a throwaway store with 210 back-dated copies: the oldest
+  accounts copy left was 17.6 days, and the system and data copies kept were
+  exactly those the earlier rule keeps. A version putting the accounts in with
+  the data was caught. Installed, run, and each theme restored from the storage
+  box on its own. No data copy on the storage box holds the accounts.
+- **The backup's password has a copy off the machine**, held by the owner, and
+  proved to open the backup; the same test refused a wrong password.
 - **Accounts work end to end on the live site**, tested by the owner by hand:
   apply, see it on the admin screen, approve (the email arrives with no code),
   ask for a code by email, sign in, a non-owner cannot see the admin screen,
@@ -336,11 +344,15 @@ website has to surface.
 - **`tools/make_data_dictionary.py`** regenerates `docs/DATA-DICTIONARY.md`, and
   refuses to run if anything lacks a description. Since 2026-09-16 it describes
   the accounts database too, reading its descriptions and never a row.
-- **`tools/restore_check.sh`** fetches the newest backup from the storage box,
-  restores it into scratch databases, prints counts, and cleans up after itself.
-  Procedure in `docs/ACCOUNTS-RUNBOOK.md`.
+- **`tools/restore_check.sh`** fetches the newest copy of each backup theme from
+  the storage box, restores the data and the accounts each from its own copy
+  into scratch databases, prints counts, and cleans up after itself. Procedure
+  in `docs/ACCOUNTS-RUNBOOK.md`.
 - **`deploy/legdata-backup`** is the copy of record of the nightly backup
-  script. It takes no arguments; whatever it is passed, it runs the whole job.
+  script, separated by theme since 2026-09-16: system, data, accounts. It takes
+  no arguments; whatever it is passed, it runs the whole job.
+- **`tools/rehearse_backup_themes.sh`** rehearses a change to the backup against
+  a throwaway store on the machine, before it is installed.
 - **`docs/PROMOTION-RUNBOOK.md`** is the procedure for loading and promoting,
   with a record of each run.
 - **`docs/FACTSHEET-SURVEY.md`** is the survey of all seven factsheets.

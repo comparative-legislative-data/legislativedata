@@ -8,7 +8,7 @@
 # 1. The key sign-in codes are scrambled with, at
 #    /var/lib/legislativedata/code-key: readable by root and the site, nobody
 #    else. Made once and never replaced by this script. Deliberately outside
-#    /etc and /srv/legdata, which are what the backup takes: if it is lost, codes
+#    every theme of the backup (system, data, accounts): if it is lost, codes
 #    issued in the last 15 minutes stop working and a new one is made.
 # 2. The owner's code command, /usr/local/sbin/legdata-owner-code, root only.
 #

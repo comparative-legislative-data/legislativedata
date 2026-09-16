@@ -14,8 +14,8 @@ This file goes when Phase 1 closes, like the other `PHASE-1-` files.
 ## Settled by the owner, 16 September
 
 1. **Backups.** Agreed, and widened: the backup is to be separated by theme.
-   That is its own proposal, `docs/PHASE-1-BACKUP-THEMES.md`. **The page doesn't
-   go live until that is built**, because "five weeks" isn't true before then.
+   That is its own proposal, `docs/PHASE-1-BACKUP-THEMES.md`, **settled and built
+   the same day**, so "five weeks" is now true.
 2. **Who runs the site:** named as Dr Steven MacGregor, owner and administrator.
    The contact stays `comparativelegislativedata@gmail.com`.
 3. **The other companies:** Resend by name. The machine's host and the backup's
@@ -29,7 +29,7 @@ name on a public page has to be written into the page, and so into the
 repository. It is your choice to publish it. The decision entry will record the
 exception, so the next session doesn't take it out.
 
-## Two small points left
+## Two small points left — both settled as recommended, 16 September
 
 ### A. One page, or two?
 
@@ -89,8 +89,8 @@ rights, are on the Privacy page."
   September.
 - **Deleting a person** removes their codes and devices with them. The database
   does this itself.
-- **The backup's five weeks** is true only once `PHASE-1-BACKUP-THEMES.md` is
-  built. Not before.
+- **The backup's five weeks**: true since the backup was separated by theme on
+  16 September. The oldest accounts copy left in the rehearsal was 17.6 days.
 
 ---
 

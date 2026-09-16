@@ -53,6 +53,10 @@ Always:
   contents block at the top of `DECISIONS.md`;
 - anything in the docs, these instructions or the memory that contradicts the
   database, the plan, or each other.
+- that every database on the machine is sorted into a backup theme: the working
+  database, or named in `ACCOUNTS_DATABASES` or `NOT_BACKED_UP` in
+  `deploy/legdata-backup`. An unsorted one is kept ten years with the bills,
+  which for a database about people breaks what the privacy page says.
 
 While there is data:
 - that the table's counts match the database;

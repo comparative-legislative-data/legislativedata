@@ -99,16 +99,33 @@ The copy of record of the script is `deploy/legdata-backup`. It is installed at
 `legdata-backup.timer`. **It takes no arguments and runs the whole job whatever
 it is passed.**
 
-**Since 2026-09-16 it dumps every database on the machine**, each to
-`/srv/legdata/postgres/<name>.dump`, except those named in `NOT_BACKED_UP` at
-the top of the script — today only `postgres`, PostgreSQL's own empty one. A new
-database is therefore backed up without anyone remembering to add it. **When the
-published database is made, add its name there**, since it is rebuilt from the
-working one rather than restored. Forgetting costs disk, not data.
+**Since 2026-09-16 it is separated by theme**, three snapshots a night, each
+aged by its own rule. The owner's direction; `DECISIONS.md`, 2026-09-16, "The
+backup is separated by theme".
 
-`manifest.txt` beside the dumps carries counts for each database — for the
+| Tag | Holds | Kept |
+|---|---|---|
+| `system` | `/etc` and `/usr/local/sbin` | 14 daily, 8 weekly, 12 monthly, 10 yearly |
+| `data` | `/srv/legdata/postgres/`: `legdata.dump`, `globals.sql`, `manifest.txt` | the same |
+| `accounts` | `/srv/legdata-accounts/postgres/`: `accounts.dump`, `globals.sql`, `manifest.txt` | 14 daily, 4 weekly: nothing older than five weeks |
+
+**Every database on the machine is backed up** unless named in `NOT_BACKED_UP`
+at the top of the script (today only `postgres`, PostgreSQL's own empty one). A
+database named in `ACCOUNTS_DATABASES` (today only `accounts`) goes to the
+accounts theme; **anything else goes to the data theme**, and the job says so in
+its log. A new database that holds people must be named in `ACCOUNTS_DATABASES`
+in the same change that makes it, or it is kept ten years. The session sanity
+check asks this. **When the published database is made, add its name to
+`NOT_BACKED_UP`**, since it is rebuilt from the working one rather than restored.
+
+Each `manifest.txt` carries counts for its own theme's databases: for the
 accounts, how many people, how many approved, how many codes, how many devices.
-Never a name.
+Never a name. Each theme carries `globals.sql`, the logins, so either database
+restores without the other theme.
+
+**Left out of every theme, on purpose:** the site's code (the deploy rebuilds
+it), Caddy's certificate, the logs, the two keys in `/var/lib/legislativedata/`,
+and the backup's own password, of which the owner holds a proved copy.
 
 **Nothing tells anyone if the backup fails.** A failed run shows only as a
 failed unit on the machine (`systemctl status legdata-backup.service`). This is
@@ -117,52 +134,76 @@ recorded in `STATE.md` for the owner.
 ### Changing the script
 
 1. Edit `deploy/legdata-backup` and commit it.
-2. Send it to the machine, keep the old one, install:
+2. **Rehearse it** against a throwaway store: `tools/rehearse_backup_themes.sh`,
+   sent with the new script in one tar and run as root with the script's path.
+   It must end `== 0 failed`. It checks what each theme's copy holds, that each
+   database restores alone, the ageing on back-dated copies, that a broken
+   version is caught, and that the installed version still runs (the undo). If
+   the change is to something it does not check, extend it first.
+3. Send it to the machine, keep the old one, install:
 
        sudo cp -p /usr/local/sbin/legdata-backup /usr/local/sbin/legdata-backup.pre-<what>.bak
-       sudo install -m 700 -o root -g root /tmp/accounts/legdata-backup /usr/local/sbin/legdata-backup
+       sudo install -m 700 -o root -g root /tmp/<dir>/legdata-backup /usr/local/sbin/legdata-backup
 
-3. Run the real job and look at what it did:
+4. Run the real job and look at what it did:
 
        sudo systemctl start legdata-backup.service
        systemctl show legdata-backup.service -p Result        # Result=success
        sudo journalctl -u legdata-backup.service --since -20min -o cat | grep -E 'legdata-backup:|saved|no errors'
-       sudo cat /srv/legdata/postgres/manifest.txt
+       sudo cat /srv/legdata/postgres/manifest.txt /srv/legdata-accounts/postgres/manifest.txt
 
-   Two `snapshot … saved` lines, `no errors were found`, and a manifest whose
-   counts match `STATE.md`.
+   Three `snapshot … saved` lines, `no errors were found`, no line saying a
+   database is not sorted into a theme, and manifests whose counts match
+   `STATE.md`.
 
-4. **Restore from the storage box and check** — below. A job that exits cleanly
+5. **Restore from the storage box and check** — below. A job that exits cleanly
    is not evidence the backup can be read back.
 
 **The undo** is putting the `.bak` back with the same `install` line, then
-running step 3 again.
+running step 4 again. Copies made under the version being undone are harmless;
+they age out, or can be forgotten by tag.
+
+**2026-09-16, the themes.** Rehearsed, 0 failed: the oldest accounts copy left
+after ageing 210 back-dated copies was 17.6 days; the system and data copies
+kept were exactly those today's rule keeps, 42 of 42; the broken version (the
+accounts put in with the data) was caught four ways. Installed with
+`legdata-backup.pre-themes.bak` kept, run by hand: snapshots `28a16463` system,
+`be59a66c` data, `adc2c406` accounts, and the old `accounts.dump` removed from
+`/srv/legdata/postgres/`. The restore check passed. Afterwards every data
+snapshot on the storage box was listed and none holds `accounts.dump`: the one
+that did (`c927a990`, the invented practice person only) was replaced as that
+day's copy by the run, and pruned.
 
 ### The restore check
 
 `tools/restore_check.sh`. Send it to the machine and run as root:
 
-    sudo bash /tmp/accounts/restore_check.sh
+    sudo bash /tmp/<dir>/restore_check.sh
 
-It fetches the newest `data` snapshot from the storage box, restores both
-dumps into `accounts_restore_check` and `legdata_restore_check`, and prints:
-whether the site's login is among the saved logins; the practice person (during
-a rehearsal only); how many people and how many approved; that the site's
-permissions came back; how many columns are described; the dataset's counts;
-and the manifest. It then drops both scratch databases and deletes the restored
-files, **including when it fails part way**. Afterwards, check that the list of
-databases is back to `accounts, legdata, postgres, template0, template1` and
-that `/tmp/restore-check` does not exist.
+It fetches the newest copy of each theme from the storage box. It lists the
+system copy's files, checking the Caddyfile and the backup script are there. It
+restores the data copy into `legdata_restore_check` and the accounts copy into
+`accounts_restore_check`, each from its own copy alone, and prints: that neither
+copy holds the other theme's database; whether the site's login is among the
+accounts copy's saved logins; the practice person (during a rehearsal only); how
+many people and how many approved; that the site's permissions came back; how
+many columns are described; the dataset's counts; and both manifests. It then
+drops both scratch databases and deletes the restored files, **including when it
+fails part way**. Afterwards, check that the list of databases is back to
+`accounts, legdata, postgres, template0, template1` and that `/tmp/restore-check`
+does not exist.
 
-**2026-09-16:** snapshot `c927a990`. The practice person present and approved,
-one person, the site's login saved, its permissions intact, 21 of 21 columns
-described; 470 bills, 1291 stages, 186 provenance notes, 13 methodology notes,
-474 staging lines, checker 0, gaps 0. Cleaned up. The practice person was then
-deleted from the live database, which the check script does as its eleventh
-item, leaving it empty.
+**2026-09-16, before the themes:** snapshot `c927a990`. The practice person
+present and approved, one person, the site's login saved, its permissions
+intact, 21 of 21 columns described; 470 bills, 1291 stages, 186 provenance
+notes, 13 methodology notes, 474 staging lines, checker 0, gaps 0. Cleaned up.
+The practice person was then deleted from the live database.
 
-**The practice person remains in that night's off-site snapshots** until
-retention ages them out. They are invented and name nobody.
+**2026-09-16, the themes:** system `28a16463` (both files present), data
+`be59a66c`, accounts `adc2c406`; neither copy holds the other's database; the
+site's login saved; one person, approved, the site's permissions intact, 21 of
+21 columns described; 470 bills, 1291 stages, 186 provenance notes, 13 notes,
+474 lines, checker 0, gaps 0. Cleaned up, databases list as it should be.
 
 ## The apply page, and its check
 
@@ -203,7 +244,7 @@ page, and `/sign-in`, which emails a code.
 **The key.** `/var/lib/legislativedata/code-key`, 64 hex characters, `root:legsite`,
 mode 640, in a folder only root and the site can open. Codes are kept as a
 scramble made with it and the person's number. It is **not in the backup**, on
-purpose: the backup takes `/etc` and `/srv/legdata`. If it is lost, codes made
+purpose: no theme of the backup takes `/var/lib/legislativedata/`. If it is lost, codes made
 in the last 15 minutes stop working; make a new one by deleting the file and
 running `deploy/install_sign_in.sh`, which makes a key only where there is none.
 The site's health check says `503` if it cannot read the key, so a deploy
