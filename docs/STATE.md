@@ -8,7 +8,7 @@ Updated: 2026-09-16
 `legislativedata.org` someone can apply, you approve or refuse them, and they
 sign in with a code by email; the privacy page says what is held. **Phase 2,
 the data published, is open.** Its plan has been checked and redrafted, and
-waits for your review. The arc is in `docs/PLAN.md`.
+the three pieces of research it waited on are in. The arc is in `docs/PLAN.md`.
 
 The dataset, unchanged and not moving:
 
@@ -32,41 +32,43 @@ provenance notes. **The error checker and the gaps list are both empty.**
 - **16 September.** The site live, the accounts built and backed up by theme,
   and Phase 1 closed on a test run by another session. Phase 2 opened, beta users
   only, its plan drafted, checked and redrafted, and three pieces of outside
-  research commissioned, one normal session each. R2, the licence, done: both
-  sources allow what the project does if credited; you decided neither
-  publisher is approached.
+  research commissioned, one normal session each. R2, the licence: both sources
+  allow what the project does if credited, and you decided neither publisher is
+  approached. R1, downloads: several formats zipped with a readme, codebook and
+  citation; worked-out figures marked, with their rule.
 
-**16 September, this session. R1, how a dataset is handed to a researcher, is
-done.**
+**16 September, this session. R3, how others show the working behind a figure,
+is done. All three reports are in.**
 
-- **The report is `docs/PHASE-2-RESEARCH-DOWNLOADS.md`**, for you to read with
-  the other two and the updated plan. About fifty pages were read: the two
-  archives, the standards for describing and citing data, and seven
-  comparable projects.
-  It runs to about 6,000 words, longer than R2's, mostly in the sourced
-  findings; the first screen is the summary.
-- **In short**: several formats, zipped with a readme, codebook, what's new,
-  cautions and a citation; worked-out figures marked and their rule printed.
-  Changing data is either numbered with old releases kept, or dated and
-  replaced. Citation principles ask for the old ones to be retrievable, which
-  the no-archive promise does not give.
-- **Found on the way**: the Comparative Agendas Project's "Scottish Bills",
-  161 bills 1999–2008, one CSV and a one-page codebook.
-- **Unread**: ICPSR's website and ParlaMint's page, both behind bot checks, and
-  the UK Data Service's catalogue pages. The report does not rest on them.
+- **The report is `docs/PHASE-2-RESEARCH-SHOWING-THE-WORKING.md`**, about 6,400
+  words; the first screen is the summary. About fifty pages were read: the Code
+  of Practice for Statistics, the civil service's standards for reproducible
+  analysis and for charts, the ONS, the Department for Education and the
+  Scottish Government, Our World in Data, four newsrooms, a political science
+  journal, and two tools for publishing data.
+- **In short**: official producers explain the working in prose under the chart
+  and on method pages, and publish the code elsewhere. Our World in Data goes
+  furthest: sources with the date each was retrieved, processing notes, and a
+  download stamped with the day it was taken. Only Datasette shows the
+  calculation itself beside the result, and only there is the one shown sure to
+  be the one that ran.
+- **Found on the way**: this repository is public on GitHub, so the code is
+  already published; statistics.gov.scot, where Scottish Government bulletins
+  send readers, is now "for reference only".
+- **Unread**: the Institute for Government's site and Observable's, both behind
+  bot checks; the Scottish Government's statistics policies, not found.
 
 Nothing in the dataset or the site changed.
 
 ## Now
 
-**A normal session runs R3, how others show the working behind a figure**,
-from `docs/PHASE-2-RESEARCH-COMMISSION.md`. Then a session updates
-`docs/PHASE-2.md` from the three reports, and you review.
+**A normal session updates `docs/PHASE-2.md` from the three reports**, R1, R2
+and R3, then you review the plan with the reports beside it.
 
 ## Waiting for you
 
-- **The plan and the research commission**, once the research is in and the
-  plan updated, above. Each report ends with questions only you can answer;
+- **The plan and the three reports**, once the plan is updated, above. Each
+  report ends with questions only you can answer: eight in R1, nine in R3, and
   R2's include reading the Parliament's archived 2017 licence through your
   browser.
 - **Who runs Phase 2's closing test**: a test account used by another session,
@@ -126,22 +128,22 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-16, the session that ran R1
+## Sanity check, 2026-09-16, the session that ran R3
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
   `STATE.md`; the decisions contents regenerated identical.
-- **The data dictionary regenerated identical**, on the third try: the SSH rate
-  limit tripped twice. Waiting 75 seconds without probing cleared it; probing
-  in a loop keeps it tripped.
+- **The data dictionary regenerated identical**, on the second try: the SSH rate
+  limit refused the first run after three quick connections. A 45-second wait
+  cleared it.
 - **The counts match**: 470 bills, 1291 stage records, 186 provenance notes,
-  13 notes, 474 lines, 19 tables; checker and gaps list empty; only the `public`
-  schema in the working database.
+  13 notes; checker and gaps list empty; only the `public` schema in the working
+  database, and no copy tables in it.
 - **Every database sorted into a backup theme**: `postgres`, `accounts`,
   `legdata`.
-- **The site and Caddy active, the page answering 200; the backup timer's last
-  run 02:52 UTC, `success`.** The failed one-off unit is still listed.
+- **Not checked this time**: the site's and the backup timer's status, which the
+  R1 session checked earlier the same day.
 - **Nothing new contradicts anything.** The two known disagreements stand.
 
 ## For the session that updates Phase 2's plan: gaps already seen
@@ -174,26 +176,33 @@ with the reports.
   as each fact sheet printed it (`bill_candidate.raw_introduced_by`), and both
   source licences exclude personal data. Whether a download ever includes the
   staging sheet is the plan's to say.
-- **R2's working, for R1 and R3**: the pages were fetched with `curl` and
-  stripped to text in the scratchpad. `parliament.scot` reads that way;
-  `archive2021.parliament.scot`, `parliament.uk`, ICPSR and the page behind
-  `data.parliament.scot` do not. `congressionalbills.org` now serves an
-  unrelated site; its data is listed on the Comparative Agendas US page.
-
 - **Found by R1, for the plan.** The commission's "worked-out figures" already
   exist as views (above); practice says each travels marked as worked out with
   its rule printed, which touches how the codebook is generated. And the
   Comparative Agendas Project's "Scottish Bills" covers 161 of the same bills
   with its own type and outcome coding; whether the documentation mentions it
   is question 8 of the R1 report.
-- **R1's working, for R3.** Pages fetched with `curl` and stripped to text in
-  the scratchpad, as R2 did. ICPSR's site refuses every page, but its guide PDF
-  at `icpsr.umich.edu/files/deposit/dataprep.pdf` downloads. PDFs were read by a
-  ten-line Swift script using macOS's own PDFKit (`swift pdftext.swift in.pdf
-  out.txt`): nothing installed, and the Read tool cannot render PDFs here
-  without poppler. Dead project sites read through the Internet Archive.
-  Dataverse records listed through its public API, which returns file names and
-  licence without downloading data. `clarin.eu` sits behind a bot check.
+- **Found by R3, for the plan.**
+  - *This repository is public on GitHub* (`gh repo view`: `PUBLIC`). The code
+    that builds the dataset is already published; question 3 of the R3 report
+    asks whether a figure links to it.
+  - *The published copy's open question* ("files rather than a database the
+    site reads", `STANDING.md`) meets R3's finding that what matters is when a
+    figure is calculated, at publication or on each request, more than how the
+    data is held. A figure calculated on request changes under a shared link.
+  - *A chart downloaded as an image* is a route the screenshot decision of
+    15 September does not cover; question 5.
+  - *statistics.gov.scot is retired*, "for reference only", replaced by
+    `data.gov.scot` (beta). Nothing here depends on it, but a link to an outside
+    source can go the same way.
+- **How the three reports were read, for whoever updates the plan.** Pages
+  fetched with `curl` and stripped to text in the scratchpad; PDFs through a
+  ten-line Swift script on macOS's PDFKit; code on GitHub through `gh api`
+  (read-only, public repositories). R3 added a check that every quotation in
+  the report appears in the saved text, which caught five misquotes before
+  commit. Behind bot checks or a browser: ICPSR, `clarin.eu`,
+  `archive2021.parliament.scot`, `parliament.uk`, the Institute for Government,
+  `observablehq.com`, and `gov.scot`'s search.
 
 ## Checking Phase 2's plan: working detail, 16 September
 
