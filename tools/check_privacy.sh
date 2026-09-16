@@ -113,7 +113,7 @@ expect "the page is the settled wording, no more and no less" "$(sed -n 's/^VERD
 
 LINK='<a href="/privacy">Privacy</a>'
 for path in / /apply /sign-in /sign-in/code /privacy; do
-  expect "Privacy in the header of $path, not signed in" "$(curl -sS $U$path | grep -c "$LINK")" 1
+  expect "Privacy in the header of $path, not signed in" "$(curl -sS $U$path | grep -c "$LINK · <a href=\"/sign-in\">Sign in</a>")" 1
 done
 
 sql "insert into person (email, name, position, state, decided_at) values ('$INVENTED', 'Pat Privacy', 'An invented position', 'approved', now())" >/dev/null
