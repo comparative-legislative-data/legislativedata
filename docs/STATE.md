@@ -31,35 +31,44 @@ provenance notes. **The error checker and the gaps list are both empty.**
   promoted and closed; Phase 1's scoping discussions settled.
 - **16 September.** The site live, the accounts built and backed up by theme,
   and Phase 1 closed on a test run by another session. Phase 2 opened, beta users
-  only, and its plan drafted; then checked by another session, redrafted as
-  proposals, and three pieces of outside research commissioned. The research
-  was started as background helpers without being sized, and stopped; it now
-  runs one normal session per piece.
+  only, its plan drafted, checked and redrafted, and three pieces of outside
+  research commissioned, one normal session each. R2, the licence, done: both
+  sources allow what the project does if credited; you decided neither
+  publisher is approached.
 
-**16 September, this session. The licence research, R2, is done.**
+**16 September, this session. R1, how a dataset is handed to a researcher, is
+done.**
 
-- **The report is `docs/PHASE-2-RESEARCH-LICENCE.md`**, for you to read with
-  the other two and the updated plan. About thirty pages were read, all from
-  the publishers' and projects' own sites.
-- **In short**: the Parliament and legislation.gov.uk both allow what the
-  project does, provided each is credited. **You decided neither publisher is
-  approached**: the licences are extremely permissive and nothing here is
-  problematic under them.
-- **Unread**: the Parliament's archived 2017 licence, behind a browser check.
-  Reading it through your browser needs your permission.
+- **The report is `docs/PHASE-2-RESEARCH-DOWNLOADS.md`**, for you to read with
+  the other two and the updated plan. About fifty pages were read: the two
+  archives, the standards for describing and citing data, and seven
+  comparable projects.
+  It runs to about 6,000 words, longer than R2's, mostly in the sourced
+  findings; the first screen is the summary.
+- **In short**: several formats, zipped with a readme, codebook, what's new,
+  cautions and a citation; worked-out figures marked and their rule printed.
+  Changing data is either numbered with old releases kept, or dated and
+  replaced. Citation principles ask for the old ones to be retrievable, which
+  the no-archive promise does not give.
+- **Found on the way**: the Comparative Agendas Project's "Scottish Bills",
+  161 bills 1999–2008, one CSV and a one-page codebook.
+- **Unread**: ICPSR's website and ParlaMint's page, both behind bot checks, and
+  the UK Data Service's catalogue pages. The report does not rest on them.
 
 Nothing in the dataset or the site changed.
 
 ## Now
 
-**A normal session runs R1, how a dataset is handed to a researcher**, from
-`docs/PHASE-2-RESEARCH-COMMISSION.md`, then R3, one session each. Then a
-session updates `docs/PHASE-2.md` from the three reports, and you review.
+**A normal session runs R3, how others show the working behind a figure**,
+from `docs/PHASE-2-RESEARCH-COMMISSION.md`. Then a session updates
+`docs/PHASE-2.md` from the three reports, and you review.
 
 ## Waiting for you
 
 - **The plan and the research commission**, once the research is in and the
-  plan updated, above.
+  plan updated, above. Each report ends with questions only you can answer;
+  R2's include reading the Parliament's archived 2017 licence through your
+  browser.
 - **Who runs Phase 2's closing test**: a test account used by another session,
   or a real researcher you invite. Needed before that test is written, not now.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
@@ -117,13 +126,15 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-16, the session that ran R2
+## Sanity check, 2026-09-16, the session that ran R1
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
-  `STATE.md`.
-- **Both generated documents regenerated identical.**
+  `STATE.md`; the decisions contents regenerated identical.
+- **The data dictionary regenerated identical**, on the third try: the SSH rate
+  limit tripped twice. Waiting 75 seconds without probing cleared it; probing
+  in a loop keeps it tripped.
 - **The counts match**: 470 bills, 1291 stage records, 186 provenance notes,
   13 notes, 474 lines, 19 tables; checker and gaps list empty; only the `public`
   schema in the working database.
@@ -131,8 +142,7 @@ Run before the first reply.
   `legdata`.
 - **The site and Caddy active, the page answering 200; the backup timer's last
   run 02:52 UTC, `success`.** The failed one-off unit is still listed.
-- **Nothing new contradicts anything.** The two known disagreements stand: the
-  count of earlier attempts, and twenty-three or twenty-four schema changes.
+- **Nothing new contradicts anything.** The two known disagreements stand.
 
 ## For the session that updates Phase 2's plan: gaps already seen
 
@@ -169,6 +179,21 @@ with the reports.
   `archive2021.parliament.scot`, `parliament.uk`, ICPSR and the page behind
   `data.parliament.scot` do not. `congressionalbills.org` now serves an
   unrelated site; its data is listed on the Comparative Agendas US page.
+
+- **Found by R1, for the plan.** The commission's "worked-out figures" already
+  exist as views (above); practice says each travels marked as worked out with
+  its rule printed, which touches how the codebook is generated. And the
+  Comparative Agendas Project's "Scottish Bills" covers 161 of the same bills
+  with its own type and outcome coding; whether the documentation mentions it
+  is question 8 of the R1 report.
+- **R1's working, for R3.** Pages fetched with `curl` and stripped to text in
+  the scratchpad, as R2 did. ICPSR's site refuses every page, but its guide PDF
+  at `icpsr.umich.edu/files/deposit/dataprep.pdf` downloads. PDFs were read by a
+  ten-line Swift script using macOS's own PDFKit (`swift pdftext.swift in.pdf
+  out.txt`): nothing installed, and the Read tool cannot render PDFs here
+  without poppler. Dead project sites read through the Internet Archive.
+  Dataverse records listed through its public API, which returns file names and
+  licence without downloading data. `clarin.eu` sits behind a bot check.
 
 ## Checking Phase 2's plan: working detail, 16 September
 
