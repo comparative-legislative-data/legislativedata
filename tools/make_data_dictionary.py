@@ -8,6 +8,9 @@ drift from the database the way a separately-maintained one does.
 
 To change a description, change the COMMENT in a migration and re-run this.
 
+It describes two databases: the working one, and the accounts (from
+2026-09-16). For the accounts it reads the descriptions and never a row.
+
 Usage:  python3 tools/make_data_dictionary.py
 """
 import datetime, pathlib, subprocess, sys
@@ -30,14 +33,15 @@ GROUPS = [
 ]
 
 
-def run_query():
+def run_query(database, notes):
     subprocess.run([str(CONNECT), '--scp', str(QUERY), '/tmp/data_dictionary.sql'],
                    check=True, capture_output=True)
     # Removes its copy of the query from the server whether or not it ran, and
     # still fails if it did not.
     r = subprocess.run(
         [str(CONNECT),
-         'sudo -u postgres psql -d legdata -At -f /tmp/data_dictionary.sql; '
+         f'sudo -u postgres psql -d {database} -v notes={notes} -At '
+         '-f /tmp/data_dictionary.sql; '
          's=$?; rm -f /tmp/data_dictionary.sql; exit $s'],
         check=True, capture_output=True, text=True)
     return r.stdout.splitlines()
@@ -70,7 +74,24 @@ def tidy_type(t):
             'text[]': 'list of text'}.get(t, t)
 
 
-def render(tables, notes):
+ACCOUNTS_DB = 'accounts'
+ACCOUNTS_ORDER = ['person', 'sign_in_code', 'signed_in_device']
+
+
+def render_table(out, name, t):
+    out += [f'### `{name}`', '', t['desc'] or '_No description._', '',
+            '| Column | Type | Required | Points at | What it holds |',
+            '|---|---|---|---|---|']
+    for c in t['cols']:
+        fk = f"`{c['fk']}`" if c['fk'] else ''
+        req = 'yes' if c['required'] else ''
+        desc = c['desc'].replace('|', '\\|') or '_No description._'
+        out.append(f"| `{c['name']}` | {tidy_type(c['type'])} | {req} "
+                   f"| {fk} | {desc} |")
+    out.append('')
+
+
+def render(tables, notes, accounts):
     today = datetime.date.today().isoformat()
     out = [
         '# Data dictionary',
@@ -146,35 +167,61 @@ def render(tables, notes):
             continue
         out += [f'## {heading}', '']
         for name in names:
-            t = tables[name]
-            out += [f'### `{name}`', '', t['desc'] or '_No description._', '',
-                    '| Column | Type | Required | Points at | What it holds |',
-                    '|---|---|---|---|---|']
-            for c in t['cols']:
-                fk = f"`{c['fk']}`" if c['fk'] else ''
-                req = 'yes' if c['required'] else ''
-                desc = c['desc'].replace('|', '\\|') or '_No description._'
-                out.append(f"| `{c['name']}` | {tidy_type(c['type'])} | {req} "
-                           f"| {fk} | {desc} |")
-            out.append('')
+            render_table(out, name, tables[name])
+
+    out += [
+        '---',
+        '',
+        '# The accounts',
+        '',
+        f'A separate database, `{ACCOUNTS_DB}`, holding the people who have applied to '
+        'use the site, their sign-in codes and their signed-in devices. Nothing '
+        'in it is about a bill, and nothing in the working database above is '
+        'about a person. The website can open this database and cannot open the '
+        'working one.',
+        '',
+        'What follows describes its columns and never its contents: this script '
+        'reads only the descriptions stored on it, not a single row. Real data '
+        'about a real person goes in no document.',
+        '',
+        '```',
+        'person ──< sign_in_code',
+        'person ──< signed_in_device',
+        '```',
+        '',
+        '- Deleting a `person` deletes their codes and devices with it.',
+        '',
+    ]
+    names = [n for n in ACCOUNTS_ORDER if n in accounts]
+    names += sorted(n for n in accounts if n not in ACCOUNTS_ORDER)
+    for name in names:
+        render_table(out, name, accounts[name])
     return '\n'.join(out) + '\n'
+
+
+def undescribed(tables, where):
+    missing = [f'{where}{name}.{c["name"]}'
+               for name, t in sorted(tables.items())
+               for c in t['cols'] if not c['desc']]
+    missing += [f'{where}{name} (the table itself)'
+                for name, t in sorted(tables.items()) if not t['desc']]
+    return missing
 
 
 def main():
     if not CONNECT.exists():
         sys.exit(f'connector script not found at {CONNECT}')
-    tables, notes = parse(run_query())
+    tables, notes = parse(run_query('legdata', 'true'))
     if not tables:
         sys.exit('no tables returned — is the query working?')
+    accounts, _ = parse(run_query(ACCOUNTS_DB, 'false'))
+    if not accounts:
+        sys.exit(f'no tables returned from {ACCOUNTS_DB} — is the query working?')
 
     # A column with no description is how the last document rotted: something
     # gets added and nobody writes down what it is. Refuse to generate rather
     # than quietly publish a gap.
-    missing = [f'{name}.{c["name"]}'
-               for name, t in sorted(tables.items())
-               for c in t['cols'] if not c['desc']]
-    missing += [f'{name} (the table itself)'
-                for name, t in sorted(tables.items()) if not t['desc']]
+    missing = undescribed(tables, '') + undescribed(accounts, f'{ACCOUNTS_DB}: ')
     if missing:
         print('Not generated. These have no description in the database:',
               file=sys.stderr)
@@ -184,10 +231,12 @@ def main():
               'then run this again.', file=sys.stderr)
         sys.exit(1)
 
-    OUT.write_text(render(tables, notes))
+    OUT.write_text(render(tables, notes, accounts))
     cols = sum(len(t['cols']) for t in tables.values())
+    acols = sum(len(t['cols']) for t in accounts.values())
     print(f'wrote {OUT.relative_to(ROOT)}: {len(tables)} tables, {cols} columns, '
-          f'all described; {len(notes)} methodology notes indexed')
+          f'all described; {len(notes)} methodology notes indexed; '
+          f'accounts: {len(accounts)} tables, {acols} columns, all described')
 
 
 if __name__ == '__main__':

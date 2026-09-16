@@ -5,11 +5,10 @@ Updated: 2026-09-16
 ## Where we've got to
 
 **Phase 0 — the dataset — is closed. Phase 1 is the site, and it is being
-built.** Both scoping discussions closed on 15 September; the site went live on
-16 September and **serves its welcome page at `legislativedata.org`**. What is
-left in the phase is the pages that let someone in. The arc is in `docs/PLAN.md`;
-Phase 1's own plan is `docs/PHASE-1.md`, and it is thrown away when the phase
-closes.
+built.** The site serves its welcome page at `legislativedata.org`, and **the
+place accounts will be kept now exists**, empty, backed up and proved to come
+back from the backup. What is left in the phase is the pages that let someone
+in. The arc is in `docs/PLAN.md`; Phase 1's own plan is `docs/PHASE-1.md`.
 
 The dataset, unchanged and not moving while the site is built:
 
@@ -28,72 +27,55 @@ provenance notes. **The error checker and the gaps list are both empty.**
 
 ## What has been done
 
-- **10–15 September.** The database built, all seven fact sheets surveyed, every
-  session read in, reviewed, promoted and closed, your dates loaded, and every
-  test run by a session that did none of the work it tests.
-- **15 September.** `PLAN.md` and `PHASE-1.md` written, `STANDING.md` split out,
-  and both of Phase 1's scoping discussions settled end to end — infrastructure
-  in six decisions, style in six more.
+- **10–15 September.** The database built, every session read in, reviewed,
+  promoted and closed, and both of Phase 1's scoping discussions settled.
+- **16 September, earlier.** The site went live, with the deploy and its undo
+  rehearsed; you settled Cloudflare and that the site records nothing about a
+  visitor; the landing page was cut back; the server's leftovers cleared.
 
-**16 September, this session. The site is live.** `legislativedata.org` serves
-its welcome page, over a proper certificate, and the way to change it has been
-rehearsed rather than just written.
+**16 September, this session. The accounts have somewhere to live.**
 
-- **You settled two things.** Traffic comes straight to the machine and
-  Cloudflare holds the name only — you asked what proxying would actually buy a
-  project this size, and the answer with the case for the other side in it is in
-  `DECISIONS.md`. And the site records nothing at all about a visitor: the page,
-  the time and the result, never an address.
-- **The deploy behaves like a promotion.** It puts the new version somewhere
-  harmless, proves it answers, and only then switches. Rolling back is moving a
-  pointer and takes about two seconds.
-- **The undo was rehearsed, not assumed**, and that found two faults in it that
-  reading it had not. Both fixed and the site stayed up throughout.
-- **One real mistake, caught and fixed within minutes.** The rule that we log no
-  addresses was written in a place that covered the main site but not the two
-  redirects. A scanner's address reached the system journal before it was
-  corrected. Eight seconds, one address, a bot rather than a person — but it was
-  wrong, and it is written down in `DECISIONS.md` so the shape of the mistake
-  survives.
+- **A separate workbook for accounts**, holding exactly what you settled on 15
+  September and nothing more. Delete a person and their codes and signed-in
+  devices go with them.
+- **The website cannot see the bills at all.** Its login was tried against the
+  working database and refused. It also cannot mark anyone as the owner.
+- **The backup now takes every database on the machine** unless one is named as
+  left out on purpose, so a new one cannot be missed the way one was on 9
+  September. Proved by bringing an invented person back from the off-site copy.
+- **Everything was rehearsed under another name and undone first**, and the
+  checks were shown to fail when they should. Procedure in
+  `docs/ACCOUNTS-RUNBOOK.md`; the reasoning in `DECISIONS.md`.
+- **Three stale lines corrected**: the two closure tests that said they had not
+  been run, and "change a password" in the phase's closing test. Two wrong
+  counts in `HOW-THE-DATABASE-WORKS.md` corrected, and a section added on the
+  accounts.
 
-- **You stripped the landing page back**, and you were right: it argued a case
-  the site has not earned yet. What is there now says the name of the thing,
-  that it is in preparation, and what is not here.
-- **The leftovers are gone.** The Session 6 working files, sixteen superseded
-  pre-migration dumps, eight seconds of journal from before the logging was
-  fixed, and a stale second copy of the private infrastructure notes that had
-  been drifting since 10 September. The backup was checked healthy first.
-
-Nothing was written to the database today.
+Nothing in the dataset changed.
 
 ## Now: the pages that let someone in
 
-The machine is serving and the way to change it is proved, so what is left in
-Phase 1 is the pages themselves. From `PHASE-1.md`, and in the order they make
-sense to build: somebody can apply; you can approve or refuse them; an approved
-person asks for a code, receives it by email and signs in; you get an admin
-screen nobody else sees; a person can see they are signed in and can sign out.
+In order: the site connects to the accounts; **somebody can apply**; your own
+account is made on the machine, with your way in that does not need email; the
+admin screen where you approve or refuse; a code by email and signing in;
+seeing you are signed in, and signing out; the page saying what is held; and
+deleting an account.
 
-Three things that decision of 15 September added, and they are build items and
-not notes: a plain-English page saying exactly what is held about a user, a way
-for you to delete an account and everything attached to it, and a way for you to
-get in that does not depend on an email arriving.
+**The first thing needs your say-so.** For the site to read and write the
+accounts it needs a database driver added to its requirements (`psycopg`, the
+standard one for Python and PostgreSQL). That is a new dependency, so it is
+asked rather than assumed.
 
-**Nothing blocks it.** The Resend key is held, outside this repository, and goes
-onto the machine when there is code that sends an email — not before, so that an
-unused key is not sitting in `/etc` waiting to be got wrong.
+## Waiting for you
 
-## Waiting for you, and one of them now blocks
-
+- **Nothing tells anyone if the nightly backup fails.** It would show only on
+  the machine. The heartbeat service in the old notes belonged to an earlier
+  attempt. Adding one is a new outside service, so it is yours to decide; it
+  matters more from the day a real person applies.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
-  is deliberately outside version control, exists on this machine and nowhere
-  else, and each correction makes that worse.
-- **Two closure tests open with "It has not been run"** when their own run
-  records say they passed — `db/103` and Session 7. Two one-line fixes, offered
-  three times now.
+  is deliberately outside version control and exists on this machine only.
 - **M5's wording has drifted in two sentences**, and **whether the other eleven
-  methodology notes should be cut the way M12 was** — M2 is 5,140 characters
-  against M12's 631, and they are what a reader sees. No data is wrong either
+  methodology notes should be cut the way M12 was.** No data is wrong either
   way.
 - **Whether Session 5's four bills that ran out of time** should carry the note
   Session 6's three now do.
@@ -140,35 +122,51 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-16, the session that put the site up
+## Sanity check, 2026-09-16, the session that built the accounts
 
-Run before the first reply. Nothing was written to the database at any point.
+Run before the first reply.
 
 - **The counts match** `STATE.md`: 470 bills, 1291 stage records, 186 provenance
   notes, 13 methodology notes, 474 staging lines. The error checker and the gaps
-  list are both empty, and there is no working copy of the sheets inside the
-  database.
-- **Both generated documents regenerate identical** to the committed files: the
-  data dictionary at 19 tables and 182 columns, all described (only its own
-  generation date differed, and it was put back); and the contents block of
-  `DECISIONS.md`, 120 at the start of the session and 123 at the end.
-- **The tree was clean and pushed at the start.**
-- **The three-database decision is still recorded and not built**, which is what
-  the plan says: the only databases on the machine remain `legdata` and
-  `postgres`. The site reads no database at all, so nothing turns on it yet.
-- **The stale "It has not been run" is in two closure tests, not one** — `db/103`
-  and Session 7 — while their own run records say they passed. **Offered a third
-  time and not taken up.** Whoever runs the next session should offer it again.
-- **The server leftovers are gone**, after five sessions of asking: `/tmp/load`
-  and sixteen `legdata-before-*.dump` files in `/var/tmp`. Removed only after
-  the backup was checked — sixteen snapshots, integrity check passed, and a
-  dump whose counts match this file. What remains as the safety net is the
-  nightly backup and nothing else.
-- **The backup ran an unscheduled extra time**, because `legdata-backup` takes
-  no arguments and runs the whole job whatever it is passed; it was invoked with
-  a `--list` that does not exist. No harm — a fresh dump, a prune within its own
-  retention rule, and a passing check. **Worth knowing before anyone reaches for
-  that script to look at something.**
+  list are both empty, and no working copy is inside the database.
+- **Both generated documents regenerated identical** to the committed files,
+  apart from the dictionary's generation date: 19 tables, 182 columns; 123
+  decisions.
+- **The tree was clean and pushed at the start**, and the site, Caddy and the
+  backup timer were running.
+- **Three stale lines found, all fixed this session**: the `STATE.md` heading
+  saying one waiting item blocked, when none did; "change a password" in
+  `PHASE-1.md`'s closing test; and the two closure-test openers, offered for the
+  fourth time and taken up.
+- **Found while working, not in the opening check:** `HOW-THE-DATABASE-WORKS.md`
+  said eight methodology notes and 92 provenance notes; both corrected. And
+  nothing alerts anyone when the backup fails — put to the owner above.
+- **Asked of the owner in error:** how long a code and a signed-in device are
+  kept. That was settled on 15 September (15 minutes, 30 days). Said so at once.
+
+## The accounts: working detail, 16 September
+
+**Everything is in `docs/ACCOUNTS-RUNBOOK.md`**, including what happened at each
+step. What a next session needs that the runbook does not lead with:
+
+- **The site does not connect to any database yet.** `site/app.py` reads nothing,
+  and `site/requirements.txt` has no driver. Connecting it is the first build
+  step and needs the owner's agreement to the dependency.
+- **The site should connect as `legsite` over the local socket, with no
+  password** — the machine account and the database login share the name, and
+  that is the whole of the authentication. No connection string with a secret
+  in it is needed or wanted.
+- **Cleaning up spent codes and devices is not built.** The descriptions say
+  rows go once used or run out; that becomes true when the sign-in pages are
+  built, and the privacy page must not say it before then.
+- **The owner's account** is made on the machine, with `is_owner` set, by
+  `postgres` — the site's login cannot set it. The owner's address is in the
+  private notes, not here.
+- **The SSH limit is six connections in 30 seconds**, not about a dozen. It
+  refused a connection once this session; nothing was half-done, because the
+  upload had landed and the install had not started.
+- **`deploy/first_install.sh` is still untested as a file**, as the last session
+  recorded.
 
 ## The first deploy: working detail, 16 September
 

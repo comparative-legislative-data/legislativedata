@@ -210,8 +210,13 @@ second accent, which nothing so far does.
 
 **Where the building has got to, 16 September.** The machine serves the welcome
 page over its own certificate, and the deploy and its undo are built, rehearsed
-and written down in `docs/DEPLOY-RUNBOOK.md`. Everything below is still to do,
-and all of it needs a working Resend key.
+and written down in `docs/DEPLOY-RUNBOOK.md`. **The accounts database is built,
+empty, in the nightly backup and proved to restore from the storage box**, with
+the website's login unable to see the working data (`docs/ACCOUNTS-RUNBOOK.md`).
+That was build item 4 of the no-passwords decision, done before any page rather
+than on the day of the first account. Every page below is still to do. The site
+does not yet connect to any database, and connecting it needs a database driver
+added to its requirements, which is a new dependency and is asked for first.
 
 The whole of it, from `PLAN.md`:
 

@@ -41,7 +41,7 @@ wherever it came from.
 They fill up when promotion runs, one session at a time.
 
 **Two are context:** `session` (seven rows, one per parliament) and
-`methodology_note` (eight rows, the decisions a reader has to be told about).
+`methodology_note` (thirteen rows, the decisions a reader has to be told about).
 
 ## 2. Your sheets
 
@@ -271,7 +271,7 @@ it. Each date records where it was read. The last days matter beyond tidiness:
 a bill is recorded as having run out of time when the day it ended is the day
 its session ended, so that coding can be checked rather than taken on trust.
 
-`methodology_note` is eight rows of prose, each one a decision a reader of the
+`methodology_note` is thirteen rows of prose, each one a decision a reader of the
 published figures has to be told about — why Executive and Government Bills are
 counted as one thing, why a passed bill isn't necessarily an Act, when a stage
 counts as completed. These exist to be shown on the front end beside the
@@ -289,8 +289,7 @@ your factsheet sheet marked `accepted`:
   your stage-dates sheet, taking the Official Report's where two sources give
   the same stage;
 - a provenance note is filed for each fact that didn't come from the row's
-  stated source — ninety-two so far, being twenty-two for Session 1, twenty for
-  Session 2, fifteen each for Sessions 3 and 4 and twenty for Session 5. Most
+  stated source — 186 so far, across the seven sessions. Most
   are an outcome or a Stage 1 rejection route read from the Official Report; the
   rest are a date, a bill's type, an asp number or a title settled against
   legislation.gov.uk or the Parliament's own bill page, and for Session 5 the
@@ -310,7 +309,34 @@ and anything that refers to a bill by number keeps pointing at the right one.
 And a bill cannot be put on the clean sheet at all unless there is a staging
 line behind it, so nothing can get in except through the gate.
 
-## 5. Words you will meet in Postico
+## 5. The accounts: a second workbook
+
+Everything above is one workbook, about bills. The website's accounts are a
+second, separate workbook called `accounts`, and nothing in it is about a bill.
+It has three tabs.
+
+Take an invented applicant, Dr A. Example. They fill in the form on the site,
+and a row appears on the `person` tab: their email, name, title and position,
+marked `applied`, with the date. You approve them on the admin screen; the row
+now says `approved`, with the date you decided. They ask for a code, and a row
+appears on `sign_in_code` that works for fifteen minutes and once. They type it
+in, and a row appears on `signed_in_device`, which keeps that browser signed in
+for thirty days or until they sign out, when the row goes. Delete their row on
+`person` and their codes and devices go with it, and nothing about them is left.
+
+**Two things are deliberate.** The website can open this workbook and cannot
+open the bills workbook at all; it was tried and refused. And the website cannot
+mark anyone as the owner — that is set on the machine.
+
+The codes and the signed-in markers are never stored as themselves, only as a
+one-way scramble, so reading the workbook does not let anyone sign in. Both
+workbooks are in the nightly backup, and the backup now takes every workbook on
+the machine unless one is named as left out on purpose.
+
+You will not normally open it. Its rows are real people, and none of them goes
+into a document or a conversation.
+
+## 6. Words you will meet in Postico
 
 Not to be used in explanations to the owner, but you will see them on screen.
 

@@ -37,7 +37,12 @@ SELECT line FROM (
 ) s
 ORDER BY t, ord;
 
+-- Only the working database has methodology notes. The accounts database is
+-- described by the same query with -v notes=false, and none of its rows are
+-- ever read: only the descriptions stored on its tabs and columns.
+\if :notes
 SELECT 'M|' || code || '|' || title || '|'
        || array_to_string(applies_to, ', ')
 FROM methodology_note
 ORDER BY sort_order;
+\endif

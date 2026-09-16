@@ -1,0 +1,165 @@
+#!/bin/bash
+# legdata backup. Installed at /usr/local/sbin/legdata-backup; this file in the
+# repository is the copy of record. It takes no arguments, and whatever it is
+# passed it runs the whole nightly job.
+#
+# TWO SEPARATE SNAPSHOTS, and the separation is the point.
+#
+# System configuration and project data are different things with different
+# lifetimes. The first version of this script put /etc and /srv/legdata in one
+# snapshot, and on 2026-09-09 that turned out to be a design flaw: the project's
+# data had to be destroyed, and destroying it meant destroying the machine's
+# only rebuild material in the same act, because both lived in the same
+# snapshot. Deleting one kind of thing must never require deleting the other.
+#
+# So: /etc is tagged "system", the data store is tagged "data", and retention is
+# applied within each tag group so the two never count against one another.
+#
+# Repository and password come from /root/.legdata-backup.env; transport comes
+# from the "legdata-storagebox" entry in /root/.ssh/config. Neither is in the
+# project repository.
+#
+# AMENDED 2026-09-10. Until then the "data" snapshot was never taken, because
+# /srv/legdata had not existed since the 2026-09-09 clearance and the script
+# treats its absence as normal. Meanwhile the PostgreSQL database lived in
+# /var/lib/postgresql, which nothing backed up at all. Step 2 below dumps the
+# database into the directory the data snapshot covers, so the existing
+# retention, verification and off-site transport apply to it unchanged.
+# That version is kept as legdata-backup.pre-pgdump.bak.
+#
+# AMENDED 2026-09-16. Every database on the machine is dumped, not one named
+# database. The accounts database arrived today, and the decision that made it
+# (DECISIONS.md, 2026-09-15, "Three databases") named the failure exactly: a
+# backup that dumps one database will not pick up a new one by itself, and will
+# succeed quietly every night while missing it. Nothing tells anyone when this
+# job fails, so a check that complains would complain to nobody. Instead a new
+# database is backed up by default, and one that should not be — the published
+# copy, when it exists, being rebuildable from the working one — has to be named
+# below on purpose. Forgetting to name it costs some disk; forgetting a database
+# the other way round cost the data once already. That version is kept as
+# legdata-backup.pre-accounts.bak.
+set -euo pipefail
+set -a; source /root/.legdata-backup.env; set +a
+
+DATA_DIR=/srv/legdata
+DUMP_DIR="$DATA_DIR/postgres"
+
+# Databases deliberately not backed up, with the reason beside each. `postgres`
+# is PostgreSQL's own empty housekeeping database.
+NOT_BACKED_UP="postgres"
+
+# 1. System configuration. Always taken.
+restic backup --tag system --exclude-caches /etc
+
+# 2. Dump the databases into the data store.
+#
+#    globals.sql carries the logins — without it a restore produces a database
+#    whose owner does not exist. Each database is its own <name>.dump, in the
+#    custom format so that a restore can be selective rather than all-or-nothing.
+#
+#    Each file is written to a temporary name and moved into place only once it
+#    has been proved readable. A dump that fails half way must not overwrite last
+#    night's good one: a corrupt backup that looks fine is worse than a missing
+#    one. All of them are proved before any is moved, so the set on disk is
+#    always from one night.
+#
+#    No date in the filenames. restic holds the history, and dated files would
+#    accumulate forever inside a store that is snapshotted whole.
+install -d -m 700 -o root -g root "$DUMP_DIR"
+
+mapfile -t DATABASES < <(runuser -u postgres -- psql -X -At -d postgres -c "
+    SELECT datname FROM pg_database
+     WHERE NOT datistemplate AND datallowconn ORDER BY datname")
+
+TO_DUMP=()
+for db in "${DATABASES[@]}"; do
+  case " $NOT_BACKED_UP " in
+    *" $db "*) echo "legdata-backup: $db is not backed up, on purpose." ;;
+    *)         TO_DUMP+=("$db") ;;
+  esac
+done
+
+# The working database is the product. If it is not in the list, something is
+# badly wrong and a backup of everything else would hide it.
+case " ${TO_DUMP[*]} " in
+  *" legdata "*) ;;
+  *) echo "legdata-backup: the working database legdata was not found; refusing." >&2; exit 1 ;;
+esac
+
+runuser -u postgres -- pg_dumpall --globals-only > "$DUMP_DIR/globals.sql.tmp"
+test -s "$DUMP_DIR/globals.sql.tmp"
+
+for db in "${TO_DUMP[@]}"; do
+  # Written through root's shell, not by pg_dump itself: the dump directory is
+  # root-only, and postgres has no business being able to write into it.
+  runuser -u postgres -- pg_dump --format=custom --compress=9 \
+          --dbname="$db" > "$DUMP_DIR/$db.dump.tmp"
+  pg_restore --list "$DUMP_DIR/$db.dump.tmp" > /dev/null
+done
+
+chmod 600 "$DUMP_DIR"/*.tmp
+for db in "${TO_DUMP[@]}"; do
+  mv -f "$DUMP_DIR/$db.dump.tmp" "$DUMP_DIR/$db.dump"
+done
+mv -f "$DUMP_DIR/globals.sql.tmp" "$DUMP_DIR/globals.sql"
+
+# A dump of a database that no longer exists is removed from the store. Its
+# history stays in restic; leaving it here would carry it into every snapshot
+# from now on and make tonight's set look larger than it is.
+for f in "$DUMP_DIR"/*.dump; do
+  [ -e "$f" ] || continue
+  name=$(basename "$f" .dump)
+  case " ${TO_DUMP[*]} " in
+    *" $name "*) ;;
+    *) echo "legdata-backup: $name no longer exists; removing its old dump from the store."
+       rm -f "$f" ;;
+  esac
+done
+
+# Counts alongside the dumps, so a restore can be checked against what was
+# actually there on the night rather than against an assumption. Counts only:
+# nothing that names a person is ever written here.
+# A count that fails is written down as failing and does not stop the snapshot:
+# the dumps are already proved readable, and they are what matters.
+{
+  echo "taken: $(date -u '+%Y-%m-%d %H:%M:%S+00')"
+  echo "databases dumped: ${TO_DUMP[*]}"
+  for db in "${TO_DUMP[@]}"; do
+    case "$db" in
+      legdata)
+        runuser -u postgres -- psql -X -At -d legdata -c "
+            SELECT 'bill: '||count(*) FROM bill;
+            SELECT 'bill_candidate: '||count(*) FROM bill_candidate;
+            SELECT 'bill_candidate accepted: '||count(*) FROM bill_candidate
+              WHERE review_status='accepted';
+            SELECT 'field_source: '||count(*) FROM field_source;" \
+          || echo "$db: counts could not be taken" ;;
+      accounts)
+        runuser -u postgres -- psql -X -At -d accounts -c "
+            SELECT 'accounts person: '||count(*) FROM person;
+            SELECT 'accounts person approved: '||count(*) FROM person WHERE state='approved';
+            SELECT 'accounts sign_in_code: '||count(*) FROM sign_in_code;
+            SELECT 'accounts signed_in_device: '||count(*) FROM signed_in_device;" \
+          || echo "$db: counts could not be taken" ;;
+      *)
+        echo "$db: dumped; no counts defined for it" ;;
+    esac
+  done
+} > "$DUMP_DIR/manifest.txt.tmp"
+chmod 600 "$DUMP_DIR/manifest.txt.tmp"
+mv -f "$DUMP_DIR/manifest.txt.tmp" "$DUMP_DIR/manifest.txt"
+
+# 3. Project data. Only when there is any. Its absence is not an error: the store
+#    is created by the fetch, and between phases there may be nothing to hold.
+if [ -d "$DATA_DIR" ]; then
+  restic backup --tag data --exclude-caches "$DATA_DIR"
+else
+  echo "legdata-backup: $DATA_DIR does not exist, so no data snapshot was taken."
+fi
+
+# 4. Retention, grouped by tag so that system and data are aged independently.
+restic forget --prune --group-by host,tags \
+  --keep-daily 14 --keep-weekly 8 --keep-monthly 12 --keep-yearly 10
+
+# 5. Verify.
+restic check --read-data-subset=5%

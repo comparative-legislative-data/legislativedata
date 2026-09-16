@@ -244,6 +244,17 @@ bring it across; nothing depends on it.
   are exactly the difference between the stage-3 and stage-3-to-assent counts,
   60 against 62 for government and 7 against 8 for Member's.
 
+**2026-09-16:**
+- **The website's login cannot open the working database.** Tried as the site's
+  own machine account, and refused. The working database's own login still
+  opens it.
+- **The website's login cannot make anyone the owner or change an email**, and
+  the check that says so was shown to fail when given those permissions.
+- **The accounts are in the backup and come back from the storage box**: an
+  invented practice person was restored from snapshot `c927a990`, approved, with
+  the site's permissions intact; the working database restored beside it with
+  every count matching.
+
 ## Reconciliation figures, per session
 
 The gate compares our count against each factsheet's own summary table.
@@ -315,7 +326,13 @@ website has to surface.
 - **`tools/extract_factsheet.py`** reads the ruled-table factsheets (Sessions
   1–5). Its pinned environment is in `tools/requirements.txt`.
 - **`tools/make_data_dictionary.py`** regenerates `docs/DATA-DICTIONARY.md`, and
-  refuses to run if anything lacks a description.
+  refuses to run if anything lacks a description. Since 2026-09-16 it describes
+  the accounts database too, reading its descriptions and never a row.
+- **`tools/restore_check.sh`** fetches the newest backup from the storage box,
+  restores it into scratch databases, prints counts, and cleans up after itself.
+  Procedure in `docs/ACCOUNTS-RUNBOOK.md`.
+- **`deploy/legdata-backup`** is the copy of record of the nightly backup
+  script. It takes no arguments; whatever it is passed, it runs the whole job.
 - **`docs/PROMOTION-RUNBOOK.md`** is the procedure for loading and promoting,
   with a record of each run.
 - **`docs/FACTSHEET-SURVEY.md`** is the survey of all seven factsheets.
@@ -394,6 +411,14 @@ one connection.
 `~/.ssh/config`.** They are leftovers from the old estate and point at machines that are not this
 project's. Which machine is, is in the private notes outside this repository.
 
-**The SSH rate limit bites you, not only attackers.** About a dozen connections
-in quick succession gives `Connection refused` for roughly 15 seconds. Batch
-work into few connections.
+**The SSH rate limit bites you, not only attackers.** The firewall refuses a
+seventh connection inside 30 seconds (`ufw limit`), with `Connection refused`
+until the window passes. An upload followed at once by a command is two. Batch
+work into few connections. Measured 2026-09-16; the "about a dozen" written here
+before was generous.
+
+**The accounts database** is reached the same way, as
+`sudo -u postgres psql -d accounts`. Its rows are real people: look at counts,
+never at rows, and never bring a row into the conversation. The website's own
+login is `sudo -u legsite psql -d accounts`, and is what to use to check what
+the site can and cannot do.
