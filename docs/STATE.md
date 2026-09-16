@@ -42,9 +42,9 @@ provenance notes. **The error checker and the gaps list are both empty.**
   the other two and the updated plan. About thirty pages were read, all from
   the publishers' and projects' own sites.
 - **In short**: the Parliament and legislation.gov.uk both allow what the
-  project does, provided each is credited. Two points are unclear in the
-  Parliament's own wording, and questions for the publishers are drafted in
-  the report. Sending them is yours to decide.
+  project does, provided each is credited. **You decided neither publisher is
+  approached**: the licences are extremely permissive and nothing here is
+  problematic under them.
 - **Unread**: the Parliament's archived 2017 licence, behind a browser check.
   Reading it through your browser needs your permission.
 

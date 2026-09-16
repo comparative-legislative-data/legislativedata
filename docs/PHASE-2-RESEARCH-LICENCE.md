@@ -417,6 +417,8 @@ full.
 
 1. **Whether to put the open questions to the publishers**, below. Writing to
    either is contacting an outside body, which is yours to decide.
+   **Answered 16 September: neither is approached** (`DECISIONS.md`, "Neither
+   publisher is asked about the licence"). The drafts are kept as written.
 2. **Commercial use.** Whether someone may use the dataset commercially. The
    sources allow it; one comparable dataset forbids it.
 3. **Share-alike.** Whether anything built from the dataset must carry the same
@@ -479,7 +481,8 @@ SPCB.
   allows.
 - **Say plainly on the site that the resource is not the Parliament's**, since
   both licences forbid suggesting official status.
-- **Send the SPCB question before the first public download**, rather than
+- *Overtaken 16 September: the owner decided neither publisher is approached.*
+  **Send the SPCB question before the first public download**, rather than
   settling its two readings ourselves. The legislation.gov.uk question is
   smaller: using the longer "Crown © and database right" wording would likely
   satisfy either reading, but asking costs little.
