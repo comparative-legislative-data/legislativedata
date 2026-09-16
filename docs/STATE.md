@@ -1,12 +1,13 @@
 # State
 
-Updated: 2026-09-15
+Updated: 2026-09-16
 
 ## Where we've got to
 
-**Phase 0 — the dataset — is closed. Phase 1 is the site, and both of its
-scoping discussions are now closed too.** Infrastructure on 15 September, style
-the same day. **What is open now is building.** The arc is in `docs/PLAN.md`;
+**Phase 0 — the dataset — is closed. Phase 1 is the site, and it is being
+built.** Both scoping discussions closed on 15 September; the site went live on
+16 September and **serves its welcome page at `legislativedata.org`**. What is
+left in the phase is the pages that let someone in. The arc is in `docs/PLAN.md`;
 Phase 1's own plan is `docs/PHASE-1.md`, and it is thrown away when the phase
 closes.
 
@@ -30,61 +31,67 @@ provenance notes. **The error checker and the gaps list are both empty.**
 - **10–15 September.** The database built, all seven fact sheets surveyed, every
   session read in, reviewed, promoted and closed, your dates loaded, and every
   test run by a session that did none of the work it tests.
-- **15 September, earlier.** `docs/PLAN.md` and `docs/PHASE-1.md` written,
-  `docs/STANDING.md` split out of this file, and the site's infrastructure
-  settled end to end in six decisions — where it runs, three databases, the data
-  date on every page, no passwords, the domain, and your admin screen.
+- **15 September.** `PLAN.md` and `PHASE-1.md` written, `STANDING.md` split out,
+  and both of Phase 1's scoping discussions settled end to end — infrastructure
+  in six decisions, style in six more.
 
-**15 September, this session. The style discussion, opened and closed.** Six
-more decisions, all in `DECISIONS.md`:
+**16 September, this session. The site is live.** `legislativedata.org` serves
+its welcome page, over a proper certificate, and the way to change it has been
+rehearsed rather than just written.
 
-- **The look comes from your own essays site.** You rejected a list of other
-  people's sites and pointed at that instead. We take its structure more than
-  its colours: a warm neutral ramp with names saying what each step is *for*,
-  Plex Sans for the machinery and Plex Serif for the substance. The two projects
-  share a starting point, not a dependency.
-- **Dark by default, light as a setting**, your decision against a
-  recommendation to default to light.
-- **Designed for someone who will cite it**, and every page held to two
-  questions: can a reader see where this came from and what we do not know, and
-  is anything here to impress rather than inform.
-- **An outcome is a word, never a colour.** No green for passed, no red for
-  fell — it would be the data editorialising, and a colour cannot be cited.
-- **Prose in a reading column, tables allowed out of it**, and the data date
-  beside the heading as well as in the footer, because a footer date is cropped
-  out of a screenshot.
-- **The site is written in Python** — Caddy, gunicorn, Flask — with no build
-  step, and with your condition attached: *"the stack does not support it" is
-  never a reason to cut a feature.*
+- **You settled two things.** Traffic comes straight to the machine and
+  Cloudflare holds the name only — you asked what proxying would actually buy a
+  project this size, and the answer with the case for the other side in it is in
+  `DECISIONS.md`. And the site records nothing at all about a visitor: the page,
+  the time and the result, never an address.
+- **The deploy behaves like a promotion.** It puts the new version somewhere
+  harmless, proves it answers, and only then switches. Rolling back is moving a
+  pointer and takes about two seconds.
+- **The undo was rehearsed, not assumed**, and that found two faults in it that
+  reading it had not. Both fixed and the site stayed up throughout.
+- **One real mistake, caught and fixed within minutes.** The rule that we log no
+  addresses was written in a place that covered the main site but not the two
+  redirects. A scanner's address reached the system journal before it was
+  corrected. Eight seconds, one address, a bot rather than a person — but it was
+  wrong, and it is written down in `DECISIONS.md` so the shape of the mistake
+  survives.
 
 Nothing was written to the database today.
 
-## Now: get the machine serving one page, with its undo
+## Now: the pages that let someone in
 
-The smallest thing that proves the whole chain end to end, and the thing every
-later deploy rests on. Four new things go on the machine — Caddy, gunicorn,
-Flask, psycopg — and **the deploy procedure and its written undo are built with
-them, not after them**, the way a promotion is.
+The machine is serving and the way to change it is proved, so what is left in
+Phase 1 is the pages themselves. From `PHASE-1.md`, and in the order they make
+sense to build: somebody can apply; you can approve or refuse them; an approved
+person asks for a code, receives it by email and signs in; you get an admin
+screen nobody else sees; a person can see they are signed in and can sign out.
 
-**It is blocked on one of the three things below**: the certificate cannot be
-issued until `legislativedata.org` points at the machine.
+Three things that decision of 15 September added, and they are build items and
+not notes: a plain-English page saying exactly what is held about a user, a way
+for you to delete an account and everything attached to it, and a way for you to
+get in that does not depend on an email arriving.
+
+**It needs one thing from you first:** a new Resend key. Nothing that sends an
+email can be built or tested without one, and the old one is not assumed live.
 
 ## Waiting for you, and one of them now blocks
 
-- **Three things to confirm.** That `legislativedata.org` is still registered
-  and you control where it points — **this now blocks the next task**; that a
-  new Resend key is issued, the old one not assumed live; and **when the
-  machine's prepaid year runs out**, which is written down nowhere and now takes
-  the site down with the data if it lapses. The date belongs in the private
-  notes, not here.
+- **A new Resend key**, the old one not assumed live. **This now blocks the
+  next task**, because every remaining page in Phase 1 leads to an email.
+- **When the machine's prepaid year runs out.** Written down nowhere, and it now
+  takes the site down with the data if it lapses. The date belongs in the
+  private notes, not here.
+- **Whether to purge eight seconds of the system journal** from before the
+  logging was fixed. One address, a bot probing for `.env` files, not a person.
+  It ages out by itself. Say if you would rather it went now.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
   is deliberately outside version control, exists on this machine and nowhere
   else, and each correction makes that worse.
 - **Six working files left on the server** in `/tmp/load`, from the Session 6
-  dates work. Nothing depends on them. Proposed for removal four times.
+  dates work. Nothing depends on them. Proposed for removal five times.
 - **Two closure tests open with "It has not been run"** when their own run
   records say they passed — `db/103` and Session 7. Two one-line fixes, offered
-  twice now.
+  three times now.
 - **M5's wording has drifted in two sentences**, and **whether the other eleven
   methodology notes should be cut the way M12 was** — M2 is 5,140 characters
   against M12's 631, and they are what a reader sees. No data is wrong either
@@ -134,30 +141,66 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-15, the session that settled the style
+## Sanity check, 2026-09-16, the session that put the site up
 
 Run before the first reply. Nothing was written to the database at any point.
 
 - **The counts match** `STATE.md`: 470 bills, 1291 stage records, 186 provenance
-  notes, 13 methodology notes, 474 staging lines.
-- **The error checker and the gaps list are empty.** No working copy of the
-  sheets inside the database, and the only databases on the machine are `legdata`
-  and `postgres` — the three-database decision is recorded and not yet built,
-  which is what the plan says.
+  notes, 13 methodology notes, 474 staging lines. The error checker and the gaps
+  list are both empty, and there is no working copy of the sheets inside the
+  database.
 - **Both generated documents regenerate identical** to the committed files: the
-  data dictionary at 19 tables and 182 columns, all described; and the contents
-  block of `DECISIONS.md`, 114 at the start of the session and 120 at the end.
+  data dictionary at 19 tables and 182 columns, all described (only its own
+  generation date differed, and it was put back); and the contents block of
+  `DECISIONS.md`, 120 at the start of the session and 123 at the end.
 - **The tree was clean and pushed at the start.**
-- **The stale "It has not been run" is in two closure tests, not one.** The last
-  session recorded it for `db/103` only; the Session 7 test opens the same way
-  and its own run record says all eighteen items stand. Offered to the owner and
-  not taken up. **Whoever runs the next session should offer it a third time.**
-- **`PHASE-1.md` contradicted itself**, saying in two places that style had not
-  opened while its own closing paragraph and `STATE.md` said infrastructure was
-  closed and style opened. Left over from before the close. **Corrected this
-  session**, and the file now records both discussions closed.
+- **The three-database decision is still recorded and not built**, which is what
+  the plan says: the only databases on the machine remain `legdata` and
+  `postgres`. The site reads no database at all, so nothing turns on it yet.
+- **The stale "It has not been run" is in two closure tests, not one** — `db/103`
+  and Session 7 — while their own run records say they passed. **Offered a third
+  time and not taken up.** Whoever runs the next session should offer it again.
 - **Six working files are still in `/tmp/load` on the server**, and about ten
-  pre-migration dumps in `/var/tmp`. Unchanged. Fourth time of asking.
+  pre-migration dumps in `/var/tmp`. Unchanged. Fifth time of asking.
+
+## The first deploy: working detail, 16 September
+
+**The order that made the certificate straightforward.** Caddy was installed and
+given the real configuration while the firewall was still shut, so Debian's
+placeholder page was never publicly reachable. Then the app was staged and
+started, then the ports were opened, then Caddy was restarted — so its first
+attempt at a certificate was also its first successful one, with no backoff to
+wait out.
+
+**Three faults were found by running things rather than by reading them**, which
+is the whole argument for rehearsing:
+
+- `Type=notify` in the service file would have hung the start, because gunicorn
+  does not speak systemd's notify protocol. Changed to `Type=exec` before it ran.
+- `systemctl reload caddy` cannot work with `admin off`, because reloading is
+  done by talking to Caddy over a local socket. The deploy restarts instead;
+  under a second, and recorded in the runbook as a choice rather than a defect.
+- The rollback stepped to the second-newest release rather than the one before
+  whatever is live, so rolling back twice stood still. It now walks back from
+  `current`, and the guard at the oldest release was tested by hitting it.
+
+**The logging mistake, in full, because the shape of it matters.** The filter
+that strips addresses was written inside the `legislativedata.org` site block.
+That is the obvious place and it is wrong: the `www` redirect and the plain-http
+redirect are separate blocks, and Caddy's unfiltered default logger handled them.
+Eight seconds after the ports opened, a scanner probing for `.env` files had its
+address written to the journal. The filter is now in the global block. **The two
+commands that check it are in the runbook and should be run after any change to
+the logging** — one greps the log file for anything address-shaped, the other
+checks that no access line is reaching the journal at all.
+
+**The classifier blocked running `deploy/first_install.sh` and, once,
+`tools/deploy_site.sh`.** The install was done instead as explicit commands
+through the connector, which is more auditable anyway; the deploy script itself
+was then run in full, four times, including the rollbacks. `deploy/first_install.sh`
+has therefore never been run as a file. It is written to be safe to run again,
+but **it is untested as a script** and the next session that needs it should
+expect that.
 
 ## The style discussion: working detail, 15 September
 

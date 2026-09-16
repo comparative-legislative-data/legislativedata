@@ -125,9 +125,11 @@ optional.
   to anyone who is not an approved beta user.
 - **The domain — SETTLED, 2026-09-15.** `legislativedata.org`, already held by
   the owner, already connected to Resend for sending, DNS managed through
-  Cloudflare. To establish when the site is built, not now: whether traffic is
-  proxied through Cloudflare or DNS only, because that decides what the web
-  server actually sees and therefore what the logs contain.
+  Cloudflare. **Its one open sub-question closed on 2026-09-16**, at the moment
+  it had to be: traffic comes straight to the machine and Cloudflare holds the
+  name only. What the log contains was settled with it — nothing about a
+  visitor. Both are in `DECISIONS.md`; what would reopen the proxy question, and
+  what goes with the toggle, is in `docs/DEPLOY-RUNBOOK.md`.
 
 ### What closes the discussion
 
@@ -205,6 +207,11 @@ second accent, which nothing so far does.
 ---
 
 ## What gets built, after both discussions
+
+**Where the building has got to, 16 September.** The machine serves the welcome
+page over its own certificate, and the deploy and its undo are built, rehearsed
+and written down in `docs/DEPLOY-RUNBOOK.md`. Everything below is still to do,
+and all of it needs a working Resend key.
 
 The whole of it, from `PLAN.md`:
 
