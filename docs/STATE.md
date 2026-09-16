@@ -7,8 +7,8 @@ Updated: 2026-09-16
 **Phase 0, the dataset, and Phase 1, the site, are both closed.** At
 `legislativedata.org` someone can apply, you approve or refuse them, and they
 sign in with a code by email; the privacy page says what is held. **Phase 2,
-the data published, is open**, and its plan is a first draft nobody has checked.
-The arc is in `docs/PLAN.md`.
+the data published, is open.** Its plan has been checked and redrafted, and
+waits for your review. The arc is in `docs/PLAN.md`.
 
 The dataset, unchanged and not moving:
 
@@ -30,32 +30,36 @@ provenance notes. **The error checker and the gaps list are both empty.**
 - **10–15 September.** The database built, every session read in, reviewed,
   promoted and closed; Phase 1's scoping discussions settled.
 - **16 September.** The site live, the accounts built and backed up by theme,
-  every part tested by you and Phase 1 closed on a test run by another session.
+  and Phase 1 closed on a test run by another session. Phase 2 opened, beta users
+  only, and its plan drafted.
 
-**16 September, this session. Phase 2 opened, and its plan drafted.**
+**16 September, this session. Phase 2's plan checked, redrafted, and the
+research commissioned.**
 
-- **Phase 2 publishes to approved beta users only**, so what access becomes
-  after beta stays parked.
-- **Nothing is built until four pieces of groundwork are done**, each a
-  briefing you read and decide: what the published copy is and how it relates
-  to the working database; what goes with a download, researched from outside
-  practice; every chart and table written out, query included, before it is
-  drawn; and how the working is shown on a page.
-- **Your list of charts is in the plan**: outcomes, time to pass in four
-  intervals, the quickest and slowest bills, and bills introduced by quarter of
-  a session. Checked: all of it can be built from what we hold.
-- **The plan is `docs/PHASE-2.md`**, written for sessions rather than for you.
+- **The check found ten things**, in `docs/PHASE-2-CHECK.md`. The biggest: the
+  order had files-or-a-database last when it decides what the published copy
+  is; the plan misworded your ruling on counting time, so that bills rejected at
+  Stage 1 would drop out; and M5 gives the Legal Continuity Bill's Supreme Court
+  ruling the 2021 date, when it was 13 December 2018. The bills are recorded
+  correctly; only the note is wrong, and it is untouched.
+- **The plan's second draft** writes every finding in as a proposal marked
+  *(check n)*, for you to accept or strike. Nothing in it is decided.
+- **External research comes before the plan is final**, by your direction. The
+  commission is `docs/PHASE-2-RESEARCH-COMMISSION.md`: three pieces, how a
+  dataset is handed to a researcher, the licence, and how others show the
+  working behind a figure. A fresh session runs each.
 
 Nothing in the dataset or the site changed.
 
 ## Now
 
-**The next session checks `docs/PHASE-2.md`**, having written none of it, and
-brings you what it finds. The plan's second version follows from that. Then the
-first briefing: the published copy.
+**You review `docs/PHASE-2.md` and the commission**, and say which research goes
+ahead. Then a fresh session runs the first piece agreed, one that wrote neither
+file.
 
 ## Waiting for you
 
+- **The plan's second draft and the research commission**, above.
 - **Who runs Phase 2's closing test**: a test account used by another session,
   or a real researcher you invite. Needed before that test is written, not now.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
@@ -72,11 +76,11 @@ first briefing: the published copy.
   the private notes; the cost could go beside it, if you want it recorded.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
   is deliberately outside version control and exists on this machine only.
-- **M5's wording has drifted in two sentences**, and **whether the other eleven
-  methodology notes should be cut the way M12 was.** No data is wrong either
-  way.
-- **Whether Session 5's four bills that ran out of time** should carry the note
-  Session 6's three now do.
+- **The methodology notes' open questions**: M5's wrong date and its two drifted
+  sentences; whether the other notes are cut the way M12 was; whether Session 5's
+  four bills that ran out of time carry Session 6's note; and the Robin Rigg
+  Act's note, which gives its Preliminary date and not its Consideration date.
+  The plan proposes all are settled before any note is published.
 - **Three counts of how many previous attempts there have been disagree**:
   `CLAUDE.md` says four died in the gap, you say this is the tenth, `PLAN.md`
   says nine before it.
@@ -84,13 +88,6 @@ first briefing: the published copy.
   arrives; **whether to rename the dates factsheet's file**; **which source
   settles a disagreement about what kind of bill it was**, none having arisen;
   and **whether to take a copy of the bills before a change that touches them**.
-
-## One small thing for you
-
-The Robin Rigg Act's own note names both its missing stages and gives one date —
-the Preliminary. It is incomplete rather than wrong, and mending it was not part
-of what we agreed, so it is untouched. Say if you want the Consideration date in
-it too, and it goes in next time Session 2 comes off.
 
 ---
 
@@ -120,19 +117,36 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-16, the session that opened Phase 2
+## Sanity check, 2026-09-16, the session that checked Phase 2's plan
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
   `STATE.md`.
 - **Both generated documents regenerated identical.**
-- **The counts match**: 470, 1291, 186, 13 notes, 474 lines, 19 tables; checker
-  and gaps list empty; no copy schema left in the working database.
+- **The counts match**: 470 bills, 1291 stage records, 186 provenance notes,
+  13 notes, 474 lines, 19 tables; checker and gaps list empty; only the `public`
+  schema in the working database.
 - **Every database sorted into a backup theme**: `postgres`, `accounts`,
   `legdata`.
-- **The site (`legislativedata`) and Caddy active, the page answering; the
-  backup's last run `success`.** The failed one-off unit is still listed.
+- **The site and Caddy active, the page answering; the backup's last run
+  `success`.** The failed one-off unit is still listed.
+
+## Checking Phase 2's plan: working detail, 16 September
+
+- **The SSH rate limit tripped during the sanity check**: the data dictionary's
+  run plus a few quick connections gave `Connection refused`. Waiting about 40
+  seconds cleared it. Send batch queries on standard input to one `psql`, which
+  is one connection.
+- **What already exists that the plan did not know about**: the views
+  `v_bill_stage_dates`, `v_bill_stage_durations`, `v_bill_total_duration`,
+  `v_stage_duration_summary` and `v_outcome_by_type`. Private Bill stages line
+  up by `stage_order`, as M2 says. Check 2 and check 4 rest on these.
+- **The M5 date** was confirmed against the Supreme Court's own case page,
+  `uksc-2018-0080`, judgment 13 December 2018. Bill 305's note correctly says the
+  fact sheet gives no date, and its `date_assent_blocked` is empty.
+- **Session 6 has 80 bills on the clean sheet and Session 7 one**, against 83 and
+  2 read in; the difference is the bills carried over (M6). Not a discrepancy.
 
 ## Opening Phase 2: working detail, 16 September
 
