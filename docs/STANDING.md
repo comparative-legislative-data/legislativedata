@@ -264,6 +264,9 @@ bring it across; nothing depends on it.
   box on its own. No data copy on the storage box holds the accounts.
 - **The backup's password has a copy off the machine**, held by the owner, and
   proved to open the backup; the same test refused a wrong password.
+- **The privacy page is live and true to the machine**: `tools/check_privacy.sh`
+  15 of 15 against the live release, shown failing on a page that did not exist
+  and on one changed word. The owner read it on the live site, 16 September.
 - **Accounts work end to end on the live site**, tested by the owner by hand:
   apply, see it on the admin screen, approve (the email arrives with no code),
   ask for a code by email, sign in, a non-owner cannot see the admin screen,

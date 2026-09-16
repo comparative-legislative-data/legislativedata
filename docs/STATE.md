@@ -4,13 +4,12 @@ Updated: 2026-09-16
 
 ## Where we've got to
 
-**Phase 0 — the dataset — is closed. Phase 1 is the site, and most of it is
-built.** At `legislativedata.org` someone can apply for an account, you approve
-or refuse them on the admin screen, the site emails them, and they sign in with
-a code by email and sign out. **You tested every step of that on the live site
-today.** What is left is the page saying what is held about a user, and closing
-the phase. The arc is in `docs/PLAN.md`; Phase 1's own plan is
-`docs/PHASE-1.md`.
+**Phase 0 — the dataset — is closed. Phase 1 is the site, and everything on its
+list is built.** At `legislativedata.org` someone can apply, you approve or
+refuse them, the site emails them, and they sign in with a code by email. The
+privacy page says what is held about them, and you have read it on the live
+site. **What is left is closing the phase.** The arc is in `docs/PLAN.md`;
+Phase 1's own plan is `docs/PHASE-1.md`.
 
 The dataset, unchanged and not moving while the site is built:
 
@@ -31,41 +30,39 @@ provenance notes. **The error checker and the gaps list are both empty.**
 
 - **10–15 September.** The database built, every session read in, reviewed,
   promoted and closed, and both of Phase 1's scoping discussions settled.
-- **16 September, earlier.** The site went live with its deploy and undo
-  rehearsed; it records nothing about a visitor; the accounts database built,
-  backed up and proved to come back.
+- **16 September, earlier.** The site live, recording nothing about a visitor;
+  the accounts database built and backed up; applying, approving, refusing,
+  deleting, codes by email, signing in and out, all tested by you.
 
-**16 September, this session. Accounts work, end to end.**
+**16 September, this session. The privacy page, and the backup by theme.**
 
-- **Applying, approving, refusing, deleting, a code by email, signing in and
-  signing out** are live. Each was checked on the machine by a check first shown
-  able to fail, and then tested by you.
-- **Your account exists**, and your way in without email: a session makes you
-  a code on the machine, and you type it on the ordinary page.
-- **Emails go through Resend** with a key that can only send.
-- **What you settled** is in `DECISIONS.md` under 16 September: a refused
-  application deleted once they are told; the address for deletion requests; no
-  email on applying; three codes an hour; the email sent before anything changes.
-- **Caught before they did harm:** the undo could go back to a version that was
-  never live; a form check would have refused every sign-in; an address would
-  have been written into the access log.
+- **The privacy page is live** at `/privacy`, linked first in every page's
+  header, naming you, with rights and complaints. A check on the machine proves
+  it is the settled wording word for word, and that what it says about the
+  cookie and codes matches the code. You read it on the live site.
+- **The backup is separated by theme**, as you directed: system, data and
+  accounts, each its own copy. The accounts are kept five weeks, the rest ten
+  years as before. Rehearsed, installed, and each theme restored from the
+  storage box on its own.
+- **Found and fixed: the backup's own password existed only on the machine.**
+  Losing the machine would have made the backup unreadable. You now hold a copy,
+  proved to open it.
+- **What you settled** is in `DECISIONS.md` under 16 September: the backup by
+  theme, and the privacy page, including your name on it as an exception to
+  keeping your details out of the repository.
 
 Nothing in the dataset changed.
 
-## Now: the page saying what is held
+## Now: before the first real applicant, then closing the phase
 
-The apply form says what applying keeps. Nothing yet says the rest: the one
-cookie signing in sets, how long codes and signed-in devices last, and that
-Resend sees addresses and keeps its own record of what it sent. **Anyone can
-apply from today**, so this comes next. It is public wording, so it comes to you
-in full before it is built.
+**First, the three older checks on the machine** (apply, sign-in, admin screen)
+refuse to run once anyone but you has an account. From the first application
+they could never be run again. They need the shape the privacy check already
+has: add one invented person, check, delete exactly that person, whoever else
+is there.
 
-**Before the first real applicant**, for whoever runs the session: the three
-checks on the machine refuse to run once anyone but you is in the accounts, so
-they need a different shape.
-
-Then the phase closes: a written test run by a session that did none of the
-work, the sweep of `PHASE-1.md`, and your sign-off.
+**Then the phase closes:** a written test, run by a session that did none of
+the work; the sweep of `PHASE-1.md`; and your sign-off.
 
 ## Waiting for you
 
@@ -76,6 +73,9 @@ work, the sweep of `PHASE-1.md`, and your sign-off.
   match the apply page's, and not yet agreed: "Signing in isn't possible right
   now. Please try again later."
 - **`site/.venv` on this Mac**, 22 MB, which nothing needs: delete it?
+- **Nothing on the server tidies up after itself**: 15 site releases kept,
+  never pruned, and a one-off check from earlier on 16 September listed as
+  failed. Harmless; say if you want them cleared.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
   is deliberately outside version control and exists on this machine only.
 - **M5's wording has drifted in two sentences**, and **whether the other eleven
@@ -126,30 +126,49 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-16, the session that built accounts end to end
+## Sanity check, 2026-09-16, the session that built the privacy page
 
-Run before the first reply, and again at the close.
+Run before the first reply.
 
-- **The counts match** `STATE.md`: 470 bills, 1291 stage records, 186 provenance
-  notes, 13 methodology notes, 474 staging lines; checker and gaps list empty; 19
-  tables, so no working copy inside the database. The same at the close.
-- **Both generated documents regenerated identical**, at the open and the close.
-- **The tree was clean and pushed at the start**, and the site, Caddy and the
-  backup timer running; at the close the same, and last night's backup
-  `success`.
-- **One contradiction found at the open**: `STATE.md` and `PHASE-1.md` asked the
-  owner's say-so for psycopg, which the 15 September stack decision had already
-  named. Confirmed by the owner and corrected.
-- **Found while working:** `STANDING.md` and `PLAN.md` still said web server logs
-  are kept 14 days; corrected. The 15 September decision said the owner's
-  address was in the private notes; it never was; corrected by a new entry.
-- **Went wrong this session, and said so:** a local copy of the site was started
-  on the owner's Mac unasked. The owner does not want the Mac used for this;
-  stopped, and saved to memory. The earlier quick checks on the Mac had also
-  added psycopg to `site/.venv`.
-- **At the close:** the accounts hold the owner only, with no signed-in device;
-  three spent codes from the owner's testing are removed the next time anyone
-  asks for or tries a code.
+- **Clean and pushed at the start**; the last commit's handover matched
+  `STATE.md`.
+- **Both generated documents regenerated identical.**
+- **The counts match**: 470 bills, 1291 stage records, 186 provenance notes, 13
+  methodology notes, 474 staging lines; checker and gaps list empty; 19 tables.
+- **The site, Caddy and the backup timer running**; the last backup `success`.
+- **One thing out of place, harmless:** a one-off check from 12:26 that day,
+  run as a transient unit and meant to fail (a login trying to reach the working
+  database), is still listed as failed on the machine. Added to "Waiting for you"
+  with the unpruned releases.
+- **Found while working, and put right:** the accounts were kept ten years in
+  the bills' backup; the backup's password had no copy off the machine; the
+  16 September sign-in decision would have kept the owner's name off the privacy
+  page, so the exception is recorded.
+
+## The privacy page and the backup by theme: working detail, 16 September
+
+**The record is in `docs/ACCOUNTS-RUNBOOK.md`**, "The backup" and "The privacy
+page, and its check", with every run. The proposals and the wording are
+`docs/PHASE-1-BACKUP-THEMES.md` and `docs/PHASE-1-WHAT-IS-HELD.md`, which go when
+the phase closes.
+
+- **Rehearse a backup change** with `tools/rehearse_backup_themes.sh` against a
+  throwaway store; never against the storage box, which other projects share.
+- **A new database about people** must be named in `ACCOUNTS_DATABASES` in
+  `deploy/legdata-backup` in the same change that makes it. The sanity check in
+  `CLAUDE.md` now asks.
+- **The privacy page states facts about the rest of the machine.** A change to
+  the cookie, the code limits, the log, Resend, or the accounts' backup changes
+  the page too, and `tools/check_privacy.sh` is run again.
+- **Two faults were in the checks, not the things checked**: the rehearsal gave
+  a script file and a store the same name, twice; the privacy check counted a
+  link that now appears twice on the apply page. Each fixed and the whole run
+  repeated.
+- **Auto mode blocked** testing the owner's copy of the backup password until
+  the owner switched to manual approval. The password never entered the
+  conversation.
+- **The owner's copy of the password** was moved off the Mac by the owner and
+  the file deleted; checked.
 
 ## Accounts end to end: working detail, 16 September
 
@@ -172,7 +191,7 @@ the phase closes. What a next session needs that those do not lead with:
 - **The two keys** are in `/var/lib/legislativedata/`, not in the backup, on
   purpose. The full-access Resend key in `~/.claude/legdata-resend` stays off the
   machine.
-- **13 releases on the machine**, never pruned.
+- **15 releases on the machine**, never pruned.
 - **`deploy/first_install.sh` is still untested as a file**, as recorded before.
 
 ## The first deploy: working detail, 16 September
