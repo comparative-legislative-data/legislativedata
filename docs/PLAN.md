@@ -134,6 +134,13 @@ argued about later.
 
 ## Phase 1 — the site
 
+**Closed 16 September 2026.** Live at `legislativedata.org`: applying, approving
+and refusing, a code by email, signing in and out, and the privacy page. Its test
+was run by a session that built none of it (`CLOSURE-TESTS.md`, "Phase 1 — the
+site"), and the plan swept and deleted. **The owner declined the sign-off that
+they can explain how it runs**, and the phase closed without it, on their
+decision. What it leaves for Phase 2, undecided, is in `STANDING.md`.
+
 **Delivers.** A place for the data to live. The site exists, is reachable, and
 has working accounts: somebody can apply, the owner can approve or refuse the
 application, and the approved person can sign in with a code sent to their

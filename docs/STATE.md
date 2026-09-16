@@ -4,14 +4,12 @@ Updated: 2026-09-16
 
 ## Where we've got to
 
-**Phase 0 — the dataset — is closed. Phase 1 is the site, and everything on its
-list is built.** At `legislativedata.org` someone can apply, you approve or
-refuse them, the site emails them, and they sign in with a code by email. The
-privacy page says what is held about them, and you have read it on the live
-site. **What is left is closing the phase.** The arc is in `docs/PLAN.md`;
-Phase 1's own plan is `docs/PHASE-1.md`.
+**Phase 0, the dataset, and Phase 1, the site, are both closed.** At
+`legislativedata.org` someone can apply, you approve or refuse them, and they
+sign in with a code by email; the privacy page says what is held. **Nothing is
+open.** The arc is in `docs/PLAN.md`.
 
-The dataset, unchanged and not moving while the site is built:
+The dataset, unchanged and not moving:
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
@@ -29,50 +27,38 @@ provenance notes. **The error checker and the gaps list are both empty.**
 ## What has been done
 
 - **10–15 September.** The database built, every session read in, reviewed,
-  promoted and closed, and both of Phase 1's scoping discussions settled.
-- **16 September, earlier.** The site live, recording nothing about a visitor;
-  the accounts database built and backed up; applying, approving, refusing,
-  deleting, codes by email, signing in and out, all tested by you.
-- **16 September, later.** The privacy page live and read by you; the backup
-  split into system, data and accounts, the accounts kept five weeks; you hold a
-  copy of the backup's password.
+  promoted and closed; Phase 1's scoping discussions settled.
+- **16 September.** The site live, the accounts built and backed up by theme,
+  every part tested by you, the privacy page read, the checks made safe for
+  real applicants.
 
-**16 September, this session. The server's checks survive the first applicant.**
+**16 September, this session. Phase 1 closed.**
 
-- **The checks for applying, signing in and the admin screen now run whoever
-  else has an account.** Before, the first real application would have stopped
-  them for good. Each makes its own invented people and deletes exactly those.
-- **Each also proves it left everyone else alone**: it notes who else is there,
-  their state and when it was decided, before and after, and passes only if
-  nothing changed. It says yes or no, never a name.
-- **Rehearsed with two invented stand-ins** for real people, one waiting and one
-  approved and signed in. All three checks passed, 21, 45 and 28 items, and the
-  stand-ins came through untouched. A copy doctored to approve a stand-in was
-  caught. Each check was also shown to fail when broken on purpose.
-- **Two faults in the first rehearsal**, neither in anything live: one in the
-  rehearsal's own set-up, one in the apply check. Both fixed and the whole run
-  repeated.
-- **The test that closes Phase 1 is written**, at the top of
-  `docs/CLOSURE-TESTS.md`, and not run: this session did Phase 1 work, so it
-  may not.
+- **The test run, by a session that built none of it.** All twenty of its own
+  items passed, including taking the site back a version and forward again for
+  real.
+- **The site was on the older version for about two minutes**, without the
+  privacy page, when a permission setting refused the deploy back. Nobody
+  applied in that time.
+- **You approved, signed in and out, deleted the test account, and read every
+  page.** You declined to explain how it runs; the phase closed without it, and
+  that is recorded as your decision.
+- **The plan and the eight briefing files are deleted.** The wording you
+  settled for every page and email is kept, alone, in `docs/wording/`. Nothing
+  else they held is lost: each piece is in the decisions, the standing notes or
+  a runbook.
+- **Nothing was decided about Phase 2**, as you said. What Phase 1 leaves open
+  for it is listed, undecided, in `docs/STANDING.md`.
+- **The site redeployed** because comments in its code changed; every check
+  run again against it first. No page reads differently.
 
-Nothing in the dataset changed, and nothing on the live site changed.
+Nothing in the dataset changed.
 
-## Now: closing Phase 1
+## Now
 
-Nothing is left to build. **The next session runs the phase's test**, "Phase 1
-— the site" at the top of `docs/CLOSURE-TESTS.md`. It must be a session that
-built nothing in Phase 1, which any new session is, provided it only runs it.
-
-- **Part A**, twenty items it runs itself. Its first five take the site back a
-  version and forward again, for under a minute, to prove the undo is real.
-- **Part B is yours**: approve an application, sign in and out on the live site;
-  read every page for data; say it looks as settled; and explain, without the
-  documents, how it runs.
-- **Part C is the sweep of `PHASE-1.md`.** One thing is known in advance: the
-  eight briefing files beside it hold the settled wording, and the site's code
-  and the privacy check point at them. The session brings you a proposal for
-  them before deleting any.
+**Nothing is open.** Phase 2, the data published, opens when you say so, in a
+session of its own. That session starts by writing Phase 2's plan, and takes up
+what `STANDING.md` lists as left for it.
 
 ## Waiting for you
 
@@ -83,9 +69,11 @@ built nothing in Phase 1, which any new session is, provided it only runs it.
   match the apply page's, and not yet agreed: "Signing in isn't possible right
   now. Please try again later."
 - **`site/.venv` on this Mac**, 22 MB, which nothing needs: delete it?
-- **Nothing on the server tidies up after itself**: 15 site releases kept,
+- **Nothing on the server tidies up after itself**: 19 site releases kept,
   never pruned, and a one-off check from earlier on 16 September listed as
   failed. Harmless; say if you want them cleared.
+- **The machine's monthly cost is written down nowhere.** Its renewal date is in
+  the private notes; the cost could go beside it, if you want it recorded.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
   is deliberately outside version control and exists on this machine only.
 - **M5's wording has drifted in two sentences**, and **whether the other eleven
@@ -136,24 +124,41 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-16, the session that reshaped the machine's checks
+## Sanity check, 2026-09-16, the session that closed Phase 1
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
-  `STATE.md`, and the newest decisions were all reflected in it.
-- **Both generated documents regenerated identical.**
-- **The counts match**: 470 bills, 1291 stage records, 186 provenance notes, 13
-  methodology notes, 474 staging lines, 19 tables; checker and gaps list empty;
-  no copy schema left in the working database.
-- **Every database on the machine is sorted into a backup theme**: `legdata`
-  (the working one), `accounts` (`ACCOUNTS_DATABASES`), `postgres`
-  (`NOT_BACKED_UP`).
-- **The site and Caddy active; the backup timer set**, its last run `success`.
-- **Nothing new out of place.** The failed one-off unit from 12:26 is still
-  listed, as already in "Waiting for you".
-- **The SSH limit bit again**: retrying a refused connection straight away kept
-  it refused. Waiting a full minute without trying cleared it.
+  `STATE.md`, and the newest decisions were reflected in it.
+- **Both generated documents regenerated identical**, the dictionary after one
+  refusal from the SSH limit and a minute's wait.
+- **The counts match**: 470, 1291, 186, 13 notes, 474 lines, 19 tables; checker
+  and gaps list empty; no copy schema left in the working database.
+- **Every database on the machine sorted into a backup theme.**
+- **The site and Caddy active; the backup's last run `success`.** The failed
+  one-off unit is still listed, as in "Waiting for you".
+
+## Closing Phase 1: working detail, 16 September
+
+**The record is `docs/CLOSURE-TESTS.md`, "Phase 1 — the site", "The run"**,
+with where every line of the plan and the briefings went. The decision is the
+newest entry in `DECISIONS.md`.
+
+- **Check the permission mode before rolling back.** Auto mode allowed
+  `deploy_site.sh --rollback` and then refused the deploy that puts the site
+  back, leaving the live site a version behind. It also refused a trial deploy
+  and a deliberately invalid form post. The owner switched to manual and the
+  session ran the rest. Never hand the owner the command instead; ask for the
+  mode change.
+- **A change to comments in `site/` is still a change to the site.** The live
+  release is compared with `site/` at the commit, so it is deployed with the
+  full routine, and the checks run against the staged release first.
+- **`deploy/legdata-owner-code` is installed on the machine**; change it and it
+  is reinstalled, and its hash compared with the commit. Its old installed copy
+  matched the old commit.
+- **19 releases on the machine now**, including two staged-only ones from the
+  test (`16-37-00Z`, `17-10-32Z`).
+- **zsh does not split a variable holding a list of files**; loop over them.
 
 ## The machine's checks with real people: working detail, 16 September
 
@@ -176,9 +181,8 @@ people in the accounts", and the decision is in `DECISIONS.md` the same day.
 ## The privacy page and the backup by theme: working detail, 16 September
 
 **The record is in `docs/ACCOUNTS-RUNBOOK.md`**, "The backup" and "The privacy
-page, and its check", with every run. The proposals and the wording are
-`docs/PHASE-1-BACKUP-THEMES.md` and `docs/PHASE-1-WHAT-IS-HELD.md`, which go when
-the phase closes.
+page, and its check", with every run. The privacy page's wording is
+`docs/wording/PRIVACY.md`; the proposals were deleted when Phase 1 closed.
 
 - **Rehearse a backup change** with `tools/rehearse_backup_themes.sh` against a
   throwaway store; never against the storage box, which other projects share.
@@ -203,9 +207,8 @@ the phase closes.
 **Everything is in `docs/ACCOUNTS-RUNBOOK.md`** (applying, signing in, the owner's
 way in, the admin screen and email, both keys, every check and its run) and
 `docs/DEPLOY-RUNBOOK.md` (the undo now reads `/srv/site/switched`). The wording
-and the owner's answers are in `docs/PHASE-1-APPLY.md`,
-`docs/PHASE-1-SIGN-IN.md` and `docs/PHASE-1-ADMIN-AND-EMAIL.md`, which go when
-the phase closes. What a next session needs that those do not lead with:
+is in `docs/wording/`, and the owner's answers in `DECISIONS.md`. What a next
+session needs that those do not lead with:
 
 - **Do not run anything on the owner's Mac** — no local server, no local tests.
   Checks run on the machine against a staged release.
@@ -219,7 +222,7 @@ the phase closes. What a next session needs that those do not lead with:
 - **The two keys** are in `/var/lib/legislativedata/`, not in the backup, on
   purpose. The full-access Resend key in `~/.claude/legdata-resend` stays off the
   machine.
-- **15 releases on the machine**, never pruned.
+- **Releases on the machine are never pruned.**
 - **`deploy/first_install.sh` is still untested as a file**, as recorded before.
 
 ## The first deploy: working detail, 16 September
@@ -276,7 +279,7 @@ site's own Settings has a Mode control, and rather than switch the owner's
 stored preference to see the light palette, the compiled CSS was fetched from
 the page and the custom-property blocks parsed out. That gave both ramps, the
 accent, the type scale and the spacing scale without touching their account.
-All of it is in `docs/PHASE-1-STYLE.md`.
+All of it is now in the site's stylesheet.
 
 **The machine was checked before the stack was recommended**, in one connection:
 no Node, no web server, Python 3.13, PostgreSQL 17 on localhost only. That is

@@ -377,6 +377,41 @@ checker 0, gaps 0, one person in the accounts.
 - **B4: declined by the owner.** `PLAN.md` makes it a condition of closing the
   phase; the phase closes without it, on the owner's decision.
 
+**Part C, the sweep.** Proposal put to the owner first. The owner agreed to all
+of it except anything settling Phase 2: "No decisions on phase 2 should be made
+at the end of this phase — that is for a new session." Three agents read the
+four briefings that were only to go, each reporting what no permanent home
+held; the rest was read by the runner.
+
+*`PHASE-1.md`, where each part went:*
+
+- The order, infrastructure then style → `DECISIONS.md` 2026-09-15, "Infrastructure is settled before style".
+- Where the front end runs, and the one-company rule → `DECISIONS.md` "The front end runs on the machine we already rent"; `STANDING.md` standing positions.
+- The renewal date "still to record" → stale; in the private notes. Dropped.
+- The three databases, the accounts in the backup from the first day → `DECISIONS.md` "Three databases"; `ACCOUNTS-RUNBOOK.md` "The backup".
+- Refreshing the published copy as a promotion step → `DECISIONS.md` "Three databases", and now `STANDING.md`'s "Three databases" position.
+- The data date → `DECISIONS.md` "Every page carries the date"; `STANDING.md`.
+- Publishing the bills as files → `DECISIONS.md` "Three databases"; now `STANDING.md`, left for Phase 2.
+- What is held about a user, the beta gate deferred, the domain and Cloudflare → `DECISIONS.md` 2026-09-15 and 16; `STANDING.md`; `PLAN.md` Phase 1.
+- The seven style questions and their answers → `DECISIONS.md` (item 17).
+- What style did not settle: chart colours and a second accent → `STANDING.md`, left for Phase 2. The wording of pages → written when built; now `docs/wording/`.
+- What gets built, the must-not, the temptation, how the phase closes, the sweep's homes → `PLAN.md` Phase 1 and "The phase plan, and throwing it away".
+- "What has been tried": empty. Status paragraphs: working detail, dropped.
+
+*The briefings:*
+
+- `-APPLY`, `-SIGN-IN`, `-ADMIN-AND-EMAIL`, `-WHAT-IS-HELD` → the wording, with its amendment dates, to `docs/wording/`. Every answer to their questions found in the four 2026-09-16 entries. The "Checked, and true" list → `ACCOUNTS-RUNBOOK.md` "The privacy page". Header wording and the apply page's last line moved to the pages they are on.
+- `-HOSTING`: 14 statements present, 17 working detail. Not held: the machine's monthly cost → to the owner.
+- `-WHAT-THE-SITE-READS`: the published copy read-only to the site, heavy use competing with loading → `STANDING.md`, left for Phase 2.
+- `-BACKUP-THEMES`: 22 present, 14 working detail. Not held: why five weeks → `DECISIONS.md` entry; never restored off the machine → `STANDING.md`; `restic rewrite` to take a database out of old copies → `ACCOUNTS-RUNBOOK.md`.
+- `-STYLE`: 35 of 37 values in the stylesheet; the light accent `#2f6cc4` recorded, its hover `#24559b` not → added to `DECISIONS.md`. Tones, second accent, and the forms' filled buttons against "text links rather than buttons" → `STANDING.md`. The example device texts → dropped; the stylesheet has the devices.
+
+*Everything that pointed at the files* — the site's comments, the three account checks and the privacy check, the backup rehearsal, the owner-code script, the stylesheet, the accounts runbook, `DECISIONS.md`'s style pointer — re-pointed, committed as `474e826`.
+
+*Because that changed the site's code*: staged `17-10-32Z`, rehearsal `200` and `200`; against it privacy FAIL at 2 broken then 15 of 15 with `docs/wording/PRIVACY.md`, apply 21, sign-in 45, admin 28, everyone else as they were, one person before and after. Deployed `17-11-22Z`, `200, 200, 301, 308, 200`, identical to `474e826` in all 23 files. The owner-code script reinstalled: the old installed copy matched the old commit, the new one matches the new, `700 root root`, and it parses.
+
+*Deleted:* `PHASE-1.md`, the eight briefings, and the sweep proposal.
+
 ### What this test does not check
 
 - **That the site is secure.** No one has reviewed the site's code or the
