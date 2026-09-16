@@ -10,8 +10,8 @@
 # at: once able to reach the accounts, once pointed at a database that does not
 # exist. The live site is not touched.
 #
-# The accounts hold real people. This refuses to start unless the accounts are
-# empty, prints counts and yes/no answers about the invented person only, and
+# The accounts hold real people. This refuses to start unless nobody but the
+# owner is in them, prints counts and yes/no answers about the invented person only, and
 # deletes that person and stops both copies whether it passes or fails.
 # docs/PHASE-1-APPLY.md says what the page must do; docs/ACCOUNTS-RUNBOOK.md
 # says how it was run.
@@ -31,7 +31,8 @@ pass() { n=$((n+1)); echo "PASS $n  $1"; }
 fail() { n=$((n+1)); echo "FAIL $n  $1"; failed=1; exit 1; }
 expect() { if [ "$2" = "$3" ]; then pass "$1"; else fail "$1 (got '$2', wanted '$3')"; fi; }
 
-people() { sql "select count(*) from person"; }
+# People other than the owner. The owner's account is left alone throughout.
+people() { sql "select count(*) from person where not is_owner"; }
 
 cleanup() {
   for port in $GOOD $BROKEN; do
@@ -48,7 +49,7 @@ cleanup() {
 
 [ -d "$REL" ] || { echo "Refusing: $REL is not a release on this machine."; exit 2; }
 before=$(people)
-[ "$before" = 0 ] || { echo "Refusing: the accounts hold $before people, not 0. This check runs only on empty accounts."; exit 2; }
+[ "$before" = 0 ] || { echo "Refusing: the accounts hold $before people besides the owner. This check runs only when there are none."; exit 2; }
 
 trap cleanup EXIT
 failed=1   # until the last item passes
@@ -92,7 +93,7 @@ expect "  lower case, tidied, no title, waiting" \
 
 r=$(post $G/apply --data-urlencode email=$PRACTICE --data-urlencode "name=Someone Else" --data-urlencode "position=Something else")
 expect "applying again looks the same"    "$r" "303 $G/apply/received"
-expect "  and changes nothing"            "$(sql "select count(*) || ':' || bool_and(name = 'Pat Practice') from person")" "1:true"
+expect "  and changes nothing"            "$(sql "select count(*) || ':' || bool_and(name = 'Pat Practice') from person where not is_owner")" "1:true"
 
 expect "the received page is there"       "$(code $G/apply/received)" 200
 expect "no cookie is set"                 "$(curl -sS -D - -o /dev/null -X POST $G/apply --data-urlencode email=$PRACTICE --data-urlencode name=Pat --data-urlencode position=Invented | grep -ci '^set-cookie')" 0

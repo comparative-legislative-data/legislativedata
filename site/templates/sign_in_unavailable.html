@@ -1,0 +1,21 @@
+{#
+  When the accounts cannot be reached while signing in or out. Not in the
+  settled wording of docs/PHASE-1-SIGN-IN.md; written to match the apply page's
+  equivalent and put to the owner on 2026-09-16.
+#}
+{% extends "base.html" %}
+
+{% block title %}Signing in isn't possible right now — {{ site_name }}{% endblock %}
+
+{% block main %}
+<div class="reading">
+
+  <p class="label">Accounts</p>
+  <h1>Signing in isn't possible right now</h1>
+
+  <div class="prose">
+    <p>Please try again later.</p>
+  </div>
+
+</div>
+{% endblock %}

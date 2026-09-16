@@ -194,6 +194,54 @@ folder the script was started from. Fixed by starting from inside the release;
 then it failed at item 1 with `404`, as it should. Then all 20 passed and the
 accounts were empty afterwards.
 
+## Signing in, and the owner's way in
+
+What it does and every word it says are `docs/PHASE-1-SIGN-IN.md`. Live: the
+page where a code is typed (`/sign-in/code`), signing out, and the signed-out
+page. **Off until the site can send email:** `/sign-in`, which asks for a code
+by email; `LEGSITE_SEND_CODES_OPEN=1` would turn it on and nothing sets it, and
+its sending is not built.
+
+**The key.** `/var/lib/legislativedata/code-key`, 64 hex characters, `root:legsite`,
+mode 640, in a folder only root and the site can open. Codes are kept as a
+scramble made with it and the person's number. It is **not in the backup**, on
+purpose: the backup takes `/etc` and `/srv/legdata`. If it is lost, codes made
+in the last 15 minutes stop working; make a new one by deleting the file and
+running `deploy/install_sign_in.sh`, which makes a key only where there is none.
+The site's health check says `503` if it cannot read the key, so a deploy
+without one does not go live.
+
+**The owner's account** was made on 2026-09-16 by `postgres`, with the SQL sent
+on standard input so the details are not in the machine's record of commands:
+`is_owner`, `approved`, decided the moment it was made. Its details are in the
+accounts database and nowhere in this repository.
+
+**The owner's way in:**
+
+    ~/.claude/legdata-vps 'sudo /usr/local/sbin/legdata-owner-code'
+
+prints a six-digit code and the time it stops working, and nothing about the
+owner. The owner types it at `https://legislativedata.org/sign-in/code` with
+their address. It replaces any code the owner already has; it can make a code
+for the owner's account and no other; it refuses if there is no owner. Its copy
+of record is `deploy/legdata-owner-code`, installed by `deploy/install_sign_in.sh`.
+
+**Tidying.** Codes that have run out or had five wrong tries, and devices past 30
+days, are deleted whenever anyone tries a code, not on a timer. A used code is
+deleted as it is used.
+
+**The check is `tools/check_sign_in.sh`**, run as root against a staged release,
+in one connection:
+
+    ~/.claude/legdata-vps 'cat > /tmp/check_sign_in.sh && sudo bash /tmp/check_sign_in.sh /srv/site/releases/<release>' < tools/check_sign_in.sh
+
+It uses two invented people at `example.org` and, if the owner's account exists,
+the owner's own command and code. It refuses to start if anyone but the owner is
+in the accounts, or the owner has a code or a signed-in device — so **the owner
+must be signed out everywhere before it runs**. It prints counts and yes/no
+answers only, never a code or the owner's address, and deletes everything it
+made whether it passes or fails. With `BREAK=1` it must fail at item 7.
+
 ## The undo, once there are real people
 
 `db/accounts/001_undo.sql` drops the database. **Once anyone real has applied,

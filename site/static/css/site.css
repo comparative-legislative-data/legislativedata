@@ -336,6 +336,23 @@ h2 {
 }
 .keeps li { margin-bottom: var(--s2); }
 
+/* Signed in, in the top bar. Signing out is a button made to read as a link,
+   because it changes something and a link must not. */
+.signed-in { color: var(--text-muted); }
+.sign-out { display: inline; margin: 0; }
+.sign-out button {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.sign-out button:hover { color: var(--accent-hover); }
+
 /* ---- Footer ------------------------------------------------------------- */
 
 .foot {

@@ -1,0 +1,43 @@
+{#
+  Typing a code. The one page every sign-in goes through, the owner's included.
+  Wording from docs/PHASE-1-SIGN-IN.md, settled 2026-09-16. When a code does
+  not work the page says the same thing whatever the reason.
+#}
+{% extends "base.html" %}
+
+{% block title %}Enter your code — {{ site_name }}{% endblock %}
+
+{% block main %}
+<div class="reading">
+
+  <p class="label">Accounts</p>
+  <h1>Enter your code</h1>
+
+  <div class="prose">
+    <p>If that address has an account, a code has been sent to it. It works once, within 15 minutes.</p>
+  </div>
+
+  {% if failed %}
+  <div class="problems" role="alert">
+    <p>That code didn't work. Codes work once, within 15 minutes, and stop after five wrong tries.</p>
+  </div>
+  {% endif %}
+
+  <form class="form" method="post" action="{{ url_for('sign_in_code') }}" novalidate>
+    <div class="field">
+      <label for="email">Email address</label>
+      <input type="email" id="email" name="email" autocomplete="email" maxlength="300" value="{{ email }}">
+    </div>
+    <div class="field">
+      <label for="code">Code</label>
+      <p class="hint" id="code-hint">Six digits.</p>
+      <input type="text" id="code" name="code" inputmode="numeric" autocomplete="one-time-code"
+             maxlength="20" aria-describedby="code-hint">
+    </div>
+    <button class="button" type="submit">Sign in</button>
+  </form>
+
+  <p class="hint">If nothing has arrived, check your junk folder.</p>
+
+</div>
+{% endblock %}

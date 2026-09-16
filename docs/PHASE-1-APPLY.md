@@ -151,8 +151,12 @@ data, and what an account gets is not settled.
 > Thank you. Your application will be read by hand, and you will be emailed at
 > that address when it has been decided.
 >
-> If that address has applied before, nothing has changed and you do not need
-> to apply again.
+> If that address is already waiting for a decision or has an account, nothing
+> has changed and you do not need to apply again.
+
+**Amended by the owner, 16 September**, `PHASE-1-SIGN-IN.md` point 7. It read
+"If that address has applied before", which stopped being true once a refused
+application is deleted.
 
 ### When something is wrong with the form
 

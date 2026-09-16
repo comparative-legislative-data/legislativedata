@@ -318,10 +318,17 @@ It has three tabs.
 Take an invented applicant, Dr A. Example. They fill in the form on the site,
 and a row appears on the `person` tab: their email, name, title and position,
 marked `applied`, with the date. You approve them on the admin screen; the row
-now says `approved`, with the date you decided. They ask for a code, and a row
-appears on `sign_in_code` that works for fifteen minutes and once. They type it
-in, and a row appears on `signed_in_device`, which keeps that browser signed in
-for thirty days or until they sign out, when the row goes. Delete their row on
+now says `approved`, with the date you decided. (Had you refused them, the row
+would go once they had been told.) They ask for a code, and a row appears on
+`sign_in_code` that works once, within fifteen minutes, and stops after five
+wrong tries. They type it in, the code's row goes, and a row appears on
+`signed_in_device`, which keeps that browser signed in for thirty days or until
+they sign out, when that row goes too.
+
+**Your own row was made on the machine**, marked as the owner. When you need to
+get in without email, a session runs a command that puts a code on
+`sign_in_code` for you and shows it, and you type it on the same page as
+everyone else. Delete their row on
 `person` and their codes and devices go with it, and nothing about them is left.
 
 **Two things are deliberate.** The website can open this workbook and cannot
@@ -329,12 +336,16 @@ open the bills workbook at all; it was tried and refused. And the website cannot
 mark anyone as the owner — that is set on the machine.
 
 The codes and the signed-in markers are never stored as themselves, only as a
-one-way scramble, so reading the workbook does not let anyone sign in. Both
+one-way scramble, so reading the workbook does not let anyone sign in. The codes'
+scramble uses a key kept in a file on the machine, outside the workbook and
+outside the backup, because a six-digit code could otherwise be worked out from
+its scramble. Both
 workbooks are in the nightly backup, and the backup now takes every workbook on
 the machine unless one is named as left out on purpose.
 
 You will not normally open it. Its rows are real people, and none of them goes
-into a document or a conversation.
+into a document or a conversation, except your own details when you choose to
+give them.
 
 ## 6. Words you will meet in Postico
 

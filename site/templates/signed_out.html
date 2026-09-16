@@ -1,0 +1,19 @@
+{#
+  After signing out. Wording from docs/PHASE-1-SIGN-IN.md, settled 2026-09-16.
+#}
+{% extends "base.html" %}
+
+{% block title %}Signed out — {{ site_name }}{% endblock %}
+
+{% block main %}
+<div class="reading">
+
+  <p class="label">Accounts</p>
+  <h1>Signed out</h1>
+
+  <div class="prose">
+    <p>You are signed out on this device. Anywhere else you are signed in stays signed in.</p>
+  </div>
+
+</div>
+{% endblock %}

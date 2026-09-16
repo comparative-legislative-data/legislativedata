@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+"""The owner's way in that does not depend on email.
+
+Makes a sign-in code for the owner's account and prints it. The code is typed on
+the ordinary page, https://legislativedata.org/sign-in/code, with the owner's
+address: the same page, the same checks and the same limits as a code sent by
+email. It works once, within 15 minutes, and stops after five wrong tries.
+
+It can make a code for the owner's account and no other, and it removes any code
+the owner already has, so there is only ever one. Settled by the owner on
+2026-09-16; see docs/PHASE-1-SIGN-IN.md and docs/ACCOUNTS-RUNBOOK.md.
+
+Installed at /usr/local/sbin/legdata-owner-code, root only. Takes no arguments.
+Prints the code and when it stops working; never the owner's address or name.
+"""
+import hashlib
+import hmac
+import secrets
+import subprocess
+import sys
+
+KEY_FILE = "/var/lib/legislativedata/code-key"
+
+
+def psql(sql):
+    # The SQL goes in on standard input, so nothing in it reaches the system's
+    # record of commands run with sudo. Every value in it is digits or hex.
+    r = subprocess.run(["sudo", "-u", "postgres", "psql", "-X", "-q", "-At",
+                        "-v", "ON_ERROR_STOP=1", "-d", "accounts"],
+                       input=sql, capture_output=True, text=True)
+    if r.returncode != 0:
+        sys.exit("Refusing: the accounts database said no. Nothing was made.")
+    return r.stdout.strip()
+
+
+if len(sys.argv) > 1:
+    sys.exit("Takes no arguments. Nothing was made.")
+
+try:
+    with open(KEY_FILE) as f:
+        key = bytes.fromhex(f.read().strip())
+except (OSError, ValueError):
+    sys.exit(f"Refusing: cannot read the key at {KEY_FILE}. Nothing was made.")
+
+owners = psql("SELECT person_id FROM person WHERE is_owner AND state = 'approved';").split()
+if len(owners) != 1:
+    sys.exit("Refusing: there is no owner's account. Nothing was made.")
+person_id = int(owners[0])
+
+code = f"{secrets.randbelow(10**6):06d}"
+scramble = hmac.new(key, f"{person_id}:{code}".encode(), hashlib.sha256).hexdigest()
+
+until = psql(f"""
+BEGIN;
+DELETE FROM sign_in_code WHERE person_id = {person_id};
+INSERT INTO sign_in_code (person_id, code_hash, expires_at)
+     VALUES ({person_id}, '{scramble}', now() + interval '15 minutes')
+  RETURNING to_char(expires_at AT TIME ZONE 'UTC', 'HH24:MI "UTC"');
+COMMIT;
+""")
+
+print(f"Code: {code}")
+print(f"Works once, until {until}, at https://legislativedata.org/sign-in/code")

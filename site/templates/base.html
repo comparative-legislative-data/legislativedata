@@ -24,7 +24,15 @@
   <div class="topbar-inner">
     <a class="wordmark" href="/">legislativedata<span class="wordmark-tail">.org</span></a>
     <nav>
-      {% block nav %}{% if apply_open %}<a href="{{ url_for('apply') }}">Apply for an account</a>{% endif %}{% endblock %}
+      {% block nav %}
+      {% if signed_in_name %}
+        {# "Signed in as [name] · Sign out", docs/PHASE-1-SIGN-IN.md. Signing
+           out changes something, so it is a form, not a link. #}
+        <span class="signed-in">Signed in as {{ signed_in_name }} · <form class="sign-out" method="post" action="{{ url_for('sign_out') }}"><button type="submit">Sign out</button></form></span>
+      {% elif apply_open %}
+        <a href="{{ url_for('apply') }}">Apply for an account</a>
+      {% endif %}
+      {% endblock %}
     </nav>
   </div>
 </header>

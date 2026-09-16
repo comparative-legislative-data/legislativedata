@@ -12,7 +12,7 @@ from".
 import os
 import re
 
-from flask import Flask, abort, redirect, render_template, request, url_for
+from flask import Flask, abort, g, redirect, render_template, request, url_for
 
 import accounts
 
@@ -34,6 +34,28 @@ NO_DATA_YET = "No data published yet"
 # out, not flipped.
 APPLY_OPEN = os.environ.get("LEGSITE_APPLY_OPEN") == "1"
 
+# The page that emails a code. Built with the rest of signing in, but off until
+# the site can send email, which is its own step. Settled 2026-09-16.
+SEND_CODES_OPEN = os.environ.get("LEGSITE_SEND_CODES_OPEN") == "1"
+
+# The name of the one cookie the site sets, and only on signing in.
+DEVICE_COOKIE = "signed_in"
+
+
+@app.before_request
+def who_is_this():
+    """Signed in or not, for every page. A browser with no marker costs nothing;
+    one with a marker is looked up. Nothing about the request is recorded."""
+    g.signed_in = accounts.signed_in_as(request.cookies.get(DEVICE_COOKIE))
+
+
+# Forms sent from other sites are not refused by checking where they came from.
+# The site tells browsers never to pass on where a reader came from, and under
+# that setting browsers send "null" for this site's own forms too, so such a
+# check would refuse everyone or no one. What protects a signed-in person is the
+# cookie itself: it is marked so that browsers do not send it with a form from
+# another site, and every form here that matters needs it.
+
 
 @app.context_processor
 def shell():
@@ -42,6 +64,7 @@ def shell():
         "site_name": SITE_NAME,
         "data_date_line": NO_DATA_YET,
         "apply_open": APPLY_OPEN,
+        "signed_in_name": g.signed_in[0] if g.get("signed_in") else None,
     }
 
 
@@ -54,12 +77,14 @@ def welcome():
 def health():
     """What the deploy checks against.
 
-    Healthy means the site is running and can read the accounts, because a site
-    that cannot is one nobody can apply or sign in to. Says nothing about the
-    data or about anyone in the accounts.
+    Healthy means the site is running, can read the accounts, and can read the
+    key codes are scrambled with, because without any of those nobody can apply
+    or sign in. Says nothing about the data or about anyone in the accounts.
     """
     if not accounts.reachable():
         return "accounts unreachable\n", 503, {"Content-Type": "text/plain; charset=utf-8"}
+    if not accounts.key_readable():
+        return "code key unreadable\n", 503, {"Content-Type": "text/plain; charset=utf-8"}
     return "ok\n", 200, {"Content-Type": "text/plain; charset=utf-8"}
 
 
@@ -141,6 +166,63 @@ def apply_received():
     if not APPLY_OPEN:
         abort(404)
     return render_template("apply_received.html")
+
+
+# ---- Signing in and out ---------------------------------------------------------
+#
+# Wording and behaviour are docs/PHASE-1-SIGN-IN.md, settled by the owner on
+# 2026-09-16. A code reaches a person by email, or, for the owner only, from a
+# command on the machine; either way it is typed here, so there is no way in
+# that only one person can use.
+
+CODE_SHAPE = re.compile(r"^[0-9]{6}$")
+
+
+@app.route("/sign-in")
+def sign_in():
+    if not SEND_CODES_OPEN:
+        abort(404)
+    return render_template("sign_in.html")
+
+
+@app.route("/sign-in/code", methods=["GET", "POST"])
+def sign_in_code():
+    if request.method == "GET":
+        return render_template("sign_in_code.html", email="", failed=False)
+
+    email = tidy(request.form.get("email")).lower()
+    # People copy codes with spaces in them; nothing else is forgiven.
+    code = "".join((request.form.get("code") or "").split())
+
+    marker = None
+    if EMAIL_SHAPE.match(email) and CODE_SHAPE.match(code):
+        try:
+            marker = accounts.sign_in(email, code)
+        except accounts.Unavailable:
+            return render_template("sign_in_unavailable.html"), 503
+    if marker is None:
+        return render_template("sign_in_code.html", email=email, failed=True), 400
+
+    response = redirect(url_for("welcome"), code=303)
+    response.set_cookie(DEVICE_COOKIE, marker, max_age=accounts.DEVICE_DAYS * 24 * 3600,
+                        secure=True, httponly=True, samesite="Lax", path="/")
+    return response
+
+
+@app.route("/sign-out", methods=["POST"])
+def sign_out():
+    try:
+        accounts.sign_out(request.cookies.get(DEVICE_COOKIE))
+    except accounts.Unavailable:
+        return render_template("sign_in_unavailable.html"), 503
+    response = redirect(url_for("signed_out"), code=303)
+    response.delete_cookie(DEVICE_COOKIE, path="/", secure=True, httponly=True, samesite="Lax")
+    return response
+
+
+@app.route("/signed-out")
+def signed_out():
+    return render_template("signed_out.html")
 
 
 if __name__ == "__main__":

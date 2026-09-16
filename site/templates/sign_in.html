@@ -1,0 +1,29 @@
+{#
+  Asking for a code by email. Built, but off until the site can send email.
+  Wording from docs/PHASE-1-SIGN-IN.md, settled 2026-09-16. The form is sent
+  nowhere yet: the sending is the email step, and is built there.
+#}
+{% extends "base.html" %}
+
+{% block title %}Sign in — {{ site_name }}{% endblock %}
+
+{% block main %}
+<div class="reading">
+
+  <p class="label">Accounts</p>
+  <h1>Sign in</h1>
+
+  <div class="prose">
+    <p>There are no passwords. Enter your email address and a code will be sent to it. The code works once, within 15 minutes.</p>
+  </div>
+
+  <form class="form" method="post" action="{{ url_for('sign_in') }}" novalidate>
+    <div class="field">
+      <label for="email">Email address</label>
+      <input type="email" id="email" name="email" autocomplete="email" maxlength="300">
+    </div>
+    <button class="button" type="submit">Send me a code</button>
+  </form>
+
+</div>
+{% endblock %}
