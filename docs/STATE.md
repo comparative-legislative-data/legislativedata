@@ -52,18 +52,27 @@ provenance notes. **The error checker and the gaps list are both empty.**
 - **Two faults in the first rehearsal**, neither in anything live: one in the
   rehearsal's own set-up, one in the apply check. Both fixed and the whole run
   repeated.
+- **The test that closes Phase 1 is written**, at the top of
+  `docs/CLOSURE-TESTS.md`, and not run: this session did Phase 1 work, so it
+  may not.
 
 Nothing in the dataset changed, and nothing on the live site changed.
 
 ## Now: closing Phase 1
 
-Nothing is left to build. What closes the phase, from `PHASE-1.md`:
+Nothing is left to build. **The next session runs the phase's test**, "Phase 1
+— the site" at the top of `docs/CLOSURE-TESTS.md`. It must be a session that
+built nothing in Phase 1, which any new session is, provided it only runs it.
 
-1. **A written test of the phase**, written by a session that did the work, and
-   run by a session that did none of it.
-2. **That second session sweeps `PHASE-1.md`**: every line to its new home, then
-   the file deleted.
-3. **Your sign-off** that you can explain what was built and how it runs.
+- **Part A**, twenty items it runs itself. Its first five take the site back a
+  version and forward again, for under a minute, to prove the undo is real.
+- **Part B is yours**: approve an application, sign in and out on the live site;
+  read every page for data; say it looks as settled; and explain, without the
+  documents, how it runs.
+- **Part C is the sweep of `PHASE-1.md`.** One thing is known in advance: the
+  eight briefing files beside it hold the settled wording, and the site's code
+  and the privacy check point at them. The session brings you a proposal for
+  them before deleting any.
 
 ## Waiting for you
 

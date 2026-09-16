@@ -30,6 +30,300 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Phase 1 — the site
+
+Written 2026-09-16 by a session that did Phase 1 work: it reshaped the machine's
+apply, sign-in and admin checks. **It has not been run.** It is run by a session
+that built nothing in Phase 1, and that same session then does the sweep in
+Part C. The owner does Part B.
+
+**What closes the phase**, from `PLAN.md`, "Phase 1 — the site", "Closes when",
+and `PHASE-1.md`, "How the phase closes": the owner can approve a beta
+application on the site, sign in with a code, and sign out; the infrastructure
+and style decisions are recorded; a written test has been run by a session that
+did none of the work; that session sweeps and deletes `docs/PHASE-1.md`; the
+owner signs off that they can explain what was built and how it runs. This test
+also checks what the phase **must not** do, from the same section: publish any
+data, take on tools for users to build things, or take on new data.
+
+**Its rows are real people.** From the first application onwards the accounts
+hold data about people. Every item below looks at counts, yes/no answers, or
+invented people. No row, email or name from the accounts comes into the
+conversation, a document or a commit, including when an item fails.
+
+**What to expect before starting.** At the time of writing: 470 bills, 1291
+stage records, 186 provenance notes, 13 methodology notes, 474 staging lines,
+an empty error checker and gaps list. The accounts hold the owner and nobody
+else; **by the time this runs they may hold real people**, and nothing below
+depends on how many. The live release was `2026-09-16T16-01-09Z`; site code last
+changed in commit `1f4082c`.
+
+**Mind the SSH limit**: a seventh connection inside 30 seconds is refused, and
+retrying straight away keeps it refused. Send files and run them in one
+connection, and after a refusal wait a full minute without trying.
+`docs/STANDING.md`, "Connecting to the database".
+
+**What an outside change can move.** A deploy moves items 3, 4 and 5 (which
+release is live). An application moves nothing here except the owner's account
+numbers in Part B. A backup run moves item 15's snapshot dates. Anything else
+changing is a finding.
+
+### Part A — mechanical
+
+**The deploy and its undo, done for real.** Items 1–5 change which release is
+live for under a minute. Do them first, so that every later item looks at the
+release they leave live. Do them when the owner is not signing in.
+
+1. **The site as a reader gets it.** From the Mac: `https://legislativedata.org/`
+   `200`; `https://www.legislativedata.org/` `301` to the bare name;
+   `http://legislativedata.org/` `308` to `https`; the stylesheet
+   (`/static/css/site.css`) `200`. The certificate's end date is after today.
+   *Where from:* `DEPLOY-RUNBOOK.md`, "What the five lines at step 5 should
+   say"; `DECISIONS.md` 2026-09-16, "Traffic comes straight to the machine".
+
+2. **What is live is what was committed.** `/srv/site/current` points at the
+   last line of `/srv/site/switched`. Every file in that release, leaving out
+   `.venv` and `__pycache__`, is identical to `site/` at the commit being tested,
+   and neither has a file the other lacks.
+   *Where from:* `DEPLOY-RUNBOOK.md`, "Nothing is edited on the machine".
+
+3. **The undo works.** Note the line before last in `/srv/site/switched`. Run
+   `tools/deploy_site.sh --rollback`. It must print `health after rollback: 200`,
+   `https apex after rollback: 200`, and `current ->` that noted release.
+   *Where from:* `DEPLOY-RUNBOOK.md`, "The undo".
+
+4. **A deploy works, and puts it back.** Straight after item 3, run
+   `tools/deploy_site.sh` from the commit being tested. Step 3 must show `200`
+   for both health and home page; step 5 the five lines of item 1, with `200`
+   for the app on this machine. `/srv/site/current` then points at the new
+   release, which is the new last line of `/srv/site/switched`, and item 2 holds
+   for it.
+   *Where from:* `DEPLOY-RUNBOOK.md`, "A normal deploy".
+
+5. **A staged release does not go live.** `tools/deploy_site.sh --stage-only`:
+   its rehearsal shows `200` and `200`; afterwards `/srv/site/current` still
+   points at item 4's release and `/srv/site/switched` has not grown.
+   *Where from:* `DEPLOY-RUNBOOK.md`, "To rehearse without switching".
+
+**The pages, and that none carries data.**
+
+6. **The pages the phase delivers exist, and nothing else answers.** Not signed
+   in: `/`, `/privacy`, `/apply`, `/apply/received`, `/sign-in`, `/sign-in/code`
+   and `/signed-out` are `200`; `/admin` is `404`; `/health` is `200`.
+   `/bills`, `/data`, `/download`, `/api` and `/charts` are `404`.
+   *Where from:* `PLAN.md`, Phase 1 "Delivers": apply, approve or refuse on an
+   admin screen only the owner sees, a code by email, signed in as themselves,
+   sign out, a welcome; and the page saying what is held, added by
+   `DECISIONS.md` 2026-09-15, "No passwords". The five `404`s are the "Must not".
+
+7. **Every page says there is no data.** Each `200` page in item 6 except
+   `/health` carries, in its footer, exactly `No data published yet`.
+   *Where from:* `DECISIONS.md` 2026-09-15, "Every page carries the date of the
+   data it was built from", with no data published in Phase 1 (`PLAN.md`).
+
+8. **The site cannot read the bills.** On the machine:
+   `sudo -u legsite psql -X -d legdata -c 'select 1'` is refused with
+   `permission denied for database "legdata"`. The databases on the machine are
+   exactly `accounts`, `legdata`, `postgres`, `template0`, `template1`: no
+   published database exists yet. Under `/srv/site/current`, no file names
+   `legdata` as a database to connect to.
+   *Where from:* `DECISIONS.md` 2026-09-15, "Three databases" (the site never
+   sees the working one) and `PLAN.md` Phase 1 "Must not" (no data, so nothing
+   to publish from); `ACCOUNTS-RUNBOOK.md`, "When the published database is
+   made".
+
+9. **The working database cannot be reached from the internet.** From the Mac,
+   a connection to `legislativedata.org` on port 5432 fails, and so does one on
+   port 8000. On the machine, PostgreSQL listens on loopback only.
+   *Where from:* `DECISIONS.md` 2026-09-15, "The working database is never
+   reachable from the public internet"; `DEPLOY-RUNBOOK.md`, gunicorn "listens
+   only to this machine".
+
+**What is held about a person, and nothing more.**
+
+10. **The accounts hold what was settled, and no more.** In `accounts`, the
+    tables are exactly `person`, `sign_in_code`, `signed_in_device`. `person`'s
+    columns are exactly `person_id`, `email`, `name`, `title`, `position`,
+    `state`, `applied_at`, `decided_at`, `is_owner`. No column in any table has
+    a name containing `password`, `ip`, `address`, `agent` or `page`. Read from
+    the catalogue, never a row.
+    *Where from:* `DECISIONS.md` 2026-09-15, "No passwords; what is held about a
+    user, in full" (email, name, title, position, state and the dates; never a
+    password or what anyone read).
+
+11. **The site's login can do only what it should.** On `accounts`, as
+    `postgres`: `has_column_privilege('legsite', 'person', 'is_owner', 'UPDATE')`
+    and `has_column_privilege('legsite', 'person', 'email', 'UPDATE')` are both
+    false; `has_database_privilege('legsite', 'legdata', 'CONNECT')` is false.
+    *Where from:* `ACCOUNTS-RUNBOOK.md`, "What exists"; `DECISIONS.md` 2026-09-15,
+    "The owner's account is the superuser" (set on the machine, not the site).
+
+12. **A visitor is given no cookie and nothing about them is logged.** Not
+    signed in, no page in item 6 sends a `Set-Cookie` header, and a `POST` to
+    `/apply` with an invented address that fails the form sends none either.
+    After those requests, the two commands in `DEPLOY-RUNBOOK.md`, "What the log
+    records", both give `0`.
+    *Where from:* `DECISIONS.md` 2026-09-16, "The site records nothing about a
+    visitor"; "Applying for an account" (no cookie).
+
+13. **The four checks pass on the live release, with whoever is in the
+    accounts.** Run each against item 4's release as `ACCOUNTS-RUNBOOK.md`
+    says, `BREAK=1` first:
+    - `tools/check_apply.sh`: broken, FAIL at item 1; then `All 21 pass`.
+    - `tools/check_sign_in.sh`: broken, FAIL at item 7; then `All 45 pass`.
+      Refuses if the owner has a code still working: wait 15 minutes and rerun.
+    - `tools/check_admin.sh`: broken, FAIL at item 1; then `All 28 pass`.
+    - `tools/check_privacy.sh`, with `docs/PHASE-1-WHAT-IS-HELD.md`: broken,
+      FAIL at item 2; then `All 15 pass`.
+
+    Every clean-up line says nothing invented is left, and the first three say
+    `everyone else as they were: yes`, broken runs included. Afterwards the
+    number of people in the accounts is what it was before item 13.
+    *Where from:* `ACCOUNTS-RUNBOOK.md`, each check's section, and "The three
+    checks, with real people in the accounts". **These totals were set by the
+    sessions that built the checks**, so a pass here says the checks still hold
+    on the live site, not that they check the right things. That was the
+    owner's hand test (`STANDING.md`, 2026-09-16), and is Part B's item B1 again.
+
+**The backup, with people in it.**
+
+14. **Every database is sorted into a backup theme.** Each database in item 8
+    other than `template0` and `template1` is the working one, or named in
+    `ACCOUNTS_DATABASES` or `NOT_BACKED_UP` in `deploy/legdata-backup`, and the
+    installed `/usr/local/sbin/legdata-backup` is identical to that file.
+    *Where from:* `DECISIONS.md` 2026-09-16, "The backup is separated by theme".
+
+15. **The backup runs and comes back.** `legdata-backup.timer` is active; the
+    last run's result is `success`; the newest `system`, `data` and `accounts`
+    snapshots on the storage box are each from the last run. Then
+    `tools/restore_check.sh`, as `ACCOUNTS-RUNBOOK.md`, "The restore check",
+    says: neither copy holds the other's database; the site's login saved; its
+    permissions intact; 21 of 21 accounts columns described; 470, 1291, 186, 13,
+    474, checker 0, gaps 0; cleaned up, the databases as in item 8, and
+    `/tmp/restore-check` gone.
+    *Where from:* the same entry; `ACCOUNTS-RUNBOOK.md`, "The restore check".
+
+**What is recorded.**
+
+16. **The infrastructure decisions are recorded.** `DECISIONS.md`'s contents
+    list each of these headings, word for word: "The working database is never
+    reachable from the public internet"; "The front end runs on the machine we
+    already rent"; "Three databases: the working one, the published one, and
+    the accounts"; "No passwords; what is held about a user, in full"; "What
+    access becomes after beta is deliberately deferred"; "The owner's account is
+    the superuser, and applications are managed on the site"; "The site records
+    nothing about a visitor"; "Traffic comes straight to the machine; Cloudflare
+    holds the name only". And `tools/make_decisions_index.py` changes nothing.
+    *Where from:* `PLAN.md`, Phase 1, "Infrastructure — settled 2026-09-15": the
+    front end, what the site reads, what is held, the domain and its proxy
+    question, and the beta gate deferred.
+
+17. **The style decisions are recorded.** Each of `PHASE-1.md`'s seven style
+    questions has its entry in `DECISIONS.md`'s contents: who the reader is —
+    "Who the site is designed for, and the two questions a page must pass";
+    type — "Prose runs narrow, tables run wide, and the data date sits inside
+    the screenshot"; colour — "Colour means one thing, and an outcome is a word",
+    with "The accent has a light value, because one value cannot serve both";
+    the house style, layout and mode — "The house style comes from the owner's
+    own site" and "Dark by default, and light as a setting from the outset";
+    what it commits Phase 2 to, and where the data date sits — the "Prose runs
+    narrow" entry; what the site is written with — "The site is written in
+    Python, and what would make us change that".
+    *Where from:* `PHASE-1.md`, "Discussion 2 — style", "What it has to answer",
+    and "What closed it". **If an entry does not answer its question when read,
+    that is a finding**, not a pass on the heading.
+
+18. **What runs has a runbook with an undo.** `DEPLOY-RUNBOOK.md` has "A normal
+    deploy", "The undo" and "When the site is down". `ACCOUNTS-RUNBOOK.md` has
+    "The backup" with its undo, "The restore check", a section for each of the
+    four checks, and "The undo, once there are real people".
+    *Where from:* `PHASE-1.md`, "How the phase closes": anything other people
+    depend on gets a written procedure, a rehearsal and a written undo.
+
+19. **Every column is described, and the dictionary is current.**
+    `tools/make_data_dictionary.py` runs, reports every column described in both
+    databases, and changes nothing in `docs/DATA-DICTIONARY.md`.
+    *Where from:* `CLAUDE.md`, "When the session touches data".
+
+**Nothing new in the data.**
+
+20. **The dataset is as Phase 0 left it.** 470 bills, 1291 stage records, 186
+    provenance notes, 13 methodology notes, 474 staging lines; the error checker
+    and the gaps list empty; no migration in `db/` other than `db/accounts/`
+    added since Phase 0 closed on 15 September.
+    *Where from:* `PLAN.md`, "Phase 0 — the dataset" and "The dataset, while the
+    site is built"; Phase 1 "Must not" take on new data.
+
+### Part B — the owner's sign-off
+
+The runner sets these out and records the owner's answers. The runner does not
+mark them.
+
+- **B1. Approve, sign in, sign out, on the live site.** The owner approves a
+  beta application on the admin screen, signs in with a code that arrives by
+  email, sees their name at the top, and signs out. If no real application is
+  waiting, the owner applies with a second address of their own, approves it,
+  signs in with it, signs out, and deletes that account afterwards on the admin
+  screen. The runner confirms by counts only that the number of people is back
+  to what it was, and that the approval email and the code both arrived. *Where
+  from:* `PLAN.md`, Phase 1 "Closes when".
+- **B2. No data anywhere.** The owner reads every page in item 6, signed out and
+  signed in, and says that no page carries a figure, a table, a chart or a
+  download, and the welcome page is a welcome. *Where from:* `PLAN.md`, Phase 1
+  "Must not".
+- **B3. It looks as settled.** Dark by default, the light setting works and
+  is remembered, and it reads as the house style. *Where from:* item 17's
+  entries.
+- **B4. The owner can explain it.** In the owner's own words and without the
+  documents: where the site runs and what it reads; what is held about someone
+  who applies, and when it is gone after they are deleted; how the owner gets
+  in if email stops working; what is done when a deploy breaks the site; and
+  what tells anyone if the nightly backup fails. Where the owner cannot, the
+  documents are what failed, and it is recorded as that. *Where from:*
+  `PLAN.md`, "A phase closes on … the owner's sign-off that they can explain
+  what was built".
+
+### Part C — the sweep
+
+By the runner, after Part A, following `PLAN.md`, "The phase plan, and throwing
+it away": every line of `docs/PHASE-1.md` goes to its home or goes, nothing is
+cut until proved present in its new home, and the list of where each went is
+recorded here with the run.
+
+**Known before the sweep starts, so it is not discovered half way:**
+
+- **The briefing files are not the phase plan.** Eight `docs/PHASE-1-*.md`
+  files hold the settled wording and proposals: `-ADMIN-AND-EMAIL`, `-APPLY`,
+  `-BACKUP-THEMES`, `-HOSTING`, `-SIGN-IN`, `-STYLE`, `-WHAT-IS-HELD`,
+  `-WHAT-THE-SITE-READS`. The site's code, its templates, three tools, both
+  runbooks and `DECISIONS.md` name them, and `tools/check_privacy.sh` reads
+  `-WHAT-IS-HELD` as the wording of record. Some say they go when the phase
+  closes. **Deleting them breaks those references**, so the sweep brings the
+  owner a proposal for them before deleting any.
+- **`PHASE-1.md` says the machine's renewal date is "still to record".** It is
+  recorded, in the private notes, confirmed by the owner on 16 September. The
+  line is stale, not open.
+- **"Refreshing the published copy becomes a step in the promotion runbook"**
+  is not in `PROMOTION-RUNBOOK.md`, because there is no published database. It
+  belongs with Phase 2, and the sweep puts it where Phase 2 will find it.
+
+### What this test does not check
+
+- **That the site is secure.** No one has reviewed the site's code or the
+  machine for security. Items 8, 9, 11 and 12 check what was settled, not what
+  an attacker could do.
+- **That email reaches a real university inbox.** The checks send to Resend's
+  test addresses. B1 sends one real email to an address of the owner's choosing.
+- **That a certificate renewal works.** None has happened yet.
+- **That anyone would be told if the backup failed.** Nothing does, and that is
+  known (`STATE.md`, "Waiting for you"). Item 15 checks only that it ran.
+- **Browsers other than the owner's**, screen readers and small screens.
+- **Anything about the data.** Phase 0's tests closed it; item 20 checks only
+  that Phase 1 did not change it.
+- **The published database**, which does not exist and is not Phase 1's.
+
+---
+
 ## An undo leaves an untouched bill alone
 
 Written 2026-09-15 by the session that found the fault, built `db/103` and
