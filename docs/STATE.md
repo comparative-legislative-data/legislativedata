@@ -6,8 +6,9 @@ Updated: 2026-09-16
 
 **Phase 0, the dataset, and Phase 1, the site, are both closed.** At
 `legislativedata.org` someone can apply, you approve or refuse them, and they
-sign in with a code by email; the privacy page says what is held. **Nothing is
-open.** The arc is in `docs/PLAN.md`.
+sign in with a code by email; the privacy page says what is held. **Phase 2,
+the data published, is open**, and its plan is a first draft nobody has checked.
+The arc is in `docs/PLAN.md`.
 
 The dataset, unchanged and not moving:
 
@@ -29,39 +30,34 @@ provenance notes. **The error checker and the gaps list are both empty.**
 - **10–15 September.** The database built, every session read in, reviewed,
   promoted and closed; Phase 1's scoping discussions settled.
 - **16 September.** The site live, the accounts built and backed up by theme,
-  every part tested by you, the privacy page read, the checks made safe for
-  real applicants.
+  every part tested by you and Phase 1 closed on a test run by another session.
 
-**16 September, this session. Phase 1 closed.**
+**16 September, this session. Phase 2 opened, and its plan drafted.**
 
-- **The test run, by a session that built none of it.** All twenty of its own
-  items passed, including taking the site back a version and forward again for
-  real.
-- **The site was on the older version for about two minutes**, without the
-  privacy page, when a permission setting refused the deploy back. Nobody
-  applied in that time.
-- **You approved, signed in and out, deleted the test account, and read every
-  page.** You declined to explain how it runs; the phase closed without it, and
-  that is recorded as your decision.
-- **The plan and the eight briefing files are deleted.** The wording you
-  settled for every page and email is kept, alone, in `docs/wording/`. Nothing
-  else they held is lost: each piece is in the decisions, the standing notes or
-  a runbook.
-- **Nothing was decided about Phase 2**, as you said. What Phase 1 leaves open
-  for it is listed, undecided, in `docs/STANDING.md`.
-- **The site redeployed** because comments in its code changed; every check
-  run again against it first. No page reads differently.
+- **Phase 2 publishes to approved beta users only**, so what access becomes
+  after beta stays parked.
+- **Nothing is built until four pieces of groundwork are done**, each a
+  briefing you read and decide: what the published copy is and how it relates
+  to the working database; what goes with a download, researched from outside
+  practice; every chart and table written out, query included, before it is
+  drawn; and how the working is shown on a page.
+- **Your list of charts is in the plan**: outcomes, time to pass in four
+  intervals, the quickest and slowest bills, and bills introduced by quarter of
+  a session. Checked: all of it can be built from what we hold.
+- **The plan is `docs/PHASE-2.md`**, written for sessions rather than for you.
 
-Nothing in the dataset changed.
+Nothing in the dataset or the site changed.
 
 ## Now
 
-**Nothing is open.** Phase 2, the data published, opens when you say so, in a
-session of its own. That session starts by writing Phase 2's plan, and takes up
-what `STANDING.md` lists as left for it.
+**The next session checks `docs/PHASE-2.md`**, having written none of it, and
+brings you what it finds. The plan's second version follows from that. Then the
+first briefing: the published copy.
 
 ## Waiting for you
 
+- **Who runs Phase 2's closing test**: a test account used by another session,
+  or a real researcher you invite. Needed before that test is written, not now.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
   accounts hold real people from the first application. Adding an alert is a new
   outside service, so it is yours to decide.
@@ -124,19 +120,32 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-16, the session that closed Phase 1
+## Sanity check, 2026-09-16, the session that opened Phase 2
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
-  `STATE.md`, and the newest decisions were reflected in it.
-- **Both generated documents regenerated identical**, the dictionary after one
-  refusal from the SSH limit and a minute's wait.
+  `STATE.md`.
+- **Both generated documents regenerated identical.**
 - **The counts match**: 470, 1291, 186, 13 notes, 474 lines, 19 tables; checker
   and gaps list empty; no copy schema left in the working database.
-- **Every database on the machine sorted into a backup theme.**
-- **The site and Caddy active; the backup's last run `success`.** The failed
-  one-off unit is still listed, as in "Waiting for you".
+- **Every database sorted into a backup theme**: `postgres`, `accounts`,
+  `legdata`.
+- **The site (`legislativedata`) and Caddy active, the page answering; the
+  backup's last run `success`.** The failed one-off unit is still listed.
+
+## Opening Phase 2: working detail, 16 September
+
+- **The owner's inspiration screenshots** are the three on their desktop dated
+  15 September, the dashboard `PLAN.md` cites. Inspiration only.
+- **Checked against the database** for the plan's claims: no bill lacks an
+  introduction date, no completed stage lacks its date, no Act lacks its Royal
+  Assent date; every session has its first meeting, and all but Session 7 an
+  end date. Bill types: 340 government, 95 members, 24 private, 10 committee,
+  1 hybrid.
+- **The drafting session held views** on several of the plan's questions (a
+  published copy laid out for readers; CSV on the Web or a Data Package). They were kept out of the plan on purpose and belong in the
+  briefings as proposals. The check should look for any that leaked in.
 
 ## Closing Phase 1: working detail, 16 September
 

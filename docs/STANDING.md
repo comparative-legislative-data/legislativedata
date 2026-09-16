@@ -81,7 +81,8 @@ what would reopen it.
 
 **Left for Phase 2, carried here when Phase 1 closed on 16 September.** None of
 these is decided. The owner's position is that no decision about Phase 2 is made
-at the end of Phase 1; the session that opens Phase 2 takes them up.
+at the end of Phase 1; the session that opens Phase 2 takes them up. Each is
+placed in `docs/PHASE-2.md` since 16 September, and stays here until decided.
 
 - **The test of the style against a real table of all the bills.** The house
   style decision of 15 September promises one page carrying every bill, "built

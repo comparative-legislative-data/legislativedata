@@ -193,6 +193,9 @@ reasoning that is still live is in `STANDING.md`.
 
 ## Phase 2 — the data, published
 
+**Opened 16 September 2026**, for approved beta users only. The detailed plan
+is `docs/PHASE-2.md`.
+
 **Delivers.** The current dataset, available and shown. Downloads of it, and our
 own charts and tables built from it. And, for both, the route back: a download
 carries its sources, and a chart says which coding decisions it rests on. Every
