@@ -57,13 +57,20 @@ its third draft, ready for you.**
   the sign-in; a download must not record who took it; the sources are credited
   on every page showing data, not only in downloads; the notes are written in
   database words; nothing said how a reader who cannot see a chart gets it.
+- **Then, at your request, my own recommendations written in**, marked
+  *(plan rec.)* and still proposals. They agree with the reports' except in two
+  places: CSV alone to start, and the licence over the whole dataset rather than
+  only our part. Also proposed: every figure worked out when the copy is taken,
+  the calculation shown on the site rather than on GitHub, and a table of every
+  bill on your list.
 
 Nothing in the dataset or the site changed.
 
 ## Now
 
 **You review the plan**, `docs/PHASE-2.md`, with the three reports and the
-commission beside it. Start from the table of questions near its top. Once it is
+commission beside it. Start from the table of questions near its top; the
+marks *(plan rec.)* are what I would do. Once it is
 finalised and the decisions recorded, groundwork 1, the published copy, opens.
 
 ## Waiting for you

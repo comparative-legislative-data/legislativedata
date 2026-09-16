@@ -30,6 +30,10 @@ from `STATE.md`. Nothing here is a progress report.
   question to the owner, *(R1 rec.)* for its recommendation, *(R3 §3)* for a
   section of its findings, and *(gap)* for something neither the reports nor an
   earlier draft covered.
+- **16 September, the same session's own recommendations**, added at the owner's
+  request and marked *(plan rec.)*. Where one agrees with a report's, the mark
+  sits beside the report's; where it differs, it says so. They are proposals
+  like every other mark.
 
 **Nothing marked is decided**, the check's marks included. The owner accepts or
 strikes each.
@@ -101,11 +105,11 @@ here.
   proved at the end, by whether the charts and tables built from all seven
   sessions match what the owner built by hand from the PhD dataset. Phase 2 is
   when those charts first exist.
-- **Whether the closing test re-runs every published figure** *(R3 q8)*.
-  The American Journal of Political Science re-runs an article's figures from
-  its published materials before publishing it. **Proposed:** the closing test
-  re-runs each figure from the calculation published beside it, and compares
-  the result with the number on the page, as well as reading the page.
+- **Whether the closing test re-runs every published figure** *(R3 q8)*. The
+  American Journal of Political Science re-runs an article's figures from its
+  published materials before publishing it. **Proposed** *(plan rec.)*: the
+  closing test re-runs each figure from the calculation published beside it, and
+  compares the result with the number on the page, as well as reading the page.
 
 ---
 
@@ -175,13 +179,19 @@ shown beside a chart runs against it.
    - Starts from the 15 September rule that no duration is stored and every one
      is worked out when asked for *(check 2)*, and says whether that rule holds
      for the published copy as it does for the working one.
+   - **Proposed** *(plan rec.)*: every figure is worked out when the copy is
+     taken. The numbers change only at a refresh anyway; a finished figure is
+     then the one thing shown, downloaded and checked; and a shared link cannot
+     change between refreshes. What would reopen it: the switches groundwork 3
+     settles adding up to more combinations than it is sensible to work out in
+     advance.
 2. **What crosses.** Bills and their stage dates, certainly. The provenance
    notes, the methodology notes, the lists of allowed values, our own
    record-keeping columns (`observed_at`, `created_at`, `source_ref`), our own
    bill numbers — each decided, not defaulted.
-   - **The staging sheet does not cross** *(R2 q6)*. **Proposed.** It keeps the
-     introducer's name as each fact sheet printed it; both source licences
-     exclude personal data; and nothing on the owner's list needs it.
+   - **The staging sheet does not cross** *(R2 q6)*. **Proposed** *(plan rec.)*.
+     It keeps the introducer's name as each fact sheet printed it; both source
+     licences exclude personal data; and nothing on the owner's list needs it.
    - **Values taken from the owner's PhD dataset** cross only on the terms the
      owner states in groundwork 2, question 3 *(R2 q5)*. The provenance notes
      already say which values those are.
@@ -225,12 +235,13 @@ shown beside a chart runs against it.
    - **What changed since the last copy** *(R1 q3)*. Comparing the new copy with
      the previous one as well as with the working one gives the list of what
      changed, which is what ParlGov and the Congressional Bills Project publish.
-     **Proposed** *(R1 rec.)*: that list is kept, dated, and published with the
-     documentation. Whether a list that shows a changed value's old value
-     breaks the promise to keep no archive is the owner's. Proposed that it does
-     not, since it holds changes and not copies. It is not the question
-     `STANDING.md` leaves open, which is how the working sheet records a second
-     reading of a source.
+     **Proposed** *(R1 rec., plan rec.)*: that list is kept, dated, and
+     published with the documentation. Whether a list that shows a changed
+     value's old value breaks the promise to keep no archive is the owner's.
+     Proposed that it does not, since it holds changes and not copies, and it is
+     the honest answer to a reader who cannot get their old file back. It is not
+     the question `STANDING.md` leaves open, which is how the working sheet
+     records a second reading of a source.
 6. **What it holds that the working one does not.** The date it was taken,
    certainly. The list of changes, if question 5 keeps one.
 7. **Which date a page carries.** Three decisions of 15 September already speak
@@ -241,10 +252,10 @@ shown beside a chart runs against it.
      is next due (ONS); when it was last updated, with a list of updates
      (Department for Education, Our World in Data); when the reader took it (Our
      World in Data's download says "It was downloaded on").
-   - **Proposed** *(R1 rec.)*: the date on every page and every download is the
-     day the copy was taken. A download may also say the day it was downloaded,
-     in its readme, as Our World in Data's does. No "next update" date, since
-     none is promised.
+   - **Proposed** *(R1 rec., plan rec.)*: the date on every page and every
+     download is the day the copy was taken. A download may also say the day it
+     was downloaded, in its readme, as Our World in Data's does. No "next
+     update" date, since none is promised.
 
 **What holds already and must not be re-argued:** the site can never reach the
 working one; nothing flows back from the published copy; it is not backed up,
@@ -269,13 +280,16 @@ groundwork 1. It holds what R1 and R2 found. The charts do not wait on it.
    so cannot settle it. CSV is the one every researcher can open; Excel, Stata,
    R and SPSS each serve a group, and which groups is the owner's knowledge.
    **Proposed** *(R1 rec.)*: CSV, plus whatever the owner's answer adds.
+   **Proposed** *(plan rec.)*, a step narrower: CSV alone to start, with another
+   format added only where the owner knows researchers want it, since each extra
+   format is one more thing to check.
    - **Dates opened in a spreadsheet** *(gap)*. A spreadsheet can change a date
      it opens from a CSV file. The Congressional Bills Project gives
      step-by-step instructions for Excel, and the row count of each file to
      check against. The briefing says how dates are written, and the readme gives
      the row counts.
-2. **What travels with the data.** **Proposed** *(R1 rec.)*: one zip file,
-   holding a plain-text readme, the data as CSV, a readable codebook, the
+2. **What travels with the data.** **Proposed** *(R1 rec., plan rec.)*: one zip
+   file, holding a plain-text readme, the data as CSV, a readable codebook, the
    methodology notes, the provenance notes, a suggested citation, the licence
    statement, and what changed (groundwork 1, question 5). That is V-Dem's list
    with the archives' readme added.
@@ -304,15 +318,20 @@ groundwork 1. It holds what R1 and R2 found. The charts do not wait on it.
    **Proposed** *(R2 rec.)*: CC BY 4.0 on what the project made; both sources'
    statements with every download and on one page of the site, each saying which
    columns it covers; and the site says plainly that it is not the Parliament's.
-   All of it is public wording, and goes to the owner in full.
+   **Proposed** *(plan rec.)*, differing on one point: CC BY 4.0, with no
+   non-commercial or share-alike condition, over **the whole dataset**, with the
+   source statements saying which columns came from where. Creative Commons
+   advises against licensing only part (R2 §2.6), and marking the columns does
+   the work that licensing only part was meant to do. All of it is public
+   wording, and goes to the owner in full.
 4. **The citation, the date, and the no-archive promise in words** *(R1 q2,
    q4)*. A release number as well as the date, and what counts as a new release;
    or the date alone, which the data citation principles allow "where a formal
-   version is unavailable". **Proposed** *(R1 rec.)*: the date alone, in the file
-   name, the readme and the citation. The citation principles ask that a reader
-   can later retrieve the same data they cited, and this resource does not
-   promise that; the briefing proposes how the readme says so. Public wording,
-   in full.
+   version is unavailable". **Proposed** *(R1 rec., plan rec.)*: the date alone,
+   in the file name, the readme and the citation. The citation principles ask
+   that a reader can later retrieve the same data they cited, and this resource
+   does not promise that; the briefing proposes how the readme says so. Public
+   wording, in full.
 
 ---
 
@@ -342,7 +361,9 @@ is charts only. But `PLAN.md` says the dataset is "available and shown", and
 groundwork 4 wants a route from a figure to a single bill's provenance, which
 needs somewhere to arrive. The house style's promised test against a table of
 every bill (groundwork 4, question 4) could be the same table. The briefing asks
-the owner whether it is on the list.
+the owner whether it is on the list. **Proposed** *(plan rec.)*: the table is on
+the list, as the place a reader arrives from a figure, and as the style test. A
+page for each bill waits until that route needs one.
 
 **Each write-up says:** the question it answers; which bills are counted and
 which are left out by default; the switches a reader gets; the calculation, as
@@ -424,10 +445,10 @@ first chart.
      serves a reader who reads the calculation; prose serves everyone. The
      official producers and Our World in Data lead with prose and keep the code
      a step away. Only Datasette, of the sites read, leads with the calculation.
-   - **Proposed** *(R3 rec.)*, in this order on a figure's page: the figure; its
-     rule in a sentence of plain English, with the methodology notes it rests
-     on; the source; the date; then the calculation itself, folded away until
-     asked for.
+   - **Proposed** *(R3 rec., plan rec.)*, in this order on a figure's page: the
+     figure; its rule in a sentence of plain English, with the methodology notes
+     it rests on; the source; the date; then the calculation itself, folded away
+     until asked for.
    - **How far down** *(R3 q7)*: from a figure to the bills counted in it, and
      from a bill to its provenance notes. Only Datasette, of the sites read,
      offers it. It arrives at groundwork 3's table of every bill, if the owner
@@ -439,27 +460,30 @@ first chart.
      source's address has gone.
 2. **How the calculation shown is guaranteed to be the one that ran.** One
    source for both, never a copy kept in step by hand.
-   - **Proposed** *(R3 rec.)*: each figure's calculation is kept in one file,
-     and the site both runs it and shows it from that file. A check then
-     compares the text on the page with the file in the repository. That gives
-     Datasette's guarantee without adding Datasette, which would be a dependency
-     and is not proposed.
+   - **Proposed** *(R3 rec., plan rec.)*: each figure's calculation is kept in
+     one file, and the site both runs it and shows it from that file. A check
+     then compares the text on the page with the file in the repository. That
+     gives Datasette's guarantee without adding Datasette, which would be a
+     dependency and is not proposed.
    - **Whether a figure links to its calculation in the repository** *(R3 q3)*.
      The repository is public on GitHub, so the code is already published. A
      link ties the site's working to an outside service; showing it only on the
-     site does not.
+     site does not. **Proposed** *(plan rec.)*: the calculation is shown on the
+     site itself, and the site does not send a reader to GitHub for it.
 3. **What the date means, in words a reader sees**, on a chart as well as a
    download *(check 10)*. `PLAN.md` requires it for both. Public wording, so it
    goes to the owner in full.
    - **A chart saved as an image** *(R3 q5)*. The 15 September decision puts the
      date inside a screenshot of the page; an image file is a different route.
-     **Proposed** *(R3 rec.)*: the date goes inside the image too, although
-     nothing read does it, and the government's chart guidance keeps titles and
-     sources out of the image (R3 §3).
+     **Proposed** *(R3 rec., plan rec.)*: the date goes inside the image too,
+     although nothing read does it, and the government's chart guidance keeps
+     titles and sources out of the image (R3 §3).
    - **A shared link** *(R3 q6)*. With no archive, a link to a figure can show
-     different numbers next month. **Proposed** *(R3 rec.)*: the page says so,
-     with its date and the list of what changed (groundwork 1, question 5), as
-     the Department for Education's saved tables warn when newer figures exist.
+     different numbers next month; with figures worked out at the refresh
+     (groundwork 1, question 1), only after a refresh. **Proposed** *(R3 rec.,
+     plan rec.)*: the page says so, with its date and the list of what changed
+     (groundwork 1, question 5), as the Department for Education's saved tables
+     warn when newer figures exist.
 4. **How the style is tested against a real table of every bill.** The house
    style decision said a page built locally and never deployed. **Two limits the
    briefing works within** *(check 10)*: nothing runs on the owner's Mac; and a
@@ -499,7 +523,8 @@ owner in full:
   Session 6's three do.
 - **The notes' database words** *(gap)*: every note's `applies_to` names
   database columns, and some notes' text does too. Decided with the published
-  layout, groundwork 1, question 4.
+  layout, groundwork 1, question 4. **Proposed** *(plan rec.)*: the notes are
+  rewritten in a reader's words at the same time as the layout is decided.
 
 ---
 
@@ -524,12 +549,12 @@ start depending on the resource. How to record a published record being revised
 may arrive during the phase; if it does, it is settled then, as `STANDING.md`
 says, and not ahead of time.
 
-**Not in this phase, proposed** *(R1 q6, q7; R3 q9)*: a permanent identifier
-(a DOI), a copy deposited with an archive such as Zenodo or the UK Data Service,
-and joining the voluntary scheme for applying the Code of Practice for
-Statistics. Each means an account or a public commitment with an outside body.
-While the data sits behind a sign-in for approved users, none of them has much
-to attach to. They belong with what access becomes after beta.
+**Not in this phase, proposed** *(R1 q6, q7; R3 q9; plan rec.)*: a permanent
+identifier (a DOI), a copy deposited with an archive such as Zenodo or the UK
+Data Service, and joining the voluntary scheme for applying the Code of Practice
+for Statistics. Each means an account or a public commitment with an outside
+body. While the data sits behind a sign-in for approved users, none of them has
+much to attach to. They belong with what access becomes after beta.
 
 **Not proposed at all** (R1 §2.3): machine-readable descriptions for search
 engines and software, such as Data Package, CSV on the Web or Google Dataset
