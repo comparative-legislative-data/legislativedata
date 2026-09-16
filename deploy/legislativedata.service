@@ -1,0 +1,34 @@
+[Unit]
+Description=legislativedata.org (gunicorn)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+User=legsite
+Group=legsite
+WorkingDirectory=/srv/site/current
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/srv/site/current/.venv/bin/gunicorn -c /srv/site/current/gunicorn.conf.py app:app
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=on-failure
+RestartSec=3
+
+# The site reads no database and writes no files. Nothing it can reach needs
+# to be writable, so nothing is.
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target

@@ -9,3 +9,6 @@ __pycache__/
 
 # Local build of the tools environment (tools/requirements.txt)
 venv/
+
+# Local run of the site (tools/deploy_site.sh builds its own on the machine)
+site/.venv/

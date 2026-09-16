@@ -1,0 +1,312 @@
+/* legislativedata.org — the house stylesheet.
+ *
+ * Structure taken from essays.stevenmacgregor.uk, 15 September 2026: a twelve
+ * step warm neutral ramp with a layer of names on top saying what each step is
+ * FOR. Nothing below the :root blocks may name a colour. Light mode redefines
+ * the twelve and nothing else, which is what makes the mode setting nearly
+ * free. See docs/PHASE-1-STYLE.md.
+ */
+
+/* ---- The ramp: dark, the default ---------------------------------------- */
+
+:root {
+  --n1:  #1a1816;
+  --n2:  #201e1b;
+  --n3:  #262320;
+  --n4:  #2e2a26;
+  --n5:  #37322d;
+  --n6:  #443e38;
+  --n7:  #6b635a;
+  --n8:  #8a8279;
+  --n9:  #a8a099;
+  --n10: #c4bdb5;
+  --n11: #dfd9d1;
+  --n12: #f4f0ea;
+
+  --accent:       #7ea8e8;
+  --accent-hover: #96b9ee;
+}
+
+/* ---- The ramp: light, the same ramp inverted and still warm -------------- */
+
+:root[data-mode="light"] {
+  --n1:  #fdfcfb;
+  --n2:  #f8f7f5;
+  --n3:  #f2f0ec;
+  --n4:  #e9e6e1;
+  --n5:  #ddd9d3;
+  --n6:  #c9c4bc;
+  --n7:  #a9a29a;
+  --n8:  #857e75;
+  --n9:  #6e6760;
+  --n10: #57514b;
+  --n11: #3d3833;
+  --n12: #241f1b;
+
+  --accent:       #2f6cc4;
+  --accent-hover: #24559b;
+}
+
+/* ---- What each step is for ---------------------------------------------- */
+
+:root {
+  --bg:          var(--n1);
+  --surface:     var(--n2);
+  --raised:      var(--n3);
+  --border:      var(--n5);
+  --border-firm: var(--n6);
+  --text-faint:  var(--n7);
+  --text-muted:  var(--n8);
+  --text:        var(--n11);
+  --text-strong: var(--n12);
+
+  --sans:  "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "IBM Plex Serif", ui-serif, Georgia, "Times New Roman", serif;
+
+  /* The short fixed set. Nothing invents a size outside it. */
+  --t-xs: 11px;
+  --t-sm: 12px;
+  --t-md: 13px;
+  --t-lg: 14px;
+  --t-prose: 18px;
+  --t-head: 26px;
+
+  --s1: 0.25rem;
+  --s2: 0.5rem;
+  --s3: 0.75rem;
+  --s4: 1rem;
+  --s6: 1.5rem;
+  --s8: 2rem;
+  --s12: 3rem;
+
+  --radius: 3px;
+  --radius-menu: 7px;
+
+  --reading: 700px;
+}
+
+/* ---- Fonts, served from this machine and nowhere else -------------------- */
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("/static/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("/static/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Serif";
+  src: url("/static/fonts/ibm-plex-serif-latin-400-normal.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Serif";
+  src: url("/static/fonts/ibm-plex-serif-latin-600-normal.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+
+/* ---- Base --------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { color-scheme: dark; }
+:root[data-mode="light"] { color-scheme: light; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: var(--t-lg);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover { color: var(--accent-hover); }
+
+/* ---- The bar across the top. No left rail. ------------------------------- */
+
+.topbar {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.topbar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--s3) var(--s4);
+  display: flex;
+  align-items: baseline;
+  gap: var(--s4);
+}
+
+.wordmark {
+  font-family: var(--sans);
+  font-size: var(--t-lg);
+  font-weight: 600;
+  color: var(--text-strong);
+  text-decoration: none;
+}
+.wordmark:hover { color: var(--text-strong); }
+
+.wordmark-tail { color: var(--text-muted); font-weight: 400; }
+
+.topbar nav {
+  margin-left: auto;
+  display: flex;
+  gap: var(--s4);
+  font-size: var(--t-md);
+}
+
+/* ---- The page ----------------------------------------------------------- */
+
+main { flex: 1 0 auto; }
+
+.reading {
+  max-width: var(--reading);
+  margin: 0 auto;
+  padding: var(--s12) var(--s4) var(--s8);
+}
+
+h1 {
+  font-family: var(--sans);
+  font-size: var(--t-head);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-strong);
+  margin: 0 0 var(--s3);
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-family: var(--sans);
+  font-size: var(--t-lg);
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: var(--s8) 0 var(--s3);
+}
+
+/* The substance is set in serif. The machinery around it is not. */
+.prose {
+  font-family: var(--serif);
+  font-size: var(--t-prose);
+  line-height: 1.65;
+  color: var(--text);
+}
+.prose p { margin: 0 0 var(--s4); }
+.prose p:last-child { margin-bottom: 0; }
+
+.standfirst {
+  font-family: var(--serif);
+  font-size: var(--t-prose);
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0 0 var(--s8);
+}
+
+/* A label above a thing. Hierarchy from colour and weight, not from size. */
+.label {
+  font-family: var(--sans);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 var(--s2);
+}
+
+/* Hairline rules between sections, not a box around everything. */
+.rule {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: var(--s8) 0;
+}
+
+/* The device worth more to us than the colours: what is not here yet. */
+.not-here {
+  border-left: 2px solid var(--accent);
+  padding: 0 0 0 var(--s4);
+  margin: var(--s8) 0 0;
+}
+.not-here ul {
+  margin: 0;
+  padding-left: var(--s4);
+  font-size: var(--t-lg);
+  color: var(--text-muted);
+}
+.not-here li { margin-bottom: var(--s1); }
+
+/* ---- Footer ------------------------------------------------------------- */
+
+.foot {
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  margin-top: var(--s12);
+}
+
+.foot-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--s4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s4);
+  font-size: var(--t-md);
+  color: var(--text-muted);
+}
+
+.foot-inner .spacer { margin-left: auto; }
+
+.mode-toggle {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-family: var(--sans);
+  font-size: var(--t-md);
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.mode-toggle:hover { color: var(--accent-hover); }
+
+/* ---- Print: dark on white, whatever the screen is doing ------------------ */
+
+@media print {
+  :root {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --raised: #ffffff;
+    --border: #cccccc;
+    --text: #1a1a1a;
+    --text-strong: #000000;
+    --text-muted: #555555;
+    --accent: #1a1a1a;
+  }
+  body { font-size: 11pt; }
+  .topbar, .mode-toggle { display: none; }
+  .foot { border-top: 1px solid var(--border); }
+  a { text-decoration: underline; }
+}
+
+/* ---- Narrow screens ----------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .reading { padding-top: var(--s8); }
+  h1 { font-size: 22px; }
+  .prose, .standfirst { font-size: 17px; }
+  .topbar-inner { flex-wrap: wrap; gap: var(--s2) var(--s3); }
+  .topbar nav { margin-left: 0; width: 100%; }
+}

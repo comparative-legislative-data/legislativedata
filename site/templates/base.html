@@ -1,0 +1,65 @@
+{#
+  The shell every page sits in. The top bar, the footer, the data date and the
+  mode setting live here so that no page has to know about any of them.
+#}<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ site_name }}{% endblock %}</title>
+<meta name="description" content="{% block description %}A research resource for data about the Scottish Parliament.{% endblock %}">
+{# Dark is the default, so the setting is applied before the page paints.
+   A reader with no JavaScript gets dark, which is the default anyway. #}
+<script>
+  try {
+    var m = localStorage.getItem('mode');
+    if (m === 'light') document.documentElement.setAttribute('data-mode', 'light');
+  } catch (e) {}
+</script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="wordmark" href="/">legislativedata<span class="wordmark-tail">.org</span></a>
+    <nav>
+      {% block nav %}{% endblock %}
+    </nav>
+  </div>
+</header>
+
+<main>
+{% block main %}{% endblock %}
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    {# Every page carries the date of the data it was built from. There is no
+       published data yet, so the slot says so rather than showing a date that
+       would be about nothing. DECISIONS.md, 2026-09-15. #}
+    <span>{{ data_date_line }}</span>
+    <span class="spacer"></span>
+    <button class="mode-toggle" type="button" id="mode-toggle">Light mode</button>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById('mode-toggle');
+    function label() {
+      btn.textContent = root.getAttribute('data-mode') === 'light' ? 'Dark mode' : 'Light mode';
+    }
+    label();
+    btn.addEventListener('click', function () {
+      var light = root.getAttribute('data-mode') === 'light';
+      if (light) { root.removeAttribute('data-mode'); } else { root.setAttribute('data-mode', 'light'); }
+      try { localStorage.setItem('mode', light ? 'dark' : 'light'); } catch (e) {}
+      label();
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+# legislativedata.org — the web server in front of the site.
+#
+# Caddy gets and renews the certificate itself, directly from Let's Encrypt.
+# Traffic comes straight to this machine; Cloudflare holds the DNS but does not
+# proxy. If that ever changes, see docs/DEPLOY-RUNBOOK.md, "Turning the
+# Cloudflare proxy on".
+#
+# Installed at /etc/caddy/Caddyfile. Edit the copy in this repository and deploy
+# it; a change made on the machine is a change nobody can see.
+
+{
+	# No admin socket. Nothing needs to reconfigure Caddy from outside its own
+	# configuration file. The cost is that "systemctl reload caddy" cannot work,
+	# because that is how it talks to Caddy; the deploy restarts it instead.
+	admin off
+
+	# The log every part of Caddy writes to, filtered once here rather than per
+	# site. Doing it per site is how the redirects ended up recording addresses
+	# on 16 September 2026 while the main site did not.
+	#
+	# It records the page, the time and the result, and nothing that identifies
+	# a visitor. Settled with the owner 2026-09-16: this project holds as little
+	# about a person as it can, and an address is data about a person.
+	log {
+		output file /var/log/caddy/site.log {
+			roll_size 10MiB
+			roll_keep 5
+		}
+		format filter {
+			wrap console
+			fields {
+				request>remote_ip delete
+				request>remote_port delete
+				request>client_ip delete
+				request>headers delete
+				request>tls delete
+				resp_headers delete
+			}
+		}
+	}
+}
+
+legislativedata.org {
+	encode zstd gzip
+
+	root * /srv/site/current
+
+	# The stylesheet and the fonts are served by Caddy, not by the app.
+	handle /static/* {
+		header Cache-Control "public, max-age=604800"
+		file_server
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:8000
+	}
+
+	header {
+		-Server
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+		# Deliberately short to begin with. Raising it is a promise to browsers
+		# that cannot be taken back for its whole duration, so it is raised only
+		# once the site has been up and correct for a while. See the runbook.
+		Strict-Transport-Security "max-age=86400"
+	}
+
+	log
+}
+
+www.legislativedata.org {
+	redir https://legislativedata.org{uri} permanent
+	log
+}
