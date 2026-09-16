@@ -167,8 +167,8 @@ retention ages them out. They are invented and name nobody.
 ## The apply page, and its check
 
 `site/app.py`, `/apply`. What it does and every word it says are
-`docs/PHASE-1-APPLY.md`. **It is off on the live site** until the admin screen
-exists: `LEGSITE_APPLY_OPEN=1` turns it on, and nothing on the machine sets it.
+`docs/PHASE-1-APPLY.md`. It was off on the live site until the admin screen
+existed, and the switch was then taken out.
 
 **The check is `tools/check_apply.sh`**, run as root on the machine against a
 staged release. It starts that release twice as `legsite`, on ports 8002 and
@@ -182,8 +182,8 @@ Send it and run it **in one connection**, because of the SSH limit:
 
     ~/.claude/legdata-vps 'cat > /tmp/check_apply.sh && sudo bash /tmp/check_apply.sh /srv/site/releases/<release>' < tools/check_apply.sh
 
-It must print `All 20 pass` and `people left: 0`. Run with `sudo OPEN=0 bash …`
-it must fail at item 1 with `got '404'`, which shows it can fail.
+It must print `All 19 pass` and `people left: 0`. Run with `sudo BREAK=1 bash …`
+it must fail at item 1, which shows it can fail.
 
 **Once anyone real has applied, it refuses to run**, by design. It will need an
 invented-person-only way of checking before then, or retiring.
@@ -198,9 +198,7 @@ accounts were empty afterwards.
 
 What it does and every word it says are `docs/PHASE-1-SIGN-IN.md`. Live: the
 page where a code is typed (`/sign-in/code`), signing out, and the signed-out
-page. **Off until the site can send email:** `/sign-in`, which asks for a code
-by email; `LEGSITE_SEND_CODES_OPEN=1` would turn it on and nothing sets it, and
-its sending is not built.
+page, and `/sign-in`, which emails a code.
 
 **The key.** `/var/lib/legislativedata/code-key`, 64 hex characters, `root:legsite`,
 mode 640, in a folder only root and the site can open. Codes are kept as a
@@ -226,21 +224,54 @@ their address. It replaces any code the owner already has; it can make a code
 for the owner's account and no other; it refuses if there is no owner. Its copy
 of record is `deploy/legdata-owner-code`, installed by `deploy/install_sign_in.sh`.
 
-**Tidying.** Codes that have run out or had five wrong tries, and devices past 30
-days, are deleted whenever anyone tries a code, not on a timer. A used code is
-deleted as it is used.
+**Tidying.** Codes made more than an hour ago, and devices past 30 days, are
+deleted whenever anyone asks for or tries a code, not on a timer. A used code is
+marked used and its row stays for the hour, so that it is counted.
 
 **The check is `tools/check_sign_in.sh`**, run as root against a staged release,
 in one connection:
 
     ~/.claude/legdata-vps 'cat > /tmp/check_sign_in.sh && sudo bash /tmp/check_sign_in.sh /srv/site/releases/<release>' < tools/check_sign_in.sh
 
-It uses two invented people at `example.org` and, if the owner's account exists,
-the owner's own command and code. It refuses to start if anyone but the owner is
-in the accounts, or the owner has a code or a signed-in device — so **the owner
-must be signed out everywhere before it runs**. It prints counts and yes/no
+It uses invented people at Resend's test addresses and, if the owner's account
+exists, the owner's own command and code. It refuses to start if anyone but the
+owner is in the accounts, or the owner has a code still working. It prints counts and yes/no
 answers only, never a code or the owner's address, and deletes everything it
 made whether it passes or fails. With `BREAK=1` it must fail at item 7.
+
+## The admin screen and email
+
+What they do and every word they say are `docs/PHASE-1-ADMIN-AND-EMAIL.md`.
+
+**The sending key.** `/var/lib/legislativedata/resend-key`, beside the code key,
+`root:legsite`, mode 640, not in the backup. A Resend key with sending access
+only, for `legislativedata.org`. Put there by `deploy/install_email_key.sh` from
+`~/.claude/legdata-resend-send` on the Mac, over standard input, never printed;
+running it again replaces the key, which is how one is rotated. The same script
+checks, inside the live service's restrictions, that the site can reach Resend.
+The full-access key in `~/.claude/legdata-resend` is not for the machine. The
+site's health check says `503` if it cannot read the sending key.
+
+**When an email fails** the site logs `email not sent` and the reason, never an
+address:
+
+    ~/.claude/legdata-vps 'sudo journalctl -u legislativedata --since today -o cat | grep "email not sent"'
+
+**The description change**, `db/accounts/002_codes_are_counted_and_refusals_go.sql`:
+rehearse with `-v end=ROLLBACK`, apply with `-v end=COMMIT`, undo with
+`002_undo.sql`. It changes two descriptions and nothing else. Then regenerate the
+data dictionary.
+
+**The checks.** `tools/check_admin.sh`, run like the others, uses invented
+people at Resend's test addresses (`delivered+...@resend.dev`, accepted and
+delivered nowhere) and a second copy with a key Resend refuses, to show that a
+failed email changes nothing. It signs the owner in on its own copies with a
+marker it makes and removes. `tools/check_sign_in.sh` now also covers asking for
+a code and the three-an-hour limit, and no longer refuses while the owner is
+signed in somewhere; it refuses only while the owner has a code still working.
+All three checks refuse to run once anyone but the owner is in the accounts.
+**That is the day they need a different shape**, and it is close: the first real
+application stops all three.
 
 ## The undo, once there are real people
 

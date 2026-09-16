@@ -93,6 +93,7 @@ def apply(email, name, title, position):
 
 KEY_FILE = os.environ.get("LEGSITE_CODE_KEY_FILE", "/var/lib/legislativedata/code-key")
 CODE_TRIES = 5
+CODES_AN_HOUR = 3
 DEVICE_DAYS = 30
 
 _key = None
@@ -131,10 +132,55 @@ def marker_hash(marker):
 
 
 def _tidy_up(conn):
-    """Codes that have run out or had their five tries, and devices past their
-    30 days, go. Done whenever anyone tries a code, rather than on a timer."""
-    conn.execute(f"DELETE FROM sign_in_code WHERE expires_at <= now() OR failed_attempts >= {CODE_TRIES}")
+    """Codes made more than an hour ago, and devices past their 30 days, go.
+    Done whenever anyone asks for or tries a code, rather than on a timer. A
+    code stops working well before its row goes: the row stays for the hour so
+    that codes sent to an address can be counted. db/accounts/002."""
+    conn.execute("DELETE FROM sign_in_code WHERE created_at <= now() - interval '1 hour'")
     conn.execute("DELETE FROM signed_in_device WHERE expires_at <= now()")
+
+
+def new_code(email):
+    """A fresh code for an approved address, as (code_id, code), or None.
+
+    None if the address is not approved, or has already been sent three codes
+    in the last hour. The caller shows the same page either way and does not
+    say which. The code is kept only as its scramble; the caller emails it and,
+    if that fails, calls forget_code so a code nobody received is not counted.
+
+    Raises Unavailable if the accounts or the key cannot be reached.
+    """
+    try:
+        conn = connection()
+        with conn.transaction():
+            _tidy_up(conn)
+            row = conn.execute(
+                "SELECT person_id FROM person WHERE email = %s AND state = 'approved' FOR UPDATE",
+                (email,)).fetchone()
+            if row is None:
+                return None
+            person_id = row[0]
+            sent = conn.execute(
+                "SELECT count(*) FROM sign_in_code WHERE person_id = %s", (person_id,)).fetchone()[0]
+            if sent >= CODES_AN_HOUR:
+                return None
+            code = f"{secrets.randbelow(10**6):06d}"
+            code_id = conn.execute(
+                "INSERT INTO sign_in_code (person_id, code_hash, expires_at) "
+                "VALUES (%s, %s, now() + interval '15 minutes') RETURNING sign_in_code_id",
+                (person_id, code_hash(person_id, code))).fetchone()[0]
+            return code_id, code
+    except (psycopg.Error, OSError, ValueError, RuntimeError):
+        raise Unavailable() from None
+
+
+def forget_code(code_id):
+    """A code whose email could not be sent: gone, and not counted."""
+    try:
+        with connection().transaction():
+            connection().execute("DELETE FROM sign_in_code WHERE sign_in_code_id = %s", (code_id,))
+    except psycopg.Error:
+        pass
 
 
 def sign_in(email, code):
@@ -166,10 +212,13 @@ def sign_in(email, code):
             if not match:
                 conn.execute(
                     "UPDATE sign_in_code SET failed_attempts = failed_attempts + 1 "
-                    "WHERE person_id = %s", (person_id,))
+                    "WHERE person_id = %s AND used_at IS NULL AND expires_at > now() "
+                    "AND failed_attempts < %s", (person_id, CODE_TRIES))
                 return None
-            # Used, so gone. A code that is not there cannot work again.
-            conn.execute("DELETE FROM sign_in_code WHERE sign_in_code_id = %s", (match[0],))
+            # Used, so marked. A code with a date here does not work again; its
+            # row stays for the hour so that it is still counted.
+            conn.execute("UPDATE sign_in_code SET used_at = now() WHERE sign_in_code_id = %s",
+                         (match[0],))
             marker = secrets.token_urlsafe(32)
             conn.execute(
                 "INSERT INTO signed_in_device (person_id, marker_hash, expires_at) "
@@ -207,3 +256,62 @@ def sign_out(marker):
                          (marker_hash(marker),))
     except psycopg.Error:
         raise Unavailable() from None
+
+
+# ---- The admin screen -------------------------------------------------------------
+#
+# Only the owner's account reaches these; app.py checks that before calling any
+# of them. docs/PHASE-1-ADMIN-AND-EMAIL.md.
+
+def people():
+    """(waiting, approved): lists of dicts, waiting oldest first, approved by name."""
+    try:
+        rows = connection().execute(
+            "SELECT person_id, email, name, title, position, state, applied_at, decided_at, is_owner "
+            "FROM person ORDER BY applied_at, person_id").fetchall()
+    except psycopg.Error:
+        raise Unavailable() from None
+    keys = ("person_id", "email", "name", "title", "position", "state", "applied_at",
+            "decided_at", "is_owner")
+    everyone = [dict(zip(keys, r)) for r in rows]
+    waiting = [p for p in everyone if p["state"] == "applied"]
+    approved = sorted((p for p in everyone if p["state"] == "approved"),
+                      key=lambda p: (not p["is_owner"], p["name"].lower()))
+    return waiting, approved
+
+
+def person(person_id, state):
+    """One person in the given state, as a dict, or None."""
+    try:
+        row = connection().execute(
+            "SELECT person_id, email, name, title, position, is_owner FROM person "
+            "WHERE person_id = %s AND state = %s", (person_id, state)).fetchone()
+    except psycopg.Error:
+        raise Unavailable() from None
+    if row is None:
+        return None
+    return dict(zip(("person_id", "email", "name", "title", "position", "is_owner"), row))
+
+
+def _one(sql, params):
+    try:
+        with connection().transaction():
+            return connection().execute(sql, params).rowcount == 1
+    except psycopg.Error:
+        raise Unavailable() from None
+
+
+def approve(person_id):
+    return _one("UPDATE person SET state = 'approved', decided_at = now() "
+                "WHERE person_id = %s AND state = 'applied'", (person_id,))
+
+
+def delete_application(person_id):
+    """A refused application, once the person has been told."""
+    return _one("DELETE FROM person WHERE person_id = %s AND state = 'applied'", (person_id,))
+
+
+def delete_account(person_id):
+    """An approved account, with its codes and devices. Never the owner's."""
+    return _one("DELETE FROM person WHERE person_id = %s AND state = 'approved' AND NOT is_owner",
+                (person_id,))

@@ -317,13 +317,14 @@ It has three tabs.
 
 Take an invented applicant, Dr A. Example. They fill in the form on the site,
 and a row appears on the `person` tab: their email, name, title and position,
-marked `applied`, with the date. You approve them on the admin screen; the row
-now says `approved`, with the date you decided. (Had you refused them, the row
-would go once they had been told.) They ask for a code, and a row appears on
-`sign_in_code` that works once, within fifteen minutes, and stops after five
-wrong tries. They type it in, the code's row goes, and a row appears on
-`signed_in_device`, which keeps that browser signed in for thirty days or until
-they sign out, when that row goes too.
+marked `applied`, with the date. You approve them on the admin screen, the site
+emails them, and the row now says `approved`, with the date you decided. (Had you
+refused them, the site would email them and then delete the row.) They ask for a
+code, and a row appears on `sign_in_code` that works once, within fifteen
+minutes, and stops after five wrong tries; the row itself stays for an hour, so
+that nobody is sent more than three codes an hour. They type it in, the code is
+marked used, and a row appears on `signed_in_device`, which keeps that browser
+signed in for thirty days or until they sign out, when that row goes.
 
 **Your own row was made on the machine**, marked as the owner. When you need to
 get in without email, a session runs a command that puts a code on

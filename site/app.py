@@ -15,6 +15,7 @@ import re
 from flask import Flask, abort, g, redirect, render_template, request, url_for
 
 import accounts
+import mail
 
 app = Flask(__name__)
 app.teardown_appcontext(accounts.close)
@@ -27,16 +28,6 @@ SITE_NAME = "legislativedata.org"
 # One place. When the published database exists this is read from it per
 # request, and this constant goes. Nothing else in the site knows the date.
 NO_DATA_YET = "No data published yet"
-
-# The apply page is built and tested but stays off on the live site until the
-# owner has an admin screen to see applications on. Settled 2026-09-16. Only
-# the machine turns it on; when the admin screen is live this switch is taken
-# out, not flipped.
-APPLY_OPEN = os.environ.get("LEGSITE_APPLY_OPEN") == "1"
-
-# The page that emails a code. Built with the rest of signing in, but off until
-# the site can send email, which is its own step. Settled 2026-09-16.
-SEND_CODES_OPEN = os.environ.get("LEGSITE_SEND_CODES_OPEN") == "1"
 
 # The name of the one cookie the site sets, and only on signing in.
 DEVICE_COOKIE = "signed_in"
@@ -63,9 +54,15 @@ def shell():
     return {
         "site_name": SITE_NAME,
         "data_date_line": NO_DATA_YET,
-        "apply_open": APPLY_OPEN,
         "signed_in_name": g.signed_in[0] if g.get("signed_in") else None,
+        "is_owner": bool(g.get("signed_in") and g.signed_in[1]),
     }
+
+
+@app.template_filter("day")
+def day(when):
+    """16 September 2026."""
+    return f"{when.day} {when:%B %Y}"
 
 
 @app.route("/")
@@ -78,13 +75,15 @@ def health():
     """What the deploy checks against.
 
     Healthy means the site is running, can read the accounts, and can read the
-    key codes are scrambled with, because without any of those nobody can apply
-    or sign in. Says nothing about the data or about anyone in the accounts.
+    key codes are scrambled with and the key emails are sent with, because
+    without any of those nobody can apply, be told, or sign in. Says nothing about the data or about anyone in the accounts.
     """
     if not accounts.reachable():
         return "accounts unreachable\n", 503, {"Content-Type": "text/plain; charset=utf-8"}
     if not accounts.key_readable():
         return "code key unreadable\n", 503, {"Content-Type": "text/plain; charset=utf-8"}
+    if not mail.key_readable():
+        return "email key unreadable\n", 503, {"Content-Type": "text/plain; charset=utf-8"}
     return "ok\n", 200, {"Content-Type": "text/plain; charset=utf-8"}
 
 
@@ -138,8 +137,6 @@ def check(form):
 
 @app.route("/apply", methods=["GET", "POST"])
 def apply():
-    if not APPLY_OPEN:
-        abort(404)
     if request.method == "GET":
         return render_template("apply.html", values={}, problems=[])
 
@@ -163,8 +160,6 @@ def apply():
 
 @app.route("/apply/received")
 def apply_received():
-    if not APPLY_OPEN:
-        abort(404)
     return render_template("apply_received.html")
 
 
@@ -178,11 +173,28 @@ def apply_received():
 CODE_SHAPE = re.compile(r"^[0-9]{6}$")
 
 
-@app.route("/sign-in")
+@app.route("/sign-in", methods=["GET", "POST"])
 def sign_in():
-    if not SEND_CODES_OPEN:
-        abort(404)
-    return render_template("sign_in.html")
+    if request.method == "GET":
+        return render_template("sign_in.html")
+
+    email = tidy(request.form.get("email")).lower()
+    if EMAIL_SHAPE.match(email) and len(email) < 254:
+        try:
+            made = accounts.new_code(email)
+        except accounts.Unavailable:
+            return render_template("sign_in_unavailable.html"), 503
+        if made is not None:
+            code_id, code = made
+            if not mail.send_code(email, code):
+                accounts.forget_code(code_id)
+
+    # The same page whether a code was sent, the address has no account, it has
+    # had its three codes this hour, or the email failed: saying which would
+    # tell anyone whether an address has an account. Shown straight from here,
+    # not by sending the browser on with the address in the page's address,
+    # which would put it in the access log.
+    return render_template("sign_in_code.html", email=email, failed=False)
 
 
 @app.route("/sign-in/code", methods=["GET", "POST"])
@@ -223,6 +235,95 @@ def sign_out():
 @app.route("/signed-out")
 def signed_out():
     return render_template("signed_out.html")
+
+
+# ---- The admin screen -------------------------------------------------------------
+#
+# The owner's account and no other. Anyone else, signed in or not, is told there
+# is no such page. Every change is a form, and the marker cookie is not sent with
+# forms from other sites, so no other site can make a change here. Wording and
+# behaviour: docs/PHASE-1-ADMIN-AND-EMAIL.md, settled by the owner 2026-09-16.
+
+DONE = {
+    "approved": "Approved, and emailed.",
+    "refused": "Refused, emailed, and deleted.",
+    "deleted": "Account deleted.",
+    "unsent": "The email could not be sent, so nothing has changed. Try again later.",
+}
+
+
+@app.after_request
+def admin_pages_are_not_kept(response):
+    """The admin pages hold other people's details: no browser or anything in
+    between is to keep a copy."""
+    if request.path.startswith("/admin"):
+        response.headers["Cache-Control"] = "no-store"
+    return response
+
+
+def owner_only():
+    if not (g.get("signed_in") and g.signed_in[1]):
+        abort(404)
+
+
+@app.route("/admin")
+def admin():
+    owner_only()
+    try:
+        waiting, approved = accounts.people()
+    except accounts.Unavailable:
+        return render_template("sign_in_unavailable.html"), 503
+    return render_template("admin.html", waiting=waiting, approved=approved,
+                          done=DONE.get(request.args.get("done")))
+
+
+@app.route("/admin/approve/<int:person_id>", methods=["POST"])
+def admin_approve(person_id):
+    owner_only()
+    try:
+        someone = accounts.person(person_id, "applied")
+        if someone is None:
+            return redirect(url_for("admin"), code=303)
+        # The email first: if it cannot be sent, nobody is approved untold.
+        if not mail.send_approved(someone["email"]):
+            return redirect(url_for("admin", done="unsent"), code=303)
+        accounts.approve(person_id)
+    except accounts.Unavailable:
+        return render_template("sign_in_unavailable.html"), 503
+    return redirect(url_for("admin", done="approved"), code=303)
+
+
+@app.route("/admin/refuse/<int:person_id>", methods=["GET", "POST"])
+def admin_refuse(person_id):
+    owner_only()
+    try:
+        someone = accounts.person(person_id, "applied")
+        if someone is None:
+            return redirect(url_for("admin"), code=303)
+        if request.method == "GET":
+            return render_template("admin_refuse.html", someone=someone)
+        # The email first: an application is deleted only once they have been told.
+        if not mail.send_refused(someone["email"]):
+            return redirect(url_for("admin", done="unsent"), code=303)
+        accounts.delete_application(person_id)
+    except accounts.Unavailable:
+        return render_template("sign_in_unavailable.html"), 503
+    return redirect(url_for("admin", done="refused"), code=303)
+
+
+@app.route("/admin/delete/<int:person_id>", methods=["GET", "POST"])
+def admin_delete(person_id):
+    owner_only()
+    try:
+        someone = accounts.person(person_id, "approved")
+        if someone is None or someone["is_owner"]:
+            abort(404)
+        if request.method == "GET":
+            return render_template("admin_delete.html", someone=someone)
+        accounts.delete_account(person_id)
+    except accounts.Unavailable:
+        return render_template("sign_in_unavailable.html"), 503
+    return redirect(url_for("admin", done="deleted"), code=303)
 
 
 if __name__ == "__main__":

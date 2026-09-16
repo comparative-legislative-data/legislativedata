@@ -1,0 +1,26 @@
+{#
+  Confirming a deletion, which cannot be undone. Wording from
+  docs/PHASE-1-ADMIN-AND-EMAIL.md, settled by the owner on 2026-09-16.
+#}
+{% extends "base.html" %}
+
+{% block title %}Delete this account? — {{ site_name }}{% endblock %}
+
+{% block main %}
+<div class="reading">
+
+  <p class="label">Admin</p>
+  <h1>Delete this account?</h1>
+
+  <div class="prose">
+    <p>{% if someone.title %}{{ someone.title }} {% endif %}{{ someone.name }}, {{ someone.email }}</p>
+    <p>Their account, and every sign-in code and signed-in device attached to it, will be deleted. They will not be emailed. This cannot be undone.</p>
+  </div>
+
+  <div class="actions confirm">
+    <form method="post" action="{{ url_for('admin_delete', person_id=someone.person_id) }}"><button class="button" type="submit">Delete account</button></form>
+    <a class="button-quiet" href="{{ url_for('admin') }}">Cancel</a>
+  </div>
+
+</div>
+{% endblock %}

@@ -4,7 +4,7 @@
 # with an invented person who is deleted afterwards. Run as root on the machine:
 #
 #   sudo bash /tmp/check_apply.sh /srv/site/releases/<release>
-#   sudo OPEN=0 bash /tmp/check_apply.sh /srv/site/releases/<release>   # must FAIL
+#   sudo BREAK=1 bash /tmp/check_apply.sh /srv/site/releases/<release>   # must FAIL at item 1
 #
 # It starts the release twice, as the site's own login, on ports nothing points
 # at: once able to reach the accounts, once pointed at a database that does not
@@ -19,7 +19,7 @@
 set -uo pipefail
 
 REL="${1:?say which release, e.g. /srv/site/releases/2026-09-16T12-34-06Z}"
-OPEN="${OPEN:-1}"
+BREAK="${BREAK:-0}"
 PRACTICE="practice.person@example.org"
 WORK=/tmp/apply-check
 GOOD=8002
@@ -58,7 +58,7 @@ mkdir -p "$WORK" && chown legsite:legsite "$WORK"
 start() {  # port, conninfo
   # From inside the release: the site's login cannot read whatever folder this
   # was started from, and gunicorn refuses to start there.
-  cd "$REL" && sudo -u legsite env PYTHONDONTWRITEBYTECODE=1 LEGSITE_APPLY_OPEN="$OPEN" ACCOUNTS_CONNINFO="$2" \
+  cd "$REL" && sudo -u legsite env PYTHONDONTWRITEBYTECODE=1 ACCOUNTS_CONNINFO="$2" \
     "$REL/.venv/bin/gunicorn" --chdir "$REL" --bind "127.0.0.1:$1" --workers 1 \
     --pid "$WORK/$1.pid" --error-logfile "$WORK/$1.log" --daemon app:app
 }
@@ -70,7 +70,7 @@ G="http://127.0.0.1:$GOOD"
 code() { curl -sS -o /dev/null -w '%{http_code}' "$@"; }
 post() { curl -sS -o "$WORK/body" -w '%{http_code} %{redirect_url}' -X POST "$@"; }
 
-expect "the form is there"                "$(code $G/apply)" 200
+expect "the form is there"                "$(code $G/apply)" "$([ "$BREAK" = 1 ] && echo 404 || echo 200)"
 
 r=$(post $G/apply --data-urlencode email= --data-urlencode name= --data-urlencode position=)
 expect "an empty form is refused"         "$r" "400 "
@@ -105,7 +105,5 @@ expect "  and nothing is kept"            "$(sql "select count(*) from person wh
 
 expect "neither log names the applicant" \
   "$(cat $WORK/$GOOD.log $WORK/$BROKEN.log | grep -cE 'Pat|[Pp]ractice|example\.org')" 0
-
-expect "the live site's apply page is off" "$(code http://127.0.0.1:8000/apply)" 404
 
 failed=0

@@ -353,6 +353,37 @@ h2 {
 }
 .sign-out button:hover { color: var(--accent-hover); }
 
+/* ---- The admin screen ------------------------------------------------------ */
+
+.notice {
+  border-left: 2px solid var(--border-firm);
+  padding: 0 0 0 var(--s4);
+  margin: var(--s6) 0 0;
+  color: var(--text-strong);
+}
+.notice p { margin: 0; }
+
+.quiet { color: var(--text-muted); }
+
+.people { list-style: none; margin: 0; padding: 0; }
+.people li {
+  border-top: 1px solid var(--border);
+  padding: var(--s3) 0;
+}
+.people li p { margin: 0 0 var(--s2); overflow-wrap: anywhere; }
+
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); }
+.actions form { margin: 0; }
+.actions.confirm { margin-top: var(--s6); }
+
+/* The second action beside a button: still something you can do, so the
+   accent, but not a second filled button competing with the first. */
+.button-quiet {
+  font-family: var(--sans);
+  font-size: var(--t-lg);
+  color: var(--accent);
+}
+
 /* ---- Footer ------------------------------------------------------------- */
 
 .foot {

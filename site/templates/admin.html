@@ -1,0 +1,55 @@
+{#
+  The admin screen. The owner's account only; app.py refuses everyone else.
+  A page of personal data about other people: nothing on it is cached, logged
+  or linked from anywhere a non-owner can see. Wording from
+  docs/PHASE-1-ADMIN-AND-EMAIL.md, settled by the owner on 2026-09-16.
+#}
+{% extends "base.html" %}
+
+{% block title %}Applications — {{ site_name }}{% endblock %}
+
+{% macro who(p) %}{% if p.title %}{{ p.title }} {% endif %}{{ p.name }} — {{ p.position }} — {{ p.email }}{% endmacro %}
+
+{% block main %}
+<div class="reading">
+
+  <p class="label">Admin</p>
+  <h1>Applications</h1>
+
+  {% if done %}
+  <div class="notice" role="status"><p>{{ done }}</p></div>
+  {% endif %}
+
+  <h2>Waiting</h2>
+  {% if waiting %}
+  <ul class="people">
+    {% for p in waiting %}
+    <li>
+      <p>{{ who(p) }} — applied {{ p.applied_at | day }}</p>
+      <div class="actions">
+        <form method="post" action="{{ url_for('admin_approve', person_id=p.person_id) }}"><button class="button" type="submit">Approve</button></form>
+        <a class="button-quiet" href="{{ url_for('admin_refuse', person_id=p.person_id) }}">Refuse</a>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="quiet">No applications waiting.</p>
+  {% endif %}
+
+  <h2>Accounts</h2>
+  <ul class="people">
+    {% for p in approved %}
+    <li>
+      <p>{{ who(p) }} — approved {{ p.decided_at | day }}{% if p.is_owner %} — you{% endif %}</p>
+      {% if not p.is_owner %}
+      <div class="actions">
+        <a class="button-quiet" href="{{ url_for('admin_delete', person_id=p.person_id) }}">Delete account</a>
+      </div>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+
+</div>
+{% endblock %}

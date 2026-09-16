@@ -26,11 +26,12 @@
     <nav>
       {% block nav %}
       {% if signed_in_name %}
-        {# "Signed in as [name] · Sign out", docs/PHASE-1-SIGN-IN.md. Signing
-           out changes something, so it is a form, not a link. #}
-        <span class="signed-in">Signed in as {{ signed_in_name }} · <form class="sign-out" method="post" action="{{ url_for('sign_out') }}"><button type="submit">Sign out</button></form></span>
-      {% elif apply_open %}
-        <a href="{{ url_for('apply') }}">Apply for an account</a>
+        {# "Admin · Signed in as [name] · Sign out" for the owner, the same without
+           Admin for anyone else. docs/PHASE-1-ADMIN-AND-EMAIL.md. Signing out
+           changes something, so it is a form, not a link. #}
+        <span class="signed-in">{% if is_owner %}<a href="{{ url_for('admin') }}">Admin</a> · {% endif %}Signed in as {{ signed_in_name }} · <form class="sign-out" method="post" action="{{ url_for('sign_out') }}"><button type="submit">Sign out</button></form></span>
+      {% else %}
+        <span class="signed-in"><a href="{{ url_for('sign_in') }}">Sign in</a> · <a href="{{ url_for('apply') }}">Apply for an account</a></span>
       {% endif %}
       {% endblock %}
     </nav>
