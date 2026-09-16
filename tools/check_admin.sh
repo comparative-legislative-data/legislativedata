@@ -110,7 +110,7 @@ expect "  and they are approved, with the date"  "$(state_of $A1)" "approved:tru
 expect "  and the screen says so"                "$(curl -sS -H "$O" "$G/admin?done=approved" | grep -c 'Approved, and emailed.')" 1
 expect "  and no email failure was logged"       "$(grep -c 'email not sent' $WORK/$GOOD.log)" 0
 
-expect "refusing asks first"                     "$(curl -sS -H "$O" $G/admin/refuse/$(pid_of $A2) | grep -c 'Refuse this application?'):$(state_of $A2)" "1:applied:false"
+expect "refusing asks first"                     "$(curl -sS -H "$O" $G/admin/refuse/$(pid_of $A2) | grep -c '<h1>Refuse this application?</h1>'):$(state_of $A2)" "1:applied:false"
 expect "the owner refuses"                       "$(post -H "$O" $G/admin/refuse/$(pid_of $A2))" "303 $G/admin?done=refused"
 expect "  and the application is gone"           "$(state_of $A2)" "gone"
 
@@ -122,7 +122,7 @@ expect "  and the screen says so"                "$(curl -sS -H "$O" "$B/admin?d
 expect "  and both failures are logged, naming nobody" "$(grep -c 'email not sent' $WORK/$BAD.log):$(grep -cE 'resend\.dev|Una Unsent' $WORK/$BAD.log)" "2:0"
 
 A1_M=$(device_for "$(pid_of $A1)")
-expect "deleting asks first"                     "$(curl -sS -H "$O" $G/admin/delete/$(pid_of $A1) | grep -c 'Delete this account?')" 1
+expect "deleting asks first"                     "$(curl -sS -H "$O" $G/admin/delete/$(pid_of $A1) | grep -c '<h1>Delete this account?</h1>')" 1
 OWNER_PID=$(sql "select person_id from person where is_owner")
 expect "the owner's own account cannot be deleted" "$(code -H "$O" $G/admin/delete/$OWNER_PID):$(post -H "$O" $G/admin/delete/$OWNER_PID):$(sql "select count(*) from person where is_owner")" "404:404 :1"
 expect "someone else cannot delete"              "$(post -H "$N" $G/admin/delete/$(pid_of $A1)):$(state_of $A1)" "404 :approved:true"

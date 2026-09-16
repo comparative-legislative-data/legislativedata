@@ -401,14 +401,14 @@ One row per person who has applied to use the site, and one for the owner. Delet
 | `name` | text | yes |  | The name the person gave when they applied. Held because the owner decides on applications. Never empty. |
 | `title` | text |  |  | The title the person gave, such as Dr or Professor. Held because the owner decides on applications. Empty means they gave none. |
 | `position` | text | yes |  | The position the person gave, such as their post and institution. Held because the owner decides on applications. Never empty. |
-| `state` | text | yes |  | Where their application stands: applied, approved or refused. Only an approved person can be sent a code. Never empty. |
+| `state` | text | yes |  | Where their application stands: applied or approved. Only an approved person can be sent a code. A refused application is deleted once the person has been told, so refused is allowed here but no row stays in it. Never empty. |
 | `applied_at` | timestamp | yes |  | When they applied. For the owner's own account, when it was made on the machine. Never empty. |
 | `decided_at` | timestamp |  |  | When the owner approved or refused them. Empty means nobody has decided yet, and the database refuses an empty cell here once the state is approved or refused. |
 | `is_owner` | true/false | yes |  | True for the owner's account, which alone sees the admin screen; false for everyone else. At most one person is the owner, and only an approved one. The site cannot set this: it is set on the machine. |
 
 ### `sign_in_code`
 
-One row per code emailed to a person. A code lasts 15 minutes and works once. Rows are there only while a code could matter and are removed once it has been used or has run out.
+One row per code sent to a person, or made on the machine for the owner. A code works once, within 15 minutes, and stops after five wrong tries. The row is kept for an hour after the code was made, used or not, so that no address is sent more than three codes an hour, and is then removed.
 
 | Column | Type | Required | Points at | What it holds |
 |---|---|---|---|---|

@@ -273,6 +273,19 @@ All three checks refuse to run once anyone but the owner is in the accounts.
 **That is the day they need a different shape**, and it is close: the first real
 application stops all three.
 
+**2026-09-16**, on `2026-09-16T15-01-28Z`. Each check run with `BREAK=1` first
+and failed where designed. Then apply 19 of 19 and sign-in 44 of 44. The admin
+check failed at item 13, and the fault was the check's: the confirmation heading
+also appears in the page's title, so it was found twice. Fixed to look at the
+heading alone, the same fix made for the deletion page before it was reached;
+then 27 of 27. Resend reported every test email delivered. `db/accounts/002`
+applied, the data dictionary regenerated with those two descriptions and nothing
+else changed, and deployed as `2026-09-16T15-02-54Z`: every page as expected from
+outside, `/admin` "not found" to anyone but the owner, one person (the owner),
+no codes, no devices, no errors, no address in the access log. The deploy's own
+step 5 was refused by the SSH limit after the switch; its checks were made from
+outside and in a later connection instead.
+
 ## The undo, once there are real people
 
 `db/accounts/001_undo.sql` drops the database. **Once anyone real has applied,
