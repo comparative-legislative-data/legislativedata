@@ -48,3 +48,30 @@ def reachable():
         return True
     except psycopg.Error:
         return False
+
+
+class Unavailable(Exception):
+    """The accounts could not take the write. Carries no detail, on purpose:
+    PostgreSQL's own messages can quote the row, and the row is a person."""
+
+
+def apply(email, name, title, position):
+    """Add an application, or do nothing if the address has already applied.
+
+    The caller cannot tell which happened, and neither can the person applying.
+    Deciding what to show them from this would let anyone use the form to find
+    out whether an address has an account. Settled 2026-09-16.
+
+    Raises Unavailable, with nothing from the database attached, if the write
+    fails for any reason.
+    """
+    try:
+        conn = connection()
+        with conn.transaction():
+            conn.execute(
+                "INSERT INTO person (email, name, title, position) "
+                "VALUES (%s, %s, %s, %s) ON CONFLICT (email) DO NOTHING",
+                (email, name, title, position),
+            )
+    except psycopg.Error:
+        raise Unavailable() from None

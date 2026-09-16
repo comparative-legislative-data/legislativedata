@@ -1,0 +1,20 @@
+{#
+  When the accounts cannot take an application. Says so, and that nothing was
+  kept, and nothing else. docs/PHASE-1-APPLY.md, 2026-09-16.
+#}
+{% extends "base.html" %}
+
+{% block title %}Applications can't be taken right now — {{ site_name }}{% endblock %}
+
+{% block main %}
+<div class="reading">
+
+  <p class="label">Accounts</p>
+  <h1>Applications can't be taken right now</h1>
+
+  <div class="prose">
+    <p>Nothing you entered has been kept. Please try again later.</p>
+  </div>
+
+</div>
+{% endblock %}

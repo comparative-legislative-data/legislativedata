@@ -10,19 +10,29 @@ DECISIONS.md, 2026-09-15, "Every page carries the date of the data it was built
 from".
 """
 import os
+import re
 
-from flask import Flask, render_template
+from flask import Flask, abort, redirect, render_template, request, url_for
 
 import accounts
 
 app = Flask(__name__)
 app.teardown_appcontext(accounts.close)
 
+# Nothing the site takes in is anywhere near this. A form is a few hundred bytes.
+app.config["MAX_CONTENT_LENGTH"] = 16 * 1024
+
 SITE_NAME = "legislativedata.org"
 
 # One place. When the published database exists this is read from it per
 # request, and this constant goes. Nothing else in the site knows the date.
 NO_DATA_YET = "No data published yet"
+
+# The apply page is built and tested but stays off on the live site until the
+# owner has an admin screen to see applications on. Settled 2026-09-16. Only
+# the machine turns it on; when the admin screen is live this switch is taken
+# out, not flipped.
+APPLY_OPEN = os.environ.get("LEGSITE_APPLY_OPEN") == "1"
 
 
 @app.context_processor
@@ -31,6 +41,7 @@ def shell():
     return {
         "site_name": SITE_NAME,
         "data_date_line": NO_DATA_YET,
+        "apply_open": APPLY_OPEN,
     }
 
 
@@ -44,12 +55,92 @@ def health():
     """What the deploy checks against.
 
     Healthy means the site is running and can read the accounts, because a site
-    that cannot is one nobody can apply to or sign in to. Says nothing about the
+    that cannot is one nobody can apply or sign in to. Says nothing about the
     data or about anyone in the accounts.
     """
     if not accounts.reachable():
         return "accounts unreachable\n", 503, {"Content-Type": "text/plain; charset=utf-8"}
     return "ok\n", 200, {"Content-Type": "text/plain; charset=utf-8"}
+
+
+# ---- Applying for an account ------------------------------------------------
+#
+# Wording, behaviour and limits are docs/PHASE-1-APPLY.md, settled by the owner
+# on 2026-09-16. In short: no email is sent, no cookie is set, nothing about the
+# visitor is recorded, and a second application from the same address looks
+# exactly like the first and changes nothing.
+
+# The same shape the database insists on, so a person is told here rather than
+# refused there.
+EMAIL_SHAPE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+
+# Field name, what the page calls it, and the length it must be under.
+FIELDS = [
+    ("email", "Email address", 254),
+    ("name", "Name", 200),
+    ("title", "Title", 50),
+    ("position", "Position", 300),
+]
+
+# A field people never see and some bots fill in. If it has anything in it,
+# the sender is shown the thank-you page and nothing is kept.
+TRAP = "homepage"
+
+
+def tidy(value):
+    """Whitespace at the ends gone, and any run of it inside made one space."""
+    return " ".join((value or "").split())
+
+
+def check(form):
+    """The tidied values, and the list of what is wrong with them, in page order."""
+    values = {field: tidy(form.get(field)) for field, _, _ in FIELDS}
+    values["email"] = values["email"].lower()
+    problems = []
+    if not values["email"]:
+        problems.append("Enter your email address.")
+    elif not EMAIL_SHAPE.match(values["email"]):
+        problems.append("That doesn't look like an email address.")
+    if not values["name"]:
+        problems.append("Enter your name.")
+    if not values["position"]:
+        problems.append("Enter your position.")
+    for field, called, under in FIELDS:
+        if len(values[field]) >= under:
+            problems.append(f"{called} must be under {under} characters.")
+    return values, problems
+
+
+@app.route("/apply", methods=["GET", "POST"])
+def apply():
+    if not APPLY_OPEN:
+        abort(404)
+    if request.method == "GET":
+        return render_template("apply.html", values={}, problems=[])
+
+    if request.form.get(TRAP):
+        return redirect(url_for("apply_received"), code=303)
+
+    values, problems = check(request.form)
+    if problems:
+        return render_template("apply.html", values=values, problems=problems), 400
+
+    try:
+        accounts.apply(values["email"], values["name"], values["title"] or None,
+                       values["position"])
+    except accounts.Unavailable:
+        return render_template("apply_unavailable.html"), 503
+
+    # Sent on to a page of its own, so that reloading it cannot send the form
+    # again. The page says the same thing whatever happened.
+    return redirect(url_for("apply_received"), code=303)
+
+
+@app.route("/apply/received")
+def apply_received():
+    if not APPLY_OPEN:
+        abort(404)
+    return render_template("apply_received.html")
 
 
 if __name__ == "__main__":

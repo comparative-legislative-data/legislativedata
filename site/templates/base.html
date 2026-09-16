@@ -24,7 +24,7 @@
   <div class="topbar-inner">
     <a class="wordmark" href="/">legislativedata<span class="wordmark-tail">.org</span></a>
     <nav>
-      {% block nav %}{% endblock %}
+      {% block nav %}{% if apply_open %}<a href="{{ url_for('apply') }}">Apply for an account</a>{% endif %}{% endblock %}
     </nav>
   </div>
 </header>

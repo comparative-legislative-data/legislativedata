@@ -1,0 +1,84 @@
+{#
+  Applying for an account. Every word here is from docs/PHASE-1-APPLY.md, as
+  settled by the owner on 2026-09-16; change the wording there first.
+#}
+{% extends "base.html" %}
+
+{% block title %}Apply for an account — {{ site_name }}{% endblock %}
+
+{% block main %}
+<div class="reading">
+
+  <p class="label">Accounts</p>
+  <h1>Apply for an account</h1>
+
+  <p class="standfirst">
+    legislativedata.org is in preparation, and accounts are for its beta.
+  </p>
+
+  <div class="prose">
+    <p>Nothing is published yet.</p>
+    <p>Every application is read and decided by hand. You will be emailed either way.</p>
+  </div>
+
+  {% if problems %}
+  <div class="problems" role="alert">
+    <ul>
+      {% for p in problems %}<li>{{ p }}</li>{% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <form class="form" method="post" action="{{ url_for('apply') }}" novalidate>
+
+    <div class="field">
+      <label for="email">Email address</label>
+      <p class="hint" id="email-hint">Where your sign-in codes will be sent. There are no passwords.</p>
+      <input type="email" id="email" name="email" autocomplete="email" maxlength="300"
+             aria-describedby="email-hint" value="{{ values.email or '' }}">
+    </div>
+
+    <div class="field">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" autocomplete="name" maxlength="300"
+             value="{{ values.name or '' }}">
+    </div>
+
+    <div class="field">
+      <label for="title">Title <span class="optional">(optional)</span></label>
+      <p class="hint" id="title-hint">For example, Dr or Professor.</p>
+      <input type="text" id="title" name="title" autocomplete="honorific-prefix" maxlength="300"
+             aria-describedby="title-hint" value="{{ values.title or '' }}">
+    </div>
+
+    <div class="field">
+      <label for="position">Position</label>
+      <p class="hint" id="position-hint">Your post and institution, or how you would describe what you do.</p>
+      <input type="text" id="position" name="position" autocomplete="organization-title" maxlength="400"
+             aria-describedby="position-hint" value="{{ values.position or '' }}">
+    </div>
+
+    {# Nobody sees this or can reach it with the keyboard. Some bots fill in
+       every field they find; a form that comes back with this filled in is
+       thanked and not kept. #}
+    <div class="trap" aria-hidden="true">
+      <label for="homepage">Leave this empty</label>
+      <input type="text" id="homepage" name="homepage" tabindex="-1" autocomplete="off">
+    </div>
+
+    <button class="button" type="submit">Apply</button>
+  </form>
+
+  <div class="keeps">
+    <p class="label">What this form keeps</p>
+    <ul>
+      <li>Your email address, name, title and position, and the date you applied.</li>
+      <li>Whether your application was approved, and when.</li>
+      <li>Nothing else: not your IP address, not your browser, and nothing about your visit.</li>
+      <li>An approved application is kept while you have an account. A refused one is deleted once you have been told. To have yours deleted, write to <a href="mailto:comparativelegislativedata@gmail.com">comparativelegislativedata@gmail.com</a>.</li>
+      <li>Emails from the site, including the decision on your application, are sent through Resend, which therefore sees your email address.</li>
+    </ul>
+  </div>
+
+</div>
+{% endblock %}

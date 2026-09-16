@@ -89,7 +89,9 @@ what would reopen it.
 - **Nothing secret is held about a user, and nothing is held about what they
   read.** There are no passwords: signing in is a code by email, 15 minutes, one
   use, and a device stays signed in 30 days. Held: email, name, title, position,
-  which state the application is in and when. Web server logs for 14 days.
+  which state the application is in and when; a refused application is deleted
+  once the person is told (2026-09-16). The web server log holds nothing about a
+  visitor (2026-09-16).
   Never: a password, or any record of what a signed-in researcher looked at.
   Settled 2026-09-15.
 

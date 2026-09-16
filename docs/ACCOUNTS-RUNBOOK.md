@@ -164,6 +164,36 @@ item, leaving it empty.
 **The practice person remains in that night's off-site snapshots** until
 retention ages them out. They are invented and name nobody.
 
+## The apply page, and its check
+
+`site/app.py`, `/apply`. What it does and every word it says are
+`docs/PHASE-1-APPLY.md`. **It is off on the live site** until the admin screen
+exists: `LEGSITE_APPLY_OPEN=1` turns it on, and nothing on the machine sets it.
+
+**The check is `tools/check_apply.sh`**, run as root on the machine against a
+staged release. It starts that release twice as `legsite`, on ports 8002 and
+8003, once reaching the accounts and once pointed at a database that does not
+exist, and sends applications with an invented person at `example.org`. It
+refuses to start unless the accounts are empty, prints only counts and yes/no
+answers about the invented person, and deletes them and stops both copies
+whether it passes or fails.
+
+Send it and run it **in one connection**, because of the SSH limit:
+
+    ~/.claude/legdata-vps 'cat > /tmp/check_apply.sh && sudo bash /tmp/check_apply.sh /srv/site/releases/<release>' < tools/check_apply.sh
+
+It must print `All 20 pass` and `people left: 0`. Run with `sudo OPEN=0 bash …`
+it must fail at item 1 with `got '404'`, which shows it can fail.
+
+**Once anyone real has applied, it refuses to run**, by design. It will need an
+invented-person-only way of checking before then, or retiring.
+
+**2026-09-16**, on `2026-09-16T12-47-30Z`. The first run meant to fail did fail,
+but because the two copies never started: the site's login cannot read the
+folder the script was started from. Fixed by starting from inside the release;
+then it failed at item 1 with `404`, as it should. Then all 20 passed and the
+accounts were empty afterwards.
+
 ## The undo, once there are real people
 
 `db/accounts/001_undo.sql` drops the database. **Once anyone real has applied,

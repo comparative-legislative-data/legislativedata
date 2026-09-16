@@ -1,0 +1,21 @@
+{#
+  After applying. The same page whatever happened, so that it tells nobody
+  whether an address had applied before. docs/PHASE-1-APPLY.md, 2026-09-16.
+#}
+{% extends "base.html" %}
+
+{% block title %}Application received — {{ site_name }}{% endblock %}
+
+{% block main %}
+<div class="reading">
+
+  <p class="label">Accounts</p>
+  <h1>Application received</h1>
+
+  <div class="prose">
+    <p>Thank you. Your application will be read by hand, and you will be emailed at that address when it has been decided.</p>
+    <p>If that address has applied before, nothing has changed and you do not need to apply again.</p>
+  </div>
+
+</div>
+{% endblock %}

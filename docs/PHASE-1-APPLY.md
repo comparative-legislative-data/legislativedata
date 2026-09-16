@@ -1,8 +1,11 @@
 # The apply page — for the owner to settle
 
-Six questions, each with a recommendation, then the wording in full. Where you
-agree with a recommendation, "yes" is enough. Nothing is built until all six are
-settled.
+Six questions, each with a recommendation, then the wording in full.
+
+**All settled by the owner, 16 September.** Questions 1, 2, 3 and 6 and the
+defaults as recommended; 4 and 5 as recorded under each; the sentence promising
+beta accounts the data cut; the rest of the wording as written. Built from
+this file word for word.
 
 This file goes when Phase 1 closes, like the other `PHASE-1-` files.
 
@@ -37,6 +40,9 @@ it, and makes every application something that has to be sent through Resend.
 
 ## 4. How long an application is kept
 
+**Settled by the owner, 16 September: a refused application is deleted once
+they have been told.**
+
 This is new: it was not settled on 15 September, and the form has to say it.
 
 - **Waiting, or approved:** for as long as the account exists, until you delete
@@ -53,13 +59,12 @@ admin screen.
 
 ## 5. How does someone ask for their data to be deleted?
 
-**This one needs an answer from you, not a yes.** The form has to give an
-address to write to. There are two ways to do it:
+**Settled by the owner, 16 September: `comparativelegislativedata@gmail.com`.**
+It goes on a public page by the owner's choice, and so into this repository,
+which is public too.
 
-- **An address at `legislativedata.org` that forwards to you.** Cloudflare
-  already holds the name and can forward mail free of charge, so no new company
-  is involved. It is still a new thing to set up, so it's yours to say.
-- **An address you already have.** It would appear on a public page.
+The other way offered was an address at `legislativedata.org` forwarded by
+Cloudflare, which would have been a new thing to set up.
 
 ## 6. When the page goes live
 
@@ -96,7 +101,7 @@ when this is settled.
 
 ## The wording, in full
 
-Square brackets are the answers to questions 4 and 5.
+Questions 4 and 5 are answered and filled in.
 
 ### The apply page
 
@@ -106,8 +111,7 @@ Square brackets are the answers to questions 4 and 5.
 >
 > legislativedata.org is in preparation, and accounts are for its beta.
 >
-> Nothing is published yet. When it is, it will be available to people with an
-> account while the site is in beta.
+> Nothing is published yet.
 >
 > Every application is read and decided by hand. You will be emailed either way.
 >
@@ -130,16 +134,15 @@ Square brackets are the answers to questions 4 and 5.
 > - Whether your application was approved, and when.
 > - Nothing else: not your IP address, not your browser, and nothing about your
 >   visit.
-> - [An approved application is kept while you have an account. A refused one
->   is deleted once you have been told.] To have yours deleted, write to
->   [address].
+> - An approved application is kept while you have an account. A refused one
+>   is deleted once you have been told. To have yours deleted, write to
+>   comparativelegislativedata@gmail.com.
 > - Emails from the site, including the decision on your application, are sent
 >   through Resend, which therefore sees your email address.
 
-**One sentence makes a promise**: "When it is, it will be available to people
-with an account while the site is in beta." You deferred what access becomes
-after beta, and this says nothing about after. It does promise that beta
-accounts get the data. Cut it if that's more than you want to say yet.
+**Cut by the owner, 16 September:** "When it is, it will be available to
+people with an account while the site is in beta." It promised beta accounts the
+data, and what an account gets is not settled.
 
 ### After applying
 

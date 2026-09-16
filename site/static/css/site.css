@@ -247,6 +247,95 @@ h2 {
 }
 .not-here li { margin-bottom: var(--s1); }
 
+/* ---- Forms -------------------------------------------------------------- */
+
+/* What is wrong, in words. Not red: colour means "you can act here" and
+   nothing else (DECISIONS.md, 2026-09-15), so a problem is a firm rule and
+   plain text, above the form, where it is read first. */
+.problems {
+  border-left: 2px solid var(--border-firm);
+  padding: 0 0 0 var(--s4);
+  margin: var(--s8) 0 0;
+  color: var(--text-strong);
+}
+.problems ul { margin: 0; padding-left: var(--s4); }
+.problems li { margin-bottom: var(--s1); }
+
+.form { margin: var(--s8) 0 0; }
+
+.field { margin: 0 0 var(--s6); }
+
+.field label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0 0 var(--s1);
+}
+.field .optional { font-weight: 400; color: var(--text-muted); }
+
+.hint {
+  margin: 0 0 var(--s2);
+  font-size: var(--t-md);
+  color: var(--text-muted);
+}
+
+.field input {
+  display: block;
+  width: 100%;
+  font-family: var(--sans);
+  font-size: var(--t-lg);
+  color: var(--text-strong);
+  background: var(--surface);
+  border: 1px solid var(--border-firm);
+  border-radius: var(--radius);
+  padding: var(--s2) var(--s3);
+}
+.field input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
+.button {
+  font-family: var(--sans);
+  font-size: var(--t-lg);
+  font-weight: 600;
+  color: var(--bg);
+  background: var(--accent);
+  border: 0;
+  border-radius: var(--radius);
+  padding: var(--s2) var(--s6);
+  cursor: pointer;
+}
+.button:hover { background: var(--accent-hover); }
+.button:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 2px; }
+
+/* Off the page for people, still in the form for bots. Not display:none,
+   which some bots know to skip. */
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* What a form keeps about the person filling it in. The same shape as
+   "what is not here yet", with a quieter rule: it is information, not an
+   invitation to act. */
+.keeps {
+  border-left: 2px solid var(--border);
+  padding: 0 0 0 var(--s4);
+  margin: var(--s12) 0 0;
+}
+.keeps ul {
+  margin: 0;
+  padding-left: var(--s4);
+  font-size: var(--t-md);
+  color: var(--text-muted);
+}
+.keeps li { margin-bottom: var(--s2); }
+
 /* ---- Footer ------------------------------------------------------------- */
 
 .foot {

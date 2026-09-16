@@ -175,7 +175,8 @@ reasoning that is still live is in `STANDING.md`.
   reads the published one and cannot see the working one.
 - **Whether the site and the database share a machine.** They do.
 - **What is held about a user.** No passwords — a code by email. Email, name,
-  title, position, the state of the application and when. Logs for 14 days.
+  title, position, the state of the application and when. The web server log
+  holds nothing about a visitor.
   Never a password, and never what a signed-in researcher read.
 - **The domain.** `legislativedata.org`.
 - **What the beta gate becomes afterwards — deferred**, by the owner, and taken
