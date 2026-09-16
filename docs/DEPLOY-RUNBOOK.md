@@ -26,19 +26,23 @@ Four things, and it is worth being able to name them.
 - **The site** is Flask and Jinja — the pages themselves.
 - **systemd** starts gunicorn when the machine boots and restarts it if it dies.
 
-The database is not in that list, on purpose. Phase 1 puts no data on any page,
-so the site reads no database at all. When it does, it reads the published copy
-and never the working one.
+**The site reads one database: the accounts**, since 16 September 2026. It
+connects as its own login over the machine's socket, with no password, and that
+login cannot open the working database. Phase 1 puts no data on any page, so it
+reads nothing about bills; when it does, it reads the published copy and never
+the working one. See `docs/ACCOUNTS-RUNBOOK.md`.
 
 ## Where things live
 
     /srv/site/releases/<when>/   one deployed version, with its own dependencies
     /srv/site/current            a pointer at whichever release is live
+    /srv/site/switched           every release that has been live, oldest first
     /etc/caddy/Caddyfile         the front door's configuration
     /var/log/caddy/site.log      the access log
     /etc/systemd/system/legislativedata.service
 
-**`current` is a pointer, and that is the whole undo.** Going back a version is
+**`current` is a pointer, and that is the whole undo.** `switched` is how the
+undo knows where to point it. Going back a version is
 moving the pointer and restarting, which takes about two seconds. Each release
 carries its own copy of its dependencies, so going back takes those back too.
 
@@ -61,7 +65,10 @@ switched and the live site is untouched.
 3. **Rehearses.** Unpacks the new version, builds its dependencies, starts it on
    port 8001 which nothing is pointed at, and asks it for the health check and
    the home page. Both must be `200`. Then it stops it again. **A failure here
-   stops the deploy with the live site still on the old version.**
+   stops the deploy with the live site still on the old version**, and deletes
+   the failed release so that nothing can later take it for a working one.
+   **The health check is `200` only if the site can read the accounts.** A site
+   that cannot is one nobody can apply or sign in to, so it does not go live.
 4. **Switches.** Checks the Caddy configuration is valid, moves the pointer,
    restarts the site, restarts Caddy.
 5. **Checks what a reader actually gets** — over `https`, from outside the app:
@@ -91,12 +98,23 @@ nothing else. Worth doing for any change you are unsure of.
 
     tools/deploy_site.sh --rollback
 
-Moves the pointer to the previous release, restarts, and prints the health check
-and where the pointer now points. Roughly two seconds.
+Moves the pointer to the release that was live before this one, restarts, and
+prints the health check and where the pointer now points. Roughly two seconds.
+
+**It reads `/srv/site/switched`, not the list of folders.** Until 16 September
+2026 it went to whichever folder sorted before the live one, which could be a
+release that was only staged, or failed its rehearsal, and was never live. A
+deploy adds to the list when it switches; a rollback does not, so rolling back
+twice goes back two versions. If the list is missing, the rollback refuses
+rather than guessing.
+
+**Rolling back past 16 September's 12:29 deploy puts back a site that reads no
+database.** Its health check does not ask about the accounts, so a `200` from it
+says less than a `200` from anything later.
 
     tools/deploy_site.sh --releases
 
-Lists what is on the machine and which one is live.
+Lists what is on the machine, which one is live, and the list of what has been.
 
 **The undo only reaches as far as the releases still on the machine.** They are
 not pruned automatically yet; when they are, the rule goes here first.
@@ -140,10 +158,14 @@ A filter that covers most of the ways in covers none of them.
 **Check it after any change to the logging**, by making a request and then
 looking for anything address-shaped:
 
-    ~/.claude/legdata-vps 'sudo grep -cEo "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" /var/log/caddy/site.log'
+    ~/.claude/legdata-vps 'sudo sed -E "s/\"host\": \"[^\"]*\"//" /var/log/caddy/site.log | grep -cE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"'
     ~/.claude/legdata-vps 'restart=$(systemctl show caddy -p ActiveEnterTimestamp --value); sudo journalctl -u caddy --since "$restart" | grep -c http.log.access'
 
-The first must be `0`. The second must be `0` — anything above zero means access
+The first must be `0`. **It leaves out the `host` field on purpose**: that is
+the address a request was *aimed at*, and when something asks for this machine by
+number rather than by name, it is this machine's own address. On 16 September
+2026 the older form of this check counted 25 such lines and nothing else; all 25
+were the machine's own address, and none a visitor's. The second must be `0` — anything above zero means access
 logging is reaching the journal, which is not filtered.
 
 ## The certificate

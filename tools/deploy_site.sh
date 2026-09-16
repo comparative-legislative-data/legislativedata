@@ -23,7 +23,8 @@ say() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 case "${1:-deploy}" in
 
 --releases)
-  $VPS 'ls -1 /srv/site/releases | sort; echo "---"; echo "current -> $(readlink /srv/site/current)"'
+  $VPS 'ls -1 /srv/site/releases | sort; echo "---"; echo "current -> $(readlink /srv/site/current)"
+    echo "--- switched to, oldest first:"; cat /srv/site/switched 2>/dev/null || echo "(no list yet)"'
   exit 0
   ;;
 
@@ -32,13 +33,21 @@ case "${1:-deploy}" in
   $VPS 'set -e
     cd /srv/site
     cur=$(basename "$(readlink current)")
-    # The one immediately before whatever is live now, so that rolling back
-    # twice goes back two versions rather than standing still.
-    prev=$(ls -1 releases | sort | awk -v c="$cur" "\$0 == c {exit} {p=\$0} END {print p}")
-    if [ -z "$prev" ]; then
-      echo "$cur is the oldest release on the machine. Nothing to roll back to."
+    # The release that was live before this one, read from the list of what has
+    # been switched to -- not the folder that sorts before it, which could be a
+    # release that was staged or failed its rehearsal and was never live. The
+    # list is not added to by a rollback, so rolling back twice goes back two
+    # versions rather than standing still.
+    if [ ! -f switched ]; then
+      echo "No list of switched releases on the machine. Not guessing; roll back by hand."
       exit 1
     fi
+    prev=$(awk -v c="$cur" "\$0 == c {print p; exit} {p=\$0}" switched)
+    if [ -z "$prev" ]; then
+      echo "Nothing was live before $cur. Nothing to roll back to."
+      exit 1
+    fi
+    [ -d "releases/$prev" ] || { echo "releases/$prev is not on the machine."; exit 1; }
     echo "current is $cur, going back to $prev"
     sudo ln -sfn "/srv/site/releases/$prev" /srv/site/current
     sudo systemctl restart legislativedata
@@ -98,7 +107,12 @@ $VPS "set -e
   echo \"   rehearsal home page: \$bytes bytes\"
   sudo kill \$(cat /tmp/rehearse.pid) 2>/dev/null || true
   sudo rm -f /tmp/rehearse.pid
-  [ \$ok = 1 ] || { echo 'REHEARSAL FAILED — nothing switched'; exit 1; }
+  if [ \$ok != 1 ]; then
+    # Removed, so that nothing can later mistake it for a working release.
+    cd / && sudo rm -rf /srv/site/releases/\$REL
+    echo 'REHEARSAL FAILED — nothing switched, and the release removed'
+    exit 1
+  fi
   echo '   rehearsal passed'"
 
 if [ "$SWITCH" = no ]; then
@@ -112,7 +126,13 @@ $VPS "set -e
   sudo cp /tmp/Caddyfile /etc/caddy/Caddyfile && rm -f /tmp/Caddyfile
   sudo caddy fmt --overwrite /etc/caddy/Caddyfile
   sudo caddy validate --config /etc/caddy/Caddyfile 2>&1 | tail -1
+  # The list the undo reads. The first time it is made, it starts with whatever
+  # was live before, so the first deploy after it can still be undone.
+  if [ ! -f /srv/site/switched ]; then
+    basename \"\$(readlink /srv/site/current)\" | sudo tee /srv/site/switched >/dev/null
+  fi
   sudo ln -sfn /srv/site/releases/$REL /srv/site/current
+  echo $REL | sudo tee -a /srv/site/switched >/dev/null
   sudo systemctl restart legislativedata
   sudo systemctl restart caddy
   sleep 2"

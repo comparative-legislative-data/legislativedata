@@ -26,6 +26,12 @@ nothing else.
   decision date; delete a person; add, change and remove codes and devices. It
   may not set `is_owner` or change an email, and it cannot make a tab of its own.
 - **The backup** takes it every night. See below.
+- **The site connects to it** from 16 September 2026, through `site/accounts.py`,
+  as `legsite` over the local socket: `dbname=accounts` and nothing else, no
+  password, no secret anywhere. Its health check asks the database for no row
+  from `person` — which proves the permission without reading anyone — and says
+  `503` if that fails. Proved inside the live service's own sandbox, where the
+  same login was still refused the working database.
 
 ## Making it, and the rehearsal that came first
 

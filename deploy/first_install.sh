@@ -30,7 +30,8 @@ caddy version
 
 echo "== the account the site runs as =="
 # It owns nothing but its own files, cannot log in, and is not the account we
-# connect with. The site reads no database, so it has no database access.
+# connect with. Its database login, of the same name, is made by
+# db/accounts/001_the_accounts.sql and can open the accounts and nothing else.
 if ! getent passwd legsite >/dev/null; then
   sudo useradd --system --home-dir /srv/site --shell /usr/sbin/nologin legsite
 fi

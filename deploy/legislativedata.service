@@ -15,8 +15,9 @@ ExecReload=/bin/kill -s HUP $MAINPID
 Restart=on-failure
 RestartSec=3
 
-# The site reads no database and writes no files. Nothing it can reach needs
-# to be writable, so nothing is.
+# The site writes no files. It reads and writes the accounts database, but
+# over PostgreSQL's socket, which a read-only filesystem does not stop. Nothing
+# it can reach needs to be writable, so nothing is.
 NoNewPrivileges=true
 PrivateTmp=true
 PrivateDevices=true

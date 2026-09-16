@@ -215,8 +215,9 @@ empty, in the nightly backup and proved to restore from the storage box**, with
 the website's login unable to see the working data (`docs/ACCOUNTS-RUNBOOK.md`).
 That was build item 4 of the no-passwords decision, done before any page rather
 than on the day of the first account. Every page below is still to do. The site
-does not yet connect to any database, and connecting it needs a database driver
-added to its requirements, which is a new dependency and is asked for first.
+does not yet connect to any database. The driver it needs, psycopg, was named in
+the stack the owner chose on 15 September, so it is not a new dependency; the
+16 September handover asked for it again in error, and the owner confirmed.
 
 The whole of it, from `PLAN.md`:
 
