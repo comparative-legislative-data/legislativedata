@@ -32,25 +32,29 @@ provenance notes. **The error checker and the gaps list are both empty.**
 - **16 September.** The site live, the accounts built and backed up by theme,
   and Phase 1 closed on a test run by another session. Phase 2 opened, beta users
   only, and its plan drafted; then checked by another session, redrafted as
-  proposals, and three pieces of outside research commissioned.
+  proposals, and three pieces of outside research commissioned. The research
+  was started as background helpers without being sized, and stopped; it now
+  runs one normal session per piece.
 
-**16 September, this session. The research started and stopped; how it runs
-now is settled.**
+**16 September, this session. The licence research, R2, is done.**
 
-- **I started all three research pieces at once**, as background helpers,
-  without saying how long they would take or what they would cost. You stopped
-  them. Nothing was written, and the licence piece's reading was lost.
-- **Your decision**: one normal session for each piece, then a session that
-  brings the conclusions into an updated plan. You review the plan, the
-  commission and the reports together. The commission and the plan now say so.
+- **The report is `docs/PHASE-2-RESEARCH-LICENCE.md`**, for you to read with
+  the other two and the updated plan. About thirty pages were read, all from
+  the publishers' and projects' own sites.
+- **In short**: the Parliament and legislation.gov.uk both allow what the
+  project does, provided each is credited. Two points are unclear in the
+  Parliament's own wording, and questions for the publishers are drafted in
+  the report. Sending them is yours to decide.
+- **Unread**: the Parliament's archived 2017 licence, behind a browser check.
+  Reading it through your browser needs your permission.
 
 Nothing in the dataset or the site changed.
 
 ## Now
 
-**A normal session runs the licence research, R2**, from
-`docs/PHASE-2-RESEARCH-COMMISSION.md`, then R1 and R3, one session each. Then a
-session updates `docs/PHASE-2.md` from the reports, and you review.
+**A normal session runs R1, how a dataset is handed to a researcher**, from
+`docs/PHASE-2-RESEARCH-COMMISSION.md`, then R3, one session each. Then a
+session updates `docs/PHASE-2.md` from the three reports, and you review.
 
 ## Waiting for you
 
@@ -113,7 +117,7 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-16, the session that started the research
+## Sanity check, 2026-09-16, the session that ran R2
 
 Run before the first reply.
 
@@ -125,10 +129,10 @@ Run before the first reply.
   schema in the working database.
 - **Every database sorted into a backup theme**: `postgres`, `accounts`,
   `legdata`.
-- **The site and Caddy active, the page answering; the backup's last run
-  `success`.** The failed one-off unit is still listed.
-- **One small disagreement**: `CLAUDE.md` says twenty-three schema changes on
-  10 September, the memory says twenty-four. Nothing depends on it.
+- **The site and Caddy active, the page answering 200; the backup timer's last
+  run 02:52 UTC, `success`.** The failed one-off unit is still listed.
+- **Nothing new contradicts anything.** The two known disagreements stand: the
+  count of earlier attempts, and twenty-three or twenty-four schema changes.
 
 ## For the session that updates Phase 2's plan: gaps already seen
 
@@ -155,6 +159,16 @@ with the reports.
   on the machine, is a choice to put to the owner under "ask before adding".
 - **Where the licence and the suggested citation land.** R2 and R1 research
   them; no groundwork piece settles the wording, which is public text.
+- **Found by R2: the commission says the dataset "holds no data about people".**
+  The clean sheet holds none, but the staging sheet keeps the introducer's name
+  as each fact sheet printed it (`bill_candidate.raw_introduced_by`), and both
+  source licences exclude personal data. Whether a download ever includes the
+  staging sheet is the plan's to say.
+- **R2's working, for R1 and R3**: the pages were fetched with `curl` and
+  stripped to text in the scratchpad. `parliament.scot` reads that way;
+  `archive2021.parliament.scot`, `parliament.uk`, ICPSR and the page behind
+  `data.parliament.scot` do not. `congressionalbills.org` now serves an
+  unrelated site; its data is listed on the Comparative Agendas US page.
 
 ## Checking Phase 2's plan: working detail, 16 September
 
