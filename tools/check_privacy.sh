@@ -3,7 +3,7 @@
 # The privacy page, checked on the machine against a staged release. Run as
 # root, in one connection, with the settled wording sent alongside:
 #
-#   sudo bash check_privacy.sh /srv/site/releases/<release> /tmp/<dir>/PHASE-1-WHAT-IS-HELD.md
+#   sudo bash check_privacy.sh /srv/site/releases/<release> /tmp/<dir>/PRIVACY.md
 #   ... sudo BREAK=1 bash check_privacy.sh ...   # must FAIL at item 2
 #
 # It starts the release as the site's own login on a port nothing points at, and
@@ -24,7 +24,7 @@
 set -uo pipefail
 
 REL="${1:?say which release}"
-WORDING="${2:?give the path to PHASE-1-WHAT-IS-HELD.md}"
+WORDING="${2:?give the path to docs/wording/PRIVACY.md}"
 BREAK="${BREAK:-0}"
 INVENTED="delivered+privacy-check@resend.dev"
 WORK=/tmp/privacy-check

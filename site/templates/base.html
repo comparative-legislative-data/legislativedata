@@ -27,9 +27,9 @@
       {% block nav %}
       {% if signed_in_name %}
         {# "Privacy · Admin · Signed in as [name] · Sign out" for the owner, the
-           same without Admin for anyone else. docs/PHASE-1-ADMIN-AND-EMAIL.md;
+           same without Admin for anyone else. docs/wording/ADMIN-AND-EMAIL.md;
            Privacy is in the header of every page, signed in or not, by the
-           owner's decision of 2026-09-16, docs/PHASE-1-WHAT-IS-HELD.md. Signing
+           owner's decision of 2026-09-16, docs/wording/PRIVACY.md. Signing
            out changes something, so it is a form, not a link. #}
         <span class="signed-in"><a href="{{ url_for('privacy') }}">Privacy</a> · {% if is_owner %}<a href="{{ url_for('admin') }}">Admin</a> · {% endif %}Signed in as {{ signed_in_name }} · <form class="sign-out" method="post" action="{{ url_for('sign_out') }}"><button type="submit">Sign out</button></form></span>
       {% else %}

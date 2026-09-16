@@ -1,7 +1,7 @@
 """Sending the site's emails, through Resend, and nothing else.
 
 Three emails, every word of them settled by the owner on 2026-09-16 in
-docs/PHASE-1-ADMIN-AND-EMAIL.md: a sign-in code, an approval, a refusal. Plain
+docs/wording/ADMIN-AND-EMAIL.md: a sign-in code, an approval, a refusal. Plain
 text, no tracking, from no-reply@legislativedata.org with replies going to the
 address the apply page gives.
 

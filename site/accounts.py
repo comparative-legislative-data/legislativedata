@@ -84,7 +84,7 @@ def apply(email, name, title, position):
 
 # ---- Signing in ---------------------------------------------------------------
 #
-# Settled by the owner 2026-09-16, docs/PHASE-1-SIGN-IN.md. A code is six digits,
+# Settled by the owner 2026-09-16, docs/wording/SIGN-IN.md. A code is six digits,
 # works once, within 15 minutes, and stops after five wrong tries. It is kept as
 # a scramble made with a key held on the machine outside the database, so that
 # reading the database does not let anyone work a code out. A signed-in device
@@ -261,7 +261,7 @@ def sign_out(marker):
 # ---- The admin screen -------------------------------------------------------------
 #
 # Only the owner's account reaches these; app.py checks that before calling any
-# of them. docs/PHASE-1-ADMIN-AND-EMAIL.md.
+# of them. docs/wording/ADMIN-AND-EMAIL.md.
 
 def people():
     """(waiting, approved): lists of dicts, waiting oldest first, approved by name."""

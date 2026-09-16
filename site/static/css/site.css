@@ -4,7 +4,7 @@
  * step warm neutral ramp with a layer of names on top saying what each step is
  * FOR. Nothing below the :root blocks may name a colour. Light mode redefines
  * the twelve and nothing else, which is what makes the mode setting nearly
- * free. See docs/PHASE-1-STYLE.md.
+ * free. See docs/DECISIONS.md, 2026-09-15.
  */
 
 /* ---- The ramp: dark, the default ---------------------------------------- */

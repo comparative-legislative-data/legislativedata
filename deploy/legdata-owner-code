@@ -8,7 +8,7 @@ email. It works once, within 15 minutes, and stops after five wrong tries.
 
 It can make a code for the owner's account and no other, and it removes any code
 the owner already has, so there is only ever one. Settled by the owner on
-2026-09-16; see docs/PHASE-1-SIGN-IN.md and docs/ACCOUNTS-RUNBOOK.md.
+2026-09-16; see docs/DECISIONS.md and docs/ACCOUNTS-RUNBOOK.md.
 
 Installed at /usr/local/sbin/legdata-owner-code, root only. Takes no arguments.
 Prints the code and when it stops working; never the owner's address or name.

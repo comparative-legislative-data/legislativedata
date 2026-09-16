@@ -15,7 +15,7 @@
 #      accounts in with the data, is caught;
 #   E. the undo works: the currently installed version still runs.
 # Prints counts only, never a row. Removes everything it made, including on
-# failure. See docs/PHASE-1-BACKUP-THEMES.md.
+# failure. See docs/ACCOUNTS-RUNBOOK.md, "The backup".
 set -euo pipefail
 NEW=${1:?give the path to the new legdata-backup}
 OLD=/usr/local/sbin/legdata-backup

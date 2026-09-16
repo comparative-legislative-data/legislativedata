@@ -17,7 +17,7 @@
 # state, when it was decided), and it passes only if nothing about them changed;
 # it prints yes or no, never a row. Someone real applying during the few seconds
 # it runs would fail it, which is the safe way round.
-# docs/PHASE-1-APPLY.md says what the page must do; docs/ACCOUNTS-RUNBOOK.md
+# docs/wording/APPLY.md says what the page must do; docs/ACCOUNTS-RUNBOOK.md
 # says how it was run.
 
 set -uo pipefail

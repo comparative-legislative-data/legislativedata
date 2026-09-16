@@ -79,6 +79,46 @@ what would reopen it.
   held. No such revision has happened yet. *What would reopen it:* the first
   real case, at which point how to record one is settled.
 
+**Left for Phase 2, carried here when Phase 1 closed on 16 September.** None of
+these is decided. The owner's position is that no decision about Phase 2 is made
+at the end of Phase 1; the session that opens Phase 2 takes them up.
+
+- **The test of the style against a real table of all the bills.** The house
+  style decision of 15 September promises one page carrying every bill, "built
+  locally and never deployed", before Phase 2. Since 16 September nothing runs on
+  the owner's Mac, so it cannot be done as written. *What reopens it:* opening
+  Phase 2, which has to say how it is done instead.
+- **The colours of charts.** Not settled; waits for something to plot. The
+  accent never touches data, so a chart palette never reuses it. *What reopens
+  it:* the first chart.
+- **Publishing the bills as files rather than a database the site reads.** Left
+  open on 15 September (`DECISIONS.md`, "Three databases"), because it depends on
+  what a reader's tools are. *What reopens it:* Phase 2 settling those tools.
+- **The site's way into the published copy reads and never changes anything.**
+  The briefing the three databases were decided from said this holds under every
+  option, but no decision records it. *What reopens it:* building the published
+  copy.
+- **Heavy use of the site competes with loading data.** The site, the published
+  copy and the working database share one machine, so a reader running something
+  heavy and a session being loaded compete for it. At 14 MB of data it is not a
+  real worry. *What reopens it:* the data growing, or the site being used.
+- **A second accent, and the warm, cool and plain tones.** The essays site
+  offers three tones of the same ramp; noted and not adopted. Nothing so far
+  needs a second accent either. *What reopens either:* a page that needs it.
+- **Buttons.** The house style says actions are small underlined text links
+  rather than buttons, but the forms' submit buttons are filled buttons. Nothing
+  records whether that is deliberate. The owner read every page on
+  16 September and said it looks as settled. *What reopens it:* the style being
+  looked at again.
+
+**Left undone about the backup, carried here from its proposal:**
+
+- **The backup has never been restored anywhere but on the machine.** Every
+  restore check runs on the machine itself, where the backup's password is. The
+  owner's copy of the password has been proved to open the backup, but getting
+  the data back after losing the machine has not been rehearsed. *What reopens
+  it:* the owner wanting that proved, or the machine being lost.
+
 ## The owner's standing positions, so they are not re-argued
 
 - **The working database is never reachable from the public internet.** A floor,
@@ -105,7 +145,8 @@ what would reopen it.
   session is running: the site can never reach the working one; the published
   one is refreshed when we choose, not when a promotion happens; the working one
   and the accounts are backed up off-site and the published one is not, being
-  rebuildable.
+  rebuildable. Refreshing the published copy becomes a step in promotion, with
+  its own rehearsal and written undo (the decision's own "what this costs").
 
 - **The site runs on the machine the database is already on.** Settled
   2026-09-15. Two things follow and hold whatever session is running: no part of

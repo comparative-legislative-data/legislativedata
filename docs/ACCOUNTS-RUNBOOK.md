@@ -118,6 +118,12 @@ in the same change that makes it, or it is kept ten years. The session sanity
 check asks this. **When the published database is made, add its name to
 `NOT_BACKED_UP`**, since it is rebuilt from the working one rather than restored.
 
+**If a database about people has already gone into the data copies**, it is
+taken out of the old ones with `restic rewrite --exclude <its dump>` on the data
+snapshots only, `--dry-run` first, reading each snapshot's manifest (counts
+only) to see which hold it. It changes old copies, so it is rehearsed against a
+throwaway store first and checked by a restore afterwards. Never needed so far.
+
 Each `manifest.txt` carries counts for its own theme's databases: for the
 accounts, how many people, how many approved, how many codes, how many devices.
 Never a name. Each theme carries `globals.sql`, the logins, so either database
@@ -208,7 +214,7 @@ site's login saved; one person, approved, the site's permissions intact, 21 of
 ## The apply page, and its check
 
 `site/app.py`, `/apply`. What it does and every word it says are
-`docs/PHASE-1-APPLY.md`. It was off on the live site until the admin screen
+`docs/wording/APPLY.md`. It was off on the live site until the admin screen
 existed, and the switch was then taken out.
 
 **The check is `tools/check_apply.sh`**, run as root on the machine against a
@@ -238,7 +244,7 @@ accounts were empty afterwards.
 
 ## Signing in, and the owner's way in
 
-What it does and every word it says are `docs/PHASE-1-SIGN-IN.md`. Live: the
+What it does and every word it says are `docs/wording/SIGN-IN.md`. Live: the
 page where a code is typed (`/sign-in/code`), signing out, and the signed-out
 page, and `/sign-in`, which emails a code.
 
@@ -284,7 +290,7 @@ must fail at item 7.
 
 ## The admin screen and email
 
-What they do and every word they say are `docs/PHASE-1-ADMIN-AND-EMAIL.md`.
+What they do and every word they say are `docs/wording/ADMIN-AND-EMAIL.md`.
 
 **The sending key.** `/var/lib/legislativedata/resend-key`, beside the code key,
 `root:legsite`, mode 640, not in the backup. A Resend key with sending access
@@ -370,7 +376,7 @@ Both fixed and the whole rehearsal run again, with the result above.
 
 `site/templates/privacy.html`, at `/privacy`, linked as "Privacy" first in the
 header of every page, and from the last line of the apply page's "What this form
-keeps". Every word is `docs/PHASE-1-WHAT-IS-HELD.md`; change the wording there
+keeps". Every word is `docs/wording/PRIVACY.md`; change the wording there
 first, and the "Last changed" date with it. Reads nothing.
 
 **It states facts about other parts of the machine**, and goes untrue if they

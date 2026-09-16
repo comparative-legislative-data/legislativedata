@@ -241,7 +241,10 @@ even at the cost of a more complicated backup. The proposal is
   10 yearly, as before.
 - **Data**: the working database. Kept the same.
 - **Accounts**: the accounts database. Kept 14 daily and 4 weekly, so nothing
-  older than five weeks.
+  older than five weeks. Shorter was possible; its cost is that a mistake in the
+  accounts noticed after the last copy has gone cannot be undone, which with a
+  handful of accounts means the person applies again. *(Carried from the
+  proposal when Phase 1 closed.)*
 
 Each database theme carries the logins, so either restores without the other.
 
@@ -553,7 +556,9 @@ check it, and they are run after any change to the logging.
 decision says there is one accent and only one: `#7ea8e8`. On the light
 background it measures 2.4 to 1 against the page, where 4.5 is the floor for
 text anyone is expected to read. It is not a preference; the links are not
-legible. Light mode uses `#2f6cc4`, which measures 5.0 to 1.
+legible. Light mode uses `#2f6cc4`, which measures 5.0 to 1, and `#24559b` for
+the accent on hover, where dark mode has `#96b9ee`. *(The hover value added when
+Phase 1 closed; it was in the stylesheet and nowhere else.)*
 
 **Why this does not reopen the decision.** The accent is still one thing meaning
 one thing — you can act here — and it still never touches data. It now has a
@@ -770,8 +775,10 @@ lot — to test the style against the hardest thing it will have to hold.
 figure before the rules for publishing exist, and nothing here is published, so
 it does not bite.
 
-**The observed values are in `docs/PHASE-1-STYLE.md`**, so that nothing has to
-be read off the site twice.
+**The observed values are in the site's stylesheet**, `site/static/css/site.css`,
+so that nothing has to be read off the essays site twice. *(Until Phase 1 closed
+they were also in `docs/PHASE-1-STYLE.md`; every value there was checked present
+in the stylesheet before it was deleted.)*
 
 
 ## 2026-09-15 — The owner's account is the superuser, and applications are managed on the site

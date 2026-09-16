@@ -71,7 +71,7 @@ def welcome():
 
 
 # What the site holds about a person, and their rights. Wording settled by the
-# owner on 2026-09-16, docs/PHASE-1-WHAT-IS-HELD.md. Reads nothing.
+# owner on 2026-09-16, docs/wording/PRIVACY.md. Reads nothing.
 @app.route("/privacy")
 def privacy():
     return render_template("privacy.html")
@@ -96,7 +96,7 @@ def health():
 
 # ---- Applying for an account ------------------------------------------------
 #
-# Wording, behaviour and limits are docs/PHASE-1-APPLY.md, settled by the owner
+# Wording, behaviour and limits are docs/wording/APPLY.md, settled by the owner
 # on 2026-09-16. In short: no email is sent, no cookie is set, nothing about the
 # visitor is recorded, and a second application from the same address looks
 # exactly like the first and changes nothing.
@@ -172,7 +172,7 @@ def apply_received():
 
 # ---- Signing in and out ---------------------------------------------------------
 #
-# Wording and behaviour are docs/PHASE-1-SIGN-IN.md, settled by the owner on
+# Wording and behaviour are docs/wording/SIGN-IN.md, settled by the owner on
 # 2026-09-16. A code reaches a person by email, or, for the owner only, from a
 # command on the machine; either way it is typed here, so there is no way in
 # that only one person can use.
@@ -249,7 +249,7 @@ def signed_out():
 # The owner's account and no other. Anyone else, signed in or not, is told there
 # is no such page. Every change is a form, and the marker cookie is not sent with
 # forms from other sites, so no other site can make a change here. Wording and
-# behaviour: docs/PHASE-1-ADMIN-AND-EMAIL.md, settled by the owner 2026-09-16.
+# behaviour: docs/wording/ADMIN-AND-EMAIL.md, settled by the owner 2026-09-16.
 
 DONE = {
     "approved": "Approved, and emailed.",
