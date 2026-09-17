@@ -43,7 +43,7 @@ list are both empty.**
 - **17 September, afternoon.** The charts started afresh from your seven
   thoughts; ECharts, colour and dropdowns agreed; mock-ups of thoughts 2 to 4.
 
-**17 September, this session. Mock-ups of thoughts 5 and 6, and ideas for 1.**
+**17 September, this session. Mock-ups of thoughts 5, 6 and 1.**
 
 - **Thought 5, when in a session bills were introduced**, on the same page,
   https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9: the quarters in figures,
@@ -56,7 +56,10 @@ list are both empty.**
   session, and bills still live near the end. Both need dissolution and recess
   dates the database does not hold.
 - **Thought 6, the quickest and slowest bills**: timed to Stage 3, or to Royal
-  Assent. **Thought 1**: ideas for the headline figures, in the thoughts file.
+  Assent. **Thought 1, the headline figures**, at the top of the page: 470 bills,
+  404 passed and 402 Acts, a typical 230 days, and what passed by type.
+- **All six thoughts are now mocked up**, and each one's draft calculation is in
+  `docs/PHASE-2-MOCKUP-CALCULATIONS.md`.
 - **A fault of mine**, which your screenshots caught: the thought 5 card took
   the padding off every card on the page. Fixed.
 
@@ -69,8 +72,8 @@ list are both empty.**
    on each are in `docs/PHASE-2-CHARTS-THOUGHTS.md`. Propose first and agree
    before building: the database side is a change to how figures are worked out,
    and carries the whole checklist.
-2. **Thought 1, the headline figures**: pick from the ideas in the thoughts
-   file, then a mock-up.
+2. **Iterating the mock-ups**, whenever you want: the open points on all six
+   are in `docs/PHASE-2-CHARTS-THOUGHTS.md`, each under its thought.
 3. **Nine closure tests**, for `db/104` to `db/112`, run by a session that built
    none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside anything.
 
@@ -159,8 +162,8 @@ Run before the first reply.
   committed files.
 - **The site answers 200**, its service and Caddy are running, and the backup
   timer is set for tonight.
-- **The draft calculations for thoughts 5 and 6 are in the repository**, not
-  only in the session's scratch folder, and the mock-up page is at version 11.
+- **The draft calculations for thoughts 5, 6 and 1 are in the repository**, not
+  only in the session's scratch folder, and the mock-up page is at version 12.
 - **The one file put on the server**, the recess factsheet read through
   pdfplumber, was deleted in the same connection.
 
