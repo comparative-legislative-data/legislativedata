@@ -37,6 +37,17 @@ Each has a proposal. A yes to all of them settles the chart.
 9. **No switch for Executive and Government Bills.** It is named as the
    playground's.
 10. **The public wording**, in full below.
+11. **Where the rule sentence sits.** This write-up put it beneath the title.
+    The decision of 17 September on showing the working puts it after the
+    figure. **Proposed:** after the figure, as decided. Found in building the
+    mock-up.
+
+**A mock-up with today's figures**, for seeing the chart rather than imagining
+it: a private page at https://claude.ai/artifact/3VedUECgiRD4YY7CKUDYy1. It sets
+the proposed grid beside two alternatives (the grid drawing counts, and the
+divided bar the colour rule rules out), works the Forth Crossing switch, and
+carries the table and wording. It is not the site, and is not kept in the
+repository.
 
 ### The question it answers
 
@@ -140,7 +151,7 @@ took, not how many there were.
 
 > Bill outcomes by session and type
 
-**The rule, beneath the title.** Default:
+**The rule, after the figure (point 11).** Default:
 
 > Every bill introduced in the Parliament, counted once in the session it was
 > introduced in, by how its passage ended (M6, M7, M13). Percentages are shares
