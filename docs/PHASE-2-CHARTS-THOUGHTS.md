@@ -40,6 +40,20 @@ are in, they are turned into something coherent together, in a second pass.
    - **A bar per session split into its four quarters**, each labelled with the
      share of the session's bills introduced in it.
 
+6. **The longest and shortest bills, as lists like the screenshots.** The
+   screenshot of 15 September, 16.33.06, shows two lists of ten side by side,
+   each bill with its number, type, title, session, dates and days taken, and a
+   filter by type.
+
+7. **What the screenshots show, and what comes next.** They show what good
+   formatting, presentation and colour can do. None of it is gimmicky, and it
+   gives a window into the data that sterile banks of statistics never can.
+   Thoughts 1 to 6 are the starting charts and tables; more may follow. Two
+   things to consider: **(a) what calculations the database needs to add**, and
+   **(b) how to get the presentation looking the way the owner wants.**
+
+**All seven thoughts are in**, 17 September.
+
 ---
 
 ## Noted for the second pass
@@ -67,6 +81,18 @@ so they are not lost.
   and labels such as "front-loaded" are judgements a reader would need
   explained; whether any appear is for the second pass. Whether it covers
   government bills only, or every type.
+- **Thought 6.** Timed to the final stage or to Royal Assent, and bills that
+  passed only. Ties: the quickest ten end cleanly, a longer list ends in a tie
+  of Budget Acts. The quickest cannot be separated into emergency bills (M10).
+  The screenshot names each bill's sponsor, which crossing to the published
+  copy excludes: introducers' names sit only on the staging sheet, which both
+  source licences keep out.
+- **Thought 7 and what is settled.** Colour, readers choosing what they see, and
+  charts that respond when hovered all touch decisions already recorded: an
+  outcome is never a colour and the accent never touches data (15 September);
+  two switches only; charts drawn on the machine as fixed images, nothing drawn
+  in the reader's browser (both 17 September). A charting library in the
+  browser would be an addition, asked for by name.
 - **Thought 4's known traps**, already listed in `PHASE-2.md`: Private Bills'
   stages compared by position (M2); the Robin Rigg Act (M9); Stage 3 to Royal
   Assent running through the Supreme Court for two Acts (M5); Session 7 with
