@@ -965,8 +965,9 @@ stopped and reconsidered, and it says "at the time of writing".
 
 ## The Robin Rigg Act's note, and Session 5's four bills that ran out of time
 
-**Drafted 17 September. Waiting for the owner.** Nothing is changed. These are
-notes on bills, not methodology notes, and both were raised when Phase 2's plan
+**Done, 17 September.** The owner agreed both. The Robin Rigg Act's note applied
+as `db/112`, with Session 2 taken off and put back; Session 5's four left as
+they are. These are notes on bills, not methodology notes, and both were raised when Phase 2's plan
 was checked.
 
 ### The Robin Rigg Act's note

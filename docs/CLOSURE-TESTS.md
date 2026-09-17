@@ -30,6 +30,44 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The Robin Rigg Act's note dates both stages
+
+Written 2026-09-17 by the session that built `db/112` and took Session 2 off and
+put it back. **Not yet run.** For a session that did none of that work.
+
+### Part A — mechanical
+
+1. **The note is the approved text.** Bill 124's note, and line 124's, match the
+   proposal in `docs/PHASE-2-NOTES.md` ("The Robin Rigg Act's note") exactly,
+   including its curly apostrophe and its source link.
+   *Where from:* the file the owner approved.
+2. **The date agrees with what it rests on.** Bill 71's Consideration Stage is
+   completed on 11 March 2003, and bill 124's Consideration Stage record is a
+   stage that did not happen whose detail note gives 11 March 2003.
+3. **Line 124** carries a review note citing `db/112`, and a review time of
+   17 September 2026.
+4. **Nothing else moved.** 470 bills, 1291 stage records, 192 provenance notes,
+   14 notes; Session 2 has 81 bills; checker and gaps list empty; no copy schema;
+   the dictionary regenerates with no difference but its date.
+5. **Session 5's four bills that ran out of time are unchanged**: each has the
+   short note on the stage it stopped at and no detail note.
+   *Where from:* the owner's decision to leave them, 17 September.
+
+### What this does not check
+
+That 11 March 2003 is right: it was held before `db/112` and is not re-read here.
+The archived page blocks scripted reading.
+
+### Part B — the owner's sign-off
+
+None. The wording was approved before it was applied.
+
+### The run
+
+Not yet run.
+
+---
+
 ## M13's sentence, and the column names in M1, M4 and M11
 
 Written 2026-09-17 by the session that built `db/111`. **Not yet run.** For a

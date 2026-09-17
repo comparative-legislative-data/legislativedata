@@ -1084,3 +1084,11 @@ records, 177 provenance notes.
 Report:** promotion keeps only the words before the first link as the value
 seen. Put the Official Report's words first, then "Read at" and the link, then
 any commentary of our own.
+
+## Session 2 off and back on to date the Robin Rigg Act's second stage, 17 September
+
+`db/112` changed the note on line 124, and Session 2 came off and went back on by
+the same method as `db/109`, saving only on the four rehearsed differences (the
+bill's note, and the line's note, review note and review time). Session 2 comes
+off by itself. Counts with it off: 389 bills, 1078 stage records, 171 provenance
+notes.

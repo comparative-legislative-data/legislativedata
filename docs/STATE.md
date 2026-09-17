@@ -42,36 +42,24 @@ charts need (`docs/PHASE-2-CALCULATIONS.md`); every chart worked out in the
 database; Session 7 measured to 1 April 2031; the Legal Continuity Bill's ruling
 dated; title changes recorded with their stage; M5, M3, M2 and M8 rewritten.
 
-**17 September, this session. M7, M6 and M13 rewritten, and no note names a
-column**, all in your approved words. M7, 877 words down to about 460:
+**17 September, this session. Every open question against the notes answered**,
+all in your approved words:
 
-- **It states the rule instead of which sessions are done**, so it cannot fall
-  behind that way a fourth time: every bill that fell is coded, and the error
-  checker will not accept one that is not.
-- **Five things it had wrong** are gone: a general code no bill has; every
-  ending "from the Official Report" (the 17 that ran out of time rest on the
-  dates of dissolution); bills that ran out of time "never voted on" (five had
-  completed a stage); the single heading argued backwards; and its column names.
-- **Two votes now reach their sources**: the Budget Bill's tie in 2009 and the
-  Creative Scotland Bill's financial resolution in 2008. Both had been read and
-  were on their lines, but cut by promotion because they sat after the link.
-  Session 3 taken off and put back; only those two bills' sources changed.
-- **M6**, 625 words down to about 370. It gives each session's difference from
-  the fact sheets' totals instead of counts that move as Session 7 is read
-  again, and drops "six pairs" of reintroduced bills, which the data cannot
-  check.
-- **M13** no longer says a live bill has nothing to measure; **M1, M4 and M11**
-  say in words what they named as columns.
+- **M7** (877 words to about 460) states the rule, so it cannot fall behind
+  again, with five errors gone; the Budget Bill's 2009 tie and Creative
+  Scotland's 2008 financial resolution vote now reach their sources.
+- **M6** (625 to about 370) gives each session's difference from the fact
+  sheets instead of counts that move, and drops the uncheckable "six pairs".
+- **M13** no longer says a live bill has nothing to measure; **no note names a
+  column**; **the Robin Rigg Act's note** dates both stages; **Session 5's four
+  bills that ran out of time** left as they are.
 
 ## Now
 
-1. **The rest of the open methodology notes**, one at a time, in
-   `docs/PHASE-2-NOTES.md`, whose table says where each stands. Done: M5, M3,
-   M2, M8, M7, M6, M13, and the column names. Next: the
-   Robin Rigg Act's note, and whether Session 5's four
-   bills that ran out of time carry Session 6's note. Then, as `docs/PHASE-2.md`
-   proposes: the write-ups, the public wording, and the build plan.
-2. **Eight closure tests**, for `db/104` to `db/111`, run by a session that built
+1. **The write-ups, the public wording, and the build plan**, as
+   `docs/PHASE-2.md` proposes. Every open question against the notes is
+   answered (`docs/PHASE-2-NOTES.md`).
+2. **Nine closure tests**, for `db/104` to `db/112`, run by a session that built
    none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside anything.
 
 ## Waiting for you
@@ -92,11 +80,10 @@ column**, all in your approved words. M7, 877 words down to about 460:
   the private notes; the cost could go beside it, if you want it recorded.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
   is deliberately outside version control and exists on this machine only.
-- **The methodology notes' open questions**, now being worked through (see
-  Now): whether the other notes are cut the way M5 and M12 were; whether
-  Session 5's four bills that ran out of time carry Session 6's note; and the
-  Robin Rigg Act's note, which gives its Preliminary date and not its
-  Consideration date. None is published until these are answered.
+- **Whether M9 and M10 are cut too.** Both were checked correct on
+  17 September and not rewritten. M10 still says how its rule came about ("that
+  has been refused since the column was made"), which the rewrites took out of
+  the others. Say if you want either looked at.
 - **Three counts of how many previous attempts there have been disagree**:
   `CLAUDE.md` says four died in the gap, you say this is the tenth, `PLAN.md`
   says nine before it.
@@ -158,7 +145,10 @@ Run before the first reply.
 - **The site answers 200** and its service is running; the one failed unit is
   still the old `select 1` check in "Waiting for you".
 
-## M7, M6, M13, `db/109` to `db/111`: working detail, 17 September
+## The notes, `db/109` to `db/112`: working detail, 17 September
+
+- **The Parliament's web archive blocks scripted reading** (a browser check), so
+  the Robin Rigg page was not re-read; `db/112` relies on the date already held.
 
 - **Comparing a note read back with its approved text**: a word-by-word check in
   Python is reliable; a `diff` of process substitutions reported four false
