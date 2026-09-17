@@ -54,6 +54,11 @@ are in, they are turned into something coherent together, in a second pass.
 
 **All seven thoughts are in**, 17 September.
 
+**The step back, after the seven.** Two things are going on. **The downloads**
+need to be very boring, in a good way: accurate, complete, with provenance. **The
+charts and tables** cannot lose sight of that, but can try to make the data come
+alive. Doing both at once is one of the things that sets the site apart.
+
 ---
 
 ## Noted for the second pass
