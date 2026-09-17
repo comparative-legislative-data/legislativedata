@@ -103,3 +103,12 @@ so they are not lost.
   Assent running through the Supreme Court for two Acts (M5); Session 7 with
   nothing yet to measure (M13); and the financial resolution, which an odd
   Stage 1 to Stage 2 figure would reopen.
+
+---
+
+## Mock-ups
+
+- **Thought 2, outcomes stacked by type**, 17 September: a private page at
+  https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9. Real figures, Apache
+  ECharts 6.1.0, a first attempt at the outcome palette, and the Forth Crossing
+  dropdown. For the owner's correction; not agreed.
