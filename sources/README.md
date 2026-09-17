@@ -118,3 +118,13 @@ this copy.
 | `legislation-scotland-act-1998-section-2_retrieved-2026-09-17.html` | Scotland Act 1998, s2, ordinary general elections | 2026-09-17 | `2820dccb71c32f52` |
 | `legislation-scottish-parliament-elections-order-2015-article-84_retrieved-2026-09-17.html` | SSI 2015/425, art 84, the minimum period: 20 days since SSI 2025/313 | 2026-09-17 | `423f0e777d1b6a5c` |
 | `legislation-scottish-parliament-elections-order-2015-schedule-2-rule-2_retrieved-2026-09-17.html` | SSI 2015/425, sch 2 rule 2, computation of time | 2026-09-17 | `5c4840abc297db1f` |
+
+## judgments/
+
+The Supreme Court's own pages for cases a bill's record depends on, kept because
+a date taken from one is cited in a provenance note (`db/105`). Saved as the HTML
+the Court's site served.
+
+| File | Page | Retrieved | SHA-256 (first 16) |
+|---|---|---|---|
+| `supremecourt-case-uksc-2018-0080_retrieved-2026-09-17.html` | supremecourt.uk/cases/uksc-2018-0080: the reference on the UK Withdrawal from the European Union (Legal Continuity) (Scotland) Bill. Judgment date 13 December 2018, [2018] UKSC 64; date of issue 17 April 2018 | 2026-09-17 | `70ec07558ec981ee` |

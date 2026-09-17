@@ -1018,3 +1018,41 @@ differences — they always move. Everything else is the answer. A session taken
 off and put back gives its stage records new numbers, so anything that had
 remembered an old one would be pointing at nothing; nothing does, and the
 comparison matches stage records by their bill and position for that reason.
+
+## Sessions 7, 6 and 5 off and back on to date a ruling, 17 September
+
+The Legal Continuity Bill, bill 305, had no date for when it was stopped, because
+the fact sheet's footnote gives none. The owner settled that a missing date is
+added with its provenance. `db/105` put the Supreme Court's judgment date on its
+Session 5 line with a "Checked:" citation, and gave the date in the note on both
+its lines. See `DECISIONS.md`, 17 September.
+
+**A fault in promotion was found first, by reading it.** The step that credits a
+blocked bill's date to the fact sheet's footnote ran whenever there was a date
+and a footnote, and before the "Checked:" step, so it would have credited this
+date to a fact sheet that does not print it. It now leaves a checked date to the
+"Checked:" step.
+
+**How it was run: as one change that saves only on the rehearsed answer.** Three
+sessions had to come off in order (7, then 6, then 5) and go back on in the
+reverse order, and a failure half way would have left the clean sheet short.
+So the copy, `db/105`, the three undos, the three promotions and the comparison
+all ran inside one transaction, with the tools' working tables dropped between
+runs (the standing method, as in `CLOSURE-TESTS.md`). Rehearsed twice and thrown
+away. The real run was the same bundle ending in a check that the differences
+were exactly the fourteen rehearsed, the counts right, and the checker and gaps
+list empty; only then was the copy dropped and the change saved.
+
+**The fourteen differences.** Bill 305: the date and the note. Line 305: the
+date, note, review note and review time. Line 412: note, review note and review
+time. A new provenance note for the date, credited to the Supreme Court. Bill
+305's note provenance: its text and date. **And bills 303 and 304's note
+provenance, expected:** putting a session back rewrites each note row from the
+tool, which drops the sentence `db/101` had added by hand recording its own
+correction. `db/101`'s closure test expected exactly that. The correction is
+still recorded in `db/101` and `DECISIONS.md`.
+
+**What to watch if this is done again.** The rollback of Session 6 takes Session
+5 with it and says so; the rollback of Session 7 leaves Session 6 alone, because
+Session 7 changed nothing on its bill. Counts with all three off: 302 bills, 828
+stage records, 87 provenance notes.

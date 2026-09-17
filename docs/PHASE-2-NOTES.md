@@ -56,9 +56,11 @@ have to be done twice.
    Court's own case page). The bills themselves are recorded correctly.
 2. **How a bill was stopped is no longer only in the bill's note.** Since
    14 September it has a cell of its own, and so does what happened next.
-3. **"The date in the date-blocked cell" isn't true of every bill.** The fact
-   sheet gives no date for the Legal Continuity ruling, so that bill's cell is
-   empty.
+3. **"The date in the date-blocked cell" wasn't true of every bill.** The fact
+   sheet gives no date for the Legal Continuity ruling, so that bill's cell was
+   empty. **Fixed in the data on 17 September** (`db/105`): the bill now has
+   the Supreme Court's judgment date, 13 December 2018, credited to the Court's
+   own page. All four stopped bills have their date.
 4. **The last two sentences no longer hold.** They say the four bills' story
    runs ahead of the data until later fact sheets are read in. Every session is
    now read in, and all four bills are recorded as they stand today.
@@ -67,7 +69,7 @@ have to be done twice.
 6. **Length.** The M12 rule of 15 September: a note says what the judgement is
    and what follows from it, not how we got there.
 
-### Proposed (about 210 words)
+### Proposed (about 200 words), revised after the date was added
 
 **Title unchanged:** Passing a bill is not the same as the bill being finished
 
@@ -89,9 +91,8 @@ have to be done twice.
 >
 > A stopped bill does not fall when its session ends: it stays live, and later
 > fact sheets carry it forward. For each of the four we record how it was
-> stopped, the date where a source gives one, and what happened next. A bill
-> stopped and later enacted is recorded as enacted, and keeps the date it was
-> stopped.
+> stopped, when, and what happened next. A bill stopped and later enacted is
+> recorded as enacted, and keeps the date it was stopped.
 
 ### The same fault in the meaning of "Blocked"
 

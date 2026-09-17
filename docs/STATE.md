@@ -23,7 +23,7 @@ The dataset, unchanged and not moving:
 | 6 | 83 bills | yes | yes | yes; **closed** |
 | 7 | 2 bills | yes | yes | Stage 3 only; **closed** |
 
-**470 bills are on the clean sheet**, with 1291 stage records, 187
+**470 bills are on the clean sheet**, with 1291 stage records, 188
 provenance notes and 14 methodology notes. **The error checker and the gaps
 list are both empty.**
 
@@ -50,16 +50,22 @@ in `docs/PHASE-2-CALCULATIONS.md`, and two answers that came out of it:
 - **The last open question settled**: every chart is worked out in the
   database and the page only draws, which stops front-end drift and makes each
   chart be thought through before it is built.
+- **The Legal Continuity Bill's ruling dated**, 13 December 2018 from the
+  Supreme Court's page, because a missing date is added with its source rather
+  than explained away. Sessions 7, 6 and 5 taken off and put back; only that
+  bill's date and note changed.
 
 ## Now
 
-1. **The five open methodology notes**, each shown to you in its current
-   wording: M5's date and its two drifted sentences, whether the other notes are
-   cut as M12 was, the Robin Rigg Act's note, and Session 5's four bills that
-   ran out of time. Then, as `docs/PHASE-2.md` proposes: the write-ups, the
+1. **The five open methodology notes**, one at a time, in
+   `docs/PHASE-2-NOTES.md`. **M5 is first and waiting for you**: its rewrite,
+   revised now the date is in, and the matching fix to what "Blocked" means.
+   Then whether the other notes are cut as M12 was, the Robin Rigg Act's note,
+   and Session 5's four bills that ran out of time. Then, as `docs/PHASE-2.md` proposes: the write-ups, the
    public wording, and the build plan.
-2. **`db/104`'s closure test**, run by a session that did not build it
-   (`docs/CLOSURE-TESTS.md`, top). It can run alongside anything.
+2. **Two closure tests**, `db/105`'s and `db/104`'s, run by a session that
+   built neither (`docs/CLOSURE-TESTS.md`, top). They can run alongside
+   anything.
 
 ## Waiting for you
 
@@ -151,6 +157,12 @@ Run before the first reply.
   rule 2 the counting of days.
 - **The SSH limit tripped once**, on the dictionary run straight after applying.
   A wait in a loop cleared it.
+- **`db/105` ran as one all-or-nothing change**: copy, migration, three undos,
+  three promotions and the comparison in one transaction, saving only if the
+  differences were exactly the fourteen rehearsed. Its first rehearsal was
+  refused by its own guard, which had miscounted the lines holding a stopped
+  date (four, not three: Session 7 restates bill 393's). Recorded in
+  `PROMOTION-RUNBOOK.md`.
 - **What `v_stage_duration_summary` does that a chart must not inherit**: it
   groups by procedure, so the five known emergency bills come out as separate
   rows. Written into the list of calculations.

@@ -362,6 +362,10 @@ SELECT 'bill', p.candidate_id, 'enactment_status', p.source, p.source_ref,
                     WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
                       AND f.field_name = 'enactment_status');
 
+-- Not where the date was checked against another source at review: then the
+-- footnote did not give it, and crediting the fact sheet with a date it does
+-- not print is the fault db/105 found. The "Checked:" route below writes that
+-- note instead, citing the source that does give it.
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at)
 SELECT 'bill', p.candidate_id, 'date_assent_blocked', p.source, p.source_ref,
@@ -369,6 +373,7 @@ SELECT 'bill', p.candidate_id, 'date_assent_blocked', p.source, p.source_ref,
   FROM promoting p
  WHERE p.date_assent_blocked IS NOT NULL
    AND coalesce(btrim(p.raw_footnote), '') <> ''
+   AND coalesce(p.review_note, '') !~ 'Checked: date_assent_blocked = '
    AND NOT EXISTS (SELECT 1 FROM field_source f
                     WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
                       AND f.field_name = 'date_assent_blocked');

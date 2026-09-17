@@ -30,6 +30,99 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The Legal Continuity Bill's ruling is dated
+
+Written 2026-09-17 by the session that built `db/105`, mended
+`tools/promote_session.sql` and took Sessions 7, 6 and 5 off and put them back.
+**Not yet run.** It is for a session that did none of that work.
+
+The owner settled on 17 September that a missing date is added with its
+provenance (`DECISIONS.md`). Bill 305 had no date for when it was stopped; it now
+has the Supreme Court's judgment date. How it was run is in
+`PROMOTION-RUNBOOK.md`, 17 September.
+
+**What to expect before starting.** At the time of writing: 470 bills, 1291
+stage records, 188 provenance notes, 14 methodology notes, an empty error
+checker and an empty gaps list, and no copy left in the database.
+
+**What this moves in earlier tests.** Session 6's test quotes bill 305's note as
+it read before; the note now gives the ruling date. `db/101`'s test records line
+412's review day as 15 September; it is now 17 September, and bill 305's note
+provenance is dated to match. Those items are not run again: this test covers
+the change.
+
+### Part A — mechanical
+
+1. **The date and where it came from.** Bill 305's stopped date is 13 December
+   2018. Exactly one provenance note for it: source Supreme Court, reference
+   `https://www.supremecourt.uk/cases/uksc-2018-0080`, read 2026-09-17, value
+   2018-12-13.
+   *Where from:* the kept page in `sources/judgments/`, read by the tester: its
+   judgment date. Not the migration.
+
+2. **The kept page is the page.** Its SHA-256 begins as `sources/README.md`
+   records, and it contains "13 December 2018" and "[2018] UKSC 64".
+
+3. **The other three stopped bills did not move.** Bills 303 and 304 read
+   6 October 2021 and bill 393 reads 16 January 2023, each with a provenance
+   note crediting the SPICe legislation fact sheet and quoting its footnote.
+   *Where from:* the footnotes in the Session 5 and Session 6 fact sheet PDFs in
+   `sources/factsheets/`.
+
+4. **The mend is needed, and works.** Inside a transaction that is thrown away,
+   with the tools' working tables dropped between runs: take Sessions 7, 6 and 5
+   off, and promote Session 5 with `tools/promote_session.sql` as it stood
+   before this change (`git show 760bb3d:tools/promote_session.sql`). Bill 305's
+   date note is credited to the fact sheet, with the footnote that gives no
+   date. Roll back, and do the same with the tool as it is now: credited to the
+   Supreme Court.
+   *Where from:* the fault as described in `db/105`. The first half is what
+   stops the item passing on a tool that never had the fault.
+
+5. **Nothing is left that the tools would not produce.** Inside a transaction
+   that is thrown away: take a copy (`tools/take_copy.sql`), take Sessions 7, 6
+   and 5 off and put them back, and compare (`tools/compare_with_copy.sql`).
+   Expected: **no unexpected differences at all**.
+   *Where from:* promotion writes everything from the staging lines, so a second
+   pass over a correctly finished change changes nothing.
+
+6. **No line or bill still says the date is not stated.** No bill note and no
+   staging line's note contains "states no date for the ruling". Bill 305's note
+   reads, in full: "Not submitted for Royal Assent. Following a reference under
+   section 33 of the Scotland Act 1998 by the Attorney General and the Advocate
+   General for Scotland, the Supreme Court ruled on 13 December 2018 that some
+   provisions of the bill were outwith the Parliament's legislative competence,
+   and it could not be submitted for Royal Assent in its unamended form. The
+   bill was withdrawn on 10 March 2022."
+   *Where from:* `db/105`, and the wording of bills 303 and 304's notes, which
+   this mirrors.
+
+7. **The source is on the list, and used once.** `supreme_court` is on the list
+   of sources with a definition, and exactly one provenance note uses it.
+
+8. **The counts, and the dictionary.** 470 bills, 1291 stage records, 188
+   provenance notes; the error checker and gaps list empty; no copy schema. The
+   data dictionary regenerates with no difference but its date.
+   *Where from:* 187 notes before this change, from `STATE.md`'s figures after
+   `db/104`, plus the one note added.
+
+### Part B — the owner's sign-off
+
+9. **Bill 305's note, as a reader sees it** (item 6's wording). The owner agreed
+   the note would give the date; this is the wording it gives.
+
+### What this test does not check
+
+- **M5**, which is corrected separately in its own wording.
+- **Whether other cells have a date the fact sheets leave out** that another
+  source gives. The owner's rule applies to them too; nothing has looked.
+
+### The run
+
+Not yet run.
+
+---
+
 ## Session 7's expected last day, and M14
 
 Written 2026-09-17 by the session that proposed and built `db/104`. **Not yet
