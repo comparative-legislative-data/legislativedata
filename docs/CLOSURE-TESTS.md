@@ -30,6 +30,42 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## M2 and M8 rewritten
+
+Written 2026-09-17 by the session that built `db/108`. **Not yet run.** For a
+session that did none of that work.
+
+### Part A — mechanical
+
+1. **Both texts are the approved texts.** M2's and M8's bodies match the
+   proposals in `docs/PHASE-2-NOTES.md` word for word, ignoring line breaks and
+   quote marks; M8's five sources are each on a line of their own. Titles, the
+   columns each applies to, and positions unchanged.
+   *Where from:* the file the owner approved.
+2. **The thesis is cited in full by exactly one note, M8**, and no note is left
+   saying Stage 1 and 2 dates are missing for a session.
+3. **What M8 says about checking is true of the data.** Every staging line read
+   from an awaiting-assent table carries a "Checked: enactment_status = ..."
+   citation; provenance notes naming SPICe's dates fact sheet and the Supreme
+   Court exist.
+4. **What M2 says about stages is true of the data.** No completed stage record
+   lacks a date; every stage with no date and no decision carries the same
+   general note wording; the one Hybrid Bill has Stage 1, 2 and 3 records; no
+   Private Bill has a Stage 1, 2 or 3 record.
+5. **Nothing else moved.** 14 notes, all but M2 and M8 unchanged by `db/108`;
+   470 bills, 192 provenance notes; the checker empty; the dictionary
+   regenerates with no difference but its date.
+
+### Part B — the owner's sign-off
+
+None. Both texts were approved in full before they were applied.
+
+### The run
+
+Not yet run.
+
+---
+
 ## A change of title records its stage
 
 Written 2026-09-17 by the session that built `db/107`, changed

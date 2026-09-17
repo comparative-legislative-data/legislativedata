@@ -128,9 +128,9 @@ not how we got there) and against the database. Word counts are today's.
 | Note | Words | Where it stands | What is wrong |
 |---|---|---|---|
 | **M3** Two titles | 192 | **Done 17 September** (`db/107`). Was wrong about the data | Says a known rename's date is in the bill's note. Three bills have a known earlier title and none has a date in its note. The Session 4–7 fact sheets print rename dates; nothing records them. By the rule of 17 September, a missing date is added, then the note corrected. Also names columns and says "the first slice". |
-| **M2** When a stage is completed | 947 | **Out of date, and long** | Says a session whose Stage 1 and 2 dates are not yet added has none; every session has them now. Says those dates come from the PhD dataset; 35 dated Stage 1 and 2 records come from elsewhere: 27 Stage 1 rejections and 3 other Stage 1 dates from the Official Report, and 3 Stage 1 and 2 Stage 2 dates from the Parliament's bill pages. (Corrected 17 September: this first said 70, counting stage records with no date.) Explains database mechanics (general and detail notes) a reader does not need. |
+| **M2** When a stage is completed | 947 | **Done 17 September** (`db/108`). Was out of date, and long | Says a session whose Stage 1 and 2 dates are not yet added has none; every session has them now. Says those dates come from the PhD dataset; 35 dated Stage 1 and 2 records come from elsewhere: 27 Stage 1 rejections and 3 other Stage 1 dates from the Official Report, and 3 Stage 1 and 2 Stage 2 dates from the Parliament's bill pages. (Corrected 17 September: this first said 70, counting stage records with no date.) Explains database mechanics (general and detail notes) a reader does not need. |
 | **M7** Why a bill fell | 877 | **Out of date, and long** | Says the coding is done for Sessions 1 to 5 only; Session 6 is done and Session 7 has no fallen bill. Says uncoded sessions show a general code; no bill has one. "One bill in the first five sessions" fell for want of a financial resolution; still one, in six. A paragraph on how Sessions 1 and 2 were worked out. |
-| **M8** Where each date comes from | 468 | **Out of date** | Says only dates where sources disagreed were checked; every bill a fact sheet left awaiting Royal Assent has since been checked too, and checked dates are recorded whether they agreed or not. Says the sources agree "throughout Sessions 1 and 2"; every session is compared now. Its list of sources misses the SPICe dates fact sheet, the Supreme Court and legislation.gov.uk for the session dates. |
+| **M8** Where each date comes from | 468 | **Done 17 September** (`db/108`). Was out of date | Says only dates where sources disagreed were checked; every bill a fact sheet left awaiting Royal Assent has since been checked too, and checked dates are recorded whether they agreed or not. Says the sources agree "throughout Sessions 1 and 2"; every session is compared now. Its list of sources misses the SPICe dates fact sheet, the Supreme Court and legislation.gov.uk for the session dates. |
 | **M6** A bill's session | 612 | **Correct, and long** | Every count checked: 474 rows, 470 bills, 73, 81, 62, 86, 87, 80 and 1. "Six pairs of bills" were reintroduced can't be checked from the data, which links only Robin Rigg. |
 | **M13** A bill still before the Parliament | 186 | **One sentence will go wrong** | "It has not yet completed a stage" is true of today's one live bill, not of every live bill. |
 | **M1** Executive and Government | 53 | Correct | Names a column. |
@@ -280,6 +280,8 @@ their dates), and a decision on where the date comes from for these two.
 
 ## M2 — A stage is completed on the date of the decision that ended it
 
+**Done, 17 September.** Applied with M8 as `db/108`, read back word for word.
+
 ### As it reads today (947 words)
 
 > Each stage of a bill is treated as completed at a fixed point, the same for
@@ -417,6 +419,9 @@ To be applied together with M8, which takes the thesis citation.
 ---
 
 ## M8 — Where each date comes from, and which source wins when two disagree
+
+**Done, 17 September.** Approved by the owner; applied with M2 as `db/108`, read
+back word for word. It now carries the thesis citation.
 
 ### As it reads today (468 words)
 

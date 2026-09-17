@@ -59,19 +59,20 @@ in `docs/PHASE-2-CALCULATIONS.md`, and two answers that came out of it:
 - **The other twelve notes checked.** M3 was wrong about the data: title changes
   are now recorded with the stage they happened at, for all four bills the fact
   sheets name, one of which had been missed entirely. M3 rewritten to match.
+- **M2 and M8 rewritten**: M2 from 947 words to about 330, saying only when a
+  stage is complete; M8 listing every source and now citing your thesis.
 
 ## Now
 
 1. **The rest of the open methodology notes**, one at a time, in
-   `docs/PHASE-2-NOTES.md`, whose table says where each stands. M5 and M3 are
-   done. Next: M2, M7 and M8, which are out of date; M6, which is long; then
-   M13's sentence and the column names in one go; then the Robin Rigg Act's
-   note, and whether Session 5's four bills that ran out of time carry Session
-   6's note. Then, as `docs/PHASE-2.md` proposes: the write-ups, the
-   public wording, and the build plan.
-2. **Four closure tests**, `db/107`'s, `db/106`'s, `db/105`'s and `db/104`'s,
-   run by a session that built none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside
-   anything.
+   `docs/PHASE-2-NOTES.md`, whose table says where each stands. Done: M5, M3,
+   M2 and M8. Next: M7, which is out of date; M6, which is long; then M13's
+   sentence and the column names in one go; then the Robin Rigg Act's note, and
+   whether Session 5's four bills that ran out of time carry Session 6's note.
+   Then, as `docs/PHASE-2.md` proposes: the write-ups, the public wording, and
+   the build plan.
+2. **Five closure tests**, for `db/104` to `db/108`, run by a session that built
+   none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside anything.
 
 ## Waiting for you
 
