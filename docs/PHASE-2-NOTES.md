@@ -382,7 +382,8 @@ their dates), and a decision on where the date comes from for these two.
 > Every stage is dated at the same point for every bill. Stage 1 ends on the day
 > the Parliament decides whether to agree to the bill's general principles.
 > Stage 2 ends at the meeting at which the last amendments are disposed of;
-> every bill has one, because even when no amendments are lodged the committee,
+> every bill at Stage 2 has one, because even when no amendments are lodged the
+> committee,
 > or for an emergency bill the whole Parliament, still meets to agree to each
 > section. Stage 3 ends on the day the Parliament votes on whether to pass the
 > bill.
