@@ -166,3 +166,29 @@ was before the Parliament, and kept its SP Bill number. They differ only in how
 much the fact sheet says. The two dated renames fall on the day of a stage, which
 suggests the date is when the amendment changing the title was agreed; the
 Official Report would say for all four.
+
+### What the owner found, 17 September
+
+**Buildings (Recovery of Expenses) (Scotland) Act 2014.** The Parliament's archived
+bill page, https://webarchive.nrscotland.gov.uk/public/+/archive2021.parliament.scot/parliamentarybusiness/Bills/69042.aspx:
+
+> The Bill was introduced in the Parliament as the Defective and Dangerous
+> Buildings (Recovery of Expenses) (Scotland) Bill. After stage 2 consideration
+> of the Bill, the short title of the Bill was changed to the Buildings (Recovery
+> of Expenses) (Scotland) Bill to reflect amendments made to the Bill at Stage 2.
+
+**Stage 2. No date given.** The bill's Stage 2 ended on 4 June 2014.
+
+**Scottish Commission for Human Rights Act 2006.** The Parliament's archived bill
+page, https://webarchive.nrscotland.gov.uk/public/+/archive2021.parliament.scot/parliamentarybusiness/Bills/25125.aspx:
+
+> The Bill as introduced, and the Bill as amended at Stage 2, sought to
+> establish a Commissioner for human rights. At Stage 2 the Executive brought
+> forward amendments to change the Commissioner to a Commission but these were
+> unsuccessful. However, similar amendments were laid at Stage 3, this time
+> successfully.
+
+**Stage 3. No date given.** The bill's Stage 3 was on 2 November 2006.
+
+**Still needed:** the two Session 6 bills' stage and source (the fact sheet gives
+their dates), and a decision on where the date comes from for these two.
