@@ -42,8 +42,8 @@ charts need (`docs/PHASE-2-CALCULATIONS.md`); every chart worked out in the
 database; Session 7 measured to 1 April 2031; the Legal Continuity Bill's ruling
 dated; title changes recorded with their stage; M5, M3, M2 and M8 rewritten.
 
-**17 September, this session. M7 rewritten**, 877 words down to about 460, in
-your approved words:
+**17 September, this session. M7 and M6 rewritten**, in your approved words.
+M7, 877 words down to about 460:
 
 - **It states the rule instead of which sessions are done**, so it cannot fall
   behind that way a fourth time: every bill that fell is coded, and the error
@@ -56,16 +56,20 @@ your approved words:
   Creative Scotland Bill's financial resolution in 2008. Both had been read and
   were on their lines, but cut by promotion because they sat after the link.
   Session 3 taken off and put back; only those two bills' sources changed.
+- **M6**, 625 words down to about 370. It gives each session's difference from
+  the fact sheets' totals instead of counts that move as Session 7 is read
+  again, and drops "six pairs" of reintroduced bills, which the data cannot
+  check.
 
 ## Now
 
 1. **The rest of the open methodology notes**, one at a time, in
    `docs/PHASE-2-NOTES.md`, whose table says where each stands. Done: M5, M3,
-   M2, M8 and M7. Next: M6, which is long; then M13's sentence and the column
+   M2, M8, M7 and M6. Next: M13's sentence and the column
    names in one go; then the Robin Rigg Act's note, and whether Session 5's four
    bills that ran out of time carry Session 6's note. Then, as `docs/PHASE-2.md`
    proposes: the write-ups, the public wording, and the build plan.
-2. **Six closure tests**, for `db/104` to `db/109`, run by a session that built
+2. **Seven closure tests**, for `db/104` to `db/110`, run by a session that built
    none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside anything.
 
 ## Waiting for you
@@ -152,7 +156,11 @@ Run before the first reply.
 - **The site answers 200** and its service is running; the one failed unit is
   still the old `select 1` check in "Waiting for you".
 
-## M7 and `db/109`: working detail, 17 September
+## M7, M6, `db/109` and `db/110`: working detail, 17 September
+
+- **`db/110` was rehearsed and applied in one psql run**: the migration inside a
+  thrown-away transaction first, then for real only if that passed, since it
+  changes one note's text and its own checks prove nothing else moved.
 
 - **Where the division figures live.** A Stage 1 rejection's figures are in the
   provenance note on how it was rejected (all 27), read from "Result as

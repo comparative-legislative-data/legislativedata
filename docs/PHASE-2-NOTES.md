@@ -131,7 +131,7 @@ not how we got there) and against the database. Word counts are today's.
 | **M2** When a stage is completed | 947 | **Done 17 September** (`db/108`). Was out of date, and long | Says a session whose Stage 1 and 2 dates are not yet added has none; every session has them now. Says those dates come from the PhD dataset; 35 dated Stage 1 and 2 records come from elsewhere: 27 Stage 1 rejections and 3 other Stage 1 dates from the Official Report, and 3 Stage 1 and 2 Stage 2 dates from the Parliament's bill pages. (Corrected 17 September: this first said 70, counting stage records with no date.) Explains database mechanics (general and detail notes) a reader does not need. |
 | **M7** Why a bill fell | 877 | **Done 17 September** (`db/109`). Was out of date, and long | Says the coding is done for Sessions 1 to 5 only; Session 6 is done and Session 7 has no fallen bill. Says uncoded sessions show a general code; no bill has one. "One bill in the first five sessions" fell for want of a financial resolution; still one, in six. A paragraph on how Sessions 1 and 2 were worked out. |
 | **M8** Where each date comes from | 468 | **Done 17 September** (`db/108`). Was out of date | Says only dates where sources disagreed were checked; every bill a fact sheet left awaiting Royal Assent has since been checked too, and checked dates are recorded whether they agreed or not. Says the sources agree "throughout Sessions 1 and 2"; every session is compared now. Its list of sources misses the SPICe dates fact sheet, the Supreme Court and legislation.gov.uk for the session dates. |
-| **M6** A bill's session | 612 | **Drafted 17 September, waiting for the owner.** Correct, and long | "Six pairs of bills" were reintroduced can't be checked from the data, which links only Robin Rigg; titles match nine. Its counts will move as Session 7 is read again. |
+| **M6** A bill's session | 612 | **Done 17 September** (`db/110`). Was correct, and long | "Six pairs of bills" were reintroduced can't be checked from the data, which links only Robin Rigg; titles match nine. Its counts will move as Session 7 is read again. |
 | **M13** A bill still before the Parliament | 186 | **One sentence will go wrong** | "It has not yet completed a stage" is true of today's one live bill, not of every live bill. |
 | **M1** Executive and Government | 53 | Correct | Names a column. |
 | **M4** Hybrid Bills | 161 | Correct | 44 government and 1 hybrid in Session 3, as it says. Names columns. |
@@ -732,7 +732,8 @@ Stage 1 rejections only.
 
 ## M6 — A bill belongs to the session in which it was first introduced
 
-**Drafted 17 September. Waiting for the owner.** Nothing is changed.
+**Done, 17 September.** The owner approved the proposed wording; applied as
+`db/110`, read back from the database and matching word for word.
 
 ### The bills it is about
 
@@ -842,7 +843,7 @@ so a reader can disagree with the rule (the owner, 14 September); and a
 rewritten note keeps its earlier wording with its source, which is true of the
 three bills whose notes Session 6 changed.
 
-### Proposed (about 370 words)
+### Proposed (about 370 words), approved by the owner on 17 September
 
 **Title unchanged:** A bill belongs to the session in which it was first introduced
 

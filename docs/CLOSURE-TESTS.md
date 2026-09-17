@@ -30,6 +30,48 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## M6 rewritten
+
+Written 2026-09-17 by the session that built `db/110`. **Not yet run.** For a
+session that did none of that work.
+
+### Part A — mechanical
+
+1. **M6 is the approved text.** Its body matches the proposal in
+   `docs/PHASE-2-NOTES.md` ("M6") word for word, ignoring line breaks and quote
+   marks. Its title, the columns it applies to and its position unchanged; no
+   other note changed by `db/110`.
+   *Where from:* the file the owner approved.
+2. **M6 names no column**, and gives no total of rows or bills and no count of
+   reintroduced pairs.
+3. **What M6 says is true of the data.** Exactly four staging lines are further
+   listings of a bill already counted: two in Session 6 for Session 5 Acts that
+   were stopped and reconsidered, one in Session 6 for the Legal Continuity Bill,
+   withdrawn, and one in Session 7 for the Gender Recognition Reform Bill, still
+   blocked. Each session's bills equal its staging lines less those listings.
+4. **The differences from the fact sheets' own totals.** Read each fact sheet's
+   printed total: Sessions 1 to 5 equal our count, Session 6 is two more, Session
+   7 is one more.
+   *Where from:* the fact sheets in `sources/factsheets/`, not this database.
+5. **Nothing else moved.** 14 notes; 470 bills, 1291 stage records, 192
+   provenance notes; the checker empty; the dictionary regenerates with no
+   difference but its date.
+
+### What this does not check
+
+That the wording is good: the owner approved it. Which bills count as
+reintroduced: M6 no longer says.
+
+### Part B — the owner's sign-off
+
+None. The text was approved in full before it was applied.
+
+### The run
+
+Not yet run.
+
+---
+
 ## M7 rewritten, and two Session 3 votes carried
 
 Written 2026-09-17 by the session that built `db/109` and took Session 3 off and
