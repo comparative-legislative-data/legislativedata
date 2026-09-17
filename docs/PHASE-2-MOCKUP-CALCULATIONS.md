@@ -1,7 +1,7 @@
 # The mock-ups' draft calculations
 
 For whoever builds the charts. These are the calculations that gave the figures
-in the mock-ups of 17 September 2026 (thoughts 2 to 6 in
+in the mock-ups of 17 September 2026 (thoughts 1 to 6 in
 `docs/PHASE-2-CHARTS-THOUGHTS.md`; the page is
 https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9). They are **drafts**: written
 against the working database's names, run read-only, never saved into the
@@ -394,4 +394,43 @@ select json_agg(json_build_object(
     'blocked', was_blocked, 'procedure', procedure, 'reintroduced', reintroduced
 ) order by ord, stretch, list, rank, date_introduced)
 from listed;
+```
+
+---
+
+## The headline figures (thought 1)
+
+One JSON document, no choices. Checked when it ran against the figures already
+known: 470 bills, 404 passed, 402 Acts, 1 still before the Parliament.
+
+```sql
+-- The headline figures (thought 1, mock-up draft). One JSON document.
+-- Counts every bill on the clean sheet; Session 7 is running, so its bills are
+-- counted and have no ending yet (M13). The Hybrid Bill counts as a government
+-- bill (M4). "Checked against its sources" is the newest date any row was read.
+with b as (select bill.*, r.analysis_group as grp from bill join ref_bill_type r on r.code = bill.bill_type),
+timed as (
+    select b.bill_id, e.date_completed - b.date_introduced as days
+    from b join stage_event e on e.bill_id = b.bill_id and e.stage_order = 3 and e.completed
+    where b.outcome = 'passed'
+),
+by_type as (
+    select grp, count(*) as bills, count(*) filter (where outcome = 'passed') as passed
+    from b group by grp
+)
+select json_build_object(
+    'bills', (select count(*) from b),
+    'passed', (select count(*) from b where outcome = 'passed'),
+    'acts', (select count(*) from b where enactment_status = 'enacted'),
+    'live', (select count(*) from b where outcome = 'in_progress'),
+    'sessions', (select count(*) from session),
+    'sessions_ended', (select count(*) from session where date_session_end is not null),
+    'first_meeting', (select min(date_first_meeting) from session),
+    'median_days_to_stage_3', (select round(percentile_cont(0.5) within group (order by days)::numeric, 0) from timed),
+    'passed_pct', json_object_agg(grp, round(100.0 * passed / bills)),
+    'bills_by_type', json_object_agg(grp, bills),
+    'last_checked', (select greatest(
+        (select max(observed_at) from bill), (select max(observed_at) from stage_event),
+        (select max(observed_at) from field_source)))
+) from by_type;
 ```

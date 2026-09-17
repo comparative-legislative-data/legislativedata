@@ -197,9 +197,11 @@ so they are not lost.
     leave-out choice, as on the timing chart, since they head the slowest to
     Royal Assent.
 
-## Thought 1, the headline figures: ideas, not yet mocked up
+## Thought 1, the headline figures
 
-Offered 17 September for the owner to choose from; all from what the database
+The ideas offered 17 September, and mocked up the same day at the top of the page
+(the hero line, four tiles, and a line on provenance). For the owner's
+correction; not agreed. All from what the database
 holds, figures as at that day.
 
 - **Bills introduced since 1999**: 470.
@@ -211,3 +213,13 @@ holds, figures as at that day.
   Bills.
 - **Bills before the Parliament now**: 1.
 - **When the data was last checked against its sources**, beside the figures.
+- **The mock-up shows**: 470 bills as the hero line, with the Parliament's first
+  meeting and the seven sessions; then tiles for bills passed (404, 86%, with
+  402 Acts and the two stopped), a typical bill's 230 days, the one bill before
+  the Parliament now, and a small split of what passed by type. Underneath, a
+  line saying every figure can be opened to the bills behind it, and the notes
+  it rests on: M1, M2, M4, M5, M6, M13.
+- **Open, for iterating:** whether "a typical bill took 230 days" belongs in the
+  headlines when the timing chart says it with its choices; whether the split by
+  type repeats the outcomes chart; and the wording of the provenance line, which
+  is a placeholder.
