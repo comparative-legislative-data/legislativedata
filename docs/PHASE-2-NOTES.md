@@ -192,3 +192,80 @@ page, https://webarchive.nrscotland.gov.uk/public/+/archive2021.parliament.scot/
 
 **Still needed:** the two Session 6 bills' stage and source (the fact sheet gives
 their dates), and a decision on where the date comes from for these two.
+
+### Settled with the owner, 17 September
+
+- **Same bill** throughout, as now. Record the **original title**, the **final
+  title**, and **the stage at which the title changed**.
+- **The date is that stage's date**, already recorded. The owner: amendments to
+  a bill's title are always taken at the end of a stage, so that they are done
+  once. So the date is not stored a second time, and M3 says why.
+- The two Session 6 fact sheet dates fall on those stage dates, which confirms
+  both.
+
+### The change, every part, for the owner to agree
+
+1. **What it records.** For a bill whose title changed while it was before the
+   Parliament, the stage at which it changed: a stage name from the list the
+   stages already use (Stage 2, Stage 3, and the Private Bill names). One cell,
+   one change; the original and final titles are the cells already there.
+2. **Which bills, and what empty means.** Filled wherever an original title is
+   recorded, which after this change is four bills. Empty means no change of
+   title is known. A bill renamed twice (none is) would hold the stage of the
+   last change, with the earlier one in its note.
+3. **Where it sits.** A cell on the bill, beside the original title. The date a
+   reader sees is worked out from the stage when the published copy is taken,
+   never typed in.
+4. **How it arrives.** The same cell on the staging line, filled at review, with
+   a "Checked:" citation that promotion turns into the provenance note, as the
+   Legal Continuity Bill's date did. The Buildings Act's line also gains its
+   original title and the footnote's words, which the reader of the Session 4
+   fact sheet dropped.
+5. **Provenance.** Human Rights and Buildings Acts: the Parliament's archived
+   bill pages the owner read, dated 17 September. Care Reform and Recall bills:
+   the Session 6 fact sheet, whose rename date is that stage's date.
+6. **What the checker requires.** A stage the bill's own type has; a stage the
+   bill has a dated record for, so there is a date; filled only where an
+   original title is recorded; and **an original title with no stage is
+   refused**, so a future case cannot arrive half-recorded. The clean sheet
+   refuses a stage not on the list, and a stage without an original title.
+7. **What a reader is told.** M3 rewritten, draft below in full; and the
+   description of the bill's note, which today says a rename date goes there,
+   corrected.
+8. **Every bill already coded, rechecked.** All seven fact sheets were searched
+   in full for title changes today: four, all covered. Lines 127, 231, 406 and
+   423 change, and nothing else. The Session 4 reader's dropped footnote is
+   recorded as a known fault in it; every session is already read in, so it
+   will not run on these fact sheets again.
+9. **When.** This session, once agreed: one change to the staging sheet and the
+   tools, rehearsed; then Sessions 2 and 4 off and on, and Sessions 7, 6 and 5
+   off and on (Session 6's bills need 7 off first and bring 5 with them), as one
+   change that saves only on the rehearsed differences. A closure test for
+   another session.
+
+### Draft M3, in full
+
+**Title:** A bill's title can change while it is before the Parliament
+
+> A bill's short title can be changed by amendment while the bill is before the
+> Parliament, and a bill that becomes an Act takes the Act's title. We record the
+> title a bill ended with, which is the Act's title where there is one, and,
+> where a source states it, the title it was introduced under and the stage at
+> which the title changed.
+>
+> An amendment to a bill's title is taken at the end of a stage, once the rest
+> of the bill has been amended, so that it is made once. The date of the change
+> is therefore the date that stage ended.
+>
+> Four bills are recorded with an earlier title: the Scottish Commission for
+> Human Rights Act 2006, introduced as the Scottish Commissioner for Human Rights
+> Bill and changed at Stage 3; the Buildings (Recovery of Expenses) (Scotland)
+> Act 2014, introduced as the Defective and Dangerous Buildings (Recovery of
+> Expenses) (Scotland) Bill and changed at Stage 2; the Care Reform (Scotland)
+> Act 2025, introduced as the National Care Service (Scotland) Bill and changed
+> at Stage 2; and the Scottish Parliament (Recall of Members) Bill, introduced as
+> the Scottish Parliament (Recall and Removal of Members) Bill and changed at
+> Stage 3.
+>
+> For every other bill no earlier title is recorded. That means none is known,
+> not that the title never changed.
