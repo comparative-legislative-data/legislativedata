@@ -131,7 +131,7 @@ not how we got there) and against the database. Word counts are today's.
 | **M2** When a stage is completed | 947 | **Done 17 September** (`db/108`). Was out of date, and long | Says a session whose Stage 1 and 2 dates are not yet added has none; every session has them now. Says those dates come from the PhD dataset; 35 dated Stage 1 and 2 records come from elsewhere: 27 Stage 1 rejections and 3 other Stage 1 dates from the Official Report, and 3 Stage 1 and 2 Stage 2 dates from the Parliament's bill pages. (Corrected 17 September: this first said 70, counting stage records with no date.) Explains database mechanics (general and detail notes) a reader does not need. |
 | **M7** Why a bill fell | 877 | **Done 17 September** (`db/109`). Was out of date, and long | Says the coding is done for Sessions 1 to 5 only; Session 6 is done and Session 7 has no fallen bill. Says uncoded sessions show a general code; no bill has one. "One bill in the first five sessions" fell for want of a financial resolution; still one, in six. A paragraph on how Sessions 1 and 2 were worked out. |
 | **M8** Where each date comes from | 468 | **Done 17 September** (`db/108`). Was out of date | Says only dates where sources disagreed were checked; every bill a fact sheet left awaiting Royal Assent has since been checked too, and checked dates are recorded whether they agreed or not. Says the sources agree "throughout Sessions 1 and 2"; every session is compared now. Its list of sources misses the SPICe dates fact sheet, the Supreme Court and legislation.gov.uk for the session dates. |
-| **M6** A bill's session | 612 | **Correct, and long** | Every count checked: 474 rows, 470 bills, 73, 81, 62, 86, 87, 80 and 1. "Six pairs of bills" were reintroduced can't be checked from the data, which links only Robin Rigg. |
+| **M6** A bill's session | 612 | **Drafted 17 September, waiting for the owner.** Correct, and long | "Six pairs of bills" were reintroduced can't be checked from the data, which links only Robin Rigg; titles match nine. Its counts will move as Session 7 is read again. |
 | **M13** A bill still before the Parliament | 186 | **One sentence will go wrong** | "It has not yet completed a stage" is true of today's one live bill, not of every live bill. |
 | **M1** Executive and Government | 53 | Correct | Names a column. |
 | **M4** Hybrid Bills | 161 | Correct | 44 government and 1 hybrid in Session 3, as it says. Names columns. |
@@ -727,3 +727,156 @@ Stage 1 rejections only.
 > Division figures given beside a bill are text, not data, and cannot be
 > counted. A structured record of how members voted is not yet part of this
 > resource, and when it is added it supersedes them.
+
+---
+
+## M6 — A bill belongs to the session in which it was first introduced
+
+**Drafted 17 September. Waiting for the owner.** Nothing is changed.
+
+### The bills it is about
+
+**The four bills listed in two fact sheets**, from the database. Each is counted
+once, in the session it was introduced in:
+
+| Bill | Counted in | Listed again in | What happened |
+|---|---|---|---|
+| European Charter of Local Self-Government (Incorporation) | 5 | 6 | Passed, stopped, reconsidered, Act 2026 |
+| UNCRC (Incorporation) | 5 | 6 | Passed, stopped, reconsidered, Act 2024 |
+| UK Withdrawal from the EU (Legal Continuity) | 5 | 6, outside its totals | Passed, stopped, withdrawn 10 March 2022 |
+| Gender Recognition Reform | 6 | 7 | Passed, still blocked |
+
+**Bills that ended and have a later bill of the same title**, found by matching
+titles across sessions. Only Robin Rigg is linked in the data, as a
+reintroduction (M9). There may be others under a different title.
+
+| Ended | Later bill |
+|---|---|
+| Gaelic Language Bill, S1, fell at dissolution | Gaelic Language Act 2005, S2 |
+| Prostitution Tolerance Zones Bill, S1, rejected at Stage 1 | same title, S2, withdrawn |
+| Robin Rigg Offshore Wind Farm Bill, S1, fell at dissolution | Act 2003, S2 (linked) |
+| Stirling-Alloa-Kincardine Railway Bill, S1, fell at dissolution | Act 2004, S2 |
+| Scottish Register of Tartans Bill, S2, withdrawn | Act 2008, S3 |
+| Commissioner for Older People Bill, S2, fell at dissolution | same title, S6, fell at dissolution |
+| Long Leases Bill, S3, fell at dissolution | Act 2012, S4 |
+| Disabled Children and Young People (Transitions to Adulthood) Bill, S5, fell at dissolution | same title, S6, rejected at Stage 1 |
+| Welfare of Dogs Bill, S5, fell at dissolution | Act 2025, S6 |
+
+### As it reads today (625 words)
+
+> Most bills are introduced, disposed of and finished inside one session. A few
+> are not, and there are two quite different ways that happens. The test that
+> tells them apart is whether the first bill ended.
+>
+> WHERE THE BILL DID NOT END there is one bill and two fact sheet rows. The
+> bill was still live when the session closed, so the next session's fact sheet
+> lists it again. This resource assigns such a bill to the session in which it
+> was first introduced, and holds that assignment however long the bill takes
+> and whatever happens to it afterwards; its later events are recorded on the
+> same bill, so what we hold is the whole of its life rather than the part of
+> it that fell inside one session. Four bills do this. The United Nations
+> Convention on the Rights of the Child (Incorporation) and European Charter of
+> Local Self-Government (Incorporation) Bills were introduced and passed in
+> Session 5, stopped before Royal Assent, reconsidered and enacted in Session
+> 6, and are counted in both sessions' fact sheets; here they are Session 5
+> bills. The Gender Recognition Reform Bill was introduced and passed in
+> Session 6, was stopped by a section 35 order, and appears in the Session 6
+> and Session 7 fact sheets; here it is a Session 6 bill. The UK Withdrawal
+> from the European Union (Legal Continuity) Bill was introduced and passed in
+> Session 5 and withdrawn in Session 6; the Session 6 fact sheet gives it a
+> section of its own and says in terms that it is not included in that
+> session's totals.
+>
+> WHERE THE BILL DID END — it fell, or was withdrawn, or was rejected — and
+> something was introduced afterwards, there are two bills, and they are
+> counted as two, each in the session it was introduced in. Six pairs of bills
+> do this. One of them, the Robin Rigg Offshore Wind Farm (Navigation and
+> Fishing) Bill, fell at the end of Session 1 and was reintroduced in Session
+> 2, and a reintroduced Private Bill does not repeat the scrutiny the earlier
+> bill completed. That does not change the count: two bills were introduced and
+> two are counted. It does change how long the second bill appears to have
+> taken, and methodology note M9 is about that.
+>
+> THE ARITHMETIC. The seven fact sheets print 474 rows between them, of which
+> 473 are counted in their own summary totals: the Legal Continuity Bill is
+> printed in Session 6 and excluded from its totals. Four of the 474 are second
+> appearances of a bill counted already, so there are 470 distinct bills. Per
+> session we count 73, 81, 62, 86, 87, 80 and 1, against the fact sheets' own
+> 73, 81, 62, 86, 87, 82 and 2. Sessions 6 and 7 are lower for the reason given
+> above, and nothing else differs.
+>
+> THE ALTERNATIVE was to count a bill in each session in which it was live, as
+> the fact sheets do. It was rejected because it makes a bill's session
+> ambiguous, makes the total number of bills depend on how they are summed, and
+> double-counts three bills in any all-session figure. Any chart of how many
+> bills there were carries this note, so that a reader can see what the rule
+> did and disagree with it if they wish.
+>
+> THE NOTE ON SUCH A BILL is written to cover the whole of its life, not the
+> part of it the first fact sheet could see. Where a later fact sheet changes
+> what the note should say, the note is rewritten, and what it read before is
+> kept with the record of where each fact came from.
+
+### What is wrong with it
+
+Every fact in it is right. What is wrong is what it will become, and its length.
+
+1. **"Six pairs of bills do this."** The data cannot check it: only Robin Rigg is
+   linked. Matching titles finds nine (above), and some of those are different
+   bills by different members on the same subject. The rule does not need the
+   count, so the proposal drops it.
+2. **Figures that will go out of date.** 474 rows, 473, 470, and the per-session
+   80 and 1 against 82 and 2. Session 7's fact sheet is read again as the
+   session goes on, so these move, the same way M7's list of sessions did. The
+   proposal gives the differences instead (none for Sessions 1 to 5, two for
+   Session 6, one for Session 7), which move only if another bill is left
+   stopped across a session end.
+3. **How the database sees it**: "one bill and two fact sheet rows", "second
+   appearances", "the test that tells them apart", and headings in capitals.
+4. **Repetition**: the four bills' stories are told in full here and in M5.
+   The proposal keeps them short, since which session each is in is the point
+   here.
+
+**Kept, because it was settled:** every chart of bill numbers carries this note,
+so a reader can disagree with the rule (the owner, 14 September); and a
+rewritten note keeps its earlier wording with its source, which is true of the
+three bills whose notes Session 6 changed.
+
+### Proposed (about 370 words)
+
+**Title unchanged:** A bill belongs to the session in which it was first introduced
+
+> A bill is counted once, in the session in which it was introduced, however
+> long it takes and whatever happens to it later. Its later events are recorded
+> on the same bill, so what is held is the whole of its life rather than the
+> part that fell inside one session.
+>
+> The Parliament's fact sheets count differently: a bill still live when a
+> session ends is listed again in the next session's fact sheet and counted in
+> both. Four bills are affected. The United Nations Convention on the Rights of
+> the Child (Incorporation) and European Charter of Local Self-Government
+> (Incorporation) Bills were introduced and passed in Session 5, stopped before
+> Royal Assent, and reconsidered and enacted in Session 6; here they are
+> Session 5 bills. The Gender Recognition Reform Bill was introduced and passed
+> in Session 6, blocked by a section 35 order, and is listed again in Session
+> 7's fact sheet; here it is a Session 6 bill. The UK Withdrawal from the
+> European Union (Legal Continuity) Bill was passed in Session 5 and withdrawn
+> in Session 6; Session 6's fact sheet lists it separately and leaves it out of
+> its totals.
+>
+> So our count for each session matches the fact sheet's own total for Sessions
+> 1 to 5, is two lower for Session 6 and one lower for Session 7. Added across
+> every session, the fact sheets' totals count three bills twice.
+>
+> A bill that ended, by falling, being withdrawn or being rejected, and was
+> then introduced again is two bills, each counted in its own session. A
+> reintroduced Private Bill may not repeat scrutiny the earlier bill completed,
+> which changes how long the second bill appears to take; M9 is about that.
+>
+> Counting a bill in every session in which it was live, as the fact sheets do,
+> was rejected: it makes a bill's session ambiguous and the total depend on how
+> the sessions are added up. Every chart of how many bills there were carries
+> this note, so a reader can see what the rule did and disagree with it.
+>
+> Where a later fact sheet changes what a bill's note should say, the note is
+> rewritten, and its earlier wording is kept with its source.
