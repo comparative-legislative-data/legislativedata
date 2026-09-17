@@ -960,3 +960,67 @@ to measure is shown blank, and blank is not nought days.
 **Noticed and not proposed:** M11's "At the time of writing two stage records
 carry it" is a count that could go out of date, but only if another bill is
 stopped and reconsidered, and it says "at the time of writing".
+
+---
+
+## The Robin Rigg Act's note, and Session 5's four bills that ran out of time
+
+**Drafted 17 September. Waiting for the owner.** Nothing is changed. These are
+notes on bills, not methodology notes, and both were raised when Phase 2's plan
+was checked.
+
+### The Robin Rigg Act's note
+
+**As it reads:**
+
+> Reintroduced in Session 2 after falling at dissolution. A reintroduced Private
+> Bill does not repeat its earlier scrutiny, so this bill went straight to the
+> Final Stage vote and has no Preliminary or Consideration Stage of its own. The
+> Session 1 bill’s Preliminary Stage was on 9 January 2003. Source:
+> https://webarchive.nrscotland.gov.uk/public/+/http://archive2021.parliament.scot/parliamentarybusiness/Bills/24953.aspx
+
+**What is wrong.** It names both stages the Act never had and dates only one.
+The Consideration Stage date, 11 March 2003, is already held twice: on the
+Session 1 bill's own stage record, from your dataset, and on the Act's
+Consideration Stage record, citing the same archived bill page as this note. So
+nothing new is read; the note gives what the data already says. (The archive
+now blocks scripted reading, so the page was not re-read today.)
+
+**Proposed:**
+
+> Reintroduced in Session 2 after falling at dissolution. A reintroduced Private
+> Bill does not repeat its earlier scrutiny, so this bill went straight to the
+> Final Stage vote and has no Preliminary or Consideration Stage of its own. The
+> Session 1 bill’s Preliminary Stage was on 9 January 2003 and its Consideration
+> Stage on 11 March 2003. Source:
+> https://webarchive.nrscotland.gov.uk/public/+/http://archive2021.parliament.scot/parliamentarybusiness/Bills/24953.aspx
+
+**How it would be built.** The note is changed on the Act's Session 2 line, and
+Session 2 taken off and put back, as for `db/109`. The note's source is ours,
+so it would be dated 17 September.
+
+### Session 5's four bills that ran out of time
+
+**The question**, as raised on 15 September: whether Session 5's four carry the
+note Session 6's three do.
+
+**What each has today.** All seven, and the ten in Sessions 1 to 4, carry the
+same note on the stage they stopped at: "The bill stopped at this stage without
+a decision, so no date is recorded." Session 6's three also carry a longer note
+quoting the Parliament's bill page ("... fell on 08 April 2026", and for two of
+them that Stage 2 was never held), written when Session 6's endings were read on
+15 September. Session 5's check was recorded in its closure test instead, and
+Sessions 1 to 4 carry nothing more either.
+
+| Session | Bills that ran out of time | Longer note |
+|---|---|---|
+| 1 to 4 | 10 | none |
+| 5 | 4: Disabled Children and Young People (Transitions to Adulthood), Fair Rents, Travelling Funfairs (Licensing), Welfare of Dogs | none |
+| 6 | 3: Commissioner for Older People, Ecocide, Freedom of Information Reform | yes |
+
+**Recommended: leave them as they are.** Nothing in the data is wrong or
+missing: each bill's ending is coded, dated and sourced, and the short note says
+what a reader needs. M2 says the longer note is extra detail where it was
+collected, and an empty one does not mean none exists. Adding it for Session 5
+alone would make Sessions 1 to 4 the odd ones out; doing it properly means
+reading fourteen bill pages for detail no figure uses.
