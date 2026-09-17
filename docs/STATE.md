@@ -142,6 +142,16 @@ Run before the first reply.
 - **Nothing new contradicted anything.** The SSH limit tripped on the
   dictionary run; a wait in a loop cleared it.
 
+## Closing checks, 17 September, the session that rewrote M7
+
+- **Figures**: 470 bills, 1291 stage records, 192 provenance notes, 14 notes;
+  checker and gaps list empty; no copy left; no working files left in `/tmp` on
+  the machine.
+- **The data dictionary and the decisions contents regenerate identical** to
+  the committed files.
+- **The site answers 200** and its service is running; the one failed unit is
+  still the old `select 1` check in "Waiting for you".
+
 ## M7 and `db/109`: working detail, 17 September
 
 - **Where the division figures live.** A Stage 1 rejection's figures are in the
