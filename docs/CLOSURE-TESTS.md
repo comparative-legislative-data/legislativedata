@@ -30,6 +30,68 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The notes name the published headings
+
+Written 2026-09-17 by the session that built `db/113`. **Not yet run.**
+
+### Part A — mechanical
+
+1. **The thirteen notes are the approved wording, word for word.** M1, M2, M3,
+   M4, M5, M7, M8, M9, M10, M11, M12, M13 and M14 match the "### Proposed"
+   block for each in `docs/PHASE-2-PUBLISHED-NOTES.md`, with the backticks
+   removed and the bold markers dropped. M8's proposed block gives only its last
+   paragraph; the rest of M8 is unchanged, so build the expected text as the
+   note's first four paragraphs and its list, then that paragraph.
+   *Where from:* the file the owner approved on 17 September.
+2. **M6 is untouched.** Its body is the text `db/110_m6_rewritten.sql` set.
+   *Where from:* the migration in the repository, not the database.
+3. **No note names a column of this database**, and none carries a backtick or a
+   pair of asterisks. The published headings the notes do name are plain words.
+4. **M10 lost one sentence and kept two.** It no longer contains "Filling the
+   column in", and it still contains both "An empty cell therefore means we have
+   not been told" and "It does not mean the bill went through the standard
+   procedure".
+   *Where from:* the cut agreed in block 2 of `docs/PHASE-2-CHARTS-BUILD.md`.
+5. **Every heading a note names is on the agreed list.** Take every lower-case
+   word with an underscore in any note body, and every one of them appears as a
+   heading in §2 to §5 of `docs/PHASE-2-PUBLISHED-COPY.md`. This catches a
+   heading misspelt inside a note, which nothing else would.
+   *Where from:* the headings the owner settled on 17 September.
+6. **No note's title, applies_to or position changed.** The data dictionary
+   regenerates with no difference but its date, and its "Applies to" table still
+   names this database's own columns rather than published headings.
+   *Where from:* the committed `docs/DATA-DICTIONARY.md`.
+7. **Nothing else moved.** 470 bills, 1291 stage records, 192 provenance notes,
+   14 notes; the error checker and the gaps list empty; only the `public` schema,
+   with no working copy in it.
+
+### What this does not check
+
+**That the published copy exists.** It does not. The notes now name headings of
+files that have still to be built, and item 5 checks them against the agreed
+list, not against anything real. When the copy is built, the same check runs
+against the built files and means something stronger.
+
+**That the wording is good.** The owner approved it before it was applied. What
+this checks is that what went in is what was approved.
+
+**Whether `applies_to` translates correctly** into published headings. The
+mapping does not exist yet; it is built with the copy.
+
+### Part B — the owner's sign-off
+
+1. **Two changes were made after the approval and need a yes.**
+   - **M2.** The approved line read "That day is `date_ended`", placed after the
+     sentence about Stage 3, which could be read as though only Stage 3's day
+     were that column. It went in as "Each of those days is date_ended on the
+     bill's stage row."
+   - **No markup.** The approved text showed headings in backticks. The database
+     holds plain prose — "kept beside it in bill_type_at_the_time" — because a
+     note has to read the same in a spreadsheet cell, in the download and on the
+     page, and no note here has ever carried markup.
+
+---
+
 ## The Robin Rigg Act's note dates both stages
 
 Written 2026-09-17 by the session that built `db/112` and took Session 2 off and

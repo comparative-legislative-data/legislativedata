@@ -11,6 +11,12 @@ find the thing the note is about. That is the whole of it for most of them.
 
 **M6 is not changed.** It is about how bills are counted, not about a heading.
 
+**The backticks are mine, not the notes'.** They are here so you can see at a
+glance which words are headings. What goes into the database and reaches a
+reader is plain prose — "kept beside it in bill_type_at_the_time" — because a
+note has to read the same in a spreadsheet cell, in the zip and on the page, and
+no existing note carries any markup.
+
 **M10 changes twice**, once for this and once for the cut already agreed in
 block 2 of `PHASE-2-CHARTS-BUILD.md`. Both are done here, because half a
 rewritten note is not a state to leave one in.
@@ -19,8 +25,11 @@ rewritten note is not a state to leave one in.
 it change here, and I reissue those notes rather than all fourteen.
 
 Each note also carries a list of which headings it bears on — what the site uses
-to show the right note against the right column. Today those lists name database
-columns. The proposed list is given under each note.
+to show the right note against the right column. **That list is not changed
+here.** It goes on naming the working database's own columns, because that is
+what the data dictionary uses, and it is translated into published headings when
+the copy is taken. The published version is given under each note so you can see
+what a reader would get.
 
 ---
 
@@ -39,7 +48,7 @@ Nothing in the meaning moves. The whole change is shown.
 
 | Note | Said | Says |
 |---|---|---|
-| M2 | "…votes on whether to pass the bill." | "…votes on whether to pass the bill. That day is `date_ended`." |
+| M2 | "…votes on whether to pass the bill." | "…votes on whether to pass the bill. Each of those days is `date_ended` on the bill's stage row." |
 | M2 | "…only by their place in the sequence." | "…only by their place in the sequence, which is `stage_position`." |
 | M2 | "…and a note on it says so in the same words every time." | "…and `why_there_is_no_date` says so in the same words every time." |
 | M2 | "…from introduction to Royal Assent." | "…from introduction to Royal Assent, in `days_between_stages`." |
@@ -187,7 +196,7 @@ lower-case `government` anywhere for a reader to see.
 > every bill at Stage 2 has one, because even when no amendments are lodged the
 > committee, or for an emergency bill the whole Parliament, still meets to agree
 > to each section. Stage 3 ends on the day the Parliament votes on whether to
-> pass the bill. **That day is `date_ended`.**
+> pass the bill. **Each of those days is `date_ended` on the bill's stage row.**
 >
 > A Private Bill's Preliminary, Consideration and Final Stages are recorded
 > under those names and dated at the equivalent points: the decision whether it

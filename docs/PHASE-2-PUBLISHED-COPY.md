@@ -178,8 +178,16 @@ that.
 
 **`methodology_notes`:** `note` (M1, M2 and so on), `title`, `text`,
 `applies_to`. `applies_to` is the list of headings the note bears on, and in the
-published copy it names published headings, not database columns. That is how
-the site shows the right note against the right column.
+published copy it names published headings. That is how the site shows the right
+note against the right column.
+
+**It is translated when the copy is taken, not changed in the working
+database.** The working database's own list has to go on naming its own columns,
+because that is what the data dictionary uses to show each note against the
+column it bears on, and the owner is the check on every claim this project
+makes. So one mapping of working column to published heading is written, and it
+does two jobs: it builds the copy, and it translates this list. Two lists, one
+mapping, nothing to keep in step by hand.
 
 **`sources`:** `applies_to_file`, `bill_number`, `stage`, `session`,
 `applies_to_heading`, `source`, `where_in_the_source`,
