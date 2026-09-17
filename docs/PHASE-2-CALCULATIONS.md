@@ -7,7 +7,7 @@ Nothing was changed.
 
 **In short:** the database already works out five things. Four are used as they
 stand. The fifth, the averages, doesn't fit chart 2 and needs rewriting.
-**Five calculations are new**, and two more depend on what the write-ups decide.
+**Five calculations are new**, and one more depends on what chart 2's write-up decides.
 None of the numbers needs the page to do any arithmetic.
 
 The name in brackets is where to find each one in Postico.
@@ -50,8 +50,8 @@ The name in brackets is where to find each one in Postico.
   **new** calculation.
 - **Percentages: new.** Each outcome as a share of that session's bills of that
   type.
-- **Averages: not clear yet what is averaged.** An average across the seven
-  sessions? Something else? Yours to say, and new once it's known.
+- **Averages: not needed** (the owner, 17 September). Chart 1 is numbers and
+  percentages.
 - **The Hybrid switch** comes from item 4, which already carries both groupings.
 - **Session 7 has one bill, in progress**, so its percentages are shares of one
   bill. The write-up says whether it's shown.
@@ -98,9 +98,9 @@ The name in brackets is where to find each one in Postico.
 - **Two rules the calculation needs:**
   - **A bill introduced on the day a quarter changes** needs a rule for which
     quarter it goes in.
-  - **Session 7 has no last day.** Either it's left out, or it uses the day the
-    session is due to end, which the database doesn't hold. That would be a new
-    fact, so it's yours to add or not.
+  - **Session 7 has no last day.** Settled by the owner, 17 September: it is
+    measured to an estimated last day, explained upfront. What that involves is
+    at the end of this file.
 - **Whether the pattern has changed over time** is read off the chart. A trend
   line would be another calculation, and isn't proposed.
 
@@ -136,5 +136,86 @@ database, and the page only draws them.
 | Ranking, with a rule for ties | Charts 3 and 4 | Always |
 | Each bill's session quarter | Chart 5, the table | Always |
 | Counts and percentages by quarter | Chart 5 | Always |
-| Chart 1's averages | Chart 1 | Once you've said what is averaged |
 | The Robin Rigg Act from the earlier introduction | Chart 2 | Only if the write-up chooses it |
+
+---
+
+## Session 7's estimated last day: the proposal, every part
+
+The owner decided on 17 September that chart 5 measures Session 7 to an
+estimated last day, explained upfront. That adds a new fact to the database, so
+under the rule for coding changes every part below is agreed before anything is
+built.
+
+**The date: 1 April 2031.** Worked out from the law as it stands:
+
+- **The election.** The next poll is due on the first Thursday in May, five
+  years after the last one, which is 1 May 2031 (Scotland Act 1998, section
+  2(2)).
+- **Dissolution.** The Parliament is dissolved at the start of the "minimum
+  period" ending on polling day (section 2(3)). That period is 20 days (the
+  Scottish Parliament (Elections etc.) Order 2015, article 84, cut from 28 by
+  the 2025 amending Order). Weekends, Good Friday, Easter Monday and Scottish
+  bank holidays don't count (the election rules, schedule 2, rule 2).
+- **The check.** Counted the same way from the 2026 election, the rule gives
+  8 April 2026, which is Session 6's recorded last day.
+- **What would move it.** A poll moved by proclamation (up to four weeks
+  earlier or eight weeks later), an early election, a clash with a UK general
+  election, or a change to the rules.
+
+**The nine parts, each with a proposal:**
+
+1. **What it records.** One date: the day a running session is expected to
+   end. For Session 7, 1 April 2031.
+2. **Which sessions it applies to, and what empty means.** Only the running
+   session, which must have one. A session that has ended has none: empty means
+   the session is over and its real last day is recorded. When Session 7 ends,
+   its real last day goes in and the estimate comes out, in the same change.
+3. **Where it sits.** A cell of its own on the session's row, beside the real
+   last day, and never in that cell. The real last day is treated as fact: a
+   bill that fell at dissolution is checked against it, and promotion writes
+   provenance from it. An estimate there would be checked as if it were fact,
+   and "empty means still running" would stop being true.
+4. **How it arrives.** Sessions have no staging sheet. Their dates were written
+   by a numbered change to the database (`db/048`), and this one is the same,
+   rehearsed and thrown away before it is applied.
+5. **Provenance.** A provenance note on the cell, citing legislation.gov.uk
+   (already on the list of sources): the section of the Act, the article of the
+   Order and the counting rule, read 17 September 2026. Copies of the three
+   pages are kept in `sources/`, as settled for cited sources.
+6. **What the database checks.** It refuses an estimate on a session that has
+   ended, a running session without one, and an estimate earlier than the
+   session's first meeting.
+7. **What a reader is told.** A new methodology note, M14, and one sentence at
+   the top of chart 5. Both drafts are below, in full.
+8. **Everything already recorded, rechecked.** Nothing already recorded uses
+   it. The error checker, the gaps list, loading and promotion read only the
+   real last day and don't change. No bill is touched. This is checked after
+   building, with all counts the same before and after.
+9. **When it is built.** This session, once parts 1 to 8 and both wordings are
+   agreed, before the write-ups begin. The data dictionary is regenerated in the
+   same piece of work.
+
+**Draft methodology note, M14. For the owner, in full.**
+
+> **Session 7 is measured to the day it is expected to end**
+>
+> Session 7 has not ended, so its last day is not yet known. To divide it into
+> quarters we use the day it is expected to end: 1 April 2031.
+>
+> The next election is due on 1 May 2031, the first Thursday in May five years
+> after the last (Scotland Act 1998, section 2). The Parliament is dissolved at
+> the start of the 20 days that end on polling day, not counting weekends and
+> public holidays, and 1 April 2031 is the last day before that. Counted the same way, the rule gives Session
+> 6's actual last day, 8 April 2026.
+>
+> The date can move: the poll can be brought forward or put back by
+> proclamation, or an early election held. Until the session ends, its quarters
+> are an estimate, and its later quarters hold only the bills introduced so far.
+> When it ends, its real last day replaces the estimate and its figures are
+> worked out again.
+
+**Draft sentence at the top of chart 5. For the owner, in full.**
+
+> Session 7 is still running. Its quarters are measured to 1 April 2031, the day
+> it is expected to end, and it counts only the bills introduced so far.
