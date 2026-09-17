@@ -375,7 +375,9 @@ their dates), and a decision on where the date comes from for these two.
    and the day they were read. They are kept in `sources/procedure/`.
 6. **Repeats M9** on the reintroduced Private Bill.
 
-### Proposed (about 330 words)
+### Proposed (about 330 words), approved by the owner on 17 September
+
+To be applied together with M8, which takes the thesis citation.
 
 **Title unchanged:** A stage is completed on the date of the decision that ended it
 
@@ -411,3 +413,104 @@ their dates), and a decision on where the date comes from for these two.
 >
 > Where each date comes from is in M8. A Private Bill that did not repeat stages
 > an earlier bill completed is in M9.
+
+---
+
+## M8 — Where each date comes from, and which source wins when two disagree
+
+### As it reads today (468 words)
+
+> This data is built from more than one source, and the sources do not always
+> agree. Each date is taken from the source that owns it. Royal Assent is
+> definitive on legislation.gov.uk, where recording it is one of the site's
+> purposes, and any disagreement about it is settled there. Most Royal Assent
+> dates here have not been checked against it individually; they stand on the
+> fact sheet, and a date that has been checked says so. Every other date is
+> taken from the Scottish Parliament's own bill pages or its Official Report.
+> The SPICe legislation factsheets are the starting point and stand for anything
+> that has not been checked against those, which is most of the data; they are a
+> derived source, and have been found wrong. The PhD dataset compiled for the
+> 2021 thesis that supplies the Stage 1 and Stage 2 completion dates is used
+> where no other source gives a date and nothing contradicts it. The Explanatory
+> Notes published with an Act contain a "Parliamentary passage" section giving
+> key dates; these are not used as a source, because they are written by
+> government civil servants rather than by parliamentary officials.
+>
+> Where two sources disagree, the disagreement is put to the project's author
+> and settled against the definitive source above, and the date then carries
+> that source as its own. It is not resolved silently and it is not averaged.
+>
+> A date that carries a source of its own has been checked against that source;
+> a date that does not carries the source of the row it sits on, normally a fact
+> sheet, and has not been individually checked. Only dates where two sources
+> disagreed have been checked, so nothing here should be read as the fact sheets
+> having been verified generally: the two sources are independently compiled and
+> now agree throughout Sessions 1 and 2, which is weaker than checking the Act
+> itself and stronger than a single source standing alone.
+>
+> Every session's dates, and what kind of bill each was, are compared against
+> every other source that states them when the session is loaded, and each line
+> records the date that was done. Where the sources disagree, the difference is
+> written on the line and the session cannot be published until it has been
+> settled against the definitive source above. This is a check on the sources,
+> not on the data entry: it finds the places where two published records of the
+> same event do not match.
+>
+> Where two sources disagree about what kind of bill it was, that is treated as
+> a question about the bill and not as a fault in the data: it is recorded, put
+> to the project's author, and settled before the session is published. No such
+> disagreement has arisen, so which source settles one is not yet decided.
+
+### What is wrong with it
+
+1. **"Only dates where two sources disagreed have been checked."** No longer:
+   every bill a fact sheet left awaiting Royal Assent has been checked at
+   legislation.gov.uk whatever it showed (M12), and a few other values were
+   checked for their own reasons, such as the Supreme Court's ruling date.
+2. **"Now agree throughout Sessions 1 and 2."** Every session has been compared.
+3. **Its list of sources is short.** It misses SPICe's dates fact sheet, for when
+   sessions began and ended, and the Supreme Court.
+4. **It has to take the thesis citation from M2**, which the owner has agreed to
+   drop from M2.
+5. **Repetition**: what a checked date is, said twice.
+
+### Proposed (about 360 words)
+
+**Title unchanged:** Where each date comes from, and which source wins when two
+disagree
+
+> Each bill starts from the Scottish Parliament's legislation fact sheets,
+> compiled by SPICe, which give its type, when it was introduced, what happened
+> to it and, for an Act, the date of Royal Assent. They are a derived source and
+> have been found wrong, so where another source owns a fact, that source is
+> used:
+>
+> - for an Act's date of Royal Assent, its number and its title,
+>   legislation.gov.uk;
+> - for other dates about a bill, the Parliament's own bill pages and the
+>   Official Report, which is also the source for how a bill was rejected;
+> - for the dates of Stages 1 and 2, the dataset compiled for Steven MacGregor,
+>   "Does government dominate the legislative process?" (PhD thesis, University
+>   of Stirling, 2021), maintained since to cover Sessions 6 and 7, used where
+>   no source above gives the date and nothing contradicts it;
+> - for when each session began and ended, SPICe's fact sheet of recess and
+>   dissolution dates;
+> - for the date the Supreme Court ruled on a reference, the Court's own case
+>   page.
+>
+> The Explanatory Notes published with an Act give its parliamentary passage,
+> but are not used, because they are written by government officials rather than
+> by the Parliament's.
+>
+> When a session is added, its dates and bill types are compared with the thesis
+> dataset. Where the two disagree, the difference is settled against the source
+> that owns the fact, and the value then names that source. Nothing is settled
+> silently or averaged. No disagreement about a bill's type has arisen, so which
+> source would settle one has not been decided.
+>
+> A value that names its own source has been checked against it, and says which
+> page and the day it was read. That includes every value where the sources
+> disagreed, and every bill a fact sheet left awaiting Royal Assent (M12). Every
+> other value stands on the fact sheet and has not been checked individually.
+> Agreeing with the thesis dataset, which was compiled independently, is weaker
+> evidence than checking the Act itself and stronger than one source alone.
