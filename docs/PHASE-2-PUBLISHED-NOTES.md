@@ -222,11 +222,6 @@ lower-case `government` anywhere for a reader to see.
 > Executive. Its stated total of 45 Executive bills is 44 Executive bills and one
 > Hybrid Bill.
 
-If `bill_type_grouped` comes out, as §2 of the other file asks, the middle
-sentence instead reads: "Where bill types are grouped for counting, group it
-with the government bills, because it was introduced by the Scottish
-Government."
-
 **Applies to:** `bill_type`, `bill_type_grouped`.
 
 ---

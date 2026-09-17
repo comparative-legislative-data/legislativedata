@@ -95,20 +95,30 @@ not, as settled.
 | `where_in_the_source` | Which fact sheet, which page. |
 | `date_source_read` | The day we read it. |
 
-**Three headings I am not sure of, and want your view on.**
+**Three headings, settled by the owner on 17 September.** All three as
+proposed. What settled each is recorded here so none is reopened at the first
+chart.
 
 - **`third_stage`, not `final_stage`.** The working database calls it the final
   stage. But a Private Bill's third stage is actually named Final Stage, so a
   column headed `final_stage` with the word "Final Stage" in some cells and
   "Stage 3" in others reads as though the two were the same thing. `third_stage`
   says where it comes in the sequence, which is the only claim M2 makes.
+  `stage_3` was considered and refused: it would be wrong for the 24 Private
+  Bills, whose third stage is not Stage 3.
 - **`enactment_status`.** The one heading that is our vocabulary rather than the
-  Parliament's. The alternative is `became_an_act`, which reads oddly against a
-  cell saying "Pending". I lean to keeping `enactment_status` and letting the
-  dictionary file carry it.
-- **`bill_type_grouped`.** It exists only so M4's grouping can be used without a
-  reader having to make it. If you would rather a reader made it themselves, it
-  comes out and M4 says so.
+  Parliament's, kept because it fits all four values. `became_an_act` was
+  considered and refused: it reads as a yes-or-no question that "Blocked" and
+  "Pending" do not answer. `act_status` was refused for saying "the Act's
+  status" about bills that never became Acts. The dictionary file defines it.
+- **`bill_type_grouped` is carried.** Both columns are published, so a
+  researcher can count either way and say which they used, and the bill's own
+  type still reads Hybrid Bill. Leaving the grouping to the reader was
+  considered and refused: someone counting government bills gets one fewer
+  unless they have read M4 first.
+
+**None of the three changes a single cell.** Every value stays exactly as the
+Parliament names it; these are the words at the top of three columns.
 
 ---
 
