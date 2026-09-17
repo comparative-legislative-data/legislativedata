@@ -143,3 +143,7 @@ so they are not lost.
   longest; a dashed line for every session together; Session 7 blank (M13).
   Figures from a draft calculation; the 22 Private Bills that passed give a
   median of 274 days, as M9 states. For the owner's correction; not agreed.
+  - **The owner's ask on it:** for Stage 3 to Royal Assent, a dropdown to leave
+    out bills stopped before Royal Assent. It moves two Session 5 Acts, the
+    UNCRC and European Charter Acts; the other two stopped bills have no Royal
+    Assent. Session 5's mean falls from 74 days to 37. Included by default.
