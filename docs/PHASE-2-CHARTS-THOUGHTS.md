@@ -153,3 +153,27 @@ so they are not lost.
   too wide, so its headers are shorter and bills a year sits beside length; a
   share that rounds to nothing reads "<1%"; the timing chart's first label no
   longer collides with its axis; the dropdowns are narrower.
+- **Thought 5, when in a session bills were introduced**, 17 September, on the
+  same page. The owner's steer first: the question is whether introductions
+  were spread evenly across a session's quarters, and whether that has moved
+  later over the sessions, shown numerically, visually and statistically, with
+  objective helpers rather than verdicts; government bills by default; built
+  only from what the database holds. Tiles for Sessions 1 to 6 together (bills,
+  share in the last quarter, where the average bill came, change per session);
+  a picture dropdown with three pictures (share in each quarter, share introduced
+  so far against an even rate, every bill as a dot); a table by session with
+  quarters, the average bill's place, when half were in, and an even-spread test
+  (chi-square, only for 20 bills or more). Every figure and test worked out in
+  the database by a draft calculation. For the owner's correction; not agreed.
+  - **What the figures say:** no session's government bills are measurably
+    uneven across quarters (p from 0.53 to 0.93), and the average bill moves 0.8
+    points earlier per session, which is chance-sized (p = 0.34). All types
+    together, Sessions 1 to 6 pooled, are uneven (p = 0.03), with more bills in
+    later quarters.
+  - **Open, for iterating:** which pictures to keep; the boundary rule (a bill
+    on the day a quarter begins counts in that quarter, proposed); whether the
+    tests' wording works for readers; and the explorations of the same session
+    kept out of it because the database does not hold what they need: Stage 1s
+    and Stage 3s month by month before each session's dissolution or
+    pre-election recess, and bills still before the Parliament near the end.
+    Both need those dates recorded first, as a coding change.

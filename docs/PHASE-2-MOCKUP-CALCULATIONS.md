@@ -1,7 +1,7 @@
 # The mock-ups' draft calculations
 
 For whoever builds the charts. These are the calculations that gave the figures
-in the mock-ups of 17 September 2026 (thoughts 2, 3 and 4 in
+in the mock-ups of 17 September 2026 (thoughts 2 to 5 in
 `docs/PHASE-2-CHARTS-THOUGHTS.md`; the page is
 https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9). They are **drafts**: written
 against the working database's names, run read-only, never saved into the
@@ -221,4 +221,118 @@ from grid g
 left join sets z on z.session = g.session and z.type = g.type and z.stretch = g.stretch and z.bills = g.bills
 group by g.session, g.ord, g.type, g.stretch, g.bills
 order by g.ord, g.type, g.stretch, g.bills;
+```
+
+---
+
+## When in a session bills were introduced (thought 5)
+
+Three results, each one JSON document: every bill's place in its session and
+quarter; the counts, shares, averages and even-spread test by session and type;
+and the change per session. Checked when it ran: the bills add up to 470, and the
+test results and the change per session agree with a separate calculation made
+outside the database the same day. The test's p-value uses `erfc`, which the
+database has from PostgreSQL 16.
+
+```sql
+-- When bills were introduced in their session, by quarter (thought 5, mock-up draft).
+-- A bill's position is the days from its session's first meeting to its
+-- introduction, divided by the days from that first meeting to the session's
+-- last day; Session 7 uses its expected last day (M14). Quarter 1 is a position
+-- under 0.25, and so on; a bill exactly on a boundary goes in the later quarter
+-- (proposed, not agreed; no bill is on one today).
+-- Types: 'all', or ref_bill_type.analysis_group, so the Hybrid Bill counts as a
+-- government bill (M4). Three results, each one JSON document: bills, sessions, trend.
+with pos as (
+    select b.bill_id, b.session_number, r.analysis_group as grp, b.sp_bill_id, b.short_title,
+           b.date_introduced, s.is_current as running,
+           (b.date_introduced - s.date_first_meeting)::numeric
+             / (coalesce(s.date_session_end, s.date_session_end_expected) - s.date_first_meeting) as x
+    from bill b
+    join session s using (session_number)
+    join ref_bill_type r on r.code = b.bill_type
+),
+q as (select *, least(4, floor(x * 4)::int + 1) as quarter from pos)
+select json_agg(json_build_array(bill_id, session_number, grp, sp_bill_id, short_title, date_introduced,
+                                 round(100 * x, 1), quarter) order by session_number, date_introduced)
+from q;
+
+with pos as (
+    select b.session_number, r.analysis_group as grp, s.is_current as running,
+           (b.date_introduced - s.date_first_meeting)::numeric
+             / (coalesce(s.date_session_end, s.date_session_end_expected) - s.date_first_meeting) as x
+    from bill b join session s using (session_number) join ref_bill_type r on r.code = b.bill_type
+),
+q as (select *, least(4, floor(x * 4)::int + 1) as quarter from pos),
+types(type, ord) as (values ('all', 1), ('government', 2), ('members', 3), ('committee', 4), ('private', 5)),
+typed as (select t.type, q.* from q cross join types t where t.type = 'all' or q.grp = t.type),
+grouped as (
+    select type, session_number::text as session, n, q1, q2, q3, q4, mean_x, median_x, running
+    from (
+        select type, session_number, count(*) as n,
+               count(*) filter (where quarter = 1) as q1, count(*) filter (where quarter = 2) as q2,
+               count(*) filter (where quarter = 3) as q3, count(*) filter (where quarter = 4) as q4,
+               avg(x) as mean_x, percentile_cont(0.5) within group (order by x) as median_x,
+               bool_or(running) as running
+        from typed group by type, session_number
+    ) g
+    union all
+    -- every finished session together; Session 7 is left out until it ends
+    select type, 'all', count(*),
+           count(*) filter (where quarter = 1), count(*) filter (where quarter = 2),
+           count(*) filter (where quarter = 3), count(*) filter (where quarter = 4),
+           avg(x), percentile_cont(0.5) within group (order by x), false
+    from typed where not running group by type
+),
+grid as (
+    select t.type, t.ord, s.session, s.ord as sord, s.running
+    from types t
+    cross join (select session_number::text as session, session_number as ord, is_current as running from session
+                union all select 'all', 99, false) s
+),
+tested as (
+    select g.type, g.session, g.ord, g.sord, g.running,
+           coalesce(c.n, 0) as n, coalesce(c.q1, 0) as q1, coalesce(c.q2, 0) as q2,
+           coalesce(c.q3, 0) as q3, coalesce(c.q4, 0) as q4, c.mean_x, c.median_x,
+           -- chi-square against an even spread over the four quarters, three degrees of freedom
+           case when c.n > 0 then (power(c.q1 - c.n / 4.0, 2) + power(c.q2 - c.n / 4.0, 2)
+                                 + power(c.q3 - c.n / 4.0, 2) + power(c.q4 - c.n / 4.0, 2)) / (c.n / 4.0) end as chi2
+    from grid g left join grouped c on c.type = g.type and c.session = g.session
+)
+select json_agg(json_build_object(
+    'type', type, 'session', session, 'running', running, 'n', n,
+    'q', json_build_array(q1, q2, q3, q4),
+    'q_pct', case when n > 0 then json_build_array(round(100.0 * q1 / n), round(100.0 * q2 / n),
+                                                  round(100.0 * q3 / n), round(100.0 * q4 / n)) end,
+    'mean_pct', round(100 * mean_x, 1),
+    'median_pct', round((100 * median_x)::numeric, 1),
+    'chi2', round(chi2, 2),
+    -- tested only for a finished session with at least 20 bills, so every quarter expects 5 or more
+    'p', case when n >= 20 and not running
+              then round((erfc(sqrt(chi2 / 2)::float8) + sqrt(2 * chi2 / pi()) * exp(-chi2 / 2))::numeric, 2) end
+) order by ord, sord)
+from tested;
+
+with pos as (
+    select b.session_number, r.analysis_group as grp,
+           (b.date_introduced - s.date_first_meeting)::numeric
+             / (coalesce(s.date_session_end, s.date_session_end_expected) - s.date_first_meeting) as x
+    from bill b join session s using (session_number) join ref_bill_type r on r.code = b.bill_type
+    where not s.is_current
+),
+types(type, ord) as (values ('all', 1), ('government', 2), ('members', 3), ('committee', 4), ('private', 5)),
+fit as (
+    -- straight-line fit of each bill's position on its session number, Sessions 1 to 6
+    select t.type, t.ord, count(*) as n,
+           regr_slope(x, session_number) as slope, regr_sxx(x, session_number) as sxx,
+           regr_syy(x, session_number) as syy, regr_sxy(x, session_number) as sxy
+    from pos cross join types t where t.type = 'all' or pos.grp = t.type
+    group by t.type, t.ord
+)
+select json_agg(json_build_object(
+    'type', type, 'n', n,
+    'slope_pts', round((100 * slope)::numeric, 1),
+    'p', case when n >= 20 then round(erfc((abs(slope) / sqrt((syy - sxy * sxy / sxx) / (n - 2) / sxx)) / sqrt(2))::numeric, 2) end
+) order by ord)
+from fit;
 ```
