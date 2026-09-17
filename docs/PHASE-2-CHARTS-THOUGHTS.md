@@ -118,3 +118,7 @@ so they are not lost.
     together, shown as a second panel on its own scale. The groupings and totals
     are worked out in the database by a draft calculation, which adds up to 470
     in every version.
+  - **Accepted by the owner as the starting point for this chart**, 17
+    September, to be iterated later. Open for then: "Passed" includes two bills
+    that did not become Acts (M5), which the hover does not yet say; and whether
+    the all-sessions panel invites comparing bar heights with the sessions.
