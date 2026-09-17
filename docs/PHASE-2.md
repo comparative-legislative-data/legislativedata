@@ -34,9 +34,14 @@ from `STATE.md`. Nothing here is a progress report.
   request and marked *(plan rec.)*. Where one agrees with a report's, the mark
   sits beside the report's; where it differs, it says so. They are proposals
   like every other mark.
+- **16 September, the owner's review**, question by question, in the plan's
+  order. What is settled today is taken as the groundwork briefings' answers;
+  a question that cannot sensibly be answered yet is left for its briefing.
+  Each answer is marked **Settled (review)** where it stands, and goes into
+  `DECISIONS.md` at the end of the session.
 
-**Nothing marked is decided**, the check's marks included. The owner accepts or
-strikes each.
+**Nothing marked is decided**, the check's marks included, unless marked
+**Settled (review)**. The owner accepts or strikes each.
 
 **The numbering has changed.** This draft goes back to four pieces of
 groundwork, in the order the owner set on 16 September: the published copy, the
@@ -185,6 +190,8 @@ shown beside a chart runs against it.
      change between refreshes. What would reopen it: the switches groundwork 3
      settles adding up to more combinations than it is sensible to work out in
      advance.
+   - **Settled (review):** every figure is worked out when the copy is taken,
+     as proposed, with that as what would reopen it.
 2. **What crosses.** Bills and their stage dates, certainly. The provenance
    notes, the methodology notes, the lists of allowed values, our own
    record-keeping columns (`observed_at`, `created_at`, `source_ref`), our own
@@ -195,6 +202,16 @@ shown beside a chart runs against it.
    - **Values taken from the owner's PhD dataset** cross only on the terms the
      owner states in groundwork 2, question 3 *(R2 q5)*. The provenance notes
      already say which values those are.
+   - **Settled (review):** in — session dates and notes, methodology notes,
+     provenance notes, each fact's source, place in the source and the day it
+     was read, what each code means, our own bill number, and the thin columns
+     (procedure, title at introduction, day a stage was reached) with what empty
+     means. Out — stage record numbers (reissued at every re-promotion), our
+     created and last-changed times, party (empty for all 470 bills), and the
+     staging sheet. PhD-derived values wait on groundwork 2, question 3.
+     **The owner's rider:** when a slice adds data, such as party, the
+     published copy's shape changes with it; what crosses is decided again for
+     that slice, not assumed from this list.
 3. **Whether the calculations already built cross** *(check 2)*. The working
    database already works out the days between each stage, the time from
    introduction to final stage, averages by session and type, and outcomes by
@@ -211,6 +228,26 @@ shown beside a chart runs against it.
      each worked-out column is marked as worked out in the codebook, with the
      columns it comes from and its rule. Practice leans to the calculation
      travelling too.
+   - **Settled (review):** the calculations already built carry over, and the
+     charts are worked out from them, never from a second version written
+     beside them; a calculation a chart needs and they lack is added in the
+     same place. In a download, worked-out figures are a file of their own,
+     each column marked as worked out in the codebook with its source columns
+     and rule. The calculation travels in the zip as text, the same text the
+     site shows.
+   - **Settled (review), the owner's rider:** nothing built in this phase rules
+     out a figure being worked out when a page opens. If one ever is, it uses the
+     same single calculation and the page shows it, and question 1 is reopened
+     for that figure.
+   - **Open, the owner to come back to it:** whether our own charts are
+     *always* worked out in the database, the page only drawing. Proposed: yes;
+     anything that makes a number a reader could quote (percentages, averages,
+     counts, rankings, rounding) is in the calculation, and the page does only
+     what changes how a number looks. Before deciding, **the owner wants to see
+     every calculation the charts on their list need**, which exist already and
+     which are new additions to the database, and what each holds. The first
+     worked case: nothing works out a bill's session quarter today, so chart 5
+     needs a new calculation, from dates already held.
 4. **Its layout.** A straight copy of the clean sheet's shape and codes, or a
    shape laid out for a reader: one line per bill with its stage dates across,
    readable labels in place of codes, or both.
@@ -225,6 +262,13 @@ shown beside a chart runs against it.
      copy relabels columns for readers, what the notes say has to change with
      it. So the layout and the notes' wording are decided together (see the
      methodology notes, below).
+   - **Settled (review), as the starting point:** three files, each one line
+     per thing — bills, with their stage dates across; stages, with everything
+     about each stage; and the days between stages. Words in the cells, not
+     codes, with every value listed in the codebook. Column names in plain
+     lower-case words joined by underscores, the exact names shown to the owner
+     in full when built. The methodology notes rewritten in the published names
+     at the same time, every changed note to the owner in full.
 5. **How it is refreshed.** Rebuilt whole or changed in place; all or nothing;
    who starts it and when; how it is proved to match the working one, cell by
    cell, which is the rule for moving data already; the written undo. It becomes
@@ -242,8 +286,26 @@ shown beside a chart runs against it.
      the honest answer to a reader who cannot get their old file back. It is not
      the question `STANDING.md` leaves open, which is how the working sheet
      records a second reading of a source.
+   - **Settled (review):** refreshed only when new data is added or data
+     changes, at the owner's word, run by a session and never automatically
+     after a promotion. Rebuilt whole beside the live copy and put live only if
+     every check passes; otherwise readers keep the old copy untouched. The
+     checks: cell by cell against the working database, every figure re-run
+     from its calculation, the download rebuilt from the new copy; one script,
+     no step by hand. The previous copy is kept, served to nobody, until the
+     next refresh, so the undo is one step; a step in `PROMOTION-RUNBOOK.md`,
+     rehearsed before first use. A dated list of what changed is published with
+     the documentation: a value already published that changes is listed cell
+     by cell with its old and new value, and this does not break the no-archive
+     promise.
+   - **Settled (review), the owner's rider on storage:** additions are listed
+     as a count ("3,000 debates added"), not row by row, so a large slice such
+     as Official Report data does not swell the list. The size of the list and
+     of the kept previous copy is reported at every refresh, and the arrangement
+     is looked at again if either grows large.
 6. **What it holds that the working one does not.** The date it was taken,
    certainly. The list of changes, if question 5 keeps one.
+   - **Settled (review):** those two, and nothing else.
 7. **Which date a page carries.** Three decisions of 15 September already speak
    of "the date it was taken"; the briefing starts from those words *(check 10)*.
    What is still open is which date that is: the day the copy was taken, the day
@@ -256,6 +318,10 @@ shown beside a chart runs against it.
      download is the day the copy was taken. A download may also say the day it
      was downloaded, in its readme, as Our World in Data's does. No "next
      update" date, since none is promised.
+   - **Settled (review):** every page and every download carries the day the
+     copy was taken. The day each source was read stays in the provenance. A
+     download's readme also gives the day it was downloaded. No "next update"
+     date.
 
 **What holds already and must not be re-argued:** the site can never reach the
 working one; nothing flows back from the published copy; it is not backed up,
