@@ -212,7 +212,7 @@ INSERT INTO bill (bill_id, session_number, sp_bill_id, short_title, bill_type,
                   procedure, date_introduced, outcome, enactment_status,
                   date_royal_assent, asp_number, date_concluded,
                   date_assent_blocked, bill_type_stated, title_as_introduced,
-                  stage_1_rejection_route, note, date_procedure_agreed,
+                  title_changed_at_stage, stage_1_rejection_route, note, date_procedure_agreed,
                   assent_block_route, assent_block_outcome,
                   reintroduced_from_bill_id,
                   source, source_ref, observed_at)
@@ -220,7 +220,7 @@ SELECT p.candidate_id, p.session_number, p.sp_bill_id, p.short_title, p.bill_typ
        p.procedure, p.date_introduced, p.outcome, p.enactment_status,
        p.date_royal_assent, p.asp_number, p.date_concluded,
        p.date_assent_blocked, p.bill_type_stated, p.title_as_introduced,
-       p.stage_1_rejection_route, p.bill_note, p.date_procedure_agreed,
+       p.title_changed_at_stage, p.stage_1_rejection_route, p.bill_note, p.date_procedure_agreed,
        p.assent_block_route, p.assent_block_outcome,
        p.reintroduced_from_bill_id,
        p.source, p.source_ref, p.observed_at
@@ -653,6 +653,7 @@ BEGIN
        OR b.sp_bill_id        IS DISTINCT FROM c.sp_bill_id
        OR b.bill_type_stated  IS DISTINCT FROM c.bill_type_stated
        OR b.title_as_introduced IS DISTINCT FROM c.title_as_introduced
+       OR b.title_changed_at_stage IS DISTINCT FROM c.title_changed_at_stage
        OR b.stage_1_rejection_route IS DISTINCT FROM c.stage_1_rejection_route
        OR b.procedure         IS DISTINCT FROM c.procedure
        OR b.date_procedure_agreed IS DISTINCT FROM c.date_procedure_agreed

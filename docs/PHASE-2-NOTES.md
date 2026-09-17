@@ -127,7 +127,7 @@ not how we got there) and against the database. Word counts are today's.
 
 | Note | Words | Where it stands | What is wrong |
 |---|---|---|---|
-| **M3** Two titles | 192 | **Wrong about the data** | Says a known rename's date is in the bill's note. Three bills have a known earlier title and none has a date in its note. The Session 4–7 fact sheets print rename dates; nothing records them. By the rule of 17 September, a missing date is added, then the note corrected. Also names columns and says "the first slice". |
+| **M3** Two titles | 192 | **Done 17 September** (`db/107`). Was wrong about the data | Says a known rename's date is in the bill's note. Three bills have a known earlier title and none has a date in its note. The Session 4–7 fact sheets print rename dates; nothing records them. By the rule of 17 September, a missing date is added, then the note corrected. Also names columns and says "the first slice". |
 | **M2** When a stage is completed | 947 | **Out of date, and long** | Says a session whose Stage 1 and 2 dates are not yet added has none; every session has them now. Says those dates come from the PhD dataset; 37 come from the Parliament's bill pages and 33 from the Official Report. Explains database mechanics (general and detail notes) a reader does not need. |
 | **M7** Why a bill fell | 877 | **Out of date, and long** | Says the coding is done for Sessions 1 to 5 only; Session 6 is done and Session 7 has no fallen bill. Says uncoded sessions show a general code; no bill has one. "One bill in the first five sessions" fell for want of a financial resolution; still one, in six. A paragraph on how Sessions 1 and 2 were worked out. |
 | **M8** Where each date comes from | 468 | **Out of date** | Says only dates where sources disagreed were checked; every bill a fact sheet left awaiting Royal Assent has since been checked too, and checked dates are recorded whether they agreed or not. Says the sources agree "throughout Sessions 1 and 2"; every session is compared now. Its list of sources misses the SPICe dates fact sheet, the Supreme Court and legislation.gov.uk for the session dates. |
@@ -147,6 +147,12 @@ and can be done together.
 ---
 
 ## M3: every title change the fact sheets state
+
+**Done, 17 September.** Built as `db/107`: the four bills record the stage their
+title changed at, the Buildings Act has its earlier title, and M3 is rewritten in
+the approved words, read back word for word. Sessions 2, 4, 5, 6 and 7 were taken
+off and put back as one change that saved only on the eleven rehearsed
+differences.
 
 The full text of all seven fact sheets was searched on 17 September for
 "introduced as", "renamed", "formerly" and similar, not only the earlier survey.

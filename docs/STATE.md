@@ -23,7 +23,7 @@ The dataset, unchanged and not moving:
 | 6 | 83 bills | yes | yes | yes; **closed** |
 | 7 | 2 bills | yes | yes | Stage 3 only; **closed** |
 
-**470 bills are on the clean sheet**, with 1291 stage records, 188
+**470 bills are on the clean sheet**, with 1291 stage records, 192
 provenance notes and 14 methodology notes. **The error checker and the gaps
 list are both empty.**
 
@@ -56,16 +56,21 @@ in `docs/PHASE-2-CALCULATIONS.md`, and two answers that came out of it:
   bill's date and note changed.
 - **M5 rewritten** in your approved words, 470 words down to 228, with the right
   dates and no column names; and what "Blocked" means, to match.
+- **The other twelve notes checked.** M3 was wrong about the data: title changes
+  are now recorded with the stage they happened at, for all four bills the fact
+  sheets name, one of which had been missed entirely. M3 rewritten to match.
 
 ## Now
 
 1. **The rest of the open methodology notes**, one at a time, in
-   `docs/PHASE-2-NOTES.md`. M5 is done. Next: whether the other notes are cut
-   as M5 and M12 were, the Robin Rigg Act's note, and whether Session 5's four
-   bills that ran out of time carry Session 6's note. Then, as `docs/PHASE-2.md` proposes: the write-ups, the
+   `docs/PHASE-2-NOTES.md`, whose table says where each stands. M5 and M3 are
+   done. Next: M2, M7 and M8, which are out of date; M6, which is long; then
+   M13's sentence and the column names in one go; then the Robin Rigg Act's
+   note, and whether Session 5's four bills that ran out of time carry Session
+   6's note. Then, as `docs/PHASE-2.md` proposes: the write-ups, the
    public wording, and the build plan.
-2. **Three closure tests**, `db/106`'s, `db/105`'s and `db/104`'s, run by a
-   session that built none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside
+2. **Four closure tests**, `db/107`'s, `db/106`'s, `db/105`'s and `db/104`'s,
+   run by a session that built none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside
    anything.
 
 ## Waiting for you
@@ -164,6 +169,16 @@ Run before the first reply.
   refused by its own guard, which had miscounted the lines holding a stopped
   date (four, not three: Session 7 restates bill 393's). Recorded in
   `PROMOTION-RUNBOOK.md`.
+- **`db/107` was generated from the live checker definition**, with the new
+  rules added as a CTE of their own; the rehearsal diffed the old and new
+  definitions (one line changed, the closing semicolon, and 44 added) and tried
+  each of the five rules and both clean-sheet refusals. Generating SQL through
+  an unquoted shell heredoc turned `$$` into the shell's process number once;
+  caught by the rehearsal. Quote the heredoc.
+- **The Session 4 reader dropped a footnote**: it removed footnote 1's marker
+  from the Buildings (Recovery of Expenses) Act's title and kept neither the
+  footnote nor the title it names. Filled by `db/107`; the fault in
+  `tools/extract_factsheet.py` is not mended, since every session is read in.
 - **What `v_stage_duration_summary` does that a chart must not inherit**: it
   groups by procedure, so the five known emergency bills come out as separate
   rows. Written into the list of calculations.
@@ -790,7 +805,8 @@ continue. The error checker is at two.
    concluded after the session ended — are asked only of a row that is a bill in
    its own right. Every one of the eleven later-session events has a home, nine
    of them already having had one (`DECISIONS.md`, 2026-09-13).
-   - `bill_candidate` still has no column for a rename date or a block date.
+   - `bill_candidate` has no column for a block date. A title change records
+     its stage since `db/107`, and its date is that stage's date.
      Sessions 4–7 state them, and nothing loaded so far needs one.
    - **The comparison tool's fault still exists** — an unpaired line is still
      stamped as compared — and still has no instance to see it on. Its

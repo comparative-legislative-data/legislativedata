@@ -30,6 +30,77 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## A change of title records its stage
+
+Written 2026-09-17 by the session that built `db/107`, changed
+`tools/promote_session.sql` and took Sessions 2, 4, 7, 6 and 5 off and put them
+back. **Not yet run.** For a session that did none of that work.
+
+**What to expect before starting.** 470 bills, 1291 stage records, 192
+provenance notes, 14 methodology notes; the error checker and gaps list empty;
+no copy in the database.
+
+**What this moves in earlier tests.** Any item that counts provenance notes, or
+that reads M3 or the error checker's definition as text.
+
+### Part A — mechanical
+
+1. **Every title change the fact sheets state is recorded.** Search the text of
+   all seven fact sheet PDFs in `sources/factsheets/` for "introduced as" and
+   "renamed", setting aside "introduced as an Executive Bill" and the like.
+   Expected: four bills, and exactly those four carry a title as introduced on
+   the clean sheet: 127, 231, 406 and 423.
+   *Where from:* the fact sheets, not the database.
+2. **Each records the right stage, and the date follows.** 127 Stage 3, 231
+   Stage 2, 406 Stage 3, 423 Stage 2; the date each stage ended is 2 November
+   2006, 4 June 2014, 24 February 2026 and 4 March 2025.
+   *Where from:* for 406 and 423, the rename dates the Session 6 fact sheet
+   prints, which must equal those stage dates; for 127 and 231, the wording of
+   the two archived bill pages quoted in `db/107`.
+3. **Each has its provenance note.** Four, one per bill, for the stage: 127 and
+   231 citing the archived bill pages, read 2026-09-17; 406 and 423 citing the
+   Session 6 fact sheet.
+4. **Line 231's footnote is the fact sheet's.** Its raw footnote matches the
+   Session 4 fact sheet's footnote 1 word for word, and its title as introduced
+   is the title that footnote names.
+   *Where from:* the Session 4 PDF.
+5. **The checker's rules work, and its old rules are unchanged.** Inside a
+   thrown-away transaction, one at a time: empty 127's stage; give 231 a Private
+   Bill stage; give a line with no earlier title a stage and a citation; give
+   406 a stage it has no dated row for; remove 423's citation. Each gives its
+   own problem, and the checker is empty again after each rollback. Then put a
+   stage not on the list, and a stage on a bill with no earlier title, onto the
+   clean sheet: both refused. Compare the checker's definition with `db/098`'s
+   and `db/094`'s text as last written: nothing removed but the closing line.
+6. **Promotion carries it.** Inside a thrown-away transaction, take Session 4
+   off and put it back: bill 231's stage is there, and promotion's own
+   field-by-field check passed.
+7. **M3 is the approved text.** Title and body match the draft in
+   `docs/PHASE-2-NOTES.md` word for word; it names no column; it applies to the
+   short title, the title as introduced and the stage.
+8. **Nothing else moved.** Take a copy, take Sessions 2, 4, 7, 6 and 5 off and
+   put them back inside a thrown-away transaction, and compare: no unexpected
+   differences at all. Counts as above; the dictionary regenerates with no
+   difference but its date.
+
+### Part B — the owner's sign-off
+
+None. The owner found the two bill pages, agreed every part and the wording of
+M3 before the build, and supplied the rule the dates rest on.
+
+### What this test does not check
+
+- **Titles changed without a fact sheet saying so.** M3 says an empty cell means
+  none is known.
+- **`tools/extract_factsheet.py`'s dropped footnote.** Not mended; every session
+  is read in.
+
+### The run
+
+Not yet run.
+
+---
+
 ## M5, and what "Blocked" means
 
 Written 2026-09-17 by the session that built `db/106`. **Not yet run.** For a

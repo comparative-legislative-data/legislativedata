@@ -1056,3 +1056,15 @@ still recorded in `db/101` and `DECISIONS.md`.
 5 with it and says so; the rollback of Session 7 leaves Session 6 alone, because
 Session 7 changed nothing on its bill. Counts with all three off: 302 bills, 828
 stage records, 87 provenance notes.
+
+## Sessions 2, 4, 7, 6 and 5 off and back on to record title changes, 17 September
+
+`db/107` added the stage at which a bill's title changed, filled it on four
+lines in Sessions 2, 4 and 6, and gave the Session 4 Buildings Act its earlier
+title. The same method as `db/105` the same day: copy, migration, the undos and
+promotions (2 off and on, 4 off and on, then 7, 6 and 5 off and 5, 6 and 7 on),
+and the comparison, in one transaction, saving only if the differences were
+exactly the eleven rehearsed. Promotion carries the new cell and checks it
+field by field. A new column shows in the comparison as "column only now" and
+is not counted among the differences; the four new cells were checked
+separately.

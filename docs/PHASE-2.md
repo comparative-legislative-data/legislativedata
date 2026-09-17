@@ -66,6 +66,8 @@ calculations: yes.
    **Step 2 under way, 17 September**, one note at a time in
    `docs/PHASE-2-NOTES.md`: M5 done (`db/105` dated the Legal Continuity
    ruling on the bill first, `db/106` rewrote M5 and what "Blocked" means).
+   The other twelve checked, with a table of where each stands; M3 done
+   (`db/107`: title changes record their stage).
 2. **The five open methodology notes**, each with its current wording shown to
    the owner.
 3. **The write-ups**: the five charts and the table of every bill, each to the

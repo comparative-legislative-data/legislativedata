@@ -60,8 +60,10 @@ what would reopen it.
 
 - **Three columns are thin on purpose.** The Parliament's bill number, 66 of
   470, because Session 1's fact sheet gives none and Sessions 2 to 5 give them
-  only for bills that did not become Acts. The title at introduction, 3 of 470,
-  because the fact sheets state it only where they noted a change. The day a
+  only for bills that did not become Acts. The title at introduction, 4 of 470,
+  because the fact sheets state it only where they noted a change; all four now
+  record the stage the title changed at (`db/107`), and the full text of all
+  seven fact sheets was searched on 17 September to find them. The day a
   bill reached a stage, 2 of 1291, because no fact sheet states it and it is
   never inferred from the stage before. None is needed by the first slice's
   questions. *What would reopen any of them:* a source that carries it, or a
