@@ -122,3 +122,11 @@ so they are not lost.
     September, to be iterated later. Open for then: "Passed" includes two bills
     that did not become Acts (M5), which the hover does not yet say; and whether
     the all-sessions panel invites comparing bar heights with the sessions.
+- **Thought 3, the outcomes table**, 17 September, on the same page beneath the
+  chart. The owner's answers first: "Not passed" grouped or broken out, as on
+  the chart; "Passed" throughout, no "success rate", every percentage a share of
+  the bills introduced, as on the chart; Session 7 shown, its length and bills a
+  year to the day the figures are worked out, marked "so far". Filters: type of
+  bill, outcomes, the Forth Crossing Bill. Columns: session, length, bills
+  introduced, the outcomes, bills a year, and an all-sessions row. Figures from a
+  draft calculation, adding up to 470. For the owner's correction; not agreed.
