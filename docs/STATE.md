@@ -59,7 +59,15 @@ list are both empty.**
 1. **The next mock-ups**, one at a time: thought 5 (bills introduced early or
    late in a session), thought 6 (the longest and shortest bills), and thought 1
    (the headline figures). The open points on the three already done are in the
-   thoughts file, for iterating later.
+   thoughts file, for iterating later. **Look at your example images first**,
+   on the Desktop, before proposing anything:
+   - **Thought 6:** `Screenshot 2026-09-15 at 16.33.06.png`, the two lists of
+     ten. For inspiration only. It names sponsors, which are not published, and
+     its 1408 days for the Mental Health Bill is the wrong figure `PLAN.md` cites.
+   - **Thought 5:** `Screenshot 2026-09-17 at 15.09.44.png`, `15.09.49` and
+     `15.09.53`.
+   - **The look overall:** `Screenshot 2026-09-15 at 16.32.48.png` and
+     `16.32.55`.
 2. **Then what the database needs to add** for all of them, starting from the
    draft calculations in `docs/PHASE-2-MOCKUP-CALCULATIONS.md`; then the
    write-ups, the public wording and the build plan.

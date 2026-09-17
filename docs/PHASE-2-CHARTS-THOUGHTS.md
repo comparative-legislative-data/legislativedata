@@ -43,7 +43,8 @@ are in, they are turned into something coherent together, in a second pass.
 6. **The longest and shortest bills, as lists like the screenshots.** The
    screenshot of 15 September, 16.33.06, shows two lists of ten side by side,
    each bill with its number, type, title, session, dates and days taken, and a
-   filter by type.
+   filter by type. On the owner's Desktop: `Screenshot 2026-09-15 at
+   16.33.06.png`. Look at it before proposing anything for thought 6.
 
 7. **What the screenshots show, and what comes next.** They show what good
    formatting, presentation and colour can do. None of it is gimmicky, and it
