@@ -1,15 +1,15 @@
 # State
 
-Updated: 2026-09-16
+Updated: 2026-09-17
 
 ## Where we've got to
 
 **Phase 0, the dataset, and Phase 1, the site, are both closed.** At
 `legislativedata.org` someone can apply, you approve or refuse them, and they
 sign in with a code by email; the privacy page says what is held. **Phase 2,
-the data published, is open.** The three pieces of research are in, and its
-plan has been updated from them, ready for you to review. The arc is in
-`docs/PLAN.md`.
+the data published, is open**, for approved beta users only. **Its plan is
+reviewed and its questions answered**, all but one. Nothing is built yet. The
+arc is in `docs/PLAN.md`.
 
 The dataset, unchanged and not moving:
 
@@ -30,55 +30,42 @@ provenance notes. **The error checker and the gaps list are both empty.**
 
 - **10–15 September.** The database built, every session read in, reviewed,
   promoted and closed; Phase 1's scoping discussions settled.
-- **16 September.** The site live, the accounts built and backed up by theme,
-  and Phase 1 closed on a test run by another session. Phase 2 opened, beta users
-  only, its plan drafted, checked and redrafted. Three pieces of outside research
-  done, one session each: R2, the licence (neither publisher approached, your
-  decision); R1, how a dataset is handed to a researcher; R3, how others show
-  the working behind a figure.
+- **16 September.** The site live with accounts, and Phase 1 closed. Phase 2
+  opened, its plan drafted, checked, and redrafted from three pieces of outside
+  research.
 
-**16 September, this session. The Phase 2 plan updated from the three reports:
-its third draft, ready for you.**
+**16–17 September, this session. You went through the Phase 2 plan question by
+question, and answered them.** Ten entries in `DECISIONS.md`, 17 September. In
+short:
 
-- **`docs/PHASE-2.md`**. What the reports found is written in as proposals, each
-  marked with where it came from, so you can accept or strike it. Nothing is
-  decided.
-- **A table near the top gives every question the reports put to you one home**
-  in the plan: 24 questions, one already answered.
-- **Four pieces of groundwork again**, in the order you set when the phase
-  opened. The download goes back in as the second piece, because R1's findings
-  had nowhere else to be settled.
-- **The biggest proposed change**: the published copy's first question becomes
-  *when* a figure is worked out (when the copy is taken, or when a page opens),
-  not files or a database. R3 found that is what matters, and files or a
-  database follows from it.
-- **Ten gaps written in**, some seen by earlier sessions and some found in this
-  one, among them: nothing said every data page sits behind
-  the sign-in; a download must not record who took it; the sources are credited
-  on every page showing data, not only in downloads; the notes are written in
-  database words; nothing said how a reader who cannot see a chart gets it.
-- **Then, at your request, my own recommendations written in**, marked
-  *(plan rec.)* and still proposals. They agree with the reports' except in two
-  places: CSV alone to start, and the licence over the whole dataset rather than
-  only our part. Also proposed: every figure worked out when the copy is taken,
-  the calculation shown on the site rather than on GitHub, and a table of every
-  bill on your list.
+- **Figures are worked out when the published copy is taken**, and charts drawn
+  on the machine then; the page only shows them. Kept under review.
+- **The download**: CSV in one zip with a readme, codebook, notes, calculations
+  and a list of what changed, identified by its date alone. "Not a time machine."
+- **The licence**: our work under CC BY 4.0; each source's data under its own
+  terms, restrictions passed on; no source published until its terms are written
+  down. The archived 2017 licence read and kept.
+- **A table of every bill**, deployed and tested on the site, with no interim
+  stage.
+- **Two positions changed**: the charts need not match your hand-built figures,
+  you sanity-check them; and the style test is no longer a page never deployed.
+- **Open, by your choice**: whether our charts are always worked out in the
+  database, until you have seen every calculation the charts need.
 
 Nothing in the dataset or the site changed.
 
 ## Now
 
-**You review the plan**, `docs/PHASE-2.md`, with the three reports and the
-commission beside it. Start from the table of questions near its top; the
-marks *(plan rec.)* are what I would do. Once it is
-finalised and the decisions recorded, groundwork 1, the published copy, opens.
+**The list of every calculation** the five charts and the table of every bill
+need: which the database already works out, which would be new (a bill's
+session quarter is the first), and what each holds. You asked for it, and it
+settles the one open question. Then, as proposed in `docs/PHASE-2.md`: the five
+open methodology notes, the write-ups, the public wording, and the build plan.
 
 ## Waiting for you
 
-- **The plan and the three reports**, above. Each report ends with questions
-  only you can answer, and the plan says where each is settled.
-- **Who runs Phase 2's closing test**: a test account used by another session,
-  or a real researcher you invite. Needed before that test is written, not now.
+- **Making the GitHub repository private**, which you expect to do. Nothing
+  depends on it being public; the switch is yours, in GitHub's settings.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
   accounts hold real people from the first application. Adding an alert is a new
   outside service, so it is yours to decide.
@@ -97,7 +84,7 @@ finalised and the decisions recorded, groundwork 1, the published copy, opens.
   sentences; whether the other notes are cut the way M12 was; whether Session 5's
   four bills that ran out of time carry Session 6's note; and the Robin Rigg
   Act's note, which gives its Preliminary date and not its Consideration date.
-  The plan proposes all are settled before any note is published.
+  Settled 17 September: none is published until these are answered.
 - **Three counts of how many previous attempts there have been disagree**:
   `CLAUDE.md` says four died in the gap, you say this is the tenth, `PLAN.md`
   says nine before it.
@@ -134,22 +121,45 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-16, the session that updated the plan
+## Sanity check, 2026-09-16, the session that reviewed the plan with the owner
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
-  `STATE.md`; the decisions contents regenerated identical.
+  `STATE.md`; the decisions contents and the data dictionary both regenerated
+  identical.
 - **The counts match**: 470 bills, 1291 stage records, 186 provenance notes,
-  13 notes; checker and gaps list empty; only the `public` schema in the working
-  database, and no copy tables in it.
+  13 notes; checker and gaps list empty; only the `public` schema, and no copy
+  tables.
 - **Every database sorted into a backup theme**: `postgres`, `accounts`,
-  `legdata`. The backup timer's last run succeeded; the site is running.
-- **The data dictionary regenerated identical**, on the third try. The SSH rate
-  limit refused two runs. A probe loop checking whether it had cleared used a
-  connection itself and tripped it again; a plain 75-second wait with nothing
-  touching the machine worked. Do not probe; wait.
+  `legdata`. The backup's last run succeeded; the site answers 200. The one
+  failed unit is the one-off `select 1` check already in "Waiting for you".
+- **The SSH rate limit tripped once**, on the fourth connection inside the
+  window (dictionary run, a server check, a quoting slip). A 75-second wait in
+  the background, touching nothing, cleared it.
 - **Nothing new contradicts anything.** The two known disagreements stand.
+
+## The owner's review of Phase 2's plan: working detail, 16–17 September
+
+- **How it ran**: one question at a time in the plan's order, each with a
+  recommendation, the answer written into `docs/PHASE-2.md` as **Settled
+  (review)** as it was given and committed every few answers. It worked; the
+  one stumble was the quarters example, where three explanations missed the
+  plain question ("do we pre-calculate it in the database or not?"). Answer
+  that question first, in a line.
+- **Where the owner went against a recommendation**: licence over only our part,
+  where the third draft said the whole (the owner took this session's view);
+  no interim owner-only stage for the table; the charts need not match the
+  owner's figures; the closing test's researcher view is the owner on an
+  alternative account.
+- **Checked during the review**: nothing depends on the GitHub repository being
+  public (the deploy sends the site from this Mac; no page links to GitHub).
+  The accounts hold only the owner's, approved, counted and not read.
+- **`sources/licences/`** is new, holding the 2017 licence as text the owner
+  copied from the PDF; `sources/README.md` describes it.
+- **`sources/factsheets/` holds a file outside the naming convention**: "Dates of
+  recess and dissolution and parliamentary years and recalls of Parliament.pdf",
+  not in `sources/README.md`. Noticed, not touched.
 
 ## Updating Phase 2's plan: working detail, 16 September
 

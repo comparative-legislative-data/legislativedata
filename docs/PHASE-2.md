@@ -13,7 +13,7 @@ from `STATE.md`. Nothing here is a progress report.
 
 ---
 
-## Where this plan is: third draft, not yet reviewed by the owner
+## Where this plan is: third draft, reviewed by the owner
 
 - **16 September, first draft**, by the session that opened the phase.
 - **16 September, checked** by a session that wrote none of it. The findings
@@ -34,7 +34,7 @@ from `STATE.md`. Nothing here is a progress report.
   request and marked *(plan rec.)*. Where one agrees with a report's, the mark
   sits beside the report's; where it differs, it says so. They are proposals
   like every other mark.
-- **16 September, the owner's review**, question by question, in the plan's
+- **16–17 September, the owner's review**, question by question, in the plan's
   order. What is settled today is taken as the groundwork briefings' answers;
   a question that cannot sensibly be answered yet is left for its briefing.
   Each answer is marked **Settled (review)** where it stands, and goes into
@@ -50,16 +50,39 @@ download, the charts, the working on a page. The download piece had become R1
 and nothing else in the plan held it. In `PHASE-2-CHECK.md` and the second draft
 the charts are groundwork 2 and the working is 3; here they are 3 and 4.
 
-**What happens next:** the owner reviews this draft with the commission and the
-three reports beside it. The plan is finalised, and the decisions go into
-`DECISIONS.md`. Then groundwork 1 opens.
+**The review is done**, and its answers are in `DECISIONS.md`, 17 September.
+Every question below is settled except one, left open by the owner: whether our
+charts are always worked out in the database (groundwork 1, question 3).
+
+**What remains before building, proposed in this order:**
+
+1. **The list of every calculation** the five charts and the table of every bill
+   need: which exist in the database, which are new, and what each holds. The
+   owner asked for it, and it settles the open question.
+2. **The five open methodology notes**, each with its current wording shown to
+   the owner.
+3. **The write-ups**: the five charts and the table of every bill, each to the
+   owner before it is drawn.
+4. **The public wording, in full**: the licence and source statements, the
+   readme's no-archive paragraph, the date statement, and the privacy page's
+   line about the format-request link.
+5. **Then the build is planned**, in the final version of this file.
+
+**Found in looking at the whole, for the build:** the calculations already built
+are database views defined across several migrations (`db/060`, `db/102`),
+while groundwork 4, question 2 puts each figure's calculation in one file that
+the refresh runs and the page shows. The build has to make that file the one
+definition, not a copy of the migrations. Also for the build, each put to the
+owner as an addition: the record of each source's terms, and keeping copies of
+the Official Report and legislation.gov.uk pages the provenance cites.
 
 ---
 
 ## The reports' questions, and where each lands
 
-Every question a report put to the owner has one home below. None is answered
-here.
+Every question a report put to the owner has one home below. All are answered
+there since the owner's review, marked **Settled (review)**, except R3 q8, now
+answered with the closing test.
 
 | Question | Lands in |
 |---|---|
@@ -115,6 +138,21 @@ here.
   published materials before publishing it. **Proposed** *(plan rec.)*: the
   closing test re-runs each figure from the calculation published beside it, and
   compares the result with the number on the page, as well as reading the page.
+
+**Settled (review), 17 September:**
+
+- **The closing test is run by a session that did none of the building**, as
+  every closing test has been. **The researcher's view is checked by the owner**,
+  signed in with an alternative account the owner sets up; nothing is built for
+  it, and no session needs to receive an email.
+- **The charts do not have to match the owner's own figures.** They are built
+  from our data, and the owner sanity-checks them. **This changes the standing
+  position of 12 September** (`STANDING.md`), that the dataset is proved at the
+  end by the charts matching what the owner built by hand from the PhD dataset.
+  The groundwork 3 write-ups no longer need to name a hand-built figure to
+  compare against.
+- **The closing test re-runs every published figure** from the calculation a
+  reader downloads, and compares the result with the number on the page.
 
 ---
 
@@ -505,7 +543,7 @@ which are left out by default; the switches a reader gets; the calculation, as
 it will actually run against the published copy, not a copy of it; which
 methodology notes it rests on; what it cannot say; and **where the owner has
 built the same figure by hand, which figure, so the two can be compared**
-*(check 5)*.
+*(check 5)*. *Superseded 17 September: the charts need not match; the owner sanity-checks them.*
 
 **The switches.** The two the owner named: leaving out bills of a given kind,
 such as Hybrid Bills; and whether an average takes **every bill that reached
@@ -660,12 +698,23 @@ first chart.
      plan rec.)*: the page says so, with its date and the list of what changed
      (groundwork 1, question 5), as the Department for Education's saved tables
      warn when newer figures exist.
+   - **Settled (review):** every page and download says in a short statement
+     that the data is accurate as at its date, may since have been corrected,
+     and that no earlier version is kept; wording to the owner in full. A chart
+     saved as an image carries its date inside the image. A page shows its date
+     and links to the list of changes, for a reader arriving by a shared link.
 4. **How the style is tested against a real table of every bill.** The house
    style decision said a page built locally and never deployed. **Two limits the
    briefing works within** *(check 10)*: nothing runs on the owner's Mac; and a
    deployed page with every bill on it is data on the site, so either it sits
    behind something only the owner can see, or it waits until the rules for
    publishing are settled. It may be groundwork 3's table of every bill.
+   - **Settled (review), changing the 15 September rule:** no separate test
+     page and no interim stage. The style is tested on the table of every bill
+     once it is deployed, like any other page. The owner's reason: we are the
+     only users (checked 17 September: the owner's is the only account, with no
+     other approved and none waiting), so a deployed page is seen by nobody else.
+     If that changes before the table is built, it can be changed again.
 5. **A data file for each chart** *(R3 q4)*. The government's chart guidance
    asks for one under every chart. The ONS gives one without its source or
    date; Our World in Data's carries both, with the address of the page.
@@ -674,6 +723,11 @@ first chart.
      keeping titles, sources and notes in the page and the data beneath the
      chart is that a reader who cannot see the image loses nothing (R3 §2.3).
      Nothing in the plan said how such a reader gets a chart.
+   - **Settled (review):** each chart has a CSV beneath it, as Our World in
+     Data's: its numbers, sources, date and the page's address. For a reader
+     who cannot see a chart, the table beneath holds every number it shows; its
+     title, rule, sources and date are text on the page, not only in the image;
+     and the image carries a one-sentence description of what it shows.
 
 **Picked up from `STANDING.md` here, and only if a page needs them:** the second
 accent and tones; the forms' filled buttons.
@@ -701,6 +755,12 @@ owner in full:
   database columns, and some notes' text does too. Decided with the published
   layout, groundwork 1, question 4. **Proposed** *(plan rec.)*: the notes are
   rewritten in a reader's words at the same time as the layout is decided.
+- **Settled (review):** no note is published with an open question against it.
+  The five open notes (M5's date, M5's two drifted sentences, whether the other
+  notes are cut as M12 was, the Robin Rigg Act's note, Session 5's four bills
+  that ran out of time) are a piece of work of their own, each note's current
+  wording shown to the owner, done before any chart is built. The database
+  words are settled with the layout (groundwork 1, question 4).
 
 ---
 

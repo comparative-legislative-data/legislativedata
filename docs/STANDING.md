@@ -80,29 +80,24 @@ what would reopen it.
   real case, at which point how to record one is settled.
 
 **Left for Phase 2, carried here when Phase 1 closed on 16 September.** None of
-these is decided. The owner's position is that no decision about Phase 2 is made
-at the end of Phase 1; the session that opens Phase 2 takes them up. Each is
-placed in `docs/PHASE-2.md` since 16 September, and stays here until decided.
+these is decided. The owner's review of the Phase 2 plan, 17 September, settled
+two that were here (the style test, and that the site only reads the published
+copy); they are in `DECISIONS.md` and gone from this list. The rest are placed
+in `docs/PHASE-2.md`, and stay here until decided.
 
-- **The test of the style against a real table of all the bills.** The house
-  style decision of 15 September promises one page carrying every bill, "built
-  locally and never deployed", before Phase 2. Since 16 September nothing runs on
-  the owner's Mac, so it cannot be done as written. *What reopens it:* opening
-  Phase 2, which has to say how it is done instead.
 - **The colours of charts.** Not settled; waits for something to plot. The
   accent never touches data, so a chart palette never reuses it. *What reopens
   it:* the first chart.
 - **Publishing the bills as files rather than a database the site reads.** Left
-  open on 15 September (`DECISIONS.md`, "Three databases"), because it depends on
-  what a reader's tools are. *What reopens it:* Phase 2 settling those tools.
-- **The site's way into the published copy reads and never changes anything.**
-  The briefing the three databases were decided from said this holds under every
-  option, but no decision records it. *What reopens it:* building the published
-  copy.
+  open on 15 September (`DECISIONS.md`, "Three databases"). Since 17 September
+  every figure is worked out when the copy is taken, so the site serves finished
+  numbers, and which of the two follows is for the build to show. *What reopens
+  it:* building the published copy.
 - **Heavy use of the site competes with loading data.** The site, the published
-  copy and the working database share one machine, so a reader running something
-  heavy and a session being loaded compete for it. At 14 MB of data it is not a
-  real worry. *What reopens it:* the data growing, or the site being used.
+  copy and the working database share one machine. At 14 MB of data it is not a
+  real worry, and since 17 September a page hands over finished figures, so
+  reading costs little; no action. *What reopens it:* the data growing, or the
+  site being used heavily.
 - **A second accent, and the warm, cool and plain tones.** The essays site
   offers three tones of the same ramp; noted and not adopted. Nothing so far
   needs a second accent either. *What reopens either:* a page that needs it.
@@ -176,11 +171,13 @@ placed in `docs/PHASE-2.md` since 16 September, and stays here until decided.
 - **Provenance notes may change, provided the owner clears the change.**
   Approving a rehearsed promotion clears the notes it rebuilds. Any other
   change to a note goes to the owner individually.
-- **The dataset is proved at the end, not session by session.** The test that
-  counts is whether the charts and tables built from all seven sessions match
-  what the owner built by hand off the PhD. A closure test proves that a
+- **The dataset is proved at the end, not session by session.** Changed
+  2026-09-17: the charts are built from our data and the owner sanity-checks
+  them; they do not have to match what the owner built by hand off the PhD, as
+  the 12 September position had it. A closure test proves that a
   document's words reached the clean sheet unaltered and are traceable; it is
-  not evidence the data is right. See `DECISIONS.md`, 2026-09-12.
+  not evidence the data is right. See `DECISIONS.md`, 2026-09-12 and
+  2026-09-17.
 - **A closure test inherits and is not re-argued.** It covers its own session
   and the corrections made for it, and says which of its items an outside change
   can move. Do not re-run a settled session's test for the sake of it.
