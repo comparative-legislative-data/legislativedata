@@ -134,3 +134,12 @@ so they are not lost.
     dropdown at all, since it moves one bill. Proposed: drop it, count it as a
     government bill, and say so in a note (M4 asks only that the grouping be
     stated); or, in the table, offer Hybrid Bill in the type dropdown.
+- **Thought 4, how long bills take**, 17 September, on the same page. The owner's
+  answers first: mean and median both offered; bills that passed by default, or
+  every bill that reached the end of the stretch; Private Bills in all types,
+  matched by position (M2) and explained; the Robin Rigg Act from its own
+  introduction (M9). A line across the sessions with filters for type, stretch,
+  average and bills counted; the hover gives bills, both averages, shortest and
+  longest; a dashed line for every session together; Session 7 blank (M13).
+  Figures from a draft calculation; the 22 Private Bills that passed give a
+  median of 274 days, as M9 states. For the owner's correction; not agreed.
