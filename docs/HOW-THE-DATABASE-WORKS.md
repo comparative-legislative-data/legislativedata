@@ -41,7 +41,7 @@ wherever it came from.
 They fill up when promotion runs, one session at a time.
 
 **Two are context:** `session` (seven rows, one per parliament) and
-`methodology_note` (thirteen rows, the decisions a reader has to be told about).
+`methodology_note` (fourteen rows, the decisions a reader has to be told about).
 
 ## 2. Your sheets
 
@@ -271,7 +271,14 @@ it. Each date records where it was read. The last days matter beyond tidiness:
 a bill is recorded as having run out of time when the day it ended is the day
 its session ended, so that coding can be checked rather than taken on trust.
 
-`methodology_note` is thirteen rows of prose, each one a decision a reader of the
+Session 7 also has a column the others leave empty: the day it is **expected**
+to end, 1 April 2031, worked out from the law on when the next election falls.
+It is an estimate, so it never goes in the last-day column, where it would be
+checked as if it were fact. It is there so a chart can split Session 7 into
+quarters. When the session ends, its real last day goes in and the estimate
+comes out, and the database refuses a session holding both or neither (M14).
+
+`methodology_note` is fourteen rows of prose, each one a decision a reader of the
 published figures has to be told about — why Executive and Government Bills are
 counted as one thing, why a passed bill isn't necessarily an Act, when a stage
 counts as completed. These exist to be shown on the front end beside the

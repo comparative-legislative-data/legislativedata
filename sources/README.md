@@ -103,3 +103,18 @@ credited under today's licence, with today's broader ban passed on.
 HTML error page, not a 404. Any check based on status code will report success
 and store an error page. Verify `content_type` is `application/pdf`, or check
 the file begins `%PDF`.
+
+## legislation/
+
+The law that sets when the Parliament's sessions end, kept because the expected
+last day of a running session is worked out from it (`db/104`, methodology note
+M14). Saved as the HTML legislation.gov.uk served, so the words relied on can be
+found in the file. **Each page is the revised text as it stood on the day it
+was retrieved**, amendments applied; a later amendment changes the page, not
+this copy.
+
+| File | Page | Retrieved | SHA-256 (first 16) |
+|---|---|---|---|
+| `legislation-scotland-act-1998-section-2_retrieved-2026-09-17.html` | Scotland Act 1998, s2, ordinary general elections | 2026-09-17 | `2820dccb71c32f52` |
+| `legislation-scottish-parliament-elections-order-2015-article-84_retrieved-2026-09-17.html` | SSI 2015/425, art 84, the minimum period: 20 days since SSI 2025/313 | 2026-09-17 | `423f0e777d1b6a5c` |
+| `legislation-scottish-parliament-elections-order-2015-schedule-2-rule-2_retrieved-2026-09-17.html` | SSI 2015/425, sch 2 rule 2, computation of time | 2026-09-17 | `5c4840abc297db1f` |

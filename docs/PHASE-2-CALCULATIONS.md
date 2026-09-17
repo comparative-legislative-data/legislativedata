@@ -7,8 +7,8 @@ Nothing was changed.
 
 **In short:** the database already works out five things. Four are used as they
 stand. The fifth, the averages, doesn't fit chart 2 and needs rewriting.
-**Five calculations are new**, and one more depends on what chart 2's write-up decides.
-None of the numbers needs the page to do any arithmetic.
+**Five calculations are new**, and one more depends on what chart 2's
+write-up decides. None of the numbers needs the page to do any arithmetic.
 
 The name in brackets is where to find each one in Postico.
 
@@ -142,6 +142,9 @@ database, and the page only draws them.
 
 ## Session 7's estimated last day: the proposal, every part
 
+**Approved by the owner on 17 September, and built the same day as `db/104`.**
+The closure test is in `docs/CLOSURE-TESTS.md`, for another session to run.
+
 The owner decided on 17 September that chart 5 measures Session 7 to an
 estimated last day, explained upfront. That adds a new fact to the database, so
 under the rule for coding changes every part below is agreed before anything is
@@ -206,8 +209,8 @@ built.
 > The next election is due on 1 May 2031, the first Thursday in May five years
 > after the last (Scotland Act 1998, section 2). The Parliament is dissolved at
 > the start of the 20 days that end on polling day, not counting weekends and
-> public holidays, and 1 April 2031 is the last day before that. Counted the same way, the rule gives Session
-> 6's actual last day, 8 April 2026.
+> public holidays, and 1 April 2031 is the last day before that. Counted the
+> same way, the rule gives Session 6's actual last day, 8 April 2026.
 >
 > The date can move: the poll can be brought forward or put back by
 > proclamation, or an early election held. Until the session ends, its quarters

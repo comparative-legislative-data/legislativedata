@@ -23,8 +23,9 @@ The dataset, unchanged and not moving:
 | 6 | 83 bills | yes | yes | yes; **closed** |
 | 7 | 2 bills | yes | yes | Stage 3 only; **closed** |
 
-**470 bills are on the clean sheet**, with 1291 stage records and 186
-provenance notes. **The error checker and the gaps list are both empty.**
+**470 bills are on the clean sheet**, with 1291 stage records, 187
+provenance notes and 14 methodology notes. **The error checker and the gaps
+list are both empty.**
 
 ## What has been done
 
@@ -33,34 +34,29 @@ provenance notes. **The error checker and the gaps list are both empty.**
 - **16 September.** The site live with accounts, and Phase 1 closed. Phase 2
   opened, its plan drafted, checked, and redrafted from three pieces of outside
   research.
+- **16–17 September.** You reviewed the Phase 2 plan question by question and
+  answered all but one; ten entries in `DECISIONS.md`.
 
-**16–17 September, this session. You went through the Phase 2 plan question by
-question, and answered them.** Ten entries in `DECISIONS.md`, 17 September. In
-short:
+**17 September, this session. The list of every calculation the charts need**,
+in `docs/PHASE-2-CALCULATIONS.md`, and two answers that came out of it:
 
-- **Figures are worked out when the published copy is taken**, and charts drawn
-  on the machine then; the page only shows them. Kept under review.
-- **The download**: CSV in one zip with a readme, codebook, notes, calculations
-  and a list of what changed, identified by its date alone. "Not a time machine."
-- **The licence**: our work under CC BY 4.0; each source's data under its own
-  terms, restrictions passed on; no source published until its terms are written
-  down. The archived 2017 licence read and kept.
-- **A table of every bill**, deployed and tested on the site, with no interim
-  stage.
-- **Two positions changed**: the charts need not match your hand-built figures,
-  you sanity-check them; and the style test is no longer a page never deployed.
-- **Open, by your choice**: whether our charts are always worked out in the
-  database, until you have seen every calculation the charts need.
-
-Nothing in the dataset or the site changed.
+- **Five calculations already exist**; four are used as they are, and the
+  averages need rewriting for chart 2. **Five are new**, and one more only if
+  chart 2's write-up wants the Robin Rigg Act counted from the earlier bill.
+- **Chart 1 has no averages**: numbers and percentages.
+- **Chart 5 measures Session 7 to 1 April 2031**, the day it is expected to end,
+  worked out from the Scotland Act and the elections Order. Built, in a cell of
+  its own, with M14 and the three pages of law kept. No bill touched.
 
 ## Now
 
-**The list of every calculation** the five charts and the table of every bill
-need: which the database already works out, which would be new (a bill's
-session quarter is the first), and what each holds. You asked for it, and it
-settles the one open question. Then, as proposed in `docs/PHASE-2.md`: the five
-open methodology notes, the write-ups, the public wording, and the build plan.
+1. **Your answer on the open question**: whether our charts are always worked
+   out in the database, the page only drawing. The list shows every number
+   would be; recommended yes.
+2. **Then, as `docs/PHASE-2.md` proposes**: the five open methodology notes,
+   the write-ups, the public wording, and the build plan.
+3. **`db/104`'s closure test**, run by a session that did not build it
+   (`docs/CLOSURE-TESTS.md`, top). It can run alongside anything.
 
 ## Waiting for you
 
@@ -121,23 +117,40 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-16, the session that reviewed the plan with the owner
+## Sanity check, 2026-09-17, the session that listed the calculations
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
-  `STATE.md`; the decisions contents and the data dictionary both regenerated
-  identical.
-- **The counts match**: 470 bills, 1291 stage records, 186 provenance notes,
-  13 notes; checker and gaps list empty; only the `public` schema, and no copy
+  `STATE.md`; the decisions contents regenerated identical, the data dictionary
+  identical but for its date.
+- **The counts matched**: 470 bills, 1291 stage records, 186 provenance notes,
+  13 notes; checker and gaps list empty; only the `public` schema, no copy
   tables.
 - **Every database sorted into a backup theme**: `postgres`, `accounts`,
-  `legdata`. The backup's last run succeeded; the site answers 200. The one
-  failed unit is the one-off `select 1` check already in "Waiting for you".
-- **The SSH rate limit tripped once**, on the fourth connection inside the
-  window (dictionary run, a server check, a quoting slip). A 75-second wait in
-  the background, touching nothing, cleared it.
-- **Nothing new contradicts anything.** The two known disagreements stand.
+  `legdata`. Last night's backup succeeded; the site answers 200. The one failed
+  unit is the old `select 1` check already in "Waiting for you".
+- **Nothing new contradicted anything.**
+
+## The list of calculations and `db/104`: working detail, 17 September
+
+- **The rehearsal caught a fault before it was applied**: the rule "a running
+  session must have an estimate" was switched on before Session 7's estimate was
+  written, so it refused the empty column. The rule now goes on after the date.
+  Rehearsed again: four refusals fired, the proper ending of a session went
+  through, a second run refused, and nothing else moved.
+- **Applied with fingerprints either side**: the sessions' other cells, every
+  bill, every stage record, every earlier provenance note and every earlier
+  note identical before and after. M14 matches the approved draft word for word.
+- **Reading legislation.gov.uk**: plain `curl` with a browser user agent works,
+  unlike the Parliament's archive. The elections Order is an SSI
+  (`/ssi/2015/425`), not a UK SI; article 84 is the minimum period, schedule 2
+  rule 2 the counting of days.
+- **The SSH limit tripped once**, on the dictionary run straight after applying.
+  A wait in a loop cleared it.
+- **What `v_stage_duration_summary` does that a chart must not inherit**: it
+  groups by procedure, so the five known emergency bills come out as separate
+  rows. Written into the list of calculations.
 
 ## The owner's review of Phase 2's plan: working detail, 16–17 September
 

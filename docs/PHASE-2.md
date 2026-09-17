@@ -56,9 +56,12 @@ charts are always worked out in the database (groundwork 1, question 3).
 
 **What remains before building, proposed in this order:**
 
-1. **The list of every calculation** the five charts and the table of every bill
-   need: which exist in the database, which are new, and what each holds. The
-   owner asked for it, and it settles the open question.
+1. ~~**The list of every calculation**~~ **Done 17 September**:
+   `docs/PHASE-2-CALCULATIONS.md`. Two answers came out of it and are in
+   `DECISIONS.md`: chart 1 has no averages, and chart 5 measures Session 7 to an
+   expected last day, built as `db/104` with M14 (closure test written, not
+   run). Chart 5's opening sentence is approved there, for the write-up. **The
+   open question is put to the owner with the list**, recommended yes.
 2. **The five open methodology notes**, each with its current wording shown to
    the owner.
 3. **The write-ups**: the five charts and the table of every bill, each to the

@@ -30,6 +30,113 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Session 7's expected last day, and M14
+
+Written 2026-09-17 by the session that proposed and built `db/104`. **Not yet
+run.** It is for a session that did none of that work.
+
+The owner settled on 17 September that chart 5 measures Session 7 to an
+estimated last day, and approved all nine parts of the change with the wording
+of M14 before anything was built (`docs/PHASE-2-CALCULATIONS.md`, last section;
+`DECISIONS.md`, 17 September). `db/104` adds a cell to the session tab, fills
+it for Session 7 with 1 April 2031, adds two refusals, one provenance note and
+M14, and nothing else.
+
+**What to expect before starting.** At the time of writing: 470 bills, 1291
+stage records, 187 provenance notes, 14 methodology notes, an empty error
+checker and an empty gaps list.
+
+**What an outside change can move.** Item 2's date, if the law changes or the
+poll is moved (the kept pages then no longer describe the live law, and the
+item is run against a fresh copy); items 6 and 7's counts, when anything else
+adds a provenance note or a methodology note; item 9's "nothing else reads the
+cell", once chart 5's calculation is built.
+
+### Part A — mechanical
+
+1. **The cell exists and is described.** `session.date_session_end_expected`
+   is a date column with a description, and `tools/make_data_dictionary.py`
+   produces no difference from the committed dictionary apart from its date.
+   *Where from:* `CLAUDE.md`'s rule that every new column carries a description
+   in the migration that makes it.
+
+2. **The date is right, worked out without the database.** From the three pages
+   in `sources/legislation/` alone, and a calendar for Easter 2031 from outside
+   this repository: the poll day under s2(2), then counting back the minimum
+   period under article 84 and schedule 2 rule 2. Expected: poll 1 May 2031,
+   Good Friday 11 April and Easter Monday 14 April left out, period beginning
+   2 April, **last day 1 April 2031**. Then read Session 7's cell: it must say
+   the same. *Where from:* the law, not the migration; the count is redone, not
+   compared with the migration's arithmetic.
+
+3. **The rule reproduces a real last day.** The same count from the poll of
+   7 May 2026 gives 8 April 2026. Compare it with Session 6's last day in
+   SPICe's dates fact sheet in `sources/factsheets/` (the parliamentary years
+   table). *Where from:* SPICe, which `db/048` took Session 6's date from; not
+   the database.
+
+4. **Only Session 7 holds an estimate.** Sessions 1 to 6 have the cell empty
+   and a last day; Session 7 has the estimate and no last day.
+   *Where from:* part 2 of the approved proposal.
+
+5. **The refusals work, and the proper route does not refuse.** Inside a
+   transaction that is thrown away, each in its own savepoint:
+   - an estimate put on Session 6: refused;
+   - Session 7's estimate emptied: refused;
+   - Session 7's estimate set to 1 May 2026, before its first meeting: refused;
+   - a last day put on Session 7 with the estimate left in: refused;
+   - **the control:** a last day put on Session 7 with the estimate emptied in
+     the same change: accepted.
+   Roll back, then confirm Session 7 reads as it did.
+   *Where from:* parts 2 and 6 of the approved proposal. The control is what
+   stops the item proving only that the tab refuses everything.
+
+6. **The provenance note.** Exactly one note for the cell: Session 7, source
+   legislation.gov.uk, read 2026-09-17, its reference naming s2 of the Act,
+   article 84 with the 2025 amending Order, and schedule 2 rule 2, and its note
+   saying the date is worked out and not stated. 187 provenance notes in all.
+   *Where from:* part 5 of the approved proposal; 186 before, from `STATE.md`
+   at the opening of 17 September.
+
+7. **M14 is the approved wording, word for word.** Its title and body match the
+   draft in `docs/PHASE-2-CALCULATIONS.md`, ignoring line breaks; it applies to
+   `session.date_session_end_expected`; it is at position 14; there are 14
+   notes; and M1 to M13 are unchanged since before `db/104` (their last-changed
+   times are all earlier than 17 September 2026).
+   *Where from:* the owner's approval of the draft, not the database.
+
+8. **The kept pages are the pages.** Each of the three files'
+   SHA-256 begins as `sources/README.md` records, and each contains the words
+   relied on: "first Thursday in May in the fifth" (the Act), "20 days" (article
+   84), and "Good Friday or Easter Monday" (rule 2).
+   *Where from:* the README; the words from the law as quoted in `db/104`.
+
+9. **Nothing else moved, and nothing else reads the cell.** 470 bills and 1291
+   stage records; the error checker and the gaps list empty. No view in the
+   database and no file in `tools/` or `site/` mentions
+   `date_session_end_expected`. The session tab's first meetings, last days,
+   running flags and notes are the values written in `db/048`'s file.
+   *Where from:* `STATE.md`'s figures of 17 September, and `db/048`'s text.
+
+### Part B — the owner's sign-off
+
+None. The owner approved the nine parts and both wordings before the build, and
+item 7 checks that what was built is what was approved.
+
+### What this test does not check
+
+- **Whether Session 7 will end on 1 April 2031.** It is an estimate; M14 says
+  what would move it.
+- **Chart 5's calculation**, which is not built. Nothing reads the cell yet.
+- **Chart 5's opening sentence**, which is public wording for the build and
+  lives nowhere in the database.
+
+### The run
+
+Not yet run.
+
+---
+
 ## Phase 1 — the site
 
 Written 2026-09-16 by a session that did Phase 1 work: it reshaped the machine's
