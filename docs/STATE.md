@@ -11,7 +11,7 @@ the data published, is open**, for approved beta users only. **Its plan is
 reviewed and every question answered.** Nothing for it is built yet. The
 arc is in `docs/PLAN.md`.
 
-The dataset, unchanged and not moving:
+The dataset. Three corrections today (a ruling date, title changes, and a session's expected end); no bill added or lost:
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
@@ -35,7 +35,7 @@ list are both empty.**
   opened, its plan drafted, checked, and redrafted from three pieces of outside
   research.
 - **16–17 September.** You reviewed the Phase 2 plan question by question and
-  answered all but one; ten entries in `DECISIONS.md`.
+  answered all but one, which was settled on 17 September.
 
 **17 September, this session. The list of every calculation the charts need**,
 in `docs/PHASE-2-CALCULATIONS.md`, and two answers that came out of it:
@@ -147,6 +147,18 @@ Run before the first reply.
   `legdata`. Last night's backup succeeded; the site answers 200. The one failed
   unit is the old `select 1` check already in "Waiting for you".
 - **Nothing new contradicted anything.**
+
+## Closing checks, 17 September, the session that listed the calculations
+
+- **Figures**: 470 bills, 1291 stage records, 192 provenance notes, 14 notes;
+  checker and gaps list empty; only the `public` schema, no copy left; no
+  working files left in `/tmp` on the machine.
+- **The data dictionary and the decisions contents regenerate identical** to
+  the committed files.
+- **The site answers 200** and its service is running; the one failed unit is
+  still the old `select 1` check in "Waiting for you".
+- **The SSH limit tripped once more** at close, on the dictionary run; a wait in
+  a loop cleared it.
 
 ## The list of calculations and `db/104`: working detail, 17 September
 
