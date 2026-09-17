@@ -30,6 +30,41 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## M13's sentence, and the column names in M1, M4 and M11
+
+Written 2026-09-17 by the session that built `db/111`. **Not yet run.** For a
+session that did none of that work.
+
+### Part A — mechanical
+
+1. **Each change is the approved change.** M13's second paragraph, and the
+   changed sentences of M1, M4 and M11, match the proposals in
+   `docs/PHASE-2-NOTES.md` word for word. Every other sentence of those four
+   notes matches the "as it reads" text where the file quotes it.
+   *Where from:* the file the owner approved.
+2. **No note names a column.** No note's body, with "legislation.gov.uk"
+   removed, contains a word with an underscore or a word.word pair.
+3. **M13 kept what was settled.** It says "shown blank" and "nought days", and
+   contains neither "the difference is the bills still before the Parliament"
+   nor "never reached its final stage".
+4. **What M13 now says is true of the calculations.** The view of days between
+   stages has no condition on what happened to the bill, so a bill in progress
+   with a completed, dated stage would have a period for it. Check the view's
+   definition; with today's data bill 473 has none.
+5. **Nothing else moved.** 14 notes, the other ten unchanged by `db/111`, and
+   all titles unchanged; 470 bills, 192 provenance notes; checker empty; the
+   dictionary regenerates with no difference but its date.
+
+### Part B — the owner's sign-off
+
+None. The changes were approved in full before they were applied.
+
+### The run
+
+Not yet run.
+
+---
+
 ## M6 rewritten
 
 Written 2026-09-17 by the session that built `db/110`. **Not yet run.** For a

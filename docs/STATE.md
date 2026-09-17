@@ -42,8 +42,8 @@ charts need (`docs/PHASE-2-CALCULATIONS.md`); every chart worked out in the
 database; Session 7 measured to 1 April 2031; the Legal Continuity Bill's ruling
 dated; title changes recorded with their stage; M5, M3, M2 and M8 rewritten.
 
-**17 September, this session. M7 and M6 rewritten**, in your approved words.
-M7, 877 words down to about 460:
+**17 September, this session. M7, M6 and M13 rewritten, and no note names a
+column**, all in your approved words. M7, 877 words down to about 460:
 
 - **It states the rule instead of which sessions are done**, so it cannot fall
   behind that way a fourth time: every bill that fell is coded, and the error
@@ -60,16 +60,18 @@ M7, 877 words down to about 460:
   the fact sheets' totals instead of counts that move as Session 7 is read
   again, and drops "six pairs" of reintroduced bills, which the data cannot
   check.
+- **M13** no longer says a live bill has nothing to measure; **M1, M4 and M11**
+  say in words what they named as columns.
 
 ## Now
 
 1. **The rest of the open methodology notes**, one at a time, in
    `docs/PHASE-2-NOTES.md`, whose table says where each stands. Done: M5, M3,
-   M2, M8, M7 and M6. Next: M13's sentence and the column
-   names in one go; then the Robin Rigg Act's note, and whether Session 5's four
+   M2, M8, M7, M6, M13, and the column names. Next: the
+   Robin Rigg Act's note, and whether Session 5's four
    bills that ran out of time carry Session 6's note. Then, as `docs/PHASE-2.md`
    proposes: the write-ups, the public wording, and the build plan.
-2. **Seven closure tests**, for `db/104` to `db/110`, run by a session that built
+2. **Eight closure tests**, for `db/104` to `db/111`, run by a session that built
    none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside anything.
 
 ## Waiting for you
@@ -156,7 +158,11 @@ Run before the first reply.
 - **The site answers 200** and its service is running; the one failed unit is
   still the old `select 1` check in "Waiting for you".
 
-## M7, M6, `db/109` and `db/110`: working detail, 17 September
+## M7, M6, M13, `db/109` to `db/111`: working detail, 17 September
+
+- **Comparing a note read back with its approved text**: a word-by-word check in
+  Python is reliable; a `diff` of process substitutions reported four false
+  differences for `db/111` and was not.
 
 - **`db/110` was rehearsed and applied in one psql run**: the migration inside a
   thrown-away transaction first, then for real only if that passed, since it
