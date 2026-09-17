@@ -75,7 +75,9 @@ calculations: yes.
 3. **The write-ups**: the five charts and the table of every bill, each to the
    owner before it is drawn. **Starting afresh, 17 September**, from the
    owner's description of what each chart shows. The first draft of chart 1,
-   in `docs/PHASE-2-CHARTS.md`, is superseded.
+   in `docs/PHASE-2-CHARTS.md`, is superseded. **Each chart is now worked out as
+   a mock-up first** (`DECISIONS.md`); thoughts 2 to 4 are done, 5, 6 and 1 are
+   next (`docs/PHASE-2-CHARTS-THOUGHTS.md`), and the write-up follows each.
 4. **The public wording, in full**: the licence and source statements, the
    readme's no-archive paragraph, the date statement, and the privacy page's
    line about the format-request link.

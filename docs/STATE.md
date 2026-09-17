@@ -8,10 +8,11 @@ Updated: 2026-09-17
 `legislativedata.org` someone can apply, you approve or refuse them, and they
 sign in with a code by email; the privacy page says what is held. **Phase 2,
 the data published, is open**, for approved beta users only. **Its plan is
-reviewed and every question answered.** Nothing for it is built yet. The
-arc is in `docs/PLAN.md`.
+reviewed and every question answered.** Nothing for it is built yet. **The
+charts are being worked out afresh, as mock-ups with real figures.** The arc is
+in `docs/PLAN.md`.
 
-The dataset. Four corrections today (a ruling date, title changes, a session's expected end, and two votes carried to their sources); no bill added or lost:
+The dataset. Unchanged today; nothing was added, corrected or lost:
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
@@ -37,29 +38,32 @@ list are both empty.**
 - **16–17 September.** You reviewed the Phase 2 plan question by question and
   answered all but one, which was settled on 17 September.
 
-**17 September, the session before this one.** The list of every calculation the
-charts need (`docs/PHASE-2-CALCULATIONS.md`); every chart worked out in the
-database; Session 7 measured to 1 April 2031; the Legal Continuity Bill's ruling
-dated; title changes recorded with their stage; M5, M3, M2 and M8 rewritten.
+- **17 September, earlier.** The list of calculations; Session 7's expected
+  end; every open question against the methodology notes answered.
 
-**17 September, this session. Every open question against the notes answered**,
-all in your approved words:
+**17 September, this session. The charts started afresh.**
 
-- **M7** (877 words to about 460) states the rule, so it cannot fall behind
-  again, with five errors gone; the Budget Bill's 2009 tie and Creative
-  Scotland's 2008 financial resolution vote now reach their sources.
-- **M6** (625 to about 370) gives each session's difference from the fact
-  sheets instead of counts that move, and drops the uncheckable "six pairs".
-- **M13** no longer says a live bill has nothing to measure; **no note names a
-  column**; **the Robin Rigg Act's note** dates both stages; **Session 5's four
-  bills that ran out of time** left as they are.
+- **Chart 1's first write-up was set aside**: it showed everything at once.
+- **Your seven thoughts** on what to show are in
+  `docs/PHASE-2-CHARTS-THOUGHTS.md`, with your position that the downloads stay
+  plain and the charts may bring the data alive.
+- **Three rules changed for charts**: colour with a legend, choices through
+  dropdowns, drawn in the browser with Apache ECharts.
+- **Mock-ups of thoughts 2, 3 and 4**, with real figures, at
+  https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9: the outcomes chart (your
+  starting point), the outcomes table, and how long bills take. Working this way
+  is now a decision.
 
 ## Now
 
-1. **The write-ups, the public wording, and the build plan**, as
-   `docs/PHASE-2.md` proposes. Every open question against the notes is
-   answered (`docs/PHASE-2-NOTES.md`).
-2. **Nine closure tests**, for `db/104` to `db/112`, run by a session that built
+1. **The next mock-ups**, one at a time: thought 5 (bills introduced early or
+   late in a session), thought 6 (the longest and shortest bills), and thought 1
+   (the headline figures). The open points on the three already done are in the
+   thoughts file, for iterating later.
+2. **Then what the database needs to add** for all of them, starting from the
+   draft calculations in `docs/PHASE-2-MOCKUP-CALCULATIONS.md`; then the
+   write-ups, the public wording and the build plan.
+3. **Nine closure tests**, for `db/104` to `db/112`, run by a session that built
    none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside anything.
 
 ## Waiting for you
@@ -80,6 +84,9 @@ all in your approved words:
   the private notes; the cost could go beside it, if you want it recorded.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
   is deliberately outside version control and exists on this machine only.
+- **Whether the Forth Crossing Bill needs a dropdown at all**, on the outcomes
+  chart and table, since it moves one bill. Proposed: drop it and say in a note
+  that it is counted as a government bill.
 - **Whether M9 and M10 are cut too.** Both were checked correct on
   17 September and not rewritten. M10 still says how its rule came about ("that
   has been refused since the column was made"), which the rewrites took out of
@@ -120,30 +127,52 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-17, the session that rewrote M7
+## Sanity check, 2026-09-17, the session that started the charts afresh
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
   `STATE.md`; the decisions contents and the data dictionary regenerated
-  identical.
+  identical. Nine closure tests unrun, as `STATE.md` said.
 - **The counts matched**: 470 bills, 1291 stage records, 192 provenance notes,
-  14 notes; checker and gaps list empty; only the `public` schema.
+  14 notes; checker and gaps list empty; only the `public` schema. The staging
+  sheet holds 474 bill lines and 1295 stage lines, the four extra being bills
+  listed in two fact sheets (M6).
 - **Every database sorted into a backup theme**: `postgres`, `accounts`,
   `legdata`. Last night's backup finished; the site answers 200. The one failed
-  unit is the old `select 1` check already in "Waiting for you".
-- **Nothing new contradicted anything.** The SSH limit tripped on the
-  dictionary run; a wait in a loop cleared it.
+  unit is the old `select 1` check.
+- **One stale spot**: `PHASE-2.md`'s list still showed the notes open. Fixed.
 
-## Closing checks, 17 September, the session that rewrote M7
+## Closing checks, 17 September, the session that started the charts afresh
 
-- **Figures**: 470 bills, 1291 stage records, 192 provenance notes, 14 notes;
-  checker and gaps list empty; no copy left; no working files left in `/tmp` on
-  the machine.
+- **Figures unchanged**: 470 bills, 1291 stage records, 192 provenance notes,
+  14 notes; checker and gaps list empty; only the `public` schema; nothing was
+  written to the database this session, and no working files are left in
+  `/tmp` on the machine.
 - **The data dictionary and the decisions contents regenerate identical** to
   the committed files.
-- **The site answers 200** and its service is running; the one failed unit is
-  still the old `select 1` check in "Waiting for you".
+- **The site answers 200**, its service and Caddy are running, and the backup
+  timer is set for tonight.
+- **The draft calculations are in the repository**, not only in the session's
+  scratch folder.
+
+## The charts afresh: working detail, 17 September
+
+- **The mock-ups are claude.ai pages, not the site.** They load ECharts from
+  cdnjs, which the site will not; the site serves it from the machine. Their
+  figures were embedded from the draft calculations, which are kept in
+  `docs/PHASE-2-MOCKUP-CALCULATIONS.md`. The page's source is only on claude.ai;
+  `Artifact` with `action: read` fetches it.
+- **The browser tools cannot scroll inside a published page**, so only its top
+  can be looked at from here. The owner's screenshots, on the Desktop, were how
+  the table and timing chart were checked.
+- **`docs/PHASE-2-CHARTS.md`** is the superseded chart 1 write-up, kept as the
+  record; its first mock-up is https://claude.ai/artifact/3VedUECgiRD4YY7CKUDYy1.
+- **Two sort orders tie** in the list of outcomes (In progress, and Fell:
+  financial resolution not agreed, both 7). The mock-ups fix the order in the
+  page; the build should put the list right.
+- **The European Charter Bill is a Member's Bill**, so leaving out stopped bills
+  from Stage 3 to Royal Assent moves one Government Bill and one Member's Bill.
 
 ## The notes, `db/109` to `db/112`: working detail, 17 September
 
