@@ -129,7 +129,7 @@ not how we got there) and against the database. Word counts are today's.
 |---|---|---|---|
 | **M3** Two titles | 192 | **Done 17 September** (`db/107`). Was wrong about the data | Says a known rename's date is in the bill's note. Three bills have a known earlier title and none has a date in its note. The Session 4–7 fact sheets print rename dates; nothing records them. By the rule of 17 September, a missing date is added, then the note corrected. Also names columns and says "the first slice". |
 | **M2** When a stage is completed | 947 | **Done 17 September** (`db/108`). Was out of date, and long | Says a session whose Stage 1 and 2 dates are not yet added has none; every session has them now. Says those dates come from the PhD dataset; 35 dated Stage 1 and 2 records come from elsewhere: 27 Stage 1 rejections and 3 other Stage 1 dates from the Official Report, and 3 Stage 1 and 2 Stage 2 dates from the Parliament's bill pages. (Corrected 17 September: this first said 70, counting stage records with no date.) Explains database mechanics (general and detail notes) a reader does not need. |
-| **M7** Why a bill fell | 877 | **Drafted 17 September, waiting for the owner**, with one question. Out of date, and long | Says the coding is done for Sessions 1 to 5 only; Session 6 is done and Session 7 has no fallen bill. Says uncoded sessions show a general code; no bill has one. "One bill in the first five sessions" fell for want of a financial resolution; still one, in six. A paragraph on how Sessions 1 and 2 were worked out. |
+| **M7** Why a bill fell | 877 | **Done 17 September** (`db/109`). Was out of date, and long | Says the coding is done for Sessions 1 to 5 only; Session 6 is done and Session 7 has no fallen bill. Says uncoded sessions show a general code; no bill has one. "One bill in the first five sessions" fell for want of a financial resolution; still one, in six. A paragraph on how Sessions 1 and 2 were worked out. |
 | **M8** Where each date comes from | 468 | **Done 17 September** (`db/108`). Was out of date | Says only dates where sources disagreed were checked; every bill a fact sheet left awaiting Royal Assent has since been checked too, and checked dates are recorded whether they agreed or not. Says the sources agree "throughout Sessions 1 and 2"; every session is compared now. Its list of sources misses the SPICe dates fact sheet, the Supreme Court and legislation.gov.uk for the session dates. |
 | **M6** A bill's session | 612 | **Correct, and long** | Every count checked: 474 rows, 470 bills, 73, 81, 62, 86, 87, 80 and 1. "Six pairs of bills" were reintroduced can't be checked from the data, which links only Robin Rigg. |
 | **M13** A bill still before the Parliament | 186 | **One sentence will go wrong** | "It has not yet completed a stage" is true of today's one live bill, not of every live bill. |
@@ -524,7 +524,10 @@ disagree
 
 ## M7 — Why a bill fell is our coding, not the fact sheets'
 
-**Drafted 17 September. Waiting for the owner.** Nothing is changed.
+**Done, 17 September.** The owner approved the proposed wording and the
+question under it, and added the Creative Scotland Bill's vote; applied as
+`db/109`, with Session 3 taken off and put back. M7 read back from the database
+and matching word for word.
 
 ### The bills it is about
 
@@ -656,7 +659,12 @@ Members' Bills.
    their own amended motion, and no others. For all 27 Stage 1 rejections the
    figures are with the source the rejection rests on. For the three Stage 3
    rejections, two have them; **the Budget (Scotland) (No.2) Bill, rejected
-   28 January 2009, has none**. See the question below.
+   28 January 2009, has none**. See the question below. (Corrected 17 September:
+   the figures were read on 13 September and are on its Session 3 line, but
+   after the link, and promotion keeps only the words before the link. The
+   Creative Scotland Bill's line lost its financial resolution vote the same
+   way. Re-read on 17 September: For 64, Against 64, the Presiding Officer's
+   casting vote against.)
 9. **Its shape.** The first paragraph lists three reasons and puts a fourth into
    the same sentence; a later paragraph then calls it "the fourth reason".
 10. **Names columns** three times.
@@ -669,14 +677,12 @@ data, until a record of how members voted supersedes them.
 
 **The Budget (Scotland) (No.2) Bill's division.** The proposal says the figures
 of the division are recorded with every rejection. For that to be true, the
-Official Report of 28 January 2009 is read and the result as recorded is added to
-what the bill's Stage 3 rejection rests on, as the two 2026 rejections have. It
-changes a provenance note, so it needs your clearance. **Recommended**, by the
-rule of 17 September that something missing is added with its source rather
-than explained away. The other way is for the note to promise figures for
+result as recorded, already on the bill's line, is moved ahead of the link so
+that promotion carries it, as the two 2026 rejections have it. It
+changes a provenance note, so it needs your clearance. **Agreed by the owner, 17 September.** The other way is for the note to promise figures for
 Stage 1 rejections only.
 
-### Proposed (about 460 words)
+### Proposed (about 460 words), approved by the owner on 17 September
 
 **Title unchanged:** Why a bill fell is our coding, not the fact sheets'
 

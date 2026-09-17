@@ -30,6 +30,67 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## M7 rewritten, and two Session 3 votes carried
+
+Written 2026-09-17 by the session that built `db/109` and took Session 3 off and
+put it back. **Not yet run.** For a session that did none of that work.
+
+### Part A — mechanical
+
+1. **M7 is the approved text.** Its body matches the proposal in
+   `docs/PHASE-2-NOTES.md` ("M7") word for word, ignoring line breaks and quote
+   marks. Its title, the columns it applies to and its position unchanged; no
+   other note changed by `db/109`.
+   *Where from:* the file the owner approved.
+2. **M7 names no column** and names no session as the extent of the coding.
+3. **What M7 says is true of the data.** Every bill whose outcome is rejected at
+   Stage 1, rejected at Stage 3, fell at dissolution or fell for want of a
+   financial resolution has a provenance note on its outcome; the dissolution
+   ones name SPICe's dates fact sheet and the rest the Official Report. Every
+   fell-at-dissolution bill ended on its session's last day and no other bill
+   did. No bill has the outcome "Fell (other)". Only Members' Bills were rejected
+   by a Rule 9.14.18 motion.
+   *Where from:* the rules M7 states, not the counts in the write-up.
+4. **Every rejection carries its division.** Each of the 27 provenance notes on
+   how a bill was rejected at Stage 1, and each of the three provenance notes on
+   a Stage 3 rejection's outcome, contains "For" followed by a number.
+   *Where from:* M7's second paragraph. Before `db/109` the Budget (Scotland)
+   (No.2) Bill's did not.
+5. **The two votes read as the Official Report does.** Bill 211's outcome note
+   contains `For 64, Against 64, Abstentions 0` and bill 213's `For 49, Against
+   68, Abstentions 0`; both are dated 13 September 2026 and cite the Official
+   Report links for 28 January 2009 (meetingId=4843) and 18 June 2008
+   (meetingId=4805). Neither contains "casting vote decided it", "fell at Stage
+   1", "Rearranged" or a link. Open both reports and check the figures.
+   *Where from:* the Official Report, not this database.
+6. **Lines 211 and 213 kept our commentary.** Each review note has, after the
+   link, the sentence that was ours: 211 "The division was tied and the
+   Presiding Officer's casting vote decided it", 213 "The Parliament's own bill
+   page says the bill "fell at Stage 1"". Each has a second line citing
+   `db/109`, and a review time of 17 September. That no other word was added or
+   lost was proved inside the migration against the old notes, which are not
+   kept anywhere else; this item does not re-prove it.
+7. **Nothing else moved.** 470 bills, 1291 stage records, 192 provenance notes,
+   14 notes; Session 3 has 62 bills and 15 provenance notes; checker and gaps
+   list empty; no copy schema; the dictionary regenerates with no difference
+   but its date.
+
+### What this does not check
+
+That the new wording is good: the owner approved it. The sixteen Session 1 to 3
+Stage 1 rejections whose outcome note has no figures: their figures are in the
+note on how the bill was rejected, which item 4 checks.
+
+### Part B — the owner's sign-off
+
+None. The text was approved in full before it was applied.
+
+### The run
+
+Not yet run.
+
+---
+
 ## M2 and M8 rewritten
 
 Written 2026-09-17 by the session that built `db/108`. **Not yet run.** For a

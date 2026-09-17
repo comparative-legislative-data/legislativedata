@@ -11,7 +11,7 @@ the data published, is open**, for approved beta users only. **Its plan is
 reviewed and every question answered.** Nothing for it is built yet. The
 arc is in `docs/PLAN.md`.
 
-The dataset. Three corrections today (a ruling date, title changes, and a session's expected end); no bill added or lost:
+The dataset. Four corrections today (a ruling date, title changes, a session's expected end, and two votes carried to their sources); no bill added or lost:
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
@@ -37,41 +37,35 @@ list are both empty.**
 - **16–17 September.** You reviewed the Phase 2 plan question by question and
   answered all but one, which was settled on 17 September.
 
-**17 September, this session. The list of every calculation the charts need**,
-in `docs/PHASE-2-CALCULATIONS.md`, and two answers that came out of it:
+**17 September, the session before this one.** The list of every calculation the
+charts need (`docs/PHASE-2-CALCULATIONS.md`); every chart worked out in the
+database; Session 7 measured to 1 April 2031; the Legal Continuity Bill's ruling
+dated; title changes recorded with their stage; M5, M3, M2 and M8 rewritten.
 
-- **Five calculations already exist**; four are used as they are, and the
-  averages need rewriting for chart 2. **Five are new**, and one more only if
-  chart 2's write-up wants the Robin Rigg Act counted from the earlier bill.
-- **Chart 1 has no averages**: numbers and percentages.
-- **Chart 5 measures Session 7 to 1 April 2031**, the day it is expected to end,
-  worked out from the Scotland Act and the elections Order. Built, in a cell of
-  its own, with M14 and the three pages of law kept. No bill touched.
-- **The last open question settled**: every chart is worked out in the
-  database and the page only draws, which stops front-end drift and makes each
-  chart be thought through before it is built.
-- **The Legal Continuity Bill's ruling dated**, 13 December 2018 from the
-  Supreme Court's page, because a missing date is added with its source rather
-  than explained away. Sessions 7, 6 and 5 taken off and put back; only that
-  bill's date and note changed.
-- **M5 rewritten** in your approved words, 470 words down to 228, with the right
-  dates and no column names; and what "Blocked" means, to match.
-- **The other twelve notes checked.** M3 was wrong about the data: title changes
-  are now recorded with the stage they happened at, for all four bills the fact
-  sheets name, one of which had been missed entirely. M3 rewritten to match.
-- **M2 and M8 rewritten**: M2 from 947 words to about 330, saying only when a
-  stage is complete; M8 listing every source and now citing your thesis.
+**17 September, this session. M7 rewritten**, 877 words down to about 460, in
+your approved words:
+
+- **It states the rule instead of which sessions are done**, so it cannot fall
+  behind that way a fourth time: every bill that fell is coded, and the error
+  checker will not accept one that is not.
+- **Five things it had wrong** are gone: a general code no bill has; every
+  ending "from the Official Report" (the 17 that ran out of time rest on the
+  dates of dissolution); bills that ran out of time "never voted on" (five had
+  completed a stage); the single heading argued backwards; and its column names.
+- **Two votes now reach their sources**: the Budget Bill's tie in 2009 and the
+  Creative Scotland Bill's financial resolution in 2008. Both had been read and
+  were on their lines, but cut by promotion because they sat after the link.
+  Session 3 taken off and put back; only those two bills' sources changed.
 
 ## Now
 
 1. **The rest of the open methodology notes**, one at a time, in
    `docs/PHASE-2-NOTES.md`, whose table says where each stands. Done: M5, M3,
-   M2 and M8. Next: M7, which is out of date; M6, which is long; then M13's
-   sentence and the column names in one go; then the Robin Rigg Act's note, and
-   whether Session 5's four bills that ran out of time carry Session 6's note.
-   Then, as `docs/PHASE-2.md` proposes: the write-ups, the public wording, and
-   the build plan.
-2. **Five closure tests**, for `db/104` to `db/108`, run by a session that built
+   M2, M8 and M7. Next: M6, which is long; then M13's sentence and the column
+   names in one go; then the Robin Rigg Act's note, and whether Session 5's four
+   bills that ran out of time carry Session 6's note. Then, as `docs/PHASE-2.md`
+   proposes: the write-ups, the public wording, and the build plan.
+2. **Six closure tests**, for `db/104` to `db/109`, run by a session that built
    none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside anything.
 
 ## Waiting for you
@@ -133,32 +127,42 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-17, the session that listed the calculations
+## Sanity check, 2026-09-17, the session that rewrote M7
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
-  `STATE.md`; the decisions contents regenerated identical, the data dictionary
-  identical but for its date.
-- **The counts matched**: 470 bills, 1291 stage records, 186 provenance notes,
-  13 notes; checker and gaps list empty; only the `public` schema, no copy
-  tables.
+  `STATE.md`; the decisions contents and the data dictionary regenerated
+  identical.
+- **The counts matched**: 470 bills, 1291 stage records, 192 provenance notes,
+  14 notes; checker and gaps list empty; only the `public` schema.
 - **Every database sorted into a backup theme**: `postgres`, `accounts`,
-  `legdata`. Last night's backup succeeded; the site answers 200. The one failed
+  `legdata`. Last night's backup finished; the site answers 200. The one failed
   unit is the old `select 1` check already in "Waiting for you".
-- **Nothing new contradicted anything.**
+- **Nothing new contradicted anything.** The SSH limit tripped on the
+  dictionary run; a wait in a loop cleared it.
 
-## Closing checks, 17 September, the session that listed the calculations
+## M7 and `db/109`: working detail, 17 September
 
-- **Figures**: 470 bills, 1291 stage records, 192 provenance notes, 14 notes;
-  checker and gaps list empty; only the `public` schema, no copy left; no
-  working files left in `/tmp` on the machine.
-- **The data dictionary and the decisions contents regenerate identical** to
-  the committed files.
-- **The site answers 200** and its service is running; the one failed unit is
-  still the old `select 1` check in "Waiting for you".
-- **The SSH limit tripped once more** at close, on the dictionary run; a wait in
-  a loop cleared it.
+- **Where the division figures live.** A Stage 1 rejection's figures are in the
+  provenance note on how it was rejected (all 27), read from "Result as
+  recorded" wherever it sits in the review note. The outcome's provenance note
+  keeps only the words before the first link, so for Sessions 1 to 3, whose
+  notes put the link first, it has no figures. That only mattered for the two
+  lines with no rejection route, 211 and 213, which `db/109` rearranged. The
+  runbook now says to put the link after the Official Report's words.
+- **Rehearsed once and applied as one change** saving only on the six rehearsed
+  differences, then the two provenance values printed and M7 compared word for
+  word with the approved text.
+- **Reading the Official Report's PDFs**: the Parliament's CustomMedia links
+  download with `curl -A "Mozilla/5.0"`; the earlier session's `pdftext.swift`
+  (PDFKit, run with `swift`) extracts the text. It is not in the repository.
+- **"Fell (other)" is an allowed ending no bill has.** Noticed, not proposed for
+  removal; it is where an unanticipated ending would go.
+- **The Session 6 and later outcome notes begin "Outcome from the Official
+  Report, not the fact sheet:"** in their provenance, because promotion strips
+  only the spelling "factsheet". Cosmetic, in text a reader could see; not
+  changed.
 
 ## The list of calculations and `db/104`: working detail, 17 September
 

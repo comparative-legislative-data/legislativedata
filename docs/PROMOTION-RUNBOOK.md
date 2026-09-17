@@ -1068,3 +1068,19 @@ exactly the eleven rehearsed. Promotion carries the new cell and checks it
 field by field. A new column shows in the comparison as "column only now" and
 is not counted among the differences; the four new cells were checked
 separately.
+
+## Session 3 off and back on to carry two votes, 17 September
+
+`db/109` rearranged the review notes on lines 211 and 213 so the Official
+Report's result comes before the link, then Session 3 came off and went back
+on, by the same method as `db/105`: copy, migration, undo, promotion and
+comparison in one transaction, saving only if the differences were exactly the
+six rehearsed (two review notes, two review times, two provenance values).
+Session 3 comes off by itself: no later line continues one of its bills and
+none was reintroduced from one. Counts with it off: 408 bills, 1121 stage
+records, 177 provenance notes.
+
+**What to watch when writing a review note for an outcome read from the Official
+Report:** promotion keeps only the words before the first link as the value
+seen. Put the Official Report's words first, then "Read at" and the link, then
+any commentary of our own.
