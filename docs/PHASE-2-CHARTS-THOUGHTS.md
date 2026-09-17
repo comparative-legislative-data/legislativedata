@@ -177,3 +177,8 @@ so they are not lost.
     and Stage 3s month by month before each session's dissolution or
     pre-election recess, and bills still before the Parliament near the end.
     Both need those dates recorded first, as a coding change.
+  - **After the owner's screenshots:** "Average bill introduced at" was not
+    clear, and is now "How far through, on average", with a note saying how it
+    is worked out and what above or below 50% means. The card's colours for the
+    sessions had taken the names of the page's spacing sizes, which removed the
+    padding from every card on the page; renamed.
