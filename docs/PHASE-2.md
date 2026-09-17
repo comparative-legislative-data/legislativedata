@@ -133,6 +133,12 @@ here.
   ask for their statement where material is republished (R2 §2.1, §2.7), which
   is every page showing data as well as every download. The wording is settled
   once, in groundwork 2, question 3, and used everywhere.
+- **Settled (review), all three:** every data page and download sits behind the
+  sign-in, and every build is tested signed out (nothing shown) as well as
+  signed in, the closing test included. A download carries no name or account in
+  its address or its files, and the privacy check is run after any change to how
+  downloads are served. Every page showing data credits the sources its figures
+  use, built from the same record of each source's terms.
 
 ---
 
@@ -449,6 +455,13 @@ groundwork 1. It holds what R1 and R2 found. The charts do not wait on it.
    that a reader can later retrieve the same data they cited, and this resource
    does not promise that; the briefing proposes how the readme says so. Public
    wording, in full.
+   - **Settled (review):** the date alone, no release number, in the file name,
+     the readme and the suggested citation. The readme says we keep no earlier
+     versions, that a researcher who needs a fixed version keeps their download,
+     that the date makes that copy citable, and that the list of changes shows
+     what has moved since. Wording to the owner in full. The owner: "we are not
+     offering to be a time machine"; managing a dataset over time is the
+     researcher's job, and good researchers are used to it.
 
 ---
 
@@ -482,6 +495,11 @@ the owner whether it is on the list. **Proposed** *(plan rec.)*: the table is on
 the list, as the place a reader arrives from a figure, and as the style test. A
 page for each bill waits until that route needs one.
 
+**Settled (review):** the table of every bill is on the list, as the place a
+reader arrives from a figure and as the style test. It is a lot of data, so how
+it is presented gets a write-up of its own, to the owner before it is drawn. A
+page for each bill waits.
+
 **Each write-up says:** the question it answers; which bills are counted and
 which are left out by default; the switches a reader gets; the calculation, as
 it will actually run against the published copy, not a copy of it; which
@@ -502,9 +520,28 @@ thinks useful is named in it as belonging to the playground, and not built.
 `PLAN.md`: this phase does not take on tools for readers to build their own
 tables and charts.
 
+**Settled (review):** the two switches the owner named, and no other unless a
+methodology note requires one; any further switch a write-up thinks useful is
+named there as the playground's and not built. Mean and median both given in
+the table beneath a chart; which the chart draws is the owner's call in each
+write-up. **Groundwork 3 opens with the list of every calculation the charts and
+the table of every bill need**, which exist and which are new, and what each
+holds, so the owner can settle whether our charts are always worked out in the
+database (groundwork 1, question 3). **The owner's rider:** the switches need
+constant attention, since readers may need more flexibility; a request for one
+is weighed when it comes, against what it costs to work out every combination in
+advance (groundwork 1, question 1) and against the line with the playground.
+
 **How the charts are drawn is a dependency** *(gap)*. A charting library in the
 reader's browser, or charts drawn on the machine, is something added, and is put
 to the owner under "ask before adding". It bears on groundwork 4, question 2.
+
+**Settled (review):** charts are drawn on the machine when the copy is taken,
+as finished images, each with its numbers in a table beneath; nothing is
+drawn in the reader's browser. The tool is an addition, put to the owner by
+name before it is used. **Kept under review, at the owner's asking**, for
+performance and the like: how long drawing takes at a refresh, the size of
+what is drawn as switches multiply, and readers finding a fixed image wanting.
 
 **Known traps each write-up must resolve, not decided here:**
 
@@ -575,6 +612,17 @@ first chart.
      "reference only"; R1 and R2 found the Congressional Bills Project's address
      serving an unrelated site. The briefing says what a reader sees when a
      source's address has gone.
+   - **Settled (review):** a figure's page runs the figure; its rule in one
+     plain sentence with the notes it rests on; the sources; the date; then the
+     calculation, folded away until opened. A reader can go from a figure to the
+     bills counted in it (the table of every bill, filtered) and from a bill to
+     its provenance notes. Every cited source has a copy kept, as the fact sheets
+     are; where an address is known to have gone, the page says so and names the
+     kept copy by title and date; every cited address is checked at each refresh.
+     **Not yet true, found after agreeing it:** only the fact sheets, two
+     procedure pages and the 2017 licence are kept today. The Official Report
+     pages and legislation.gov.uk pages the provenance notes cite are not, so
+     keeping them is work for the build, sized and put to the owner then.
 2. **How the calculation shown is guaranteed to be the one that ran.** One
    source for both, never a copy kept in step by hand.
    - **Proposed** *(R3 rec., plan rec.)*: each figure's calculation is kept in
@@ -587,6 +635,17 @@ first chart.
      link ties the site's working to an outside service; showing it only on the
      site does not. **Proposed** *(plan rec.)*: the calculation is shown on the
      site itself, and the site does not send a reader to GitHub for it.
+   - **Settled (review):** each figure's calculation lives in one file; the
+     refresh runs it and the page shows its text, and a check at every refresh
+     proves the two identical. The calculation is shown on the site, with no link
+     to GitHub. **The owner expects to make the repository private** (17
+     September): it holds the site's build, and the methodology and data reach
+     readers through the site; no build collaborators are expected, and any
+     outside help is more likely data collection, handled apart from the
+     repository. Checked the same day: nothing depends on it being public. The
+     deploy sends the site from this Mac, not from GitHub; no page links to it.
+     The rule that nothing which unlocks anything goes into the repository
+     stands either way.
 3. **What the date means, in words a reader sees**, on a chart as well as a
    download *(check 10)*. `PLAN.md` requires it for both. Public wording, so it
    goes to the owner in full.
