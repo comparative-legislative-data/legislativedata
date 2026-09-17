@@ -40,37 +40,37 @@ list are both empty.**
 
 - **17 September, earlier.** The list of calculations; Session 7's expected
   end; every open question against the methodology notes answered.
+- **17 September, afternoon.** The charts started afresh from your seven
+  thoughts; ECharts, colour and dropdowns agreed; mock-ups of thoughts 2 to 4.
 
-**17 September, this session. The charts started afresh.**
+**17 September, this session. Mock-ups of thoughts 5 and 6, and ideas for 1.**
 
-- **Chart 1's first write-up was set aside**: it showed everything at once.
-- **Your seven thoughts** on what to show are in
-  `docs/PHASE-2-CHARTS-THOUGHTS.md`, with your position that the downloads stay
-  plain and the charts may bring the data alive.
-- **Three rules changed for charts**: colour with a legend, choices through
-  dropdowns, drawn in the browser with Apache ECharts.
-- **Mock-ups of thoughts 2, 3 and 4**, with real figures, at
-  https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9: the outcomes chart (your
-  starting point), the outcomes table, and how long bills take. Working this way
-  is now a decision.
+- **Thought 5, when in a session bills were introduced**, on the same page,
+  https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9: the quarters in figures,
+  three pictures and statistical tests, all worked out in the database. No
+  session's government bills are measurably uneven, and there is no trend.
+- **Two decisions**: a mock-up uses only what the database holds, and a figure
+  stands beside what an even spread would give, with a test, rather than a
+  label.
+- **Explored and set aside**: Stage 1s and Stage 3s in the last months of a
+  session, and bills still live near the end. Both need dissolution and recess
+  dates the database does not hold.
+- **Thought 6, the quickest and slowest bills**: timed to Stage 3, or to Royal
+  Assent. **Thought 1**: ideas for the headline figures, in the thoughts file.
+- **A fault of mine**, which your screenshots caught: the thought 5 card took
+  the padding off every card on the page. Fixed.
 
 ## Now
 
-1. **The next mock-ups**, one at a time: thought 5 (bills introduced early or
-   late in a session), thought 6 (the longest and shortest bills), and thought 1
-   (the headline figures). The open points on the three already done are in the
-   thoughts file, for iterating later. **Look at your example images first**,
-   on the Desktop, before proposing anything:
-   - **Thought 6:** `Screenshot 2026-09-15 at 16.33.06.png`, the two lists of
-     ten. For inspiration only. It names sponsors, which are not published, and
-     its 1408 days for the Mental Health Bill is the wrong figure `PLAN.md` cites.
-   - **Thought 5:** `Screenshot 2026-09-17 at 15.09.44.png`, `15.09.49` and
-     `15.09.53`.
-   - **The look overall:** `Screenshot 2026-09-15 at 16.32.48.png` and
-     `16.32.55`.
-2. **Then what the database needs to add** for all of them, starting from the
-   draft calculations in `docs/PHASE-2-MOCKUP-CALCULATIONS.md`; then the
-   write-ups, the public wording and the build plan.
+1. **How the mock-ups become real charts on the site's pages, and what the
+   database needs to add for that.** Your ask for the next session. It starts
+   from the mock-up page and the draft calculations in
+   `docs/PHASE-2-MOCKUP-CALCULATIONS.md`, one chart at a time; the open points
+   on each are in `docs/PHASE-2-CHARTS-THOUGHTS.md`. Propose first and agree
+   before building: the database side is a change to how figures are worked out,
+   and carries the whole checklist.
+2. **Thought 1, the headline figures**: pick from the ideas in the thoughts
+   file, then a mock-up.
 3. **Nine closure tests**, for `db/104` to `db/112`, run by a session that built
    none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside anything.
 
@@ -135,34 +135,63 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-17, the session that started the charts afresh
+## Sanity check, 2026-09-17, the session of thoughts 5 and 6
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
   `STATE.md`; the decisions contents and the data dictionary regenerated
-  identical. Nine closure tests unrun, as `STATE.md` said.
+  identical. Nine closure tests still unrun, as `STATE.md` said.
 - **The counts matched**: 470 bills, 1291 stage records, 192 provenance notes,
-  14 notes; checker and gaps list empty; only the `public` schema. The staging
-  sheet holds 474 bill lines and 1295 stage lines, the four extra being bills
-  listed in two fact sheets (M6).
+  14 notes; checker and gaps list empty; only the `public` schema.
 - **Every database sorted into a backup theme**: `postgres`, `accounts`,
   `legdata`. Last night's backup finished; the site answers 200. The one failed
-  unit is the old `select 1` check.
-- **One stale spot**: `PHASE-2.md`'s list still showed the notes open. Fixed.
+  unit is still the old `select 1` check.
+- **Nothing found that contradicted the docs or the database.**
 
-## Closing checks, 17 September, the session that started the charts afresh
+## Closing checks, 17 September, the session of thoughts 5 and 6
 
 - **Figures unchanged**: 470 bills, 1291 stage records, 192 provenance notes,
-  14 notes; checker and gaps list empty; only the `public` schema; nothing was
-  written to the database this session, and no working files are left in
-  `/tmp` on the machine.
-- **The data dictionary and the decisions contents regenerate identical** to
-  the committed files.
+  14 notes; staging 474 and 1295; checker and gaps list empty; only the `public`
+  schema, with no working copy of anything in it. Nothing was written to the
+  database this session; every calculation was read-only.
+- **The data dictionary and the decisions contents regenerate identical** to the
+  committed files.
 - **The site answers 200**, its service and Caddy are running, and the backup
   timer is set for tonight.
-- **The draft calculations are in the repository**, not only in the session's
-  scratch folder.
+- **The draft calculations for thoughts 5 and 6 are in the repository**, not
+  only in the session's scratch folder, and the mock-up page is at version 11.
+- **The one file put on the server**, the recess factsheet read through
+  pdfplumber, was deleted in the same connection.
+
+## Thoughts 5 and 6: working detail, 17 September
+
+- **The statistical tests are worked out in the database**, not in the page:
+  PostgreSQL has `erfc` from version 16, which is what a chi-square and a normal
+  p-value need. The figures were checked against a separate calculation written
+  in Python the same day, and agreed to two decimal places.
+- **`scipy` is not on this Mac and was not installed**; the two p-value formulas
+  were written out by hand instead.
+- **The dissolution and recess dates exist in the repository** — SPICe, "Dates
+  of recess, dissolution, parliamentary years and recalls of Parliament", in
+  `sources/factsheets` — but not in the database. Sessions 1 to 4 end at
+  dissolution, Session 5 at the campaign recess on 25 March 2021 and Session 6
+  at the pre-election recess on 26 March 2026. No Stage 1 or Stage 3 happened
+  after any of those days. Recording them would be a coding change.
+- **What those explorations showed**, if they are ever taken up: about a quarter
+  of each session's Stage 3 votes fall in its last three months, four to five
+  times an even spread, with no trend across the sessions; and government bills
+  still before the Parliament six months from the end do not rise session on
+  session.
+- **The page has no PDF reader on this Mac.** `pdftotext`, `pypdf` and
+  `pdfplumber` are all absent; the factsheet was read by sending it to the
+  server, where `pdfplumber` is installed.
+- **The browser still cannot scroll inside a published page**, so the cards
+  could not be looked at from here. The owner's screenshots caught the padding
+  fault; without them it would have shipped.
+- **Naming a CSS colour `--s1`** overwrote the page's spacing size of the same
+  name and removed the padding from every card. The session colours are now
+  `--sess1` to `--sess6`.
 
 ## The charts afresh: working detail, 17 September
 

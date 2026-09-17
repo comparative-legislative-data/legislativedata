@@ -182,3 +182,32 @@ so they are not lost.
     is worked out and what above or below 50% means. The card's colours for the
     sessions had taken the names of the page's spacing sizes, which removed the
     padding from every card on the page; renamed.
+- **Thought 6, the quickest and slowest bills**, 17 September, on the same page.
+  The owner's steer: timed to Stage 3 by default, with Royal Assent as the
+  other choice. Two lists side by side, filtered by type (all types by
+  default) and by what a bill is timed to. Each bill: place, title, type,
+  session, Act or bill number, introduced and end dates, days, and a bar
+  against the longest in view; flags for an emergency bill (M10), a bill
+  referred to the Supreme Court (M5) and a reintroduced bill (M9). Ties share a
+  place, shown =6, and every bill tied for tenth is kept. No member in charge
+  is named. Figures from a draft calculation. For the owner's correction; not
+  agreed.
+  - **Open, for iterating:** whether a list tied past ten should stop at ten;
+    and whether the two bills referred to the Supreme Court should have a
+    leave-out choice, as on the timing chart, since they head the slowest to
+    Royal Assent.
+
+## Thought 1, the headline figures: ideas, not yet mocked up
+
+Offered 17 September for the owner to choose from; all from what the database
+holds, figures as at that day.
+
+- **Bills introduced since 1999**: 470.
+- **Bills passed, and Acts**: 404 passed, 402 became Acts; the difference is
+  M5's, and a headline that shows both says why.
+- **Sessions covered**: 7, the seventh still running.
+- **A typical bill's time from introduction to Stage 3**: a median of 230 days.
+- **Who gets bills through**: 98% of Government Bills passed, 40% of Member's
+  Bills.
+- **Bills before the Parliament now**: 1.
+- **When the data was last checked against its sources**, beside the figures.

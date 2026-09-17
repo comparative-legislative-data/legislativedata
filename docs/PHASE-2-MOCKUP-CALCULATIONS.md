@@ -1,7 +1,7 @@
 # The mock-ups' draft calculations
 
 For whoever builds the charts. These are the calculations that gave the figures
-in the mock-ups of 17 September 2026 (thoughts 2 to 5 in
+in the mock-ups of 17 September 2026 (thoughts 2 to 6 in
 `docs/PHASE-2-CHARTS-THOUGHTS.md`; the page is
 https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9). They are **drafts**: written
 against the working database's names, run read-only, never saved into the
@@ -335,4 +335,63 @@ select json_agg(json_build_object(
     'p', case when n >= 20 then round(erfc((abs(slope) / sqrt((syy - sxy * sxy / sxx) / (n - 2) / sxx)) / sqrt(2))::numeric, 2) end
 ) order by ord)
 from fit;
+```
+
+---
+
+## The quickest and slowest bills (thought 6)
+
+One JSON document: for each type and each stretch, the ten quickest and the ten
+slowest bills, with ties kept. Checked when it ran: the quickest ten to Stage 3
+end in a tie at 6 days with the next bill at 8, as `PHASE-2-CALCULATIONS.md`
+found; 404 bills are timed to Stage 3 and 402 to Royal Assent.
+
+```sql
+-- The quickest and slowest bills (thought 6, mock-up draft).
+-- 'stage3': calendar days from introduction to the Stage 3 vote (a Private Bill's
+-- Final Stage, by position, M2), for every bill that passed.
+-- 'assent': calendar days from introduction to Royal Assent, for every bill that
+-- received it. A reintroduced bill is timed from its own introduction (M9).
+-- Ranked within each type ('all', or ref_bill_type.analysis_group, so the Hybrid
+-- Bill is a government bill, M4); rank() gives tied bills the same place, and
+-- every bill tied at tenth is kept, so a list can run past ten.
+with timed as (
+    select b.bill_id, b.session_number, r.analysis_group as grp, b.sp_bill_id, b.short_title, b.asp_number,
+           b.date_introduced, s3.date_completed as date_stage_3, b.date_royal_assent,
+           b.date_assent_blocked is not null as was_blocked, b.procedure,
+           b.reintroduced_from_bill_id is not null as reintroduced
+    from bill b
+    join ref_bill_type r on r.code = b.bill_type
+    left join stage_event s3 on s3.bill_id = b.bill_id and s3.stage_order = 3 and s3.completed
+),
+stretches as (
+    select 'stage3' as stretch, t.*, t.date_stage_3 - t.date_introduced as days from timed t
+    where t.date_stage_3 is not null
+    union all
+    select 'assent', t.*, t.date_royal_assent - t.date_introduced from timed t
+    where t.date_royal_assent is not null
+),
+types(type, ord) as (values ('all', 1), ('government', 2), ('members', 3), ('committee', 4), ('private', 5)),
+ranked as (
+    select t.type, t.ord, s.*,
+           count(*) over (partition by t.type, s.stretch) as bills_timed,
+           rank() over (partition by t.type, s.stretch order by s.days asc) as rank_quickest,
+           rank() over (partition by t.type, s.stretch order by s.days desc) as rank_slowest
+    from stretches s cross join types t
+    where t.type = 'all' or s.grp = t.type
+),
+listed as (
+    select 'quickest' as list, rank_quickest as rank, ranked.* from ranked where rank_quickest <= 10
+    union all
+    select 'slowest', rank_slowest, ranked.* from ranked where rank_slowest <= 10
+)
+-- a bill can be in both lists where a type has few bills
+select json_agg(json_build_object(
+    'type', type, 'stretch', stretch, 'bills_timed', bills_timed, 'list', list, 'rank', rank,
+    'bill_id', bill_id, 'session', session_number, 'grp', grp, 'sp_bill_id', sp_bill_id,
+    'title', short_title, 'asp', asp_number, 'introduced', date_introduced,
+    'stage_3', date_stage_3, 'royal_assent', date_royal_assent, 'days', days,
+    'blocked', was_blocked, 'procedure', procedure, 'reintroduced', reintroduced
+) order by ord, stretch, list, rank, date_introduced)
+from listed;
 ```
