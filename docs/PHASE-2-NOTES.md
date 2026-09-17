@@ -128,7 +128,7 @@ not how we got there) and against the database. Word counts are today's.
 | Note | Words | Where it stands | What is wrong |
 |---|---|---|---|
 | **M3** Two titles | 192 | **Done 17 September** (`db/107`). Was wrong about the data | Says a known rename's date is in the bill's note. Three bills have a known earlier title and none has a date in its note. The Session 4–7 fact sheets print rename dates; nothing records them. By the rule of 17 September, a missing date is added, then the note corrected. Also names columns and says "the first slice". |
-| **M2** When a stage is completed | 947 | **Out of date, and long** | Says a session whose Stage 1 and 2 dates are not yet added has none; every session has them now. Says those dates come from the PhD dataset; 37 come from the Parliament's bill pages and 33 from the Official Report. Explains database mechanics (general and detail notes) a reader does not need. |
+| **M2** When a stage is completed | 947 | **Out of date, and long** | Says a session whose Stage 1 and 2 dates are not yet added has none; every session has them now. Says those dates come from the PhD dataset; 35 dated Stage 1 and 2 records come from elsewhere: 27 Stage 1 rejections and 3 other Stage 1 dates from the Official Report, and 3 Stage 1 and 2 Stage 2 dates from the Parliament's bill pages. (Corrected 17 September: this first said 70, counting stage records with no date.) Explains database mechanics (general and detail notes) a reader does not need. |
 | **M7** Why a bill fell | 877 | **Out of date, and long** | Says the coding is done for Sessions 1 to 5 only; Session 6 is done and Session 7 has no fallen bill. Says uncoded sessions show a general code; no bill has one. "One bill in the first five sessions" fell for want of a financial resolution; still one, in six. A paragraph on how Sessions 1 and 2 were worked out. |
 | **M8** Where each date comes from | 468 | **Out of date** | Says only dates where sources disagreed were checked; every bill a fact sheet left awaiting Royal Assent has since been checked too, and checked dates are recorded whether they agreed or not. Says the sources agree "throughout Sessions 1 and 2"; every session is compared now. Its list of sources misses the SPICe dates fact sheet, the Supreme Court and legislation.gov.uk for the session dates. |
 | **M6** A bill's session | 612 | **Correct, and long** | Every count checked: 474 rows, 470 bills, 73, 81, 62, 86, 87, 80 and 1. "Six pairs of bills" were reintroduced can't be checked from the data, which links only Robin Rigg. |
@@ -275,3 +275,138 @@ their dates), and a decision on where the date comes from for these two.
 >
 > For every other bill no earlier title is recorded. That means none is known,
 > not that the title never changed.
+
+---
+
+## M2 — A stage is completed on the date of the decision that ended it
+
+### As it reads today (947 words)
+
+> Each stage of a bill is treated as completed at a fixed point, the same for
+> every bill. Stage 1 is completed on the date of the Stage 1 debate, at which
+> the Parliament decides whether to agree to the bill's general principles.
+> Stage 2 is completed on the date of the meeting at which the last amendments
+> were disposed of. Every bill has such a meeting: where no amendments are
+> lodged, the committee, or for an emergency bill the Parliament sitting as a
+> committee, still meets and agrees to each section, so Stage 2 always has a
+> date. Stage 3 is completed on the date the Parliament votes to pass the bill.
+> A stage a bill did not get through is recorded as not completed; where a
+> decision ended it, such as a vote not to agree to the general principles at
+> Stage 1, it carries the date of that decision.
+>
+> Private Bills go through a Preliminary Stage, a Consideration Stage and a
+> Final Stage, and are recorded under those names. The Parliament says of them:
+> "These stages are quite different from the stages of a Government Bill, and
+> they have different names." They are compared with a public bill's stages by
+> their position in the sequence, not treated as the same stages, and are taken
+> as completed at the equivalent points. The Preliminary Stage ends on the
+> debate at which "The Parliament then debates the bill and decides whether it
+> should go on to Consideration Stage, or be rejected." The Consideration Stage
+> ends at the meeting of the Private Bill committee at which the last amendments
+> were disposed of. The Final Stage ends on the vote to pass. Hybrid Bills go
+> through Stage 1, 2 and 3, of which the Parliament says: "In most ways, these
+> stages are the same as the stages of a Government Bill, but in other ways are
+> like the stages of a Private Bill." They are taken as completed at the same
+> points as a public bill. Both quotations are from the Parliament's pages
+> "About Private Bills" and "About Hybrid Bills", read on 11 September 2026.
+> Those pages describe the procedure as it is now.
+>
+> The date a bill was passed is taken from the Parliament's legislation fact
+> sheets. The dates of Stages 1 and 2 are taken from the dataset compiled for
+> Steven MacGregor, "Does government dominate the legislative process?" (PhD
+> thesis, University of Stirling, 2021), which covers Sessions 1 to 5 as
+> published, and which has been maintained since, so that it covers Sessions 6
+> and 7 as well. A bill has no Stage 1 or Stage 2 date in it only where it has
+> not yet reached that stage. They are added one session at a time; a session
+> whose dates have not yet been added has no Stage 1 or Stage 2 dates. For a
+> bill rejected at Stage 1, the date is taken from the Official Report, and the
+> thesis dataset is checked against it.
+>
+> Where a stage was completed but its date could not be established, it is
+> recorded as completed with no date, and a detail note says why. Where a bill
+> stopped at a stage without the Parliament deciding anything — withdrawn by the
+> member in charge, or still at that stage when the session ended — the stage is
+> recorded as not completed and has no date, there being no decision to date it
+> from. Such a row carries a general note saying so, in the same words every
+> time; it is written by the database from the row itself rather than typed, so
+> one situation cannot be described two ways. A bill rejected at a stage carries
+> no general note: its rejection is the explanation, and it has the date of the
+> decision. A detail note sits beside the general note and holds whatever a
+> source records beyond it; an empty detail note means no extra detail has been
+> collected for that bill, not that none exists and not that any was sought.
+> Durations are measured between consecutive dated points: introduction, each
+> dated stage, and Royal Assent. A stage has a date where it reached its
+> terminal point and the Parliament took the decision that ends it, and what the
+> Parliament decided does not bear on the length of time taken to reach it: a
+> bill whose general principles were refused at Stage 1 has an introduction-to-
+> Stage-1 period exactly as one whose principles were agreed, and a bill
+> rejected at its final stage has a period from the stage before it. Whether the
+> bill got through the stage, and whether it went on to pass, are recorded
+> alongside each period, so a figure can cover every bill that reached that
+> stage or only the bills that completed their passage. Which of those a
+> published chart shows is stated on the chart. A bill without a date for a
+> stage gives no figure for that stage. Instead it gives one interval across it,
+> labelled with the stages at either end: a bill with no Stage 2 date gives a
+> Stage 1 to Stage 3 interval, not a Stage 2 duration.
+>
+> A Private Bill reintroduced after falling does not repeat its earlier
+> scrutiny. A stage such a bill never had is recorded as a stage that did not
+> happen, with no date and a note saying why, and it is not counted as a date
+> still to find. Only a Private Bill may skip a stage: for every other kind of
+> bill the database refuses the record. A stage that never happened gives no
+> duration, so such a bill gives a time from introduction to passing but no
+> figure for that stage.
+
+### What is wrong with it
+
+1. **Out of date on the dates' sources.** "A session whose dates have not yet
+   been added has no Stage 1 or Stage 2 dates": every session has them. It says
+   Stage 1 and 2 dates come from the PhD dataset, apart from rejections; 8 dated
+   records come from the Official Report or the Parliament's bill pages.
+2. **Where the dates come from is M8's subject**, and M2 says it again. Two notes
+   saying one thing is how one of them drifts. Proposed: M2 says when a stage is
+   complete; M8 says where each date comes from, **and takes the thesis citation
+   with it**, since M2 is today the only place it is given in full.
+3. **Database mechanics.** The "general note" and "detail note" and how the
+   database writes one; a reader needs only that a stage with no date says why.
+4. **A rule with no case.** "A stage completed but its date could not be
+   established": no stage record is in that position.
+5. **How we got there.** The quotations from the Parliament's procedure pages,
+   and the day they were read. They are kept in `sources/procedure/`.
+6. **Repeats M9** on the reintroduced Private Bill.
+
+### Proposed (about 330 words)
+
+**Title unchanged:** A stage is completed on the date of the decision that ended it
+
+> Every stage is dated at the same point for every bill. Stage 1 ends on the day
+> the Parliament decides whether to agree to the bill's general principles.
+> Stage 2 ends at the meeting at which the last amendments are disposed of;
+> every bill has one, because even when no amendments are lodged the committee,
+> or for an emergency bill the whole Parliament, still meets to agree to each
+> section. Stage 3 ends on the day the Parliament votes on whether to pass the
+> bill.
+>
+> A Private Bill's Preliminary, Consideration and Final Stages are recorded
+> under those names and dated at the equivalent points: the decision whether it
+> should proceed, the meeting at which the last amendments are disposed of, and
+> the vote to pass. They are different stages from a public bill's, and are
+> compared with them only by their place in the sequence. The one Hybrid Bill
+> went through Stages 1, 2 and 3 and is dated as a public bill is.
+>
+> A stage the Parliament decided against, such as general principles not agreed
+> to at Stage 1, carries the date of that decision. A stage at which a bill
+> stopped without any decision, because it was withdrawn or was still at that
+> stage when the session ended, has no date, and a note on it says so in the same
+> words every time.
+>
+> Time is counted between these dated points, from introduction to Royal
+> Assent. A stage that ended in a decision counts whatever the decision was, so a
+> bill rejected at Stage 1 has a real time to Stage 1. Every period also records
+> whether the bill got through that stage and whether it went on to pass, so a
+> figure can cover every bill that reached a stage or only those that passed, and
+> a chart says which. Where a stage has no date, time is counted across it, from
+> the stage before to the stage after, and never shown as that stage's own.
+>
+> Where each date comes from is in M8. A Private Bill that did not repeat stages
+> an earlier bill completed is in M9.
