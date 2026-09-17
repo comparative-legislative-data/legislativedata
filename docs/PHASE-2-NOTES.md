@@ -129,7 +129,7 @@ not how we got there) and against the database. Word counts are today's.
 |---|---|---|---|
 | **M3** Two titles | 192 | **Done 17 September** (`db/107`). Was wrong about the data | Says a known rename's date is in the bill's note. Three bills have a known earlier title and none has a date in its note. The Session 4–7 fact sheets print rename dates; nothing records them. By the rule of 17 September, a missing date is added, then the note corrected. Also names columns and says "the first slice". |
 | **M2** When a stage is completed | 947 | **Done 17 September** (`db/108`). Was out of date, and long | Says a session whose Stage 1 and 2 dates are not yet added has none; every session has them now. Says those dates come from the PhD dataset; 35 dated Stage 1 and 2 records come from elsewhere: 27 Stage 1 rejections and 3 other Stage 1 dates from the Official Report, and 3 Stage 1 and 2 Stage 2 dates from the Parliament's bill pages. (Corrected 17 September: this first said 70, counting stage records with no date.) Explains database mechanics (general and detail notes) a reader does not need. |
-| **M7** Why a bill fell | 877 | **Out of date, and long** | Says the coding is done for Sessions 1 to 5 only; Session 6 is done and Session 7 has no fallen bill. Says uncoded sessions show a general code; no bill has one. "One bill in the first five sessions" fell for want of a financial resolution; still one, in six. A paragraph on how Sessions 1 and 2 were worked out. |
+| **M7** Why a bill fell | 877 | **Drafted 17 September, waiting for the owner**, with one question. Out of date, and long | Says the coding is done for Sessions 1 to 5 only; Session 6 is done and Session 7 has no fallen bill. Says uncoded sessions show a general code; no bill has one. "One bill in the first five sessions" fell for want of a financial resolution; still one, in six. A paragraph on how Sessions 1 and 2 were worked out. |
 | **M8** Where each date comes from | 468 | **Done 17 September** (`db/108`). Was out of date | Says only dates where sources disagreed were checked; every bill a fact sheet left awaiting Royal Assent has since been checked too, and checked dates are recorded whether they agreed or not. Says the sources agree "throughout Sessions 1 and 2"; every session is compared now. Its list of sources misses the SPICe dates fact sheet, the Supreme Court and legislation.gov.uk for the session dates. |
 | **M6** A bill's session | 612 | **Correct, and long** | Every count checked: 474 rows, 470 bills, 73, 81, 62, 86, 87, 80 and 1. "Six pairs of bills" were reintroduced can't be checked from the data, which links only Robin Rigg. |
 | **M13** A bill still before the Parliament | 186 | **One sentence will go wrong** | "It has not yet completed a stage" is true of today's one live bill, not of every live bill. |
@@ -519,3 +519,205 @@ disagree
 > other value stands on the fact sheet and has not been checked individually.
 > Agreeing with the thesis dataset, which was compiled independently, is weaker
 > evidence than checking the Act itself and stronger than one source alone.
+
+---
+
+## M7 — Why a bill fell is our coding, not the fact sheets'
+
+**Drafted 17 September. Waiting for the owner.** Nothing is changed.
+
+### The bills it is about
+
+Every bill that did not pass and was not withdrawn, from the database on
+17 September. Session 7's one bill is still before the Parliament.
+
+| Session | Rejected at Stage 1 | Rejected at Stage 3 | Fell at dissolution | Financial resolution | All |
+|---|---|---|---|---|---|
+| 1 | 5 | 0 | 3 | 0 | 8 |
+| 2 | 6 | 0 | 4 | 0 | 10 |
+| 3 | 3 | 1 | 2 | 1 | 7 |
+| 4 | 5 | 0 | 1 | 0 | 6 |
+| 5 | 3 | 0 | 4 | 0 | 7 |
+| 6 | 5 | 2 | 3 | 0 | 10 |
+| **All** | **27** | **3** | **17** | **1** | **48** |
+
+The 27 Stage 1 rejections: 23 by the member's motion disagreed to, 2 by the
+member's motion amended and agreed to (Proportional Representation, 2003;
+Transplantation, 2016), and 2 by a committee motion under Rule 9.14.18 (Civil
+Appeals and Provision of Rail Passenger Services, both 2006). All 27 are
+Members' Bills.
+
+### As it reads today (877 words)
+
+> The SPICe fact sheets group unsuccessful bills under a single heading, "bills
+> which have fallen", and never say why any individual bill fell. The reasons
+> differ and matter: a bill whose general principles the Parliament refused at
+> Stage 1 was defeated, a bill defeated at the final vote was defeated at a
+> different point and after far more scrutiny, and a bill that simply ran out
+> of time at dissolution was never voted on at all, and a bill can fall having
+> been voted on and won, because the Parliament did not agree the financial
+> resolution its costs required. Treating those as one category would make a
+> large share of unsuccessful bills look like decisions when many are the
+> calendar running out. This resource therefore distinguishes them in
+> bill.outcome, and each distinction is a coding decision made by us against
+> the Official Report, not a value read from the fact sheet. Where a bill's
+> outcome has been coded this way, the citation is recorded against it. There
+> are 48 fallen bills across the seven sessions. This work is incomplete: at
+> the time of writing it has been done for Sessions 1, 2, 3, 4 and 5. Session 1
+> ended on 31 March 2003 and Session 2 on 2 April 2007, from SPICe's factsheet
+> of recess and dissolution dates. Seven bills concluded on those two days and
+> are recorded as having run out of time; every other bill that fell in those
+> sessions was in fact rejected at Stage 1 rather than lost to the calendar —
+> which is itself an indication that the fact sheet's single heading conceals a
+> real distinction. The day each session ended is held in this data, so that
+> coding can be checked rather than taken on trust. A bill is recorded as
+> having run out of time where the day it concluded is the day its session
+> ended. Where this has not yet been done for a session, its fallen bills show
+> under a general code, and that should not be read as a finding that they ran
+> out of time.
+>
+> For every bill rejected at Stage 1, bill.stage_1_rejection_route records how
+> the Parliament came to reject its general principles, and this too is our
+> coding against the Official Report. Usually the member in charge moved that
+> the general principles be agreed to and the Parliament disagreed. A bill can
+> also be rejected by the Parliament agreeing to the member in charge's own
+> motion after it has been amended so as not to agree to the general
+> principles, as happened to the Proportional Representation (Local Government
+> Elections) (Scotland) Bill in February 2003; or by the Parliament agreeing to
+> a motion of the lead committee, under Rule 9.14.18, that the general
+> principles of a Member's Bill not be agreed to. That rule allows the
+> committee to recommend rejection where, in its opinion, (a) the consultation
+> or published material does not demonstrate a reasonable case for the bill's
+> policy objectives or that legislation is needed, (b) the bill is clearly
+> outwith legislative competence and unlikely to be brought within it by
+> amendment, or (c) its drafting is too deficient to be put right by amendment.
+> The motion does not say which of these applied. Where the committee's stated
+> grounds allow a view, it is given in bill.note, and it is our reading of
+> those grounds rather than a recorded fact. The rule is cited as numbered and
+> worded in the current Standing Orders; earlier editions are not published,
+> and it is taken to be unchanged since 2006.
+>
+> The fourth reason needs care, because it is the one that looks like a defeat
+> and is not. A bill whose provisions charge public funds requires a financial
+> resolution before it can proceed beyond Stage 1; under Rule 9.12 the
+> Presiding Officer decides whether a bill needs one, and the resolution is
+> moved separately, normally by the minister responsible for finance. If it is
+> not agreed, the bill falls however the Parliament voted on the bill itself.
+> One bill in the first five sessions ended this way. The Parliament agreed the
+> general principles of the Creative Scotland Bill on 18 June 2008 and defeated
+> the financial resolution the same afternoon, so the bill fell with its
+> principles carried. It is recorded as having fallen for want of a financial
+> resolution and not as a rejection, and counting it among the bills the
+> Parliament rejected would misstate what happened. The Parliament's own bill
+> page describes it as having fallen at Stage 1; the Official Report of that
+> day is what this database follows.
+>
+> Where a division decided how a bill was rejected, its figures are given in
+> bill.note as the Official Report records them. A bill rejected by its own
+> motion being amended was decided twice, once on the amendment and once on the
+> motion as amended, and both divisions are given: the first is where the bill
+> was in fact lost and the second where it formally ended, and the two can
+> differ widely enough that either alone would mislead. A structured record of
+> how members voted is not yet part of this resource. These figures are prose
+> beside a bill, not data: they cannot be counted, and when a record of
+> divisions is added it supersedes them.
+
+### What is wrong with it
+
+1. **Out of date: "done for Sessions 1, 2, 3, 4 and 5".** Session 6's ten are
+   coded too, and Session 7 has no bill that has ended. This is the third time
+   M7 has lagged (`DECISIONS.md`, 14 September). The proposal says instead that
+   every bill that fell is coded, which stays true by itself: the error checker
+   will not accept a fallen bill until it is. The count "48 fallen bills across
+   the seven sessions" goes for the same reason.
+2. **"Its fallen bills show under a general code."** No bill has one. The only
+   general value, "Fell (other)", is used by no bill.
+3. **"Each distinction is a coding decision made by us against the Official
+   Report."** True of 31 bills. The 17 that ran out of time rest on the day their
+   session ended, from SPICe's fact sheet of recess and dissolution dates, and
+   their provenance says so.
+4. **"A bill that simply ran out of time at dissolution was never voted on at
+   all."** Wrong for five of the 17, which had completed a stage first: the Gaelic
+   Language Bill (Stage 1, 2003), the Robin Rigg Bill (Preliminary and
+   Consideration Stages, 2003), Footway Parking (Stage 1, 2016), Ecocide (Stage 1,
+   2026) and Freedom of Information Reform (Stage 1, 2026).
+5. **It argues the wrong way round.** "Would make a large share of unsuccessful
+   bills look like decisions when many are the calendar running out." Of the 48,
+   30 were decisions against the bill and 17 ran out of time: the single heading
+   hides decisions under a word that sounds like time, as its own paragraph on
+   Sessions 1 and 2 says. The proposal says the events differ, and not which way
+   the heading misleads.
+6. **"One bill in the first five sessions"** fell for want of a financial
+   resolution. Still one, in six. The proposal gives the case without a count.
+7. **How we got there.** The paragraph on Sessions 1 and 2's end dates and the
+   seven bills that concluded on them.
+8. **"Where a division decided how a bill was rejected, its figures are given in
+   bill.note."** The bill's note gives figures for the two bills rejected by
+   their own amended motion, and no others. For all 27 Stage 1 rejections the
+   figures are with the source the rejection rests on. For the three Stage 3
+   rejections, two have them; **the Budget (Scotland) (No.2) Bill, rejected
+   28 January 2009, has none**. See the question below.
+9. **Its shape.** The first paragraph lists three reasons and puts a fourth into
+   the same sentence; a later paragraph then calls it "the fourth reason".
+10. **Names columns** three times.
+
+**Kept, because it was settled on 14 September:** both divisions for a bill
+rejected by its own amended motion, and that division figures are text, not
+data, until a record of how members voted supersedes them.
+
+### A question before it can be applied
+
+**The Budget (Scotland) (No.2) Bill's division.** The proposal says the figures
+of the division are recorded with every rejection. For that to be true, the
+Official Report of 28 January 2009 is read and the result as recorded is added to
+what the bill's Stage 3 rejection rests on, as the two 2026 rejections have. It
+changes a provenance note, so it needs your clearance. **Recommended**, by the
+rule of 17 September that something missing is added with its source rather
+than explained away. The other way is for the note to promise figures for
+Stage 1 rejections only.
+
+### Proposed (about 460 words)
+
+**Title unchanged:** Why a bill fell is our coding, not the fact sheets'
+
+> The Parliament's legislation fact sheets list every bill that did not pass,
+> other than those withdrawn, under one heading, "Bills which have fallen", and
+> do not say why. The reasons are different events: the Parliament refusing a
+> bill's general principles at Stage 1, the Parliament defeating it at the
+> final vote, and a bill still waiting for its next stage when the session
+> ended. This resource records which happened. That is our coding, not the fact
+> sheets'. Every bill that fell is coded, and each names the source its coding
+> rests on.
+>
+> A bill is recorded as rejected at Stage 1 or at Stage 3 where the Official
+> Report records the Parliament deciding against it, and the figures of the
+> division are recorded with it. A bill is recorded as having fallen at
+> dissolution where it ended on the day its session ended, taken from SPICe's
+> fact sheet of recess and dissolution dates. Such a bill may have completed a
+> stage or two first, but the Parliament took no decision against it.
+>
+> A bill rejected at Stage 1 was rejected in one of three ways. Usually the
+> Parliament disagreed to the member in charge's motion that its general
+> principles be agreed to. Or that motion was amended so as not to agree to
+> them, and then agreed to as amended: the motion carried and the bill fell,
+> and both divisions are given in the bill's note, since either alone would
+> mislead. Or, for a Member's Bill only, the Parliament agreed to the lead
+> committee's motion under Rule 9.14.18 that the general principles not be
+> agreed to. The rule allows this where, in the committee's opinion, the case
+> for the bill or for legislating at all has not been shown, the bill is
+> clearly outwith legislative competence, or its drafting cannot be put right
+> by amendment. The motion does not say which; where the committee's grounds
+> allow a view, the bill's note gives ours. The rule is read as worded in the
+> current Standing Orders, and taken to be unchanged since 2006.
+>
+> A bill can also fall for want of a financial resolution, which under Rule
+> 9.12 a bill charging public funds needs before Stage 2. The Parliament agreed
+> the general principles of the Creative Scotland Bill on 18 June 2008 and did
+> not agree its financial resolution the same afternoon. It is recorded as
+> having fallen for that reason, and not as rejected. The Parliament's bill
+> page says it fell at Stage 1; this resource follows the Official Report of
+> that day.
+>
+> Division figures given beside a bill are text, not data, and cannot be
+> counted. A structured record of how members voted is not yet part of this
+> resource, and when it is added it supersedes them.
