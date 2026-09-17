@@ -333,6 +333,13 @@ reads and never changes anything — recorded nowhere as a decision, so this
 briefing proposes it as one. Heavy use competing with loading: the briefing says
 whether the answer to question 1 changes it.
 
+- **Settled (review):** the site's login to the published copy reads and never
+  changes anything, and a check proves it, as the site's inability to open the
+  working database was proved.
+- **Settled (review):** no action on heavy use. With every figure worked out
+  when the copy is taken, a page hands over finished numbers. It stays in
+  `STANDING.md`, reopened by the data growing or the site being used heavily.
+
 ---
 
 ## Groundwork 2 — the download, and what travels with it
@@ -354,6 +361,14 @@ groundwork 1. It holds what R1 and R2 found. The charts do not wait on it.
      step-by-step instructions for Excel, and the row count of each file to
      check against. The briefing says how dates are written, and the readme gives
      the row counts.
+   - **Settled (review):** CSV alone to start; another format only where the
+     owner knows researchers want it. Dates written year-month-day
+     (2003-03-20). The readme gives each file's row count.
+   - **Settled (review), the owner's addition, as a starting point:** a link on
+     the download page for requesting another format, which opens the reader's
+     own email and stores nothing on the site. The privacy page gains a line
+     saying so. A form on the site was weighed and not chosen, since it would
+     hold data about people; the owner may come back to it as the site matures.
 2. **What travels with the data.** **Proposed** *(R1 rec., plan rec.)*: one zip
    file, holding a plain-text readme, the data as CSV, a readable codebook, the
    methodology notes, the provenance notes, a suggested citation, the licence
@@ -371,6 +386,13 @@ groundwork 1. It holds what R1 and R2 found. The charts do not wait on it.
    - **Whether the documentation mentions the Comparative Agendas Project's
      "Scottish Bills"** *(R1 q8)*: 161 bills, 1999–2008, with their own type,
      outcome and dates.
+   - **Settled (review):** one zip — a plain-text readme, the three CSV files, a
+     codebook, the methodology notes, the provenance notes, the calculations as
+     text, the list of what changed, a suggested citation, and the licence and
+     source statements. The codebook to the UK Data Service's minimum, generated
+     from the published copy's own descriptions; no DDI. The readme names the
+     Comparative Agendas Project's "Scottish Bills" in one sentence as a related
+     dataset, with no comparison claimed.
 3. **The licence, and the credit to the sources** (R2). Settled already: both
    sources allow what the project does if credited, and neither publisher is
    asked. For the owner:
@@ -390,6 +412,35 @@ groundwork 1. It holds what R1 and R2 found. The charts do not wait on it.
    advises against licensing only part (R2 §2.6), and marking the columns does
    the work that licensing only part was meant to do. All of it is public
    wording, and goes to the owner in full.
+
+   **Settled (review), 17 September**, the plan rec. on the whole dataset set
+   aside, and an approach meant to hold as sources are added:
+   - **What the project made is under CC BY 4.0**, commercial use allowed, no
+     share-alike: our coding, the worked-out figures, the methodology and
+     provenance notes, our own bill numbers, and the owner's PhD compilation,
+     credited to the thesis. Its own terms disclaim warranty and liability, and
+     the site says in a plain sentence that we are not responsible for what
+     people do with the data.
+   - **Each source's data stays under that source's own terms, restrictions
+     passed on** in the source's own words, not interpreted. A CC BY licence
+     over the Parliament's facts could grant a freedom that is not ours to give.
+     The site says plainly it is not the Parliament's, as the licence requires.
+   - **The statements follow each value's recorded source**, not a hand-kept
+     list of columns: "values whose source is the Scottish Parliament are under
+     its licence". It holds where a column mixes sources.
+   - **No source's data is published until its terms are written down**: its
+     licence, credit line, restrictions and a link. The download and the site's
+     sources page are built from that record. How and where it is held is
+     decided at the build, and put to the owner first, as an addition.
+   - **The PhD dataset has no terms of its own** (the owner, 17 September): all
+     of it was collected from Scottish Parliament sources, so its values are
+     Parliament facts under the Parliament's licence, and the provenance credits
+     the dataset as well. Two kinds of source today, not three.
+   - **The archived 2017 licence was read** through the owner's browser and is
+     kept in `sources/licences/`. It differs from today's in its credit line and
+     in carrying only the narrower party-political ban. Every Scottish
+     Parliament value, Sessions 1–5 included, is credited under today's
+     licence, and today's broader ban is passed on.
 4. **The citation, the date, and the no-archive promise in words** *(R1 q2,
    q4)*. A release number as well as the date, and what counts as a new release;
    or the date alone, which the data citation principles allow "where a formal

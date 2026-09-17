@@ -69,6 +69,34 @@ and neither page carries a date of its own. That is why a copy is kept.
 | `parliament-about-private-bills_retrieved-2026-09-11.html` | parliament.scot/bills-and-laws/about-bills/about-private-bills | 2026-09-11 | `1079627057ad9fb1` |
 | `parliament-about-hybrid-bills_retrieved-2026-09-11.html` | parliament.scot/bills-and-laws/about-bills/about-hybrid-bills | 2026-09-11 | `0f752e13a58af970` |
 
+## licences/
+
+The terms the sources were published under, kept because a licence page changes
+like any other page, and what we pass on to a reader has to rest on what it
+said.
+
+| File | What | Retrieved | SHA-256 (first 16) |
+|---|---|---|---|
+| `spcb-licence-2017-archived_retrieved-2026-09-17.txt` | The Scottish Parliament Copyright Licence, 2017 | 2026-09-17 | `10ef8f0c5dcf712d` |
+
+**The 2017 licence is text, not the PDF.** It sits at
+`archive2021.parliament.scot/Fol/Scottish_Parliament_Licence_2017.pdf`, behind
+the same Cloudflare challenge as Sessions 1–5's fact sheets. The owner opened it
+in their browser and copied the text, which is this file, line breaks as the
+copy gave them. It is the licence of the old site, where Sessions 1–5's fact
+sheets are.
+
+**It differs from today's licence** (`parliament.scot/about/copyright`, as
+`docs/PHASE-2-RESEARCH-LICENCE.md` §2.1 quotes it) in two places only. Its
+credit line reads "Contains information licenced under the Open Scottish
+Parliament Licence V.2", against today's "…licensed under the Scottish
+Parliament Copyright Licence", and its own title is not the name in that line.
+And it carries only the narrower party-political and advertising ban, on
+"downloadable files such as images and video footage"; today's copyright page
+adds the broader "provided in any format". The 2017 policy page, if there was
+one, was not seen. Settled 17 September: every Scottish Parliament value is
+credited under today's licence, with today's broader ban passed on.
+
 ## factsheets/, continued
 
 **That path serves soft 404s.** A missing factsheet returns HTTP 200 with an
