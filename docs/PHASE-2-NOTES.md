@@ -143,3 +143,26 @@ not how we got there) and against the database. Word counts are today's.
 **Names columns** matters because the notes are rewritten in readers' words when
 the published layout is built (settled 17 September); those are small edits,
 and can be done together.
+
+---
+
+## M3: every title change the fact sheets state
+
+The full text of all seven fact sheets was searched on 17 September for
+"introduced as", "renamed", "formerly" and similar, not only the earlier survey.
+Four title changes, and no others. "Introduced as an Executive Bill" (the type
+styling M1 covers) and a Bill's title becoming an Act's title on Royal Assent
+are different things and are left out.
+
+| Bill | Session | Introduced as | Date the fact sheet gives | Which day that is | Recorded now |
+|---|---|---|---|---|---|
+| Scottish Commission for Human Rights Act 2006 | 2 | Scottish Commissioner for Human Rights Bill | None (printed in the title cell) | — | Earlier title yes; no date |
+| Buildings (Recovery of Expenses) (Scotland) Act 2014 | 4 | Defective and Dangerous Buildings (Recovery of Expenses) (Scotland) Bill | None (footnote 1) | — | **Nothing**: the reader removed the footnote marker and did not keep the footnote |
+| Care Reform (Scotland) Act 2025 | 6 | National Care Service (Scotland) Bill | Renamed 4 March 2025 | The day its Stage 2 ended | Earlier title yes; date only in the reading notes |
+| Scottish Parliament (Recall of Members) Bill | 6 | Scottish Parliament (Recall and Removal of Members) Bill | Renamed 24 February 2026 | The day of its Stage 3, when it was rejected | Earlier title yes; date only in the reading notes |
+
+All four are the same kind of change: the bill's short title changed while it
+was before the Parliament, and kept its SP Bill number. They differ only in how
+much the fact sheet says. The two dated renames fall on the day of a stage, which
+suggests the date is when the amendment changing the title was agreed; the
+Official Report would say for all four.
