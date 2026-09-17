@@ -87,9 +87,10 @@ two that were here (the style test, and that the site only reads the published
 copy); they are in `DECISIONS.md` and gone from this list. The rest are placed
 in `docs/PHASE-2.md`, and stay here until decided.
 
-- **The colours of charts.** Not settled; waits for something to plot. The
-  accent never touches data, so a chart palette never reuses it. *What reopens
-  it:* the first chart.
+- **The colours of charts.** Settled in principle 17 September: colour may
+  tell things apart on a chart, always with a legend, never grading an outcome,
+  and never the accent (`DECISIONS.md`). The palette itself is chosen with the
+  first mock-up.
 - **Publishing the bills as files rather than a database the site reads.** Left
   open on 15 September (`DECISIONS.md`, "Three databases"). Since 17 September
   every figure is worked out when the copy is taken, so the site serves finished

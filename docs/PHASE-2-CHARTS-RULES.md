@@ -3,7 +3,10 @@
 For the owner, 17 September 2026. The downloads stay plain, and the charts and
 tables may bring the data alive (`DECISIONS.md`, 17 September). Three rules
 were applied to the charts as if they were downloads. Each is below: what it
-says now, and a proposal for what replaces it. Nothing changes until you decide.
+says now, and a proposal for what replaces it.
+
+**All three settled by the owner, 17 September, as proposed**, with choices made
+through filters and dropdowns. Recorded in `DECISIONS.md`.
 
 ---
 

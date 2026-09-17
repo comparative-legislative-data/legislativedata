@@ -525,6 +525,11 @@ groundwork 1. It holds what R1 and R2 found. The charts do not wait on it.
 15 September are for inspiration only; they are the same dashboard `PLAN.md`
 uses as its warning.
 
+**Superseded 17 September: the charts plan starts afresh.** The owner's seven
+thoughts are in `docs/PHASE-2-CHARTS-THOUGHTS.md`, and the charts' three rules
+(colour, choices, drawing) are settled in `docs/PHASE-2-CHARTS-RULES.md` and
+`DECISIONS.md`. Where this section disagrees with those, they win.
+
 1. **Outcomes by session by type** — numbers, percentages, averages.
 2. **Time to pass by session by type**, in four intervals: introduction to the
    end of Stage 1, end of Stage 1 to end of Stage 2, end of Stage 2 to end of
@@ -585,6 +590,8 @@ database (groundwork 1, question 3). **The owner's rider:** the switches need
 constant attention, since readers may need more flexibility; a request for one
 is weighed when it comes, against what it costs to work out every combination in
 advance (groundwork 1, question 1) and against the line with the playground.
+*Superseded 17 September: each chart gives the choices its write-up justifies,
+as filters and dropdowns from a fixed list.*
 
 **How the charts are drawn is a dependency** *(gap)*. A charting library in the
 reader's browser, or charts drawn on the machine, is something added, and is put
@@ -596,6 +603,8 @@ drawn in the reader's browser. The tool is an addition, put to the owner by
 name before it is used. **Kept under review, at the owner's asking**, for
 performance and the like: how long drawing takes at a refresh, the size of
 what is drawn as switches multiply, and readers finding a fixed image wanting.
+*Superseded 17 September: charts are drawn in the reader's browser from figures
+worked out in the database; the library is put to the owner by name.*
 
 **Known traps each write-up must resolve, not decided here:**
 
@@ -632,10 +641,12 @@ and the accent never touches data ("Colour means one thing"); the data date sits
 at the top of any page showing data, inside the crop of a screenshot ("Prose
 runs narrow"); and every page passes the two questions ("Who the site is
 designed for"). The screenshots' green bars and success rates are what the first
-of those rules exists to avoid.
+of those rules exists to avoid. *Superseded 17 September for charts: colour may
+tell things apart, always with a legend, and never grades.*
 
 **Picked up from `STANDING.md` here:** the colours of charts, which wait for the
-first chart.
+first chart. *Settled in principle 17 September; the palette itself is chosen
+with the first mock-up.*
 
 ---
 
