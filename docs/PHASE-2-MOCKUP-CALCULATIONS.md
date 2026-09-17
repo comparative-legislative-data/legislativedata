@@ -232,7 +232,7 @@ quarter; the counts, shares, averages and even-spread test by session and type;
 and the change per session. Checked when it ran: the bills add up to 470, and the
 test results and the change per session agree with a separate calculation made
 outside the database the same day. The test's p-value uses `erfc`, which the
-database has from PostgreSQL 16.
+database has from PostgreSQL 17. The machine runs 17.11.
 
 ```sql
 -- When bills were introduced in their session, by quarter (thought 5, mock-up draft).

@@ -99,6 +99,10 @@ so they are not lost.
   two switches only; charts drawn on the machine as fixed images, nothing drawn
   in the reader's browser (both 17 September). A charting library in the
   browser would be an addition, asked for by name.
+  **All three were overtaken later on 17 September**, after this was written:
+  colour may tell things apart on a chart with a legend; each chart gives the
+  choices its write-up justifies; charts are drawn in the reader's browser, with
+  Apache ECharts, named and agreed. See `DECISIONS.md` for that day.
 - **Thought 4's known traps**, already listed in `PHASE-2.md`: Private Bills'
   stages compared by position (M2); the Robin Rigg Act (M9); Stage 3 to Royal
   Assent running through the Supreme Court for two Acts (M5); Session 7 with

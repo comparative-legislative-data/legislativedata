@@ -43,39 +43,41 @@ list are both empty.**
 - **17 September, afternoon.** The charts started afresh from your seven
   thoughts; ECharts, colour and dropdowns agreed; mock-ups of thoughts 2 to 4.
 
-**17 September, this session. Mock-ups of thoughts 5, 6 and 1.**
+- **17 September, evening.** All six thoughts mocked up, on one page
+  (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9), each one's draft
+  calculation in `docs/PHASE-2-MOCKUP-CALCULATIONS.md`.
 
-- **Thought 5, when in a session bills were introduced**, on the same page,
-  https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9: the quarters in figures,
-  three pictures and statistical tests, all worked out in the database. No
-  session's government bills are measurably uneven, and there is no trend.
-- **Two decisions**: a mock-up uses only what the database holds, and a figure
-  stands beside what an even spread would give, with a test, rather than a
-  label.
-- **Explored and set aside**: Stage 1s and Stage 3s in the last months of a
-  session, and bills still live near the end. Both need dissolution and recess
-  dates the database does not hold.
-- **Thought 6, the quickest and slowest bills**: timed to Stage 3, or to Royal
-  Assent. **Thought 1, the headline figures**, at the top of the page: 470 bills,
-  404 passed and 402 Acts, a typical 230 days, and what passed by type.
-- **All six thoughts are now mocked up**, and each one's draft calculation is in
-  `docs/PHASE-2-MOCKUP-CALCULATIONS.md`.
-- **A fault of mine**, which your screenshots caught: the thought 5 card took
-  the padding off every card on the page. Fixed.
+**17 September, this session. The plan for turning the mock-ups into pages.**
+
+- **`docs/PHASE-2-CHARTS-BUILD.md` is the plan**, agreed point by point. What
+  blocks everything: the published copy does not exist, and the site is not
+  permitted to open the working one, so nothing visible can be built first.
+- **The site gets two sections**, Data and Insights, both behind the sign-in.
+  The table of every bill opens Data; the downloads land there when built.
+- **Three problems found by planning all six together** rather than one at a
+  time, now built once instead of six times: the page furniture, dark and light,
+  and the route from a figure to the bills behind it.
+- **The worry about the dropdowns multiplying is closed**: every figure for
+  every choice across all six charts is about three thousand lines.
+- **Three small items cleared for building**, each still needing its own
+  checklist first: the tie in the order of outcomes, the quarter boundary rule,
+  and M10's wording. M9 is left alone.
+- **Two stale lines corrected** in the charts and calculations documents.
 
 ## Now
 
-1. **How the mock-ups become real charts on the site's pages, and what the
-   database needs to add for that.** Your ask for the next session. It starts
-   from the mock-up page and the draft calculations in
-   `docs/PHASE-2-MOCKUP-CALCULATIONS.md`, one chart at a time; the open points
-   on each are in `docs/PHASE-2-CHARTS-THOUGHTS.md`. Propose first and agree
-   before building: the database side is a change to how figures are worked out,
-   and carries the whole checklist.
-2. **Iterating the mock-ups**, whenever you want: the open points on all six
-   are in `docs/PHASE-2-CHARTS-THOUGHTS.md`, each under its thought.
+1. **The published copy**, its headings, and the methodology notes rewritten in
+   those headings. Block 1 of `docs/PHASE-2-CHARTS-BUILD.md`, and the thing
+   every chart waits on. It is its own piece of work, with a written procedure,
+   a rehearsal and an undo, checked cell by cell against the working database
+   before the site is allowed near it. Nothing visible comes out of it.
+2. **The three small items**, block 2, which can run alongside block 1. Each is
+   a change to how something is coded or what a note says, so each gets its full
+   checklist proposed and agreed before it is built.
 3. **Nine closure tests**, for `db/104` to `db/112`, run by a session that built
    none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside anything.
+4. **Iterating the mock-ups**, whenever you want: the open points on all six are
+   in `docs/PHASE-2-CHARTS-THOUGHTS.md`, each under its thought.
 
 ## Waiting for you
 
@@ -98,10 +100,6 @@ list are both empty.**
 - **Whether the Forth Crossing Bill needs a dropdown at all**, on the outcomes
   chart and table, since it moves one bill. Proposed: drop it and say in a note
   that it is counted as a government bill.
-- **Whether M9 and M10 are cut too.** Both were checked correct on
-  17 September and not rewritten. M10 still says how its rule came about ("that
-  has been refused since the column was made"), which the rewrites took out of
-  the others. Say if you want either looked at.
 - **Three counts of how many previous attempts there have been disagree**:
   `CLAUDE.md` says four died in the gap, you say this is the tenth, `PLAN.md`
   says nine before it.
@@ -138,7 +136,7 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-17, the session of thoughts 5 and 6
+## Sanity check, 2026-09-17, the session of the build plan
 
 Run before the first reply.
 
@@ -146,11 +144,18 @@ Run before the first reply.
   `STATE.md`; the decisions contents and the data dictionary regenerated
   identical. Nine closure tests still unrun, as `STATE.md` said.
 - **The counts matched**: 470 bills, 1291 stage records, 192 provenance notes,
-  14 notes; checker and gaps list empty; only the `public` schema.
-- **Every database sorted into a backup theme**: `postgres`, `accounts`,
-  `legdata`. Last night's backup finished; the site answers 200. The one failed
-  unit is still the old `select 1` check.
-- **Nothing found that contradicted the docs or the database.**
+  14 notes; staging 474 and 1295; checker and gaps list empty.
+- **Every database sorted into a backup theme**: `postgres` not backed up,
+  `accounts` with the people, `legdata` the working one.
+- **Three contradictions found, all in the docs, all corrected or settled**: a
+  line saying charts are fixed images, overtaken the same day; the statistical
+  function credited to PostgreSQL 16 when it is 17; and the tie in the order of
+  outcomes, which no document had noticed.
+- **The count of previous attempts still disagrees three ways**, as it has for
+  two sessions. Still yours to settle.
+- **The rate limit tripped again**, as it did yesterday: several connections in
+  quick succession gave `Connection refused` for about a minute. Waiting
+  cleared it. Nothing was wrong with the machine.
 
 ## Closing checks, 17 September, the session of thoughts 5 and 6
 
