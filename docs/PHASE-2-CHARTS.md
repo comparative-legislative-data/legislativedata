@@ -13,7 +13,13 @@ was changed.
 
 ## Chart 1 — Bill outcomes by session and type
 
-**Draft, 17 September. Not yet agreed.**
+**Superseded, 17 September. Do not build from this.** The owner judged the
+approach wrong: it showed every combination at once, designed from the data
+outwards rather than from what a reader wants to find out. The charts plan
+starts afresh from the owner's description of what each chart is trying to
+show. Kept only as the record of what was tried, with its mock-up.
+
+**Draft, 17 September. Not agreed.**
 
 ### What needs your answer
 

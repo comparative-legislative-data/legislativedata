@@ -73,8 +73,8 @@ calculations: yes.
    question against the notes answered, in the owner's approved wording
    (`docs/PHASE-2-NOTES.md`, `db/105` to `db/112`).
 3. **The write-ups**: the five charts and the table of every bill, each to the
-   owner before it is drawn. **Under way**, in `docs/PHASE-2-CHARTS.md`: chart
-   1 drafted 17 September, not yet agreed.
+   owner before it is drawn. **Starting afresh, 17 September**, from the owner's description of what each chart shows; the first chart
+   1 draft in `docs/PHASE-2-CHARTS.md` is superseded.
 4. **The public wording, in full**: the licence and source statements, the
    readme's no-archive paragraph, the date statement, and the privacy page's
    line about the format-request link.
