@@ -127,6 +127,9 @@ only drawing and layout.
 **Recommended: settle it as yes.** Our charts are always worked out in the
 database, and the page only draws them.
 
+**Settled by the owner, 17 September: yes**, because it stops front-end drift
+and requires each chart to be properly considered before it is developed.
+
 **The new calculations, in one place:**
 
 | New calculation | For | Needed when |

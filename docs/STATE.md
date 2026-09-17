@@ -8,7 +8,7 @@ Updated: 2026-09-17
 `legislativedata.org` someone can apply, you approve or refuse them, and they
 sign in with a code by email; the privacy page says what is held. **Phase 2,
 the data published, is open**, for approved beta users only. **Its plan is
-reviewed and its questions answered**, all but one. Nothing is built yet. The
+reviewed and every question answered.** Nothing for it is built yet. The
 arc is in `docs/PLAN.md`.
 
 The dataset, unchanged and not moving:
@@ -47,15 +47,18 @@ in `docs/PHASE-2-CALCULATIONS.md`, and two answers that came out of it:
 - **Chart 5 measures Session 7 to 1 April 2031**, the day it is expected to end,
   worked out from the Scotland Act and the elections Order. Built, in a cell of
   its own, with M14 and the three pages of law kept. No bill touched.
+- **The last open question settled**: every chart is worked out in the
+  database and the page only draws, which stops front-end drift and makes each
+  chart be thought through before it is built.
 
 ## Now
 
-1. **Your answer on the open question**: whether our charts are always worked
-   out in the database, the page only drawing. The list shows every number
-   would be; recommended yes.
-2. **Then, as `docs/PHASE-2.md` proposes**: the five open methodology notes,
-   the write-ups, the public wording, and the build plan.
-3. **`db/104`'s closure test**, run by a session that did not build it
+1. **The five open methodology notes**, each shown to you in its current
+   wording: M5's date and its two drifted sentences, whether the other notes are
+   cut as M12 was, the Robin Rigg Act's note, and Session 5's four bills that
+   ran out of time. Then, as `docs/PHASE-2.md` proposes: the write-ups, the
+   public wording, and the build plan.
+2. **`db/104`'s closure test**, run by a session that did not build it
    (`docs/CLOSURE-TESTS.md`, top). It can run alongside anything.
 
 ## Waiting for you

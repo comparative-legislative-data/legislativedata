@@ -51,8 +51,9 @@ and nothing else in the plan held it. In `PHASE-2-CHECK.md` and the second draft
 the charts are groundwork 2 and the working is 3; here they are 3 and 4.
 
 **The review is done**, and its answers are in `DECISIONS.md`, 17 September.
-Every question below is settled except one, left open by the owner: whether our
-charts are always worked out in the database (groundwork 1, question 3).
+Every question below is settled, the last (whether our charts are always worked
+out in the database, groundwork 1, question 3) once the owner had the list of
+calculations: yes.
 
 **What remains before building, proposed in this order:**
 
@@ -61,7 +62,7 @@ charts are always worked out in the database (groundwork 1, question 3).
    `DECISIONS.md`: chart 1 has no averages, and chart 5 measures Session 7 to an
    expected last day, built as `db/104` with M14 (closure test written, not
    run). Chart 5's opening sentence is approved there, for the write-up. **The
-   open question is put to the owner with the list**, recommended yes.
+   open question is settled: yes**, every chart worked out in the database.
 2. **The five open methodology notes**, each with its current wording shown to
    the owner.
 3. **The write-ups**: the five charts and the table of every bill, each to the
@@ -286,8 +287,11 @@ shown beside a chart runs against it.
      out a figure being worked out when a page opens. If one ever is, it uses the
      same single calculation and the page shows it, and question 1 is reopened
      for that figure.
-   - **Open, the owner to come back to it:** whether our own charts are
-     *always* worked out in the database, the page only drawing. Proposed: yes;
+   - **Settled, 17 September, after the list of calculations: yes.** Our
+     charts are always worked out in the database, the page only drawing; the
+     owner's reasons are that it stops front-end drift and makes every chart be
+     considered properly before it is developed. What was open: whether our own
+     charts are *always* worked out in the database, the page only drawing. Proposed: yes;
      anything that makes a number a reader could quote (percentages, averages,
      counts, rankings, rounding) is in the calculation, and the page does only
      what changes how a number looks. Before deciding, **the owner wants to see
