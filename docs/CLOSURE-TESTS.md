@@ -30,6 +30,53 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## M5, and what "Blocked" means
+
+Written 2026-09-17 by the session that built `db/106`. **Not yet run.** For a
+session that did none of that work. Small, because the change is two pieces of
+text; it is here so that no text a reader sees is changed on its author's word
+alone.
+
+**What to expect before starting.** 14 methodology notes; 470 bills, 1291 stage
+records, 188 provenance notes; the error checker empty.
+
+### Part A — mechanical
+
+1. **M5's text is the approved text.** Its body matches the proposal in
+   `docs/PHASE-2-NOTES.md` word for word, ignoring line breaks and the `> `
+   quote marks, with its three paragraphs kept. Its title, the columns it
+   applies to and its position are unchanged.
+   *Where from:* the file the owner approved, not the migration.
+2. **"Blocked" means the approved text.** The definition of `blocked` among the
+   enactment statuses matches the proposal in the same file word for word; its
+   label and position, and every other status, are unchanged.
+3. **What the note states is what the data holds.** For each of the four bills
+   it names, the stopped date, how it was stopped and what followed, read from
+   the bills, agree with the note: 13 December 2018, section 33, withdrawn on
+   10 March 2022; 6 October 2021 twice, section 33, reconsidered and passed;
+   16 January 2023, section 35, still stopped.
+   *Where from:* the note, compared against the database.
+4. **No column names and no old date.** M5 contains nothing of the form
+   `word.word` and no "ruled against on 6 October 2021"; no methodology note,
+   and no meaning of a value, still says a mechanism "is recorded in bill.note".
+5. **Nothing else moved.** Counts as above; the data dictionary regenerates with
+   no difference but its date.
+
+### Part B — the owner's sign-off
+
+None. The owner approved both texts in full before they were applied.
+
+### What this test does not check
+
+- **The other notes.** Whether they are cut as M5 and M12 were is the next open
+  question.
+
+### The run
+
+Not yet run.
+
+---
+
 ## The Legal Continuity Bill's ruling is dated
 
 Written 2026-09-17 by the session that built `db/105`, mended
@@ -109,7 +156,9 @@ the change.
 ### Part B — the owner's sign-off
 
 9. **Bill 305's note, as a reader sees it** (item 6's wording). The owner agreed
-   the note would give the date; this is the wording it gives.
+   the note would give the date; this is the wording it gives. **Signed off by
+   the owner on 17 September**, when this wording was shown in full with M5's
+   and the owner said to proceed.
 
 ### What this test does not check
 

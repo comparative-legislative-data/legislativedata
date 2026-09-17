@@ -14,6 +14,10 @@ have to be done twice.
 
 ## M5 — Passing a bill is not the same as the bill being finished
 
+**Done, 17 September.** The owner approved the proposed wording and the
+meaning of "Blocked"; both applied as `db/106`, read back from the database and
+matching word for word. The bill's missing date was added first (`db/105`).
+
 ### As it reads today (470 words)
 
 > A bill that is passed by the Parliament does not automatically become an Act.
@@ -69,7 +73,7 @@ have to be done twice.
 6. **Length.** The M12 rule of 15 September: a note says what the judgement is
    and what follows from it, not how we got there.
 
-### Proposed (about 200 words), revised after the date was added
+### Proposed (228 words), revised after the date was added
 
 **Title unchanged:** Passing a bill is not the same as the bill being finished
 

@@ -63,6 +63,9 @@ calculations: yes.
    expected last day, built as `db/104` with M14 (closure test written, not
    run). Chart 5's opening sentence is approved there, for the write-up. **The
    open question is settled: yes**, every chart worked out in the database.
+   **Step 2 under way, 17 September**, one note at a time in
+   `docs/PHASE-2-NOTES.md`: M5 done (`db/105` dated the Legal Continuity
+   ruling on the bill first, `db/106` rewrote M5 and what "Blocked" means).
 2. **The five open methodology notes**, each with its current wording shown to
    the owner.
 3. **The write-ups**: the five charts and the table of every bill, each to the

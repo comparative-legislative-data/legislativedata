@@ -54,17 +54,18 @@ in `docs/PHASE-2-CALCULATIONS.md`, and two answers that came out of it:
   Supreme Court's page, because a missing date is added with its source rather
   than explained away. Sessions 7, 6 and 5 taken off and put back; only that
   bill's date and note changed.
+- **M5 rewritten** in your approved words, 470 words down to 228, with the right
+  dates and no column names; and what "Blocked" means, to match.
 
 ## Now
 
-1. **The five open methodology notes**, one at a time, in
-   `docs/PHASE-2-NOTES.md`. **M5 is first and waiting for you**: its rewrite,
-   revised now the date is in, and the matching fix to what "Blocked" means.
-   Then whether the other notes are cut as M12 was, the Robin Rigg Act's note,
-   and Session 5's four bills that ran out of time. Then, as `docs/PHASE-2.md` proposes: the write-ups, the
+1. **The rest of the open methodology notes**, one at a time, in
+   `docs/PHASE-2-NOTES.md`. M5 is done. Next: whether the other notes are cut
+   as M5 and M12 were, the Robin Rigg Act's note, and whether Session 5's four
+   bills that ran out of time carry Session 6's note. Then, as `docs/PHASE-2.md` proposes: the write-ups, the
    public wording, and the build plan.
-2. **Two closure tests**, `db/105`'s and `db/104`'s, run by a session that
-   built neither (`docs/CLOSURE-TESTS.md`, top). They can run alongside
+2. **Three closure tests**, `db/106`'s, `db/105`'s and `db/104`'s, run by a
+   session that built none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside
    anything.
 
 ## Waiting for you
@@ -85,11 +86,11 @@ in `docs/PHASE-2-CALCULATIONS.md`, and two answers that came out of it:
   the private notes; the cost could go beside it, if you want it recorded.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
   is deliberately outside version control and exists on this machine only.
-- **The methodology notes' open questions**: M5's wrong date and its two drifted
-  sentences; whether the other notes are cut the way M12 was; whether Session 5's
-  four bills that ran out of time carry Session 6's note; and the Robin Rigg
-  Act's note, which gives its Preliminary date and not its Consideration date.
-  Settled 17 September: none is published until these are answered.
+- **The methodology notes' open questions**, now being worked through (see
+  Now): whether the other notes are cut the way M5 and M12 were; whether
+  Session 5's four bills that ran out of time carry Session 6's note; and the
+  Robin Rigg Act's note, which gives its Preliminary date and not its
+  Consideration date. None is published until these are answered.
 - **Three counts of how many previous attempts there have been disagree**:
   `CLAUDE.md` says four died in the gap, you say this is the tenth, `PLAN.md`
   says nine before it.
