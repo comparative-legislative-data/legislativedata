@@ -24,6 +24,98 @@ columns. The proposed list is given under each note.
 
 ---
 
+# Read this part, not the whole file
+
+The fourteen notes are set out below in full because that is how they are
+checked before they are published. **You do not need to read them all.** Of the
+thirteen that change, most change by one word dropped into a sentence you have
+already approved. Those are the first table. The seven places where something
+more than a heading changed are the second part, and they are what needs your
+eye.
+
+## The ones that are only a heading being named
+
+Nothing in the meaning moves. The whole change is shown.
+
+| Note | Said | Says |
+|---|---|---|
+| M2 | "…votes on whether to pass the bill." | "…votes on whether to pass the bill. That day is `date_ended`." |
+| M2 | "…only by their place in the sequence." | "…only by their place in the sequence, which is `stage_position`." |
+| M2 | "…and a note on it says so in the same words every time." | "…and `why_there_is_no_date` says so in the same words every time." |
+| M2 | "…from introduction to Royal Assent." | "…from introduction to Royal Assent, in `days_between_stages`." |
+| M2 | "…whether the bill got through that stage and whether it went on to pass…" | "…whether the bill got through that stage, in `got_through_the_later_stage`, and whether it went on to pass, in `bill_passed`…" |
+| M3 | "For every other bill no earlier title is recorded." | "For every other bill `title_as_introduced` is empty." |
+| M5 | "So what the Parliament did with a bill is recorded separately from whether it became an Act…" | "So `outcome`, what the Parliament did with a bill, is separate from `enactment_status`, whether it became an Act…" |
+| M5 | "For each of the four we record how it was stopped, when, and what happened next." | "For each of the four, `how_stopped_before_assent` records how, `date_stopped_before_assent` when, and `outcome_after_being_stopped` what happened next." |
+| M7 | "This resource records which happened." | "`outcome` records which happened." |
+| M7 | "…each names the source its coding rests on." | "…the `sources` file names the source each coding rests on." |
+| M7 | "A bill rejected at Stage 1 was rejected in one of three ways." | "A bill rejected at Stage 1 was rejected in one of three ways, and `how_rejected_at_stage_1` says which." |
+| M7 | "…both divisions are given in the bill's note…" | "…both divisions are given in the bill's `note`…" |
+| M9 | "…are recorded as stages that never happened, with a note on each…" | "…carry `stage_never_happened`, with a `note` on each…" |
+| M9 | "The Act records which bill it carried its scrutiny from…" | "`carried_scrutiny_from_bill_number` records which bill it carried its scrutiny from…" |
+| M10 | "This resource records that where a source states it, and leaves it empty everywhere else." | "`procedure` records that where a source states it, and is empty everywhere else." |
+| M10 | "…the column is filled for five bills…" | "…`procedure` is filled for five bills…" |
+| M10 | "Any chart drawn on this column carries this note." | "Any chart drawn on `procedure` carries this note." |
+| M11 | "…the first as the day the stage was reached, the second as the day it ended." | "…the first as `date_reached`, the second as `date_ended`." |
+| M12 | "…its date of Royal Assent, its number and its title come from legislation.gov.uk…" | "…its `date_royal_assent`, its `act_number` and its `title` come from legislation.gov.uk…" |
+| M13 | "…with its outcome given as in progress…" | "…has `outcome` given as In progress…" |
+| M14 | "…we use the day it is expected to end: 1 April 2031." | "…we use `date_session_expected_to_end`: 1 April 2031." |
+
+## The seven that are more than that
+
+**1. M1 — "government" becomes "Government Bills".** The note quotes the value
+as the data holds it. The published copy holds words, not codes, so there is no
+lower-case `government` anywhere for a reader to see any more. Same for M5's
+"recorded as enacted", which becomes "has `enactment_status` Enacted", and
+M13's "in progress", which becomes "In progress".
+
+**2. M3 gains a fact it did not state.** "The date of the change is therefore
+the date that stage ended" now adds "which is on the bill's stage row and not
+repeated beside the title". A reader who sees `title_changed_at_stage` and no
+date beside it will ask where the date is; this answers it.
+
+**3. M4 loses a sentence to compression.** "…both are held, so a count can use
+that grouping, or the bill's own type, which keeps it separate. Either is
+available, and a table or chart…" becomes "…`bill_type_grouped` holds that
+grouping. Both are published, so a count can use either, and a table or
+chart…". "Either is available" was saying the same thing twice once the two
+columns are named. Say if you would rather keep it.
+
+**4. M8's last paragraph is restructured.** "A value that names its own source
+has been checked against it, and says which page and the day it was read"
+becomes a sentence that names the `sources` file and what is in each of its
+lines. The claim is unchanged; it now tells a reader where to look.
+
+**5. M10 loses a sentence — the cut you already agreed.** Out goes: "Filling
+the column in with \"standard\" wherever nothing else was stated would have
+recorded every budget and emergency bill as a standard one, on no evidence, and
+that has been refused since the column was made." It is the only note that tells
+a reader how our own rule came about. The two sentences before it, saying what
+an empty cell means, stay.
+
+**6. M11 changes vocabulary twice.** "Stage record" becomes "stage row"
+throughout, because the published copy has no stage record numbers and a reader
+is looking at a row of a spreadsheet. "So a duration built from stage records is
+a duration between days the stages ended" becomes "So a length of time built
+from these rows is a length between days the stages ended", which is the change
+the other notes already made.
+
+**7. M14's last sentence gains a fact.** "When it ends, its real last day
+replaces the estimate" becomes "its real last day goes into
+`date_session_ended`, `date_session_expected_to_end` is emptied". That is the
+rule the database already enforces, and a reader who sees both columns will ask
+which ends up holding what.
+
+## What is not changing
+
+**M6.** It is about how bills are counted, not about any column, and naming one
+in it would add words without adding anything.
+
+**Every other word of every other note.** Nothing below is a rewrite of an
+argument you have already settled.
+
+---
+
 ## M1 — Executive Bills and Government Bills are counted as one type
 
 ### As it reads today
