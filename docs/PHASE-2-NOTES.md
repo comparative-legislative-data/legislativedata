@@ -117,3 +117,29 @@ names columns. It is published with the codes, so it is corrected with M5.
 > ruling on a section 33 reference or by an order under section 35 of the
 > Scotland Act 1998, and neither enacted nor withdrawn since. A bill can stay in
 > this state indefinitely. See methodology note M5.
+
+---
+
+## The other twelve notes: where each stands
+
+Checked 17 September against the M12 rule (a note says what the judgement is,
+not how we got there) and against the database. Word counts are today's.
+
+| Note | Words | Where it stands | What is wrong |
+|---|---|---|---|
+| **M3** Two titles | 192 | **Wrong about the data** | Says a known rename's date is in the bill's note. Three bills have a known earlier title and none has a date in its note. The Session 4–7 fact sheets print rename dates; nothing records them. By the rule of 17 September, a missing date is added, then the note corrected. Also names columns and says "the first slice". |
+| **M2** When a stage is completed | 947 | **Out of date, and long** | Says a session whose Stage 1 and 2 dates are not yet added has none; every session has them now. Says those dates come from the PhD dataset; 37 come from the Parliament's bill pages and 33 from the Official Report. Explains database mechanics (general and detail notes) a reader does not need. |
+| **M7** Why a bill fell | 877 | **Out of date, and long** | Says the coding is done for Sessions 1 to 5 only; Session 6 is done and Session 7 has no fallen bill. Says uncoded sessions show a general code; no bill has one. "One bill in the first five sessions" fell for want of a financial resolution; still one, in six. A paragraph on how Sessions 1 and 2 were worked out. |
+| **M8** Where each date comes from | 468 | **Out of date** | Says only dates where sources disagreed were checked; every bill a fact sheet left awaiting Royal Assent has since been checked too, and checked dates are recorded whether they agreed or not. Says the sources agree "throughout Sessions 1 and 2"; every session is compared now. Its list of sources misses the SPICe dates fact sheet, the Supreme Court and legislation.gov.uk for the session dates. |
+| **M6** A bill's session | 612 | **Correct, and long** | Every count checked: 474 rows, 470 bills, 73, 81, 62, 86, 87, 80 and 1. "Six pairs of bills" were reintroduced can't be checked from the data, which links only Robin Rigg. |
+| **M13** A bill still before the Parliament | 186 | **One sentence will go wrong** | "It has not yet completed a stage" is true of today's one live bill, not of every live bill. |
+| **M1** Executive and Government | 53 | Correct | Names a column. |
+| **M4** Hybrid Bills | 161 | Correct | 44 government and 1 hybrid in Session 3, as it says. Names columns. |
+| **M9** A reintroduced bill | 251 | Correct | 42 days, 132, 274 across 22 Private Bills, and 364 days, all checked. |
+| **M10** Procedure | 296 | Correct | Five bills, all in Session 6, as it says. |
+| **M11** The day a stage was reached | 257 | Correct | Two records, as it says. Names columns. |
+| **M14** Session 7's expected end | 158 | Correct | Approved today. |
+
+**Names columns** matters because the notes are rewritten in readers' words when
+the published layout is built (settled 17 September); those are small edits,
+and can be done together.
