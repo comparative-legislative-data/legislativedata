@@ -132,12 +132,12 @@ not how we got there) and against the database. Word counts are today's.
 | **M7** Why a bill fell | 877 | **Done 17 September** (`db/109`). Was out of date, and long | Says the coding is done for Sessions 1 to 5 only; Session 6 is done and Session 7 has no fallen bill. Says uncoded sessions show a general code; no bill has one. "One bill in the first five sessions" fell for want of a financial resolution; still one, in six. A paragraph on how Sessions 1 and 2 were worked out. |
 | **M8** Where each date comes from | 468 | **Done 17 September** (`db/108`). Was out of date | Says only dates where sources disagreed were checked; every bill a fact sheet left awaiting Royal Assent has since been checked too, and checked dates are recorded whether they agreed or not. Says the sources agree "throughout Sessions 1 and 2"; every session is compared now. Its list of sources misses the SPICe dates fact sheet, the Supreme Court and legislation.gov.uk for the session dates. |
 | **M6** A bill's session | 612 | **Done 17 September** (`db/110`). Was correct, and long | "Six pairs of bills" were reintroduced can't be checked from the data, which links only Robin Rigg; titles match nine. Its counts will move as Session 7 is read again. |
-| **M13** A bill still before the Parliament | 186 | **One sentence will go wrong** | "It has not yet completed a stage" is true of today's one live bill, not of every live bill. |
-| **M1** Executive and Government | 53 | Correct | Names a column. |
-| **M4** Hybrid Bills | 161 | Correct | 44 government and 1 hybrid in Session 3, as it says. Names columns. |
+| **M13** A bill still before the Parliament | 186 | **Drafted 17 September, waiting for the owner.** One sentence will go wrong | "It has not yet completed a stage" is true of today's one live bill, not of every live bill. |
+| **M1** Executive and Government | 53 | **Drafted 17 September, waiting for the owner.** Correct | Names a column. |
+| **M4** Hybrid Bills | 161 | **Drafted 17 September, waiting for the owner.** Correct | 44 government and 1 hybrid in Session 3, as it says. Names columns. |
 | **M9** A reintroduced bill | 251 | Correct | 42 days, 132, 274 across 22 Private Bills, and 364 days, all checked. |
 | **M10** Procedure | 296 | Correct | Five bills, all in Session 6, as it says. |
-| **M11** The day a stage was reached | 257 | Correct | Two records, as it says. Names columns. |
+| **M11** The day a stage was reached | 257 | **Drafted 17 September, waiting for the owner.** Correct | Two records, as it says. Names columns. |
 | **M14** Session 7's expected end | 158 | Correct | Approved today. |
 
 **Names columns** matters because the notes are rewritten in readers' words when
@@ -881,3 +881,81 @@ three bills whose notes Session 6 changed.
 >
 > Where a later fact sheet changes what a bill's note should say, the note is
 > rewritten, and its earlier wording is kept with its source.
+
+---
+
+## M13's sentence, and the column names in M1, M4 and M11
+
+**Drafted 17 September. Waiting for the owner.** Nothing is changed.
+
+Every note was searched for a database name. Three name columns: M1, M4 and
+M11. (M8 and M12 match only because of "legislation.gov.uk".) Each change below
+is the whole change to that note; every other sentence stays as it is.
+
+### M13 — A bill still before the Parliament is counted, and has no ending
+
+**What is wrong.** "It has not yet completed a stage, so there is nothing to
+measure for it at all" is true of today's one live bill, not of every live bill.
+Once a Session 7 bill completes Stage 1, it has a real time from introduction to
+Stage 1, and the calculations already give it one. The rest of that paragraph
+repeats M2. Kept, as the owner settled on 15 September: a session with nothing
+to measure is shown blank, and blank is not nought days.
+
+**The second paragraph, as it reads:**
+
+> It has not yet completed a stage, so there is nothing to measure for it at all,
+> on any basis a figure might use. Which bills a figure about time covers is
+> decided when the figure is drawn, not here: a bill that stopped at Stage 1 has
+> a real introduction-to-Stage-1 period and it is recorded like any other, and
+> every bill carries what happened to it, so a figure can cover all bills or only
+> those that passed.
+
+**Proposed:**
+
+> Time is measured for it as for any other bill, between the stages it has
+> completed; the stage it is at gives no figure until it ends. Which bills a
+> figure about time covers is decided when the figure is drawn, as M2 says.
+
+### M1 — Executive Bills and Government Bills are counted as one type
+
+> The label used at the time is retained separately in bill.bill_type_stated, and
+> can be cross-tabulated or filtered on.
+
+**Proposed:**
+
+> The label used at the time, Executive or Government, is kept beside it, so a
+> table can be split or filtered by it.
+
+### M4 — Hybrid Bills are recorded as Hybrid Bills and counted as government bills
+
+> It is recorded here with bill_type "hybrid", which is what it was. Where bill
+> types are grouped for counting, it is grouped with government bills, because it
+> was introduced by the Scottish Government; ref_bill_type.analysis_group holds
+> that grouping, and grouping instead by bill_type keeps it separate.
+
+**Proposed:**
+
+> It is recorded here as a Hybrid Bill, which is what it was. Where bill types
+> are grouped for counting, it is grouped with government bills, because it was
+> introduced by the Scottish Government; both are held, so a count can use that
+> grouping, or the bill's own type, which keeps it separate.
+
+### M11 — A stage record holds the day a stage ended, and sometimes the day it was reached
+
+> Both are decisions of the Parliament and both are dated, so both are recorded
+> — the first in date_reached, the second in date_completed.
+>
+> An empty date_reached means no source has told us when the bill reached that
+> stage.
+
+**Proposed:**
+
+> Both are decisions of the Parliament and both are dated, so both are recorded:
+> the first as the day the stage was reached, the second as the day it ended.
+>
+> Where a stage has no day reached, no source has told us when the bill reached
+> it.
+
+**Noticed and not proposed:** M11's "At the time of writing two stage records
+carry it" is a count that could go out of date, but only if another bill is
+stopped and reconsidered, and it says "at the time of writing".
