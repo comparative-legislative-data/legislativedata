@@ -112,3 +112,9 @@ so they are not lost.
   https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9. Real figures, Apache
   ECharts 6.1.0, a first attempt at the outcome palette, and the Forth Crossing
   dropdown. For the owner's correction; not agreed.
+  - **The owner's asks on it**, 17 September, built into the same page: a
+    dropdown grouping every ending other than passed as "Not passed", with the
+    full breakdown a choice; a line saying what hovering shows; and every session
+    together, shown as a second panel on its own scale. The groupings and totals
+    are worked out in the database by a draft calculation, which adds up to 470
+    in every version.
