@@ -69,10 +69,12 @@ calculations: yes.
    The other twelve checked, with a table of where each stands; M3 done
    (`db/107`: title changes record their stage); M2 and M8 done together
    (`db/108`), the thesis citation moving to M8.
-2. **The five open methodology notes**, each with its current wording shown to
-   the owner.
+2. ~~**The five open methodology notes**~~ **Done 17 September**: every open
+   question against the notes answered, in the owner's approved wording
+   (`docs/PHASE-2-NOTES.md`, `db/105` to `db/112`).
 3. **The write-ups**: the five charts and the table of every bill, each to the
-   owner before it is drawn.
+   owner before it is drawn. **Under way**, in `docs/PHASE-2-CHARTS.md`: chart
+   1 drafted 17 September, not yet agreed.
 4. **The public wording, in full**: the licence and source statements, the
    readme's no-archive paragraph, the date statement, and the privacy page's
    line about the format-request link.
