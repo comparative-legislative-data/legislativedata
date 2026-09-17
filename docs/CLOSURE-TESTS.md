@@ -33,7 +33,7 @@ There is no universal test. Each ingest gets its own, newest first below.
 ## The Robin Rigg Act's note dates both stages
 
 Written 2026-09-17 by the session that built `db/112` and took Session 2 off and
-put it back. **Not yet run.** For a session that did none of that work.
+put it back. **Run on 2026-09-17**, by a session that did none of that work.
 
 ### Part A — mechanical
 
@@ -62,15 +62,25 @@ The archived page blocks scripted reading.
 
 None. The wording was approved before it was applied.
 
-### The run
+### The run, 2026-09-17, by a session that built none of it
 
-Not yet run.
+**All five items pass.** The note on bill 124 and on line 124 are identical to
+each other and match the approved proposal in `docs/PHASE-2-NOTES.md` word for
+word, curly apostrophe and archive link included. Bill 71's Consideration Stage
+is completed 11 March 2003; bill 124's is a stage that did not happen whose
+detail note gives 11 March 2003. Line 124's review note cites `db/112` and its
+review time is 17 September 2026. Counts 470, 1291, 192 and 14, Session 2 at 81
+bills, checker and gaps list empty, only the `public` schema, and the data
+dictionary regenerated identical to the committed file. Session 5's four bills
+that ran out of time — Disabled Children and Young People (Transitions to
+Adulthood), Fair Rents, Travelling Funfairs (Licensing), Welfare of Dogs — each
+carry the short note on the stage they stopped at and no detail note.
 
 ---
 
 ## M13's sentence, and the column names in M1, M4 and M11
 
-Written 2026-09-17 by the session that built `db/111`. **Not yet run.** For a
+Written 2026-09-17 by the session that built `db/111`. **Run on 2026-09-17**, by a
 session that did none of that work.
 
 ### Part A — mechanical
@@ -97,15 +107,28 @@ session that did none of that work.
 
 None. The changes were approved in full before they were applied.
 
-### The run
+### The run, 2026-09-17, by a session that built none of it
 
-Not yet run.
+**All five items pass.** Each of the four approved sentences is in the note word
+for word and the wording it replaced is gone: M13's second paragraph, M1's label
+sentence, M4's Hybrid Bill sentence, and both of M11's. No note's body contains
+a word with an underscore or a `word.word` pair once "legislation.gov.uk" is set
+aside; the same test run against the four old wordings catches all of them, so
+the answer is not vacuous. M13 says "shown blank" and "nought days" and contains
+neither of the two sentences that were to go. The view of days between stages
+(`v_bill_stage_durations`) has no condition on outcome — it takes introduction,
+every dated stage and Royal Assent, and pairs consecutive points — so a bill in
+progress with a completed dated stage would have a period; bill 473, the one
+Session 7 bill, has none, because it has no stage record yet. M1, M4, M11 and
+M13 share one last-changed time and no other note does, so `db/111` changed
+those four and nothing else; 14 notes, titles unchanged, 470 bills, 192
+provenance notes, checker empty, dictionary identical.
 
 ---
 
 ## M6 rewritten
 
-Written 2026-09-17 by the session that built `db/110`. **Not yet run.** For a
+Written 2026-09-17 by the session that built `db/110`. **Run on 2026-09-17**, by a
 session that did none of that work.
 
 ### Part A — mechanical
@@ -139,16 +162,34 @@ reintroduced: M6 no longer says.
 
 None. The text was approved in full before it was applied.
 
-### The run
+### The run, 2026-09-17, by a session that built none of it
 
-Not yet run.
+**All five items pass.** M6's body matches the approved proposal word for word;
+its title, columns and position are unchanged, and its last-changed time is
+shared by no other note, so `db/110` changed M6 alone. M6 names no column and
+gives no total of rows or bills and no count of reintroduced pairs — its numbers
+are the four bills affected, which it then names, and the differences from the
+fact sheets.
+
+**What M6 says is true of the data.** Exactly four staging lines are further
+listings of a bill already counted: lines 440 and 468 in Session 6 for the
+European Charter and UNCRC Acts, Session 5 bills stopped and reconsidered; line
+412 in Session 6 for the Legal Continuity Bill, withdrawn; and line 474 in
+Session 7 for the Gender Recognition Reform Bill, still blocked. Each session's
+bills equal its staging lines less those listings: Session 6, 83 less 3 is 80;
+Session 7, 2 less 1 is 1; Sessions 1 to 5 equal.
+
+**The differences from the fact sheets' own printed totals**, read from the
+seven PDFs and not from the database: Session 1, 73; Session 2, 81; Session 3,
+62; Session 4, 86; Session 5, 87 — all equal to our count. Session 6 prints 82,
+two more. Session 7 prints 2, one more. Counts and dictionary as expected.
 
 ---
 
 ## M7 rewritten, and two Session 3 votes carried
 
 Written 2026-09-17 by the session that built `db/109` and took Session 3 off and
-put it back. **Not yet run.** For a session that did none of that work.
+put it back. **Run on 2026-09-17**, by a session that did none of that work.
 
 ### Part A — mechanical
 
@@ -200,15 +241,49 @@ note on how the bill was rejected, which item 4 checks.
 
 None. The text was approved in full before it was applied.
 
-### The run
+### The run, 2026-09-17, by a session that built none of it
 
-Not yet run.
+**All seven items pass.** M7's body matches the approved proposal word for word;
+title, columns and position unchanged, and its last-changed time is shared by no
+other note. M7 names no column and mentions no session at all, so it names none
+as the extent of the coding.
+
+**What M7 says is true of the data.** All 17 bills that fell at dissolution, all
+27 rejected at Stage 1, all 3 rejected at Stage 3 and the one that fell for want
+of a financial resolution carry a provenance note on their outcome; the
+dissolution ones cite SPICe's dates fact sheet and every other cites the
+Official Report. Every fell-at-dissolution bill ended on its session's last day
+and no other bill did. No bill has the outcome "Fell (other)". Only Members'
+Bills carry the Rule 9.14.18 route, two of them.
+
+**Every rejection carries its division.** All 27 provenance notes on how a bill
+was rejected at Stage 1 contain "For" and a number, and so do all three on a
+Stage 3 rejection's outcome, bills 211, 398 and 406. The figures sit in the
+value seen rather than the note.
+
+**The two votes read as the Official Report does**, checked by opening both
+reports rather than by trusting a summary of them. Bill 211: "For 64, Against
+64, Abstentions 0", with the Presiding Officer's convention wording and "The
+Budget (Scotland) (No 2) Bill therefore falls." Bill 213: "For 49, Against 68,
+Abstentions 0. Motion disagreed to.", and "Standing orders are quite clear; the
+Creative Scotland Bill therefore falls." Both notes are dated 13 September 2026
+and cite meetingId 4843 and 4805; neither contains "casting vote decided it",
+"fell at Stage 1", "Rearranged" or a link. Lines 211 and 213 keep our
+commentary after the link, each with a second line citing `db/109` and a review
+time of 17 September. Counts 470, 1291, 192 and 14; Session 3 at 62 bills;
+checker and gaps empty; no copy schema; dictionary identical.
+
+**A caution for whoever reads the Official Report next.** Fetching the 28
+January 2009 report through a summarising tool returned "For 67, Against 61"
+together with a tied vote and a casting vote cast both ways — three
+contradictions in four lines. The figures here were taken from the report's own
+text. Do not accept a summary of a division.
 
 ---
 
 ## M2 and M8 rewritten
 
-Written 2026-09-17 by the session that built `db/108`. **Not yet run.** For a
+Written 2026-09-17 by the session that built `db/108`. **Run on 2026-09-17**, by a
 session that did none of that work.
 
 ### Part A — mechanical
@@ -236,9 +311,25 @@ session that did none of that work.
 
 None. Both texts were approved in full before they were applied.
 
-### The run
+### The run, 2026-09-17, by a session that built none of it
 
-Not yet run.
+**All five items pass.** M2's and M8's bodies match the approved proposals word
+for word; M8's five sources are each on a line of their own; titles, columns and
+positions unchanged, and the two share one last-changed time that no other note
+has, so `db/108` changed those two alone. The thesis is cited in full by exactly
+one note, M8, and no note says Stage 1 and 2 dates are missing for a session —
+the same test catches the old wording, so the answer is not vacuous.
+
+**What M8 says about checking is true of the data.** All 12 staging lines read
+from an awaiting-assent table carry a "Checked: enactment_status = ..."
+citation. Provenance notes citing SPICe's dates fact sheet (30) and the Supreme
+Court (1) exist.
+
+**What M2 says about stages is true of the data.** No completed stage record
+lacks a date. All 34 stages with no date and no decision carry the same general
+note, word for word. The one Hybrid Bill, the Forth Crossing Act, has Stage 1,
+2 and 3 records. No Private Bill has a Stage 1, 2 or 3 record. Counts and
+dictionary as expected.
 
 ---
 
@@ -246,7 +337,7 @@ Not yet run.
 
 Written 2026-09-17 by the session that built `db/107`, changed
 `tools/promote_session.sql` and took Sessions 2, 4, 7, 6 and 5 off and put them
-back. **Not yet run.** For a session that did none of that work.
+back. **Run on 2026-09-17**, by a session that did none of that work.
 
 **What to expect before starting.** 470 bills, 1291 stage records, 192
 provenance notes, 14 methodology notes; the error checker and gaps list empty;
@@ -307,15 +398,71 @@ M3 before the build, and supplied the rule the dates rest on.
 - **`tools/extract_factsheet.py`'s dropped footnote.** Not mended; every session
   is read in.
 
-### The run
+### The run, 2026-09-17, by a session that built none of it
 
-Not yet run.
+**All eight items pass.** Before starting: 470, 1291, 192, 14; checker and gaps
+empty; no copy in the database.
+
+**Every title change the fact sheets state is recorded.** Searching all seven
+PDFs for "introduced as" and "renamed", setting aside "introduced as an
+Executive Bill" and the like, gives four bills and no more: the Scottish
+Commission for Human Rights Act in Session 2, the Buildings (Recovery of
+Expenses) Act in Session 4 by footnote, and the Scottish Parliament (Recall of
+Members) Bill and Care Reform Act in Session 6. Exactly those four carry a title
+as introduced on the clean sheet: 127, 231, 406 and 423.
+
+**Each records the right stage, and the date follows.** 127 Stage 3 ended
+2 November 2006; 231 Stage 2, 4 June 2014; 406 Stage 3, 24 February 2026; 423
+Stage 2, 4 March 2025. The Session 6 fact sheet prints rename dates of 24
+February 2026 and 4 March 2025, which are those two stage dates. Each has one
+provenance note for the stage: 127 and 231 citing the archived bill pages, read
+17 September 2026; 406 and 423 citing the Session 6 fact sheet. Line 231's raw
+footnote matches the Session 4 fact sheet's footnote 1 word for word, and its
+title as introduced is the title that footnote names.
+
+**The checker's rules work.** In a thrown-away transaction, one at a time:
+emptying line 127's stage gives "records a title as introduced, but not the
+stage at which the title changed"; giving line 231 a Private Bill stage gives
+both "not a stage a members bill has" and "no dated row for that stage"; giving
+line 200, which has no earlier title, a stage and a citation gives "records no
+title as introduced"; removing line 423's citation gives "carries no 'Checked:
+title_changed_at_stage = ...' citation". On the clean sheet, a stage not on the
+list and a stage on a bill with no earlier title were both refused, by the
+foreign key and by `bill_title_change_needs_an_introduced_title`. The checker
+was empty again after every rollback.
+
+**One sub-check took three goes, and the first two were the tester's fault.**
+"Give 406 a stage it has no dated row for" needs a stage 406 actually lacks, and
+line 406 has dated rows for Stages 1, 2 and 3; `stage_1` and `stage_2` therefore
+raised nothing. `reconsideration`, the one remaining stage a Members' Bill may
+have, raised "says its title changed at reconsideration, but has no dated row
+for that stage". Anyone running this again should pick the stage from the line's
+own rows first.
+
+**The checker's old rules are unchanged.** All 39 of the reader-facing messages
+in `db/098`'s and `db/094`'s versions of the checker are still in its stored
+definition. This shows nothing was removed; because the stored form splits
+concatenated messages into separate pieces, it does not show that no rule's
+condition was weakened, which the item does not ask.
+
+**M3** matches the approved draft word for word, names no column, and applies to
+the short title, the title as introduced and the stage.
+
+**Promotion carries it.** In a thrown-away transaction, Session 4 came off —
+bill 231 gone — and went back on, and bill 231's stage was there, with
+promotion's own field-by-field check passing.
+
+**Nothing else moved.** A copy taken, then Sessions 2 and 4 off and back and
+Sessions 7, 6 and 5 off and back, then compared: **no unexpected differences at
+all**, only the expected reissued numbers and times. All four title changes
+survived. Counts 470, 1291, 192; checker and gaps empty; no copy schema after
+the rollback; dictionary identical.
 
 ---
 
 ## M5, and what "Blocked" means
 
-Written 2026-09-17 by the session that built `db/106`. **Not yet run.** For a
+Written 2026-09-17 by the session that built `db/106`. **Run on 2026-09-17**, by a
 session that did none of that work. Small, because the change is two pieces of
 text; it is here so that no text a reader sees is changed on its author's word
 alone.
@@ -354,9 +501,29 @@ None. The owner approved both texts in full before they were applied.
 - **The other notes.** Whether they are cut as M5 and M12 were is the next open
   question.
 
-### The run
+### The run, 2026-09-17, by a session that built none of it
 
-Not yet run.
+**All five items pass.** M5's body matches the approved proposal word for word,
+three paragraphs kept; its title, columns and position are unchanged, and its
+last-changed time is shared by no other note. The meaning of "Blocked" matches
+its proposal word for word, and its label and position are unchanged; the other
+three statuses read exactly as the migrations that last set them wrote them —
+`enacted` and `not_enacted` from `db/002`, `pending` from `db/088` — so nothing
+else in that list moved.
+
+**What the note states is what the data holds.** The Legal Continuity Bill:
+stopped 13 December 2018, section 33, withdrawn 10 March 2022. The European
+Charter and UNCRC Bills: both 6 October 2021, section 33, reconsidered and
+passed, both now enacted. The Gender Recognition Reform Bill: 16 January 2023,
+section 35, still blocked. M5 contains nothing of the form `word.word` and no
+"ruled against on 6 October 2021"; no methodology note and no meaning of a value
+says a mechanism "is recorded in bill.note". Counts and dictionary as expected.
+
+**Noticed while checking, and not part of this test.** The rule against naming
+columns was applied to the methodology notes. The definitions of the allowed
+values, which the data dictionary says are also text to show a reader, still
+name columns in four lists — `ref_source`, `ref_bill_type`, `ref_party` and
+`ref_stage_1_rejection_route`. For the owner to decide whether that matters.
 
 ---
 
@@ -364,7 +531,7 @@ Not yet run.
 
 Written 2026-09-17 by the session that built `db/105`, mended
 `tools/promote_session.sql` and took Sessions 7, 6 and 5 off and put them back.
-**Not yet run.** It is for a session that did none of that work.
+**Run on 2026-09-17**, by a session that did none of that work.
 
 The owner settled on 17 September that a missing date is added with its
 provenance (`DECISIONS.md`). Bill 305 had no date for when it was stopped; it now
@@ -449,16 +616,51 @@ the change.
 - **Whether other cells have a date the fact sheets leave out** that another
   source gives. The owner's rule applies to them too; nothing has looked.
 
-### The run
+### The run, 2026-09-17, by a session that built none of it
 
-Not yet run.
+**All eight mechanical items pass; item 9 was signed off by the owner on
+17 September.**
+
+**The date and where it came from.** Bill 305's stopped date is 13 December
+2018, with exactly one provenance note for it: source Supreme Court, reference
+the `uksc-2018-0080` case page, read 17 September 2026, value 2018-12-13. The
+kept page's SHA-256 begins `70ec07558ec981ee` as `sources/README.md` records,
+and it contains "13 December 2018" and "[2018] UKSC 64".
+
+**The other three stopped bills did not move.** Bills 303 and 304 read 6 October
+2021 and bill 393 reads 16 January 2023, each with a provenance note crediting
+the SPICe legislation fact sheet and quoting its footnote. Read from the PDFs:
+the Session 5 footnotes for 303 and 304 say "has ruled on 6 October 2021", and
+the Session 6 asterisk footnote says "On 16 January 2023 the UK Government
+intervened to block".
+
+**The mend is needed, and works.** In a thrown-away transaction with the tools'
+working tables dropped between runs: Sessions 7, 6 and 5 off, then Session 5
+promoted with `tools/promote_session.sql` as it stood at `760bb3d` — bill 305's
+date note came out credited to `spice_factsheet_legislation`, the Session 5 fact
+sheet, whose footnote for this bill says only "has ruled", with no date. Rolled
+back and promoted with the tool as it is now — credited to the Supreme Court,
+the case page, 13 December 2018. The fault was real and the mend closes it.
+
+**Nothing is left that the tools would not produce.** A copy taken, Sessions 7,
+6 and 5 off and back, compared: **no unexpected differences at all.** With all
+three off the counts were 302 bills and 828 stage records, as the runbook says,
+and 89 provenance notes rather than its 87 — because `db/107` has since added
+four notes, two of them on bills in Sessions 2 and 4, which stay while 5, 6 and
+7 are off. The runbook's line is worth updating.
+
+**No line or bill still says the date is not stated**, and bill 305's note reads
+exactly the wording the test sets out. `supreme_court` is on the list of sources
+with a definition and is used by exactly one note. Counts 470, 1291 and 192 —
+188 at the time of writing plus `db/107`'s four; checker and gaps empty; no copy
+schema; dictionary identical.
 
 ---
 
 ## Session 7's expected last day, and M14
 
-Written 2026-09-17 by the session that proposed and built `db/104`. **Not yet
-run.** It is for a session that did none of that work.
+Written 2026-09-17 by the session that proposed and built `db/104`. **Run on
+2026-09-17**, by a session that did none of that work.
 
 The owner settled on 17 September that chart 5 measures Session 7 to an
 estimated last day, and approved all nine parts of the change with the wording
@@ -556,9 +758,62 @@ item 7 checks that what was built is what was approved.
 - **Chart 5's opening sentence**, which is public wording for the build and
   lives nowhere in the database.
 
-### The run
+### The run, 2026-09-17, by a session that built none of it
 
-Not yet run.
+**Eight items pass. Item 7 passes but for one clause that later work overtook.**
+
+**The cell exists and is described**, a date column with a description, and the
+data dictionary regenerates identical to the committed file.
+
+**The date, worked out without the database.** From the three kept pages alone,
+plus Easter 2031 computed outside this repository: the Scotland Act 1998 s2(2)
+gives the poll as the first Thursday in May in the fifth calendar year following
+2026, which is Thursday 1 May 2031. Article 84 makes the minimum period 20 days,
+computed under schedule 2 rule 2, which disregards Saturdays, Sundays, Good
+Friday and Easter Monday. Easter Sunday 2031 is 13 April, so Good Friday is
+11 April and Easter Monday 14 April. Counting 20 countable days back from and
+including 1 May 2031, the period begins Wednesday 2 April 2031, so the last day
+is **Tuesday 1 April 2031**. Session 7's cell says 2031-04-01.
+
+**The rule reproduces a real last day.** The same count from the poll of 7 May
+2026 gives a period beginning 9 April 2026 and a last day of 8 April 2026.
+SPICe's dates fact sheet gives Session 6, Parliamentary Year 5, as ending
+8 April 2026.
+
+**Only Session 7 holds an estimate.** Sessions 1 to 6 have the cell empty and a
+last day; Session 7 has 2031-04-01 and no last day.
+
+**The refusals work, and the control does not refuse.** In a thrown-away
+transaction, each in its own savepoint: an estimate on Session 6, refused; the
+estimate emptied, refused; an estimate of 1 May 2026, before Session 7's first
+meeting, refused by the other constraint; a last day with the estimate left in,
+refused. The control — a last day in and the estimate out in one change — was
+accepted. Session 7 read as before after every rollback.
+
+**The provenance note.** Exactly one note for the cell: Session 7,
+legislation.gov.uk, read 17 September 2026, its reference naming s2 of the Act,
+article 84 with the 2025 amending Order and schedule 2 rule 2, and its note
+saying the date is worked out and not stated. 192 provenance notes in all, not
+the 187 written here: `db/105` added one and `db/107` four, which this test
+already flagged as movable.
+
+**M14** matches the approved draft word for word, title and body, applies to
+`session.date_session_end_expected`, sits at position 14, and there are 14
+notes. **But its last clause can no longer pass as written:** M1 to M13 are not
+unchanged since before `db/104`, because `db/106` to `db/111` rewrote ten of
+them later the same day. The clause was overtaken by work that followed it, not
+broken. What can still be checked, and holds: each of those migrations' notes
+share one last-changed time and no others do, so each changed only the notes it
+claimed.
+
+**The kept pages are the pages.** All three SHA-256 values begin as
+`sources/README.md` records — `2820dccb71c32f52`, `423f0e777d1b6a5c`,
+`5c4840abc297db1f` — and each contains the words relied on: "first Thursday in
+May in the fifth", "20 days", and "Good Friday or Easter Monday".
+
+**Nothing else moved, and nothing else reads the cell.** 470 bills and 1291
+stage records; checker and gaps empty. No view in the database and no file in
+`tools/` or `site/` mentions `date_session_end_expected`.
 
 ---
 

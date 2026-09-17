@@ -1055,7 +1055,9 @@ still recorded in `db/101` and `DECISIONS.md`.
 **What to watch if this is done again.** The rollback of Session 6 takes Session
 5 with it and says so; the rollback of Session 7 leaves Session 6 alone, because
 Session 7 changed nothing on its bill. Counts with all three off: 302 bills, 828
-stage records, 87 provenance notes.
+stage records, 87 provenance notes — **89 since `db/107`**, which added four
+notes, two of them on bills in Sessions 2 and 4 that stay while 5, 6 and 7 are
+off. Measured again on 17 September when `db/105`'s closure test was run.
 
 ## Sessions 2, 4, 7, 6 and 5 off and back on to record title changes, 17 September
 

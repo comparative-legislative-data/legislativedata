@@ -38,31 +38,31 @@ list are both empty.**
 - **16–17 September.** You reviewed the Phase 2 plan question by question and
   answered all but one, which was settled on 17 September.
 
-- **17 September, earlier.** The list of calculations; Session 7's expected
-  end; every open question against the methodology notes answered.
-- **17 September, afternoon.** The charts started afresh from your seven
-  thoughts; ECharts, colour and dropdowns agreed; mock-ups of thoughts 2 to 4.
+- **17 September.** The calculations listed and Session 7's expected end
+  settled; every open question against the methodology notes answered; all six
+  of your thoughts mocked up with real figures on one page
+  (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9), with the calculations in
+  `docs/PHASE-2-MOCKUP-CALCULATIONS.md` and the plan for turning them into
+  pages, agreed point by point, in `docs/PHASE-2-CHARTS-BUILD.md`.
 
-- **17 September, evening.** All six thoughts mocked up, on one page
-  (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9), each one's draft
-  calculation in `docs/PHASE-2-MOCKUP-CALCULATIONS.md`.
+**17 September, this session. The nine closure tests run.**
 
-**17 September, this session. The plan for turning the mock-ups into pages.**
-
-- **`docs/PHASE-2-CHARTS-BUILD.md` is the plan**, agreed point by point. What
-  blocks everything: the published copy does not exist, and the site is not
-  permitted to open the working one, so nothing visible can be built first.
-- **The site gets two sections**, Data and Insights, both behind the sign-in.
-  The table of every bill opens Data; the downloads land there when built.
-- **Three problems found by planning all six together** rather than one at a
-  time, now built once instead of six times: the page furniture, dark and light,
-  and the route from a figure to the bills behind it.
-- **The worry about the dropdowns multiplying is closed**: every figure for
-  every choice across all six charts is about three thousand lines.
-- **Three small items cleared for building**, each still needing its own
-  checklist first: the tie in the order of outcomes, the quarter boundary rule,
-  and M10's wording. M9 is left alone.
-- **Two stale lines corrected** in the charts and calculations documents.
+- **All nine pass**, for `db/104` to `db/112`, run by a session that built none
+  of them; each run is written into `docs/CLOSURE-TESTS.md`. Nothing in the
+  database was changed: every check was read-only or thrown away.
+- **Two items needed care rather than a tick.** `db/104`'s test asks that M1 to
+  M13 be unchanged since it was built, which `db/106` to `db/111` overtook the
+  same day; and one of `db/107`'s deliberate faults took three goes, because the
+  first two picked a stage the bill already had a date for.
+- **The figures behind M6 and M7 were checked against the sources**, not the
+  database: the seven fact sheets' own printed totals, both Official Reports for
+  the tied Budget vote and the Creative Scotland financial resolution, and the
+  Easter 2031 count redone from the Act and the election rules.
+- **The promotion mend in `db/105` was proved needed**, by promoting Session 5
+  with the tool as it stood before it and watching the date get credited to a
+  fact sheet that does not print it.
+- **One line corrected** in `PROMOTION-RUNBOOK.md`: the note count with three
+  sessions off is 89 now, not 87.
 
 ## Now
 
@@ -74,13 +74,15 @@ list are both empty.**
 2. **The three small items**, block 2, which can run alongside block 1. Each is
    a change to how something is coded or what a note says, so each gets its full
    checklist proposed and agreed before it is built.
-3. **Nine closure tests**, for `db/104` to `db/112`, run by a session that built
-   none of them (`docs/CLOSURE-TESTS.md`, top). They can run alongside anything.
-4. **Iterating the mock-ups**, whenever you want: the open points on all six are
+3. **Iterating the mock-ups**, whenever you want: the open points on all six are
    in `docs/PHASE-2-CHARTS-THOUGHTS.md`, each under its thought.
 
 ## Waiting for you
 
+- **The definitions of the allowed values still name columns**, in four lists:
+  what a reader is shown when they ask what a source, a bill type, a party or a
+  Stage 1 rejection route means. The no-column-names rule was applied to the
+  methodology notes only. Found while running `db/106`'s test.
 - **Making the GitHub repository private**, which you expect to do. Nothing
   depends on it being public; the switch is yours, in GitHub's settings.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
@@ -136,41 +138,41 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-17, the session of the build plan
+## Sanity check, 2026-09-17, the session of the closure tests
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
   `STATE.md`; the decisions contents and the data dictionary regenerated
-  identical. Nine closure tests still unrun, as `STATE.md` said.
+  identical. Nine closure tests unrun, as `STATE.md` said — which became the
+  session's work.
 - **The counts matched**: 470 bills, 1291 stage records, 192 provenance notes,
-  14 notes; staging 474 and 1295; checker and gaps list empty.
+  14 notes; staging 474 and 1295; checker and gaps list empty; only the `public`
+  schema.
 - **Every database sorted into a backup theme**: `postgres` not backed up,
   `accounts` with the people, `legdata` the working one.
-- **Three contradictions found, all in the docs, all corrected or settled**: a
-  line saying charts are fixed images, overtaken the same day; the statistical
-  function credited to PostgreSQL 16 when it is 17; and the tie in the order of
-  outcomes, which no document had noticed.
+- **Nothing found that contradicted the database, the plan or each other**,
+  beyond what was already listed as open.
 - **The count of previous attempts still disagrees three ways**, as it has for
-  two sessions. Still yours to settle.
-- **The rate limit tripped again**, as it did yesterday: several connections in
-  quick succession gave `Connection refused` for about a minute. Waiting
-  cleared it. Nothing was wrong with the machine.
+  three sessions. Still yours to settle.
 
-## Closing checks, 17 September, the session of thoughts 5 and 6
+## Closing checks, 17 September, the session of the closure tests
 
 - **Figures unchanged**: 470 bills, 1291 stage records, 192 provenance notes,
   14 notes; staging 474 and 1295; checker and gaps list empty; only the `public`
-  schema, with no working copy of anything in it. Nothing was written to the
-  database this session; every calculation was read-only.
+  schema, with no working copy in it. Nothing was written to the database: every
+  check was read-only, and the six rehearsals all ended in a rollback, each
+  confirmed afterwards by re-reading what it had touched.
 - **The data dictionary and the decisions contents regenerate identical** to the
   committed files.
-- **The site answers 200**, its service and Caddy are running, and the backup
-  timer is set for tonight.
-- **The draft calculations for thoughts 5, 6 and 1 are in the repository**, not
-  only in the session's scratch folder, and the mock-up page is at version 12.
-- **The one file put on the server**, the recess factsheet read through
-  pdfplumber, was deleted in the same connection.
+- **The site answers 200.**
+- **Nothing of ours left on the server.** The fact sheet PDFs were uploaded once
+  to try reading them there, and deleted in the same connection; the six
+  rehearsal bundles were unpacked under `/tmp` and are the only things left, to
+  be cleared with the next connection.
+- **pdfplumber is in `venv/` at the repository root**, as `tools/requirements.txt`
+  says. A session looking for `.venv` will not find it and may conclude, wrongly,
+  that the fact sheets cannot be read.
 
 ## Thoughts 5 and 6: working detail, 17 September
 
