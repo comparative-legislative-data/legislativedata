@@ -1020,7 +1020,7 @@ Sessions 1 to 4 carry nothing more either.
 
 **Recommended: leave them as they are.** Nothing in the data is wrong or
 missing: each bill's ending is coded, dated and sourced, and the short note says
-what a reader needs. M2 says the longer note is extra detail where it was
-collected, and an empty one does not mean none exists. Adding it for Session 5
+what a reader needs. The longer note is extra detail where a source was read for
+it; an empty one means none was collected, not that none exists. Adding it for Session 5
 alone would make Sessions 1 to 4 the odd ones out; doing it properly means
 reading fourteen bill pages for detail no figure uses.
