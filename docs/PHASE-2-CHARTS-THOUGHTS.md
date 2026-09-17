@@ -147,3 +147,8 @@ so they are not lost.
     out bills stopped before Royal Assent. It moves two Session 5 Acts, the
     UNCRC and European Charter Acts; the other two stopped bills have no Royal
     Assent. Session 5's mean falls from 74 days to 37. Included by default.
+  - **Mean is the default**, at the owner's asking.
+- **After the owner's screenshots**, 17 September: the full-breakdown table was
+  too wide, so its headers are shorter and bills a year sits beside length; a
+  share that rounds to nothing reads "<1%"; the timing chart's first label no
+  longer collides with its axis; the dropdowns are narrower.
