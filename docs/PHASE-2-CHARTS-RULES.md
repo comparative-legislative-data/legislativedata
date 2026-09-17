@@ -17,7 +17,7 @@ which means "you can act here", never touches data.
   or the sessions as lines. A chart palette of its own, readable by someone
   with colour-blindness, and in both dark and light.
 - **Colour never stands alone.** Every colour has its word beside it, in a
-  label or a key, and its figure. A reader who cannot tell two colours apart
+  label or a legend, and its figure. A reader who cannot tell two colours apart
   loses nothing.
 - **Colour does not grade.** No green for passed and red for fell. A Member's
   Bill falling is an ordinary outcome, and the chart should not say otherwise.
