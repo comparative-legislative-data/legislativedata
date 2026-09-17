@@ -130,3 +130,7 @@ so they are not lost.
   bill, outcomes, the Forth Crossing Bill. Columns: session, length, bills
   introduced, the outcomes, bills a year, and an all-sessions row. Figures from a
   draft calculation, adding up to 470. For the owner's correction; not agreed.
+  - **Open, for iterating both:** whether the Forth Crossing Bill needs a
+    dropdown at all, since it moves one bill. Proposed: drop it, count it as a
+    government bill, and say so in a note (M4 asks only that the grouping be
+    stated); or, in the table, offer Hybrid Bill in the type dropdown.
