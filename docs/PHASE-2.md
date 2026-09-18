@@ -947,8 +947,11 @@ checks are added to it when those exist.
    Insights links in the header. Everything behind the sign-in, tested signed
    out (nothing shown) as well as signed in. The date and the date statement
    inside the page's frame, with a link to the list of what changed. The
-   sources credited from strand 1's record. The notes a page rests on. Dark and
-   light. Built under the table of every bill, not under the first chart.
+   sources credited from strand 1's record. Dark and light. Built under the
+   table of every bill, not under the first chart. **Settled 18 September**
+   (`docs/STRAND-2-SHARED-PAGE-PARTS.md`): built and put live together with
+   item 3, each keeping its own closure test; the notes a page rests on move
+   to the table's write-up (item 4) and to strand 3.
 3. **The reference sections**, at the foot of the Data page, folded away,
    each read from the copy: the methodology notes; the sources, with each
    source's terms; what the words mean; and the list of what changed. Each

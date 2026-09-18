@@ -62,15 +62,19 @@ Parliament and our work shows two.
 > This data is provided as it is, with no warranty. legislativedata.org is not
 > responsible for what anyone does with it.
 >
-> What each source allows, and does not, is on the Sources page.
+> What each source allows, and does not, is under Terms of use, on the Data
+> page.
+
+"Terms of use" links to that section. *(Changed 18 September 2026, agreed by
+the owner, when the site became two pages; it read "is on the Sources page".)*
 
 Each licence's name in its line links to the licence. "Values from the
 Scottish Parliament" means every value whose recorded source is under the
 Parliament's terms, the PhD dataset and Manual included, as settled.
 
-## 4. On the Sources page: the terms
+## 4. In the Data page's Sources section: the terms
 
-The reference page that lists the sources is built in strand 2. This is the
+The section of the Data page that lists the sources is built in strand 2. This is the
 part of it that gives the terms: an opening paragraph, then one block per line
 of the `terms` file, built from it.
 
@@ -118,10 +122,46 @@ and agreed as it stands on 18 September.
 >
 > Please try again later.
 
+## 6. The two pages' own words, and signing out of reach
+
+Agreed by the owner on 18 September 2026 with strand 2, item 2
+(`docs/STRAND-2-SHARED-PAGE-PARTS.md`).
+
+Above the sign-in form, for someone signed out who was going to Data or
+Insights:
+
+> Sign in to see the data.
+
+When the site cannot read the copy:
+
+> DATA
+>
+> # The data can't be shown right now
+>
+> Please try again later.
+
+The Data page, above its sections, until the table exists:
+
+> DATA
+>
+> # Data
+>
+> The table of every bill, and the whole dataset to download, are being
+> built.
+
+The Insights page, until the first chart exists. It shows no data, so it
+carries no date and no credit lines:
+
+> INSIGHTS
+>
+> # Insights
+>
+> The charts are being built.
+
 ---
 
 ## Where each is built
 
-Parts 1 to 4 are built in strand 2, with the first data page, the Sources page
+Parts 1 to 4 are built in strand 2, with the Data page, its Sources section
 and the table of every bill; each build's test compares the page with the
 quoted blocks here. Part 5 is built already.

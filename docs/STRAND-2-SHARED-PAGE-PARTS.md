@@ -3,7 +3,8 @@
 For the owner. Written 18 September 2026, and reworked the same evening when
 the site became two pages, Data and Insights (DECISIONS.md, 2026-09-18).
 Strand 2, item 2 of `docs/PHASE-2.md`. Every part is laid out here, with four
-questions at the end. **Not yet agreed.**
+questions at the end. **Agreed by the owner the same evening: yes to all
+four.**
 
 Already settled, and not asked again: two pages, Data and Insights, linked in
 the header, both behind the sign-in; every data page tested signed out as
