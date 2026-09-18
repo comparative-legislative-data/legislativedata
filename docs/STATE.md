@@ -56,8 +56,11 @@ list are both empty.**
 
 - **Twelve findings**, in `docs/BUILD-PLAN-CHECK.md`, each with a proposal.
   The plan itself is unchanged.
-- **The shape holds.** The one that matters most: where a calculation lives
-  and runs was never settled, and the plan assumes an answer (finding 1).
+- **The shape holds.** The one that matters most: where the sums behind a
+  figure are done was never settled (finding 1). **You settled it**: every
+  published figure is worked out from the published data, by working a reader
+  can run on their own download. The days between stages, the one figure
+  published today, moves there first, proved line by line.
 - **Two facts wrong in the plan**: there are four kinds of source, not two
   (legislation.gov.uk and the Supreme Court were left out), and the Postico
   look it names is already done; the one outstanding is `db/118`'s.
@@ -68,8 +71,8 @@ list are both empty.**
 **Nothing is built until the build plan is agreed.**
 
 1. **Your review** of the build plan with `docs/BUILD-PLAN-CHECK.md` beside
-   it: the plan's three questions and the check's twelve proposals. Finding 1,
-   where a calculation lives, is a decision of its own. When agreed: the plan
+   it: the plan's three questions and the check's other eleven proposals
+   (finding 1 is settled). When agreed: the plan
    redrafted with what you accept, `DECISIONS.md`, a line in `PLAN.md`, this
    page rebuilt around the strands, and the opening check's new question in
    `CLAUDE.md`.
@@ -143,6 +146,23 @@ Run before the first reply.
   `accounts`, `published`, `postgres`), all sorted; the site answers 200; no
   `._` files in the server's `/tmp`. "Now" traced to the phase plan's step
   "then the build is planned".
+
+## The working database's own sums, and what uses them, 18 September
+
+For the owner, before any is removed (`DECISIONS.md`, "Every published figure
+is worked out from the published data"). Nothing on the site uses any of them,
+and neither the error checker nor the gaps list does.
+
+- **The days between stages** (`v_bill_stage_durations`): the published copy's
+  build, which copies its answers; the averages built on it
+  (`v_stage_duration_summary`, already to be replaced for thought 4);
+  `tools/duration_coverage.sql`, a checking tool; and the Session 5 closure
+  test, already run.
+- **Each bill's stage dates in one line** (`v_bill_stage_dates`): the copy's
+  build, for the bills file's dates across. This is rearranging dates, not a
+  sum. Also `v_bill_total_duration`, used by the Session 6 closure test,
+  already run.
+- **Outcomes by type** (`v_outcome_by_type`): the mock-ups' draft working only.
 
 ## Closing checks, 18 September, the session that checked the build plan
 
