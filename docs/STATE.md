@@ -17,7 +17,7 @@ three strands, one after another, then the closing test.
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
 | 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: item 1 **closed**; items 2 and 3 agreed, to be built together |
-| 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
+| 3. The charts | the six thoughts on the Insights page | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
 The dataset. No bill, date or figure has changed since 18 September's wording
@@ -48,7 +48,8 @@ list are both empty.**
 - **18 September, evening.** Strand 1 closed; the site given read access to
   the copy and deployed; old site releases cleared, nineteen to three.
 
-**18 September, late, this session. Strand 2's first item closed.**
+**18 September, late, this session. Strand 2's first item closed; the site
+becomes two pages; items 2 and 3 agreed. Nothing built.**
 
 - **Its closure test run, all nine checks passed**, by a session that built
   none of it. The site's login reads the live copy and nothing else. Every
@@ -75,7 +76,6 @@ list are both empty.**
    test and undo first, rehearse, deploy, and write both closure tests.
 
 ## Waiting for you
-
 
 - **Making the GitHub repository private**, which you expect to do. Nothing
   depends on it being public; the switch is yours, in GitHub's settings.
@@ -135,6 +135,9 @@ Run before the first reply.
   02:44 UTC. Both "Now" items traced to strand 2, items 1 and 2. Nothing
   found. The server refused connections several times while the firewall's
   limit was reached; retrying after ten seconds gets through.
+- **At the close**: counts, checker, gaps list, databases, the published
+  copy's schemas, the server's `/tmp` and the site's health checked again;
+  dictionary and decisions contents regenerated identical; clean and pushed.
 
 ## The site reads the copy: working detail, 18 September
 
