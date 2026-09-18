@@ -32,8 +32,8 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ## The refresh, for the copy
 
-Written 2026-09-18 by the session that built and rehearsed it. **Not yet
-run.** Strand 1, item 6, laid out in `docs/STRAND-1-THE-REFRESH.md` and agreed
+Written 2026-09-18 by the session that built and rehearsed it. **Run on
+2026-09-18** by another session; see the run below. Strand 1, item 6, laid out in `docs/STRAND-1-THE-REFRESH.md` and agreed
 by the owner the same day, with its four questions.
 
 ### Part A — mechanical
@@ -93,12 +93,74 @@ refresh; item 7 if a site changes how it answers a dead address.
 **How a page shows a gone address**: strand 2. **Whether twelve minutes of
 address checking stays acceptable** as the cited pages grow.
 
+### The run, 2026-09-18, by a session that built none of it
+
+**All twelve items pass**, items 9 and 12 signed off by the owner. One
+accident on the way, set out below, put the copy before back for real; the
+owner said to refresh, and the copies afterwards matched, file for file, the
+fingerprints taken before it.
+
+Fingerprints: an md5 of every line of every file of `live` and `previous`,
+taken before any of this test's runs and compared after each.
+
+1. **Pass.** Twelve files in the order given, counts 470, 1291, 1657, 7, 14,
+   192, 89, 0, 1, 4, 106, 12; 0 added for each compared file.
+2. **Pass.** Every file of `previous` but `about` has exactly the lines of the
+   same file of `live`, compared both ways; `previous` has no `cited_pages`.
+   Its `what_changed` lacks the `which_line` heading, which the refresh added;
+   both are empty.
+3. **Pass.** 106 lines, the addresses exactly the kept list's, each with the
+   kept copy and date the list gives. The 14 in the web archive say Not
+   checked. The 92 others each fetched from this Mac with `curl`, not the
+   tool: every one answered 200 on its own site, and the copy says Yes for
+   each.
+4. **Pass.** `tools/refresh_copy.sh`, with its own address check: 92 work,
+   0 gone, 14 not checked; no problems; nothing changed; fingerprints
+   unchanged.
+5. **Pass.** With `plant_changes=on`: bill 1's title, old value "Abolition of
+   Feudal Tenure (Scotland) Act 2000 (planted)"; bill 999999's Stage 1 as
+   "(line removed)"; 1 added under sessions; nothing else. Fingerprints
+   unchanged.
+6. **Pass.** `--save` with `fault=on`: refused, "The check found 13
+   problem(s). Nothing has been kept." Fingerprints unchanged.
+7. **Pass.** `check()` on the server: "No" for a made-up parliament.scot bill
+   page and for `asp/2026/999`; "Yes" for the Ecocide Bill's page and the
+   Building Safety Levy Act.
+8. **Pass.** `put_back_previous.sql` with `save=false`: inside its run `live`
+   became the copy that was `previous` (eleven files, no `cited_pages`), and
+   was thrown away. Run twice inside one thrown-away transaction: the first
+   left no `previous`, and the second refused at "there is no previous copy
+   to put back". Fingerprints unchanged.
+10. **Pass.** `published` has `from_working` (no tables), `live`, `previous`
+    and `public`; four databases; nothing in the server's `/tmp`.
+11. **Pass.** 470, 1291, 192, 14; checker and gaps list empty; the dictionary
+    regenerates identical and lists twelve published files.
+
+**Item 9** asks that the descriptions read as the owner agreed them, and part
+of the wording was written at the build, beyond what was agreed: the
+`cited_pages` file and its headings, and `which_line` widened past the
+drafted "For a line that isn't about a bill…". It is the same judgment as
+item 12. **Items 9 and 12 signed off by the owner, 2026-09-18**: "agreed",
+on every line read to them verbatim as the copy stores it.
+
+**The accident.** The first attempt at item 8 ran from a file this session
+built with the shell's `echo`, which turned `\echo` into an escape
+character. The mangled line swallowed the file's `BEGIN`, so the undo ran
+outside any transaction: `live` was dropped, `previous` became `live`, and the
+rollback that followed had nothing to roll back. Only the published copy was
+touched, and nothing reads it yet. At the owner's word the refresh was run
+with `--save`: no problems, nothing changed, and every file of `live` and
+`previous` then matched the fingerprints taken before the accident. The
+grants are as they were: Postico's login reads both copies, the site's login
+neither. The run of item 8 above used a file built without the shell, stopping
+at the first error until the transaction had begun.
+
 ---
 
 ## Every page the provenance cites has a copy kept
 
-Written 2026-09-18 by the session that kept them. **Not yet run.** Strand 1,
-item 4. The owner chose to keep all of them, as agreed on 17 September, after
+Written 2026-09-18 by the session that kept them. **Run on 2026-09-18** by
+another session; see the run below. Strand 1, item 4. The owner chose to keep all of them, as agreed on 17 September, after
 being told the count had grown from 70 to 105, and gave permission to read the
 archive's pages through their Chrome and to download them.
 
@@ -146,12 +208,54 @@ new address; the refresh (item 6) keeps it true from then on.
 gone: strand 2. **Checking the addresses at each refresh**: item 6. **When the
 archive captured each old page**: not recorded.
 
+### The run, 2026-09-18, by a session that kept none of them
+
+**All seven items pass**, item 4 with one copy the check as written cannot
+reach. Item 7 was signed off by the owner when the pages were kept.
+
+1. **Pass.** 106 distinct addresses in `source_ref` of `bill`, `stage_event`
+   and `field_source`, found by this session's own query; exactly the 106 in
+   `sources/kept-pages.csv`, none either side left over. `--list` says "106
+   addresses cited; 106 kept; 0 to fetch; 0 need a browser."
+2. **Pass.** All 106 files exist; every size and SHA-256 matches.
+3. **Pass.** No file holds "verifying your browser" or "access denied". The
+   seven whose address ends `.pdf` or asks for `OfficialReport?` begin `%PDF`
+   and open (read through macOS's PDFKit: 19, 59, 41, 59, 43, 63 and 2
+   pages); the other 99 are HTML.
+4. **Pass, with one copy the check cannot reach.** Read from each copy, not
+   from the fetching tool. The 31 bill pages: the bill in each heading is the
+   citing row's bill (the newer pages' `h1`; the Session 1 to 4 pages' first
+   heading, where Tobacco Advertising and Promotion's heading is right and its
+   title tag, as known, names another bill; the 14 archive pages' `h1`, one
+   giving "Criminal Sentencing (Equity Fines) (M)" for bill 208). The 27
+   Official Report HTML pages: the meeting date on each equals the date in
+   its address and every citing stage date, and each names every citing
+   bill. The five dated Official Report PDFs give meeting dates 18 June 2008,
+   28 January 2009, 1 December 2010, 22 December 2010 and 12 January 2011,
+   each the citing stage's date. The 28 legislation.gov.uk pages and the one
+   PDF each name the year and asp number of their address, and the citing
+   bill is that Act. The Supreme Court page is the Legal Continuity Bill's
+   reference, cited by that bill.
+   **The one it cannot reach**: meeting 2733 is cited by a single line, the
+   Education (Graduate Endowment and Student Support) (Scotland) Bill's
+   Stage 1, which carries no date ("stopped at this stage without a
+   decision"). There is no date to compare. The copy is the Local Government
+   Committee's meeting of Tuesday 14 November 2000, whose business is that
+   bill's Stage 1: the page its address names.
+5. **Pass.** The 14 archive copies are 58 to 67 KB, none the archive's frame,
+   each holding its bill's stage details. Three do not say "Stage 1": two
+   bills fell before it began (the page gives introduction and "Bill fell"),
+   and Robin Rigg is a Private Bill whose page gives its Preliminary,
+   Consideration and Final Stages.
+6. **Pass.** Nothing from the browser in the Downloads folder; nothing of
+   this work in the server's `/tmp`.
+
 ---
 
 ## Each source's terms are recorded, and the copy carries them
 
 Written 2026-09-18 by the session that built `db/119` and retook the copy.
-**Not yet run.** Every part was laid out in `docs/STRAND-1-SOURCE-TERMS.md`
+**Run on 2026-09-18** by another session; see the run below. Every part was laid out in `docs/STRAND-1-SOURCE-TERMS.md`
 and agreed by the owner the same day: Manual under the Scottish Parliament's
 terms, the Open Government Licence's own credit line for legislation.gov.uk,
 the credit line for our own work, and the descriptions as drafted.
@@ -239,6 +343,73 @@ descriptions; item 2 also moves if a source changes its terms page.
 the wording each page carries, item 5. **Whether a source's terms have changed
 since today**: the refresh's job, item 6. **What the copy was before today**:
 dropped after the cell-by-cell comparison, which item 10 stands in for.
+
+### The run, 2026-09-18, by a session that built none of it
+
+**All thirteen items pass. Item 14 was signed off when it was built.** Item 6 of strand 1, the refresh, was built after this
+test was written, and moved items 7, 8, 10 and 12 as the test says an outside
+change can; each is checked against the copy as it now is, and the change
+named.
+
+1. **Pass.** Four lines, in `sort_order` 1 to 4: `scottish_parliament`,
+   `legislation_gov_uk`, `supreme_court`, `our_own_work`.
+2. **Pass.** The four pages read today at 16:43 BST. The Parliament's credit
+   line and both its sentences on the copyright page; the Open Government
+   Licence's credit line and restriction on the licence's page, which serves
+   legislation.gov.uk and the Supreme Court alike; the Supreme Court's own
+   sentence on its terms page and in the kept text. The Court's page puts a
+   link around "Open Government Licence", which leaves a space before the
+   comma when the page is read as text; the words are the Court's own.
+3. **Pass.** The credit line word for word as the DECISIONS.md entry; CC BY
+   4.0 with the link given; `terms_page` and `date_terms_read` empty.
+4. **Pass.** All ten kinds of source have terms, and the column is required:
+   legislation.gov.uk and the Supreme Court under their own, the other eight,
+   Manual and the PhD dataset included, under the Scottish Parliament's.
+5. **Pass.** Backup `c6cf8af2` (10:10:48 UTC) restored to a scratch workbook
+   at 15:44 UTC and compared cell by cell, by each sheet's own key, on all
+   twenty sheets and lists. Differences: 1 bill note, 2 staging bill notes,
+   101 provenance notes, 9 note texts, 2 note titles, and 5 definitions (2, 1
+   and 2 on three lists), each only "fact sheet" becoming "factsheet", with
+   `updated_at` on the changed lines; In progress's place, 7 to 8; the new
+   `terms` column on the list of kinds of source; and the new terms list. No
+   line added or removed anywhere else. The scratch workbook was dropped at
+   once and nothing left in `/tmp`.
+6. **Pass.** Inside a thrown-away transaction, the undo left the list of kinds
+   of source with `code, label, definition, sort_order` and no terms list; a
+   second run refused ("there is no source_terms; db/119 is not on"). The four
+   lines and the ten filled cells were there afterwards.
+7. **Pass.** `live.terms`, compared with the working lines and the list,
+   worked out by this session's own query: identical, all eight headings, all
+   four lines.
+8. **Pass.** Eight sources in `bills`, `stages` and `sources`, each in exactly
+   one line's `covers`.
+9. **Pass, run through the refresh.** Since the refresh, the build runs beside
+   `live` and no longer needs it set aside, so the two faults were planted in
+   thrown-away runs of `tools/refresh_copy.sh`. `fault_cover=on` refused
+   with 3 problems, the first "source Supreme Court (sources): covered by 0
+   line(s) of terms"; `fault_terms=on` refused with 1, the Scottish
+   Parliament's credit line published with " (altered)". `live` and
+   `previous` unchanged by fingerprint after each.
+10. **Pass, as the refresh moved it.** `about`: 2026-09-18; bills 470, stages
+    1291, days_between_stages 1657, sessions 7, methodology_notes 14, sources
+    192, what_the_words_mean 89, what_changed 0, workings 1, terms 4, and,
+    from the refresh, cited_pages 106 and about 12. The days-between-stages
+    test's items 2 to 4 still pass: the kept working equals the file without
+    its final line ending; 1657 lines each side against the old sum, none
+    unmatched (440 from Introduction, 402 to Royal Assent); and the kept text,
+    run with only `live` in reach, gives the file line for line in order.
+11. **Pass.** The `terms` file and its eight headings word for word as part
+    8. Against the dictionary at `8cd86e6`, the only other changes are the
+    refresh's: "ten files" to "twelve", `which_line`, `heading`'s "(line
+    removed)" sentence, and `cited_pages`. Every column in `legdata` is
+    described.
+12. **Pass, as the refresh moved it.** `published` has `from_working` (no
+    tables), `live`, `public` and, from the refresh, `previous`; no
+    `before_item_3`. Four databases. Postico's login reads `live.terms` and
+    `source_terms`; `copy_reader` reads `source_terms`.
+13. **Pass.** 470, 1291, 192, 14; checker and gaps list empty; the dictionary
+    regenerates identical and lists twelve published files, the refresh's
+    twelfth included.
 
 ---
 

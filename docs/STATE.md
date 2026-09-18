@@ -15,7 +15,7 @@ sessions.
 
 | Strand | What it delivers | Where it is |
 |---|---|---|
-| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: item 2 closed; items 3, 4 and 6 built, their tests unrun; item 5 agreed; items 1 and 7 to do |
+| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: items 2, 3, 4 and 6 closed; item 5 agreed; items 1 and 7 to do |
 | 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | not open |
 | 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
@@ -52,34 +52,23 @@ list are both empty.**
   notes, definitions and sources rewritten for a reader; the quarter rule
   settled; the build plan agreed; the days between stages moved into the copy.
 
-**18 September, this session. Items 2 to 6 of strand 1.**
+- **18 September, afternoon.** Item 2 closed; items 3 to 6 laid out,
+  agreed and built: each source's terms, every cited page kept (106), the
+  wording every page carries, and the refresh.
 
-- **Item 2 closed**: its closure test passed, run by this session, which
-  didn't build it, and you signed off `workings` in Postico.
-- **Item 3 laid out** in `docs/STRAND-1-SOURCE-TERMS.md`; you agreed it, with
-  "Manual" under the Parliament's terms. The Supreme Court's terms read and
-  kept: the Open Government Licence, reproduced accurately and not in a
-  misleading context.
-- **Built** (`db/119`): four sets of terms, and each kind of source names
-  whose terms it's under. The copy gains an eleventh file, `terms`, and now
-  refuses to be taken if a source it uses has no terms. Rehearsed with planted
-  faults, all caught; the copy retaken and the ten other files compared cell
-  by cell: identical. No bill, date or figure changed.
-- **Closure test** written, for another session to run; you signed off
-  `terms` in Postico.
-- **Item 4, every cited page kept**: 106 addresses, not the 70 counted on
-  17 September (the stage dates' addresses had been missed). 91 fetched by a
-  new tool, `tools/keep_cited_pages.py`; the 14 on the old site's archive read
-  through your Chrome. Each checked to be the page it should be. About 16 MB,
-  in `sources/`, listed in `sources/kept-pages.csv`. Closure test written;
-  you signed off the copies.
-- **Item 5, the wording every page carries**: agreed as drafted
-  (`docs/wording/PUBLISHING.md`). It is built with the pages in strand 2.
-- **Item 6, the refresh**: laid out, agreed, built and rehearsed. One step
-  from this Mac checks every cited address, rebuilds the copy beside the live
-  one, lists what changed and keeps the old copy as `previous`; one step puts
-  it back. The copy now has twelve files, the new one saying which addresses
-  still work (92 do, none gone, 14 can't be checked). Closure test written.
+**18 September, this session. Items 3, 4 and 6's closure tests.**
+
+- **All three passed**, run by this session, which built none of them. You
+  signed off item 6's wording written at the build.
+- **One accident, put right.** Testing the refresh's undo, a file of mine
+  lost its "start a transaction" line, so the undo ran for real and the old
+  copy went live. Only the published copy, which nothing reads yet. At your
+  word the refresh rebuilt it, and both copies then matched, file for file,
+  fingerprints taken before the accident.
+- **One kept page the test couldn't fully reach**: a committee meeting cited
+  for a Stage 1 with no date, so there is no date to compare. It is the
+  meeting its address names.
+- No bill, date or figure changed.
 
 ## Now
 
@@ -88,10 +77,7 @@ list are both empty.**
 1. **Item 1**: the copy's backup check, from the nightly run at 03:43 on
    19 September, and your look in Postico for the "In progress" change
    (`db/118`, item 10).
-2. **Items 3, 4 and 6's closure tests**, run by a session that didn't build
-   them (`CLOSURE-TESTS.md`). Yours for item 6: the wording written at the
-   build (its item 12).
-3. **Item 7**: strand 1's closure test, written by the session that finishes
+2. **Item 7**: strand 1's closure test, written by the session that finishes
    the strand and run by another.
 
 ## Waiting for you
@@ -144,15 +130,41 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session that recorded the sources' terms
+## Sanity check, 2026-09-18, the session that ran items 3, 4 and 6's tests
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the decisions contents and the dictionary
   regenerated identical; counts 470, 1291, 192, 14; checker and gaps list
-  empty; four databases, all sorted; `published` held only `from_working`
-  (empty), `live` and `public`; the site answers 200. "Now" traced to strand
-  1, items 1 to 7. Nothing found.
+  empty; four databases, all sorted; `published` held `from_working` (empty),
+  `live`, `previous` (the refresh's, expected) and `public`; the site answers
+  200. "Now" traced to strand 1, items 1 to 7. Nothing found.
+
+## Running items 3, 4 and 6's tests: working detail, 18 September
+
+- **Never build a psql file with the shell's `echo`.** zsh's `echo` turns
+  `\echo` into an escape character; the mangled line joins the next statement
+  in psql's buffer, and here it swallowed a `BEGIN`, so a thrown-away undo ran
+  for real. Build such files with Python or a quoted heredoc, set
+  `ON_ERROR_STOP on` until the transaction has begun, and read the file
+  before running it.
+- **Fingerprint before touching the copy.** An md5 of every line of every
+  file of `live` and `previous` (`query_to_xml` per table), taken before and
+  compared after each run, is what proved the repair exact.
+- **The build no longer needs `live` set aside** for a planted fault: a
+  thrown-away `tools/refresh_copy.sh -v fault_…=on --addresses FILE` does it,
+  touching nothing. Older tests that say to rename `live` aside predate the
+  refresh.
+- **One address check reused**: `check_cited_addresses.py` run on the server
+  once, its CSV kept in the scratchpad and passed with `--addresses`.
+- **Comparing a backup cell by cell** across two databases: restore it as a
+  scratch database, export each table ordered by its primary key with
+  `COPY … CSV`, and compare in Python on the server; common columns only,
+  new columns and tables listed separately.
+- **PDFs on this Mac**: no poppler; macOS's PDFKit through
+  `osascript -l JavaScript` reads their text.
+- **A kept copy the item 4 check cannot reach**: Official Report meeting
+  2733, cited only by a Stage 1 with no date.
 
 ## The refresh: working detail, 18 September
 
