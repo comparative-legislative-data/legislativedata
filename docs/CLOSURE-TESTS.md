@@ -30,11 +30,57 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Factsheet is one word
+
+Written 2026-09-18 by the session that built `db/117`. **Not yet run.**
+
+### Part A — mechanical
+
+1. **No "fact sheet" a reader sees.** In `legdata`, no methodology note's title
+   or text, bill note, provenance note, or definition in any list contains
+   "fact sheet", in any capitalisation; nor does any description stored on a
+   table, view or column. In `published`, no cell and no description in
+   `live` does. *Where from:* the owner's choice, DECISIONS.md 2026-09-18.
+2. **What changed, and nothing else.** Against the copy of the clean sheet in
+   the backup of 18 September (`c6cf8af2`, taken before `db/117`; restore it to
+   a scratch database, well clear of the nightly run at 02:30, and drop it
+   before finishing, because the nightly backup takes every database it finds):
+   the cells that differ are 2
+   note titles, 9 note texts, 1 bill note, 2 staging bill notes, 101
+   provenance notes and 5 definitions, each differing only by "fact sheet"
+   becoming "factsheet", plus the changed lines' `updated_at`. *Where from:*
+   the counts taken before the change, in `db/117`'s header.
+3. **The staging review notes are untouched**: they still hold "fact sheet"
+   where they did, as in the restored backup.
+4. **The promotion script writes the same.** Read `tools/promote_session.sql`:
+   no literal it writes into a cell says "fact sheet", and the Official Report
+   route changes the spelling in the note but not in the Official Report's
+   quoted words. Then rehearse the full rebuild as for `db/115`, item 5:
+   Sessions 7 to 1 off and 1 to 7 on inside a thrown-away transaction,
+   clearing temporary tables between scripts. Expected: "No unexpected
+   differences".
+5. **Counts**: 470 bills, 1291 stage records, 192 provenance notes, 14 notes;
+   checker and gaps list empty; only `public`. The published copy's `about`
+   gives the same counts as the block 1 test, item 7.
+6. **The dictionary** regenerates identical but for its date, with no "fact
+   sheet" in it.
+
+### What this does not check
+
+**The documents recording what was agreed** (`PHASE-2-DEFINITIONS.md`,
+`PHASE-2-SOURCES-NOTES.md`, `PHASE-2-SOURCE-WORDS.md`,
+`PHASE-2-PUBLISHED-COPY.md`, `PHASE-2-COPY-DESCRIPTIONS.md`) keep "fact sheet"
+on purpose, as the record. **Earlier migrations** keep it too.
+
+---
+
 ## The published copy, block 1
 
 Written 2026-09-18 by the session that set up `published` and took the first
 copy. **Not yet run.** Block 1 of `docs/PHASE-2-CHARTS-BUILD.md`; the
 procedure is `docs/PUBLISHED-COPY-RUNBOOK.md`.
+
+**Moved by `db/117`, spelling only.** `db/117` later changed "fact sheet" to "factsheet" in every cell and description a reader sees. Where an item below compares with agreed wording, make that same change to the agreed text first; the documents are left as the record of what was agreed.
 
 Nothing here may be answered by running `tools/published_copy.sql`'s own
 check and reading its result: that is the builder marking its own work. Write
@@ -107,7 +153,9 @@ be re-run against the real copy anyway.
 
 15. **The owner opens `published` in Postico** and looks at a bill of their
     choosing, and at `what_the_words_mean`, and says whether it reads as a
-    researcher should receive it.
+    researcher should receive it. **Given 2026-09-18**: the owner opened it and
+    said it looks fine. The copy was retaken the same day after `db/117`,
+    changing only the spelling of "factsheet".
 
 ### What this does not check
 
@@ -133,6 +181,8 @@ store was searched and none held a scratch dump. The tool was fixed in
 ## The source's own words are the source's
 
 Written 2026-09-18 by the session that built `db/116`. **Not yet run.**
+
+**Moved by `db/117`, spelling only.** `db/117` later changed "fact sheet" to "factsheet" in every cell and description a reader sees. Where an item below compares with agreed wording, make that same change to the agreed text first; the documents are left as the record of what was agreed.
 
 ### Part A — mechanical
 
@@ -174,6 +224,8 @@ and did not set expectations on it; none needs re-running for this.
 ## The sources file's notes name what a reader sees
 
 Written 2026-09-18 by the session that built `db/115`. **Not yet run.**
+
+**Moved by `db/117`, spelling only.** `db/117` later changed "fact sheet" to "factsheet" in every cell and description a reader sees. Where an item below compares with agreed wording, make that same change to the agreed text first; the documents are left as the record of what was agreed.
 
 ### Part A — mechanical
 
@@ -226,6 +278,8 @@ our coded value rather than the source's words. Recorded in
 ## A definition is written for a reader
 
 Written 2026-09-18 by the session that built `db/114`. **Not yet run.**
+
+**Moved by `db/117`, spelling only.** `db/117` later changed "fact sheet" to "factsheet" in every cell and description a reader sees. Where an item below compares with agreed wording, make that same change to the agreed text first; the documents are left as the record of what was agreed.
 
 ### Part A — mechanical
 

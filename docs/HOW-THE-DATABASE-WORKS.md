@@ -301,7 +301,7 @@ your factsheet sheet marked `accepted`:
   rest are a date, a bill's type, an asp number or a title settled against
   legislation.gov.uk or the Parliament's own bill page, and for Session 5 the
   three bills that were stopped from Royal Assent, where the note carries the
-  fact sheet's footnote as the words that were seen;
+  factsheet's footnote as the words that were seen;
 - your rows on both sheets are stamped with what they became and the date, so
   you can get from one to the other and back in either direction.
 

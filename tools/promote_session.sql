@@ -28,7 +28,7 @@
 -- the row it sits on, and nobody has checked it individually.
 --
 -- A line that names a bill already on the clean sheet in continues_bill_id is
--- a further appearance of that bill, not a bill of its own: the fact sheet is
+-- a further appearance of that bill, not a bill of its own: the factsheet is
 -- listing a bill that was still live when an earlier session ended. Such a
 -- line UPDATES the bill it names and adds the stages that bill does not have,
 -- and makes nothing. See db/081 and methodology note M6. Everything else here
@@ -144,10 +144,10 @@ END $$;
 -- A bill counted in two factsheets keeps its introduction date; a reintroduced
 -- bill has a new one. So the test is the same title AND the same date.
 --
--- This cannot see a bill whose title changed between its two fact sheets: the
+-- This cannot see a bill whose title changed between its two factsheets: the
 -- UNCRC Bill is listed as an Act in Session 6. That is why it is no longer the
 -- only net. The error checker refuses a line whose introduction date falls
--- before its own fact sheet's session began unless it names the bill it
+-- before its own factsheet's session began unless it names the bill it
 -- continues, and that catches a further appearance whatever its title does.
 -- This guard remains as the second net, and asks only about lines that are
 -- claiming to be bills of their own.
@@ -186,9 +186,9 @@ END $$;
 -- promoted, from its most primary accepted source.
 --
 -- A continuing line only adds stages its bill does not already have. A bill
--- listed in a second fact sheet has its earlier stages printed again, and the
+-- listed in a second factsheet has its earlier stages printed again, and the
 -- later document is not the source those stages were settled from: the Session
--- 6 fact sheet says the European Charter Bill passed on 23 May 2021, and the
+-- 6 factsheet says the European Charter Bill passed on 23 May 2021, and the
 -- Parliament's own bill page settles it at 23 March (DECISIONS.md,
 -- 2026-09-13). A restated stage stays on the staging sheet as what that
 -- document said, and a disagreement goes through the ordinary route for one --
@@ -227,7 +227,7 @@ SELECT p.candidate_id, p.session_number, p.sp_bill_id, p.short_title, p.bill_typ
   FROM promoting p;
 
 -- ---------------------------------------------------------------------------
--- The bills a later fact sheet says more about
+-- The bills a later factsheet says more about
 -- ---------------------------------------------------------------------------
 
 -- Eight cells, and no others. A further appearance of a bill says what has
@@ -310,14 +310,14 @@ INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at, note)
 SELECT 'bill', p.candidate_id, 'short_title', 'manual',
        'review of staging line ' || p.candidate_id,
-       -- Empty: our corrected title is the cell, and the fact sheet's words
+       -- Empty: our corrected title is the cell, and the factsheet's words
        -- are in the note (db/116).
        NULL, p.observed_at,
        -- Not the review note: bill 17's ends with an instruction to whoever
        -- wrote this script, which db/027 had to take out of a note once.
-       -- The fact sheet's words go in the note itself, because the staging
+       -- The factsheet's words go in the note itself, because the staging
        -- column that keeps them is not published (db/115).
-       'Corrected at review. The fact sheet printed it as: ' || p.raw_title
+       'Corrected at review. The factsheet printed it as: ' || p.raw_title
   FROM promoting p
  WHERE p.review_note ILIKE '%short_title corrected at review%'
    AND NOT EXISTS (SELECT 1 FROM field_source f
@@ -340,7 +340,7 @@ SELECT 'bill', p.candidate_id, 'short_title', 'manual',
 -- source's own words are only the passages it quotes, in order, separated by
 -- " … "; a passage the account says came from the bill page is not the
 -- Official Report's and is left out. An account that quotes nothing leaves
--- value_seen empty (db/116). The opening phrase is cut however "fact sheet" is
+-- value_seen empty (db/116). The opening phrase is cut however "factsheet" is
 -- spelled: Session 6's reviews wrote it as two words, and until db/116 seven
 -- notes kept it.
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
@@ -352,7 +352,9 @@ SELECT 'bill', p.candidate_id, 'outcome', 'official_report',
                  regexp_replace(a.account, 'bill page[^"]*"[^"]*"', 'bill page', 'g'),
                  '"([^"]*)"', 'g') WITH ORDINALITY AS m(q, k)),
        p.official_report_read_on,
-       a.account
+       -- The note is our words, spelled as the rest are (db/117); the review
+       -- notes on the staging sheet are left as they were written.
+       regexp_replace(a.account, 'fact' || ' sheet', 'factsheet', 'g')
   FROM promoting p
   CROSS JOIN LATERAL (SELECT upper(left(x.t, 1)) || substr(x.t, 2) AS account
          FROM (SELECT regexp_replace(
@@ -363,10 +365,10 @@ SELECT 'bill', p.candidate_id, 'outcome', 'official_report',
                     WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
                       AND f.field_name = 'outcome');
 
--- A bill that passed and was stopped before Royal Assent. The fact sheet says
+-- A bill that passed and was stopped before Royal Assent. The factsheet says
 -- so in a footnote against the row, not in the row, so the words a reader would
 -- have to be shown are not in any cell the clean sheet carries: bill.note says
--- what stopped the bill in our words, and this is where the fact sheet's own
+-- what stopped the bill in our words, and this is where the factsheet's own
 -- words are kept. One note for the status and, where the footnote gives a date,
 -- one for the date. See methodology note M5.
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
@@ -381,7 +383,7 @@ SELECT 'bill', p.candidate_id, 'enactment_status', p.source, p.source_ref,
                       AND f.field_name = 'enactment_status');
 
 -- Not where the date was checked against another source at review: then the
--- footnote did not give it, and crediting the fact sheet with a date it does
+-- footnote did not give it, and crediting the factsheet with a date it does
 -- not print is the fault db/105 found. The "Checked:" route below writes that
 -- note instead, citing the source that does give it.
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
@@ -398,7 +400,7 @@ SELECT 'bill', p.candidate_id, 'date_assent_blocked', p.source, p.source_ref,
 
 -- How a bill that passed came to be stopped before Royal Assent, and what
 -- followed. Both are read from the same footnote as the enactment status, and
--- the footnote is kept here in the fact sheet's own words. The route is put on
+-- the footnote is kept here in the factsheet's own words. The route is put on
 -- its own cell rather than left to enactment_status because enactment_status
 -- moves on when the bill does -- a reconsidered bill becomes an enacted Act --
 -- and this must not move with it. See db/080 and methodology note M5.
@@ -417,12 +419,12 @@ SELECT 'bill', p.candidate_id, f.field_name, p.source, p.source_ref,
 
 -- How the bill was handled under the Parliament's rules, and the day the
 -- Parliament agreed to handle it that way. Both are read from a sentence the
--- Session 6 and 7 fact sheets print against the bill -- "Motion agreed to
--- treat as Emergency Bill on 22 June 2021" -- and no fact sheet for Sessions 1
+-- Session 6 and 7 factsheets print against the bill -- "Motion agreed to
+-- treat as Emergency Bill on 22 June 2021" -- and no factsheet for Sessions 1
 -- to 5 mentions procedure at all, so these notes exist only where a source
 -- actually said something. value_seen is empty: it held the value as read,
 -- which only repeated the cell, and it promises the source's own words
--- (db/116). The fact sheet's own sentence is on the staging line, in
+-- (db/116). The factsheet's own sentence is on the staging line, in
 -- parser_note. See db/087 and methodology note M10.
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at)
@@ -472,7 +474,7 @@ INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
 SELECT 'bill', p.candidate_id, 'outcome', f.source, f.source_ref,
        NULL, f.observed_at,
        -- It names the published heading, not the working column (db/115).
-       'Our coding, not the fact sheet''s: the legislation fact sheet says the '
+       'Our coding, not the factsheet''s: the legislation factsheet says the '
        'bill fell, and not why. Coded as having fallen at dissolution because it '
        'concluded on ' || p.date_concluded || ', the day Session '
        || p.session_number || ' ended. That day is date_session_ended in the '
@@ -503,7 +505,7 @@ INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
 SELECT 'bill', p.candidate_id, m[1], m[3], m[4], NULL, m[5]::date,
        -- Not a pointer to the raw_ columns: they are not published (db/115).
        'Checked at review against the source named on this line, which is '
-       'the one that settles this fact. Where the fact sheet printed it '
+       'the one that settles this fact. Where the factsheet printed it '
        'differently, this line''s value is the one used.'
   FROM promoting p
   CROSS JOIN LATERAL regexp_matches(
@@ -539,10 +541,10 @@ UPDATE bill_candidate c
  WHERE c.candidate_id = p.candidate_id;
 
 -- What a further appearance changed, and what it read before. One note per
--- changed cell, replacing whatever the earlier fact sheet left there, so a
+-- changed cell, replacing whatever the earlier factsheet left there, so a
 -- reader always sees the provenance of the value in front of them. The
 -- footnote that explains the block is not lost with it: it sits on
--- assent_block_route, which a later fact sheet never changes.
+-- assent_block_route, which a later factsheet never changes.
 DELETE FROM field_source f
  USING continuing_changes ch
  WHERE f.entity = 'bill' AND f.entity_id = ch.target_bill_id
@@ -560,7 +562,7 @@ INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at, note)
 SELECT 'bill', ch.target_bill_id, ch.field_name,
        -- The note is written by us at review, so it is not attributed to the
-       -- fact sheet the rest of the line was read off (db/098). All three of
+       -- factsheet the rest of the line was read off (db/098). All three of
        -- source, source_ref and observed_at have to move together, or the row
        -- says it was written by hand and then cites a document and a date it
        -- was never in -- which is what db/098 left and db/101 mended.
@@ -574,19 +576,19 @@ SELECT 'bill', ch.target_bill_id, ch.field_name,
        CASE WHEN ch.field_name = 'note' THEN c.reviewed_at::date
             ELSE c.observed_at END,
        CASE WHEN ch.field_name = 'note'
-            -- The note is in our own words, not the fact sheet's, so its
+            -- The note is in our own words, not the factsheet's, so its
             -- provenance says who wrote it and when rather than claiming it was
             -- read off a sheet. What it said before is kept here, which is the
             -- whole reason this row exists (db/098).
             THEN 'Rewritten when Session ' || c.session_number || ' was reviewed, '
-                 || 'because that fact sheet lists this bill again and changed what '
+                 || 'because that factsheet lists this bill again and changed what '
                  || 'the note had to say. It read '
                  || coalesce('''' || ch.was || '''', 'nothing') || ' and now reads '
                  || '''' || ch.reads_now || ''''
                  || '. The facts it states carry their own entries here. The bill '
                  || 'belongs to Session ' || b.session_number
                  || ', the session it was introduced in. See methodology note M6.'
-            ELSE 'Read off the Session ' || c.session_number || ' fact sheet, which lists '
+            ELSE 'Read off the Session ' || c.session_number || ' factsheet, which lists '
                  || 'this bill again because it was still live when Session '
                  || b.session_number || ' ended. It read '
                  || coalesce('''' || coalesce(lw.label, ch.was) || '''', 'nothing')
@@ -618,7 +620,7 @@ INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
 SELECT 'stage_event', t.promoted_stage_event_id, m[1], m[3], m[4], NULL, m[5]::date,
        -- Not a pointer to the raw_ columns: they are not published (db/115).
        'Checked at review against the source named on this line, which is '
-       'the one that settles this fact. Where the fact sheet printed it '
+       'the one that settles this fact. Where the factsheet printed it '
        'differently, this line''s value is the one used.'
   FROM stage_candidate t
   JOIN promoting_all p ON p.candidate_id = t.candidate_id
@@ -699,7 +701,7 @@ BEGIN
   IF bad IS NOT NULL THEN RAISE EXCEPTION 'Check failed: bill(s) % differ from their staging line.', bad; END IF;
 
   -- A bill that says how it was handled says who said so. Added at db/087:
-  -- the value is read off a fact sheet sentence that is kept nowhere else on
+  -- the value is read off a factsheet sentence that is kept nowhere else on
   -- the clean sheet, so without the note there is nothing behind the cell.
   SELECT string_agg(b.bill_id::text, ', ') INTO bad
     FROM bill b
@@ -897,7 +899,7 @@ BEGIN
      AND c.continued_bill_cells_changed IS NOT NULL;
   IF n > 0 THEN RAISE EXCEPTION 'Check failed: % line(s) continue nothing and carry a count of changed cells.', n; END IF;
 
-  -- Every changed cell carries a provenance note from the fact sheet that
+  -- Every changed cell carries a provenance note from the factsheet that
   -- changed it, and nothing changed without one.
   SELECT count(*) INTO n
     FROM continuing_changes ch
@@ -905,7 +907,7 @@ BEGIN
                       WHERE f.entity = 'bill' AND f.entity_id = ch.target_bill_id
                         AND f.field_name = ch.field_name
                         AND f.note LIKE '%lists this bill again%');
-  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % changed cell(s) have no note saying which fact sheet changed them.', n; END IF;
+  IF n > 0 THEN RAISE EXCEPTION 'Check failed: % changed cell(s) have no note saying which factsheet changed them.', n; END IF;
 
   -- A bill that was ever stopped before Royal Assent still says so, however
   -- far it has since got. This is the whole reason the two cells exist.

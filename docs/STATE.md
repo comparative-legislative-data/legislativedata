@@ -73,24 +73,24 @@ list are both empty.**
   copy in the store was searched: none holds it now. The tool is fixed and
   reran clean.
 - **The closure test for the copy is written**, for another session to run.
+  You opened the copy in Postico and signed it off.
+- **"Factsheet" is one word again**, as you chose: about 120 cells a reader
+  sees and the descriptions, built as `db/117` with the promotion script to
+  match, rehearsed by a full rebuild (identical), applied, and the copy
+  retaken. Two staging bill notes changed too, since a bill's note is copied
+  from them. The documents recording what you agreed keep two words, as the
+  record; the four unrun closure tests say to allow for it.
 
 ## Now
 
-1. **Open the published copy in Postico** and say whether it reads as a
-   researcher should receive it. It is the workbook `published`, area `live`;
-   Postico needs the database name changed from `legdata` to `published` on a
-   copy of the existing connection. This is item 15 of its closure test.
-2. **The closure tests for `db/114`, `db/115`, `db/116` and the published
-   copy**, run by a session that built none of them.
-3. **The three small items**, block 2, each with its full checklist first.
-4. **Iterating the mock-ups**, whenever you want: the open points are in
+1. **The closure tests for `db/114`, `db/115`, `db/116`, `db/117` and the
+   published copy**, run by a session that built none of them.
+2. **The three small items**, block 2, each with its full checklist first.
+3. **Iterating the mock-ups**, whenever you want: the open points are in
    `docs/PHASE-2-CHARTS-THOUGHTS.md`.
 
 ## Waiting for you
 
-- **"SPICe legislation factsheet" in the source list**, one word, where the
-  notes and definitions now say "fact sheet". The published copy shows both,
-  on the Legal Continuity Bill's own line. Reword the two labels, or leave?
 - **Making the GitHub repository private**, which you expect to do. Nothing
   depends on it being public; the switch is yours, in GitHub's settings.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
@@ -176,6 +176,14 @@ Run before the first reply.
   removed.
 - **The dictionary regenerates identical**, now with the copy's part.
 - **Not done, on purpose**: nothing on the site reads the copy (block 4).
+- **`db/117`**: rehearsed by `db/117` then Sessions 7 to 1 off and 1 to 7 on in
+  one thrown-away transaction, temporary tables cleared between scripts: "No
+  unexpected differences". Applied; its own fingerprint check passed; three
+  cells read back. The copy removed and retaken, check clean; no "fact sheet"
+  in any cell or description of it. The dictionary regenerates identical.
+- **zsh's `echo` turns `\e` into an escape character**, which broke the first
+  rehearsal file (`\echo` became garbage). Write psql files with `printf
+  '%s\n'`.
 
 ## How the published copy was taken: working detail, 18 September
 
