@@ -21,7 +21,7 @@ Block 1 makes the copy once and proves it.
 ### 1. It is a workbook of its own, called `published`
 
 Settled on 15 September: three databases, the working one, the published one
-and the accounts. This names the second `published`. Inside it, the nine files
+and the accounts. This names the second `published`. Inside it, the files
 sit in one area called `live`. Block 3 adds a second area, `previous`, for the
 undo.
 
@@ -80,7 +80,7 @@ of checks is in §3.
 ### 4. You can open it in Postico
 
 Postico's login gets permission to read `published`, and nothing more, so you
-can open the nine files and look at them as a spreadsheet before any page shows
+can open the files and look at them as a spreadsheet before any page shows
 them. The site's own login gets read permission in block 4, proved by a check
 at that point, as settled.
 
@@ -105,7 +105,7 @@ none of it happened.
 
 1. **Refuse to start** unless the error checker and the gaps list are empty.
    Both are read through the connector.
-2. **Build.** In `published`, make a `copy_build` area and write the ten files
+2. **Build.** In `published`, make a `copy_build` area and write the eleven files
    into it, reading through the connector from the clean sheet, the session
    dates, the notes, the provenance lines and the lists of allowed values. Words
    in the cells, not codes. Yes or No where a heading asks a yes-or-no question.
@@ -114,7 +114,10 @@ none of it happened.
    working, a text in `workings/`, is run on the copy's own `bills` and
    `stages`, and the text is kept in the copy's `workings` file. So the script
    is run from the folder holding `tools/` and `workings/`. Settled
-   18 September; `docs/STRAND-1-DAYS-BETWEEN-STAGES.md`.
+   18 September; `docs/STRAND-1-DAYS-BETWEEN-STAGES.md`. **The `terms`
+   file** is read from the working database's record of each source's terms,
+   four lines, with each line's `covers` worked out from whose terms each kind
+   of source comes under. Added by `db/119`; `docs/STRAND-1-SOURCE-TERMS.md`.
 3. **The mapping.** One list says which working column each published heading
    comes from. The build uses it to make the files and to translate each
    note's `applies_to` into published headings, as settled. It is the only
@@ -143,7 +146,7 @@ Each is a count or a yes-or-no, and each must come out as stated.
 
 | # | The check | Must be |
 |---|---|---|
-| 1 | Rows in each file against the working database: bills 470, stages 1291, sessions 7, notes 14, sources 192 | equal |
+| 1 | Rows in each file against the working database: bills 470, stages 1291, sessions 7, notes 14, sources 192, terms 4 | equal |
 | 2 | Every cell, turned back through `what_the_words_mean`, against the working cell | no difference |
 | 3 | Every cell under a heading whose values are words from a list appears in `what_the_words_mean` for that heading | no word missing |
 | 4 | No cell holds a stored code (`fell_dissolution`, `stage_3`, `still_blocked`) | none |
@@ -153,6 +156,7 @@ Each is a count or a yes-or-no, and each must come out as stated.
 | 8 | Every file and heading has a description | all described |
 | 9 | Each source line's `applies_to_heading` exists in the file it names, and its `bill_number` is a bill in `bills` | all exist |
 | 10 | The days between stages against the copy's own `bills` and `stages`, never against a sum in the working database: every cell but `days` is its bill's or its dated points'; `days` is the later date less the earlier and not below nought; every dated point ends exactly one gap but each bill's first, which ends none; and the text kept in `workings`, run again, gives exactly the file | no difference |
+| 11 | No source's data without its terms: every source name used in `bills`, `stages` or `sources`, and every kind of source in the working list, is covered by exactly one line of `terms`; and each line's `covers` is exactly the kinds of source under it | none uncovered |
 
 **What the check does not prove.** Whether the headings and wording are right:
 you agreed those. Whether the working database is right: that is what the
@@ -175,7 +179,9 @@ Before the real run, in this order:
    withdrawal, a rewritten note, and provenance lines from two fact sheets.
 3. **A deliberate fault**, to prove the check catches it: the same run with one
    cell altered after the build (one bill's outcome, `-v fault=on`; or one
-   gap's days, `-v fault_days=on`). The check must fail on
+   gap's days, `-v fault_days=on`; or one credit line, `-v fault_terms=on`;
+   or the Supreme Court taken out of its terms' covers, `-v fault_cover=on`).
+   The check must fail on
    that cell and name it, and nothing may be left in the scratch workbook. A
    check that has never been seen to fail is not evidence of anything.
 4. **The undo** (§5), on the scratch workbook and login. Then confirm the

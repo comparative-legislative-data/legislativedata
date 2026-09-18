@@ -244,6 +244,23 @@ The judgement calls made in building this data, written out for readers rather t
 | `created_at` | timestamp | yes |  | When this note was added. Set automatically. |
 | `updated_at` | timestamp | yes |  | When this note was last changed. Set automatically. |
 
+### `source_terms`
+
+The terms each source's data is published under, one line per set of terms: the Scottish Parliament, legislation.gov.uk, the Supreme Court, and our own work. Each kind of source in ref_source names the line it comes under. No source's data is published until its line is here (DECISIONS.md, 2026-09-17), and the published copy refuses to build if a source it uses has none. See docs/STRAND-1-SOURCE-TERMS.md.
+
+| Column | Type | Required | Points at | What it holds |
+|---|---|---|---|---|
+| `code` | text | yes |  | The short word ref_source.terms stores to point at this line. |
+| `terms_for` | text | yes |  | Whose terms these are, as a reader sees it. |
+| `covers_note` | text |  |  | For terms no kind of source comes under, what they cover, in words. Filled only for our own work, which covers everything without a named source. Empty for the others, whose cover is the kinds of source that point at them. |
+| `licence` | text | yes |  | The licence the data is under, by its own name. |
+| `licence_link` | text | yes |  | Where the licence is published. |
+| `credit_line` | text | yes |  | The words to use when crediting this source. For an outside source, its own words, copied; for our own work, the wording the owner agreed on 2026-09-18. |
+| `restrictions` | text | yes |  | What the source does not allow, in its own words, copied and not interpreted. For the Scottish Parliament, the broader of its two bans, as settled on 2026-09-17. |
+| `terms_page` | text |  |  | The page where the source publishes its terms. Empty for our own work. |
+| `date_terms_read` | date |  |  | The day we read those terms. Empty for our own work. |
+| `sort_order` | number | yes |  | The order to list the lines in. A display choice. |
+
 ## Lists of allowed values
 
 ### `ref_assent_block_outcome`
@@ -356,6 +373,7 @@ The kinds of source this project takes facts from. Every allowed value for any s
 | `label` | text | yes |  | The full name to show a reader, e.g. "SPICe legislation factsheet". The code is what queries and data files use; this is what a person sees on screen. |
 | `definition` | text |  |  | What this kind of source means, in the Parliament's terms. This is the text to show a reader who asks what a value means, and it is the reason the allowed values live in a table rather than as a bare list inside the schema. Written for a reader of the published data: it may name a published heading, but never a working column, a code, a file, a migration or the error checker, and it never tells anyone what to do. An instruction for whoever enters data goes in the description of the column it is about. See DECISIONS.md, 2026-09-18. |
 | `sort_order` | number | yes |  | The order to list these values in on screen. A display choice, not a fact about the kind of source. |
+| `terms` | text | yes | `source_terms.code` | Whose terms this kind of source comes under, pointing at source_terms. Never empty. The PhD dataset is under the Scottish Parliament's, its values being Parliament facts (DECISIONS.md, 2026-09-17), and so is Manual, whose facts restate or correct what the Parliament published (the owner, 2026-09-18). |
 
 ### `ref_stage`
 
@@ -440,7 +458,7 @@ One row per device a person is signed in on. A device stays signed in for 30 day
 
 # The published copy
 
-A separate database, `published`, holding the copy of the data a reader sees, taken from the working database at one moment by `tools/published_copy.sql`. Its ten files are in the area `live`. Words stand in the cells where the working database holds codes; `what_the_words_mean` says what each word means.
+A separate database, `published`, holding the copy of the data a reader sees, taken from the working database at one moment by `tools/published_copy.sql`. Its eleven files are in the area `live`. Words stand in the cells where the working database holds codes; `what_the_words_mean` says what each word means.
 
 The descriptions below are the ones a reader is given, stored on each file and heading in the copy. This script reads them and never a row.
 
@@ -612,4 +630,19 @@ The day this copy was taken, and how many lines each file has.
 | `file` | text | Which file. |
 | `rows` | number | How many lines it has. |
 | `rows_added_since_last_copy` | number | How many lines were added since the copy before. Empty for the first copy. |
+
+### `terms`
+
+The terms each source's data is published under, and how to credit it. A value whose source is listed under covers is under that line's terms; everything else is our own work.
+
+| Heading | Type | What it holds |
+|---|---|---|
+| `terms_for` | text | Whose terms these are. |
+| `covers` | text | The source names, as the source headings give them, that these terms cover. |
+| `licence` | text | The licence the data is under. |
+| `licence_link` | text | Where the licence is published. |
+| `credit_line` | text | The words to use when crediting this source, as the source gives them. |
+| `restrictions` | text | What the source does not allow, in its own words. |
+| `terms_page` | text | The page where the source publishes its terms. Empty for our own work. |
+| `date_terms_read` | date | The day we read those terms. Empty for our own work. |
 

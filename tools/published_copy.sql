@@ -1,6 +1,6 @@
 -- published_copy.sql
 --
--- Takes the published copy: builds the ten files inside the published
+-- Takes the published copy: builds the eleven files inside the published
 -- workbook, reading the working data through the connector that can only read,
 -- checks every cell of them against the working data, and puts them live as
 -- the area `live`. One all-or-nothing action: if anything is refused or any
@@ -14,8 +14,9 @@
 --
 -- save=false builds and checks and throws it all away; save=true keeps it.
 -- For the rehearsal, -v fault=on alters one bill's outcome after the build,
--- and -v fault_days=on one gap's days; the check must then fail on that cell
--- and name it.
+-- -v fault_days=on one gap's days, -v fault_terms=on one credit line, and
+-- -v fault_cover=on takes the Supreme Court out of its terms' covers; the
+-- check must then fail on that cell and name it.
 --
 -- Block 1 of docs/PHASE-2-CHARTS-BUILD.md: the first copy. It refuses if `live`
 -- already exists. Replacing a live copy, keeping the old one as `previous` and
@@ -71,7 +72,7 @@ IMPORT FOREIGN SCHEMA public LIMIT TO (
     ref_assent_block_outcome, ref_assent_block_route, ref_bill_type,
     ref_bill_type_stage, ref_bill_type_stated, ref_enactment_status, ref_outcome,
     ref_procedure, ref_source, ref_stage, ref_stage_1_rejection_route,
-    v_bill_stage_dates,
+    source_terms, v_bill_stage_dates,
     v_candidate_problems, v_stage_date_gaps)
   FROM SERVER working INTO from_working;
 
@@ -97,7 +98,8 @@ SELECT (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY bill_id)) FROM
        (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY stage_event_id)) FROM from_working.stage_event t) AS stages,
        (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY field_source_id)) FROM from_working.field_source t) AS sources,
        (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY session_number)) FROM from_working.session t) AS sessions,
-       (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY code)) FROM from_working.methodology_note t) AS notes;
+       (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY code)) FROM from_working.methodology_note t) AS notes,
+       (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY code)) FROM from_working.source_terms t) AS terms;
 
 -- ---------------------------------------------------------------------------
 -- The mapping
@@ -114,7 +116,8 @@ INSERT INTO files (file, pos, description) VALUES
   ('what_the_words_mean', 7, 'What each word in the other files means, one line per heading and word.'),
   ('what_changed', 8, 'Every published value that differs from the copy before, one line per cell.'),
   ('workings', 9, 'The working that produced each worked-out file, in full, as it ran when this copy was taken.'),
-  ('about', 10, 'The day this copy was taken, and how many lines each file has.');
+  ('terms', 10, 'The terms each source''s data is published under, and how to credit it. A value whose source is listed under covers is under that line''s terms; everything else is our own work.'),
+  ('about', 11, 'The day this copy was taken, and how many lines each file has.');
 
 CREATE TEMP TABLE mapping (
     file text NOT NULL REFERENCES files,
@@ -317,6 +320,22 @@ INSERT INTO mapping (file, pos, heading, feeds, check_key, list, description) VA
    'The worked-out file.'),
   ('workings', 2, 'working', '{}'::text[], NULL, NULL,
    'The working, as text a reader can run on the other files.'),
+  ('terms', 1, 'terms_for', '{}'::text[], 'source_terms.terms_for', NULL,
+   'Whose terms these are.'),
+  ('terms', 2, 'covers', '{}'::text[], NULL, NULL,
+   'The source names, as the source headings give them, that these terms cover.'),
+  ('terms', 3, 'licence', '{}'::text[], 'source_terms.licence', NULL,
+   'The licence the data is under.'),
+  ('terms', 4, 'licence_link', '{}'::text[], 'source_terms.licence_link', NULL,
+   'Where the licence is published.'),
+  ('terms', 5, 'credit_line', '{}'::text[], 'source_terms.credit_line', NULL,
+   'The words to use when crediting this source, as the source gives them.'),
+  ('terms', 6, 'restrictions', '{}'::text[], 'source_terms.restrictions', NULL,
+   'What the source does not allow, in its own words.'),
+  ('terms', 7, 'terms_page', '{}'::text[], 'source_terms.terms_page', NULL,
+   'The page where the source publishes its terms. Empty for our own work.'),
+  ('terms', 8, 'date_terms_read', '{}'::text[], 'source_terms.date_terms_read', NULL,
+   'The day we read those terms. Empty for our own work.'),
   ('about', 1, 'date_copy_taken', '{}'::text[], NULL, NULL,
    'The day this copy of the data was taken.'),
   ('about', 2, 'file', '{}'::text[], NULL, NULL,
@@ -533,6 +552,28 @@ UPDATE copy_build.days_between_stages SET days = days + 1
 \echo 'FAULT PLANTED: the first gap is a day longer.'
 \endif
 
+-- The terms, one line per set. covers names the kinds of source under each,
+-- as the source headings give them; our own work, which no kind of source
+-- comes under, says in words what it covers.
+CREATE TABLE copy_build.terms AS
+SELECT t.terms_for,
+       coalesce((SELECT string_agg(k.label, '; ' ORDER BY k.sort_order)
+                   FROM from_working.ref_source k WHERE k.terms = t.code), t.covers_note) AS covers,
+       t.licence, t.licence_link, t.credit_line, t.restrictions, t.terms_page, t.date_terms_read
+  FROM from_working.source_terms t
+ ORDER BY t.sort_order;
+
+-- For the rehearsal: one credit line altered, and one source taken out of its
+-- terms' covers, after the build.
+\if :{?fault_terms}
+UPDATE copy_build.terms SET credit_line = credit_line || ' (altered)' WHERE terms_for = 'Scottish Parliament';
+\echo 'FAULT PLANTED: the Scottish Parliament''s credit line is altered.'
+\endif
+\if :{?fault_cover}
+UPDATE copy_build.terms SET covers = NULL WHERE terms_for = 'Supreme Court';
+\echo 'FAULT PLANTED: the Supreme Court is covered by no terms.'
+\endif
+
 CREATE TABLE copy_build.about (
     date_copy_taken date, file text, rows integer, rows_added_since_last_copy integer);
 INSERT INTO copy_build.about (date_copy_taken, file, rows)
@@ -650,6 +691,11 @@ SELECT 'sources', coalesce(p.bill_number::text, 'session ' || p.session) || ' ' 
   LEFT JOIN from_working.bill eb ON eb.bill_id = e.bill_id
   LEFT JOIN from_working.session s ON f.entity = 'session' AND s.session_number = f.entity_id;
 
+INSERT INTO pairs
+SELECT 'terms', p.terms_for, to_jsonb(p), pg_temp.pre('source_terms.', to_jsonb(t))
+  FROM copy_build.terms p
+  LEFT JOIN from_working.source_terms t ON t.terms_for = p.terms_for;
+
 -- 1. Lines: each file has exactly as many as the working data, one for one.
 INSERT INTO problems
 SELECT 1, x.file || ': ' || x.published || ' lines, working ' || x.working
@@ -659,6 +705,7 @@ SELECT 1, x.file || ': ' || x.published || ' lines, working ' || x.working
     ('sessions', (SELECT count(*) FROM copy_build.sessions), (SELECT count(*) FROM from_working.session)),
     ('methodology_notes', (SELECT count(*) FROM copy_build.methodology_notes), (SELECT count(*) FROM from_working.methodology_note)),
     ('sources', (SELECT count(*) FROM copy_build.sources), (SELECT count(*) FROM from_working.field_source)),
+    ('terms', (SELECT count(*) FROM copy_build.terms), (SELECT count(*) FROM from_working.source_terms)),
     ('sources, distinct working lines', (SELECT count(DISTINCT wj->>'field_source.field_source_id') FROM pairs WHERE file = 'sources'), (SELECT count(*) FROM from_working.field_source))
   ) AS x(file, published, working)
  WHERE x.published <> x.working;
@@ -846,11 +893,37 @@ INSERT INTO problems
 SELECT 10, 'workings has ' || count(*) || ' lines, or not the one expected'
   FROM copy_build.workings HAVING count(*) <> 1 OR bool_or(file <> 'days_between_stages');
 
+-- 11. No source's data is published without its terms (DECISIONS.md,
+--     2026-09-17). Every source name in bills, stages and sources, and every
+--     kind of source in the working list, is covered by exactly one line of
+--     terms; and each line's covers is exactly the kinds of source under it.
+CREATE TEMP TABLE covered ON COMMIT DROP AS
+SELECT p.terms_for, trim(c) AS source
+  FROM copy_build.terms p
+  CROSS JOIN LATERAL unnest(string_to_array(p.covers, ';')) AS c;
+INSERT INTO problems
+SELECT 11, 'source ' || u.source || ' (' || u.used_in || '): covered by ' || count(c.terms_for) || ' line(s) of terms'
+  FROM (SELECT DISTINCT source, 'bills' AS used_in FROM copy_build.bills
+        UNION SELECT DISTINCT source, 'stages' FROM copy_build.stages
+        UNION SELECT DISTINCT source, 'sources' FROM copy_build.sources
+        UNION SELECT label, 'the working list' FROM from_working.ref_source) u
+  LEFT JOIN covered c ON c.source = u.source
+ WHERE u.source IS NOT NULL
+ GROUP BY u.source, u.used_in
+HAVING count(c.terms_for) <> 1;
+INSERT INTO problems
+SELECT 11, 'terms ' || p.terms_for || ': covers does not say what the working list says'
+  FROM copy_build.terms p
+  LEFT JOIN from_working.source_terms t ON t.terms_for = p.terms_for
+ WHERE p.covers IS DISTINCT FROM
+       coalesce((SELECT string_agg(k.label, '; ' ORDER BY k.sort_order)
+                   FROM from_working.ref_source k WHERE k.terms = t.code), t.covers_note);
+
 -- The about file counts what is there.
 INSERT INTO problems
 SELECT 1, 'about: ' || a.file || ' says ' || a.rows || ' lines'
   FROM copy_build.about a
- WHERE a.rows IS DISTINCT FROM CASE a.file WHEN 'about' THEN 10
+ WHERE a.rows IS DISTINCT FROM CASE a.file WHEN 'about' THEN (SELECT count(*) FROM files)
         ELSE (xpath('/row/c/text()', query_to_xml(format('SELECT count(*) AS c FROM copy_build.%I', a.file), false, true, '')))[1]::text::int END;
 
 \echo ''
@@ -880,12 +953,13 @@ GRANT SELECT ON ALL TABLES IN SCHEMA live TO legdata;
 -- The working data is as it was.
 DO $$
 BEGIN
-  IF (SELECT row(bills, stages, sources, sessions, notes)::text FROM working_before) IS DISTINCT FROM
+  IF (SELECT row(bills, stages, sources, sessions, notes, terms)::text FROM working_before) IS DISTINCT FROM
      (SELECT row((SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY bill_id)) FROM from_working.bill t),
                  (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY stage_event_id)) FROM from_working.stage_event t),
                  (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY field_source_id)) FROM from_working.field_source t),
                  (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY session_number)) FROM from_working.session t),
-                 (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY code)) FROM from_working.methodology_note t))::text) THEN
+                 (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY code)) FROM from_working.methodology_note t),
+                 (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY code)) FROM from_working.source_terms t))::text) THEN
     RAISE EXCEPTION 'The working data changed while the copy was taken.';
   END IF;
 END $$;

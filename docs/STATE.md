@@ -15,7 +15,7 @@ sessions.
 
 | Strand | What it delivers | Where it is |
 |---|---|---|
-| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: item 2 closed; items 1, 3–7 to do |
+| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: item 2 closed; item 3 built, its test unrun; items 1, 4–7 to do |
 | 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | not open |
 | 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
@@ -48,24 +48,23 @@ list are both empty.**
 - **17 September.** Notes settled; the six thoughts mocked up
   (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9); a build order written
   for the charts only, and wrongly followed as the phase's plan.
-- **18 September, earlier.** The published copy taken, checked and closure-
-  tested; the notes, definitions and sources rewritten for a reader
-  (`db/113`–`db/118`); the quarter rule settled.
+- **18 September, earlier.** The published copy taken and checked; the
+  notes, definitions and sources rewritten for a reader; the quarter rule
+  settled; the build plan agreed; the days between stages moved into the copy.
 
-- **18 September, later.** The build plan drafted, checked by another
-  session (twelve findings) and agreed; every published figure to be worked
-  out from the published data.
+**18 September, this session. Each source's terms recorded.**
 
-**18 September, this session. The days between stages moved into the copy.**
-
-- **Laid out** in `docs/STRAND-1-DAYS-BETWEEN-STAGES.md`; you said yes to all
-  three questions.
-- **Built**: the working is one text in the reader's headings, run by the copy
-  on its own bills and stages, and kept word for word in a new tenth file,
-  `workings`. Two descriptions now say the figure is worked out.
-- **Proved**: rehearsed with two planted faults, both caught; then the copy
-  retaken and compared with the old one cell by cell: all 1657 lines
-  identical, in order. No bill, date or figure changed.
+- **Item 2 closed**: its closure test passed, run by this session, which
+  didn't build it, and you signed off `workings` in Postico.
+- **Item 3 laid out** in `docs/STRAND-1-SOURCE-TERMS.md`; you agreed it, with
+  "Manual" under the Parliament's terms. The Supreme Court's terms read and
+  kept: the Open Government Licence, reproduced accurately and not in a
+  misleading context.
+- **Built** (`db/119`): four sets of terms, and each kind of source names
+  whose terms it's under. The copy gains an eleventh file, `terms`, and now
+  refuses to be taken if a source it uses has no terms. Rehearsed with planted
+  faults, all caught; the copy retaken and the ten other files compared cell
+  by cell: identical. No bill, date or figure changed.
 - **Closure test** written, for another session to run.
 
 ## Now
@@ -75,11 +74,11 @@ list are both empty.**
 1. **Item 1**: the copy's backup check, from the nightly run at 03:43 on
    19 September, and your look in Postico for the "In progress" change
    (`db/118`, item 10).
-2. **Item 2: closed.** Its test passed, run by another session, and you
-   signed off `workings` in Postico.
-3. **Item 3**: the record of each source's terms, laid out for you whole
-   before anything is built. **Then items 4 to 7** in order: the kept pages,
-   the wording, the refresh, and the strand's closure test.
+2. **Item 3's closure test**, run by a session that didn't build it
+   (`CLOSURE-TESTS.md`), and your look in Postico at `terms` (its item 14).
+3. **Item 4**: kept copies of the 70 cited pages that have none, sized and
+   put to you before it starts. **Then items 5 to 7** in order: the wording,
+   the refresh, and the strand's closure test.
 
 ## Waiting for you
 
@@ -131,15 +130,27 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session that moved the days between stages
+## Sanity check, 2026-09-18, the session that recorded the sources' terms
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the decisions contents and the dictionary
   regenerated identical; counts 470, 1291, 192, 14; checker and gaps list
-  empty; four databases, all sorted; the site answers 200. "Now" traced to
-  strand 1, items 1 to 7. Item 1 cannot finish before the backup at 02:43 UTC
-  on 19 September.
+  empty; four databases, all sorted; `published` held only `from_working`
+  (empty), `live` and `public`; the site answers 200. "Now" traced to strand
+  1, items 1 to 7. Nothing found.
+
+## The record of each source's terms: working detail, 18 September
+
+- **`db/119` adds a table that is not a `ref_` list**, `source_terms`, so the
+  lists-of-allowed-values fingerprints in later migrations (`LIKE 'ref\_%'`)
+  don't sweep it up; the dictionary shows it under "Published alongside the
+  data" (`tools/make_data_dictionary.py`, `GROUPS`).
+- **The copy's connector needs a grant per working table**: `db/119` grants
+  `copy_reader` read on `source_terms`, and the build's import list names it.
+- **`covers` is worked out, not stored**: the labels of the kinds of source
+  under each line, in the list's order, joined by "; "; for our own work,
+  `covers_note`. Check 11 splits it back on ";".
 
 ## The days between stages in the copy: working detail, 18 September
 

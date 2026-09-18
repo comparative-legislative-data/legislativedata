@@ -2,7 +2,12 @@
 
 For the owner. Written 18 September 2026. Strand 1, item 3 of
 `docs/PHASE-2.md`. Every part of the change is laid out here, with four
-questions at the end. **Nothing is built.**
+questions at the end.
+
+**Agreed by the owner the same day**: Manual under the Scottish Parliament's
+terms, and yes to questions 2 to 4; no to keeping the Parliament's copyright
+page. **Built the same day** (`db/119`), the copy retaken. The closure test is
+written and unrun. The record is at the end.
 
 ## The problem, for one bill
 
@@ -213,3 +218,27 @@ dominate the legislative process?' (PhD thesis, University of Stirling,
 **4. The descriptions in part 8, and the file name `terms`.** As drafted?
 
 Also yes or no: **keep the Parliament's page and the licence** (part 5).
+
+## What was done, 18 September
+
+- **`db/119`** adds the four lines and the column, with a description on
+  each; the copy's connector and Postico can read them. Rehearsed inside a
+  thrown-away transaction, with its undo; a second run and a second undo each
+  refuse. Then applied.
+- **Three choices made at the build**, none changing what was agreed:
+  - the fourth line's name is "legislativedata.org", which says whose it is
+    to a reader holding the file on its own;
+  - the Supreme Court's restriction quotes the Court's whole sentence
+    ("You may use and re-use Crown copyright material from this website …
+    provided it is reproduced accurately and not in a misleading context"),
+    because the fragment shown above cut its words;
+  - no kept-copy column, since only the Supreme Court's terms are kept.
+- **The copy**: the build gains the `terms` file and check 11. Rehearsed
+  with the live copy set aside: a changed credit line, the Supreme Court taken
+  out of its covers, a wrong day and a wrong outcome were each refused and
+  named, and a clean run passed. Then taken, and compared with the old copy
+  cell by cell: the ten existing files identical, line for line and in order,
+  and their descriptions unchanged; `about` differs only by the new file's
+  line and its own count. The old copy was then dropped.
+- **Not kept**: today's Parliament copyright page and the Open Government
+  Licence text, as the owner said.

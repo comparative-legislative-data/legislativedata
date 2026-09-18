@@ -376,6 +376,19 @@ working written in the headings a reader sees; the copy keeps that working,
 word for word, on its `workings` tab. A reader can run it on their own
 download and get the same 8, 7 and 7.
 
+**Whose terms each fact is under.** The day the bill was stopped before Royal
+Assent came from the Supreme Court's case page, so its line on `sources` says
+"Supreme Court". The copy's `terms` tab has four lines: the Scottish
+Parliament, legislation.gov.uk, the Supreme Court, and our own work. Each
+gives the licence, the credit line and the restrictions. The Supreme Court
+line lists "Supreme Court" in its `covers` column, so a reader finds the terms
+for that date there; the bill's factsheet facts, its PhD stage dates and its
+rewritten note are all on the Scottish Parliament's line. Anything with no
+source named, like our bill numbers and the worked-out days, is our own work.
+Which line each kind of source belongs to is one dropdown column on the list
+of kinds of source in the bills workbook, and the copy refuses to be taken if
+a source it uses belongs to none.
+
 The copy is then checked against the bills workbook, every cell, by turning
 each word back into its code, looking it up on the copy's own
 `what_the_words_mean` tab. If a single cell disagrees, no copy is kept.

@@ -30,6 +30,97 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Each source's terms are recorded, and the copy carries them
+
+Written 2026-09-18 by the session that built `db/119` and retook the copy.
+**Not yet run.** Every part was laid out in `docs/STRAND-1-SOURCE-TERMS.md`
+and agreed by the owner the same day: Manual under the Scottish Parliament's
+terms, the Open Government Licence's own credit line for legislation.gov.uk,
+the credit line for our own work, and the descriptions as drafted.
+
+### Part A — mechanical
+
+1. **Four sets of terms.** In `legdata`, `source_terms` has four lines,
+   `scottish_parliament`, `legislation_gov_uk`, `supreme_court`,
+   `our_own_work`, in that order by `sort_order`. *Where from:* the agreed
+   document, "What changes".
+2. **The words are the sources' own.** Each outside source's `credit_line`
+   and `restrictions` appear, character for character, on the page named in
+   its `terms_page` or `licence_link`, read today (the Supreme Court's against
+   `sources/licences/uksc-terms-and-conditions_retrieved-2026-09-18.txt` as
+   well). The Scottish Parliament's restrictions are its two sentences on
+   endorsement and on party political and advertising use, the latter the
+   broader, "provided in any format", wording. *Where from:* DECISIONS.md
+   2026-09-17 (restrictions in the source's own words; today's broader ban).
+3. **Our own work's line** reads, word for word, the credit line in
+   DECISIONS.md 2026-09-18, "Each source's terms are recorded"; licence CC BY
+   4.0 with the link `https://creativecommons.org/licenses/by/4.0/`;
+   `terms_page` and `date_terms_read` empty. *Where from:* that entry.
+4. **Every kind of source is under one set of terms.** `ref_source.terms`
+   is filled for all ten and cannot be emptied: legislation.gov.uk under
+   `legislation_gov_uk`, Supreme Court under `supreme_court`, the other eight,
+   Manual and the PhD dataset included, under `scottish_parliament`.
+   *Where from:* the agreed document and DECISIONS.md 2026-09-17 (the PhD
+   dataset).
+5. **Nothing else moved.** Restore the data backup `c6cf8af2` (10:10 UTC on
+   18 September, the one the "In progress" test restored) to a scratch
+   workbook, well clear of the nightly run, and drop it before finishing.
+   Against it, every sheet and list differs only where that test's item 2
+   found, plus `ref_source`'s new column and the new `source_terms`.
+   *Where from:* `db/119`'s header and the "In progress" test's run.
+6. **The undo works.** Inside a thrown-away transaction in `legdata`, run
+   `db/119_undo.sql`: `ref_source` then has its four original columns and
+   there is no `source_terms`. A second undo in the same transaction refuses.
+7. **The copy carries it.** In `published`, `live.terms` has four lines
+   whose cells equal the working lines under the headings the agreed
+   document gives, with `covers` listing, for each outside source, exactly
+   the labels of the kinds of source under it, separated by "; ", and for our
+   own work the sentence in `covers_note`. *Where from:* the working tab and
+   list, not the copy.
+8. **No published source is without terms.** Every distinct `source` in
+   `live.bills`, `live.stages` and `live.sources` appears in exactly one line's
+   `covers`. *Where from:* DECISIONS.md 2026-09-17.
+9. **The check refuses a source without terms.** With `live` renamed aside,
+   `tools/published_copy.sql` with `-v save=false -v fault_cover=on` refuses
+   and names the Supreme Court as covered by no line; with `-v fault_terms=on`
+   it refuses and names the Scottish Parliament's credit line. Put `live`
+   back and confirm it is unchanged (item 10).
+10. **The copy is otherwise as before.** `live.about`: 2026-09-18; bills 470,
+    stages 1291, days_between_stages 1657, sessions 7, methodology_notes 14,
+    sources 192, what_the_words_mean 89, what_changed 0, workings 1, terms 4,
+    about 11. The days-between-stages test's items 2 to 4 still pass.
+11. **Descriptions**: the `terms` file and its eight headings read word for
+    word as the agreed document's part 8. Every other file and heading is
+    described exactly as `docs/DATA-DICTIONARY.md` gave it at commit
+    `8cd86e6`. Every new column in `legdata` has a description.
+12. **Nothing left behind.** `published` has only `from_working` (no
+    tables), `live` and `public`; no `before_item_3`. Four databases; nothing
+    of this work in the server's `/tmp`, `._` files included. Postico's login
+    (`legdata`) can read `live.terms` and `source_terms`; `copy_reader` can
+    read `source_terms`.
+13. **Counts**: 470 bills, 1291 stage records, 192 provenance notes, 14 notes;
+    checker and gaps list empty. The dictionary regenerates identical and
+    lists eleven published files.
+
+**Which items an outside change can move:** items 7, 8, 10 and 12 (any later
+copy). Items 1 to 4 and 11 hold until someone changes the terms or the
+descriptions; item 2 also moves if a source changes its terms page.
+
+### Part B — the owner's sign-off
+
+14. **In Postico**, `published` → `live` → `terms`: four lines, and each
+    reads as what you agreed, the Supreme Court's restriction quoting the
+    Court's whole sentence.
+
+### Part C — what this test does not check
+
+**How the terms reach a reader**: the sources page and the download, strand 2;
+the wording each page carries, item 5. **Whether a source's terms have changed
+since today**: the refresh's job, item 6. **What the copy was before today**:
+dropped after the cell-by-cell comparison, which item 10 stands in for.
+
+---
+
 ## The days between stages are worked out in the published copy
 
 Written 2026-09-18 by the session that built it and retook the copy.
