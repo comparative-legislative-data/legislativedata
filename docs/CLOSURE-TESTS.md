@@ -32,7 +32,8 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ## Factsheet is one word
 
-Written 2026-09-18 by the session that built `db/117`. **Not yet run.**
+Written 2026-09-18 by the session that built `db/117`. **Run on 2026-09-18**, by
+a session that did none of that work; all six items pass.
 
 ### Part A — mechanical
 
@@ -72,13 +73,47 @@ Written 2026-09-18 by the session that built `db/117`. **Not yet run.**
 `PHASE-2-PUBLISHED-COPY.md`, `PHASE-2-COPY-DESCRIPTIONS.md`) keep "fact sheet"
 on purpose, as the record. **Earlier migrations** keep it too.
 
+### The run, 2026-09-18, by a session that built none of it
+
+**All six items pass.**
+
+1. **No "fact sheet"**, in any capitalisation, in any note title or text, bill
+   note, provenance note, definition on any list, or stored description in
+   `legdata`; none in any cell or description of `published`'s `live`.
+2. **Against backup `c6cf8af2`** (10:10 UTC, before `db/117`), restored to a
+   scratch workbook and compared cell by cell on the bills, stages, sessions,
+   notes, provenance lines, both staging sheets and all eleven lists: 2 note
+   titles, 9 note texts, 1 bill note, 2 staging bill notes, 101 provenance notes
+   and 5 definitions (2, 1 and 2 on three lists), every one differing only by
+   "fact sheet" becoming "factsheet", plus `updated_at` on the changed lines.
+   Nothing else. The scratch workbook was dropped the same hour.
+3. **The review notes are untouched**: no `review_note` differs from the
+   backup; 29 staging-line and 1 stage-dates review notes still say "fact
+   sheet".
+4. **Promotion writes the same.** No literal in `tools/promote_session.sql`
+   says "fact sheet" (the one place that searches for it writes it as
+   `'fact' || ' sheet'`). The Official Report route takes the source's words
+   from the account before the spelling is changed, and changes it only in the
+   note. The full rebuild, Sessions 7 to 1 off and 1 to 7 on inside one
+   thrown-away transaction, temporary tables cleared between scripts: "No
+   unexpected differences", and no "fact sheet" in any note, value or bill
+   note afterwards. One rehearsal served this item and item 5 of each of the
+   `db/115` and `db/116` tests, since all three ask for the same rebuild of
+   the same state.
+5. **Counts** 470, 1291, 192, 14; checker and gaps list empty; only `public`.
+   `about` gives the block 1 test's counts.
+6. **The dictionary** regenerated identical at the opening of the session, and
+   contains no "fact sheet".
+
 ---
 
 ## The published copy, block 1
 
 Written 2026-09-18 by the session that set up `published` and took the first
-copy. **Not yet run.** Block 1 of `docs/PHASE-2-CHARTS-BUILD.md`; the
-procedure is `docs/PUBLISHED-COPY-RUNBOOK.md`.
+copy. **Run on 2026-09-18**, by a session that did none of that work: thirteen
+items pass; item 12 waits for the first nightly run, and item 7 has one
+difference for the owner to rule on. Block 1 of `docs/PHASE-2-CHARTS-BUILD.md`;
+the procedure is `docs/PUBLISHED-COPY-RUNBOOK.md`.
 
 **Moved by `db/117`, spelling only.** `db/117` later changed "fact sheet" to "factsheet" in every cell and description a reader sees. Where an item below compares with agreed wording, make that same change to the agreed text first; the documents are left as the record of what was agreed.
 
@@ -176,11 +211,86 @@ straight after replaced it, and the prune removed its data; every copy in the
 store was searched and none held a scratch dump. The tool was fixed in
 `774aae7`.
 
+### The run, 2026-09-18, by a session that built none of it
+
+Every query written fresh; `tools/published_copy.sql`'s own check was not
+read as an answer.
+
+1. **Pass.** Four workbooks (this session's two scratch restores excepted,
+   dropped before the end). `NOT_BACKED_UP="postgres published"` and
+   `ACCOUNTS_DATABASES="accounts"` in the installed script, whose md5,
+   `880259a8…`, is that of `deploy/legdata-backup` at this commit.
+2. **Pass.** `copy_reader` can log in, is not a superuser, cannot make
+   databases or logins, inherits nothing, belongs to no other login, and its
+   login setting makes every transaction read-only. It may read exactly the
+   twenty names `db/published/001` grants, and write nothing. As
+   `copy_reader`: `bill_candidate`, `stage_candidate` and `ref_party` all
+   "permission denied", and a change to `bill` refused. (Switching into the
+   role from another login does not load its read-only setting, so that was
+   read from the login's settings, not seen refusing.)
+3. **Pass.** In `published`, `legdata` reads all nine files in `live`, writes
+   none, and has no way into `from_working` or `public`. The workbook's
+   permissions name only `postgres` and `legdata`: `legsite`, `copy_reader`
+   and everyone else cannot connect.
+4. **Pass.** Areas `from_working`, `live` and `public`; no `copy_build`;
+   `from_working` and `public` hold nothing.
+5. **Pass.** Nine files and 97 headings, the same as §1 to §5 of
+   `PHASE-2-PUBLISHED-COPY.md` and in its order, parsed from the document.
+6. **Pass.** All 97 heading descriptions and all nine file descriptions match
+   the two documents word for word, compared by script, once backticks are
+   dropped and "fact sheet" is spelled as `db/117` spells it.
+7. **Pass, with one difference for the owner.** bills 470, stages 1291,
+   days_between_stages 1657, sessions 7, methodology_notes 14, sources 192,
+   what_the_words_mean 89, what_changed 0, about 9; `about` gives each
+   file's count and 2026-09-18. Counted from the working lists, the words
+   file comes to 89 **if** `title_changed_at_stage` can hold only the seven
+   stages that appear in a bill type's sequence, which is what the copy
+   lists. The working database would accept any of the nine stage names
+   there, Introduction and Royal Assent included, which would make 91. A
+   title cannot change at either, and the build refuses a word its
+   dictionary lacks, so nothing can reach a reader wrongly; but the working
+   column's own rule is looser than the copy's.
+8. **Pass.** Traced through every file: the National Galleries of Scotland
+   Act 2016 (bill 270, a Private Bill: Preliminary, Consideration and Final
+   Stage), the Transplantation (Authorisation of Removal of Organs etc.)
+   (Scotland) Bill (bill 302, rejected at Stage 1 by the amended-motion
+   route), and bill 473, the Session 7 bill still before the Parliament.
+   Every cell agrees, empty ones included; each word turns back into its code
+   through `what_the_words_mean`; each bill's `sources` lines are exactly its
+   provenance notes (one, two and none). The four gaps for bill 270 (161, 12,
+   35, 35 days) and one for bill 302 (253) were worked out by hand. Bill 473
+   has no stages, gaps or sources lines, and neither does the working data.
+9. **Pass.** No text cell in any file equals a code from any list, or a stage
+   code, where the code differs from its word.
+10. **Pass.** All 1657 gaps matched to `v_bill_stage_durations` by bill and
+    the two points; every date, `days`, type, procedure, outcome and Yes/No
+    agrees, and each `days` equals the difference between its dates as
+    worked out here.
+11. **Pass.** 470, 1291, 192, 14; checker and gaps list empty; only `public`.
+12. **Half done.** Every copy in the offsite store, 23 of them (system, data
+    and accounts), was searched at about 12:15 UTC: none holds a `published`,
+    `_themes_check` or `_rehearsal` dump, nor either of this session's scratch
+    restores. **Still to do:** read the log of the first nightly run after
+    02:30 on 19 September for "published is not backed up, on purpose.", and
+    search the copy it makes.
+13. **Pass.** The dictionary regenerated identical at the session's opening;
+    its third part lists 9 files and 97 headings.
+14. **Pass.** On `published_rehearsal` with `copy_reader_rehearsal`: set up
+    (the connector reads the sessions, cannot read the staging sheet, cannot
+    write; Postico's login cannot open `from_working`); built with
+    `save=false`, no problems, the nine counts as above, thrown away; built
+    with `-v fault=on`, refused with one problem, "bills 1, outcome:
+    published Withdrawn, turned back withdrawn, working passed", nothing
+    kept; undone, leaving no workbook, no login and no permission in
+    `legdata`. `/tmp` on the server cleared. The backup rehearsal was not
+    run.
+
 ---
 
 ## The source's own words are the source's
 
-Written 2026-09-18 by the session that built `db/116`. **Not yet run.**
+Written 2026-09-18 by the session that built `db/116`. **Run on 2026-09-18**, by
+a session that did none of that work; all six items pass.
 
 **Moved by `db/117`, spelling only.** `db/117` later changed "fact sheet" to "factsheet" in every cell and description a reader sees. Where an item below compares with agreed wording, make that same change to the agreed text first; the documents are left as the record of what was agreed.
 
@@ -219,11 +329,52 @@ reviews recorded them; this does not go back to the Official Report.
 **The earlier closure tests.** The Session 4 and 5 checks display this column
 and did not set expectations on it; none needs re-running for this.
 
+### The run, 2026-09-18, by a session that built none of it
+
+**All six items pass.** The strongest evidence is a reversal. `db/116` refused
+to run unless every line's value and note had the fingerprint `ba368e0f…`.
+Starting from the lines in backup `c6cf8af2` (after `db/116`, before
+`db/117`), the 91 empty values whose heading and source are group 1's in
+`docs/PHASE-2-SOURCE-WORDS.md` were given back their cell's value, and the 31
+Official Report lines their account as the value (with the Session 6 opening
+phrase) and an empty note. The fingerprint came back exactly. So `db/116`
+changed those 122 values and 31 notes as the file says, and nothing else; and
+each of the 31 accounts rebuilt this way matches the file's group 2 table word
+for word.
+
+1. **No value repeats its cell**, on any of the 192 lines.
+2. **55 values**: 17 Official Report outcomes and 38 others, the 38 untouched
+   by the reversal above and by `db/117`.
+3. **The 31 split as agreed.** Each account in the file's group 2 table, with
+   the opening phrase cut and a capital first letter, is the note ("fact
+   sheet" spelled as `db/117` spells it); the passages in double quotation
+   marks, in order, joined by " … ", are the value; the Restricted Roads
+   bill's last quotation, the motion text from the bill page, is left out.
+   14 have an empty value. Checked by script for all 31 and read by eye for
+   the Transplantation, Budget (No.2) and Restricted Roads bills.
+4. **Nothing else moved.** Matching lines by what they are about (their
+   numbers are reissued at each promotion), every column but the note and the
+   value is as it was in the backup of 17 September, 02:54 UTC, but for five
+   lines added by `db/105` and `db/107` and bill 305's note line re-dated by
+   `db/105`. All earlier than `db/115`. Counts 470, 1291, 192, 14; checker
+   and gaps list empty; only `public`.
+5. **Promotion writes the same.** No route copies the cell into `value_seen`:
+   the checked-value, procedure and corrected-title routes write it empty; the
+   footnote routes write the footnote; the Stage 1 route writes the
+   announcement; a later fact sheet's changed title writes the title as that
+   fact sheet printed it. The Official Report route cuts `fact ?sheet`, so
+   either spelling. The rebuild rehearsal is recorded under `db/117`'s run:
+   "No unexpected differences".
+6. **The description** of `value_seen` states the rule, and the dictionary
+   regenerated identical at the session's opening.
+
 ---
 
 ## The sources file's notes name what a reader sees
 
-Written 2026-09-18 by the session that built `db/115`. **Not yet run.**
+Written 2026-09-18 by the session that built `db/115`. **Part A run on
+2026-09-18**, by a session that did none of that work; all six items pass. Part
+B waits for the owner.
 
 **Moved by `db/117`, spelling only.** `db/117` later changed "fact sheet" to "factsheet" in every cell and description a reader sees. Where an item below compares with agreed wording, make that same change to the agreed text first; the documents are left as the record of what was agreed.
 
@@ -273,11 +424,46 @@ our coded value rather than the source's words. Recorded in
    notes read "Parliament''s"; they now read "Parliament's", and the script no
    longer makes the fault. The proposal had called those three fine.
 
+### The run, 2026-09-18, by a session that built none of it
+
+**All six items of Part A pass**, again by reversal. `db/115` refused to run
+unless the notes had the fingerprint `688636fd…`. Starting from the notes as
+`db/116` left them (the reversal in its run, above), each wording that
+`docs/PHASE-2-SOURCES-NOTES.md` proposes was turned back into the wording it
+calls *Now*: A's 67, B's 17 (only the two sentences it changes), C's six by
+the four pairs in its table, D's one and E's one (its last sentence put back),
+and "Parliament's" back to "Parliament''s" in the three "Rewritten" notes.
+95 notes, and the fingerprint came back exactly. So every changed note is the
+agreed wording, the rest of each note is as it was, and no other note moved.
+A first attempt that doubled every apostrophe in the three did not match;
+doubling only those inside the quoted bill notes, which is what the file
+describes, did.
+
+1. **Pass**, as above; "fact sheet" in the agreed text is now "factsheet"
+   after `db/117`, and the cell-by-cell comparison under `db/117`'s run shows
+   that is the only difference.
+2. **Pass.** The three read "Parliament's", with no pair of apostrophes.
+3. **Pass.** The fingerprint covers only the notes; the other columns were
+   checked against the backup of 17 September, as recorded under `db/116`'s
+   run, item 4.
+4. **Pass**, with `db/117` turned the other way: no note contains `raw_`,
+   `bill_candidate`, `session.date_session_end`, `sources/`, a pair of
+   apostrophes, a stored code in single quotes, or "fact sheet" as two words.
+   "factsheet" as one word is now what is required.
+5. **Pass.** Every note `tools/promote_session.sql` writes is one of the
+   wordings in item 1, spelled as `db/117` spells them, and the Session 6
+   changes are quoted through `continuing_labels`, the lists' labels. The
+   rebuild rehearsal is recorded under `db/117`'s run.
+6. **Pass.** 470, 1291, 192, 14; checker and gaps list empty; only `public`;
+   the dictionary identical.
+
 ---
 
 ## A definition is written for a reader
 
-Written 2026-09-18 by the session that built `db/114`. **Not yet run.**
+Written 2026-09-18 by the session that built `db/114`. **Part A run on
+2026-09-18**, by a session that did none of that work; all eight items pass.
+Part B waits for the owner.
 
 **Moved by `db/117`, spelling only.** `db/117` later changed "fact sheet" to "factsheet" in every cell and description a reader sees. Where an item below compares with agreed wording, make that same change to the agreed text first; the documents are left as the record of what was agreed.
 
@@ -338,6 +524,58 @@ it was built. This checks that what went in is what was agreed.
    proposal: the bill's "how stopped" and "what happened after" columns said
    "all but three bills today, and will be all but four once Session 6 is
    loaded". Both now say "all but four bills", which is true. Not published.
+
+### The run, 2026-09-18, by a session that built none of it
+
+**No backup holds the lists exactly as `db/113` left them**, so the "before"
+was rebuilt from the repository. The backup of 17 September, 02:54 UTC, was
+restored to a scratch workbook and `db/104` onwards applied to it. `db/104`
+and `db/105` applied; `db/106` refused, because `db/105` needs the sessions
+put back before anything after it will run. Of `db/104` to `db/113`, only
+`db/105` and `db/106` touch the lists, and `db/106` changes one definition,
+Blocked, to a text it gives in full. So the "before" is that scratch copy with
+Blocked set to `db/106`'s text. The scratch workbook was dropped the same
+hour.
+
+1. **Pass.** All 29 match the agreed wording (spelled as `db/117` spells it).
+   Twenty-four were typed from the file's *Proposed* text. For the five given
+   as changes to one sentence (Fell: financial resolution not agreed, amended
+   to reject, Rule 9.14.18, legislation.gov.uk, Supreme Court), the old
+   sentence was replaced in the "before" text and the whole compared. None of
+   the 29 matched its old text, so the pass is not vacuous.
+2. **Pass.** 65 values across eleven lists, the same codes, labels and order
+   as the "before"; exactly the 29 named in the file changed beyond
+   `db/117`'s spelling, and the other 36, the party list's seven included,
+   are unchanged.
+3. **Pass.** No published definition is empty or contains any of the listed
+   words or patterns (the party list excluded).
+4. **Pass.** The words with an underscore are `bill_type`,
+   `bill_type_at_the_time`, `bill_type_grouped`, `date_fell_or_withdrawn`,
+   `enactment_status` and `where_in_the_source`, all headings in the agreed
+   list; none of the four refused.
+5. **Pass.** Three section 33 bills, all Session 5: bill 305 blocked on
+   13 December 2018, bills 303 and 304 on 6 October 2021, each with the
+   footnote in its own sources lines. One Hybrid Bill, the Forth Crossing Act
+   2011. One bill fell on its financial resolution, the Creative Scotland Bill,
+   18 June 2008. Two reconsidered and passed, whose Reconsideration Stages
+   ended in 2023 and 2026, in Session 6. No bill uses Fell (other), Some other
+   route or Reconsidered and fell. No fact rests on the API or a bill
+   document. All five Manual lines say what the source was, though one, bill
+   17's title, says only "review of staging line 17".
+6. **Pass.** The four source-reference descriptions (bill, stage, provenance
+   line, staging line) say what goes there for each source; the bill's and
+   the staging line's note say what goes there for Fell (other) and Some
+   other route; both Stage 1 rejection route descriptions say what Some other
+   route needs; both "what happened after" descriptions say what the checker
+   requires; all eleven definition columns carry the rule.
+7. **Pass.** The checker refuses Reconsidered and passed or Reconsidered and
+   fell when the bill has no Reconsideration Stage, either on the staging
+   sheet or on the clean sheet of the bill it continues. The description names
+   only the first. That is accurate, not complete.
+8. **Pass.** 470, 1291, 192, 14; no note's text or title changed between
+   `db/113` and `db/117` (no migration in between touches them, and
+   `db/117`'s changes are spelling only); checker and gaps list empty; the
+   dictionary identical.
 
 ---
 

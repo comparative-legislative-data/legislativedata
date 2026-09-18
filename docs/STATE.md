@@ -51,46 +51,46 @@ list are both empty.**
 
 - **18 September, earlier.** `db/113` closed; 29 definitions rewritten for a
   reader (`db/114`); the sources file's notes and the source's own words
-  rewritten (`db/115`, `db/116`); how the published copy is taken agreed and
-  tried on a scratch workbook. Closure tests for all three unrun.
+  rewritten (`db/115`, `db/116`); the published copy taken and checked, and
+  you signed it off in Postico; "factsheet" made one word again (`db/117`).
 
-**18 September, this session. The published copy taken.**
+**18 September, this session. Five closure tests run.**
 
-- **Rehearsed first**, on a scratch workbook: set up, built and checked
-  (nothing found), a planted fault caught and named, and undone leaving
-  nothing. The Legal Continuity Bill was traced through every file against the
-  working data by hand, and agrees everywhere.
-- **Then for real.** The backup now skips the copy, rehearsed and installed.
-  The `published` workbook is set up, and the first copy is taken: 470 bills,
-  1291 stages, 1657 gaps, 7 sessions, 14 notes, 192 source lines, 89 words.
-  Its check, every cell turned back and compared, found nothing. Postico's
-  login can read it; the site's cannot. The data dictionary has a third part
-  for it, and `HOW-THE-DATABASE-WORKS.md` a short section.
-- **A fault in the backup's rehearsal tool**, which you agreed I mend. It ran
-  the real backup when it meant to run a throwaway one, while a scratch copy
-  of the accounts was open, so today's offsite copy of the data held the
-  accounts. With your agreement one normal backup run replaced it, and every
-  copy in the store was searched: none holds it now. The tool is fixed and
-  reran clean.
-- **The closure test for the copy is written**, for another session to run.
-  You opened the copy in Postico and signed it off.
-- **"Factsheet" is one word again**, as you chose: about 120 cells a reader
-  sees and the descriptions, built as `db/117` with the promotion script to
-  match, rehearsed by a full rebuild (identical), applied, and the copy
-  retaken. Two staging bill notes changed too, since a bill's note is copied
-  from them. The documents recording what you agreed keep two words, as the
-  record; the four unrun closure tests say to allow for it.
+- **`db/114`, `db/115`, `db/116`, `db/117` and the published copy**, run by a
+  session that built none of them. Every mechanical item passes except
+  one that has to wait for tonight, and one point for you to rule on
+  (below). Results are under each test in `docs/CLOSURE-TESTS.md`.
+- **The strongest check was a reversal.** `db/115` and `db/116` each recorded
+  a fingerprint of the sources lines before they ran. Undoing every change
+  the two agreed documents describe, and nothing else, gives both
+  fingerprints back exactly.
+- **Two backups restored to scratch workbooks** to compare with, and dropped
+  within the hour. The full rebuild of all seven sessions was rehearsed and
+  thrown away: identical.
+- **Still to do on the copy's test:** item 12, reading the first nightly
+  backup's log after 02:30 on 19 September.
 
 ## Now
 
-1. **The closure tests for `db/114`, `db/115`, `db/116`, `db/117` and the
-   published copy**, run by a session that built none of them.
-2. **The three small items**, block 2, each with its full checklist first.
-3. **Iterating the mock-ups**, whenever you want: the open points are in
+1. **Your three rulings below**, under "From the closure tests".
+2. **The copy's item 12**, from 19 September: read the nightly backup's log.
+3. **The three small items**, block 2, each with its full checklist first.
+4. **Iterating the mock-ups**, whenever you want: the open points are in
    `docs/PHASE-2-CHARTS-THOUGHTS.md`.
 
 ## Waiting for you
 
+- **From the closure tests**, three things only you can settle:
+  - **`db/114`**: two descriptions Postico shows (not published) lost a stale
+    count, "all but three bills today …", and now say "all but four bills".
+    This wasn't in what you agreed. Yes or no?
+  - **`db/115`**: three sources notes read "Parliament''s", with the
+    apostrophe doubled. They were fixed to "Parliament's" without being put to
+    you first. Yes or no?
+  - **The words file**: under `title_changed_at_stage` it lists seven stages.
+    The working database would accept all nine, Introduction and Royal
+    Assent included, though a title can't change at either. Leave it, or
+    narrow the working rule to match?
 - **Making the GitHub repository private**, which you expect to do. Nothing
   depends on it being public; the switch is yours, in GitHub's settings.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
@@ -146,7 +146,7 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session of the published copy
+## Sanity check, 2026-09-18, the session of the closure tests
 
 Run before the first reply.
 
@@ -154,36 +154,41 @@ Run before the first reply.
   `STATE.md`; the decisions contents and the dictionary regenerated identical.
 - **The counts matched**: 470 bills, 1291 stage records, 192 provenance notes,
   14 notes; staging 474 and 1295; checker and gaps list empty; only `public`.
-- **Every database sorted into a backup theme**: `accounts`, `legdata`,
-  `postgres`. **The site answers 200.**
-- **The SSH rate limit bit twice.** `tools/make_data_dictionary.py` now waits
-  and retries when a connection is refused.
+- **Every database sorted**: `accounts`, `legdata`, `postgres`, `published`.
+  **The site answers 200.**
 
-## Closing checks, 18 September, the session of the published copy
+## Closing checks, 18 September, the session of the closure tests
 
-- **Figures unchanged in the working workbook**: 470, 1291, 192, 14; checker
-  and gaps list empty; only `public`. The copy's own build confirms the
-  working data by fingerprint before and after.
-- **Four databases, each sorted**: `published` and `postgres` skipped on
-  purpose, `accounts` its own theme, `legdata` the data.
-- **The installed backup** is identical to `deploy/legdata-backup` (md5
-  `880259a8…`); the version before is on the machine as
-  `legdata-backup.pre-published.bak`. The first nightly run with it is at
-  02:30 on 19 September; item 12 of the closure test reads its log.
-- **The offsite store after the fault**: 23 copies, every one searched for a
-  `_themes_check` or `_rehearsal` dump; none. Today's data copy is `c6cf8af2`.
-- **No scratch workbook or login left**; `/tmp/pubrehearse` on the server
-  removed.
-- **The dictionary regenerates identical**, now with the copy's part.
-- **Not done, on purpose**: nothing on the site reads the copy (block 4).
-- **`db/117`**: rehearsed by `db/117` then Sessions 7 to 1 off and 1 to 7 on in
-  one thrown-away transaction, temporary tables cleared between scripts: "No
-  unexpected differences". Applied; its own fingerprint check passed; three
-  cells read back. The copy removed and retaken, check clean; no "fact sheet"
-  in any cell or description of it. The dictionary regenerates identical.
-- **zsh's `echo` turns `\e` into an escape character**, which broke the first
-  rehearsal file (`\echo` became garbage). Write psql files with `printf
-  '%s\n'`.
+- **No data changed.** The only writes were to scratch workbooks
+  (`ct_after113`, `ct_before117`, `published_rehearsal`) and one rehearsal
+  transaction that ended in a rollback. All three workbooks and the
+  rehearsal login were dropped. Four databases remain.
+- **Figures unchanged**: 470, 1291, 192, 14; checker and gaps list empty;
+  only `public`. The dictionary regenerates identical.
+- **`/tmp` on the server** holds nothing from this session.
+
+## Running the closure tests: working detail, 18 September
+
+- **The server runs on UTC**, the Mac on British Summer Time. Backup times
+  from `restic snapshots` are UTC: `c6cf8af2` at 10:10 is 11:10 here, before
+  `db/117` (committed 11:41).
+- **The offsite store** is reached as root with `set -a; . /root/.legdata-backup.env`
+  (not `/etc/`), then `restic`. `tools/restore_check.sh` shows how to restore
+  one database's dump.
+- **Applying later migrations to an old backup does not work past
+  `db/105`**: it changes staging lines and needs the sessions put back before
+  `db/106` onwards will run. To get "the state after migration N", restore
+  the newest backup before it and account for each migration in between by
+  reading it.
+- **The migrations' own fingerprints are the best "before"** there is. `db/115`
+  and `db/116` each hash every sources line before running. Undoing the agreed
+  changes from a later copy and recomputing the hash proves a change was
+  exactly what was agreed. The hash is psql's `string_agg` of id, tab,
+  value (or `chr(1)` for empty), newline-separated, in id order, then md5.
+- **Sources lines are renumbered at every promotion.** Match them across
+  backups by bill, heading, source and where in the source.
+- **Retrying past the SSH rate limit**: a background loop that tries every 30
+  seconds, 20 times, worked.
 
 ## How the published copy was taken: working detail, 18 September
 
