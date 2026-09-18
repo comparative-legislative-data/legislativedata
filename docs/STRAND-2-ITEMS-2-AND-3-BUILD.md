@@ -128,3 +128,32 @@ another session to run.
   on one line each, and refuses to run if either is missing.
 - **Third run: all 68 pass; `BREAK=1` fails at exactly 26 (the date
   statement) and 29 (the credit lines).** Nothing left in the server's `/tmp`.
+
+**Parts B and C, and the undo, 18 September.**
+
+- **Deployed as `2026-09-18T20-53-18Z`.** Steps 1 to 4 ran; step 5 was
+  refused by the firewall, because the deploy was started too soon after the
+  check's connection. The site had switched: checked over the internet, the
+  home page carried the new footer, and `/data` and `/insights` sent a
+  signed-out reader to the sign-in page with none of their words. Steps 5
+  and 6 were then run by hand, as the script has them: 200, 200, 301, 308,
+  200; releases cleared to three.
+- **The undo, rehearsed.** `--rollback` went to `2026-09-18T17-39-56Z`,
+  health and home page 200; `/data` gave 404 and the footer read "No data
+  published yet" again.
+- **Deployed again as `2026-09-18T20-54-13Z`.** Step 5 refused again, for
+  the same reason; after a proper wait, steps 5 and 6 by hand: 200, 200, 301,
+  308, 200; three releases kept.
+- **On the live release**: `check_data_pages.py`, all 68 pass;
+  `check_privacy.sh`, all 15 pass. Nothing left in the server's `/tmp`.
+
+**The undo is now two rollbacks, not one.** The three releases kept are
+`17-39-56Z` (the site before this build), `20-53-18Z` (this build, the first
+time) and `20-54-13Z` (this build, live). One `--rollback` goes to
+`20-53-18Z`, which is the same code; a second goes back to before the build.
+The next deploy clears `17-39-56Z` away.
+
+**Lesson for the runbook, not yet written into it:** the half-minute wait
+applies after a rollback as well as after any other connection, and a deploy
+started inside it switches and then fails at step 5, which leaves the site
+switched and unchecked.

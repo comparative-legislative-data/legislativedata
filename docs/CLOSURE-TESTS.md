@@ -30,6 +30,154 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The page parts every data page shares
+
+Strand 2, item 2. Written 2026-09-18 by the session that built and deployed
+it with item 3 (`docs/STRAND-2-SHARED-PAGE-PARTS.md`, agreed by the owner the
+same day; the build, its check and its undo in
+`docs/STRAND-2-ITEMS-2-AND-3-BUILD.md`). **Not yet run.**
+
+`tools/check_data_pages.py` is the thing under test as much as the site is:
+read it before trusting its lines, and ask the questions below of the live
+site afresh where they can be asked from outside.
+
+### Part A — mechanical
+
+1. **The live release is this build.** On the server, `/srv/site/current`
+   is `2026-09-18T20-54-13Z` or later, and its `app.py` has the routes
+   `/data` and `/insights`, both going through `signed_out_to_sign_in`.
+2. **Signed out, from this Mac, over the internet.** `/data`, `/data?x=1`
+   and `/insights` each answer 302 to `/sign-in?next=/data` (or
+   `/insights`), and the body of each holds none of: a methodology note's
+   title, "Methodology notes", "Sources and licence", "Contains information
+   licensed", "The charts are being built", "Accurate as at that date".
+   *Where from:* the owner's agreement, question 3.
+3. **The return address cannot leave the two pages.** In `app.py`,
+   `RETURN_SHAPE` accepts only `/data` or `/insights`, optionally with `#`
+   and up to 40 letters, digits or hyphens, and `return_to` uses it whole
+   (`fullmatch`). Asked afresh from this Mac: `/sign-in?next=//example.com`
+   and `/sign-in?next=/admin` carry no hidden `next` on the form;
+   `/sign-in?next=/data` carries `value="/data"` and the sentence "Sign in to
+   see the data.".
+4. **The footer, on every page, from this Mac.** `/`, `/privacy`, `/apply`
+   and `/sign-in` each end with exactly `Data as at 18 September 2026 · What
+   has changed` (or the date of the live copy's `about`, asked afresh as
+   `legsite`) and the independence sentence, word for word with
+   `docs/wording/PUBLISHING.md` part 1.
+5. **The check, as the site.** Copy `tools/check_data_pages.py` and
+   `docs/wording/PUBLISHING.md` to the server and run it as `legsite` in the
+   live release's environment against the live release: "All 68 pass". With
+   `BREAK=1`: exactly items 26 and 29 fail.
+6. **Not kept by the browser.** On the server, as the check does:
+   `/data` and `/insights` signed in answer `Cache-Control: no-store` (item
+   22 of the check); `/admin` still does.
+7. **The copy made unreadable** (item 58 and 59 of the check): the Data page
+   gives 503 with part 6's three lines and nothing else; home, privacy and
+   sign-in draw with no date.
+8. **The privacy check still passes** on the live release:
+   `tools/check_privacy.sh`, "All … pass".
+9. **The undo is one step.** `tools/deploy_site.sh --rollback` goes to the
+   release before, which has no `/data`. *Do not run it*; read
+   `/srv/site/switched`: its last three lines are the releases on the
+   machine, the last the live one.
+10. **Nothing left behind.** Nothing of the check's in the server's `/tmp`;
+    four databases; no change to either database (counts 470, 1291, 192, 14;
+    checker and gaps list empty; the dictionary regenerates identical).
+
+**Which items an outside change can move:** 1, 5, 6, 7, 8 and 9 at any
+deploy; 4 and 5 at any refresh, which changes the date.
+
+### Part B — the owner's sign-off
+
+1. **Signed in, in a browser**: the header shows Data · Insights · Privacy;
+   the Data page's date beside its heading and the date statement under it;
+   the credit lines at its foot; the footer. **Dark, light, and the print
+   preview**, each read.
+2. **Signing out, then Back**, does not show the Data page again.
+3. **A link while signed out**: opening `/data#M7` signed out, signing in
+   with a code, and landing on the Data page with M7 open.
+
+### Part C — what this test does not check
+
+**The home page's words**, which stay as they were until the table goes live
+(agreed). **Speed.** **Browsers other than the one used for Part B.**
+**Signing in with JavaScript switched off**: the reader then lands on the
+Data page, not the section.
+
+---
+
+## The Data page's four reference sections
+
+Strand 2, item 3. Written 2026-09-18 by the session that built and deployed
+it with item 2 (`docs/STRAND-2-REFERENCE-SECTIONS.md`, agreed by the owner
+the same day). **Not yet run.**
+
+As for item 2: `tools/check_data_pages.py` is under test too. Where an item
+compares with the copy, take the copy's lines afresh, as `legsite`, not from
+the check.
+
+### Part A — mechanical
+
+1. **Every note, word for word.** Signed in (on the server, by the check or
+   by a made-up reader of your own), the Data page's Methodology notes
+   section holds 14 notes, M1 to M14 in order, each with its code, title,
+   every paragraph of `text` split at blank lines, and every heading of
+   `applies_to`, exactly as `live.methodology_notes` holds them, and
+   nothing else. Check items 35 to 37. *Where from:* the copy.
+2. **Terms of use, word for word.** The section's opening two paragraphs
+   are `PUBLISHING.md` part 4's; four blocks follow, one per line of
+   `live.terms`, each field as the copy has it, "Covers" giving each source
+   with its `what_the_words_mean` sentence (our own block giving its
+   `covers` text), in the order Scottish Parliament, legislation.gov.uk,
+   Supreme Court, legislativedata.org. Check items 38 to 42.
+3. **What the words mean.** 89 lines under 17 headings, each as
+   `live.what_the_words_mean` holds it, in its order. Check items 43 to 45.
+   Ask afresh: `SELECT count(*), count(DISTINCT heading) FROM
+   live.what_the_words_mean` gives 89 and 17.
+4. **What has changed, today.** "Nothing has changed since the data was
+   first published." and "Added in the copy of 18 September 2026: no lines."
+   (or, after a refresh, the copy's own lines and counts). Ask afresh:
+   `live.what_changed` has 0 lines and every counted file in `live.about`
+   has `rows_added_since_last_copy` 0.
+5. **What has changed, drawn with invented lines.** Check items 49 to 56:
+   five invented lines, newest copy first, a removed line, a line's own
+   words shown and not obeyed, and the added line for some, one, none and a
+   first copy, each in part 7's words. Nothing is written to the copy: an
+   md5 of every line of `live` is the same before and after the check.
+6. **Each section has its link.** `#methodology-notes`,
+   `#sources-and-terms`, `#terms-of-use`, `#what-the-words-mean`,
+   `#what-has-changed` and `#M1` to `#M14` are each an `id` on the page,
+   inside a section that folds. Check items 61 to 68.
+7. **Read at the moment it is asked for.** `data.html` holds no methodology
+   note's title, no source's name and no credit line: every one comes from
+   the copy. `grep` it for "Scottish Parliament Copyright", "Why a bill
+   fell" and "Parliament API": none found.
+8. **The credit lines.** All four, then part 3's two sentences, word for
+   word. Check items 29 to 31.
+
+**Which items an outside change can move:** 1 to 4 and 8 at any refresh;
+all of them at any deploy.
+
+### Part B — the owner's sign-off
+
+1. **Reading the page.** Each section opened and read: whether it reads as
+   agreed, and whether the choices in the build document's "Small choices"
+   (the order of the terms, where a licence links, the added line's file
+   names, printing opening every section) stand.
+2. **The links**: `/data#M7` opens M7; `/data#terms-of-use` and
+   `/data#what-has-changed` open their sections; the credit lines' "Terms of
+   use" link and the date statement's "See what has changed." land there.
+
+### Part C — what this test does not check
+
+**A real line in What has changed**: there is none until a refresh changes a
+published value, so only invented lines have been drawn. **The order of What
+has changed** within a copy is the site's own query, and is only read, not
+tried with real lines. **The pages we kept of each cited source, the
+provenance notes and the workings**, which are not in this item.
+
+---
+
 ## The site reads the copy
 
 Strand 2, item 1. Written 2026-09-18 by the session that built and deployed
