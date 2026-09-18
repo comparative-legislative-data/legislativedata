@@ -1,6 +1,8 @@
 # Taking the published copy
 
-For the owner. Written 18 September 2026. **A proposal: nothing here is built.**
+For the owner. Written 18 September 2026. **The five decisions in §1 were
+agreed by the owner the same day**, point 2 in the form the owner proposed: a
+connector that can only read. Nothing is built yet.
 This is block 1 of `docs/PHASE-2-CHARTS-BUILD.md`. What the copy holds, its
 nine files and every heading were settled on 17 and 18 September
 (`docs/PHASE-2-PUBLISHED-COPY.md`) and are not reopened here. This says how the
@@ -13,7 +15,7 @@ Block 1 makes the copy once and proves it.
 
 ---
 
-## 1. Five things for you to decide
+## 1. The five decisions
 
 ### 1. It is a workbook of its own, called `published`
 
@@ -29,21 +31,38 @@ rehearsed with the backup's own rehearsal tool before it is trusted. Without it,
 the sanity check would find a database in no backup theme, and the nightly
 backup would keep it for ten years.
 
-### 2. The copy is built inside the working workbook first, then moved across whole
+### 2. The copy is built inside `published`, reading the working data through a connector that can only read
 
-The build runs in a separate area of the working workbook, `copy_build`, and is
-checked there against the working data. Only once every check passes is it
-moved across to `published`. Then the working area is removed.
+**The owner's proposal, agreed.** The build runs inside `published`. It reads
+the working data through a connector that logs in to the working workbook as
+`copy_reader`, a login that can read and do nothing else. So nothing done while
+a copy is taken can change the working data. A mistake in the build script
+cannot touch it at all, where before it would only have been unlikely.
 
-**Why:** the check needs the working cells and the published cells side by side,
-and in one workbook that is a lookup. Across two workbooks it needs a
-connector between them, which is an add-on to the database and would be a new
-dependency. Moving the finished area across is one step, done with the tool the
-backup already uses.
+- **What `copy_reader` can see** is only what crosses: the clean sheet, the
+  stages, the sessions, the notes, the provenance lines, the lists of allowed
+  values and the calculation of days between stages. It cannot see the staging
+  sheets at all, so they cannot cross by accident.
+- **Its password** is made at random when it is set up, and held only in the
+  connector's own settings inside `published`. It is not in this repository or
+  in the private notes. If it is ever lost, it is simply made again.
+- **The guard.** `published` is the workbook the site will read. If the site's
+  login could use the connector, it could reach the working data through it,
+  which undoes the decision of 15 September. So only the build uses the
+  connector; the connected tables sit in an area of their own, `from_working`,
+  that no other login can open; and in block 4, the check that proves the site
+  can only read also proves it cannot use the connector.
+- **Nothing is installed.** The connector (`postgres_fdw`) comes with
+  PostgreSQL and is already on the machine, switched off. The machine's login
+  rules already allow it. Checked 18 September.
 
-**The cost:** for a few seconds during a build, the working workbook holds a
-second area. The closing check already asks that no working copy is left
-inside it, and the script removes the area whether the build passes or fails.
+**It stays a snapshot.** The connector is used only while a copy is built.
+Pages read the copy, so a promotion or a migration in the working workbook
+still cannot change what a reader sees until the next refresh.
+
+**One thing this also makes simpler.** The whole build, check and put-live runs
+as one all-or-nothing action inside `published`. If any check fails, nothing is
+left behind: no half-built area, and nothing to tidy.
 
 ### 3. The check does not trust the build
 
@@ -80,31 +99,35 @@ working ones.
 ## 2. What happens, in order
 
 One script, `tools/take_published_copy.sh`, run by a session from this Mac. No
-step by hand.
+step by hand. Steps 2 to 6 are one all-or-nothing action: if anything fails,
+none of it happened.
 
-1. **Refuse to start** unless the error checker and the gaps list are empty,
-   nothing is waiting on the staging sheet unreviewed, and no `copy_build` area
-   is left over from a previous run.
-2. **Build.** In the working workbook, make the `copy_build` area and write the
-   nine files into it from the clean sheet, the session dates, the notes, the
-   provenance lines and the lists of allowed values. Words in the cells, not
-   codes. Yes or No where a heading asks a yes-or-no question. Dates as
-   year-month-day. An empty cell stays empty.
+1. **Refuse to start** unless the error checker and the gaps list are empty.
+   Both are read through the connector.
+2. **Build.** In `published`, make a `copy_build` area and write the nine files
+   into it, reading through the connector from the clean sheet, the session
+   dates, the notes, the provenance lines and the lists of allowed values. Words
+   in the cells, not codes. Yes or No where a heading asks a yes-or-no question.
+   Dates as year-month-day. An empty cell stays empty.
 3. **The mapping.** One list says which working column each published heading
    comes from. The build uses it to make the files and to translate each
    note's `applies_to` into published headings, as settled. It is the only
    place that pairing is written down.
-4. **Check** (§3). If anything fails, remove the area, report what failed, and
-   stop. Nothing has reached `published`.
-5. **Move it across.** Copy the `copy_build` area into `published` as `live`,
-   with its descriptions, and give Postico's login read permission.
-6. **Check again on the far side.** The same row counts, and a fingerprint of
-   every file, in both places.
-7. **Remove the working area**, and confirm the working workbook is as it was
-   before: the same fingerprint of the clean sheet.
+4. **Check** (§3), against the working data read through the connector.
+5. **Put it live.** `copy_build` becomes `live`. In block 1 there is no
+   earlier `live` to replace; block 3 adds keeping it as `previous`.
+6. **Give Postico's login read permission** on `live`, and nothing on
+   `from_working`.
+7. **Confirm the working workbook is as it was**: the same fingerprint of the
+   clean sheet before and after. It cannot have changed, and the check proves it.
 
 The `about` file records the day the copy was taken and each file's row count.
 `what_changed` has headings and no rows, because this is the first copy.
+
+**Set up once, before the first copy**: the `published` workbook; the
+`copy_reader` login and what it may read; the connector and its `from_working`
+area; and the backup script's line. A migration each side, with the usual
+descriptions, rehearsed like any other.
 
 ---
 
@@ -136,33 +159,32 @@ yet.
 
 Before the real run, in this order:
 
-1. **The build and check inside a transaction that is thrown away**, in the
-   working workbook. Look at: each check's result; one bill traced through all
-   nine files by hand. I suggest the Legal Continuity Bill, which touches the
-   most headings: a section 33 reference, withdrawal, a rewritten note, and
-   provenance lines from two fact sheets. Then confirm the working workbook is
-   unchanged and no `copy_build` area is left.
-2. **A deliberate fault**, to prove the check catches it: the same rehearsal
-   with one cell altered after the build (one bill's outcome), and the check
-   must fail on that cell and name it. A check that has never been seen to fail
-   is not evidence of anything.
-3. **The move across, into a scratch workbook** (`published_rehearsal`), then
-   removed. Look at: the fingerprints match, the descriptions came across, and
-   Postico's login can read and cannot write.
-4. **The backup script's change**, rehearsed with `tools/rehearse_backup_themes.sh`:
-   `published` is listed as not backed up, and the working workbook and the
-   accounts still are.
+1. **The set-up, into a scratch workbook** (`published_rehearsal`), with a
+   scratch login in place of `copy_reader`. Look at: the connector reads the
+   clean sheet; `copy_reader` cannot write to the working workbook and cannot
+   see the staging sheets; Postico's login cannot open `from_working`.
+2. **The build and check there, thrown away at the end.** Look at: each check's
+   result; one bill traced through all nine files by hand. I suggest the Legal
+   Continuity Bill, which touches the most headings: a section 33 reference,
+   withdrawal, a rewritten note, and provenance lines from two fact sheets.
+3. **A deliberate fault**, to prove the check catches it: the same run with one
+   cell altered after the build (one bill's outcome). The check must fail on
+   that cell and name it, and nothing may be left in the scratch workbook. A
+   check that has never been seen to fail is not evidence of anything.
+4. **The undo** (§5), on the scratch workbook and login. Then confirm the
+   sanity check finds no database unsorted and no login left over.
+5. **The backup script's change**, rehearsed with
+   `tools/rehearse_backup_themes.sh`: `published` is listed as not backed up,
+   and the working workbook and the accounts still are.
 
 ---
 
 ## 5. The undo
 
-**In block 1 the undo is removing the `published` workbook**, since nothing
-reads it: one step, no data lost, because the working workbook is where
-everything lives. The backup script's change is undone by reverting that one
-line. Written in full in the procedure, and rehearsed as the last step of the
-rehearsal: make `published_rehearsal`, remove it, and confirm the sanity check
-finds nothing unsorted.
+**In block 1 the undo is removing the `published` workbook and the
+`copy_reader` login**, since nothing reads either: no data lost, because the
+working workbook is where everything lives. The backup script's change is undone
+by reverting that one line. Rehearsed as step 4 of the rehearsal.
 
 The undo that matters, putting the previous copy back after a bad refresh, is
 block 3's.
@@ -184,7 +206,8 @@ Recorded so none of it is forgotten, and none of it built early:
 
 ## 7. Size
 
-Block 1 is roughly a session and a half. This session writes the mapping and
-the build and check scripts. The next runs the rehearsal, makes the real copy,
-and shows it to you in Postico. A different session then runs the closure test.
-The one outside change is the backup script's line.
+Block 1 is roughly a session and a half. This session writes the set-up, the
+mapping and the build and check scripts. The next runs the rehearsal, makes the
+real copy, and shows it to you in Postico. A different session then runs the
+closure test. The outside changes are the backup script's line and one new
+login, `copy_reader`.
