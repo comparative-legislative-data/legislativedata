@@ -33,7 +33,7 @@ There is no universal test. Each ingest gets its own, newest first below.
 ## "In progress" comes last
 
 Written 2026-09-18 by the session that built `db/118` and retook the published
-copy. **Unrun.** Every part was agreed beforehand in
+copy. **Run on 2026-09-18** by another session; see the run below. Every part was agreed beforehand in
 `docs/BLOCK-2-IN-PROGRESS.md`, including retaking the copy by option A.
 
 ### Part A — mechanical
@@ -89,6 +89,48 @@ someone changes a list.
 **How a chart or table uses the order.** Nothing reads the copy yet; that is
 block 4. **The old write-up in `docs/PHASE-2-CHARTS.md`** proposing a swap of
 the two "Fell" outcomes is kept as the record, and was not done.
+
+### The run, 2026-09-18, by a session that built none of it
+
+**Items 1 to 5 and 7 to 9 pass. Item 6 fails on one point, `/tmp`. Item 10
+is the owner's, and waiting.**
+
+1. **Pass.** 1 Passed, 2 Rejected at Stage 1, 3 Rejected at Stage 3, 4
+   Withdrawn, 5 Fell at dissolution, 6 Fell (other), 7 Fell: financial
+   resolution not agreed, 8 In progress.
+2. **Pass.** Backup `c6cf8af2` restored to a scratch workbook at 11:38 UTC and
+   compared cell by cell, by each sheet's own key, on every sheet in `public`
+   (the seven sheets and all twelve lists). Differences: 1 bill note, 2
+   staging bill notes, 101 provenance notes, 9 note texts, 2 note titles, 5
+   definitions (2, 1 and 2 on three lists), each only "fact sheet" becoming
+   "factsheet", with `updated_at` on the changed lines; and one more cell, In
+   progress's place, 7 to 8. No line added or removed anywhere. Exactly the
+   `db/117` run's item 2 plus `db/118`. The scratch workbook was dropped
+   within the hour.
+3. **Pass.** No two values share a place in any of the twelve lists;
+   `ref_bill_type_stage`, whose order is per bill type, checked within each
+   bill type.
+4. **Pass.** The eight `outcome` lines read as item 1. All 89 lines' `order`
+   equal the value's place in its working list, matched through the
+   heading-to-list mapping in `tools/published_copy.sql`; no heading has two
+   values at one `order`.
+5. **Pass.** `about`: 2026-09-18; bills 470, stages 1291,
+   days_between_stages 1657, sessions 7, methodology_notes 14, sources 192,
+   what_the_words_mean 89, what_changed 0, about 9.
+6. **Fail, on `/tmp` only.** Four databases; `published` has `from_working`
+   (no tables), `live` and `public`; no `taken_18_september`; Postico's login
+   (`legdata`) can read `live`. But the server's `/tmp` holds four 163-byte
+   Mac metadata stubs from this work, `._r118`, `._r118f`, `._rc` and
+   `._real`, dated 11:25–11:27 UTC: the side-files the Mac's `tar` adds, left
+   when the files they belonged to were removed. A fifth, `._r115`, dated
+   06:54, is from `db/115`'s work, outside this test. Harmless, holding
+   nothing but "Mac OS X" attributes; left in place for the owner.
+7. **Pass.** Inside a thrown-away transaction, `db/118_undo.sql` left the
+   outcomes list equal to the restored backup's, code, place and label; run
+   a second time it refused ("not the one db/118 leaves"). The live list read
+   8 for In progress afterwards.
+8. **Pass.** 470, 1291, 192, 14; checker and gaps list empty; only `public`.
+9. **Pass.** The dictionary regenerates identical.
 
 ---
 
