@@ -87,6 +87,10 @@ The added lines, when a copy added some:
 
 > Added in the copy of 18 September 2026: 3 lines to bills, 9 to stages.
 
+When a copy added none, as today's did:
+
+> Added in the copy of 18 September 2026: no lines.
+
 When the copy is the first (its `about` has no added counts):
 
 > This is the first copy of the data.
