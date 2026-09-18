@@ -32,7 +32,8 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ## The notes name the published headings
 
-Written 2026-09-17 by the session that built `db/113`. **Not yet run.**
+Written 2026-09-17 by the session that built `db/113`. **Part A run on
+2026-09-18**, by a session that did none of that work. Part B waits on the owner.
 
 ### Part A — mechanical
 
@@ -89,6 +90,38 @@ mapping does not exist yet; it is built with the copy.
      holds plain prose — "kept beside it in bill_type_at_the_time" — because a
      note has to read the same in a spreadsheet cell, in the download and on the
      page, and no note here has ever carried markup.
+
+### The run, 2026-09-18, by a session that built none of it
+
+**All seven items of Part A pass.** The notes were taken out of the database and
+compared by script, paragraph by paragraph, with whitespace inside a paragraph
+ignored and paragraph breaks and list items kept.
+
+1. **All thirteen match** the "### Proposed" blocks once backticks and bold
+   markers are dropped, M8 built from its first four paragraphs and list plus the
+   proposed last paragraph. The same comparison against the "As it reads today"
+   blocks fails for all thirteen, so a pass is not vacuous. The file's M2 block
+   already carries "Each of those days is date_ended on the bill's stage row", so
+   what is in the database is what the file shows; whether that wording is
+   approved is Part B.
+2. **M6 is the text `db/110` set**, character for character, and its last-changed
+   time is 13:13 on 17 September, before `db/113`. The other thirteen share one
+   time, 21:08.
+3. **No backtick, no pair of asterisks, no `word.word` pair** once
+   legislation.gov.uk is set aside, and no word with an underscore that is a
+   column of this database without also being a published heading.
+4. **M10**: "Filling the column in" gone; both kept sentences present.
+5. **Twenty-five headings named across the notes, all on the agreed list.** 22
+   are rows of the heading tables in §2 to §4; the other three are
+   `days_between_stages`, the file's own name, and `date_session_ended` and
+   `date_session_expected_to_end`, which §5 lists as the `sessions` file's
+   headings in running text rather than a table.
+6. **The dictionary regenerates with no difference but its date**, and every
+   `applies_to` entry is still a real column of this database.
+7. **470 bills, 1291 stage records, 192 provenance notes, 14 notes; checker and
+   gaps list empty; `public` the only schema.**
+
+Part B was put to the owner the same day.
 
 ---
 
