@@ -10,7 +10,8 @@ sign in with a code by email; the privacy page says what is held. **Phase 2,
 the data published, is open**, for approved beta users only. **Its plan is
 reviewed and every question answered.** The published copy's headings are
 settled, and **the methodology notes, the definitions and the whole of the
-sources file are written for a reader.** The copy itself is next. **The
+sources file are written for a reader.** **How the copy is taken is agreed and
+written, and it has been tried on a scratch workbook; the real copy is next.** **The
 charts are being worked out afresh, as mock-ups with real figures.** The arc is
 in `docs/PLAN.md`.
 
@@ -69,18 +70,26 @@ list are both empty.**
   Report's quoted words kept and our account moved to the note. Seven Session 6
   lines had kept a working phrase the script should have cut. Built as
   `db/116` the same way, script and all; rebuild identical; closure test unrun.
+- **How the published copy is taken, agreed**, with your change: it is built
+  inside its own workbook, reading the working data through a connector that
+  can only read. You also agreed every description a reader will see.
+- **Written and tried, not yet run for real**: the set-up, and the build with
+  its check (`docs/PUBLISHED-COPY-RUNBOOK.md`). On a scratch workbook it built
+  all nine files, the check passed, a planted fault was caught and named, and
+  undoing it left nothing.
 
 ## Now
 
-1. **Building the published copy itself.** The mapping from working column to
-   published heading, the written procedure, the rehearsal, the undo, and the
-   check cell by cell against the working database. Nothing visible comes out of
-   it. Headings, notes, definitions and the sources file's notes are done.
-   Nothing is left to settle first.
+1. **The published copy, block 1, finished.** In order, from
+   `docs/PUBLISHED-COPY-RUNBOOK.md`: the rehearsal as written in §4, including
+   the Legal Continuity Bill traced by hand for you; install the backup's new
+   line before the real workbook exists; the real set-up; the real copy; the
+   data dictionary's part for the copy; show it to you in Postico; write the
+   closure test. The build and check are in `tools/published_copy.sql`; the
+   set-up is `db/published/001`.
 2. **The closure tests for `db/114`, `db/115` and `db/116`**, run by a session
    that built none of them.
-3. **The three small items**, block 2, alongside block 1, each with its full
-   checklist first.
+3. **The three small items**, block 2, each with its full checklist first.
 4. **Iterating the mock-ups**, whenever you want: the open points are in
    `docs/PHASE-2-CHARTS-THOUGHTS.md`.
 
@@ -169,6 +178,15 @@ Run before the first reply.
   fingerprint read the same afterwards.
 - **The dictionary regenerates identical.**
 - **`db/115`'s closure test is written and unrun.**
+- **The published copy, tried on a scratch workbook** (`published_rehearsal`,
+  login `copy_reader_rehearsal`): set up, built with save=false (0 problems),
+  built with the planted fault (1 problem, named), built and kept to look at,
+  then undone: no database and no login left, and the working workbook's
+  permissions as before. Nothing real was made. `/tmp` on the server cleared.
+- **Found, not opened**: the source list's labels still say "SPICe legislation
+  factsheet" and "SPICe dates factsheet", one word, where the notes and
+  definitions now say "fact sheet". Labels were outside `db/114`. A reader sees
+  both spellings.
 - **`db/116`**, the same way: fingerprinted before; rebuild rehearsal, no
   unexpected differences; applied; every column but the value and the note
   unchanged by fingerprint; 55 values and 14 empty Official Report outcomes as

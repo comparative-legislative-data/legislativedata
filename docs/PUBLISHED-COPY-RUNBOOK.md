@@ -206,6 +206,15 @@ Recorded so none of it is forgotten, and none of it built early:
 
 ## 7. Size
 
+**Where it stands, 18 September.** Written: `db/published/001` and its undo, the
+backup line, and `tools/published_copy.sql` with the mapping. The set-up was
+rehearsed into a scratch workbook and undone. The build was tried there:
+it built all nine files, and its check passed with nothing found; the planted
+fault was caught and named; a kept build was looked at for the Legal
+Continuity Bill; and the undo left nothing. Not done: the rehearsal as
+written in §4, the backup line's installation, the real set-up, the real
+copy, the data dictionary's part for the copy, and the closure test.
+
 Block 1 is roughly a session and a half. This session writes the set-up, the
 mapping and the build and check scripts. The next runs the rehearsal, makes the
 real copy, and shows it to you in Postico. A different session then runs the

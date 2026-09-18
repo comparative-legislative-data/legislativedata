@@ -1,6 +1,8 @@
 # The published copy: the wording still to agree
 
-For the owner. Written 18 September 2026. The headings of `bills`, `stages` and
+For the owner. Written 18 September 2026. **Agreed by the owner in full the
+same day, with the four choices marked**, and built into the mapping in
+`tools/published_copy.sql`. The headings of `bills`, `stages` and
 `days_between_stages` already have agreed descriptions
 (`docs/PHASE-2-PUBLISHED-COPY.md` §2 to §4). The other six files were agreed as
 lists of headings only. This is every description a reader will see that does
