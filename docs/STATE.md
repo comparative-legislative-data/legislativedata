@@ -13,8 +13,8 @@ settled, and **the methodology notes, the definitions and the whole of the
 sources file are written for a reader.** **The first published copy is taken
 and checked**, in a workbook of its own that nothing on the site reads yet.
 The charts exist as mock-ups with real figures. **The build plan, from here
-to publication, is drafted and waiting to be checked and agreed**; nothing is
-built until it is. The arc is in `docs/PLAN.md`.
+to publication, is drafted and checked, and waiting for your review**;
+nothing is built until it is agreed. The arc is in `docs/PLAN.md`.
 
 The dataset. No bill, date or figure changed today. What moved was wording: 29
 definitions, and on the 192 provenance lines, 126 notes and 122 of the
@@ -49,34 +49,31 @@ list are both empty.**
   tested; the notes, definitions and sources rewritten for a reader
   (`db/113`–`db/118`); the quarter rule settled.
 
-**18 September, this session. The build plan drafted.**
+- **18 September, later.** The build plan drafted in `docs/PHASE-2.md`: your
+  three strands, then the closing test; about twenty sessions. Not agreed.
 
-- **The quarter rule's closure test run**: all four items pass.
-- **The gap you found is real.** The phase plan's last step, planning the
-  build, was never done; the charts' own order stood in for it, and the
-  download had no place in any order. That should have been caught by me, at
-  the latest at this morning's opening check.
-- **The build plan is drafted** in `docs/PHASE-2.md`, "The build plan": your
-  three strands (ready to publish; the data on the site, downloadable; the
-  charts), then the closing test. What each holds, what is done, what finishes
-  each, what changes from 17 September, three questions for you, and a size:
-  about twenty sessions. **Not agreed; nothing is built until it is.**
+**18 September, this session. The build plan checked.**
+
+- **Twelve findings**, in `docs/BUILD-PLAN-CHECK.md`, each with a proposal.
+  The plan itself is unchanged.
+- **The shape holds.** The one that matters most: where a calculation lives
+  and runs was never settled, and the plan assumes an answer (finding 1).
+- **Two facts wrong in the plan**: there are four kinds of source, not two
+  (legislation.gov.uk and the Supreme Court were left out), and the Postico
+  look it names is already done; the one outstanding is `db/118`'s.
+- **The size is low**: about twenty-five sessions, not twenty.
 
 ## Now
 
 **Nothing is built until the build plan is agreed.**
 
-1. **Next session: check the build plan**, as a session that did not write
-   it. Against every Phase 2 paper and `DECISIONS.md` from 16 September on:
-   is every settled item in a strand; is anything placed wrongly or in the
-   wrong order; is any "finished when" untestable; is the size honest.
-   Findings numbered in `docs/BUILD-PLAN-CHECK.md`, each with a proposal. It
-   changes nothing in the plan itself.
-2. **Then your review** of the plan with the check beside it, and the three
-   questions it puts to you. When agreed: `DECISIONS.md`, a line in
-   `PLAN.md`, this page rebuilt around the strands, and the opening check's
-   new question in `CLAUDE.md`.
-3. **Then strand 1.** Its item 1 needs nothing but time: the copy's item 12
+1. **Your review** of the build plan with `docs/BUILD-PLAN-CHECK.md` beside
+   it: the plan's three questions and the check's twelve proposals. Finding 1,
+   where a calculation lives, is a decision of its own. When agreed: the plan
+   redrafted with what you accept, `DECISIONS.md`, a line in `PLAN.md`, this
+   page rebuilt around the strands, and the opening check's new question in
+   `CLAUDE.md`.
+2. **Then strand 1.** Its item 1 needs nothing but time: the copy's item 12
    from 19 September, and your look in Postico (`db/118`'s item 10).
 
 ## Waiting for you
@@ -136,24 +133,22 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session of the build plan
+## Sanity check, 2026-09-18, the session that checked the build plan
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the decisions contents and the dictionary
   regenerated identical; counts 470, 1291, 192, 14; staging 474 and 1295;
-  checker and gaps list empty; only `public`; four databases, all sorted; the
-  site answers 200; no `._` files in the server's `/tmp`.
-- **Missed, and found by the owner instead**: "Now" did not trace to the
-  phase plan. The plan's step "then the build is planned" had never been done.
-  The check now proposes a question for exactly that (`PHASE-2.md`, "How a
-  session stays on the plan").
+  checker and gaps list empty; only `public`; four databases (`legdata`,
+  `accounts`, `published`, `postgres`), all sorted; the site answers 200; no
+  `._` files in the server's `/tmp`. "Now" traced to the phase plan's step
+  "then the build is planned".
 
-## Closing checks, 18 September, the session of the build plan
+## Closing checks, 18 September, the session that checked the build plan
 
-- **No data touched.** Only reads on the server; the scratch query files sent
-  to `/tmp` were removed.
-- **The quarter rule's closure test** recorded as run, all pass.
+- **No data touched.** Reads only on the server, none sent through `/tmp`.
+- **What the check read from the database**: provenance lines and cited
+  addresses by source and by website (findings 3 and 5).
 
 ## The quarter rule: working detail, 18 September
 
