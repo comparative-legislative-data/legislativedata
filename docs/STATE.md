@@ -75,8 +75,7 @@ list are both empty.**
    (`docs/STRAND-2-THE-TABLE.md`), with a fifth reference section, "What
    each heading holds". Next: a mock-up with the real rows (the table, one
    bill opened, a phone's width, the fifth section), then the build, its
-   check and its undo. The fifth section's opening sentence is proposed,
-   not agreed (`PUBLISHING.md`, part 8).
+   check and its undo.
 
 ## Waiting for you
 

@@ -253,8 +253,8 @@ The bill's own link:
 
 > Link to this bill
 
-The fifth reference section's heading, agreed; **its opening sentence
-proposed, not yet agreed**:
+The fifth reference section's heading and opening sentence (the sentence
+agreed later the same day):
 
 > What each heading holds
 
