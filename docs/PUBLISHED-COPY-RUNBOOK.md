@@ -105,7 +105,7 @@ none of it happened.
 
 1. **Refuse to start** unless the error checker and the gaps list are empty.
    Both are read through the connector.
-2. **Build.** In `published`, make a `copy_build` area and write the eleven files
+2. **Build.** In `published`, make a `copy_build` area and write the twelve files
    into it, reading through the connector from the clean sheet, the session
    dates, the notes, the provenance lines and the lists of allowed values. Words
    in the cells, not codes. Yes or No where a heading asks a yes-or-no question.
@@ -123,8 +123,12 @@ none of it happened.
    note's `applies_to` into published headings, as settled. It is the only
    place that pairing is written down.
 4. **Check** (§3), against the working data read through the connector.
-5. **Put it live.** `copy_build` becomes `live`. In block 1 there is no
-   earlier `live` to replace; block 3 adds keeping it as `previous`.
+5. **Put it live.** `copy_build` becomes `live`, and the copy it replaces
+   becomes `previous`; the one before that goes. Since 18 September the same
+   script is the refresh (strand 1, item 6): run by `tools/refresh_copy.sh`,
+   which checks every cited address first, and it lists what changed against
+   the copy it replaces. `docs/STRAND-1-THE-REFRESH.md`; the step is in
+   `PROMOTION-RUNBOOK.md`, "After promotion: refreshing the published copy".
 6. **Give Postico's login read permission** on `live`, and nothing on
    `from_working`.
 7. **Confirm the working workbook is as it was**: the same fingerprint of the
@@ -156,6 +160,8 @@ Each is a count or a yes-or-no, and each must come out as stated.
 | 8 | Every file and heading has a description | all described |
 | 9 | Each source line's `applies_to_heading` exists in the file it names, and its `bill_number` is a bill in `bills` | all exist |
 | 10 | The days between stages against the copy's own `bills` and `stages`, never against a sum in the working database: every cell but `days` is its bill's or its dated points'; `days` is the later date less the earlier and not below nought; every dated point ends exactly one gap but each bill's first, which ends none; and the text kept in `workings`, run again, gives exactly the file | no difference |
+| 12 | Every address the working data cites is in `cited_pages` once, with a kept copy, checked that day, and Yes, No or Not checked | all there |
+| 13 | What changed: every earlier line carried across unaltered; every line that differs from the copy before has a line, and no line is listed that doesn't differ; the lines added in `about` equal those found only in the new copy | no difference |
 | 11 | No source's data without its terms: every source name used in `bills`, `stages` or `sources`, and every kind of source in the working list, is covered by exactly one line of `terms`; and each line's `covers` is exactly the kinds of source under it | none uncovered |
 
 **What the check does not prove.** Whether the headings and wording are right:
@@ -200,7 +206,7 @@ working workbook is where everything lives. The backup script's change is undone
 by reverting that one line. Rehearsed as step 4 of the rehearsal.
 
 The undo that matters, putting the previous copy back after a bad refresh, is
-block 3's.
+`tools/put_back_previous.sql`, in `PROMOTION-RUNBOOK.md`.
 
 ---
 

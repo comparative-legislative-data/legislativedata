@@ -458,7 +458,7 @@ One row per device a person is signed in on. A device stays signed in for 30 day
 
 # The published copy
 
-A separate database, `published`, holding the copy of the data a reader sees, taken from the working database at one moment by `tools/published_copy.sql`. Its eleven files are in the area `live`. Words stand in the cells where the working database holds codes; `what_the_words_mean` says what each word means.
+A separate database, `published`, holding the copy of the data a reader sees, taken from the working database at one moment by `tools/published_copy.sql`. Its twelve files are in the area `live`. Words stand in the cells where the working database holds codes; `what_the_words_mean` says what each word means.
 
 The descriptions below are the ones a reader is given, stored on each file and heading in the copy. This script reads them and never a row.
 
@@ -607,7 +607,8 @@ Every published value that differs from the copy before, one line per cell.
 | `file` | text | The file the cell is in. |
 | `bill_number` | number | The bill whose line it is. |
 | `stage` | text | For a cell in stages, which stage. |
-| `heading` | text | The heading the cell is under. |
+| `which_line` | text | For a line that bill_number and stage do not pin down, what it is about: the session's number, the note's code, the heading and word, whose terms, the working's file, a gap between two stages, or the file and heading a source line is about. Empty where bill_number and stage say it. |
+| `heading` | text | The heading the cell is under. (line removed) where the whole line has gone. |
 | `old_value` | text | What the cell said in the copy before. |
 | `new_value` | text | What it says now. Empty if the cell is now empty. |
 
@@ -630,6 +631,18 @@ The day this copy was taken, and how many lines each file has.
 | `file` | text | Which file. |
 | `rows` | number | How many lines it has. |
 | `rows_added_since_last_copy` | number | How many lines were added since the copy before. Empty for the first copy. |
+
+### `cited_pages`
+
+One line per web page the sources cite, with the copy we keep of it and whether its address still worked when this copy was taken.
+
+| Heading | Type | What it holds |
+|---|---|---|
+| `address` | text | The page's address, as where_in_the_source gives it. |
+| `kept_copy` | text | The name of our kept copy of the page. |
+| `date_kept` | date | The day we kept that copy. |
+| `date_address_checked` | date | The day the address was checked, when this copy was taken. |
+| `address_works` | text | Yes if the address still gave the page that day. No if it has gone, and the kept copy stands in for it. Not checked for an address a program cannot check, such as the Parliament's old site in the web archive. |
 
 ### `terms`
 

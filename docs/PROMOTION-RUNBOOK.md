@@ -428,6 +428,55 @@ such lines, four of them.
 
 ---
 
+## After promotion: refreshing the published copy
+
+Promotion changes the clean sheet; readers see the published copy, which does
+not change until it is refreshed. **Refresh only at the owner's word**, once
+the promotions for a piece of work are all done, never automatically. What it
+does, and why, is `docs/STRAND-1-THE-REFRESH.md`.
+
+**1. A thrown-away run.**
+
+    tools/refresh_copy.sh
+
+It checks every cited address (about ten minutes, from the server), builds the
+new copy beside the live one, runs every check, compares it with the live copy,
+prints the report, and keeps nothing.
+
+**2. Look at the report.**
+
+- **The cited addresses.** How many work, have gone, or couldn't be checked;
+  each one gone is listed with its kept copy. A new address with no kept copy
+  stops the build: keep it first (`tools/keep_cited_pages.py --fetch`).
+- **The check.** `problems` must be empty. If not, nothing can be kept; the
+  first 40 are listed.
+- **What changed in this copy.** Every changed cell, by file and heading, with
+  old and new values, and each line removed. It must be exactly what the
+  promotions were meant to change. Anything else is a question before saving.
+- **The lines added**, by file, in `about`.
+- **The sizes** of the list of changes and of the copy kept as `previous`. If
+  either has grown large, say so: the arrangement is looked at again.
+
+**3. The refresh.**
+
+    tools/refresh_copy.sh --save
+
+The same, kept. The copy before becomes `previous`; the one before that goes.
+
+**4. Look at it.** In Postico, `published` → `live` → `about` gives today's
+date; `what_changed` ends with today's lines, and they are the ones step 2
+showed.
+
+**If it is wrong: putting the copy before back.**
+
+    ~/.claude/legdata-vps --scp tools/put_back_previous.sql /tmp/put_back_previous.sql
+    ~/.claude/legdata-vps 'sudo -u postgres psql -X -d published -v save=true -f /tmp/put_back_previous.sql; rm /tmp/put_back_previous.sql'
+
+One step: `previous` is live again and the bad copy is gone. There is then no
+`previous`, so a second undo refuses. Mend what was wrong, and refresh again.
+
+---
+
 ## What happened the first time this was run
 
 Session 1, 10 September 2026. Run without saving, checked, saved, then

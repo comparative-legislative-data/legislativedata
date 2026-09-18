@@ -2,7 +2,11 @@
 
 For the owner. Written 18 September 2026. Strand 1, item 6 of
 `docs/PHASE-2.md`. Every part is laid out here, with four questions at the
-end. **Nothing is built.**
+end.
+
+**Agreed by the owner the same day: yes to all four. Built and rehearsed the
+same day**; the copy now has twelve files. The closure test is written and
+unrun. The record is at the end.
 
 What is already settled (the review of the plan, 17 September): the copy is
 refreshed only when data is added or changes, at your word, by a session,
@@ -118,3 +122,32 @@ it.
 days between stages is rewritten, its text in `workings` changes. **Proposed:**
 yes, listed like any cell, with the old and new text in full, so a reader
 knows the figure was worked out differently.
+
+## What was done, 18 September
+
+- **Built**: `tools/refresh_copy.sh` (the one step, from this Mac),
+  `tools/check_cited_addresses.py` (run on the server), the copy's build
+  extended (`cited_pages`, `which_line`, the comparison, checks 12 and 13,
+  `previous`), and `tools/put_back_previous.sql` (the undo). The step is in
+  `PROMOTION-RUNBOOK.md`, "After promotion: refreshing the published copy".
+- **Wording written at the build**, beyond what was agreed, for the owner:
+  the `cited_pages` file and its five headings; `which_line` widened to cover
+  a gap between two stages, a source line and a working, since a bill number
+  and stage don't pin those down either; `heading` gains "(line removed)
+  where the whole line has gone".
+- **The address check**: 92 work, 0 gone, 14 not checked. A made-up
+  Parliament address and a made-up legislation.gov.uk address each came back
+  "No"; a real one "Yes". It takes about twelve minutes, five seconds between
+  two requests to one site.
+- **Rehearsed**, in order: a thrown-away refresh with today's data, which found
+  no changes; planted changes in a thrown-away run (a title altered, a stage
+  line added to the old copy, a session taken out of it), which listed exactly
+  the title with both values and the removed line, and counted one session
+  added; a saved refresh with a planted fault, refused with 13 problems, every
+  live file unchanged by fingerprint; a real refresh with the full address
+  check; the undo, thrown away and then for real, after which `live` matched
+  the copy before file for file and a second undo refused; a real refresh
+  again, matching the first file for file, with `previous` the copy before.
+- **Found and mended on the way**: psql doesn't fill a variable into its own
+  `\copy`, so the address check is read with the database's `COPY`; a
+  variable in the comparison shared a column's name.

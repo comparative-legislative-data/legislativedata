@@ -30,6 +30,71 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The refresh, for the copy
+
+Written 2026-09-18 by the session that built and rehearsed it. **Not yet
+run.** Strand 1, item 6, laid out in `docs/STRAND-1-THE-REFRESH.md` and agreed
+by the owner the same day, with its four questions.
+
+### Part A — mechanical
+
+1. **The copy has twelve files.** `live.about` lists bills, stages,
+   days_between_stages, sessions, methodology_notes, sources,
+   what_the_words_mean, what_changed, workings, terms, cited_pages and about,
+   in that order, with counts 470, 1291, 1657, 7, 14, 192, 89, 0, 1, 4, 106,
+   12, and 0 lines added for each compared file. *Where from:* the item 3
+   test's item 10, plus the new file.
+2. **`previous` is the copy before.** Every file of `previous` other than
+   `about` is identical to the same file of `live`, and `previous` has no
+   `cited_pages`. *Where from:* no data changed between the two copies.
+3. **The cited pages.** `live.cited_pages` has one line for each address the
+   working data cites (106), each with the kept copy `sources/kept-pages.csv`
+   names for it, and `address_works` Yes for every address outside
+   `webarchive.nrscotland.gov.uk` that still gives its page when you check it
+   yourself, Not checked for the 14 inside it. *Where from:* item 4's list, and
+   a check of your own.
+4. **A thrown-away refresh finds nothing.** `tools/refresh_copy.sh` (no
+   `--save`) reports no problems and no changes, and leaves `live` and
+   `previous` as they were, by fingerprint.
+5. **It finds a planted change.** `tools/refresh_copy.sh -v plant_changes=on`
+   lists exactly bill 1's title (old value ending " (planted)"), bill 999999's
+   Stage 1 as "(line removed)", and counts 1 added under sessions; nothing
+   else.
+6. **It refuses a bad copy.** `tools/refresh_copy.sh --save -v fault=on`
+   refuses, and `live` and `previous` are unchanged by fingerprint.
+7. **A dead address is caught.** `check()` in
+   `tools/check_cited_addresses.py`, run on the server, gives "No" for a
+   made-up address on parliament.scot and on legislation.gov.uk, and "Yes" for
+   a real one.
+8. **The undo**, `tools/put_back_previous.sql` with `save=false`: afterwards,
+   inside that run, `live` is the copy that was `previous`; a run with no
+   `previous` refuses. (Not run with `save=true`: the rehearsal did, and
+   putting the copy back would leave `live` without `cited_pages`.)
+9. **The descriptions** of `cited_pages`, its five headings, `which_line` and
+   `heading` read as the owner agreed them (Part B).
+10. **Nothing left behind**: `published` has `from_working` (no tables),
+    `live`, `previous` and `public`; nothing of this work in the server's
+    `/tmp`; four databases.
+11. **Counts**: 470, 1291, 192, 14; checker and gaps list empty; the
+    dictionary regenerates identical and lists twelve published files.
+
+**Which items an outside change can move:** 1 to 3 and 10, at any later
+refresh; item 7 if a site changes how it answers a dead address.
+
+### Part B — the owner's sign-off
+
+12. **The wording written at the build**, read in full in
+    `docs/DATA-DICTIONARY.md` under `cited_pages` and `what_changed`: agreed
+    as it stands.
+
+### Part C — what this test does not check
+
+**The refresh of the download and the charts**: strands 2 and 3 add them.
+**How a page shows a gone address**: strand 2. **Whether twelve minutes of
+address checking stays acceptable** as the cited pages grow.
+
+---
+
 ## Every page the provenance cites has a copy kept
 
 Written 2026-09-18 by the session that kept them. **Not yet run.** Strand 1,

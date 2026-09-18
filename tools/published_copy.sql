@@ -1,26 +1,31 @@
 -- published_copy.sql
 --
--- Takes the published copy: builds the eleven files inside the published
+-- Takes the published copy: builds the twelve files inside the published
 -- workbook, reading the working data through the connector that can only read,
--- checks every cell of them against the working data, and puts them live as
--- the area `live`. One all-or-nothing action: if anything is refused or any
--- check fails, nothing is left behind. See docs/PUBLISHED-COPY-RUNBOOK.md.
+-- checks every cell of them against the working data, compares them with the
+-- live copy to list what changed, and puts them live as the area `live`,
+-- keeping the copy before as `previous`. One all-or-nothing action: if anything
+-- is refused or any check fails, nothing is left behind and readers keep the
+-- copy they had. See docs/PUBLISHED-COPY-RUNBOOK.md and, for the refresh,
+-- docs/STRAND-1-THE-REFRESH.md.
 --
---   sudo -u postgres psql -X -d published -v save=false -f tools/published_copy.sql
---   sudo -u postgres psql -X -d published -v save=true  -f tools/published_copy.sql
+-- Run by tools/refresh_copy.sh, which checks the cited addresses first and
+-- hands the result over as -v addresses=FILE. By hand, for a rehearsal:
+--
+--   sudo -u postgres psql -X -d published -v save=false -v addresses=FILE -f tools/published_copy.sql
 --
 -- Run from the folder holding tools/ and workings/: the worked-out files are
 -- built from the text in workings/. -v workings=DIR names another folder.
+-- The undo, putting `previous` back, is tools/put_back_previous.sql.
 --
 -- save=false builds and checks and throws it all away; save=true keeps it.
 -- For the rehearsal, -v fault=on alters one bill's outcome after the build,
 -- -v fault_days=on one gap's days, -v fault_terms=on one credit line, and
 -- -v fault_cover=on takes the Supreme Court out of its terms' covers; the
--- check must then fail on that cell and name it.
---
--- Block 1 of docs/PHASE-2-CHARTS-BUILD.md: the first copy. It refuses if `live`
--- already exists. Replacing a live copy, keeping the old one as `previous` and
--- filling what_changed belong to the refresh, block 3.
+-- check must then fail on that cell and name it. -v plant_changes=on
+-- (save=false only) alters the live copy before the comparison: one cell
+-- changed, one line removed and one added, which what_changed and about must
+-- then show exactly.
 --
 -- THE MAPPING. One list below says, for every heading of every file: the
 -- working columns its cells come from (`feeds`), which translates each
@@ -51,6 +56,17 @@
   \echo 'Refusing: say -v save=false to look and throw away, or -v save=true to keep.'
   \quit
 \endif
+\if :{?addresses}
+\else
+  \echo 'Refusing: no address check. Run tools/refresh_copy.sh, or give -v addresses=FILE.'
+  \quit
+\endif
+\if :{?plant_changes}
+  \if :save
+    \echo 'Refusing: planted changes are for a thrown-away run only.'
+    \quit
+  \endif
+\endif
 
 BEGIN;
 
@@ -80,9 +96,6 @@ IMPORT FOREIGN SCHEMA public LIMIT TO (
 DO $$
 DECLARE n integer;
 BEGIN
-  IF EXISTS (SELECT 1 FROM pg_namespace WHERE nspname = 'live') THEN
-    RAISE EXCEPTION 'Refusing: a live copy already exists. Replacing one is the refresh, block 3.';
-  END IF;
   IF EXISTS (SELECT 1 FROM pg_namespace WHERE nspname = 'copy_build') THEN
     RAISE EXCEPTION 'Refusing: a copy_build area is left from an earlier run.';
   END IF;
@@ -101,6 +114,12 @@ SELECT (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY bill_id)) FROM
        (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY code)) FROM from_working.methodology_note t) AS notes,
        (SELECT md5(string_agg(to_jsonb(t)::text, chr(10) ORDER BY code)) FROM from_working.source_terms t) AS terms;
 
+-- The address check, made on the server just before this by
+-- tools/check_cited_addresses.py.
+CREATE TEMP TABLE address_check (address text, kept_copy text, date_kept date,
+    date_address_checked date, address_works text) ON COMMIT DROP;
+COPY address_check FROM :'addresses' (FORMAT csv, HEADER);
+
 -- ---------------------------------------------------------------------------
 -- The mapping
 -- ---------------------------------------------------------------------------
@@ -117,7 +136,8 @@ INSERT INTO files (file, pos, description) VALUES
   ('what_changed', 8, 'Every published value that differs from the copy before, one line per cell.'),
   ('workings', 9, 'The working that produced each worked-out file, in full, as it ran when this copy was taken.'),
   ('terms', 10, 'The terms each source''s data is published under, and how to credit it. A value whose source is listed under covers is under that line''s terms; everything else is our own work.'),
-  ('about', 11, 'The day this copy was taken, and how many lines each file has.');
+  ('cited_pages', 11, 'One line per web page the sources cite, with the copy we keep of it and whether its address still worked when this copy was taken.'),
+  ('about', 12, 'The day this copy was taken, and how many lines each file has.');
 
 CREATE TEMP TABLE mapping (
     file text NOT NULL REFERENCES files,
@@ -310,11 +330,13 @@ INSERT INTO mapping (file, pos, heading, feeds, check_key, list, description) VA
    'The bill whose line it is.'),
   ('what_changed', 4, 'stage', '{}'::text[], NULL, NULL,
    'For a cell in stages, which stage.'),
-  ('what_changed', 5, 'heading', '{}'::text[], NULL, NULL,
-   'The heading the cell is under.'),
-  ('what_changed', 6, 'old_value', '{}'::text[], NULL, NULL,
+  ('what_changed', 5, 'which_line', '{}'::text[], NULL, NULL,
+   'For a line that bill_number and stage do not pin down, what it is about: the session''s number, the note''s code, the heading and word, whose terms, the working''s file, a gap between two stages, or the file and heading a source line is about. Empty where bill_number and stage say it.'),
+  ('what_changed', 6, 'heading', '{}'::text[], NULL, NULL,
+   'The heading the cell is under. (line removed) where the whole line has gone.'),
+  ('what_changed', 7, 'old_value', '{}'::text[], NULL, NULL,
    'What the cell said in the copy before.'),
-  ('what_changed', 7, 'new_value', '{}'::text[], NULL, NULL,
+  ('what_changed', 8, 'new_value', '{}'::text[], NULL, NULL,
    'What it says now. Empty if the cell is now empty.'),
   ('workings', 1, 'file', '{}'::text[], NULL, NULL,
    'The worked-out file.'),
@@ -336,6 +358,16 @@ INSERT INTO mapping (file, pos, heading, feeds, check_key, list, description) VA
    'The page where the source publishes its terms. Empty for our own work.'),
   ('terms', 8, 'date_terms_read', '{}'::text[], 'source_terms.date_terms_read', NULL,
    'The day we read those terms. Empty for our own work.'),
+  ('cited_pages', 1, 'address', '{}'::text[], NULL, NULL,
+   'The page''s address, as where_in_the_source gives it.'),
+  ('cited_pages', 2, 'kept_copy', '{}'::text[], NULL, NULL,
+   'The name of our kept copy of the page.'),
+  ('cited_pages', 3, 'date_kept', '{}'::text[], NULL, NULL,
+   'The day we kept that copy.'),
+  ('cited_pages', 4, 'date_address_checked', '{}'::text[], NULL, NULL,
+   'The day the address was checked, when this copy was taken.'),
+  ('cited_pages', 5, 'address_works', '{}'::text[], NULL, NULL,
+   'Yes if the address still gave the page that day. No if it has gone, and the kept copy stands in for it. Not checked for an address a program cannot check, such as the Parliament''s old site in the web archive.'),
   ('about', 1, 'date_copy_taken', '{}'::text[], NULL, NULL,
    'The day this copy of the data was taken.'),
   ('about', 2, 'file', '{}'::text[], NULL, NULL,
@@ -540,10 +572,6 @@ SELECT lh.heading,
          ELSE true END
  ORDER BY lh.heading, wd.sort_order;
 
-CREATE TABLE copy_build.what_changed (
-    date_copy_taken date, file text, bill_number integer, stage text,
-    heading text, old_value text, new_value text);
-
 -- For the rehearsal: one gap's days altered after the build.
 \if :{?fault_days}
 UPDATE copy_build.days_between_stages SET days = days + 1
@@ -574,12 +602,125 @@ UPDATE copy_build.terms SET covers = NULL WHERE terms_for = 'Supreme Court';
 \echo 'FAULT PLANTED: the Supreme Court is covered by no terms.'
 \endif
 
+-- The cited pages: every address the working data cites, with its kept copy
+-- and what the address check found.
+CREATE TEMP TABLE cited ON COMMIT DROP AS
+SELECT DISTINCT u AS address FROM (
+  SELECT (regexp_matches(source_ref, 'https?://[^ ;,)]+', 'g'))[1] AS u FROM from_working.field_source
+  UNION ALL SELECT (regexp_matches(source_ref, 'https?://[^ ;,)]+', 'g'))[1] FROM from_working.stage_event
+  UNION ALL SELECT (regexp_matches(source_ref, 'https?://[^ ;,)]+', 'g'))[1] FROM from_working.bill) x;
+
+CREATE TABLE copy_build.cited_pages AS
+SELECT a.address, a.kept_copy, a.date_kept, a.date_address_checked, a.address_works
+  FROM address_check a
+ WHERE a.address IN (SELECT address FROM cited)
+ ORDER BY a.address;
+
+-- ---------------------------------------------------------------------------
+-- What changed: the new copy against the live one, cell by cell
+-- ---------------------------------------------------------------------------
+--
+-- Each line of each compared file is known by what it is about, never by its
+-- place: a bill by its number, a stage by its bill and stage, a gap by its bill
+-- and the point it ends at, a source line by its file, bill, stage, session and
+-- heading, and so on. A line in both copies whose cells differ gives one line
+-- per changed cell; a line only in the old copy gives one "(line removed)"
+-- line; a line only in the new one is counted in about, not listed. Only the
+-- headings both copies have are compared. about, what_changed and cited_pages
+-- are not compared: they describe the copy, and cited_pages is remade each time.
+
+-- For the rehearsal: the live copy altered before the comparison.
+\if :{?plant_changes}
+UPDATE live.bills SET title = title || ' (planted)' WHERE bill_number = (SELECT min(bill_number) FROM live.bills);
+DELETE FROM live.sessions WHERE session = 7;
+INSERT INTO live.stages (bill_number, stage) VALUES (999999, 'Stage 1');
+\echo 'CHANGES PLANTED in live: bill 1''s title altered, session 7 removed (so added), bill 999999 Stage 1 added (so removed).'
+\endif
+
+CREATE TEMP TABLE compared (file text PRIMARY KEY, bill text, stage text, which text) ON COMMIT DROP;
+INSERT INTO compared VALUES
+  ('bills',               'bill_number', 'NULL', 'NULL'),
+  ('stages',              'bill_number', 'stage', 'NULL'),
+  ('days_between_stages', 'bill_number', 'NULL', 'measured_from || '' to '' || measured_to'),
+  ('sessions',            'NULL', 'NULL', '''session '' || session'),
+  ('methodology_notes',   'NULL', 'NULL', 'note'),
+  ('sources',             'bill_number', 'stage', 'applies_to_file || ''.'' || applies_to_heading || CASE WHEN bill_number IS NULL THEN '', session '' || session ELSE '''' END'),
+  ('what_the_words_mean', 'NULL', 'NULL', 'heading || '': '' || value'),
+  ('workings',            'NULL', 'NULL', 'file'),
+  ('terms',               'NULL', 'NULL', 'terms_for');
+
+-- The key a line is matched by. For a gap, the point it ends at, since each
+-- dated point ends exactly one gap and the point it starts at can move.
+CREATE TEMP TABLE lines (side text, file text, k text, bill_number integer, stage text,
+    which_line text, j jsonb) ON COMMIT DROP;
+DO $$
+DECLARE c record; sd text; sch text;
+BEGIN
+  FOR c IN SELECT * FROM compared LOOP
+    FOREACH sd IN ARRAY ARRAY['old', 'new'] LOOP
+      sch := CASE sd WHEN 'old' THEN 'live' ELSE 'copy_build' END;
+      IF to_regclass(format('%I.%I', sch, c.file)) IS NULL THEN CONTINUE; END IF;
+      EXECUTE format(
+        'INSERT INTO lines SELECT %L, %L, %s, %s::integer, %s::text, %s, to_jsonb(t) FROM %I.%I t',
+        sd, c.file,
+        CASE c.file WHEN 'days_between_stages' THEN 'bill_number || '' '' || measured_to'
+                    WHEN 'sources' THEN 'concat_ws(''|'', applies_to_file, bill_number, stage, session, applies_to_heading)'
+                    ELSE format('concat_ws(''|'', %s, %s, %s)', c.bill, c.stage, c.which) END,
+        c.bill, c.stage, c.which, sch, c.file);
+    END LOOP;
+  END LOOP;
+  IF EXISTS (SELECT 1 FROM lines GROUP BY side, file, k HAVING count(*) > 1) THEN
+    RAISE EXCEPTION 'Refusing: two lines of % in the % copy are about the same thing (%), so they cannot be compared.',
+      (SELECT file FROM lines GROUP BY side, file, k HAVING count(*) > 1 LIMIT 1),
+      (SELECT side FROM lines GROUP BY side, file, k HAVING count(*) > 1 LIMIT 1),
+      (SELECT k FROM lines GROUP BY side, file, k HAVING count(*) > 1 LIMIT 1);
+  END IF;
+END $$;
+
+CREATE TABLE copy_build.what_changed (
+    date_copy_taken date, file text, bill_number integer, stage text, which_line text,
+    heading text, old_value text, new_value text);
+
+-- Every earlier refresh's lines, carried across as they were.
+DO $$
+BEGIN
+  IF to_regclass('live.what_changed') IS NOT NULL THEN
+    INSERT INTO copy_build.what_changed
+    SELECT (j->>'date_copy_taken')::date, j->>'file', (j->>'bill_number')::integer, j->>'stage',
+           j->>'which_line', j->>'heading', j->>'old_value', j->>'new_value'
+      FROM (SELECT to_jsonb(w) AS j FROM live.what_changed w) x;
+  END IF;
+END $$;
+CREATE TEMP TABLE carried ON COMMIT DROP AS SELECT * FROM copy_build.what_changed;
+
+-- This refresh's: each changed cell, in the order of the files and headings.
+INSERT INTO copy_build.what_changed
+SELECT current_date, n.file, n.bill_number, n.stage, n.which_line, m.heading,
+       o.j->>m.heading, n.j->>m.heading
+  FROM lines n
+  JOIN lines o ON o.side = 'old' AND o.file = n.file AND o.k = n.k
+  JOIN mapping m ON m.file = n.file AND n.j ? m.heading AND o.j ? m.heading
+  JOIN files f ON f.file = n.file
+ WHERE n.side = 'new' AND (n.j->>m.heading) IS DISTINCT FROM (o.j->>m.heading)
+ ORDER BY f.pos, n.k, m.pos;
+
+-- Each removed line.
+INSERT INTO copy_build.what_changed
+SELECT current_date, o.file, o.bill_number, o.stage, o.which_line, '(line removed)', NULL, NULL
+  FROM lines o JOIN files f ON f.file = o.file
+ WHERE o.side = 'old'
+   AND NOT EXISTS (SELECT 1 FROM lines n WHERE n.side = 'new' AND n.file = o.file AND n.k = o.k)
+ ORDER BY f.pos, o.k;
+
 CREATE TABLE copy_build.about (
     date_copy_taken date, file text, rows integer, rows_added_since_last_copy integer);
-INSERT INTO copy_build.about (date_copy_taken, file, rows)
+INSERT INTO copy_build.about (date_copy_taken, file, rows, rows_added_since_last_copy)
 SELECT current_date, f.file,
        CASE f.file WHEN 'about' THEN (SELECT count(*) FROM files)
-            ELSE (xpath('/row/c/text()', query_to_xml(format('SELECT count(*) AS c FROM copy_build.%I', f.file), false, true, '')))[1]::text::int END
+            ELSE (xpath('/row/c/text()', query_to_xml(format('SELECT count(*) AS c FROM copy_build.%I', f.file), false, true, '')))[1]::text::int END,
+       CASE WHEN to_regclass('live.about') IS NULL OR f.file NOT IN (SELECT file FROM compared) THEN NULL
+            ELSE (SELECT count(*) FROM lines n WHERE n.side = 'new' AND n.file = f.file
+                     AND NOT EXISTS (SELECT 1 FROM lines o WHERE o.side = 'old' AND o.file = n.file AND o.k = n.k)) END
   FROM files f ORDER BY f.pos;
 
 -- The descriptions.
@@ -706,6 +847,7 @@ SELECT 1, x.file || ': ' || x.published || ' lines, working ' || x.working
     ('methodology_notes', (SELECT count(*) FROM copy_build.methodology_notes), (SELECT count(*) FROM from_working.methodology_note)),
     ('sources', (SELECT count(*) FROM copy_build.sources), (SELECT count(*) FROM from_working.field_source)),
     ('terms', (SELECT count(*) FROM copy_build.terms), (SELECT count(*) FROM from_working.source_terms)),
+    ('cited_pages', (SELECT count(*) FROM copy_build.cited_pages), (SELECT count(*) FROM cited)),
     ('sources, distinct working lines', (SELECT count(DISTINCT wj->>'field_source.field_source_id') FROM pairs WHERE file = 'sources'), (SELECT count(*) FROM from_working.field_source))
   ) AS x(file, published, working)
  WHERE x.published <> x.working;
@@ -919,6 +1061,57 @@ SELECT 11, 'terms ' || p.terms_for || ': covers does not say what the working li
        coalesce((SELECT string_agg(k.label, '; ' ORDER BY k.sort_order)
                    FROM from_working.ref_source k WHERE k.terms = t.code), t.covers_note);
 
+-- 12. Every cited page has a kept copy and was checked (DECISIONS.md,
+--     2026-09-17 and 2026-09-18): each address the working data cites is in
+--     cited_pages exactly once, with a kept copy, checked today, and a
+--     verdict of Yes, No or Not checked.
+INSERT INTO problems
+SELECT 12, 'cited_pages: ' || c.address || ' has no kept copy, or was not checked'
+  FROM cited c
+ WHERE (SELECT count(*) FROM copy_build.cited_pages p WHERE p.address = c.address) <> 1;
+INSERT INTO problems
+SELECT 12, 'cited_pages: ' || address || ': kept copy ' || coalesce(kept_copy, '(none)')
+          || ', checked ' || coalesce(date_address_checked::text, '(never)') || ', works ' || coalesce(address_works, '(empty)')
+  FROM copy_build.cited_pages
+ WHERE coalesce(kept_copy, '') = '' OR date_kept IS NULL
+    OR date_address_checked IS DISTINCT FROM current_date
+    OR address_works IS NULL OR address_works NOT IN ('Yes', 'No', 'Not checked');
+
+-- 13. What changed: every earlier line carried across unaltered; every line
+--     of this refresh's about a line that differs, and every line that
+--     differs has one; the lines added counted in about.
+INSERT INTO problems
+SELECT 13, 'what_changed: an earlier line was not carried across: ' || x::text
+  FROM (SELECT * FROM carried EXCEPT ALL SELECT * FROM copy_build.what_changed) x;
+INSERT INTO problems
+SELECT 13, 'what_changed: ' || d.file || ' ' || d.k || ' differs from the copy before but has no line'
+  FROM (SELECT n.file, n.k, n.which_line, n.bill_number, n.stage FROM lines n
+          JOIN lines o ON o.side = 'old' AND o.file = n.file AND o.k = n.k
+         WHERE n.side = 'new'
+           AND (SELECT jsonb_object_agg(k, v) FROM jsonb_each(n.j) e(k, v) WHERE o.j ? k)
+               IS DISTINCT FROM
+               (SELECT jsonb_object_agg(k, v) FROM jsonb_each(o.j) e(k, v) WHERE n.j ? k)) d
+ WHERE NOT EXISTS (SELECT 1 FROM copy_build.what_changed w
+                    WHERE w.date_copy_taken = current_date AND w.file = d.file
+                      AND w.bill_number IS NOT DISTINCT FROM d.bill_number
+                      AND w.stage IS NOT DISTINCT FROM d.stage
+                      AND w.which_line IS NOT DISTINCT FROM d.which_line
+                      AND w.heading <> '(line removed)');
+INSERT INTO problems
+SELECT 13, 'what_changed: ' || w.file || ', ' || coalesce(w.bill_number::text, w.which_line) || ', ' || w.heading
+          || ': listed, but the cell is the same in both copies'
+  FROM (SELECT * FROM copy_build.what_changed EXCEPT ALL SELECT * FROM carried) w
+ WHERE w.heading <> '(line removed)' AND w.old_value IS NOT DISTINCT FROM w.new_value;
+INSERT INTO problems
+SELECT 13, 'about: ' || a.file || ' says ' || coalesce(a.rows_added_since_last_copy::text, '(empty)')
+          || ' lines added, the copies give ' || coalesce(x.added::text, '(empty)')
+  FROM copy_build.about a
+  LEFT JOIN (SELECT file, count(*) FILTER (WHERE side = 'new' AND NOT EXISTS
+               (SELECT 1 FROM lines o WHERE o.side = 'old' AND o.file = l.file AND o.k = l.k)) AS added
+               FROM lines l GROUP BY file) x ON x.file = a.file
+ WHERE to_regclass('live.about') IS NOT NULL AND a.file IN (SELECT file FROM compared)
+   AND a.rows_added_since_last_copy IS DISTINCT FROM coalesce(x.added, 0);
+
 -- The about file counts what is there.
 INSERT INTO problems
 SELECT 1, 'about: ' || a.file || ' says ' || a.rows || ' lines'
@@ -944,7 +1137,18 @@ END $$;
 -- ---------------------------------------------------------------------------
 -- Put it live
 -- ---------------------------------------------------------------------------
+--
+-- The copy before becomes `previous`, served to nobody, so that the undo
+-- (tools/put_back_previous.sql) is one step; the one before that goes.
 
+DROP SCHEMA IF EXISTS previous CASCADE;
+DO $$
+BEGIN
+  IF to_regnamespace('live') IS NOT NULL THEN
+    ALTER SCHEMA live RENAME TO previous;
+    COMMENT ON SCHEMA previous IS 'The copy before the live one, kept so that a bad refresh can be undone in one step (tools/put_back_previous.sql). Served to nobody.';
+  END IF;
+END $$;
 ALTER SCHEMA copy_build RENAME TO live;
 COMMENT ON SCHEMA live IS 'The published copy, as taken on the day in its about file. What a reader''s page reads.';
 GRANT USAGE ON SCHEMA live TO legdata;
@@ -976,7 +1180,21 @@ END $$;
 
 \echo ''
 \echo '--- The copy'
-SELECT file, rows, date_copy_taken FROM live.about ORDER BY rows DESC;
+SELECT file, rows, rows_added_since_last_copy AS added, date_copy_taken FROM live.about ORDER BY rows DESC;
+\echo '--- What changed in this copy'
+SELECT file, heading, count(*) AS cells FROM live.what_changed
+ WHERE date_copy_taken = current_date GROUP BY 1, 2 ORDER BY 1, 2;
+SELECT * FROM live.what_changed WHERE date_copy_taken = current_date ORDER BY file, bill_number, stage, which_line LIMIT 40;
+\echo '--- The cited addresses'
+SELECT address_works, count(*) FROM live.cited_pages GROUP BY 1 ORDER BY 1;
+SELECT address, kept_copy FROM live.cited_pages WHERE address_works = 'No';
+\echo '--- Sizes: the list of what changed, and the copy kept as previous'
+SELECT (SELECT count(*) FROM live.what_changed) AS what_changed_lines,
+       pg_size_pretty((SELECT coalesce(sum(pg_total_relation_size(c.oid)), 0) FROM pg_class c
+                        WHERE c.relnamespace = 'live'::regnamespace AND c.relname = 'what_changed')) AS what_changed_size,
+       pg_size_pretty((SELECT coalesce(sum(pg_total_relation_size(c.oid)), 0) FROM pg_class c
+                        JOIN pg_namespace n ON n.oid = c.relnamespace
+                       WHERE n.nspname = 'previous' AND c.relkind = 'r')) AS previous_size;
 
 \if :save
   COMMIT;

@@ -389,6 +389,18 @@ Which line each kind of source belongs to is one dropdown column on the list
 of kinds of source in the bills workbook, and the copy refuses to be taken if
 a source it uses belongs to none.
 
+**When a date is corrected.** Say the Official Report showed the bill's
+Stage 3 ended a day later than we have it. The corrected date is promoted onto
+the clean sheet as usual, and the copy still shows the old one: nothing a
+reader sees changes until the copy is refreshed, at your word. The refresh
+checks every address the sources cite, builds a new copy beside the live one,
+and compares the two cell by cell. The bill's Stage 3 date and two lines of the
+days between stages have moved, so the new copy's `what_changed` tab gains
+three lines, each with the old and new value. Only if every check passes does
+the new copy go live; the old one is kept as `previous`, so putting it back is
+one step. The copy's `cited_pages` tab says, for every address, whether it
+still worked that day, and names our kept copy of the page.
+
 The copy is then checked against the bills workbook, every cell, by turning
 each word back into its code, looking it up on the copy's own
 `what_the_words_mean` tab. If a single cell disagrees, no copy is kept.

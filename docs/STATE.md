@@ -15,7 +15,7 @@ sessions.
 
 | Strand | What it delivers | Where it is |
 |---|---|---|
-| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: item 2 closed; items 3 and 4 built, their tests unrun; item 5 agreed; items 1, 6, 7 to do |
+| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: item 2 closed; items 3, 4 and 6 built, their tests unrun; item 5 agreed; items 1 and 7 to do |
 | 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | not open |
 | 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
@@ -52,7 +52,7 @@ list are both empty.**
   notes, definitions and sources rewritten for a reader; the quarter rule
   settled; the build plan agreed; the days between stages moved into the copy.
 
-**18 September, this session. Each source's terms recorded, and every cited page kept.**
+**18 September, this session. Items 2 to 6 of strand 1.**
 
 - **Item 2 closed**: its closure test passed, run by this session, which
   didn't build it, and you signed off `workings` in Postico.
@@ -75,6 +75,11 @@ list are both empty.**
   you signed off the copies.
 - **Item 5, the wording every page carries**: agreed as drafted
   (`docs/wording/PUBLISHING.md`). It is built with the pages in strand 2.
+- **Item 6, the refresh**: laid out, agreed, built and rehearsed. One step
+  from this Mac checks every cited address, rebuilds the copy beside the live
+  one, lists what changed and keeps the old copy as `previous`; one step puts
+  it back. The copy now has twelve files, the new one saying which addresses
+  still work (92 do, none gone, 14 can't be checked). Closure test written.
 
 ## Now
 
@@ -83,10 +88,11 @@ list are both empty.**
 1. **Item 1**: the copy's backup check, from the nightly run at 03:43 on
    19 September, and your look in Postico for the "In progress" change
    (`db/118`, item 10).
-2. **Items 3 and 4's closure tests**, run by a session that didn't build
-   them (`CLOSURE-TESTS.md`). Your sign-offs for both are done.
-3. **Item 6: the refresh**, laid out for you whole before anything is built.
-   **Then item 7**, the strand's closure test.
+2. **Items 3, 4 and 6's closure tests**, run by a session that didn't build
+   them (`CLOSURE-TESTS.md`). Yours for item 6: the wording written at the
+   build (its item 12).
+3. **Item 7**: strand 1's closure test, written by the session that finishes
+   the strand and run by another.
 
 ## Waiting for you
 

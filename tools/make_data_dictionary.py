@@ -233,7 +233,7 @@ def render(tables, notes, accounts, published):
         '',
         f'A separate database, `{PUBLISHED_DB}`, holding the copy of the data a '
         'reader sees, taken from the working database at one moment by '
-        '`tools/published_copy.sql`. Its eleven files are in the area '
+        '`tools/published_copy.sql`. Its twelve files are in the area '
         f'`{PUBLISHED_SCHEMA}`. Words stand in the cells where the working '
         'database holds codes; `what_the_words_mean` says what each word means.',
         '',
