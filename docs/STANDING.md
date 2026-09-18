@@ -292,6 +292,14 @@ bring it across; nothing depends on it.
   60 against 62 for government and 7 against 8 for Member's.
 
 **2026-09-16:**
+- **The website's login reads the live published copy and nothing else there**
+  (2026-09-18). Tried as the site: it reads all twelve files, cannot change one
+  even when it asks for a read-write transaction, cannot open `previous`,
+  `from_working` or `public`, cannot use the connector or see its password,
+  cannot make a table, and still cannot open the working database. Each
+  refusal was shown to fail when the permission was planted
+  (`db/published/002_check_as_the_site.sh`). **Postico's login can read
+  `previous`**, on purpose, so the old copy can be looked at before an undo.
 - **The website's login cannot open the working database.** Tried as the site's
   own machine account, and refused. The working database's own login still
   opens it.

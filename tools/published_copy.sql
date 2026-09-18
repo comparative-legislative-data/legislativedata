@@ -1147,12 +1147,28 @@ BEGIN
   IF to_regnamespace('live') IS NOT NULL THEN
     ALTER SCHEMA live RENAME TO previous;
     COMMENT ON SCHEMA previous IS 'The copy before the live one, kept so that a bad refresh can be undone in one step (tools/put_back_previous.sql). Served to nobody.';
+    -- A permission follows a copy when it is renamed. The site reads only what
+    -- is live, so its permission comes off here (db/published/002).
+    REVOKE ALL ON ALL TABLES IN SCHEMA previous FROM legsite;
+    REVOKE ALL ON SCHEMA previous FROM legsite;
   END IF;
 END $$;
 ALTER SCHEMA copy_build RENAME TO live;
 COMMENT ON SCHEMA live IS 'The published copy, as taken on the day in its about file. What a reader''s page reads.';
 GRANT USAGE ON SCHEMA live TO legdata;
 GRANT SELECT ON ALL TABLES IN SCHEMA live TO legdata;
+-- The site's login reads the live copy and nothing else (db/published/002).
+GRANT USAGE ON SCHEMA live TO legsite;
+GRANT SELECT ON ALL TABLES IN SCHEMA live TO legsite;
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
+              WHERE n.nspname = 'live' AND c.relkind = 'r'
+                AND NOT has_table_privilege('legsite', c.oid, 'SELECT'))
+     OR to_regnamespace('previous') IS NOT NULL AND has_schema_privilege('legsite', 'previous', 'USAGE') THEN
+    RAISE EXCEPTION 'The site''s login cannot read the new copy, or can still open previous.';
+  END IF;
+END $$;
 
 -- The working data is as it was.
 DO $$

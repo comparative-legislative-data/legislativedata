@@ -38,6 +38,17 @@ ALTER SCHEMA previous RENAME TO live;
 COMMENT ON SCHEMA live IS 'The published copy, as taken on the day in its about file. What a reader''s page reads.';
 GRANT USAGE ON SCHEMA live TO legdata;
 GRANT SELECT ON ALL TABLES IN SCHEMA live TO legdata;
+-- The site's login reads what is live again (db/published/002).
+GRANT USAGE ON SCHEMA live TO legsite;
+GRANT SELECT ON ALL TABLES IN SCHEMA live TO legsite;
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
+              WHERE n.nspname = 'live' AND c.relkind = 'r'
+                AND NOT has_table_privilege('legsite', c.oid, 'SELECT')) THEN
+    RAISE EXCEPTION 'The site''s login cannot read the copy put back.';
+  END IF;
+END $$;
 
 \echo '--- Live again'
 SELECT file, rows, date_copy_taken FROM live.about ORDER BY file;

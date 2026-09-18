@@ -145,7 +145,27 @@ $VPS 'set -e
   curl -sS -o /dev/null -w "   plain http (redirect):%{http_code}\n" http://legislativedata.org/
   curl -sS -o /dev/null -w "   stylesheet:           %{http_code}\n" https://legislativedata.org/static/css/site.css
   echo "   current -> $(readlink /srv/site/current)"
-  echo "   releases kept: $(ls -1 /srv/site/releases | wc -l | tr -d " ")"'
+
+  # 6. Clearing old releases, in the same connection as step 5: the server
+  # refuses a sixth connection inside 30 seconds. Settled 2026-09-18: keep the
+  # live release and the two before it that were actually live, so the undo
+  # reaches two deploys back. Every other folder goes: older live ones, and any
+  # that was only staged or failed its rehearsal. Only when the live one is the
+  # last line of the list, as it is straight after a switch.
+  printf "\n\033[1m6. Clearing old releases\033[0m\n"
+  cd /srv/site
+  cur=$(basename "$(readlink current)")
+  if [ "$(tail -1 switched)" != "$cur" ]; then
+    echo "   the live release is not the last switched to; not clearing"
+  else
+    keep=$(tail -3 switched)
+    for d in releases/*/; do
+      r=$(basename "$d")
+      grep -qxF "$r" <<<"$keep" || { sudo rm -rf "releases/$r"; echo "   removed $r"; }
+    done
+    echo "   kept: $(echo $keep)"
+  fi
+  echo "   releases on the machine: $(ls -1 releases | wc -l | tr -d " "), $(du -sh releases | cut -f1)"'
 
 say "Deployed: $REL"
 echo "Undo:  tools/deploy_site.sh --rollback"

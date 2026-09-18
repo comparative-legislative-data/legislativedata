@@ -20,7 +20,9 @@ nothing else.
   and this is its database login of the same name. It has no password and works
   only from that machine account. It can open `accounts` and **cannot open
   `legdata`**: PostgreSQL's default of letting any login open any database was
-  taken away from `legdata` by the same migration.
+  taken away from `legdata` by the same migration. From 18 September it can also
+  read the live published copy, and nothing else in that workbook
+  (`db/published/002`; `docs/STRAND-2-THE-SITE-READS-THE-COPY.md`).
 - **What `legsite` may do**, column by column: read everything; add a person
   (email, name, title, position, and nothing else); change a person's state and
   decision date; delete a person; add, change and remove codes and devices. It

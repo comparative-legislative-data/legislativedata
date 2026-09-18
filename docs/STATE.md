@@ -7,16 +7,16 @@ Updated: 2026-09-18
 **Phase 0, the dataset, and Phase 1, the site, are both closed.** At
 `legislativedata.org` someone can apply, you approve or refuse them, and they
 sign in with a code by email. **Phase 2, putting the data on the site, is
-open**, for approved beta users only. Nothing of the data is on the site yet.
+open**, for approved beta users only. **The site now reads the published copy**,
+but no page shows it yet.
 
 **Phase 2's build plan is agreed** (`docs/PHASE-2.md`, "The build plan"), in
-three strands, one after another, then the closing test. About twenty-five
-sessions.
+three strands, one after another, then the closing test.
 
 | Strand | What it delivers | Where it is |
 |---|---|---|
-| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: every item done but the backup check; its closure test written, to run from 19 September |
-| 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | not open |
+| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
+| 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | **open**: item 1 built and deployed; its closure test written, unrun |
 | 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
@@ -41,41 +41,34 @@ list are both empty.**
 
 - **10–15 September.** The database built, every session read in, reviewed,
   promoted and closed; Phase 1's scoping discussions settled.
-- **16 September.** The site live with accounts, and Phase 1 closed. Phase 2
-  opened, its plan drafted, checked, and redrafted from three pieces of outside
-  research.
-- **16–17 September.** You reviewed the Phase 2 plan question by question.
-- **17 September.** Notes settled; the six thoughts mocked up
-  (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9); a build order written
-  for the charts only, and wrongly followed as the phase's plan.
-- **18 September, earlier.** The published copy taken and checked; the
-  notes, definitions and sources rewritten for a reader; the quarter rule
-  settled; the build plan agreed; the days between stages moved into the copy.
+- **16 September.** The site live with accounts; Phase 1 closed; Phase 2 opened.
+- **16–17 September.** You reviewed the Phase 2 plan; the six thoughts mocked up
+  (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9).
+- **18 September, day.** Strand 1 built, item by item, and each item's test run.
 
-- **18 September, afternoon.** Item 2 closed; items 3 to 6 laid out,
-  agreed and built.
-- **18 September, evening.** Items 3, 4 and 6's closure tests run: all passed.
+**18 September, evening, this session. Strand 1 closed; strand 2's first item
+built and live.**
 
-**18 September, this session. Strand 1's closure test written.**
-
-- **You confirmed "In progress" comes last** in Postico. Item 1 is now only
-  the backup check.
-- **Strand 1's closure test is written** (`docs/CLOSURE-TESTS.md`, at the
-  top). It checks every item's test passed and the strand's five
-  "finished when" points hold together, and it carries the backup check, so
-  the session that reads the backup log isn't marking its own work.
+- **Nothing waits on a clock**, your ruling: the backup was run by hand and
+  strand 1's closure test run the same evening. You signed strand 1 closed.
+  The four old copies of the backup script are deleted.
+- **The site reads the copy.** Its login can read what is live and nothing
+  else: not the old copy, not the working data, and it cannot change a cell.
+  Each refusal was shown to catch a planted fault. A deploy now refuses if the
+  site can't read the copy. Rehearsed, rolled back and deployed again.
+- **Old site releases cleared**: nineteen to three, 416 MB to 67 MB; each
+  deploy now keeps three.
 - No bill, date or figure changed.
 
 ## Now
 
-**Strand 1, ready to publish** (`docs/PHASE-2.md`, "Strand 1").
+**Strand 2, the data on the site** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Run strand 1's closure test** (`docs/CLOSURE-TESTS.md`, "Strand 1,
-   ready to publish"), by a session other than the one that wrote it, not
-   before the nightly backup of 19 September has finished (after about 03:45
-   here). It includes item 1's backup check, and ends with your sign-off that
-   strand 1 is closed.
-2. **Then strand 2 opens**, with its first item: the site reading the copy.
+1. **Run item 1's closure test** (`docs/CLOSURE-TESTS.md`, "The site reads
+   the copy"), by a session other than this one. No sign-off from you.
+2. **Item 2, the page parts every data page shares**: lay it out whole for
+   you before building. It is where the date at the foot of every page first
+   comes from the copy.
 
 ## Waiting for you
 
@@ -86,7 +79,7 @@ list are both empty.**
   outside service, so it is yours to decide.
 - **`site/.venv` on this Mac**, 22 MB, which nothing needs: delete it?
 - **A one-off check from 16 September listed as failed** on the server.
-  Harmless. The old site releases are now cleared with strand 2's first deploy.
+  Harmless.
 - **The machine's monthly cost is written down nowhere.** Its renewal date is in
   the private notes; the cost could go beside it, if you want it recorded.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
@@ -127,18 +120,31 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session that wrote strand 1's test
+## Sanity check, 2026-09-18, the session that closed strand 1
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the decisions contents and the dictionary
   regenerated identical; counts 470, 1291, 192, 14; checker and gaps list
-  empty; four databases, all sorted; `published` held `from_working`, `live`,
-  `previous` and `public`; the site answers 200. "Now" traced to strand 1,
-  items 1 and 7. Nothing found.
-- **The nightly backup** is `legdata-backup.timer`, due 02:43 UTC (03:43
-  here); its output, with the line "legdata-backup: published is not backed
-  up, on purpose.", is read with `journalctl -u legdata-backup.service`.
+  empty; four databases, all sorted; the site 200; the backup timer next due
+  02:43 UTC. "Now" traced to strand 1, item 7. Nothing found. The one problem
+  was the task itself: it waited on the night's backup. The owner ruled
+  nothing waits on a clock (DECISIONS.md, 2026-09-18).
+
+## The site reads the copy: working detail, 18 September
+
+- **The server's firewall refuses a sixth connection inside 30 seconds**, and
+  a deploy opens five. Start a deploy only after half a minute with no other
+  connection; the release clearing now shares step 5's connection for this
+  reason.
+- **Look a table up by its number, not by name**, in a check across the
+  catalogue: `has_table_privilege(role, c.oid, ...)`. By name, PostgreSQL may
+  try the name against system tables first and fail.
+- **A `pg_dump` fingerprint must drop the `\restrict` and `\unrestrict`
+  lines**, which are random per dump in PostgreSQL 17.
+- **Rehearsing the refresh without the Parliament's site**: export
+  `live.cited_pages` as the address check's CSV and pass it with
+  `--addresses`.
 
 ## Running items 3, 4 and 6's tests: working detail, 18 September
 

@@ -409,8 +409,11 @@ each word back into its code, looking it up on the copy's own
 through a login that can only read, so taking a copy cannot change a bill. And
 it is not in the nightly backup, because it can be taken again in seconds.
 
-You can open it in Postico, on the `live` area. Nothing on the site reads it
-yet.
+You can open it in Postico, on the `live` area, and the old one on
+`previous`. **The website reads the copy from 18 September**, and only what is
+live: it cannot see `previous`, cannot change a cell, and still cannot open the
+bills workbook at all. When a copy is refreshed, the site sees the new one on
+the next page anyone opens. No page shows any of it yet.
 
 ## 7. Words you will meet in Postico
 

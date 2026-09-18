@@ -93,3 +93,60 @@ the new one from its next page, with nothing restarted.
    shares, so the first deploy also shows the date. Recommended: keep it on
    its own, as the plan has it. It is the permission change, and it should be
    tested on its own.
+
+## The rehearsal, and what each step should show
+
+Everything here is undone in a step or two, so it is rehearsed on the real
+workbook and the real site, in this order, each step read before the next.
+
+1. **Apply `db/published/002`.** It ends: "The site can read the twelve files
+   of live, change none, and open nothing else here."
+2. **The check as the site.** "All 11 pass."
+3. **Plant the faults** (`002_plant_faults.sql`, `fault=on`) and check again:
+   items 1 to 3 and 11 pass, **4 to 10 fail**, one for each fault. Take them
+   away (`fault=off`) and check: all 11 pass.
+4. **The refresh, thrown away**, with today's address check given, so the
+   Parliament's site isn't read again: no problems, nothing changed, and no
+   error from the new line that checks the site reads the new copy and not
+   `previous`. **The undo, thrown away**: no error from its matching check.
+   The copy's fingerprint the same before and after.
+5. **Undo `db/published/002`** and check as the site: items 1 and 11 differ
+   (1 fails, 11 passes). **Stage the new site** (`--stage-only`): the
+   rehearsal must **fail**, "published copy unreachable", and remove the
+   release, with the live site untouched. This is question 1's answer at work.
+6. **Apply `db/published/002` again**, check as the site: all 11 pass. Stage
+   again: the rehearsal passes.
+7. **Deploy.** The five usual lines (200, 200, 301, 308, 200), then step 6
+   clears the releases to three.
+8. **Roll back**: back to 16 September's release, health and apex 200. **Deploy
+   again**: the five lines again; three releases kept.
+9. **Leave nothing**: nothing of this in the server's `/tmp`.
+
+**The undo, for real:** `tools/deploy_site.sh --rollback`, then
+`db/published/002_undo.sql`. In that order, because the site after this
+deploy reports itself unhealthy without the copy.
+
+## What was done, 18 September
+
+**Built, rehearsed and deployed the same evening.** Every step as above, with
+three things that went differently, all put right:
+
+- **Step 4 first failed**, on a fault in the new check: it looked the copy's
+  files up by name, and PostgreSQL may try the name on its own system tables
+  before narrowing to the copy's, which fails. Both the refresh and the undo
+  refused and kept nothing (the fingerprint unchanged). The check now looks
+  them up by number, as `002` does, and step 4 passed.
+- **Step 5's check differed from the prediction here**: with its permission
+  taken away, the site cannot open the published workbook at all, so items 1
+  to 9 fail, not item 1 alone; 10 and 11 pass. Right, but not what was
+  written.
+- **The server's firewall refused connections twice** (six in 30 seconds):
+  once cutting off a staging, once the release-clearing step. Nothing was
+  switched either time; the files a cut-off staging left in `/tmp` were
+  removed. Clearing now runs inside step 5's connection, so a deploy opens no
+  more connections than before.
+
+Live: release `2026-09-18T17-39-56Z`. Kept: that, `2026-09-18T17-38-41Z` and
+`2026-09-16T17-11-22Z`; nineteen releases went to three, 416 MB to 67 MB.
+Rolled back to 16 September's and deployed again, all checks right. The
+closure test is at the top of `docs/CLOSURE-TESTS.md`, unrun.

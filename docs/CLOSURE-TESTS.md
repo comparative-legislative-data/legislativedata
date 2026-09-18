@@ -30,6 +30,79 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The site reads the copy
+
+Strand 2, item 1. Written 2026-09-18 by the session that built and deployed
+it (`docs/STRAND-2-THE-SITE-READS-THE-COPY.md`, agreed by the owner the same
+day, four questions). **Not yet run.** Run by another session.
+
+Write every query fresh. Do not read the check the migration ends with, or the
+refresh's own check, as an answer; `002_check_as_the_site.sh` is the thing
+under test, so read it before trusting its lines.
+
+### Part A — mechanical
+
+1. **The site's permissions, from the record.** In `published`, the login
+   `legsite` has, and has only: CONNECT on the workbook; USAGE on `live`;
+   SELECT on each of `live`'s twelve files. Nothing on `previous`,
+   `from_working`, `public` or the server `working`; not CREATE or TEMPORARY
+   on the workbook. Its setting in `published` is
+   `default_transaction_read_only=on`. It cannot CONNECT to `legdata`.
+   *Where from:* the owner's agreement, DECISIONS.md, 2026-09-18, "The site
+   reads the copy".
+2. **The check, as the site.** `sudo -u legsite bash
+   db/published/002_check_as_the_site.sh` (copied to the server): "All 11
+   pass".
+3. **The check catches each fault.** `002_plant_faults.sql` with
+   `fault=on`: items 1 to 3 and 11 pass, 4 to 10 fail. With `fault=off`: all
+   11 pass, and item 1 of this test holds again, asked afresh.
+4. **Tried by hand, not through the script**, two of its claims: as
+   `legsite`, reading `previous.about` is refused for permission; and, in a
+   read-write transaction, adding a line to `live.about` is refused for
+   permission.
+5. **The live site reads it.** On the server,
+   `curl http://127.0.0.1:8000/health` says `ok`; `/srv/site/current` is
+   `2026-09-18T17-39-56Z` or later; that release's `app.py` refuses health
+   when `published.reachable()` is false, and its `published.py` connects to
+   `dbname=published` and nothing else.
+6. **A refresh keeps the permission right.** `tools/published_copy.sql` gives
+   `legsite` the live copy after the rename, takes it off `previous`, and
+   refuses if either is wrong; `tools/put_back_previous.sql` gives it back to
+   what it puts live, and refuses if it cannot. Run `tools/refresh_copy.sh`
+   once without `--save` (an earlier address check may be given with
+   `--addresses`), and `put_back_previous.sql` with `save=false`: neither
+   errors, and an md5 of every line of `live` and `previous`, with the
+   `\restrict` and `\unrestrict` lines taken out, is the same before and
+   after.
+7. **Three releases.** `/srv/site/releases` holds exactly the last three
+   lines of `/srv/site/switched`, the last being the live one.
+   `tools/deploy_site.sh` clears to that rule inside step 5's connection.
+8. **The records say so.** `DEPLOY-RUNBOOK.md`: six steps, the health check
+   covering the copy, the three-release rule, the undo's two parts in order.
+   `STANDING.md`: the site's login, verified, and Postico's reading
+   `previous` on purpose. `ACCOUNTS-RUNBOOK.md` and
+   `HOW-THE-DATABASE-WORKS.md` say the site reads the live copy.
+9. **Nothing left behind.** Four databases; `published` has `from_working`
+   (no tables), `live`, `previous`, `public`. Nothing of this test's or the
+   build's in the server's `/tmp`. Counts 470, 1291, 192, 14; checker and gaps
+   list empty; the dictionary regenerates identical.
+
+**Which items an outside change can move:** 1, 2 and 6 at any refresh; 5 and
+7 at any deploy.
+
+### Part B — the owner's sign-off
+
+None. No page changed, and nothing a reader sees depends on this yet.
+
+### Part C — what this test does not check
+
+**Any page reading the copy**: none does until item 2. **A saved refresh
+with the new lines**: only thrown-away runs; the lines refuse before
+anything is kept, so a saved run keeps only what they passed. **The site's
+speed** reading the copy.
+
+---
+
 ## Strand 1, ready to publish
 
 Written 2026-09-18 by the session that finished the strand's last open piece

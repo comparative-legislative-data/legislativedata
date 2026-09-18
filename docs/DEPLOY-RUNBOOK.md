@@ -26,11 +26,13 @@ Four things, and it is worth being able to name them.
 - **The site** is Flask and Jinja — the pages themselves.
 - **systemd** starts gunicorn when the machine boots and restarts it if it dies.
 
-**The site reads one database: the accounts**, since 16 September 2026. It
-connects as its own login over the machine's socket, with no password, and that
-login cannot open the working database. Phase 1 puts no data on any page, so it
-reads nothing about bills; when it does, it reads the published copy and never
-the working one. See `docs/ACCOUNTS-RUNBOOK.md`.
+**The site reads two databases: the accounts**, since 16 September 2026, **and
+the published copy**, since 18 September. It connects to both as its own login
+over the machine's socket, with no password. In the copy it can read what is
+live and nothing else: not `previous`, not the connector, and it cannot change a
+cell (`db/published/002`, whose check `002_check_as_the_site.sh` proves it). It
+cannot open the working database. See `docs/ACCOUNTS-RUNBOOK.md` and
+`docs/STRAND-2-THE-SITE-READS-THE-COPY.md`.
 
 ## Where things live
 
@@ -56,7 +58,7 @@ From the top of the repository:
 
     tools/deploy_site.sh
 
-It does five things, and prints what it found at each. **Read step 3 before you
+It does six things, and prints what it found at each. **Read step 3 before you
 read anything else** — that is the rehearsal, and if it fails, nothing has been
 switched and the live site is untouched.
 
@@ -67,12 +69,16 @@ switched and the live site is untouched.
    the home page. Both must be `200`. Then it stops it again. **A failure here
    stops the deploy with the live site still on the old version**, and deletes
    the failed release so that nothing can later take it for a working one.
-   **The health check is `200` only if the site can read the accounts.** A site
-   that cannot is one nobody can apply or sign in to, so it does not go live.
+   **The health check is `200` only if the site can read the accounts and the
+   published copy.** A site that cannot read the accounts is one nobody can
+   apply or sign in to; one that cannot read the copy has no data to show
+   (settled 18 September). Either way it does not go live.
 4. **Switches.** Checks the Caddy configuration is valid, moves the pointer,
    restarts the site, restarts Caddy.
 5. **Checks what a reader actually gets** — over `https`, from outside the app:
    the apex, the `www` redirect, the plain `http` redirect, and the stylesheet.
+6. **Clears old releases**: keeps the live one and the two before it that were
+   live, and removes every other folder. See "The undo".
 
 ### What the five lines at step 5 should say
 
@@ -122,8 +128,16 @@ says less than a `200` from anything later.
 
 Lists what is on the machine, which one is live, and the list of what has been.
 
-**The undo only reaches as far as the releases still on the machine.** They are
-not pruned automatically yet; when they are, the rule goes here first.
+**The undo reaches two deploys back, and no further.** Settled 18 September:
+each deploy keeps the live release and the two before it that were live (the
+last three lines of `switched`), and removes every other folder, including any
+that was only staged or failed its rehearsal. Nineteen went to three on the
+first deploy under the rule.
+
+**After 18 September's deploy, the undo is in two parts and in this order:**
+roll the site back, then take its permission to the copy away
+(`db/published/002_undo.sql`). The other way round, the live site reports
+itself unhealthy.
 
 **What the undo does not cover:** a change to the Caddy configuration is copied
 over at step 4 and the rollback does not put the old one back. If a deploy broke

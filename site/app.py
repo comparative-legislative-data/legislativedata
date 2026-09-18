@@ -2,10 +2,10 @@
 
 Flask, Jinja, gunicorn behind Caddy. No build step. Settled 2026-09-15.
 
-It reads the accounts database (from 2026-09-16) and no other. Phase 1 puts no
-data on any page, so it reads nothing about bills. When the published database
-exists, the data date in the footer comes from it and from nowhere else; until
-then the footer says there is no published data, which is true. See
+It reads the accounts database (from 2026-09-16) and the published copy (from
+2026-09-18), and never the working database. No page shows the copy yet: until
+the first data page, the footer says there is no published data, and after it
+the data date comes from the copy and from nowhere else. See
 DECISIONS.md, 2026-09-15, "Every page carries the date of the data it was built
 from".
 """
@@ -16,9 +16,11 @@ from flask import Flask, abort, g, redirect, render_template, request, url_for
 
 import accounts
 import mail
+import published
 
 app = Flask(__name__)
 app.teardown_appcontext(accounts.close)
+app.teardown_appcontext(published.close)
 
 # Nothing the site takes in is anywhere near this. A form is a few hundred bytes.
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024
@@ -83,7 +85,10 @@ def health():
 
     Healthy means the site is running, can read the accounts, and can read the
     key codes are scrambled with and the key emails are sent with, because
-    without any of those nobody can apply, be told, or sign in. Says nothing about the data or about anyone in the accounts.
+    without any of those nobody can apply, be told, or sign in; and can read
+    the published copy, because without it there is no data to show (settled
+    2026-09-18: a deploy refuses if it cannot). Says nothing about the data or
+    about anyone in the accounts.
     """
     if not accounts.reachable():
         return "accounts unreachable\n", 503, {"Content-Type": "text/plain; charset=utf-8"}
@@ -91,6 +96,8 @@ def health():
         return "code key unreadable\n", 503, {"Content-Type": "text/plain; charset=utf-8"}
     if not mail.key_readable():
         return "email key unreadable\n", 503, {"Content-Type": "text/plain; charset=utf-8"}
+    if not published.reachable():
+        return "published copy unreachable\n", 503, {"Content-Type": "text/plain; charset=utf-8"}
     return "ok\n", 200, {"Content-Type": "text/plain; charset=utf-8"}
 
 
