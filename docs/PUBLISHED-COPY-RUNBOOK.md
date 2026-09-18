@@ -2,7 +2,8 @@
 
 For the owner. Written 18 September 2026. **The five decisions in §1 were
 agreed by the owner the same day**, point 2 in the form the owner proposed: a
-connector that can only read. Nothing is built yet.
+connector that can only read. **Built, and the first copy taken, the same
+day**; see §7.
 This is block 1 of `docs/PHASE-2-CHARTS-BUILD.md`. What the copy holds, its
 nine files and every heading were settled on 17 and 18 September
 (`docs/PHASE-2-PUBLISHED-COPY.md`) and are not reopened here. This says how the
@@ -98,8 +99,8 @@ working ones.
 
 ## 2. What happens, in order
 
-One script, `tools/take_published_copy.sh`, run by a session from this Mac. No
-step by hand. Steps 2 to 6 are one all-or-nothing action: if anything fails,
+One script, `tools/published_copy.sql`, sent to the machine and run there by a
+session. No step by hand. Steps 2 to 6 are one all-or-nothing action: if anything fails,
 none of it happened.
 
 1. **Refuse to start** unless the error checker and the gaps list are empty.
@@ -206,14 +207,22 @@ Recorded so none of it is forgotten, and none of it built early:
 
 ## 7. Size
 
-**Where it stands, 18 September.** Written: `db/published/001` and its undo, the
-backup line, and `tools/published_copy.sql` with the mapping. The set-up was
-rehearsed into a scratch workbook and undone. The build was tried there:
-it built all nine files, and its check passed with nothing found; the planted
-fault was caught and named; a kept build was looked at for the Legal
-Continuity Bill; and the undo left nothing. Not done: the rehearsal as
-written in §4, the backup line's installation, the real set-up, the real
-copy, the data dictionary's part for the copy, and the closure test.
+**Where it stands, 18 September, end of the day.** Done: the rehearsal as
+written in §4, with the Legal Continuity Bill traced through every file
+against the working data; the backup line rehearsed and installed, the old
+script kept on the machine as `legdata-backup.pre-published.bak`; the real
+set-up; the real copy, its check finding nothing; the data dictionary's part
+for the copy; the closure test, written and unrun. Left: the owner looking at
+it in Postico, and the closure test run by another session.
+
+**A fault in the backup rehearsal, found and mended.** Its check E ran the
+installed backup against the real store when it could not redirect it, with
+the rehearsal's restored copy of the accounts still open, and the day's
+offsite data copy held it. A normal run of the nightly job straight after
+replaced that copy and removed it; the tool now refuses rather than runs, and
+drops its restored copies as soon as it has counted them. Lesson for any
+rehearsal of the backup: never let a scratch workbook exist while a real run
+could happen.
 
 Block 1 is roughly a session and a half. This session writes the set-up, the
 mapping and the build and check scripts. The next runs the rehearsal, makes the

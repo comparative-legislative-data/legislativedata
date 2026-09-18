@@ -10,9 +10,9 @@ sign in with a code by email; the privacy page says what is held. **Phase 2,
 the data published, is open**, for approved beta users only. **Its plan is
 reviewed and every question answered.** The published copy's headings are
 settled, and **the methodology notes, the definitions and the whole of the
-sources file are written for a reader.** **How the copy is taken is agreed and
-written, and it has been tried on a scratch workbook; the real copy is next.** **The
-charts are being worked out afresh, as mock-ups with real figures.** The arc is
+sources file are written for a reader.** **The first published copy is taken
+and checked**, in a workbook of its own that nothing on the site reads yet.
+**The charts are being worked out afresh, as mock-ups with real figures.** The arc is
 in `docs/PLAN.md`.
 
 The dataset. No bill, date or figure changed today. What moved was wording: 29
@@ -50,51 +50,47 @@ list are both empty.**
   thirteen notes rewritten in them (`db/113`).
 
 - **18 September, earlier.** `db/113` closed; 29 definitions rewritten for a
-  reader and agreed one at a time (`db/114`, closure test unrun).
+  reader (`db/114`); the sources file's notes and the source's own words
+  rewritten (`db/115`, `db/116`); how the published copy is taken agreed and
+  tried on a scratch workbook. Closure tests for all three unrun.
 
-**18 September, this session. The sources file's notes.**
+**18 September, this session. The published copy taken.**
 
-- **92 of the 192 notes named things a reader can't see**: staging columns,
-  stored codes like 'still_blocked', a working column name, a folder in the
-  repository. You agreed the rewording (`docs/PHASE-2-SOURCES-NOTES.md`).
-- **Three more were found while building**: the "Rewritten" notes showed every
-  apostrophe doubled, "Parliament''s". Fixed with the rest, without asking
-  first; it is a sign-off item.
-- **Built as `db/115`, with the promotion script changed to match**, since the
-  script writes most of these notes. Rehearsed by taking every session off and
-  putting it back with the new script: identical, cell by cell. Applied and read
-  back. The closure test is written and unrun.
-- **The source's own words weren't.** 91 lines only repeated the cell
-  (`2021-03-30`, `stage_3`), and 31 held our account of an Official Report
-  decision. You agreed: the 91 emptied, and the 31 split, with the Official
-  Report's quoted words kept and our account moved to the note. Seven Session 6
-  lines had kept a working phrase the script should have cut. Built as
-  `db/116` the same way, script and all; rebuild identical; closure test unrun.
-- **How the published copy is taken, agreed**, with your change: it is built
-  inside its own workbook, reading the working data through a connector that
-  can only read. You also agreed every description a reader will see.
-- **Written and tried, not yet run for real**: the set-up, and the build with
-  its check (`docs/PUBLISHED-COPY-RUNBOOK.md`). On a scratch workbook it built
-  all nine files, the check passed, a planted fault was caught and named, and
-  undoing it left nothing.
+- **Rehearsed first**, on a scratch workbook: set up, built and checked
+  (nothing found), a planted fault caught and named, and undone leaving
+  nothing. The Legal Continuity Bill was traced through every file against the
+  working data by hand, and agrees everywhere.
+- **Then for real.** The backup now skips the copy, rehearsed and installed.
+  The `published` workbook is set up, and the first copy is taken: 470 bills,
+  1291 stages, 1657 gaps, 7 sessions, 14 notes, 192 source lines, 89 words.
+  Its check, every cell turned back and compared, found nothing. Postico's
+  login can read it; the site's cannot. The data dictionary has a third part
+  for it, and `HOW-THE-DATABASE-WORKS.md` a short section.
+- **A fault in the backup's rehearsal tool**, which you agreed I mend. It ran
+  the real backup when it meant to run a throwaway one, while a scratch copy
+  of the accounts was open, so today's offsite copy of the data held the
+  accounts. With your agreement one normal backup run replaced it, and every
+  copy in the store was searched: none holds it now. The tool is fixed and
+  reran clean.
+- **The closure test for the copy is written**, for another session to run.
 
 ## Now
 
-1. **The published copy, block 1, finished.** In order, from
-   `docs/PUBLISHED-COPY-RUNBOOK.md`: the rehearsal as written in §4, including
-   the Legal Continuity Bill traced by hand for you; install the backup's new
-   line before the real workbook exists; the real set-up; the real copy; the
-   data dictionary's part for the copy; show it to you in Postico; write the
-   closure test. The build and check are in `tools/published_copy.sql`; the
-   set-up is `db/published/001`.
-2. **The closure tests for `db/114`, `db/115` and `db/116`**, run by a session
-   that built none of them.
+1. **Open the published copy in Postico** and say whether it reads as a
+   researcher should receive it. It is the workbook `published`, area `live`;
+   Postico needs the database name changed from `legdata` to `published` on a
+   copy of the existing connection. This is item 15 of its closure test.
+2. **The closure tests for `db/114`, `db/115`, `db/116` and the published
+   copy**, run by a session that built none of them.
 3. **The three small items**, block 2, each with its full checklist first.
 4. **Iterating the mock-ups**, whenever you want: the open points are in
    `docs/PHASE-2-CHARTS-THOUGHTS.md`.
 
 ## Waiting for you
 
+- **"SPICe legislation factsheet" in the source list**, one word, where the
+  notes and definitions now say "fact sheet". The published copy shows both,
+  on the Legal Continuity Bill's own line. Reword the two labels, or leave?
 - **Making the GitHub repository private**, which you expect to do. Nothing
   depends on it being public; the switch is yours, in GitHub's settings.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
@@ -150,48 +146,54 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session of the sources notes
+## Sanity check, 2026-09-18, the session of the published copy
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
   `STATE.md`; the decisions contents and the dictionary regenerated identical.
 - **The counts matched**: 470 bills, 1291 stage records, 192 provenance notes,
-  14 notes; staging 474 and 1295; checker and gaps list empty.
-- **Every database sorted into a backup theme**: `postgres`, `accounts`,
-  `legdata`. **The site answers 200.**
-- **The SSH rate limit bit once**, on the dictionary script after four quick
-  connections. Waiting 40 seconds cleared it.
+  14 notes; staging 474 and 1295; checker and gaps list empty; only `public`.
+- **Every database sorted into a backup theme**: `accounts`, `legdata`,
+  `postgres`. **The site answers 200.**
+- **The SSH rate limit bit twice.** `tools/make_data_dictionary.py` now waits
+  and retries when a connection is refused.
 
-## Closing checks, 18 September, the session of the sources notes
+## Closing checks, 18 September, the session of the published copy
 
-- **Figures unchanged**: 470 bills, 1291 stage records, 192 provenance notes,
-  14 notes; checker and gaps list empty; only `public`; no working copy. The
-  rehearsal's copy schema went with its rollback, and the server's `/tmp`
-  files from it are removed.
-- **Every column but the note is unchanged**, by fingerprint before and after;
-  95 notes changed, read back by wording.
-- **The rehearsal**: `db/115`, then Sessions 7 to 1 taken off and 1 to 7 put
-  back with the new script, all in one transaction. The temporary tables were
-  dropped between runs so each script could run more than once.
-  `compare_with_copy.sql`: no unexpected differences. The live notes'
-  fingerprint read the same afterwards.
-- **The dictionary regenerates identical.**
-- **`db/115`'s closure test is written and unrun.**
-- **The published copy, tried on a scratch workbook** (`published_rehearsal`,
-  login `copy_reader_rehearsal`): set up, built with save=false (0 problems),
-  built with the planted fault (1 problem, named), built and kept to look at,
-  then undone: no database and no login left, and the working workbook's
-  permissions as before. Nothing real was made. `/tmp` on the server cleared.
-- **Found, not opened**: the source list's labels still say "SPICe legislation
-  factsheet" and "SPICe dates factsheet", one word, where the notes and
-  definitions now say "fact sheet". Labels were outside `db/114`. A reader sees
-  both spellings.
-- **`db/116`**, the same way: fingerprinted before; rebuild rehearsal, no
-  unexpected differences; applied; every column but the value and the note
-  unchanged by fingerprint; 55 values and 14 empty Official Report outcomes as
-  expected; sample lines read back. The dictionary changes in one description
-  only, `value_seen`'s. Closure test written and unrun.
+- **Figures unchanged in the working workbook**: 470, 1291, 192, 14; checker
+  and gaps list empty; only `public`. The copy's own build confirms the
+  working data by fingerprint before and after.
+- **Four databases, each sorted**: `published` and `postgres` skipped on
+  purpose, `accounts` its own theme, `legdata` the data.
+- **The installed backup** is identical to `deploy/legdata-backup` (md5
+  `880259a8…`); the version before is on the machine as
+  `legdata-backup.pre-published.bak`. The first nightly run with it is at
+  02:30 on 19 September; item 12 of the closure test reads its log.
+- **The offsite store after the fault**: 23 copies, every one searched for a
+  `_themes_check` or `_rehearsal` dump; none. Today's data copy is `c6cf8af2`.
+- **No scratch workbook or login left**; `/tmp/pubrehearse` on the server
+  removed.
+- **The dictionary regenerates identical**, now with the copy's part.
+- **Not done, on purpose**: nothing on the site reads the copy (block 4).
+
+## How the published copy was taken: working detail, 18 September
+
+- **Quoting through the connector script**: a `$$` inside the double-quoted
+  remote command becomes the shell's process number, and a heredoc inside the
+  single-quoted command loses its single quotes. Write queries to a file in
+  the scratchpad, send it with `--scp`, and run it with `-f`.
+- **Sending several files in one connection**: `tar cf - … |
+  ~/.claude/legdata-vps 'tar xf - -C DIR'` works, and avoids the rate limit.
+- **The runbook named a script that never existed**,
+  `tools/take_published_copy.sh`; the build is `tools/published_copy.sql` run
+  with `psql`. Corrected.
+- **Proving the backup skips `published`** needed a workbook of that name to
+  exist, and the line had to be installed before the real one did. The first
+  rehearsal therefore ran a copy of the new script with `published_rehearsal`
+  added to the skip list, while the scratch workbook existed: it printed
+  "published_rehearsal is not backed up, on purpose." and its data manifest
+  named only `legdata`. The rerun after the fix used the script unaltered.
 
 ## Thoughts 5 and 6: working detail, 17 September
 

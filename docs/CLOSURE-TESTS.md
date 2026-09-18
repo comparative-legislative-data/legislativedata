@@ -30,6 +30,106 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The published copy, block 1
+
+Written 2026-09-18 by the session that set up `published` and took the first
+copy. **Not yet run.** Block 1 of `docs/PHASE-2-CHARTS-BUILD.md`; the
+procedure is `docs/PUBLISHED-COPY-RUNBOOK.md`.
+
+Nothing here may be answered by running `tools/published_copy.sql`'s own
+check and reading its result: that is the builder marking its own work. Write
+the queries fresh. The build refuses to run while `live` exists, so it cannot
+be re-run against the real copy anyway.
+
+### Part A — mechanical
+
+1. **The workbooks.** The machine has four: `accounts`, `legdata`, `postgres`,
+   `published`. Each is sorted into a backup theme: `published` and `postgres`
+   are named in `NOT_BACKED_UP` in the installed
+   `/usr/local/sbin/legdata-backup`, and the installed script is identical to
+   `deploy/legdata-backup` at this commit. *Where from:* the runbook §1.1;
+   `CLAUDE.md`'s sanity check.
+2. **The login that reads.** `copy_reader` exists, cannot log in as anything
+   more, and its transactions default to read-only. In `legdata` it may read
+   exactly the twenty names `db/published/001` grants, and nothing else: try
+   `bill_candidate`, `stage_candidate` and `ref_party` as `copy_reader` and be
+   refused. *Where from:* the runbook §1.2.
+3. **Who can open what in `published`.** Postico's login, `legdata`, can read
+   every file in `live` and is refused on `from_working`. The site's login,
+   `legsite`, cannot connect to `published` at all. Nobody else can connect.
+   *Where from:* the runbook §1.2 and §1.4; the site's read permission is
+   block 4's.
+4. **What is in `published`.** The areas are `live`, `from_working` and
+   `public`, and nothing else: no `copy_build`. `from_working` holds nothing
+   between builds. `public` is empty. *Where from:* the runbook §2.
+5. **The nine files, their headings, in order.** Every file and heading is
+   the one `docs/PHASE-2-PUBLISHED-COPY.md` §1 to §5 lists, in that order, and
+   nothing else. *Where from:* that document, not the mapping in the script.
+6. **The descriptions.** Each file's and heading's description in `live`
+   reads word for word as `docs/PHASE-2-PUBLISHED-COPY.md` and
+   `docs/PHASE-2-COPY-DESCRIPTIONS.md` give it. Compare by script, word by
+   word; a visual comparison has missed differences before.
+7. **Rows.** bills 470, stages 1291, days_between_stages 1657, sessions 7,
+   methodology_notes 14, sources 192, what_changed 0, about 9. `about` gives
+   each file's count as it is and the date 2026-09-18. *Where from:* the
+   runbook §3; `docs/STATE.md`'s table. `what_the_words_mean` has as many lines
+   as the working lists have codes that a heading of the copy can hold; count
+   those in `legdata` yourself.
+8. **Three bills by hand**, through every file, against the working workbook
+   in Postico, turning each code into its word by looking it up in
+   `what_the_words_mean`. Not the Legal Continuity Bill, which the building
+   session traced. Choose: a Private Bill (its stages are Preliminary,
+   Consideration and Final); a bill rejected at Stage 1; and a Session 7 bill
+   still before the Parliament. Every cell agrees, including the empty ones,
+   and each bill's `sources` lines are exactly its provenance notes.
+9. **No stored code in a cell.** No text cell in any file equals a code from
+   any working list, or a stage's code such as `stage_3`, where the code
+   differs from its word. *Where from:* the runbook §3, check 4.
+10. **The days.** Every line of `days_between_stages` agrees with
+    `v_bill_stage_durations` in `legdata`, gap by gap, and its `days` is the
+    difference between its two dates, worked out by you, not read from either.
+11. **The working workbook is as it was.** 470 bills, 1291 stage records, 192
+    provenance notes, 14 notes; checker and gaps list empty; only `public`.
+12. **The backup.** The first nightly run after 2026-09-18 logs
+    "published is not backed up, on purpose.", and no copy in the offsite
+    store holds a `published` dump, or any `_themes_check` or `_rehearsal`
+    dump (see "What happened in the rehearsal" below). Search every copy, not
+    the latest.
+13. **The dictionary** regenerates identical to the committed file but for its
+    date, and its third part lists 9 files and 97 headings.
+14. **The rehearsal, repeated.** On a scratch name, as the runbook §4 does:
+    set up, build with `save=false`, build with `-v fault=on` and see it
+    refused naming bill 1's outcome, then undo, and find no workbook, no login
+    and no permission left in `legdata`. Clear `/tmp` on the server after.
+    Do not run the backup rehearsal while a scratch workbook exists.
+
+### Part B — the owner's sign-off
+
+15. **The owner opens `published` in Postico** and looks at a bill of their
+    choosing, and at `what_the_words_mean`, and says whether it reads as a
+    researcher should receive it.
+
+### What this does not check
+
+**Whether the working data is right.** That is the sessions' closure tests.
+**That a page shows the copy correctly**: nothing reads it until block 4.
+**The refresh**: replacing a live copy, keeping the previous one, and filling
+`what_changed` are block 3's. **The record of each source's terms**, needed
+before block 4.
+
+### What happened in the rehearsal
+
+For the tester, since item 12 depends on it. The backup rehearsal's check E
+could not point the then-installed backup at its throwaway store, said so,
+and ran it anyway, against the real store, while the rehearsal's restored
+copies of the working data and of the accounts were still open. The offsite
+data copy of 18 September 10:06 held them. A normal run of the nightly job
+straight after replaced it, and the prune removed its data; every copy in the
+store was searched and none held a scratch dump. The tool was fixed in
+`774aae7`.
+
+---
+
 ## The source's own words are the source's
 
 Written 2026-09-18 by the session that built `db/116`. **Not yet run.**
