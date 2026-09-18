@@ -65,7 +65,8 @@ list are both empty.**
   refuses to be taken if a source it uses has no terms. Rehearsed with planted
   faults, all caught; the copy retaken and the ten other files compared cell
   by cell: identical. No bill, date or figure changed.
-- **Closure test** written, for another session to run.
+- **Closure test** written, for another session to run; you signed off
+  `terms` in Postico.
 
 ## Now
 
@@ -75,7 +76,7 @@ list are both empty.**
    19 September, and your look in Postico for the "In progress" change
    (`db/118`, item 10).
 2. **Item 3's closure test**, run by a session that didn't build it
-   (`CLOSURE-TESTS.md`), and your look in Postico at `terms` (its item 14).
+   (`CLOSURE-TESTS.md`). You've signed off `terms` in Postico (its item 14).
 3. **Item 4**: kept copies of the 70 cited pages that have none, sized and
    put to you before it starts. **Then items 5 to 7** in order: the wording,
    the refresh, and the strand's closure test.

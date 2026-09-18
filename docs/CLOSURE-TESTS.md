@@ -112,6 +112,9 @@ descriptions; item 2 also moves if a source changes its terms page.
     reads as what you agreed, the Supreme Court's restriction quoting the
     Court's whole sentence.
 
+    **Signed off by the owner, 2026-09-18**: "postico terms look good".
+    Items 1 to 13 wait for a session that didn't build it.
+
 ### Part C — what this test does not check
 
 **How the terms reach a reader**: the sources page and the download, strand 2;
