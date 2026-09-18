@@ -34,7 +34,8 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 Strand 2, item 1. Written 2026-09-18 by the session that built and deployed
 it (`docs/STRAND-2-THE-SITE-READS-THE-COPY.md`, agreed by the owner the same
-day, four questions). **Not yet run.** Run by another session.
+day, four questions). **Run on 2026-09-18** by another session: all nine
+pass. See the run below.
 
 Write every query fresh. Do not read the check the migration ends with, or the
 refresh's own check, as an answer; `002_check_as_the_site.sh` is the thing
@@ -100,6 +101,71 @@ None. No page changed, and nothing a reader sees depends on this yet.
 with the new lines**: only thrown-away runs; the lines refuse before
 anything is kept, so a saved run keeps only what they passed. **The site's
 speed** reading the copy.
+
+### The run, 2026-09-18, by a session that built none of it
+
+**All nine items pass.** Every query was written fresh. `002_check_as_the_site.sh`
+was read before its lines were trusted: each "cannot" is matched on the
+reason for the refusal, and item 1 also requires `about` to list twelve files.
+
+Fingerprints: an md5 of every line of `live` and `previous` from `pg_dump`,
+with the `\restrict` and `\unrestrict` lines taken out. The permissions are
+among those lines. Taken before item 6, after the refresh and after the undo.
+
+1. **Pass.** Asked of the catalogue, counting what comes through PUBLIC:
+   in `published`, CONNECT and nothing else (CREATE and TEMPORARY false);
+   USAGE on `live` and on no other schema; SELECT, and only SELECT, on each
+   of `live`'s twelve files, and nothing on any other table, view or foreign
+   table; no column-level grants; no use of the server `working`;
+   `default_transaction_read_only=on` in `published`, its only setting.
+   CONNECT on `legdata` false. No superuser, role-making, database-making or
+   row-security bypass; a member of no role.
+2. **Pass.** "All 11 pass", exit 0.
+3. **Pass.** `fault=on`: 1 to 3 and 11 pass, 4 to 10 fail, exit 1.
+   `fault=off`: all 11 pass. Item 1, asked afresh after that, is identical
+   line for line.
+4. **Pass.** As `legsite` with `psql`: `SELECT count(*) FROM previous.about`
+   refused with "permission denied for schema previous". `BEGIN READ WRITE`,
+   `SHOW transaction_read_only` gave `off`, and then an insert into
+   `live.about` was refused with "permission denied for table about". So the
+   permission refused it, not the read-only lock.
+5. **Pass.** Health says `ok`; `current` is `2026-09-18T17-39-56Z`. That
+   release's `health()` returns 503 "published copy unreachable" when
+   `published.reachable()` is false. `published.py` connects with
+   `PUBLISHED_CONNINFO`, which defaults to `dbname=published`, and the service
+   sets no such variable (its only settings are `PYTHONDONTWRITEBYTECODE` and
+   `PYTHONUNBUFFERED`). `reachable()` reads `live.about` and nothing else.
+6. **Pass.** `tools/refresh_copy.sh` without `--save`, with its own address
+   check: 92 work, 0 gone, 14 not checked; no problems; nothing changed; its
+   own check on the site's permission did not refuse; thrown away.
+   `put_back_previous.sql` with `save=false`: no error, and its own check did
+   not refuse; `live` became the eleven-file older copy inside the run, then
+   was thrown away. Fingerprints identical before, after the refresh and after
+   the undo run: `live` `da90f852…`, `previous` `725a672a…`. The published
+   code's lines were read: the refresh takes the site off `previous` at the
+   rename, gives it `live`, and refuses if either is wrong; the undo gives
+   `live` back and refuses if it cannot.
+7. **Pass.** `releases` holds `2026-09-16T17-11-22Z`,
+   `2026-09-18T17-38-41Z` and `2026-09-18T17-39-56Z`, exactly the last three
+   lines of `switched`, the last being live. `deploy_site.sh` clears inside
+   step 5's connection, and only when the live release is the last line.
+8. **Pass.** `DEPLOY-RUNBOOK.md`: six steps, step 3's health check covering
+   the copy, the three-release rule, and the undo in two parts, the site
+   first and then `002_undo.sql`. `STANDING.md`: the website's login reads
+   the live copy and nothing else, verified, and Postico's login reads
+   `previous` on purpose. `ACCOUNTS-RUNBOOK.md` and
+   `HOW-THE-DATABASE-WORKS.md` both say the site reads the live copy.
+9. **Pass.** Four databases. `published` holds `from_working` (no tables),
+   `live` (12), `previous` (11) and `public` (0). The server's `/tmp` is
+   empty after this run's own folder was removed. 470, 1291, 192, 14; checker
+   and gaps list empty; the dictionary and the decisions contents regenerate
+   identical.
+
+**Seen on the way, outside this test's items.** The site's login can open the
+server's own `postgres` database and make scratch tables there. It gets this
+from the default everyone gets, which is not taken away there as it is for
+the accounts. That database holds no data, and nothing in this test or in
+`db/published/002` covers it. It is raised with the owner and not changed.
 
 ---
 

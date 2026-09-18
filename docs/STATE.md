@@ -7,8 +7,8 @@ Updated: 2026-09-18
 **Phase 0, the dataset, and Phase 1, the site, are both closed.** At
 `legislativedata.org` someone can apply, you approve or refuse them, and they
 sign in with a code by email. **Phase 2, putting the data on the site, is
-open**, for approved beta users only. **The site now reads the published copy**,
-but no page shows it yet.
+open**, for approved beta users only. **The site reads the published copy**,
+tested and closed, but no page shows it yet.
 
 **Phase 2's build plan is agreed** (`docs/PHASE-2.md`, "The build plan"), in
 three strands, one after another, then the closing test.
@@ -16,7 +16,7 @@ three strands, one after another, then the closing test.
 | Strand | What it delivers | Where it is |
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
-| 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | **open**: item 1 built and deployed; its closure test written, unrun |
+| 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | **open**: item 1 **closed**; item 2 next, to be laid out |
 | 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
@@ -45,32 +45,32 @@ list are both empty.**
 - **16–17 September.** You reviewed the Phase 2 plan; the six thoughts mocked up
   (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9).
 - **18 September, day.** Strand 1 built, item by item, and each item's test run.
+- **18 September, evening.** Strand 1 closed; the site given read access to
+  the copy and deployed; old site releases cleared, nineteen to three.
 
-**18 September, evening, this session. Strand 1 closed; strand 2's first item
-built and live.**
+**18 September, late, this session. Strand 2's first item closed.**
 
-- **Nothing waits on a clock**, your ruling: the backup was run by hand and
-  strand 1's closure test run the same evening. You signed strand 1 closed.
-  The four old copies of the backup script are deleted.
-- **The site reads the copy.** Its login can read what is live and nothing
-  else: not the old copy, not the working data, and it cannot change a cell.
-  Each refusal was shown to catch a planted fault. A deploy now refuses if the
-  site can't read the copy. Rehearsed, rolled back and deployed again.
-- **Old site releases cleared**: nineteen to three, 416 MB to 67 MB; each
-  deploy now keeps three.
+- **Its closure test run, all nine checks passed**, by a session that built
+  none of it. The site's login reads the live copy and nothing else. Every
+  refusal was tried by hand as well as through the script. A thrown-away
+  refresh and undo left the copies exactly as they were.
+- **One thing seen outside the test**, under "Waiting for you".
 - No bill, date or figure changed.
 
 ## Now
 
 **Strand 2, the data on the site** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Run item 1's closure test** (`docs/CLOSURE-TESTS.md`, "The site reads
-   the copy"), by a session other than this one. No sign-off from you.
-2. **Item 2, the page parts every data page shares**: lay it out whole for
+1. **Item 2, the page parts every data page shares**: lay it out whole for
    you before building. It is where the date at the foot of every page first
    comes from the copy.
 
 ## Waiting for you
+
+- **The site's login can open the server's own `postgres` database** and make
+  scratch tables there. That database holds no data. It comes from a default
+  everyone gets, which was taken away for the accounts but not there. Found
+  while running item 1's test, and not changed: take it away?
 
 - **Making the GitHub repository private**, which you expect to do. Nothing
   depends on it being public; the switch is yours, in GitHub's settings.
@@ -120,16 +120,16 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session that closed strand 1
+## Sanity check, 2026-09-18, the session that closed strand 2, item 1
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the decisions contents and the dictionary
   regenerated identical; counts 470, 1291, 192, 14; checker and gaps list
   empty; four databases, all sorted; the site 200; the backup timer next due
-  02:43 UTC. "Now" traced to strand 1, item 7. Nothing found. The one problem
-  was the task itself: it waited on the night's backup. The owner ruled
-  nothing waits on a clock (DECISIONS.md, 2026-09-18).
+  02:44 UTC. Both "Now" items traced to strand 2, items 1 and 2. Nothing
+  found. The server refused connections several times while the firewall's
+  limit was reached; retrying after ten seconds gets through.
 
 ## The site reads the copy: working detail, 18 September
 
