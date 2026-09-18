@@ -107,6 +107,10 @@ runuser -u postgres -- pg_restore --exit-on-error -d accounts_themes_check "$A/a
 got_people=$(runuser -u postgres -- psql -X -At -d accounts_themes_check -c "SELECT count(*)||' '||count(*) FILTER (WHERE state='approved') FROM person")
 echo "   people, approved — live: $live_people; restored: $got_people"
 [ "$live_people" = "$got_people" ] && pass "the accounts came back whole, from the accounts copy alone" || fail "the accounts did not come back the same"
+# Dropped now, not at the end: every later run of a backup script would
+# otherwise find them and dump them, a copy of the accounts among the data.
+runuser -u postgres -- psql -X -q -d postgres \
+  -c "DROP DATABASE legdata_themes_check" -c "DROP DATABASE accounts_themes_check"
 chmod 700 "$W"
 rm -rf "$W/restore-data" "$W/restore-accounts"
 echo
@@ -165,13 +169,21 @@ echo
 
 # ---------------------------------------------------------------- E
 echo "== E. The undo: the version installed today still runs"
-sed -e "s|^set -a; source /root/.legdata-backup.env; set +a$|set -a; source $W/old.env; set +a|" \
-    -e "s|^DATA_DIR=/srv/legdata$|DATA_DIR=$W/root-old/srv/legdata|" "$OLD" > "$W/old-backup"
-grep -q "source $W/old.env" "$W/old-backup" && grep -q "^DATA_DIR=$W/root-old" "$W/old-backup" \
-  || { fail "could not point the installed version at the throwaway store"; }
-new_store old
-bash "$W/old-backup" > "$W/run-old.log" 2>&1 && pass "the installed version runs, so putting it back is an undo" \
-  || { fail "the installed version failed:"; tail -20 "$W/run-old.log"; }
+# The installed version is run only if it takes the rehearsal's two settings,
+# and so writes to the throwaway store and folders. If it does not, it is not
+# run at all: on 18 September an earlier form of this check failed to redirect
+# it and ran it anyway, against the real store, with the restored copies above
+# still open. Never run it unredirected.
+cp "$OLD" "$W/old-backup"
+if grep -q 'source "${LEGDATA_BACKUP_ENV:-/root/.legdata-backup.env}"' "$W/old-backup" \
+   && grep -q '^ROOT="${LEGDATA_BACKUP_ROOT:-}"$' "$W/old-backup"; then
+  new_store old
+  LEGDATA_BACKUP_ENV="$W/old.env" LEGDATA_BACKUP_ROOT="$W/root-old" bash "$W/old-backup" > "$W/run-old.log" 2>&1 \
+    && pass "the installed version runs, so putting it back is an undo" \
+    || { fail "the installed version failed:"; tail -20 "$W/run-old.log"; }
+else
+  fail "the installed version cannot be pointed at the throwaway store, so it was not run"
+fi
 echo
 
 echo "== $FAILS failed"
