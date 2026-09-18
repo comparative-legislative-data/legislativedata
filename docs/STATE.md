@@ -73,9 +73,9 @@ list are both empty.**
 
 1. **Item 4: the table of every bill.** The write-up is agreed
    (`docs/STRAND-2-THE-TABLE.md`), with a fifth reference section, "What
-   each heading holds". Next: a mock-up with the real rows (the table, one
-   bill opened, a phone's width, the fifth section), then the build, its
-   check and its undo.
+   each heading holds". The mock-up with the real rows is with you
+   (https://claude.ai/artifact/TtKMN9rdGhtjxzXgbZP845). Once you have read
+   it: the build, its check and its undo.
 
 ## Waiting for you
 
