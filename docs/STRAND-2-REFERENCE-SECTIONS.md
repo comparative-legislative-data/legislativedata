@@ -3,7 +3,8 @@
 For the owner. Written 18 September 2026. Strand 2, item 3 of
 `docs/PHASE-2.md`, built and put live together with item 2
 (`docs/STRAND-2-SHARED-PAGE-PARTS.md`). Every part is laid out here, with
-four questions at the end. **Not yet agreed.**
+four questions at the end. **Agreed by the owner the same evening: yes to
+the first three, and the words "noted", taken as agreed.**
 
 Already settled, and not asked again: four sections at the foot of the Data
 page, folded away, each with its own link (18 September); each read from the

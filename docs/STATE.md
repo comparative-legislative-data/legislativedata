@@ -16,7 +16,7 @@ three strands, one after another, then the closing test.
 | Strand | What it delivers | Where it is |
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
-| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: item 1 **closed**; item 2 agreed; item 3 to lay out, then both built |
+| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: item 1 **closed**; items 2 and 3 agreed, to be built together |
 | 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
@@ -56,8 +56,8 @@ list are both empty.**
   refresh and undo left the copies exactly as they were.
 - **The site has two pages, Data and Insights**, your decision: the
   reference material becomes folded sections of the Data page.
-- **Item 2, the parts both pages share, agreed**: built and put live with
-  item 3; signed-out visitors see no data links.
+- **Items 2 and 3 agreed**: the parts both pages share, and the Data page's
+  four reference sections, to be built and put live together.
 - **Only you and I open the server's housekeeping database** now, at your
   word; the site's login and the connector's are refused. Rehearsed first,
   each login tried for real afterwards, the site healthy, and its own check
@@ -68,11 +68,11 @@ list are both empty.**
 
 **Strand 2, the data on the site** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Item 3, the four reference sections of the Data page**: laid out in
-   `docs/STRAND-2-REFERENCE-SECTIONS.md`, four questions for you. Item 2 is agreed
-   (`docs/STRAND-2-SHARED-PAGE-PARTS.md`) and is built with it, one deploy,
-   each with its own closure test.
-2. **Then build items 2 and 3**, rehearse, deploy, and write both tests.
+1. **Build items 2 and 3 together**, as agreed in
+   `docs/STRAND-2-SHARED-PAGE-PARTS.md` and
+   `docs/STRAND-2-REFERENCE-SECTIONS.md`: the Data and Insights pages, the
+   parts they share, and the Data page's four reference sections. Write the
+   test and undo first, rehearse, deploy, and write both closure tests.
 
 ## Waiting for you
 

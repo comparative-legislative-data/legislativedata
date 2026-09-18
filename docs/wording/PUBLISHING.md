@@ -158,6 +158,52 @@ carries no date and no credit lines:
 >
 > The charts are being built.
 
+## 7. The Data page's reference sections
+
+Agreed by the owner on 18 September 2026 with strand 2, item 3
+(`docs/STRAND-2-REFERENCE-SECTIONS.md`). The section headings, in order:
+
+> Methodology notes
+>
+> Sources and terms of use
+>
+> What the words mean
+>
+> What has changed
+
+Under "Methodology notes":
+
+> The judgements made in coding the data, each in full, with the headings it
+> applies to.
+
+Under "What the words mean":
+
+> What each word in the data's fixed lists means, under the heading it
+> appears in.
+
+Under "What has changed":
+
+> Every published value a refresh has changed, newest first, with what it
+> said before and what it says now. A line added is counted, not listed.
+
+When nothing has changed:
+
+> Nothing has changed since the data was first published.
+
+Lines added, when a copy added some, when it added none, and when it is the
+first copy:
+
+> Added in the copy of 18 September 2026: 3 lines to bills, 9 to stages.
+
+> Added in the copy of 18 September 2026: no lines.
+
+> This is the first copy of the data.
+
+In part 4's blocks, under "Covers", each source is followed by its own
+sentence from the copy's `what_the_words_mean`: "Parliament API — The
+Scottish Parliament's open data, at data.parliament.scot. No fact in this
+data rests on it."
+
 ---
 
 ## Where each is built
