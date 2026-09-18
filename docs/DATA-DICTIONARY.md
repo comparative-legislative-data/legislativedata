@@ -440,7 +440,7 @@ One row per device a person is signed in on. A device stays signed in for 30 day
 
 # The published copy
 
-A separate database, `published`, holding the copy of the data a reader sees, taken from the working database at one moment by `tools/published_copy.sql`. Its nine files are in the area `live`. Words stand in the cells where the working database holds codes; `what_the_words_mean` says what each word means.
+A separate database, `published`, holding the copy of the data a reader sees, taken from the working database at one moment by `tools/published_copy.sql`. Its ten files are in the area `live`. Words stand in the cells where the working database holds codes; `what_the_words_mean` says what each word means.
 
 The descriptions below are the ones a reader is given, stored on each file and heading in the copy. This script reads them and never a row.
 
@@ -509,7 +509,7 @@ One line per stage a bill reached, with everything recorded about it.
 
 ### `days_between_stages`
 
-One line per gap between two dated points in a bill's passage, and the calendar days it took.
+Worked out from bills and stages: one line per gap between two dated points in a bill's passage, and the calendar days it took. The working is in workings.
 
 | Heading | Type | What it holds |
 |---|---|---|
@@ -523,7 +523,7 @@ One line per gap between two dated points in a bill's passage, and the calendar 
 | `date_measured_from` | date | That day. |
 | `measured_to` | text | The dated point it ends at: a stage, or Royal Assent. |
 | `date_measured_to` | date | That day. |
-| `days` | number | Calendar days between the two. |
+| `days` | number | Worked out: date_measured_to minus date_measured_from, in calendar days. |
 | `got_through_the_later_stage` | text | Yes if the bill got through the stage at the end of this gap. |
 | `bill_passed` | text | Yes if the bill went on to pass. |
 
@@ -592,6 +592,15 @@ Every published value that differs from the copy before, one line per cell.
 | `heading` | text | The heading the cell is under. |
 | `old_value` | text | What the cell said in the copy before. |
 | `new_value` | text | What it says now. Empty if the cell is now empty. |
+
+### `workings`
+
+The working that produced each worked-out file, in full, as it ran when this copy was taken.
+
+| Heading | Type | What it holds |
+|---|---|---|
+| `file` | text | The worked-out file. |
+| `working` | text | The working, as text a reader can run on the other files. |
 
 ### `about`
 

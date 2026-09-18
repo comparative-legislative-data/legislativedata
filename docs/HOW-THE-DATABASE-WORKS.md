@@ -370,6 +370,12 @@ between them (8, 7 and 7 days) three lines on `days_between_stages`, and its six
 provenance notes six lines on `sources`. What each word means is on
 `what_the_words_mean`.
 
+The days between its stages are not copied from the bills workbook. They are
+worked out in the copy, from the copy's own `bills` and `stages` tabs, by a
+working written in the headings a reader sees; the copy keeps that working,
+word for word, on its `workings` tab. A reader can run it on their own
+download and get the same 8, 7 and 7.
+
 The copy is then checked against the bills workbook, every cell, by turning
 each word back into its code, looking it up on the copy's own
 `what_the_words_mean` tab. If a single cell disagrees, no copy is kept.

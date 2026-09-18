@@ -1,17 +1,21 @@
 -- published_copy.sql
 --
--- Takes the published copy: builds the nine files inside the published
+-- Takes the published copy: builds the ten files inside the published
 -- workbook, reading the working data through the connector that can only read,
 -- checks every cell of them against the working data, and puts them live as
 -- the area `live`. One all-or-nothing action: if anything is refused or any
 -- check fails, nothing is left behind. See docs/PUBLISHED-COPY-RUNBOOK.md.
 --
---   sudo -u postgres psql -X -d published -v save=false -f published_copy.sql
---   sudo -u postgres psql -X -d published -v save=true  -f published_copy.sql
+--   sudo -u postgres psql -X -d published -v save=false -f tools/published_copy.sql
+--   sudo -u postgres psql -X -d published -v save=true  -f tools/published_copy.sql
+--
+-- Run from the folder holding tools/ and workings/: the worked-out files are
+-- built from the text in workings/. -v workings=DIR names another folder.
 --
 -- save=false builds and checks and throws it all away; save=true keeps it.
--- For the rehearsal, -v fault=on alters one cell after the build, and the
--- check must then fail on that cell and name it.
+-- For the rehearsal, -v fault=on alters one bill's outcome after the build,
+-- and -v fault_days=on one gap's days; the check must then fail on that cell
+-- and name it.
 --
 -- Block 1 of docs/PHASE-2-CHARTS-BUILD.md: the first copy. It refuses if `live`
 -- already exists. Replacing a live copy, keeping the old one as `previous` and
@@ -24,6 +28,13 @@
 -- description, as agreed by the owner (docs/PHASE-2-PUBLISHED-COPY.md §2 to §4
 -- and docs/PHASE-2-COPY-DESCRIPTIONS.md). It is the only place a heading is
 -- paired with a working column.
+--
+-- THE WORKED-OUT FILES. A file worked out from other published files is built
+-- by running its working, a text in workings/, on the copy's own files under
+-- their published headings. The text is kept in the copy's `workings` file,
+-- so the working a reader sees is the one that ran. Settled 2026-09-18: every
+-- published figure is worked out from the published data. Today there is one,
+-- the days between stages; docs/STRAND-1-DAYS-BETWEEN-STAGES.md.
 --
 -- THE BUILD writes each file with its own query. THE CHECK does not repeat the
 -- build: it takes every cell of the copy, turns it back into what the working
@@ -60,7 +71,7 @@ IMPORT FOREIGN SCHEMA public LIMIT TO (
     ref_assent_block_outcome, ref_assent_block_route, ref_bill_type,
     ref_bill_type_stage, ref_bill_type_stated, ref_enactment_status, ref_outcome,
     ref_procedure, ref_source, ref_stage, ref_stage_1_rejection_route,
-    v_bill_stage_dates, v_bill_stage_durations,
+    v_bill_stage_dates,
     v_candidate_problems, v_stage_date_gaps)
   FROM SERVER working INTO from_working;
 
@@ -96,13 +107,14 @@ CREATE TEMP TABLE files (file text PRIMARY KEY, pos int NOT NULL, description te
 INSERT INTO files (file, pos, description) VALUES
   ('bills', 1, 'One line per bill introduced in the Scottish Parliament since 1999, with the day each of its stages ended.'),
   ('stages', 2, 'One line per stage a bill reached, with everything recorded about it.'),
-  ('days_between_stages', 3, 'One line per gap between two dated points in a bill''s passage, and the calendar days it took.'),
+  ('days_between_stages', 3, 'Worked out from bills and stages: one line per gap between two dated points in a bill''s passage, and the calendar days it took. The working is in workings.'),
   ('sessions', 4, 'One line per session of the Parliament, with its first and last days.'),
   ('methodology_notes', 5, 'The judgements made in coding the data, one note per line, in full.'),
   ('sources', 6, 'One line per fact that names its own source, where that is not the source of the rest of its line.'),
   ('what_the_words_mean', 7, 'What each word in the other files means, one line per heading and word.'),
   ('what_changed', 8, 'Every published value that differs from the copy before, one line per cell.'),
-  ('about', 9, 'The day this copy was taken, and how many lines each file has.');
+  ('workings', 9, 'The working that produced each worked-out file, in full, as it ran when this copy was taken.'),
+  ('about', 10, 'The day this copy was taken, and how many lines each file has.');
 
 CREATE TEMP TABLE mapping (
     file text NOT NULL REFERENCES files,
@@ -213,31 +225,31 @@ INSERT INTO mapping (file, pos, heading, feeds, check_key, list, description) VA
    'The exact place within it.'),
   ('stages', 15, 'date_source_read', '{stage_event.observed_at}'::text[], 'stage_event.observed_at', NULL,
    'The day we read it.'),
-  ('days_between_stages', 1, 'bill_number', '{bill.bill_id}'::text[], 'v_bill_stage_durations.bill_id', NULL,
+  ('days_between_stages', 1, 'bill_number', '{bill.bill_id}'::text[], NULL, NULL,
    'Which bill.'),
-  ('days_between_stages', 2, 'title', '{bill.short_title}'::text[], 'v_bill_stage_durations.short_title', NULL,
+  ('days_between_stages', 2, 'title', '{bill.short_title}'::text[], NULL, NULL,
    'Its title.'),
-  ('days_between_stages', 3, 'session', '{bill.session_number}'::text[], 'v_bill_stage_durations.session_number', NULL,
+  ('days_between_stages', 3, 'session', '{bill.session_number}'::text[], NULL, NULL,
    'Its session.'),
-  ('days_between_stages', 4, 'bill_type', '{bill.bill_type}'::text[], 'v_bill_stage_durations.bill_type', 'ref_bill_type',
+  ('days_between_stages', 4, 'bill_type', '{bill.bill_type}'::text[], NULL, 'ref_bill_type',
    'Its type.'),
-  ('days_between_stages', 5, 'procedure', '{bill.procedure}'::text[], 'v_bill_stage_durations.procedure', 'ref_procedure',
+  ('days_between_stages', 5, 'procedure', '{bill.procedure}'::text[], NULL, 'ref_procedure',
    'How it was handled, where known.'),
-  ('days_between_stages', 6, 'outcome', '{bill.outcome}'::text[], 'v_bill_stage_durations.outcome', 'ref_outcome',
+  ('days_between_stages', 6, 'outcome', '{bill.outcome}'::text[], NULL, 'ref_outcome',
    'What the Parliament did with it.'),
-  ('days_between_stages', 7, 'measured_from', '{stage_event.stage}'::text[], 'v_bill_stage_durations.previous_stage', 'ref_stage',
+  ('days_between_stages', 7, 'measured_from', '{stage_event.stage}'::text[], NULL, 'ref_stage',
    'The dated point the gap starts at: introduction, or a stage.'),
-  ('days_between_stages', 8, 'date_measured_from', '{bill.date_introduced,stage_event.date_completed}'::text[], 'v_bill_stage_durations.previous_date', NULL,
+  ('days_between_stages', 8, 'date_measured_from', '{bill.date_introduced,stage_event.date_completed}'::text[], NULL, NULL,
    'That day.'),
-  ('days_between_stages', 9, 'measured_to', '{stage_event.stage}'::text[], 'v_bill_stage_durations.stage', 'ref_stage',
+  ('days_between_stages', 9, 'measured_to', '{stage_event.stage}'::text[], NULL, 'ref_stage',
    'The dated point it ends at: a stage, or Royal Assent.'),
-  ('days_between_stages', 10, 'date_measured_to', '{stage_event.date_completed,bill.date_royal_assent}'::text[], 'v_bill_stage_durations.date_completed', NULL,
+  ('days_between_stages', 10, 'date_measured_to', '{stage_event.date_completed,bill.date_royal_assent}'::text[], NULL, NULL,
    'That day.'),
-  ('days_between_stages', 11, 'days', '{}'::text[], 'v_bill_stage_durations.calendar_days', NULL,
-   'Calendar days between the two.'),
-  ('days_between_stages', 12, 'got_through_the_later_stage', '{stage_event.completed}'::text[], 'v_bill_stage_durations.bill_got_through_this_stage', 'yesno',
+  ('days_between_stages', 11, 'days', '{}'::text[], NULL, NULL,
+   'Worked out: date_measured_to minus date_measured_from, in calendar days.'),
+  ('days_between_stages', 12, 'got_through_the_later_stage', '{stage_event.completed}'::text[], NULL, 'yesno',
    'Yes if the bill got through the stage at the end of this gap.'),
-  ('days_between_stages', 13, 'bill_passed', '{bill.outcome}'::text[], 'v_bill_stage_durations.bill_passed', 'yesno',
+  ('days_between_stages', 13, 'bill_passed', '{bill.outcome}'::text[], NULL, 'yesno',
    'Yes if the bill went on to pass.'),
   ('sessions', 1, 'session', '{session.session_number}'::text[], 'session.session_number', NULL,
    'The session''s number: 1 for the Parliament elected in 1999, counting up.'),
@@ -301,6 +313,10 @@ INSERT INTO mapping (file, pos, heading, feeds, check_key, list, description) VA
    'What the cell said in the copy before.'),
   ('what_changed', 7, 'new_value', '{}'::text[], NULL, NULL,
    'What it says now. Empty if the cell is now empty.'),
+  ('workings', 1, 'file', '{}'::text[], NULL, NULL,
+   'The worked-out file.'),
+  ('workings', 2, 'working', '{}'::text[], NULL, NULL,
+   'The working, as text a reader can run on the other files.'),
   ('about', 1, 'date_copy_taken', '{}'::text[], NULL, NULL,
    'The day this copy of the data was taken.'),
   ('about', 2, 'file', '{}'::text[], NULL, NULL,
@@ -405,22 +421,30 @@ SELECT e.bill_id                              AS bill_number,
   JOIN from_working.bill b ON b.bill_id = e.bill_id
  ORDER BY e.bill_id, e.stage_order;
 
-CREATE TABLE copy_build.days_between_stages AS
-SELECT v.bill_id                                    AS bill_number,
-       v.short_title                                AS title,
-       v.session_number                             AS session,
-       pg_temp.w('ref_bill_type', v.bill_type)      AS bill_type,
-       pg_temp.w('ref_procedure', v.procedure)      AS procedure,
-       pg_temp.w('ref_outcome', v.outcome)          AS outcome,
-       pg_temp.w('ref_stage', v.previous_stage)     AS measured_from,
-       v.previous_date                              AS date_measured_from,
-       pg_temp.w('ref_stage', v.stage)              AS measured_to,
-       v.date_completed                             AS date_measured_to,
-       v.calendar_days                              AS days,
-       pg_temp.yn(v.bill_got_through_this_stage)    AS got_through_the_later_stage,
-       pg_temp.yn(v.bill_passed)                    AS bill_passed
-  FROM from_working.v_bill_stage_durations v
- ORDER BY v.bill_id, v.previous_order, v.stage_order;
+-- The worked-out files, each run from its text on the copy's own files. The
+-- text is read here, kept in workings as it is, and run with only the copy's
+-- files in reach.
+\if :{?workings}
+\else
+  \set workings workings
+\endif
+\set days_working `cat :workings/days_between_stages.sql`
+
+CREATE TABLE copy_build.workings (file text, working text);
+INSERT INTO copy_build.workings (file, working) VALUES ('days_between_stages', :'days_working');
+
+CREATE FUNCTION pg_temp.run_working(p_file text, p_into text) RETURNS void
+LANGUAGE plpgsql AS $$
+DECLARE t text; old_path text := current_setting('search_path');
+BEGIN
+  SELECT working INTO t FROM copy_build.workings WHERE file = p_file;
+  IF t IS NULL THEN RAISE EXCEPTION 'No working for %.', p_file; END IF;
+  PERFORM set_config('search_path', 'copy_build', true);
+  EXECUTE format('CREATE TABLE %s AS %s', p_into, regexp_replace(t, ';\s*$', ''));
+  PERFORM set_config('search_path', old_path, true);
+END $$;
+
+SELECT pg_temp.run_working('days_between_stages', 'copy_build.days_between_stages');
 
 CREATE TABLE copy_build.sessions AS
 SELECT s.session_number             AS session,
@@ -501,6 +525,14 @@ CREATE TABLE copy_build.what_changed (
     date_copy_taken date, file text, bill_number integer, stage text,
     heading text, old_value text, new_value text);
 
+-- For the rehearsal: one gap's days altered after the build.
+\if :{?fault_days}
+UPDATE copy_build.days_between_stages SET days = days + 1
+ WHERE (bill_number, measured_to) = (SELECT bill_number, measured_to FROM copy_build.days_between_stages
+                                      ORDER BY bill_number, date_measured_to LIMIT 1);
+\echo 'FAULT PLANTED: the first gap is a day longer.'
+\endif
+
 CREATE TABLE copy_build.about (
     date_copy_taken date, file text, rows integer, rows_added_since_last_copy integer);
 INSERT INTO copy_build.about (date_copy_taken, file, rows)
@@ -578,14 +610,12 @@ SELECT 'stages', p.bill_number || ' ' || p.stage, to_jsonb(p),
   LEFT JOIN from_working.stage_event e ON e.bill_id = p.bill_number AND e.stage = pg_temp.back('ref_stage', p.stage)
   LEFT JOIN from_working.bill b ON b.bill_id = e.bill_id;
 
+-- The days between stages have no working rows: they are worked out in the
+-- copy, and check 10 checks them against the copy's own files. They are here
+-- so that checks 3 and 4 see their words.
 INSERT INTO pairs
-SELECT 'days_between_stages', p.bill_number || ' ' || p.measured_from || ' to ' || p.measured_to, to_jsonb(p),
-       pg_temp.pre('v_bill_stage_durations.', to_jsonb(v))
-  FROM copy_build.days_between_stages p
-  LEFT JOIN from_working.v_bill_stage_durations v
-         ON v.bill_id = p.bill_number
-        AND v.previous_stage = pg_temp.back('ref_stage', p.measured_from)
-        AND v.stage = pg_temp.back('ref_stage', p.measured_to);
+SELECT 'days_between_stages', p.bill_number || ' ' || p.measured_from || ' to ' || p.measured_to, to_jsonb(p), '{}'::jsonb
+  FROM copy_build.days_between_stages p;
 
 INSERT INTO pairs
 SELECT 'sessions', p.session::text, to_jsonb(p), pg_temp.pre('session.', to_jsonb(s))
@@ -626,7 +656,6 @@ SELECT 1, x.file || ': ' || x.published || ' lines, working ' || x.working
   FROM (VALUES
     ('bills', (SELECT count(*) FROM copy_build.bills), (SELECT count(*) FROM from_working.bill)),
     ('stages', (SELECT count(*) FROM copy_build.stages), (SELECT count(*) FROM from_working.stage_event)),
-    ('days_between_stages', (SELECT count(*) FROM copy_build.days_between_stages), (SELECT count(*) FROM from_working.v_bill_stage_durations)),
     ('sessions', (SELECT count(*) FROM copy_build.sessions), (SELECT count(*) FROM from_working.session)),
     ('methodology_notes', (SELECT count(*) FROM copy_build.methodology_notes), (SELECT count(*) FROM from_working.methodology_note)),
     ('sources', (SELECT count(*) FROM copy_build.sources), (SELECT count(*) FROM from_working.field_source)),
@@ -750,14 +779,78 @@ SELECT 9, 'sources ' || coalesce(bill_number::text, 'session ' || session) || ':
     OR NOT EXISTS (SELECT 1 FROM mapping m WHERE m.file = p.applies_to_file AND m.heading = p.applies_to_heading)
     OR (p.bill_number IS NOT NULL AND NOT EXISTS (SELECT 1 FROM copy_build.bills b WHERE b.bill_number = p.bill_number));
 
--- 10. The days between stages are covered by 2: every gap is compared with
---     the working calculation, cell by cell, days included.
+-- 10. The worked-out files, against the copy's own files, not against any sum
+--     in the working database: one version of the arithmetic, never two.
+--     Every dated point of every bill, from bills and stages as published.
+CREATE TEMP TABLE points ON COMMIT DROP AS
+SELECT bill_number, 0 AS position, 'Introduction' AS point, date_introduced AS on_date, 'Yes' AS got_through
+  FROM copy_build.bills WHERE date_introduced IS NOT NULL
+UNION ALL
+SELECT bill_number, stage_position, stage, date_ended, got_through
+  FROM copy_build.stages WHERE date_ended IS NOT NULL
+UNION ALL
+SELECT bill_number, 9, 'Royal Assent', date_royal_assent, 'Yes'
+  FROM copy_build.bills WHERE date_royal_assent IS NOT NULL;
+
+-- a. Every cell but days is its bill's, or its dated points'.
+INSERT INTO problems
+SELECT 10, 'days_between_stages ' || d.bill_number || ' ' || d.measured_from || ' to ' || d.measured_to
+          || ': does not match its bill or its dated points'
+  FROM copy_build.days_between_stages d
+  LEFT JOIN copy_build.bills b ON b.bill_number = d.bill_number
+  LEFT JOIN points pf ON pf.bill_number = d.bill_number AND pf.point = d.measured_from
+  LEFT JOIN points pt ON pt.bill_number = d.bill_number AND pt.point = d.measured_to
+ WHERE b.bill_number IS NULL OR pf.bill_number IS NULL OR pt.bill_number IS NULL
+    OR d.title IS DISTINCT FROM b.title OR d.session IS DISTINCT FROM b.session
+    OR d.bill_type IS DISTINCT FROM b.bill_type OR d.procedure IS DISTINCT FROM b.procedure
+    OR d.outcome IS DISTINCT FROM b.outcome
+    OR d.bill_passed IS DISTINCT FROM CASE WHEN b.outcome = 'Passed' THEN 'Yes' WHEN b.outcome IS NOT NULL THEN 'No' END
+    OR d.date_measured_from IS DISTINCT FROM pf.on_date OR d.date_measured_to IS DISTINCT FROM pt.on_date
+    OR d.got_through_the_later_stage IS DISTINCT FROM pt.got_through
+    OR pf.position >= pt.position;
+
+-- b. days is the later day less the earlier, and never below nought.
+INSERT INTO problems
+SELECT 10, 'days_between_stages ' || bill_number || ' ' || measured_from || ' to ' || measured_to
+          || ': days ' || coalesce(days::text, '(empty)') || ', the dates give ' || (date_measured_to - date_measured_from)
+  FROM copy_build.days_between_stages
+ WHERE days IS DISTINCT FROM date_measured_to - date_measured_from OR days < 0;
+
+-- c. Every dated point is the end of exactly one gap, but each bill's first,
+--    which is the end of none; and so the file has exactly as many lines as
+--    there are such points.
+INSERT INTO problems
+SELECT 10, 'days_between_stages ' || p.bill_number || ' ' || p.point || ': the end of ' || count(d.bill_number)
+          || ' gap(s), should be ' || CASE WHEN p.position = f.first THEN 0 ELSE 1 END
+  FROM points p
+  JOIN (SELECT bill_number, min(position) AS first FROM points GROUP BY 1) f USING (bill_number)
+  LEFT JOIN copy_build.days_between_stages d ON d.bill_number = p.bill_number AND d.measured_to = p.point
+ GROUP BY p.bill_number, p.point, p.position, f.first
+HAVING count(d.bill_number) <> CASE WHEN p.position = f.first THEN 0 ELSE 1 END;
+INSERT INTO problems
+SELECT 10, 'days_between_stages has ' || (SELECT count(*) FROM copy_build.days_between_stages)
+          || ' lines; the dated points give ' || ((SELECT count(*) FROM points) - (SELECT count(DISTINCT bill_number) FROM points))
+ WHERE (SELECT count(*) FROM copy_build.days_between_stages)
+       <> (SELECT count(*) FROM points) - (SELECT count(DISTINCT bill_number) FROM points);
+
+-- d. The text kept in workings, run again, gives exactly the file: the
+--    working a reader sees is the one that ran.
+SELECT pg_temp.run_working('days_between_stages', 'pg_temp.days_rerun');
+INSERT INTO problems
+SELECT 10, 'days_between_stages ' || x.bill_number || ' ' || x.measured_from || ' to ' || x.measured_to
+          || ': ' || x.side || ' running the kept working again'
+  FROM (SELECT 'not given by' AS side, * FROM (SELECT * FROM copy_build.days_between_stages EXCEPT ALL SELECT * FROM pg_temp.days_rerun) a
+        UNION ALL
+        SELECT 'only given by', * FROM (SELECT * FROM pg_temp.days_rerun EXCEPT ALL SELECT * FROM copy_build.days_between_stages) b) x;
+INSERT INTO problems
+SELECT 10, 'workings has ' || count(*) || ' lines, or not the one expected'
+  FROM copy_build.workings HAVING count(*) <> 1 OR bool_or(file <> 'days_between_stages');
 
 -- The about file counts what is there.
 INSERT INTO problems
 SELECT 1, 'about: ' || a.file || ' says ' || a.rows || ' lines'
   FROM copy_build.about a
- WHERE a.rows IS DISTINCT FROM CASE a.file WHEN 'about' THEN 9
+ WHERE a.rows IS DISTINCT FROM CASE a.file WHEN 'about' THEN 10
         ELSE (xpath('/row/c/text()', query_to_xml(format('SELECT count(*) AS c FROM copy_build.%I', a.file), false, true, '')))[1]::text::int END;
 
 \echo ''

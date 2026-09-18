@@ -92,7 +92,7 @@ PUBLISHED_SCHEMA = 'live'
 # The order of the files in tools/published_copy.sql's mapping.
 PUBLISHED_ORDER = ['bills', 'stages', 'days_between_stages', 'sessions',
                    'methodology_notes', 'sources', 'what_the_words_mean',
-                   'what_changed', 'about']
+                   'what_changed', 'workings', 'about']
 
 
 def render_table(out, name, t):
@@ -233,7 +233,7 @@ def render(tables, notes, accounts, published):
         '',
         f'A separate database, `{PUBLISHED_DB}`, holding the copy of the data a '
         'reader sees, taken from the working database at one moment by '
-        '`tools/published_copy.sql`. Its nine files are in the area '
+        '`tools/published_copy.sql`. Its ten files are in the area '
         f'`{PUBLISHED_SCHEMA}`. Words stand in the cells where the working '
         'database holds codes; `what_the_words_mean` says what each word means.',
         '',

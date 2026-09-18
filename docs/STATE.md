@@ -15,14 +15,13 @@ sessions.
 
 | Strand | What it delivers | Where it is |
 |---|---|---|
-| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: the copy is built and checked; items 1–7 to do |
+| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: item 2 built, its test unrun; items 1, 3–7 to do |
 | 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | not open |
 | 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
-The dataset. No bill, date or figure changed today. What moved was wording: 29
-definitions, and on the 192 provenance lines, 126 notes and 122 of the
-source's-own-words cells:
+The dataset. No bill, date or figure has changed since 18 September's wording
+work:
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
@@ -53,33 +52,34 @@ list are both empty.**
   tested; the notes, definitions and sources rewritten for a reader
   (`db/113`–`db/118`); the quarter rule settled.
 
-- **18 September, later.** The build plan drafted: your three strands.
+- **18 September, later.** The build plan drafted, checked by another
+  session (twelve findings) and agreed; every published figure to be worked
+  out from the published data.
 
-**18 September, this session. The build plan checked and agreed.**
+**18 September, this session. The days between stages moved into the copy.**
 
-- **Checked** by a session that didn't write it: twelve findings, in
-  `docs/BUILD-PLAN-CHECK.md`. You agreed every one.
-- **One principle settled**: every figure a reader sees is worked out from
-  the published data, by working a reader can run on their own download. The
-  stage dates were always published; the working was not in the reader's
-  terms.
-- **What changed in the plan**: four sources, not two; four reference pages
-  added; "finished" is now a checklist of what you've settled; about
-  twenty-five sessions, not twenty.
-- **Recorded** in `DECISIONS.md`, `PLAN.md`, and the opening check, which now
-  asks whether "Now" traces to the build plan.
+- **Laid out** in `docs/STRAND-1-DAYS-BETWEEN-STAGES.md`; you said yes to all
+  three questions.
+- **Built**: the working is one text in the reader's headings, run by the copy
+  on its own bills and stages, and kept word for word in a new tenth file,
+  `workings`. Two descriptions now say the figure is worked out.
+- **Proved**: rehearsed with two planted faults, both caught; then the copy
+  retaken and compared with the old one cell by cell: all 1657 lines
+  identical, in order. No bill, date or figure changed.
+- **Closure test** written, for another session to run.
 
 ## Now
 
 **Strand 1, ready to publish** (`docs/PHASE-2.md`, "Strand 1").
 
-1. **Item 1**: the copy's backup check, from 19 September's nightly run, and
-   your look in Postico for the "In progress" change (`db/118`, item 10).
-2. **Item 2**: the days between stages worked out in the published database,
-   proved line by line against today's 1657. The whole change laid out for you
-   first.
-3. **Then items 3 to 7** in order: the record of each source's terms, the kept
-   pages, the wording, the refresh, and the strand's closure test.
+1. **Item 1**: the copy's backup check, from the nightly run at 03:43 on
+   19 September, and your look in Postico for the "In progress" change
+   (`db/118`, item 10).
+2. **Item 2's closure test**, run by a session that didn't build it
+   (`CLOSURE-TESTS.md`), and your look in Postico at `workings` (its item 11).
+3. **Item 3**: the record of each source's terms, laid out for you whole
+   before anything is built. **Then items 4 to 7** in order: the kept pages,
+   the wording, the refresh, and the strand's closure test.
 
 ## Waiting for you
 
@@ -131,16 +131,28 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session that checked the build plan
+## Sanity check, 2026-09-18, the session that moved the days between stages
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the decisions contents and the dictionary
-  regenerated identical; counts 470, 1291, 192, 14; staging 474 and 1295;
-  checker and gaps list empty; only `public`; four databases (`legdata`,
-  `accounts`, `published`, `postgres`), all sorted; the site answers 200; no
-  `._` files in the server's `/tmp`. "Now" traced to the phase plan's step
-  "then the build is planned".
+  regenerated identical; counts 470, 1291, 192, 14; checker and gaps list
+  empty; four databases, all sorted; the site answers 200. "Now" traced to
+  strand 1, items 1 to 7. Item 1 cannot finish before the backup at 02:43 UTC
+  on 19 September.
+
+## The days between stages in the copy: working detail, 18 September
+
+- **psql reads the working with a backtick `cat`**, relative to the folder the
+  script is run from, so the copy is run from a folder holding `tools/` and
+  `workings/` (`-v workings=DIR` overrides). The kept text therefore lacks the
+  file's final line ending.
+- **The build refuses while `live` exists**, so a rehearsal renames `live`
+  aside and back. `published` is not backed up; the old copy existed only
+  until the comparison passed.
+- **The check runs the kept text again** into a temporary table and compares
+  both ways; a fault planted in `bills` after the build also shows in the
+  days file, because the days were worked out before the fault.
 
 ## The working database's own sums, and what uses them, 18 September
 
@@ -148,11 +160,13 @@ For the owner, before any is removed (`DECISIONS.md`, "Every published figure
 is worked out from the published data"). Nothing on the site uses any of them,
 and neither the error checker nor the gaps list does.
 
-- **The days between stages** (`v_bill_stage_durations`): the published copy's
-  build, which copies its answers; the averages built on it
-  (`v_stage_duration_summary`, already to be replaced for thought 4);
-  `tools/duration_coverage.sql`, a checking tool; and the Session 5 closure
-  test, already run.
+- **The days between stages** (`v_bill_stage_durations`): **no longer used by
+  the copy** since 18 September, which works the figure out itself. Still
+  used by the averages built on it (`v_stage_duration_summary`, to be replaced
+  for thought 4), `tools/duration_coverage.sql`, whose question is now asked
+  by the copy's own check, and the Session 5 closure test, already run.
+  Agreed: it stays until strand 3 replaces the averages, then both go, with
+  your agreement.
 - **Each bill's stage dates in one line** (`v_bill_stage_dates`): the copy's
   build, for the bills file's dates across. This is rearranging dates, not a
   sum. Also `v_bill_total_duration`, used by the Session 6 closure test,

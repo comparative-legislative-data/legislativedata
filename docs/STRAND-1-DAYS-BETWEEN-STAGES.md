@@ -1,9 +1,12 @@
 # The days between stages move into the published copy
 
 For the owner. Written 18 September 2026. Strand 1, item 2 of
-`docs/PHASE-2.md`. **Nothing is built.** Every part of the change is laid out
-here, with three questions at the end. Nothing is built until you've agreed
-the whole of it.
+`docs/PHASE-2.md`. Every part of the change is laid out here, with three
+questions at the end.
+
+**Agreed by the owner the same day: yes to all three. Built the same day**,
+the copy retaken. The closure test is written and unrun. The record is at the
+end.
 
 ## What happens today, for one bill
 
@@ -152,3 +155,23 @@ it. Which program a reader is told to use, and how, belongs with the zip in
 strand 2. **Proposed:** settle it there. Proving it in a second program
 (DuckDB, which reads CSV files directly) would mean installing it, so I'll ask
 before doing that when we get there.
+
+## What was done, 18 September
+
+1. **Built.** `workings/days_between_stages.sql` holds the working above.
+   `tools/published_copy.sql` runs it on the copy's own `bills` and `stages`,
+   keeps the text in `workings`, and checks the file against the copy's own
+   files (part 3). The connector no longer brings in the old sum.
+2. **Rehearsed**, with the live copy set aside under another name: the build
+   passed its check and was thrown away; one bill's outcome altered was
+   caught, naming the bill and its four gaps; one gap made a day longer was
+   caught, "days 71, the dates give 70"; nothing was left behind, and putting
+   the old copy back worked.
+3. **Taken for real** and compared with the old copy, cell by cell: all eight
+   shared files identical, the days in the same order. The only differences
+   were the agreed ones: the `workings` file, the two descriptions, and
+   `about`'s extra line. The kept text is the file exactly, less its final
+   line ending, which psql drops. Then the old copy was dropped.
+4. **Papers**: the copy's runbook, `HOW-THE-DATABASE-WORKS.md`, the data
+   dictionary (ten files), `DECISIONS.md`, and the closure test in
+   `CLOSURE-TESTS.md`.

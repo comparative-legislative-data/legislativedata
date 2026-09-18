@@ -30,6 +30,84 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The days between stages are worked out in the published copy
+
+Written 2026-09-18 by the session that built it and retook the copy.
+**Not yet run.** Every part was agreed beforehand in
+`docs/STRAND-1-DAYS-BETWEEN-STAGES.md`, with the owner's answers to its three
+questions: a `workings` file in the copy, the two descriptions as drafted, and
+the reader's program settled in strand 2. Nothing in the working database was
+changed.
+
+### Part A — mechanical
+
+1. **The working is the agreed text.** `workings/days_between_stages.sql`
+   is, character for character, the SQL block in
+   `docs/STRAND-1-DAYS-BETWEEN-STAGES.md`. *Where from:* the document the
+   owner agreed.
+2. **The copy keeps that text.** In `published`, `live.workings` has one line,
+   `days_between_stages`, whose `working` is the file of item 1 without its
+   final line ending (psql drops it when reading a file). *Where from:* item 1.
+3. **The figures did not move.** Every line of `live.days_between_stages`
+   matches one line of the working database's old sum, `v_bill_stage_durations`
+   in `legdata` (still there, not used by the copy), on bill, both dates and
+   days, with `measured_from` and `measured_to` turned back to codes through
+   `ref_stage` (Introduction and Royal Assent included). 1657 lines each side,
+   none unmatched. *Where from:* the old sum, which built every copy until
+   today and is untouched by this change.
+4. **The kept text gives the file.** Inside a thrown-away transaction in
+   `published`, with only `live` in reach, run the text in `live.workings`:
+   it gives exactly the lines of `live.days_between_stages`, none more or
+   fewer, in the same order. *Where from:* the settled principle, DECISIONS.md
+   2026-09-18.
+5. **The copy no longer reads the old sum.** `tools/published_copy.sql` does
+   not name `v_bill_stage_durations` anywhere, and the connector brings in no
+   table of that name when a copy is taken. *Where from:* the agreed document,
+   part 2.
+6. **The descriptions are as agreed**, word for word, against the agreed
+   document's question 1 and question 2: the `days_between_stages` file and its
+   `days` heading; the `workings` file and its `file` and `working` headings.
+   Every other file and heading is described exactly as
+   `docs/DATA-DICTIONARY.md` gave it at commit `10849d6`, before this change.
+   *Where from:* the agreed document, and that commit.
+7. **The check catches a wrong figure.** Rename `live` aside, run
+   `tools/published_copy.sql` with `-v save=false -v fault_days=on` from a
+   folder holding `tools/` and `workings/`: it must refuse, and name the first
+   gap as a day longer than its dates give. Put `live` back and confirm it is
+   unchanged (the counts in item 8). *Where from:* the agreed document, part 3.
+8. **The copy is otherwise as before.** `live.about`: 2026-09-18; bills 470,
+   stages 1291, days_between_stages 1657, sessions 7, methodology_notes 14,
+   sources 192, what_the_words_mean 89, what_changed 0, workings 1, about 10.
+   *Where from:* the "In progress" test's run, item 5, plus the new file.
+9. **Nothing left behind.** `published` has only `from_working` (no tables),
+   `live` and `public`; there is no `before_item_2`. Four databases on the
+   machine; nothing of this work in the server's `/tmp`, `._` files included.
+   Postico's login (`legdata`) can read `live.workings`.
+10. **Counts**: 470 bills, 1291 stage records, 192 provenance notes, 14 notes;
+    checker and gaps list empty. **The dictionary** regenerates identical but
+    for its date, and lists ten published files.
+
+**Which items an outside change can move:** items 3, 4, 8 and 9 (any later
+copy, or any change to the working data). Items 1, 2, 5 and 6 hold until
+someone changes the working or the descriptions.
+
+### Part B — the owner's sign-off
+
+11. **In Postico**, `published` → `live` → `workings`: one line, and its text
+    reads as the working you agreed, the three lines of explanation at the top
+    included.
+
+### Part C — what this test does not check
+
+**Whether the working runs unchanged in a reader's own program**: settled to
+strand 2, with the zip. **The site**: nothing reads the copy yet. **Whether
+the old sum should go**: it stays until strand 3 replaces the averages, as
+agreed. **What the copy was before today**: `published` is not backed up, so
+the old copy, dropped after this session compared it cell by cell with the
+new one, cannot be restored; item 3 stands in for it.
+
+---
+
 ## A quarter begins at the first whole day inside it
 
 Written 2026-09-18 by the session that wrote the rule into the documents.
