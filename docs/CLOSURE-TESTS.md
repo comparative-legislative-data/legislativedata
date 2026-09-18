@@ -30,6 +30,68 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## "In progress" comes last
+
+Written 2026-09-18 by the session that built `db/118` and retook the published
+copy. **Unrun.** Every part was agreed beforehand in
+`docs/BLOCK-2-IN-PROGRESS.md`, including retaking the copy by option A.
+
+### Part A — mechanical
+
+1. **The list reads in the agreed order.** In `legdata`, the outcomes by
+   place: Passed 1, Rejected at Stage 1 2, Rejected at Stage 3 3, Withdrawn 4,
+   Fell at dissolution 5, Fell (other) 6, Fell: financial resolution not
+   agreed 7, In progress 8. *Where from:* DECISIONS.md 2026-09-17, the build
+   plan's point 7 ("In progress" last, the rest as they are).
+2. **Only that moved.** Restore the data backup `c6cf8af2` (10:10 UTC on 18
+   September, before `db/117` and `db/118`) to a scratch workbook, well clear
+   of the nightly run at 02:30 UTC, and drop it before finishing. Against it:
+   the outcomes list differs in one cell, In progress's place, 7 to 8. Every
+   other cell of the bills, stages, sessions, notes, provenance lines, both
+   staging sheets and the other eleven lists differs only where the `db/117`
+   test's item 2 found that it did. *Where from:* `db/118`'s header and the
+   `db/117` test's run.
+3. **No list has a tie.** In none of the twelve lists of allowed values in
+   `legdata` do two values share a place. *Where from:* the owner's agreement
+   on 2026-09-18 that this is checked here instead of by a standing rule.
+4. **The copy says the same.** In `published`, `live.what_the_words_mean`
+   under `outcome` gives the eight values with the orders in item 1. For every
+   heading, no two values share an `order`. Every line's `order` equals the
+   place of that value in the working list it comes from. *Where from:* item 1
+   and the working lists, not the copy.
+5. **The copy is otherwise the one taken this morning.** `live.about` gives
+   the date 2026-09-18 and the counts in the block 1 test's item 7.
+   `what_changed` has no rows. *Where from:* the block 1 test; option A leaves
+   `what_changed` empty.
+6. **Nothing left behind.** `published` has only the areas `from_working`
+   (with no tables in it), `live` and `public`; there is no
+   `taken_18_september`. Four databases on the machine; nothing of this
+   session's in the server's `/tmp`. Postico's login can read `live`.
+7. **The undo works.** In `legdata`, inside a thrown-away transaction, run
+   `db/118_undo.sql`: the outcomes list then equals the restored backup's
+   exactly. Run it a second time in the same transaction: it refuses.
+8. **Counts**: 470 bills, 1291 stage records, 192 provenance notes, 14 notes;
+   checker and gaps list empty; only `public`.
+9. **The dictionary** regenerates identical but for its date.
+
+**Which items an outside change can move:** item 2 (any later change to the
+working data) and items 4 to 6 (any later copy). Item 1 and item 3 hold until
+someone changes a list.
+
+### Part B — the owner's sign-off
+
+10. **In Postico**, `published` → `live` → `what_the_words_mean`, the eight
+    `outcome` lines, sorted by `order`: "In progress" is last and the rest are
+    in the order you expect.
+
+### Part C — what this test does not check
+
+**How a chart or table uses the order.** Nothing reads the copy yet; that is
+block 4. **The old write-up in `docs/PHASE-2-CHARTS.md`** proposing a swap of
+the two "Fell" outcomes is kept as the record, and was not done.
+
+---
+
 ## Factsheet is one word
 
 Written 2026-09-18 by the session that built `db/117`. **Run on 2026-09-18**, by

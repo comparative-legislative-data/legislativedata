@@ -50,40 +50,35 @@ list are both empty.**
   thirteen notes rewritten in them (`db/113`).
 
 - **18 September, earlier.** `db/113` closed; 29 definitions rewritten for a
-  reader (`db/114`); the sources file's notes and the source's own words
-  rewritten (`db/115`, `db/116`); the published copy taken and checked, and
-  you signed it off in Postico; "factsheet" made one word again (`db/117`).
+  reader (`db/114`); the sources file rewritten (`db/115`, `db/116`); the
+  published copy taken, checked and signed off; "factsheet" one word
+  (`db/117`); closure tests for all of those run by another session, all
+  passing but the copy's item 12.
 
-**18 September, this session. Five closure tests run.**
+**18 September, this session. "In progress" now comes last.**
 
-- **`db/114`, `db/115`, `db/116`, `db/117` and the published copy**, run by a
-  session that built none of them. Every item passes except one that has to
-  wait for tonight. You signed off the two Part Bs, and ruled that a title's
-  stage stays loose in the working data, recorded. Results are under each
-  test in `docs/CLOSURE-TESTS.md`.
-- **The strongest check was a reversal.** `db/115` and `db/116` each recorded
-  a fingerprint of the sources lines before they ran. Undoing every change
-  the two agreed documents describe, and nothing else, gives both
-  fingerprints back exactly.
-- **Two backups restored to scratch workbooks** to compare with, and dropped
-  within the hour. The full rebuild of all seven sessions was rehearsed and
-  thrown away: identical.
-- **Still to do on the copy's test:** item 12, reading the first nightly
-  backup's log after 02:30 on 19 September.
+- **Every part agreed first** (`docs/BLOCK-2-IN-PROGRESS.md`): one number
+  moves, 7 to 8, and nothing else. No standing rule against ties. The copy is
+  retaken now rather than waiting for the refresh.
+- **Rehearsed, then done** (`db/118`). The old copy was set aside, a new one
+  taken, and the two compared line by line: exactly one line differs, "In
+  progress", 7 to 8. The old copy was then dropped.
+- **The closure test is written and unrun**, for another session. Its item 10
+  is yours: a look in Postico at the eight outcome lines.
 
 ## Now
 
 1. **The copy's item 12**, from 19 September: read the first nightly
    backup's log and search the copy it makes. A few minutes.
-2. **Block 2, the small items before the first chart.** M10's cut is already
-   done (`db/113`). Two remain, each with its full checklist first:
-   "In progress" moves to the end of the outcomes list, which is a change to
-   a list and means retaking the copy; and the quarter boundary rule, which
-   moves no bill and only needs writing where thought 5's calculation will
-   read it.
-3. **Then block 3, the refresh**: replacing a live copy, keeping the old one,
+2. **`db/118`'s closure test**, run by a session that did not build it. Its
+   item 10 is your look in Postico.
+3. **Block 2's last item, the quarter boundary rule**: a bill introduced on
+   the day a quarter begins counts in that quarter. It moves no bill. Its
+   checklist comes first, then it is written where thought 5's calculation
+   will read it.
+4. **Then block 3, the refresh**: replacing a live copy, keeping the old one,
    and filling `what_changed`, written down and rehearsed with its undo.
-4. **Iterating the mock-ups**, whenever you want: the open points are in
+5. **Iterating the mock-ups**, whenever you want: the open points are in
    `docs/PHASE-2-CHARTS-THOUGHTS.md`.
 
 ## Waiting for you
@@ -143,26 +138,44 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session of the closure tests
+## Sanity check, 2026-09-18, the session of "In progress"
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
   `STATE.md`; the decisions contents and the dictionary regenerated identical.
-- **The counts matched**: 470 bills, 1291 stage records, 192 provenance notes,
-  14 notes; staging 474 and 1295; checker and gaps list empty; only `public`.
+- **The counts matched**: 470, 1291, 192, 14; staging 474 and 1295; checker
+  and gaps list empty; only `public`.
 - **Every database sorted**: `accounts`, `legdata`, `postgres`, `published`.
   **The site answers 200.**
+- **The 18 September nightly backup ran** (02:46 UTC, finished cleanly),
+  although `restic snapshots` does not show it: the 10:10 run the same day
+  replaced it, one being kept per day. Not a fault.
 
-## Closing checks, 18 September, the session of the closure tests
+## Closing checks, 18 September, the session of "In progress"
 
-- **No data changed.** The only writes were to scratch workbooks
-  (`ct_after113`, `ct_before117`, `published_rehearsal`) and one rehearsal
-  transaction that ended in a rollback. All three workbooks and the
-  rehearsal login were dropped. Four databases remain.
-- **Figures unchanged**: 470, 1291, 192, 14; checker and gaps list empty;
-  only `public`. The dictionary regenerates identical.
+- **One cell of working data changed**: In progress's place, 7 to 8
+  (`db/118`). The copy was retaken; `taken_18_september` was made and
+  dropped within the session. `published` holds `from_working` (empty),
+  `live`, `public`. Four databases.
+- **Figures unchanged**: 470, 1291, 192, 14; checker and gaps list empty.
+  The dictionary regenerates identical.
 - **`/tmp` on the server** holds nothing from this session.
+
+## "In progress" last: working detail, 18 September
+
+- **The copy build refuses only on an area called `live`**, so renaming it
+  lets the unaltered build run beside the old copy, and the two compare with
+  one query per file (`EXCEPT ALL` both ways). This is also a start on block
+  3's `previous`.
+- **A rehearsal cannot span the two workbooks.** The copy reads the working
+  data through a separate, read-only connection, so a change to the working
+  data that has not been saved cannot be seen by a rehearsed copy. Rehearse
+  each side on its own.
+- **`tools/strip_for_rehearsal.py` refuses `published_copy.sql`**, because of
+  its opening `\if :{?save}`. A one-off strip in the scratchpad did it.
+- **Packing files for the server with `tar` on the Mac** adds extended
+  attributes the server's `tar` warns about; `--no-xattrs` stops it.
 
 ## Running the closure tests: working detail, 18 September
 
@@ -247,8 +260,8 @@ Run before the first reply.
 - **`docs/PHASE-2-CHARTS.md`** is the superseded chart 1 write-up, kept as the
   record; its first mock-up is https://claude.ai/artifact/3VedUECgiRD4YY7CKUDYy1.
 - **Two sort orders tie** in the list of outcomes (In progress, and Fell:
-  financial resolution not agreed, both 7). The mock-ups fix the order in the
-  page; the build should put the list right.
+  financial resolution not agreed, both 7). Put right by `db/118` on 18
+  September: In progress is 8.
 - **The European Charter Bill is a Member's Bill**, so leaving out stopped bills
   from Stage 3 to Royal Assent moves one Government Bill and one Member's Bill.
 
