@@ -436,3 +436,171 @@ One row per device a person is signed in on. A device stays signed in for 30 day
 | `signed_in_at` | timestamp | yes |  | When the person signed in on this device. Never empty. |
 | `expires_at` | timestamp | yes |  | When the device stops being signed in. The database refuses a sign-in that lasts longer than 30 days. Never empty. |
 
+---
+
+# The published copy
+
+A separate database, `published`, holding the copy of the data a reader sees, taken from the working database at one moment by `tools/published_copy.sql`. Its nine files are in the area `live`. Words stand in the cells where the working database holds codes; `what_the_words_mean` says what each word means.
+
+The descriptions below are the ones a reader is given, stored on each file and heading in the copy. This script reads them and never a row.
+
+### `bills`
+
+One line per bill introduced in the Scottish Parliament since 1999, with the day each of its stages ended.
+
+| Heading | Type | What it holds |
+|---|---|---|
+| `bill_number` | number | Our number for the bill. Ours, never the Parliament's. |
+| `sp_bill_number` | text | The Parliament's number within its session. Empty where none is known. |
+| `session` | number | The session the bill was introduced in. |
+| `title` | text | The title the bill is known by: the Act's title where it became an Act, otherwise the title it ended with. |
+| `title_as_introduced` | text | The title it was introduced under, where a source states it. Empty never means the title did not change. |
+| `title_changed_at_stage` | text | The stage at which the title changed. |
+| `bill_type` | text | Government, Member's, Committee, Private or Hybrid Bill. |
+| `bill_type_at_the_time` | text | Executive Bill or Government Bill, as it was styled then. |
+| `bill_type_grouped` | text | The type used when types are grouped for counting, which puts the one Hybrid Bill with the government bills. |
+| `procedure` | text | How the bill was handled under the Parliament's rules. Empty means not known, never standard. |
+| `date_procedure_agreed` | date | The day the Parliament agreed to handle it that way. |
+| `date_introduced` | date | The day it was introduced. |
+| `first_stage` | text | The name of its first stage: Stage 1, or Preliminary Stage for a Private Bill. |
+| `first_stage_ended` | date | The day that stage ended. |
+| `second_stage` | text | Stage 2, or Consideration Stage. |
+| `second_stage_ended` | date | The day that stage ended. |
+| `third_stage` | text | Stage 3, or Final Stage. |
+| `third_stage_ended` | date | The day that stage ended. |
+| `reconsideration_reached` | date | The day the bill reached Reconsideration Stage, for the two bills that had one. |
+| `reconsideration_ended` | date | The day that stage ended. |
+| `outcome` | text | What the Parliament did with the bill. |
+| `how_rejected_at_stage_1` | text | Which of the three routes rejected its general principles. Filled only for a bill rejected at Stage 1. |
+| `enactment_status` | text | Whether it became an Act: Enacted, Not enacted, Pending, Blocked. |
+| `date_royal_assent` | date | The day it became an Act. |
+| `act_number` | text | The Act's number, such as 2016 asp 8. |
+| `date_fell_or_withdrawn` | date | The day it stopped being a live bill without becoming an Act. Empty for an Act and for a live bill. |
+| `date_stopped_before_assent` | date | The day it was stopped from being sent for Royal Assent. |
+| `how_stopped_before_assent` | text | A section 33 reference to the Supreme Court, or a section 35 order. |
+| `outcome_after_being_stopped` | text | What happened next: still stopped, withdrawn, reconsidered and passed, reconsidered and fell. |
+| `carried_scrutiny_from_bill_number` | number | The earlier bill whose scrutiny this bill carried. One bill has it. |
+| `note` | text | Anything irregular about this bill a reader should see. |
+| `source` | text | Where this line's facts came from. |
+| `where_in_the_source` | text | Which fact sheet, which page. |
+| `date_source_read` | date | The day we read it. |
+
+### `stages`
+
+One line per stage a bill reached, with everything recorded about it.
+
+| Heading | Type | What it holds |
+|---|---|---|
+| `bill_number` | number | Which bill. |
+| `title` | text | Its title, so this file reads on its own. |
+| `session` | number | Its session. |
+| `stage` | text | The stage's real name for this kind of bill. |
+| `stage_position` | number | Where it comes in that bill type's sequence: 1, 2, 3, or 4 for Reconsideration. |
+| `date_reached` | date | The day the bill reached the stage, where a source states it. Two rows have it. |
+| `date_ended` | date | The day the stage ended. |
+| `got_through` | text | Yes if the bill got through this stage. |
+| `bill_ended_here` | text | Yes on the stage where the bill ended. |
+| `stage_never_happened` | text | Yes where the bill never had this stage because its procedure skipped it. |
+| `note` | text | Whatever a source records beyond what the row says. |
+| `why_there_is_no_date` | text | The one sentence, the same words every time, on a stage where the bill stopped without the Parliament deciding anything. |
+| `source` | text | Where this stage date came from. |
+| `where_in_the_source` | text | The exact place within it. |
+| `date_source_read` | date | The day we read it. |
+
+### `days_between_stages`
+
+One line per gap between two dated points in a bill's passage, and the calendar days it took.
+
+| Heading | Type | What it holds |
+|---|---|---|
+| `bill_number` | number | Which bill. |
+| `title` | text | Its title. |
+| `session` | number | Its session. |
+| `bill_type` | text | Its type. |
+| `procedure` | text | How it was handled, where known. |
+| `outcome` | text | What the Parliament did with it. |
+| `measured_from` | text | The dated point the gap starts at: introduction, or a stage. |
+| `date_measured_from` | date | That day. |
+| `measured_to` | text | The dated point it ends at: a stage, or Royal Assent. |
+| `date_measured_to` | date | That day. |
+| `days` | number | Calendar days between the two. |
+| `got_through_the_later_stage` | text | Yes if the bill got through the stage at the end of this gap. |
+| `bill_passed` | text | Yes if the bill went on to pass. |
+
+### `sessions`
+
+One line per session of the Parliament, with its first and last days.
+
+| Heading | Type | What it holds |
+|---|---|---|
+| `session` | number | The session's number: 1 for the Parliament elected in 1999, counting up. |
+| `date_first_meeting` | date | The day the Parliament first met in this session. |
+| `date_session_ended` | date | The session's last day. Empty for the session still running. |
+| `date_session_expected_to_end` | date | For the session still running, the day it is expected to end, worked out from the law on when the next election is held. See M14. |
+| `is_the_current_session` | text | Yes for the session running now. |
+| `note` | text | Anything a reader needs to know about the session's dates that the dates do not say. |
+
+### `methodology_notes`
+
+The judgements made in coding the data, one note per line, in full.
+
+| Heading | Type | What it holds |
+|---|---|---|
+| `note` | text | The note's code, M1, M2 and so on, which the other files use to refer to it. |
+| `title` | text | What the note is about, in one line. |
+| `text` | text | The note in full. |
+| `applies_to` | text | The headings the note bears on, each written as the file and the heading, such as bills.outcome. |
+
+### `sources`
+
+One line per fact that names its own source, where that is not the source of the rest of its line.
+
+| Heading | Type | What it holds |
+|---|---|---|
+| `applies_to_file` | text | The file holding the fact this line is about: bills, stages or sessions. |
+| `bill_number` | number | The bill the fact is about. Empty for a fact about a session. |
+| `stage` | text | For a fact about a stage, which stage. |
+| `session` | number | The session the fact belongs to: the bill's session, or the session itself. |
+| `applies_to_heading` | text | The heading the fact sits under, in that file. |
+| `source` | text | Where this one fact came from. |
+| `where_in_the_source` | text | The exact place within it: a page's address, or which fact sheet and page. |
+| `value_as_the_source_gave_it` | text | The source's own words, where they say something the cell does not. Empty where the cell already says it, or where the fact is our coding. For an outcome read from the Official Report, the passages it printed, joined by " … ". |
+| `date_source_read` | date | The day we read it. |
+| `note` | text | What we did with the fact, in our words: how it was checked, or why it is coded as it is. |
+
+### `what_the_words_mean`
+
+What each word in the other files means, one line per heading and word.
+
+| Heading | Type | What it holds |
+|---|---|---|
+| `heading` | text | A heading whose cells hold a word from a fixed list. |
+| `value` | text | One of the words that can appear under it. |
+| `what_it_means` | text | What that word means. |
+| `order` | number | Where the word comes in its list, for sorting. |
+
+### `what_changed`
+
+Every published value that differs from the copy before, one line per cell.
+
+| Heading | Type | What it holds |
+|---|---|---|
+| `date_copy_taken` | date | The day of the copy in which the value changed. |
+| `file` | text | The file the cell is in. |
+| `bill_number` | number | The bill whose line it is. |
+| `stage` | text | For a cell in stages, which stage. |
+| `heading` | text | The heading the cell is under. |
+| `old_value` | text | What the cell said in the copy before. |
+| `new_value` | text | What it says now. Empty if the cell is now empty. |
+
+### `about`
+
+The day this copy was taken, and how many lines each file has.
+
+| Heading | Type | What it holds |
+|---|---|---|
+| `date_copy_taken` | date | The day this copy of the data was taken. |
+| `file` | text | Which file. |
+| `rows` | number | How many lines it has. |
+| `rows_added_since_last_copy` | number | How many lines were added since the copy before. Empty for the first copy. |
+

@@ -8,12 +8,13 @@ drift from the database the way a separately-maintained one does.
 
 To change a description, change the COMMENT in a migration and re-run this.
 
-It describes two databases: the working one, and the accounts (from
-2026-09-16). For the accounts it reads the descriptions and never a row.
+It describes three databases: the working one, the accounts (from
+2026-09-16), and the published copy (from 2026-09-18). For the accounts and
+the copy it reads the descriptions and never a row.
 
 Usage:  python3 tools/make_data_dictionary.py
 """
-import datetime, pathlib, subprocess, sys
+import datetime, pathlib, subprocess, sys, time
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CONNECT = pathlib.Path.home() / '.claude' / 'legdata-vps'
@@ -33,17 +34,26 @@ GROUPS = [
 ]
 
 
-def run_query(database, notes):
-    subprocess.run([str(CONNECT), '--scp', str(QUERY), '/tmp/data_dictionary.sql'],
-                   check=True, capture_output=True)
+def connect(args, **kw):
+    # The server refuses connections for a while after a few in quick
+    # succession, and ssh then exits 255. Wait and try again.
+    for attempt in range(8):
+        r = subprocess.run([str(CONNECT)] + args, capture_output=True, **kw)
+        if r.returncode != 255:
+            break
+        time.sleep(15)
+    r.check_returncode()
+    return r
+
+
+def run_query(database, notes, schema='public'):
+    connect(['--scp', str(QUERY), '/tmp/data_dictionary.sql'])
     # Removes its copy of the query from the server whether or not it ran, and
     # still fails if it did not.
-    r = subprocess.run(
-        [str(CONNECT),
-         f'sudo -u postgres psql -d {database} -v notes={notes} -At '
+    r = connect(
+        [f'sudo -u postgres psql -d {database} -v notes={notes} -v schema={schema} -At '
          '-f /tmp/data_dictionary.sql; '
-         's=$?; rm -f /tmp/data_dictionary.sql; exit $s'],
-        check=True, capture_output=True, text=True)
+         's=$?; rm -f /tmp/data_dictionary.sql; exit $s'], text=True)
     return r.stdout.splitlines()
 
 
@@ -77,6 +87,13 @@ def tidy_type(t):
 ACCOUNTS_DB = 'accounts'
 ACCOUNTS_ORDER = ['person', 'sign_in_code', 'signed_in_device']
 
+PUBLISHED_DB = 'published'
+PUBLISHED_SCHEMA = 'live'
+# The order of the files in tools/published_copy.sql's mapping.
+PUBLISHED_ORDER = ['bills', 'stages', 'days_between_stages', 'sessions',
+                   'methodology_notes', 'sources', 'what_the_words_mean',
+                   'what_changed', 'about']
+
 
 def render_table(out, name, t):
     out += [f'### `{name}`', '', t['desc'] or '_No description._', '',
@@ -91,7 +108,19 @@ def render_table(out, name, t):
     out.append('')
 
 
-def render(tables, notes, accounts):
+def render_file(out, name, t):
+    # The published copy's files have no required columns and point at
+    # nothing, so those two headings are left off.
+    out += [f'### `{name}`', '', t['desc'] or '_No description._', '',
+            '| Heading | Type | What it holds |',
+            '|---|---|---|']
+    for c in t['cols']:
+        desc = c['desc'].replace('|', '\\|') or '_No description._'
+        out.append(f"| `{c['name']}` | {tidy_type(c['type'])} | {desc} |")
+    out.append('')
+
+
+def render(tables, notes, accounts, published):
     today = datetime.date.today().isoformat()
     out = [
         '# Data dictionary',
@@ -196,6 +225,26 @@ def render(tables, notes, accounts):
     names += sorted(n for n in accounts if n not in ACCOUNTS_ORDER)
     for name in names:
         render_table(out, name, accounts[name])
+
+    out += [
+        '---',
+        '',
+        '# The published copy',
+        '',
+        f'A separate database, `{PUBLISHED_DB}`, holding the copy of the data a '
+        'reader sees, taken from the working database at one moment by '
+        '`tools/published_copy.sql`. Its nine files are in the area '
+        f'`{PUBLISHED_SCHEMA}`. Words stand in the cells where the working '
+        'database holds codes; `what_the_words_mean` says what each word means.',
+        '',
+        'The descriptions below are the ones a reader is given, stored on each '
+        'file and heading in the copy. This script reads them and never a row.',
+        '',
+    ]
+    names = [n for n in PUBLISHED_ORDER if n in published]
+    names += sorted(n for n in published if n not in PUBLISHED_ORDER)
+    for name in names:
+        render_file(out, name, published[name])
     return '\n'.join(out) + '\n'
 
 
@@ -217,11 +266,15 @@ def main():
     accounts, _ = parse(run_query(ACCOUNTS_DB, 'false'))
     if not accounts:
         sys.exit(f'no tables returned from {ACCOUNTS_DB} — is the query working?')
+    published, _ = parse(run_query(PUBLISHED_DB, 'false', PUBLISHED_SCHEMA))
+    if not published:
+        sys.exit(f'no files returned from {PUBLISHED_DB} — is the copy there?')
 
     # A column with no description is how the last document rotted: something
     # gets added and nobody writes down what it is. Refuse to generate rather
     # than quietly publish a gap.
-    missing = undescribed(tables, '') + undescribed(accounts, f'{ACCOUNTS_DB}: ')
+    missing = (undescribed(tables, '') + undescribed(accounts, f'{ACCOUNTS_DB}: ')
+               + undescribed(published, f'{PUBLISHED_DB}: '))
     if missing:
         print('Not generated. These have no description in the database:',
               file=sys.stderr)
@@ -231,12 +284,14 @@ def main():
               'then run this again.', file=sys.stderr)
         sys.exit(1)
 
-    OUT.write_text(render(tables, notes, accounts))
+    OUT.write_text(render(tables, notes, accounts, published))
     cols = sum(len(t['cols']) for t in tables.values())
     acols = sum(len(t['cols']) for t in accounts.values())
+    pcols = sum(len(t['cols']) for t in published.values())
     print(f'wrote {OUT.relative_to(ROOT)}: {len(tables)} tables, {cols} columns, '
           f'all described; {len(notes)} methodology notes indexed; '
-          f'accounts: {len(accounts)} tables, {acols} columns, all described')
+          f'accounts: {len(accounts)} tables, {acols} columns, all described; '
+          f'published: {len(published)} files, {pcols} headings, all described')
 
 
 if __name__ == '__main__':
