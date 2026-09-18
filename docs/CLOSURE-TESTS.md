@@ -33,7 +33,7 @@ There is no universal test. Each ingest gets its own, newest first below.
 ## A quarter begins at the first whole day inside it
 
 Written 2026-09-18 by the session that wrote the rule into the documents.
-**Unrun.** Every part was agreed beforehand in
+**Run on 2026-09-18** by another session; see the run below. Every part was agreed beforehand in
 `docs/BLOCK-2-QUARTER-BOUNDARY.md`: option A, the reader's sentence as drafted.
 Nothing in any database was changed.
 
@@ -80,6 +80,30 @@ None outstanding. The owner agreed option A and the sentence in full on
 **The calculation itself.** Thought 5 is not built; its checklist adds the
 check that every bill is in exactly one quarter and that they add up to 470.
 **The methodology note** carrying the sentence is written with thought 5.
+
+### The run, 2026-09-18, by a session that wrote none of it
+
+**All four items pass.** Nothing was changed anywhere to run it.
+
+1. **Pass.** `PHASE-2-CALCULATIONS.md`, chart 5, gives `INT(4 × place) + 1`
+   with the last day in the fourth, and its sentence matches part 7 of
+   `BLOCK-2-QUARTER-BOUNDARY.md` word for word (only the line breaks differ).
+   The mock-up calculations' thought 5 comment says "agreed"; the build plan
+   says "Agreed"; the thoughts file says "settled 18 September" in both
+   places and nowhere "proposed". `DECISIONS.md` has the 2026-09-18 entry and
+   its contents regenerate identical.
+2. **Pass.** All 470 bills have an introduction date; none is on its
+   session's first or last day. Worked both ways, A and B disagree on no
+   bill, and A's four quarters add to 470.
+3. **Pass.** 21 boundaries. Three fall exactly on a day's start: the start of
+   the third quarter in Sessions 2 (day 713 of 1426), 4 (889 of 1778) and 5
+   (909 of 1818). No bill was introduced on any boundary's day. The nearest
+   bill to any boundary is the Tied Pubs (Scotland) Bill, day 1362 of Session
+   5's 1818, 1.5 days before the fourth quarter's boundary at 1363.5, so in
+   the third.
+4. **Pass.** 470 bills, 1291 stage records, 192 provenance notes, 14 notes;
+   checker and gaps list empty; only `public` in `legdata`; the dictionary
+   regenerates identical; the last `db/` file is `118`.
 
 ---
 
