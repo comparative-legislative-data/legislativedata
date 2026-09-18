@@ -33,9 +33,9 @@ There is no universal test. Each ingest gets its own, newest first below.
 ## Strand 1, ready to publish
 
 Written 2026-09-18 by the session that finished the strand's last open piece
-(the owner's look in Postico, `db/118`'s item 10). **Not yet run.** It is run
-by another session, not before the nightly backup of 19 September has
-finished. It is the `legdata-backup.timer` job, next due at 02:43 UTC (03:43
+(the owner's look in Postico, `db/118`'s item 10). **Run on 2026-09-18** by
+another session, with the backup run by hand; see the run below. As first
+written, it waited for the nightly backup of 19 September. It is the `legdata-backup.timer` job, next due at 02:43 UTC (03:43
 here); `systemctl list-timers` shows when it last ran.
 
 **What this test is.** Each item of strand 1 already has its own closure test,
@@ -146,6 +146,91 @@ replaces the averages.
 **The download's and the charts' part of the refresh**: strands 2 and 3.
 **The items' own tests**, which are not re-run; only that they passed.
 **Whether the data is right**: the sessions' closure tests.
+
+### The run, 2026-09-18, by a session that wrote none of it
+
+Run the same evening, not after the night's backup: **the owner ruled that
+nothing waits on a clock** (DECISIONS.md, 2026-09-18). The backup job was
+started by hand at 16:59 UTC, the same way its timer starts it
+(`systemctl start legdata-backup.service`), and item 2 reads that run.
+Every query written fresh; no tool's own check read as an answer.
+
+**Items 1 to 4 and 6 to 11 pass. Item 5 passes on the data and fails as
+written**, on two cells the design leaves empty; see item 5.
+
+1. **Pass.** Each has a run section: the days between stages (all eleven
+   pass), each source's terms (all thirteen), every cited page (all seven),
+   the refresh (all twelve, 9 and 12 signed off), "In progress" (item 6's
+   `/tmp` failure put right the same day, item 10 signed off), and block 1,
+   whose item 12 was half done and is completed by item 2 below.
+2. **Pass.** The run of 16:59:40–17:00:07 UTC finished successfully (exit
+   0). Its log has "legdata-backup: postgres is not backed up, on purpose."
+   and "legdata-backup: published is not backed up, on purpose.", no line
+   saying a database is not sorted, three snapshots saved and "no errors were
+   found". The script on the server is the repository's, byte for byte.
+   **All 23 copies in the offsite store** were listed in full: none holds a
+   dump of `published`, `_themes_check`, `_rehearsal` or `_scratch`. One
+   file matched the search by name only: `/usr/local/sbin/legdata-backup.pre-published.bak`,
+   the backup script as it was on 16 September before `published` was added
+   to it, in the system snapshot. Not a dump. Recorded also in block 1's run,
+   item 12.
+3. **Pass.** `live.about` lists the twelve files in the order given, with
+   counts 470, 1291, 1657, 7, 14, 192, 89, 0, 1, 4, 106, 12, all dated
+   2026-09-18. `previous` exists. No refresh has been saved since 18
+   September.
+4. **Pass.** `live.workings` has one line, `days_between_stages`; its md5,
+   `0cb63883…`, is the md5 of `workings/days_between_stages.sql` at this
+   commit less its final line ending. Its text, run against `live.bills` and
+   `live.stages` into a thrown-away table, gives 1657 lines with the same
+   thirteen headings in the same order; none in one and not the other, both
+   ways, every cell. `tools/published_copy.sql` names none of the three
+   working-database sums.
+5. **Passes on the data; fails as written.** Four lines: Scottish
+   Parliament, legislation.gov.uk, Supreme Court, legislativedata.org. For
+   the first three, all six are filled. For legislativedata.org, the licence,
+   its link, the credit line and the restrictions are filled, but the terms
+   page and the day read are empty. **That is the design, not a fault**: the
+   copy's description of both headings says "Empty for our own work", as
+   agreed in `STRAND-1-SOURCE-TERMS.md`; we publish no terms page of our own
+   and read no terms of our own. The test's "all are filled" is the error.
+   Our credit line matches DECISIONS.md word for word. All seven sources in
+   `live.sources` are covered by one of the four.
+6. **Pass.** 106 distinct addresses cited in the working data (`source_ref`
+   of `bill`, `stage_event` and `field_source`); `sources/kept-pages.csv` has
+   106 lines, the same 106 addresses (same fingerprint in one sort order),
+   every file present with the size and SHA-256 given; `live.cited_pages` has
+   the same 106.
+7. **Pass.** `PROMOTION-RUNBOOK.md` has "After promotion: refreshing the
+   published copy", naming `tools/refresh_copy.sh` and the undo
+   `tools/put_back_previous.sql`; the refresh test's run records both
+   rehearsed. `tools/refresh_copy.sh` run once without `--save`, 18:26 UTC:
+   no problems from any check, nothing changed, 92 addresses work, none gone,
+   14 not checked, all 14 on the old site's web archive; "Thrown away". An
+   md5 of every line of `live` and `previous`, taken twice before and once
+   after, was the same all three times (`bc230ca5…`). A first attempt at this
+   item, earlier, compared fingerprints that could never match (see below);
+   it was run again properly rather than read.
+8. **Pass.** `docs/wording/PUBLISHING.md` says it was agreed on 18 September;
+   its last commit is `97ee01a` and it has no difference from it. It has the
+   five parts, headed 1 to 5 as listed.
+9. **Pass.** All five exist in `legdata`.
+10. **Pass.** Four databases: accounts, legdata, postgres, published.
+    `published` has `from_working` (no tables), `live`, `previous` and
+    `public`. The server's `/tmp` holds nothing of this test's, no `._`
+    side-file and no `refresh-*.tgz`.
+11. **Pass.** 470, 1291, 192, 14; checker and gaps list empty; the
+    dictionary regenerated identical at the session's opening, with twelve
+    published files.
+
+**Found along the way, not part of the test:** four old copies of the backup
+script sit beside it on the server (`.pre-pgdump`, `.pre-accounts`,
+`.pre-themes`, `.pre-published`). Harmless; they go into every system
+snapshot. Left for the owner. **A fingerprint taken with `pg_dump` is never
+the same twice**: PostgreSQL 17's dumps begin with a random `\restrict` line.
+Strip `\restrict` and `\unrestrict` before comparing, or the comparison
+proves nothing.
+
+**Item 12, the owner's sign-off:** RESULT_12
 
 ---
 
@@ -1089,6 +1174,9 @@ read as an answer.
     restores. **Still to do:** read the log of the first nightly run after
     02:30 on 19 September for "published is not backed up, on purpose.", and
     search the copy it makes.
+    **Completed 2026-09-18** by strand 1's closure test, item 2, on a run
+    started by hand at 16:59 UTC: the line is there, and none of the 23
+    copies holds a dump of `published`.
 13. **Pass.** The dictionary regenerated identical at the session's opening;
     its third part lists 9 files and 97 headings.
 14. **Pass.** On `published_rehearsal` with `copy_reader_rehearsal`: set up
