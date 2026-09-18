@@ -1,6 +1,6 @@
 # What the words mean: the definitions made fit to publish
 
-Proposed 2026-09-18. Nothing here is built. It settles the item left open in §7
+Proposed 2026-09-18, and **every item agreed by the owner the same day**, taken one by one in the conversation. Nothing here is built yet. It settles the item left open in §7
 of `docs/PHASE-2-PUBLISHED-COPY.md`, and it comes before the published copy is
 built, because the copy publishes these definitions as `what_the_words_mean`.
 
