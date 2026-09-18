@@ -54,7 +54,10 @@ list are both empty.**
   none of it. The site's login reads the live copy and nothing else. Every
   refusal was tried by hand as well as through the script. A thrown-away
   refresh and undo left the copies exactly as they were.
-- **One thing seen outside the test**, under "Waiting for you".
+- **Only you and I open the server's housekeeping database** now, at your
+  word; the site's login and the connector's are refused. Rehearsed first,
+  each login tried for real afterwards, the site healthy, and its own check
+  still passing.
 - No bill, date or figure changed.
 
 ## Now
@@ -67,10 +70,6 @@ list are both empty.**
 
 ## Waiting for you
 
-- **The site's login can open the server's own `postgres` database** and make
-  scratch tables there. That database holds no data. It comes from a default
-  everyone gets, which was taken away for the accounts but not there. Found
-  while running item 1's test, and not changed: take it away?
 
 - **Making the GitHub repository private**, which you expect to do. Nothing
   depends on it being public; the switch is yours, in GitHub's settings.

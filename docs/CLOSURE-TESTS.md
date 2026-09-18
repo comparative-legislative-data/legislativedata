@@ -165,7 +165,8 @@ among those lines. Taken before item 6, after the refresh and after the undo.
 server's own `postgres` database and make scratch tables there. It gets this
 from the default everyone gets, which is not taken away there as it is for
 the accounts. That database holds no data, and nothing in this test or in
-`db/published/002` covers it. It is raised with the owner and not changed.
+`db/published/002` covers it. Raised with the owner, who had it taken away
+the same evening (`db/server/001`).
 
 ---
 

@@ -300,6 +300,11 @@ bring it across; nothing depends on it.
   refusal was shown to fail when the permission was planted
   (`db/published/002_check_as_the_site.sh`). **Postico's login can read
   `previous`**, on purpose, so the old copy can be looked at before an undo.
+- **Only the owner's login and the master login open the server's own
+  `postgres` database** (2026-09-18, `db/server/001`). It holds none of the
+  project's data. Tried for real: the site's login and the connector's are
+  refused; the owner's gets in and can make a scratch table; the master login,
+  which the backup uses, is not affected by permissions.
 - **The website's login cannot open the working database.** Tried as the site's
   own machine account, and refused. The working database's own login still
   opens it.
