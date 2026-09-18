@@ -2,7 +2,7 @@
 
 For the owner. Written 18 September 2026. Strand 2, item 1 of
 `docs/PHASE-2.md`. Every part is laid out here, with four questions at the
-end. **Not yet agreed; nothing is built.**
+end. **Agreed by the owner the same day: yes to all four.**
 
 Already settled (the review of the plan, 17 September): the site reads the
 published copy and never the working data; its login to the copy only reads,

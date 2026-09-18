@@ -156,7 +156,8 @@ started by hand at 16:59 UTC, the same way its timer starts it
 Every query written fresh; no tool's own check read as an answer.
 
 **Items 1 to 4 and 6 to 11 pass. Item 5 passes on the data and fails as
-written**, on two cells the design leaves empty; see item 5.
+written**, on two cells the design leaves empty; see item 5. **Item 12
+signed off: strand 1 is closed.**
 
 1. **Pass.** Each has a run section: the days between stages (all eleven
    pass), each source's terms (all thirteen), every cited page (all seven),
@@ -230,7 +231,10 @@ the same twice**: PostgreSQL 17's dumps begin with a random `\restrict` line.
 Strip `\restrict` and `\unrestrict` before comparing, or the comparison
 proves nothing.
 
-**Item 12, the owner's sign-off:** RESULT_12
+**Item 12. Signed off by the owner, 2026-09-18**: "strand 1 closed". Strand 2 opens.
+
+The four old copies of the backup script were deleted from the server the same
+evening, at the owner's word.
 
 ---
 
