@@ -124,7 +124,8 @@ is the owner's, and waiting.**
    `._real`, dated 11:25–11:27 UTC: the side-files the Mac's `tar` adds, left
    when the files they belonged to were removed. A fifth, `._r115`, dated
    06:54, is from `db/115`'s work, outside this test. Harmless, holding
-   nothing but "Mac OS X" attributes; left in place for the owner.
+   nothing but "Mac OS X" attributes. **Put right the same day, at the
+   owner's word**: all five removed; nothing of this work is left in `/tmp`.
 7. **Pass.** Inside a thrown-away transaction, `db/118_undo.sql` left the
    outcomes list equal to the restored backup's, code, place and label; run
    a second time it refused ("not the one db/118 leaves"). The live list read
