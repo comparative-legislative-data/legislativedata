@@ -15,7 +15,7 @@ sessions.
 
 | Strand | What it delivers | Where it is |
 |---|---|---|
-| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: item 2 built and its test passed; items 1, 3–7 to do |
+| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: item 2 closed; items 1, 3–7 to do |
 | 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | not open |
 | 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
@@ -75,9 +75,8 @@ list are both empty.**
 1. **Item 1**: the copy's backup check, from the nightly run at 03:43 on
    19 September, and your look in Postico for the "In progress" change
    (`db/118`, item 10).
-2. **Item 2's closure test: all ten checks pass**, run by a session that
-   didn't build it. Still yours: a look in Postico at `published` → `live` →
-   `workings` (its item 11).
+2. **Item 2: closed.** Its test passed, run by another session, and you
+   signed off `workings` in Postico.
 3. **Item 3**: the record of each source's terms, laid out for you whole
    before anything is built. **Then items 4 to 7** in order: the kept pages,
    the wording, the refresh, and the strand's closure test.

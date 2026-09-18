@@ -108,7 +108,7 @@ new one, cannot be restored; item 3 stands in for it.
 
 ### The run, 2026-09-18, by a session that built none of it
 
-**Items 1 to 10 pass. Item 11 is the owner's, and waiting.**
+**All eleven items pass.** Item 11 signed off by the owner the same day.
 
 1. **Pass.** The file and the one SQL block in the agreed document are the
    same, character for character: 1660 characters each.
@@ -149,6 +149,9 @@ new one, cannot be restored; item 3 stands in for it.
    read `live.workings`'s one line.
 10. **Pass.** 470, 1291, 192, 14; checker and gaps list empty. The
     dictionary regenerates identical and lists ten published files.
+11. **Signed off by the owner**, 2026-09-18. They sent the line as Postico
+    shows it: one line, `days_between_stages`, with the three lines of
+    explanation at the top and the working as agreed.
 
 ---
 
