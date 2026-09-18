@@ -35,7 +35,9 @@ There is no universal test. Each ingest gets its own, newest first below.
 Strand 2, item 2. Written 2026-09-18 by the session that built and deployed
 it with item 3 (`docs/STRAND-2-SHARED-PAGE-PARTS.md`, agreed by the owner the
 same day; the build, its check and its undo in
-`docs/STRAND-2-ITEMS-2-AND-3-BUILD.md`). **Not yet run.**
+`docs/STRAND-2-ITEMS-2-AND-3-BUILD.md`). **Part A run 18 September by a
+session that built none of it: passes. Part B waits for the owner.** The run
+is under Part C.
 
 `tools/check_data_pages.py` is the thing under test as much as the site is:
 read it before trusting its lines, and ask the questions below of the live
@@ -104,13 +106,46 @@ deploy; 4 and 5 at any refresh, which changes the date.
 **Signing in with JavaScript switched off**: the reader then lands on the
 Data page, not the section.
 
+### The run, 18 September
+
+Run by the session after the one that built it. `check_data_pages.py` was
+read first; it compares the notes' order only with the copy's own, so the
+site's query was read too (numbered order, `substring(note FROM 2)::int`).
+
+- **A1.** Live is `2026-09-18T20-54-13Z`; its `app.py` has the same md5 as
+  the committed one; both routes go through `signed_out_to_sign_in`. Pass.
+- **A2.** From this Mac: `/data`, `/data?x=1` → 302 `/sign-in?next=/data`;
+  `/insights` → 302 `/sign-in?next=/insights`; each body is Flask's
+  225-byte redirect page, none of the words in it. Pass.
+- **A3.** `RETURN_SHAPE` and `fullmatch` as stated. From this Mac:
+  `next=//example.com` and `next=/admin` carry no hidden `next`;
+  `next=/data` carries `value="/data"` and the sentence once. Pass.
+- **A4.** `/`, `/privacy`, `/apply`, `/sign-in`: the footer is part 1 word
+  for word, date 18 September 2026 (`live.about`, asked as `legsite`). Pass.
+- **A5.** All 68 pass; `BREAK=1` fails at exactly 26 and 29. Pass.
+- **A6.** Check item 22 passes; `/admin` from this Mac answers 404 with
+  `Cache-Control: no-store`. Pass.
+- **A7.** Check items 58 and 59 pass. Pass.
+- **A8.** `check_privacy.sh` on the live release: all 15 pass, the invented
+  person deleted. Pass.
+- **A9.** `/srv/site/switched` ends `17-39-56Z`, `20-53-18Z`, `20-54-13Z`,
+  the last live. **The item's wording is out of date, not the site:** the
+  release before the live one is `20-53-18Z`, the same build, which *has*
+  `/data`. The undo is two rollbacks, as the build document says. Read, not
+  run. Pass on what it asks to read.
+- **A10.** Nothing of the run's left in `/tmp`; four databases; 470, 1291,
+  192, 14; checker and gaps list empty; the dictionary regenerates
+  identical. Pass.
+
 ---
 
 ## The Data page's four reference sections
 
 Strand 2, item 3. Written 2026-09-18 by the session that built and deployed
 it with item 2 (`docs/STRAND-2-REFERENCE-SECTIONS.md`, agreed by the owner
-the same day). **Not yet run.**
+the same day). **Part A run 18 September by a session that built none of
+it: passes. Part B, item 1 already done; item 2 waits for the owner.** The
+run is under Part C.
 
 As for item 2: `tools/check_data_pages.py` is under test too. Where an item
 compares with the copy, take the copy's lines afresh, as `legsite`, not from
@@ -175,6 +210,32 @@ published value, so only invented lines have been drawn. **The order of What
 has changed** within a copy is the site's own query, and is only read, not
 tried with real lines. **The pages we kept of each cited source, the
 provenance notes and the workings**, which are not in this item.
+
+### The run, 18 September
+
+Run with the item 2 test, in the same connection, as `legsite` where the
+copy is asked.
+
+- **A1.** 14 notes; the site orders them by number; check items 35–37 pass.
+  Pass.
+- **A2.** Four lines of `live.terms`, in the agreed order; check items
+  38–42 pass. Pass.
+- **A3.** Asked afresh: 89 lines, 17 headings; check items 43–45 pass. Pass.
+- **A4.** Asked afresh: `live.what_changed` 0 lines; every counted file in
+  `live.about` has 0 added (`about`, `cited_pages` and `what_changed`
+  itself are not counted, and are empty). Check passes. Pass.
+- **A5.** Check items 49–56 pass. A fingerprint of all 12 files in `live`,
+  taken before the check and after it, is the same. Pass.
+- **A6.** The check's own items 61–68 only ask that a section opens
+  *somewhere before* the link, so this session checked it properly: all 19
+  links are on the page, each inside its own folding section (each note
+  inside `methodology-notes`, `terms-of-use` inside `sources-and-terms`).
+  Pass.
+- **A7.** The live `data.html` has the committed md5, and none of the three
+  phrases. Pass.
+- **A8.** Check items 29–31 pass. Pass.
+- **B1** was done before the run: the owner read the pages and agreed the
+  six choices (`DECISIONS.md`, 18 September).
 
 ---
 
