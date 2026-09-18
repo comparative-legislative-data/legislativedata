@@ -8,19 +8,19 @@ questions at the end. **Nothing is built.**
 
 The UK Withdrawal from the European Union (Legal Continuity) (Scotland) Bill
 (bill 305) is one line in the published bills file, with three lines in the
-stages file. Its facts come from five kinds of source:
+stages file. Its facts come from four kinds of source:
 
 - the line itself, and its Stage 3, from the SPICe legislation factsheet;
 - Stages 1 and 2 from the PhD dataset;
 - the day it was stopped before Royal Assent from the Supreme Court's case page;
 - its note, rewritten by us when Session 6 was reviewed ("Manual").
 
-Those five kinds fall under three different sets of terms. The factsheet and
-the PhD dataset come under the Scottish Parliament's licence. The Supreme
-Court date comes under the Open Government Licence, with the Court's own
-condition added. The note is our own work, under CC BY 4.0. A reader who takes
-this bill has to credit all three. Today, nothing in the copy tells them
-that.
+The factsheet and the PhD dataset come under the Scottish Parliament's
+licence. The Supreme Court date comes under the Open Government Licence, with
+the Court's own condition added. The note's words are ours, but its recorded
+source is "Manual", and which terms that falls under is question 1. A reader
+who takes this bill has to credit at least two sources, and today nothing in
+the copy tells them so.
 
 ## What changes
 
@@ -113,12 +113,13 @@ ours. Each page was read today.
 - licence link: https://creativecommons.org/licenses/by/4.0/
 - credit line: **question 3**
 - restrictions: none
-- date terms read: not applicable
+- date terms read: empty
 
 ## Every part of the change
 
 **1. What it records, and what empty means.** One line per set of terms.
-Every cell is filled except `terms page` for our own work. In the list of
+Every cell is filled except `terms page` and `date terms read` for our own
+work. In the list of
 kinds of source, the new column is never empty.
 
 **2. Which bills it applies to.** All of them, through the source recorded on
@@ -172,7 +173,7 @@ identical except for `about`, which gains one line.
 - `restrictions`: *"What the source does not allow, in its own words."*
 - `terms_page`: *"The page where the source publishes its terms. Empty for
   our own work."*
-- `date_terms_read`: *"The day we read those terms."*
+- `date_terms_read`: *"The day we read those terms. Empty for our own work."*
 
 **9. The undo.** A matching undo file removes the tab and the column; the
 copy is retaken without `terms`. Nothing on the site reads the copy yet.
