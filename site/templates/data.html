@@ -1,0 +1,130 @@
+{#
+  The Data page. Behind the sign-in. Its own words are agreed in
+  docs/wording/PUBLISHING.md (parts 2, 3, 4, 6 and 7); everything else on it is
+  read from the live copy when the page is asked for, and nothing is typed in.
+  Strand 2, items 2 and 3: docs/STRAND-2-SHARED-PAGE-PARTS.md and
+  docs/STRAND-2-REFERENCE-SECTIONS.md.
+
+  The four reference sections fold away, and each opens on its own when a link
+  points into it: /data#M7, #terms-of-use, #what-has-changed.
+#}
+{% extends "base.html" %}
+
+{% block title %}Data — {{ site_name }}{% endblock %}
+
+{% block main %}
+<div class="reading">
+
+  <p class="label">Data</p>
+  <div class="page-head">
+    <h1>Data</h1>
+    <p class="data-date">Data as at {{ copy_date|day }}</p>
+  </div>
+  <p class="date-statement">Accurate as at that date. A record it was taken from may since have been corrected, and earlier versions are not kept. <a href="#what-has-changed">See what has changed.</a></p>
+
+  <p class="standfirst">The table of every bill, and the whole dataset to download, are being built.</p>
+
+  {# ---- 1. Methodology notes ---------------------------------------------- #}
+  <details class="section" id="methodology-notes">
+    <summary><h2>Methodology notes</h2></summary>
+    <p class="section-intro">The judgements made in coding the data, each in full, with the headings it applies to.</p>
+    {% for n in notes %}
+    <details class="note" id="{{ n.note }}">
+      <summary><span class="note-code">{{ n.note }}</span> <span class="note-title">{{ n.title }}</span></summary>
+      <div class="prose note-text">
+        {% for p in n.paragraphs %}<p>{{ p }}</p>
+        {% endfor %}
+      </div>
+      <p class="applies">Applies to: {% for h in n.headings %}<code>{{ h }}</code>{% if not loop.last %}, {% endif %}{% endfor %}</p>
+    </details>
+    {% endfor %}
+  </details>
+
+  {# ---- 2. Sources and terms of use. Part 4 of PUBLISHING.md. ------------- #}
+  <details class="section" id="sources-and-terms">
+    <summary><h2>Sources and terms of use</h2></summary>
+    <h3 id="terms-of-use">Terms of use</h3>
+    <div class="prose">
+      <p>Every value in this data names its source. A value from one of the sources below stays under that source's terms, and its restrictions pass to you with it. Everything else is our own work, under CC BY 4.0. When you use the data, include the credit line for each source your use draws on.</p>
+      <p>This data is provided as it is, with no warranty. legislativedata.org is not responsible for what anyone does with it.</p>
+    </div>
+    {% for t in terms %}
+    <div class="terms-block">
+      <h4>{{ t.terms_for }}</h4>
+      <p class="field-name">Covers:</p>
+      {% if t.covers_sources %}
+      <ul class="covers">
+        {% for name, meaning in t.covers_sources %}<li><span class="source-name">{{ name }}</span> — {{ meaning }}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="covers-text">{{ t.covers }}</p>
+      {% endif %}
+      <p><span class="field-name">Licence:</span> <a href="{{ t.licence_link }}">{{ t.licence }}</a></p>
+      <p><span class="field-name">Credit line:</span> {{ t.credit_line }}</p>
+      <p><span class="field-name">What it does not allow, in its own words:</span> {{ t.restrictions }}</p>
+      {% if t.date_terms_read %}<p><span class="field-name">Terms read on</span> {{ t.date_terms_read|day }}, at <a href="{{ t.terms_page }}">{{ t.terms_page_shown }}</a>.</p>{% endif %}
+    </div>
+    {% endfor %}
+  </details>
+
+  {# ---- 3. What the words mean -------------------------------------------- #}
+  <details class="section" id="what-the-words-mean">
+    <summary><h2>What the words mean</h2></summary>
+    <p class="section-intro">What each word in the data's fixed lists means, under the heading it appears in.</p>
+    {% for group in words %}
+    <h3 class="word-heading" id="words-{{ group.heading }}"><code>{{ group.heading }}</code></h3>
+    <dl class="words">
+      {% for w in group.lines %}<dt>{{ w.value }}</dt><dd>{{ w.what_it_means }}</dd>
+      {% endfor %}
+    </dl>
+    {% endfor %}
+  </details>
+
+  {# ---- 4. What has changed ----------------------------------------------- #}
+  <details class="section" id="what-has-changed">
+    <summary><h2>What has changed</h2></summary>
+    <p class="section-intro">Every published value a refresh has changed, newest first, with what it said before and what it says now. A line added is counted, not listed.</p>
+    {% if changed %}
+    <div class="table-scroll">
+      <table class="changes">
+        <thead><tr><th>Copy of</th><th>Bill</th><th>Stage or line</th><th>Heading</th><th>What it said</th><th>What it says now</th></tr></thead>
+        <tbody>
+          {% for c in changed %}<tr><td>{{ c.date_copy_taken|day }}</td><td>{{ c.bill_number if c.bill_number is not none else "" }}</td><td>{{ c.stage or c.which_line or "" }}</td><td>{{ c.heading or "" }}</td><td>{{ c.old_value or "" }}</td><td>{{ c.new_value or "" }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="quiet">Nothing has changed since the data was first published.</p>
+    {% endif %}
+    <p class="added">{{ added }}</p>
+  </details>
+
+  {% include "credits.html" %}
+
+</div>
+
+<script>
+  // A link into a section opens it, and any section around it, and then goes
+  // there: on arrival, and when a link on the page is followed.
+  (function () {
+    function openFor(hash) {
+      if (!/^#[A-Za-z0-9-]{1,60}$/.test(hash)) return;
+      var el = document.getElementById(hash.slice(1));
+      if (!el) return;
+      for (var n = el; n; n = n.parentElement) {
+        if (n.tagName === 'DETAILS') n.open = true;
+      }
+      el.scrollIntoView();
+    }
+    openFor(window.location.hash);
+    window.addEventListener('hashchange', function () { openFor(window.location.hash); });
+    // Printing prints what is folded away too.
+    window.addEventListener('beforeprint', function () {
+      var all = document.querySelectorAll('details');
+      for (var i = 0; i < all.length; i++) all[i].open = true;
+    });
+  })();
+</script>
+{% endblock %}

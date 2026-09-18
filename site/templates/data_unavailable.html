@@ -1,0 +1,22 @@
+{#
+  When the site cannot read the published copy. Nothing of the page is drawn,
+  so a reader never sees half of it. Agreed 18 September 2026,
+  docs/wording/PUBLISHING.md, part 6; the same shape as
+  sign_in_unavailable.html.
+#}
+{% extends "base.html" %}
+
+{% block title %}The data can't be shown right now — {{ site_name }}{% endblock %}
+
+{% block main %}
+<div class="reading">
+
+  <p class="label">Data</p>
+  <h1>The data can't be shown right now</h1>
+
+  <div class="prose">
+    <p>Please try again later.</p>
+  </div>
+
+</div>
+{% endblock %}

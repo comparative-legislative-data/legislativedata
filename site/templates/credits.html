@@ -1,0 +1,14 @@
+{#
+  Sources and licence, at the foot of every page showing data. Agreed
+  18 September 2026, docs/wording/PUBLISHING.md, part 3. One line for each set
+  of terms the page's figures use, from the copy's terms file, our own always
+  last; then the two agreed sentences. The page passes `credits`.
+#}
+<section class="credits" aria-labelledby="credits-heading">
+  <h2 id="credits-heading">Sources and licence</h2>
+  {% for t in credits %}
+  <p>{{ t.lead }}: {% set before, linked, after = t.credit_parts %}{{ before }}{% if linked %}<a href="{{ t.licence_link }}">{{ linked }}</a>{% endif %}{{ after }}</p>
+  {% endfor %}
+  <p>This data is provided as it is, with no warranty. legislativedata.org is not responsible for what anyone does with it.</p>
+  <p>What each source allows, and does not, is under <a href="{{ url_for('data') }}#terms-of-use">Terms of use</a>, on the Data page.</p>
+</section>

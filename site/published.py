@@ -41,3 +41,52 @@ def reachable():
             return cur.fetchone()[0] > 0
     except psycopg.Error:
         return False
+
+
+class Unreadable(Exception):
+    """The copy could not be read. A data page says so, and draws nothing else."""
+
+
+def date_copy_taken():
+    """The day the live copy was taken, for the footer of every page; None if it
+    cannot be read, so that a page which shows no data still draws."""
+    try:
+        with connection().cursor() as cur:
+            cur.execute("SELECT max(date_copy_taken) FROM live.about")
+            return cur.fetchone()[0]
+    except psycopg.Error:
+        return None
+
+
+def _rows(cur, sql):
+    cur.execute(sql)
+    names = [c.name for c in cur.description]
+    return [dict(zip(names, row)) for row in cur.fetchall()]
+
+
+def reference():
+    """Everything the Data page's reference sections and credit lines show,
+    read in one go, so that a refresh landing part way through cannot give a
+    page half of one copy and half of the next. In the copy's own words; the
+    only ordering added here is the order a reader meets them in.
+
+    Raises Unreadable if any of it cannot be read."""
+    try:
+        conn = connection()
+        with conn.transaction(), conn.cursor() as cur:
+            cur.execute("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ")
+            about = _rows(cur, "SELECT * FROM live.about")
+            notes = _rows(cur, "SELECT * FROM live.methodology_notes "
+                               "ORDER BY substring(note FROM 2)::int, note")
+            terms = _rows(cur, "SELECT * FROM live.terms")
+            words = _rows(cur, 'SELECT * FROM live.what_the_words_mean '
+                               'ORDER BY heading, "order", value')
+            changed = _rows(cur, "SELECT * FROM live.what_changed "
+                                 "ORDER BY date_copy_taken DESC, file, bill_number, "
+                                 "stage, which_line, heading")
+    except psycopg.Error as e:
+        raise Unreadable() from e
+    if not about:
+        raise Unreadable()
+    return {"about": about, "notes": notes, "terms": terms, "words": words,
+            "changed": changed}

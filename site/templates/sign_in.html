@@ -12,6 +12,14 @@
   <p class="label">Accounts</p>
   <h1>Sign in</h1>
 
+  {# For a reader sent here on the way to a data page. Agreed 18 September
+     2026, docs/wording/PUBLISHING.md, part 6. #}
+  {% if going_to %}
+  <div class="notice">
+    <p>Sign in to see the data.</p>
+  </div>
+  {% endif %}
+
   <div class="prose">
     <p>There are no passwords. Enter your email address and a code will be sent to it. The code works once, within 15 minutes.</p>
   </div>
@@ -21,8 +29,23 @@
       <label for="email">Email address</label>
       <input type="email" id="email" name="email" autocomplete="email" maxlength="300">
     </div>
+    {% if going_to %}<input type="hidden" name="next" id="next" value="{{ going_to }}">{% endif %}
     <button class="button" type="submit">Send me a code</button>
   </form>
+
+  {% if going_to %}
+  {# The section the reader was going to never reaches the site, only the
+     browser, so it is added here. The site checks its shape again. #}
+  <script>
+    (function () {
+      var h = window.location.hash;
+      if (/^#[A-Za-z0-9-]{1,40}$/.test(h)) {
+        var f = document.getElementById('next');
+        if (f.value.indexOf('#') < 0) f.value += h;
+      }
+    })();
+  </script>
+  {% endif %}
 
 </div>
 {% endblock %}

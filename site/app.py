@@ -3,11 +3,12 @@
 Flask, Jinja, gunicorn behind Caddy. No build step. Settled 2026-09-15.
 
 It reads the accounts database (from 2026-09-16) and the published copy (from
-2026-09-18), and never the working database. No page shows the copy yet: until
-the first data page, the footer says there is no published data, and after it
-the data date comes from the copy and from nowhere else. See
+2026-09-18), and never the working database. Every page's footer carries the
+copy's date, and the date comes from the copy and from nowhere else. See
 DECISIONS.md, 2026-09-15, "Every page carries the date of the data it was built
-from".
+from". The data pages, and the words on them, are strand 2, items 2 and 3:
+docs/STRAND-2-SHARED-PAGE-PARTS.md, docs/STRAND-2-REFERENCE-SECTIONS.md and
+docs/wording/PUBLISHING.md.
 """
 import os
 import re
@@ -26,10 +27,6 @@ app.teardown_appcontext(published.close)
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024
 
 SITE_NAME = "legislativedata.org"
-
-# One place. When the published database exists this is read from it per
-# request, and this constant goes. Nothing else in the site knows the date.
-NO_DATA_YET = "No data published yet"
 
 # The name of the one cookie the site sets, and only on signing in.
 DEVICE_COOKIE = "signed_in"
@@ -50,12 +47,21 @@ def who_is_this():
 # another site, and every form here that matters needs it.
 
 
+def copy_date():
+    """The live copy's date, read once a request. None if the copy cannot be
+    read: a page with no data on it then draws without a date, rather than
+    with a wrong one or not at all."""
+    if "copy_date" not in g:
+        g.copy_date = published.date_copy_taken()
+    return g.copy_date
+
+
 @app.context_processor
 def shell():
     """Everything base.html needs, so no page has to pass it."""
     return {
         "site_name": SITE_NAME,
-        "data_date_line": NO_DATA_YET,
+        "copy_date": copy_date(),
         "signed_in_name": g.signed_in[0] if g.get("signed_in") else None,
         "is_owner": bool(g.get("signed_in") and g.signed_in[1]),
     }
@@ -177,6 +183,144 @@ def apply_received():
     return render_template("apply_received.html")
 
 
+# ---- The data pages -----------------------------------------------------------
+#
+# Data and Insights, both behind the sign-in. Agreed 18 September 2026:
+# docs/STRAND-2-SHARED-PAGE-PARTS.md and docs/STRAND-2-REFERENCE-SECTIONS.md.
+# Every word on them is either in docs/wording/PUBLISHING.md or read from the
+# live copy when the page is asked for, so a refresh changes them with no one
+# editing a page.
+
+DATA_PAGES = ("/data", "/insights")
+
+
+def signed_out_to_sign_in():
+    """The one rule both pages go through. Signed out, the reader is sent to
+    the sign-in page and gets nothing of the page; the browser keeps the
+    section they were going to, and the sign-in page carries it through."""
+    if not g.get("signed_in"):
+        return redirect(url_for("sign_in", next=request.path), code=302)
+    return None
+
+
+def credit_lead(terms_for):
+    """The words before a credit line: "Values from the Scottish Parliament",
+    "Values from legislation.gov.uk". A name that is a web address takes no
+    "the". Settled wording: docs/wording/PUBLISHING.md, part 3."""
+    return f"Values from {terms_for}" if "." in terms_for else f"Values from the {terms_for}"
+
+
+def licence_link_text(term):
+    """The part of a credit line that links to the licence: the licence's name
+    where the line gives it in full, or else the short form in its brackets."""
+    line, name = term["credit_line"], term["licence"]
+    if name in line:
+        return name
+    short = re.search(r"\(([^)]+)\)\s*$", name)
+    if short and short.group(1) in line:
+        return short.group(1)
+    return None
+
+
+def split_link(line, part):
+    """A line cut into (before, the linked part, after), for the template."""
+    if not part:
+        return (line, None, "")
+    before, _, after = line.partition(part)
+    return (before, part, after)
+
+
+def shown_address(address):
+    """https://www.parliament.scot/about/copyright as parliament.scot/about/copyright."""
+    return re.sub(r"^https?://(www\.)?", "", address or "").rstrip("/")
+
+
+def reference_sections(copy):
+    """The copy's files shaped for the Data page, and nothing added to them.
+
+    The terms come in the order of the first source each covers in the
+    copy's list of sources, and our own, which covers no named source, last:
+    the copy's terms file has no column for its order."""
+    source_words = [w for w in copy["words"] if w["heading"] == "source"]
+    source_order = {w["value"]: i for i, w in enumerate(source_words)}
+    source_meaning = {w["value"]: w["what_it_means"] for w in source_words}
+
+    terms = []
+    for t in copy["terms"]:
+        names = [n.strip() for n in (t["covers"] or "").split(";") if n.strip()]
+        named = [n for n in names if n in source_meaning]
+        terms.append({
+            **t,
+            "covers_sources": [(n, source_meaning[n]) for n in named] if named else None,
+            "place": min(source_order[n] for n in named) if named else len(source_order),
+            "lead": credit_lead(t["terms_for"]) if named else "Everything else",
+            "credit_parts": split_link(t["credit_line"], licence_link_text(t)),
+            "terms_page_shown": shown_address(t["terms_page"]),
+        })
+    terms.sort(key=lambda t: (t["place"], t["terms_for"]))
+
+    notes = [{**n,
+              "paragraphs": [p.strip() for p in re.split(r"\n\s*\n", n["text"]) if p.strip()],
+              "headings": [h.strip() for h in (n["applies_to"] or "").split(",") if h.strip()]}
+             for n in copy["notes"]]
+
+    words = []
+    for w in copy["words"]:
+        if not words or words[-1]["heading"] != w["heading"]:
+            words.append({"heading": w["heading"], "lines": []})
+        words[-1]["lines"].append(w)
+
+    return {"notes": notes, "terms": terms, "words": words,
+            "changed": copy["changed"], "added": added_line(copy["about"])}
+
+
+# The files in the order a reader meets them in the download; any other after.
+FILE_ORDER = ("bills", "stages", "days_between_stages", "sessions")
+
+
+def added_line(about):
+    """How many lines this copy added, in the agreed words. The first copy
+    records no counts at all."""
+    when = day(about[0]["date_copy_taken"])
+    counted = [a for a in about if a["rows_added_since_last_copy"] is not None]
+    if not counted:
+        return "This is the first copy of the data."
+    added = sorted((a for a in counted if a["rows_added_since_last_copy"] > 0),
+                   key=lambda a: (FILE_ORDER.index(a["file"]) if a["file"] in FILE_ORDER
+                                  else len(FILE_ORDER), a["file"]))
+    if not added:
+        return f"Added in the copy of {when}: no lines."
+    first, *rest = added
+    n = first["rows_added_since_last_copy"]
+    parts = [f"{n} line{'' if n == 1 else 's'} to {first['file']}"]
+    parts += [f"{a['rows_added_since_last_copy']} to {a['file']}" for a in rest]
+    return f"Added in the copy of {when}: {', '.join(parts)}."
+
+
+@app.route("/data")
+def data():
+    wall = signed_out_to_sign_in()
+    if wall:
+        return wall
+    try:
+        copy = published.reference()
+    except published.Unreadable:
+        return render_template("data_unavailable.html"), 503
+    g.copy_date = copy["about"][0]["date_copy_taken"]
+    sections = reference_sections(copy)
+    # The Data page carries the whole dataset, so it credits every set of terms.
+    return render_template("data.html", credits=sections["terms"], **sections)
+
+
+@app.route("/insights")
+def insights():
+    wall = signed_out_to_sign_in()
+    if wall:
+        return wall
+    # No chart yet, so no data: no date statement and no credit lines.
+    return render_template("insights.html")
+
+
 # ---- Signing in and out ---------------------------------------------------------
 #
 # Wording and behaviour are docs/wording/SIGN-IN.md, settled by the owner on
@@ -187,10 +331,22 @@ def apply_received():
 CODE_SHAPE = re.compile(r"^[0-9]{6}$")
 
 
+# Where signing in may return a reader to: a data page, and the section of it
+# a link pointed into. Nothing else is accepted, so a link cannot use signing in
+# to send anyone off this site, or anywhere on it but these two pages.
+RETURN_SHAPE = re.compile(r"/(data|insights)(#[A-Za-z0-9-]{1,40})?")
+
+
+def return_to(value):
+    """The return address if it is one of the allowed shapes, or None."""
+    return value if value and RETURN_SHAPE.fullmatch(value) else None
+
+
 @app.route("/sign-in", methods=["GET", "POST"])
 def sign_in():
+    going_to = return_to(request.values.get("next"))
     if request.method == "GET":
-        return render_template("sign_in.html")
+        return render_template("sign_in.html", going_to=going_to)
 
     email = tidy(request.form.get("email")).lower()
     if EMAIL_SHAPE.match(email) and len(email) < 254:
@@ -208,13 +364,16 @@ def sign_in():
     # tell anyone whether an address has an account. Shown straight from here,
     # not by sending the browser on with the address in the page's address,
     # which would put it in the access log.
-    return render_template("sign_in_code.html", email=email, failed=False)
+    return render_template("sign_in_code.html", email=email, failed=False,
+                           going_to=going_to)
 
 
 @app.route("/sign-in/code", methods=["GET", "POST"])
 def sign_in_code():
+    going_to = return_to(request.values.get("next"))
     if request.method == "GET":
-        return render_template("sign_in_code.html", email="", failed=False)
+        return render_template("sign_in_code.html", email="", failed=False,
+                               going_to=going_to)
 
     email = tidy(request.form.get("email")).lower()
     # People copy codes with spaces in them; nothing else is forgiven.
@@ -227,9 +386,10 @@ def sign_in_code():
         except accounts.Unavailable:
             return render_template("sign_in_unavailable.html"), 503
     if marker is None:
-        return render_template("sign_in_code.html", email=email, failed=True), 400
+        return render_template("sign_in_code.html", email=email, failed=True,
+                               going_to=going_to), 400
 
-    response = redirect(url_for("welcome"), code=303)
+    response = redirect(going_to or url_for("welcome"), code=303)
     response.set_cookie(DEVICE_COOKIE, marker, max_age=accounts.DEVICE_DAYS * 24 * 3600,
                         secure=True, httponly=True, samesite="Lax", path="/")
     return response
@@ -267,10 +427,11 @@ DONE = {
 
 
 @app.after_request
-def admin_pages_are_not_kept(response):
-    """The admin pages hold other people's details: no browser or anything in
-    between is to keep a copy."""
-    if request.path.startswith("/admin"):
+def pages_behind_the_sign_in_are_not_kept(response):
+    """The admin pages hold other people's details, and the data pages are for
+    signed-in readers only: no browser or anything in between is to keep a
+    copy, so Back after signing out on a shared computer shows nothing."""
+    if request.path.startswith("/admin") or request.path in DATA_PAGES:
         response.headers["Cache-Control"] = "no-store"
     return response
 

@@ -34,6 +34,7 @@
       <input type="text" id="code" name="code" inputmode="numeric" autocomplete="one-time-code"
              maxlength="20" aria-describedby="code-hint">
     </div>
+    {% if going_to %}<input type="hidden" name="next" value="{{ going_to }}">{% endif %}
     <button class="button" type="submit">Sign in</button>
   </form>
 

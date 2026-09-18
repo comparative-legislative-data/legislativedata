@@ -394,6 +394,108 @@ h2 {
   color: var(--accent);
 }
 
+/* ---- The data pages ------------------------------------------------------ */
+
+/* The date sits beside the heading, in muted type, so a screenshot keeps it. */
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s1) var(--s4);
+}
+.page-head h1 { margin-bottom: 0; }
+.data-date {
+  margin: 0;
+  font-size: var(--t-md);
+  color: var(--text-muted);
+}
+.date-statement {
+  margin: var(--s2) 0 var(--s8);
+  font-size: var(--t-md);
+  color: var(--text-muted);
+}
+
+/* A reference section: a heading that opens and closes. */
+.section {
+  border-top: 1px solid var(--border);
+  padding: var(--s2) 0;
+}
+.section:last-of-type { border-bottom: 1px solid var(--border); }
+.section > summary {
+  cursor: pointer;
+  list-style-position: outside;
+  padding: var(--s2) 0;
+}
+.section > summary h2 { display: inline; margin: 0; }
+.section[open] > summary { margin-bottom: var(--s3); }
+.section-intro {
+  margin: 0 0 var(--s6);
+  color: var(--text-muted);
+}
+.section h3 {
+  font-size: var(--t-lg);
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: var(--s6) 0 var(--s3);
+}
+.section h4 {
+  font-size: var(--t-lg);
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0 0 var(--s3);
+}
+
+.note { border-top: 1px solid var(--border); padding: var(--s2) 0; }
+.note > summary { cursor: pointer; padding: var(--s1) 0; }
+.note-code {
+  display: inline-block;
+  min-width: 2.5em;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.note-title { color: var(--text-strong); }
+.note-text { margin: var(--s4) 0; }
+.applies {
+  margin: 0 0 var(--s4);
+  font-size: var(--t-md);
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.terms-block {
+  border-left: 2px solid var(--border-firm);
+  padding: 0 0 0 var(--s4);
+  margin: var(--s8) 0 0;
+}
+.terms-block p { margin: 0 0 var(--s3); }
+.field-name { font-weight: 600; color: var(--text-strong); }
+.covers { margin: 0 0 var(--s3); padding-left: var(--s4); }
+.covers li { margin-bottom: var(--s2); }
+.source-name { color: var(--text-strong); }
+
+.words { margin: 0 0 var(--s4); }
+.words dt { font-weight: 600; color: var(--text-strong); margin-top: var(--s3); }
+.words dd { margin: 0; }
+
+.table-scroll { overflow-x: auto; margin: 0 0 var(--s4); }
+.changes { border-collapse: collapse; font-size: var(--t-md); min-width: 100%; }
+.changes th, .changes td {
+  text-align: left;
+  vertical-align: top;
+  padding: var(--s2) var(--s3) var(--s2) 0;
+  border-bottom: 1px solid var(--border);
+}
+.changes th { color: var(--text-muted); font-weight: 600; }
+.added { margin: 0 0 var(--s4); color: var(--text-muted); font-size: var(--t-md); }
+
+.credits { margin: var(--s12) 0 0; font-size: var(--t-md); color: var(--text-muted); }
+.credits h2 { margin-top: 0; }
+.credits p { margin: 0 0 var(--s2); }
+
+.notice + .prose { margin-top: var(--s6); }
+
+.foot-words p { margin: 0; }
+
 /* ---- Footer ------------------------------------------------------------- */
 
 .foot {
