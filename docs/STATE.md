@@ -154,6 +154,18 @@ Run before the first reply.
   (empty), `live` and `public`; the site answers 200. "Now" traced to strand
   1, items 1 to 7. Nothing found.
 
+## The refresh: working detail, 18 September
+
+- **A refused connection can strand the bundle.** `tools/refresh_copy.sh`
+  uploads, then runs; if the firewall refuses the second connection (six in
+  30 seconds), the upload stays in the server's `/tmp`. Look for
+  `/tmp/refresh-*.tgz` after any refused run.
+- **psql doesn't fill variables into `\copy`**; the build reads the address
+  check with the database's own `COPY`, which works because the file is
+  readable by everyone and the build runs as `postgres`.
+- **Rehearsals reuse one address check** with `--addresses FILE`, so the
+  Parliament's site isn't read five times in an afternoon.
+
 ## The record of each source's terms: working detail, 18 September
 
 - **`db/119` adds a table that is not a `ref_` list**, `source_terms`, so the
