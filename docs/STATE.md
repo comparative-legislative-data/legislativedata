@@ -17,7 +17,7 @@ three strands, one after another, then the closing test.
 | Strand | What it delivers | Where it is |
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
-| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1, 2 and 3 **closed**; item 4, the table, next |
+| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1–3 **closed**; item 4, the table, **agreed, to build**, which reopens 2 and 3 |
 | 3. The charts | the six thoughts on the Insights page | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
@@ -53,7 +53,7 @@ list are both empty.**
 - **18 September, night.** Items 2 and 3 built and live, with a 68-point
   check; you read the pages and agreed six small choices.
 
-**18 September, this session. Items 2 and 3 closed.**
+**18 September, this session. Items 2 and 3 closed; the table agreed.**
 
 - **Their closure tests were run** by a session that built none of it: every
   mechanical item passes, and you signed off the links, dark, light, print,
@@ -62,23 +62,26 @@ list are both empty.**
   number, M1 to M14) and each link sitting inside its own section.
 - **One line of the test was out of date**: the undo is now two steps, not
   one. The site was right; the record says so.
-- **The table's write-up agreed**: seven columns, narrowing by session,
-  type, outcome and title, each bill opening to its stages and where each
-  fact came from; and a fifth reference section explaining every heading.
+- **The table agreed, through a write-up and three mock-ups**: seven
+  columns, narrowed by session, type, outcome and title; a bill opens in a
+  pop-up with its stages and where each fact came from; the Data page in
+  tabs, with a fifth, "What each heading holds"; the date statement loses
+  "See what has changed."; the download will go at the top.
+- **Your standing position recorded**: the download is the complete route,
+  so nothing is built for readers without JavaScript.
 - No bill, date or figure changed.
 
 ## Now
 
 **Strand 2, the data on the site** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Item 4: the table of every bill.** The write-up is agreed
-   (`docs/STRAND-2-THE-TABLE.md`), with a fifth reference section, "What
-   each heading holds". Its second mock-up is agreed
-   (https://claude.ai/artifact/TtKMN9rdGhtjxzXgbZP845): the page in tabs, a
-   bill in a pop-up, the download to go at the top. Printing prints the open tab; nothing is
-   built for readers without JavaScript. Next: the build, its check and its undo, which
-   reopens items 2 and 3: their tests are amended and run again with item
-   4's.
+1. **Build item 4, the table of every bill**, as agreed in
+   `docs/STRAND-2-THE-TABLE.md` (with "After the mock-up") and
+   `docs/wording/PUBLISHING.md`, parts 2 and 8; the mock-up is
+   https://claude.ai/artifact/TtKMN9rdGhtjxzXgbZP845. It reopens items 2 and
+   3: the tabs replace their folded sections, and the date statement
+   changes. Written before deploying: the check extended, the undo, the
+   rehearsal. Then item 4's closure test, and items 2 and 3's amended.
 
 ## Waiting for you
 
@@ -132,12 +135,32 @@ material waiting to be lost.
 
 ## Sanity check, 2026-09-18, the session that ran items 2 and 3's tests
 
-Run before the first reply. Clean and pushed; decisions contents and
-dictionary regenerated identical; counts 470, 1291, 192, 14; checker and
-gaps list empty; four databases (`legdata`, `accounts`, `published`,
-`postgres`), all sorted; the site 200; backup timer next 02:44 UTC. Both
-"Now" items traced to strand 2, items 2–4. Nothing found. After the run:
-the same counts, the copy's fingerprint unchanged, nothing left in `/tmp`.
+- **At the start**: clean and pushed; decisions contents and dictionary
+  regenerated identical; counts 470, 1291, 192, 14; checker and gaps list
+  empty; four databases, all sorted; the site 200; backup timer next 02:44
+  UTC. Both "Now" items traced to strand 2. Nothing found.
+- **At the close**: the same counts; checker and gaps list empty; four
+  databases; the copy's areas `from_working`, `live`, `previous`, `public`;
+  live release `2026-09-18T20-54-13Z`, site 200; backup timer active;
+  nothing left in the server's `/tmp`; dictionary and decisions contents
+  regenerated identical; clean and pushed. No data was written this session:
+  every database visit read only, bar the privacy check's invented person,
+  added and deleted.
+
+## The table: working detail, 18 September
+
+- **The mock-up is made by a script in the session's scratchpad**, from one
+  pull of the copy as JSON (`live.*`, plus each heading's description from
+  the copy's own comments). The build does not reuse it: the site draws the
+  page from the copy on the machine. What it shows that the build must
+  match: the pop-up's sticky head (bill number, session, title), the tabs'
+  addresses, a link into a tab opening it, the phone width.
+- **Items 2 and 3's test, item A9, is out of date**: the release before the
+  live one is the same build. The deploy of item 4 clears `17-39-56Z`, and
+  the undo is one rollback again; amend A9 when the tests are amended.
+- **`check_data_pages.py`'s link check (items 61–68) is loose**: it asks
+  only that a section opens somewhere before the link. Tighten it when the
+  sections become tabs: each address inside its own tab.
 
 ## Items 2 and 3: working detail, 18 September
 
