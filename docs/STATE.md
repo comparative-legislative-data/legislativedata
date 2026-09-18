@@ -62,19 +62,21 @@ list are both empty.**
   number, M1 to M14) and each link sitting inside its own section.
 - **One line of the test was out of date**: the undo is now two steps, not
   one. The site was right; the record says so.
-- **The table's write-up is with you**: seven columns, narrowing by
-  session, type, outcome and title, each bill opening to its stages and
-  where each fact came from.
+- **The table's write-up agreed**: seven columns, narrowing by session,
+  type, outcome and title, each bill opening to its stages and where each
+  fact came from; and a fifth reference section explaining every heading.
 - No bill, date or figure changed.
 
 ## Now
 
 **Strand 2, the data on the site** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Item 4: the table of every bill.** The write-up is with you
-   (`docs/STRAND-2-THE-TABLE.md`), five questions at the end. Once they are
-   settled: a mock-up with the real rows, then the build, its check and its
-   undo.
+1. **Item 4: the table of every bill.** The write-up is agreed
+   (`docs/STRAND-2-THE-TABLE.md`), with a fifth reference section, "What
+   each heading holds". Next: a mock-up with the real rows (the table, one
+   bill opened, a phone's width, the fifth section), then the build, its
+   check and its undo. The fifth section's opening sentence is proposed,
+   not agreed (`PUBLISHING.md`, part 8).
 
 ## Waiting for you
 

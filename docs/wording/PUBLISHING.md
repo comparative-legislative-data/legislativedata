@@ -204,6 +204,63 @@ sentence from the copy's `what_the_words_mean`: "Parliament API — The
 Scottish Parliament's open data, at data.parliament.scot. No fact in this
 data rests on it."
 
+## 8. The table of every bill
+
+Agreed by the owner on 18 September 2026 with strand 2, item 4
+(`docs/STRAND-2-THE-TABLE.md`), except where marked.
+
+The Data page's opening sentence, replacing part 6's "The table of every
+bill, and the whole dataset to download, are being built.":
+
+> Every bill introduced in the Scottish Parliament since 1999, one line
+> each. Open a bill to see everything recorded about it, and where each
+> fact came from. The whole dataset, to download, is being built.
+
+Above the dropdowns:
+
+> Session · Type · Outcome · Title contains
+
+The two actions:
+
+> Show · Clear
+
+The count:
+
+> Showing all 470 bills.
+
+> Showing 17 of 470 bills.
+
+> No bill matches these choices. Clear them to see every bill.
+
+In an opened bill:
+
+> The bill
+>
+> Its stages
+>
+> Where each fact came from
+
+A bill with no lines in the sources file:
+
+> Every fact about this bill is from the source named on its line.
+
+An address that has gone:
+
+> This address no longer works. We kept a copy of the page on [the day we
+> kept it]: [the kept copy's name].
+
+The bill's own link:
+
+> Link to this bill
+
+The fifth reference section's heading, agreed; **its opening sentence
+proposed, not yet agreed**:
+
+> What each heading holds
+
+> Every heading in every file, with what it holds and what an empty cell
+> under it means. The same descriptions are in the download's codebook.
+
 ---
 
 ## Where each is built

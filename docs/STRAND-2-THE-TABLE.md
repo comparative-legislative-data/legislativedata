@@ -2,7 +2,8 @@
 
 For the owner. Written 18 September 2026. Strand 2, item 4 of
 `docs/PHASE-2.md`: the write-up, before anything is drawn. Five questions at
-the end.
+the end. **Agreed by the owner the same day: yes to all five.** The words
+are in `docs/wording/PUBLISHING.md`, part 8.
 
 Already settled, and not asked again: the table is on the Data page, behind
 the sign-in, as the place a reader arrives from a chart and as the house
