@@ -72,6 +72,9 @@ new address; the refresh (item 6) keeps it true from then on.
    the archive, one Official Report page and one Official Report PDF. Each
    shows the page you would expect.
 
+   **Signed off by the owner, 2026-09-18.** Items 1 to 6 wait for a session
+   that didn't keep the pages.
+
 ### Part C — what this test does not check
 
 **How a reader reaches a kept copy**, and what a page says when an address has

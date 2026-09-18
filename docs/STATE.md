@@ -81,9 +81,9 @@ list are both empty.**
    19 September, and your look in Postico for the "In progress" change
    (`db/118`, item 10).
 2. **Items 3 and 4's closure tests**, run by a session that didn't build
-   them (`CLOSURE-TESTS.md`). Yours for item 4: open three kept copies in
-   your browser (its item 7).
-3. **Item 5**: the wording every page carries, in full, to you. **Then items
+   them (`CLOSURE-TESTS.md`). Your sign-offs for both are done.
+3. **Item 5**: the wording every page carries, drafted in full in
+   `docs/wording/PUBLISHING.md`, with five questions for you. **Then items
    6 and 7**: the refresh, and the strand's closure test.
 
 ## Waiting for you
