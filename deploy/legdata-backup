@@ -58,9 +58,9 @@ ACCOUNTS_DUMPS="$ACCOUNTS_DIR/postgres"
 # database is named in one of these or is the working database.
 #
 # Not backed up, with the reason beside each. `postgres` is PostgreSQL's own
-# empty housekeeping database. The published database, when it exists, goes here,
-# being rebuilt from the working one rather than restored.
-NOT_BACKED_UP="postgres"
+# empty housekeeping database. `published` is the published copy, rebuilt from
+# the working one rather than restored (DECISIONS.md, 2026-09-15 and 2026-09-18).
+NOT_BACKED_UP="postgres published"
 # Databases that hold people. Kept five weeks.
 ACCOUNTS_DATABASES="accounts"
 
