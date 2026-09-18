@@ -111,8 +111,8 @@ on purpose, as the record. **Earlier migrations** keep it too.
 
 Written 2026-09-18 by the session that set up `published` and took the first
 copy. **Run on 2026-09-18**, by a session that did none of that work: thirteen
-items pass; item 12 waits for the first nightly run, and item 7 has one
-difference for the owner to rule on. Block 1 of `docs/PHASE-2-CHARTS-BUILD.md`;
+items pass, item 7 after the owner's ruling; item 12 is half done and waits for
+the first nightly run. Block 1 of `docs/PHASE-2-CHARTS-BUILD.md`;
 the procedure is `docs/PUBLISHED-COPY-RUNBOOK.md`.
 
 **Moved by `db/117`, spelling only.** `db/117` later changed "fact sheet" to "factsheet" in every cell and description a reader sees. Where an item below compares with agreed wording, make that same change to the agreed text first; the documents are left as the record of what was agreed.
@@ -249,7 +249,9 @@ read as an answer.
    there, Introduction and Royal Assent included, which would make 91. A
    title cannot change at either, and the build refuses a word its
    dictionary lacks, so nothing can reach a reader wrongly; but the working
-   column's own rule is looser than the copy's.
+   column's own rule is looser than the copy's. **The owner's ruling, the
+   same day: leave it, and record it** (DECISIONS.md and STANDING.md,
+   2026-09-18). Item 7 passes.
 8. **Pass.** Traced through every file: the National Galleries of Scotland
    Act 2016 (bill 270, a Private Bill: Preliminary, Consideration and Final
    Stage), the Transplantation (Authorisation of Removal of Organs etc.)
@@ -373,8 +375,8 @@ for word.
 ## The sources file's notes name what a reader sees
 
 Written 2026-09-18 by the session that built `db/115`. **Part A run on
-2026-09-18**, by a session that did none of that work; all six items pass. Part
-B waits for the owner.
+2026-09-18**, by a session that did none of that work; all six items pass. **Part
+B signed off by the owner the same day.** The test is closed.
 
 **Moved by `db/117`, spelling only.** `db/117` later changed "fact sheet" to "factsheet" in every cell and description a reader sees. Where an item below compares with agreed wording, make that same change to the agreed text first; the documents are left as the record of what was agreed.
 
@@ -463,7 +465,7 @@ describes, did.
 
 Written 2026-09-18 by the session that built `db/114`. **Part A run on
 2026-09-18**, by a session that did none of that work; all eight items pass.
-Part B waits for the owner.
+**Part B signed off by the owner the same day.** The test is closed.
 
 **Moved by `db/117`, spelling only.** `db/117` later changed "fact sheet" to "factsheet" in every cell and description a reader sees. Where an item below compares with agreed wording, make that same change to the agreed text first; the documents are left as the record of what was agreed.
 

@@ -28,6 +28,12 @@ Written down because the expensive mistake is not doing a thing twice — it is
 doing it again without knowing it was considered, weighed and parked. Each says
 what would reopen it.
 
+- **The stage a title changed at may be any of nine in the working data**,
+  where the published copy's dictionary lists seven. A title cannot change at
+  Introduction or Royal Assent, and the copy's build refuses a word it cannot
+  define. Left by the owner 2026-09-18. *What would reopen it:* the copy's
+  build refusing a bill for it, or a bill genuinely needing either value.
+
 - **Time is counted in calendar days, not sitting days.** Recess makes calendar
   days misleading and the Parliament's rules count some intervals in sitting
   days, so sitting days are in one sense truer. They need a calendar of when the

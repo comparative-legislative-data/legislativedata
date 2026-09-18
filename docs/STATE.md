@@ -57,9 +57,10 @@ list are both empty.**
 **18 September, this session. Five closure tests run.**
 
 - **`db/114`, `db/115`, `db/116`, `db/117` and the published copy**, run by a
-  session that built none of them. Every mechanical item passes except
-  one that has to wait for tonight, and one point for you to rule on
-  (below). Results are under each test in `docs/CLOSURE-TESTS.md`.
+  session that built none of them. Every item passes except one that has to
+  wait for tonight. You signed off the two Part Bs, and ruled that a title's
+  stage stays loose in the working data, recorded. Results are under each
+  test in `docs/CLOSURE-TESTS.md`.
 - **The strongest check was a reversal.** `db/115` and `db/116` each recorded
   a fingerprint of the sources lines before they ran. Undoing every change
   the two agreed documents describe, and nothing else, gives both
@@ -72,25 +73,21 @@ list are both empty.**
 
 ## Now
 
-1. **Your three rulings below**, under "From the closure tests".
-2. **The copy's item 12**, from 19 September: read the nightly backup's log.
-3. **The three small items**, block 2, each with its full checklist first.
+1. **The copy's item 12**, from 19 September: read the first nightly
+   backup's log and search the copy it makes. A few minutes.
+2. **Block 2, the small items before the first chart.** M10's cut is already
+   done (`db/113`). Two remain, each with its full checklist first:
+   "In progress" moves to the end of the outcomes list, which is a change to
+   a list and means retaking the copy; and the quarter boundary rule, which
+   moves no bill and only needs writing where thought 5's calculation will
+   read it.
+3. **Then block 3, the refresh**: replacing a live copy, keeping the old one,
+   and filling `what_changed`, written down and rehearsed with its undo.
 4. **Iterating the mock-ups**, whenever you want: the open points are in
    `docs/PHASE-2-CHARTS-THOUGHTS.md`.
 
 ## Waiting for you
 
-- **From the closure tests**, three things only you can settle:
-  - **`db/114`**: two descriptions Postico shows (not published) lost a stale
-    count, "all but three bills today …", and now say "all but four bills".
-    This wasn't in what you agreed. Yes or no?
-  - **`db/115`**: three sources notes read "Parliament''s", with the
-    apostrophe doubled. They were fixed to "Parliament's" without being put to
-    you first. Yes or no?
-  - **The words file**: under `title_changed_at_stage` it lists seven stages.
-    The working database would accept all nine, Introduction and Royal
-    Assent included, though a title can't change at either. Leave it, or
-    narrow the working rule to match?
 - **Making the GitHub repository private**, which you expect to do. Nothing
   depends on it being public; the switch is yours, in GitHub's settings.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
