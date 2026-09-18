@@ -9,13 +9,13 @@ Updated: 2026-09-18
 sign in with a code by email; the privacy page says what is held. **Phase 2,
 the data published, is open**, for approved beta users only. **Its plan is
 reviewed and every question answered.** The published copy's headings are
-settled, the methodology notes are rewritten in them, and **every definition a
-reader will see is now written for a reader.** The copy itself is next. **The
+settled, and **the methodology notes, the definitions and the sources file's
+notes are all written for a reader.** The copy itself is next. **The
 charts are being worked out afresh, as mock-ups with real figures.** The arc is
 in `docs/PLAN.md`.
 
-The dataset. No bill, date or figure changed today; 29 of the definitions beside
-the allowed values were reworded, which is the only thing that moved:
+The dataset. No bill, date or figure changed today. What moved was wording: 29
+definitions, and 95 of the 192 provenance notes:
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
@@ -47,30 +47,34 @@ list are both empty.**
   `db/104`–`db/112` run, all pass; the published copy's headings settled and
   thirteen notes rewritten in them (`db/113`).
 
-**18 September, this session. The definitions, made fit to publish.**
+- **18 September, earlier.** `db/113` closed; 29 definitions rewritten for a
+  reader and agreed one at a time (`db/114`, closure test unrun).
 
-- **`db/113`'s closure test run and closed.** All seven checks pass, and you
-  signed off the M2 wording and the notes without markup.
-- **The definitions were worse than §7 said: 29 of 58, not nine.** Most were
-  accurate but written for whoever enters data. Two were wrong: the section 33
-  rulings misdated the Legal Continuity Bill, and the thesis dataset still said
-  2022 and "ground truth". Both came from correcting a fact in the notes without
-  searching the definitions, which is now a rule.
-- **You agreed all 29, one at a time**, and they are built as `db/114`:
-  rehearsed, applied, and read back word for word. The instructions moved into
-  the column descriptions. The closure test is written and unrun.
+**18 September, this session. The sources file's notes.**
+
+- **92 of the 192 notes named things a reader can't see**: staging columns,
+  stored codes like 'still_blocked', a working column name, a folder in the
+  repository. You agreed the rewording (`docs/PHASE-2-SOURCES-NOTES.md`).
+- **Three more were found while building**: the "Rewritten" notes showed every
+  apostrophe doubled, "Parliament''s". Fixed with the rest, without asking
+  first; it is a sign-off item.
+- **Built as `db/115`, with the promotion script changed to match**, since the
+  script writes most of these notes. Rehearsed by taking every session off and
+  putting it back with the new script: identical, cell by cell. Applied and read
+  back. The closure test is written and unrun.
 
 ## Now
 
 1. **Building the published copy itself.** The mapping from working column to
    published heading, the written procedure, the rehearsal, the undo, and the
    check cell by cell against the working database. Nothing visible comes out of
-   it. Headings, notes and definitions are done. **One thing to settle first**:
-   the notes on the sources file, which it publishes, use working names — "the
-   raw_ columns of bill_candidate", "It read 'blocked' and now reads
-   'not_enacted'". Found on 18 September and not opened, so as not to open a
-   second question before the first was built. Show the rows, then propose.
-2. **`db/114`'s closure test**, run by a session that did not build it.
+   it. Headings, notes, definitions and the sources file's notes are done.
+   **One thing to settle first**: `value_as_the_source_gave_it` often holds our
+   coded value (`stage_3`, `enacted`) rather than the source's words, which its
+   heading promises. Found on 18 September and not opened. Show the rows, then
+   propose.
+2. **The closure tests for `db/114` and `db/115`**, run by a session that
+   built neither.
 3. **The three small items**, block 2, alongside block 1, each with its full
    checklist first.
 4. **Iterating the mock-ups**, whenever you want: the open points are in
@@ -133,44 +137,34 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session of the definitions
+## Sanity check, 2026-09-18, the session of the sources notes
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
-  `STATE.md`; the decisions contents regenerated identical, and the dictionary
-  identical but for its date.
+  `STATE.md`; the decisions contents and the dictionary regenerated identical.
 - **The counts matched**: 470 bills, 1291 stage records, 192 provenance notes,
   14 notes; staging 474 and 1295; checker and gaps list empty.
 - **Every database sorted into a backup theme**: `postgres`, `accounts`,
-  `legdata`, as before. **The site answers 200.**
-- **Found in the course of the session, not by the check**: two definitions
-  factually wrong and 27 written for the wrong reader (now `db/114`), and two
-  column descriptions carrying a count that went stale when Session 6 loaded.
-  The check has no item that reads the definitions; the new rule — search the
-  definitions whenever a fact is corrected — is the fix, and the published
-  copy's build should check them again before anything is published.
-- **The server's `/tmp` leftovers are cleared**, the six from 16–17 September
-  and the eleven from `db/113`'s session.
-- **The SSH rate limit bit four times.** Space connections out; the dictionary
-  script alone makes four.
+  `legdata`. **The site answers 200.**
+- **The SSH rate limit bit once**, on the dictionary script after four quick
+  connections. Waiting 40 seconds cleared it.
 
-## Closing checks, 18 September, the session of the definitions
+## Closing checks, 18 September, the session of the sources notes
 
 - **Figures unchanged**: 470 bills, 1291 stage records, 192 provenance notes,
-  14 notes; checker and gaps list empty; only `public`; no working copy.
-  `db/114`'s own guards refuse it if anything but the 29 definitions and 22
-  column descriptions has moved.
-- **The 29 read back word for word** from the live database against the
-  generated text, and that text was checked against every *Proposed* passage in
-  `docs/PHASE-2-DEFINITIONS.md` before the rehearsal. 65 values before and after,
-  labels unchanged.
-- **The rehearsal was proved to roll back**: the thesis dataset's definition and
-  a column description read unchanged afterwards.
-- **The dictionary regenerates** with the 22 descriptions and its date changed,
-  and nothing else; committed.
-- **`db/114`'s closure test is written and unrun.**
-- **pdfplumber is in `venv/` at the repository root**, not `.venv`.
+  14 notes; checker and gaps list empty; only `public`; no working copy. The
+  rehearsal's copy schema went with its rollback, and the server's `/tmp`
+  files from it are removed.
+- **Every column but the note is unchanged**, by fingerprint before and after;
+  95 notes changed, read back by wording.
+- **The rehearsal**: `db/115`, then Sessions 7 to 1 taken off and 1 to 7 put
+  back with the new script, all in one transaction. The temporary tables were
+  dropped between runs so each script could run more than once.
+  `compare_with_copy.sql`: no unexpected differences. The live notes'
+  fingerprint read the same afterwards.
+- **The dictionary regenerates identical.**
+- **`db/115`'s closure test is written and unrun.**
 
 ## Thoughts 5 and 6: working detail, 17 September
 

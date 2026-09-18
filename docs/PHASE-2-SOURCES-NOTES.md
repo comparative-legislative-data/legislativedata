@@ -4,7 +4,8 @@
 own source, 192 of them, and each carries a `note`. The notes were written for
 whoever runs the database, and some name working columns and codes a reader of
 the published copy never sees. This is every note, grouped by its wording, with
-what is wrong with it and what is proposed. Nothing has been changed.
+what is wrong with it and what is proposed. **Agreed by the owner on 18
+September and built as `db/115`**, with the promotion script changed to match.
 
 **25 wordings over 192 lines.** 100 lines are fine as they stand, 77 of them
 empty. The other 92 fall into five groups, A to E.
@@ -102,6 +103,16 @@ itself, in `where_in_the_source`.
   Act number.
 - **Rewritten when Session 6 was reviewed**, the three that quote the old and
   new bill notes in full.
+
+---
+
+## Found while building
+
+The three "Rewritten when Session 6 was reviewed" notes, listed above as fine,
+showed every apostrophe doubled: "Parliament''s", in text a reader sees. The
+promotion script quoted the old and new bill notes in a way meant for the
+database rather than a reader. `db/115` fixes the three and the script, so it
+is 95 lines changed, not 92.
 
 ---
 

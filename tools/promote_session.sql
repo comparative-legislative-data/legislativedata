@@ -313,7 +313,9 @@ SELECT 'bill', p.candidate_id, 'short_title', 'manual',
        p.short_title, p.observed_at,
        -- Not the review note: bill 17's ends with an instruction to whoever
        -- wrote this script, which db/027 had to take out of a note once.
-       'Corrected at review. The factsheet''s wording is kept verbatim in bill_candidate.raw_title: ' || p.raw_title
+       -- The fact sheet's words go in the note itself, because the staging
+       -- column that keeps them is not published (db/115).
+       'Corrected at review. The fact sheet printed it as: ' || p.raw_title
   FROM promoting p
  WHERE p.review_note ILIKE '%short_title corrected at review%'
    AND NOT EXISTS (SELECT 1 FROM field_source f
@@ -454,11 +456,12 @@ INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at, note)
 SELECT 'bill', p.candidate_id, 'outcome', f.source, f.source_ref,
        NULL, f.observed_at,
-       'Our coding, not the factsheet''s: the legislation factsheet says the '
-       'bill fell and not why. Coded as having fallen at dissolution because it '
+       -- It names the published heading, not the working column (db/115).
+       'Our coding, not the fact sheet''s: the legislation fact sheet says the '
+       'bill fell, and not why. Coded as having fallen at dissolution because it '
        'concluded on ' || p.date_concluded || ', the day Session '
-       || p.session_number || ' ended. That day is session.date_session_end, '
-       'from the source cited here. See methodology note M7.'
+       || p.session_number || ' ended. That day is date_session_ended in the '
+       'sessions file, from the source cited here. See methodology note M7.'
   FROM promoting p
   JOIN field_source f ON f.entity = 'session' AND f.entity_id = p.session_number
                      AND f.field_name = 'date_session_end'
@@ -481,9 +484,10 @@ SELECT 'bill', p.candidate_id, 'outcome', f.source, f.source_ref,
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at, note)
 SELECT 'bill', p.candidate_id, m[1], m[3], m[4], m[2], m[5]::date,
-       'Checked at review against the source that owns this value. The '
-       'factsheet''s own printed words are kept in the raw_ columns of '
-       'bill_candidate.'
+       -- Not a pointer to the raw_ columns: they are not published (db/115).
+       'Checked at review against the source named on this line, which is '
+       'the one that settles this fact. Where the fact sheet printed it '
+       'differently, this line''s value is the one used.'
   FROM promoting p
   CROSS JOIN LATERAL regexp_matches(
         coalesce(p.review_note, ''),
@@ -527,6 +531,14 @@ DELETE FROM field_source f
  WHERE f.entity = 'bill' AND f.entity_id = ch.target_bill_id
    AND f.field_name = ch.field_name;
 
+CREATE TEMP TABLE continuing_labels ON COMMIT DROP AS
+SELECT 'enactment_status' AS field_name, code, label FROM ref_enactment_status
+UNION ALL SELECT 'assent_block_route',   code, label FROM ref_assent_block_route
+UNION ALL SELECT 'assent_block_outcome', code, label FROM ref_assent_block_outcome;
+
+-- The quotes around what it read are written out rather than made by
+-- quote_literal, which doubles an apostrophe for SQL and put "Parliament''s"
+-- in front of a reader (db/115).
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at, note)
 SELECT 'bill', ch.target_bill_id, ch.field_name,
@@ -552,22 +564,27 @@ SELECT 'bill', ch.target_bill_id, ch.field_name,
             THEN 'Rewritten when Session ' || c.session_number || ' was reviewed, '
                  || 'because that fact sheet lists this bill again and changed what '
                  || 'the note had to say. It read '
-                 || coalesce(quote_literal(ch.was), 'nothing') || ' and now reads '
-                 || quote_literal(ch.reads_now)
+                 || coalesce('''' || ch.was || '''', 'nothing') || ' and now reads '
+                 || '''' || ch.reads_now || ''''
                  || '. The facts it states carry their own entries here. The bill '
                  || 'belongs to Session ' || b.session_number
                  || ', the session it was introduced in. See methodology note M6.'
             ELSE 'Read off the Session ' || c.session_number || ' fact sheet, which lists '
                  || 'this bill again because it was still live when Session '
                  || b.session_number || ' ended. It read '
-                 || coalesce(quote_literal(ch.was), 'nothing') || ' and now reads '
-                 || quote_literal(ch.reads_now)
+                 || coalesce('''' || coalesce(lw.label, ch.was) || '''', 'nothing')
+                 || ' and now reads '
+                 || '''' || coalesce(ln.label, ch.reads_now) || ''''
                  || '. The bill belongs to Session ' || b.session_number
                  || ', the session it was introduced in. See methodology note M6.'
        END
   FROM continuing_changes ch
   JOIN continuing c ON c.candidate_id = ch.candidate_id
-  JOIN bill b ON b.bill_id = ch.target_bill_id;
+  JOIN bill b ON b.bill_id = ch.target_bill_id
+  -- A coded cell is quoted as the word a reader sees in it, not the stored
+  -- code: 'Still blocked', not 'still_blocked' (db/115).
+  LEFT JOIN continuing_labels lw ON lw.field_name = ch.field_name AND lw.code = ch.was
+  LEFT JOIN continuing_labels ln ON ln.field_name = ch.field_name AND ln.code = ch.reads_now;
 
 UPDATE stage_candidate t
    SET promoted_stage_event_id = e.stage_event_id,
@@ -582,9 +599,10 @@ UPDATE stage_candidate t
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at, note)
 SELECT 'stage_event', t.promoted_stage_event_id, m[1], m[3], m[4], m[2], m[5]::date,
-       'Checked at review against the source that owns this value. The '
-       'factsheet''s own printed words are kept in the raw_ columns of '
-       'bill_candidate.'
+       -- Not a pointer to the raw_ columns: they are not published (db/115).
+       'Checked at review against the source named on this line, which is '
+       'the one that settles this fact. Where the fact sheet printed it '
+       'differently, this line''s value is the one used.'
   FROM stage_candidate t
   JOIN promoting_all p ON p.candidate_id = t.candidate_id
   CROSS JOIN LATERAL regexp_matches(

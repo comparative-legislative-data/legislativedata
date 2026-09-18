@@ -30,6 +30,58 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The sources file's notes name what a reader sees
+
+Written 2026-09-18 by the session that built `db/115`. **Not yet run.**
+
+### Part A — mechanical
+
+1. **The notes are the agreed wording, word for word.** Groups A to E read as
+   the *Proposed* text in `docs/PHASE-2-SOURCES-NOTES.md`: 67 lines carry A's
+   wording; the 17 fell-at-dissolution lines carry B's with their own date and
+   session; the six coded lines in C read as the table's *Proposed* column; D's
+   one line and E's one line as given. *Where from:* the file the owner agreed
+   on 18 September.
+2. **The apostrophes.** The three "Rewritten when Session 6 was reviewed" notes
+   contain "Parliament's" and no pair of apostrophes anywhere; otherwise they
+   are the text `db/098` and `db/101` wrote. *Where from:* the note in that file
+   headed "Found while building", which the owner was told of and did not agree
+   in advance.
+3. **Nothing but the note moved.** 192 lines; every other column of every line
+   as it was before `db/115`, which is the fingerprint the migration's own
+   guard records, taken from the repository, not this database.
+4. **No note names what a reader cannot see**: none contains `raw_`,
+   `bill_candidate`, `session.date_session_end`, `sources/`, "factsheet" as one
+   word, a pair of apostrophes, or a stored code in single quotes.
+5. **The promotion script writes the same.** Read `tools/promote_session.sql`:
+   every note it writes is one of the wordings in item 1, and the coded cells
+   are quoted through their labels. Then rehearse, in a transaction that is
+   thrown away, taking every session off from 7 down to 1 and putting them back
+   from 1 to 7, and compare with a copy taken first
+   (`tools/take_copy.sql`, `tools/compare_with_copy.sql`,
+   `tools/strip_for_rehearsal.py`; the temporary tables have to be dropped
+   between runs). Expected: "No unexpected differences". Then confirm the live
+   database is as it was.
+6. **Nothing else moved.** 470 bills, 1291 stage records, 192 provenance notes,
+   14 notes; checker and gaps list empty; only `public`; the dictionary
+   regenerates identical but for its date.
+
+### What this does not check
+
+**Whether the wording is right.** The owner agreed it before it was built.
+
+**The column the notes sit beside.** `value_as_the_source_gave_it` often holds
+our coded value rather than the source's words. Recorded in
+`docs/PHASE-2-SOURCES-NOTES.md` and not opened.
+
+### Part B — the owner's sign-off
+
+1. **The doubled apostrophes were fixed without being put to you first.** Three
+   notes read "Parliament''s"; they now read "Parliament's", and the script no
+   longer makes the fault. The proposal had called those three fine.
+
+---
+
 ## A definition is written for a reader
 
 Written 2026-09-18 by the session that built `db/114`. **Not yet run.**
