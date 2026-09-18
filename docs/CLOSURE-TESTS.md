@@ -33,7 +33,7 @@ There is no universal test. Each ingest gets its own, newest first below.
 ## The days between stages are worked out in the published copy
 
 Written 2026-09-18 by the session that built it and retook the copy.
-**Not yet run.** Every part was agreed beforehand in
+**Run on 2026-09-18** by another session; see the run below. Every part was agreed beforehand in
 `docs/STRAND-1-DAYS-BETWEEN-STAGES.md`, with the owner's answers to its three
 questions: a `workings` file in the copy, the two descriptions as drafted, and
 the reader's program settled in strand 2. Nothing in the working database was
@@ -105,6 +105,50 @@ the old sum should go**: it stays until strand 3 replaces the averages, as
 agreed. **What the copy was before today**: `published` is not backed up, so
 the old copy, dropped after this session compared it cell by cell with the
 new one, cannot be restored; item 3 stands in for it.
+
+### The run, 2026-09-18, by a session that built none of it
+
+**Items 1 to 10 pass. Item 11 is the owner's, and waiting.**
+
+1. **Pass.** The file and the one SQL block in the agreed document are the
+   same, character for character: 1660 characters each.
+2. **Pass.** `live.workings` has one line, `days_between_stages`; its text
+   equals the file as psql reads it, with no final line ending.
+3. **Pass.** 1657 lines each side. Every stage name in the copy turned back
+   to a code; none left over. None of the old sum's lines missing from the
+   copy and none of the copy's missing from the old sum, on bill, both
+   points, both dates and days, counted line for line. 440 lines start at
+   Introduction and 402 end at Royal Assent, so both were in the comparison.
+4. **Pass.** Inside a thrown-away transaction, the kept text run with only
+   `live` in reach gave 1657 lines; in the order it gave them, each equals
+   the stored file's line in the same place, in the order the lines were
+   written, every heading compared. None differ.
+5. **Pass.** `tools/published_copy.sql` does not name
+   `v_bill_stage_durations`, and the list of what the connector brings in
+   does not include it.
+6. **Pass.** The dictionary, generated from the descriptions stored in the
+   copy, differs from its version at `10849d6` in exactly the three agreed
+   places (the file's description, `days`, and the new `workings` file with
+   its two headings), each word for word as the agreed document's questions 1
+   and 2 give them. The one other difference is the dictionary's own
+   sentence counting the files, nine to ten, which is not a stored
+   description.
+7. **Pass.** With `live` renamed aside, the build with `fault_days=on`
+   refused: "The check found 3 problem(s). Nothing has been kept." The first
+   named was "days_between_stages 1 Introduction to Stage 1: days 71, the
+   dates give 70", a day longer than its dates give; the other two were the
+   same line failing to match a rerun of the kept working. `live` was put
+   back and its counts read as item 8.
+8. **Pass.** `about`: 2026-09-18; bills 470, stages 1291,
+   days_between_stages 1657, sessions 7, methodology_notes 14, sources 192,
+   what_the_words_mean 89, what_changed 0, workings 1, about 10.
+9. **Pass.** `published` has `from_working` (no tables), `live` and
+   `public`; no `before_item_2`, and no area left by this test. Four
+   databases. The server's `/tmp` holds nothing of this work, `._` files
+   included. The login `legdata`, taken on inside a thrown-away transaction,
+   read `live.workings`'s one line.
+10. **Pass.** 470, 1291, 192, 14; checker and gaps list empty. The
+    dictionary regenerates identical and lists ten published files.
 
 ---
 
