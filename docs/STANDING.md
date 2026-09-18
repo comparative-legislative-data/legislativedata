@@ -137,6 +137,12 @@ in `docs/PHASE-2.md`, and stay here until decided.
   Never: a password, or any record of what a signed-in researcher looked at.
   Settled 2026-09-15.
 
+- **The download is the complete route to the data; the site need not be.**
+  A reader who needs the data some other way than the page gives it takes the
+  download and does what they want with it. So the pages are not engineered
+  for every case: no fallback built for readers without JavaScript, no
+  printing of everything. The owner, 18 September 2026, on the table.
+
 - **Every page showing data carries the date of the data it was built from.**
   Settled 2026-09-15. Maximum transparency, and it is also what makes a stale
   published copy visible to everyone including us.

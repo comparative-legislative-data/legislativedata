@@ -226,12 +226,16 @@ check and closure tests change with the build:
   link, and run again, by another session, with item 4's.
 - The rest stands: every line still read from the copy, the same words.
 
-**Proposed, for the owner:**
+**Put to the owner, and settled the same evening:**
 - **Printing prints the tab that is open**, and an open bill prints on its
   own. This replaces "printing the Data page opens every section", agreed
   for items 2 and 3, which with the table would print hundreds of pages.
-- **Without JavaScript** every tab shows, one after another, as the sections
-  do today, and a bill opens beneath its line, as in the first mock-up. The
-  site sends each bill's detail in the page; the pop-up is the same detail,
-  lifted out. No page for each bill is made.
+  **Yes.**
+- **Without JavaScript**: proposed that every tab show one after another
+  and a bill open beneath its line. **Not taken.** The owner: readers have
+  the download and can do what they want with it, so the site need not be
+  made to work every way. Without JavaScript a reader gets what falls out
+  of building it plainly (the tabs' contents one after another, since the
+  page hides them only once JavaScript runs) and no bill opens; nothing is
+  built for it.
 

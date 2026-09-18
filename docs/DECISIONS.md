@@ -251,6 +251,11 @@ something an entry does not. Newest first, as the file is.
 **Why:** with the reference sections and 470 bills, each opening beneath
 its line, the page was going to overwhelm.
 
+**Settled the same evening:** printing prints the tab that is open, and an
+open bill prints on its own (replacing "printing the Data page opens every
+section"). Nothing is built for readers without JavaScript: the owner's
+position is that readers have the download (`STANDING.md`).
+
 **What it reopens:** items 2 and 3, closed the same day. Their reference
 sections become tabs and the date statement changes, so their check and
 closure tests are amended and run again with item 4's, by another session.

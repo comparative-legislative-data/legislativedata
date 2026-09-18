@@ -75,9 +75,8 @@ list are both empty.**
    (`docs/STRAND-2-THE-TABLE.md`), with a fifth reference section, "What
    each heading holds". Its second mock-up is agreed
    (https://claude.ai/artifact/TtKMN9rdGhtjxzXgbZP845): the page in tabs, a
-   bill in a pop-up, the download to go at the top. Two proposals wait for
-   you (`docs/STRAND-2-THE-TABLE.md`, "After the mock-up": printing, and
-   without JavaScript). Then the build, its check and its undo, which
+   bill in a pop-up, the download to go at the top. Printing prints the open tab; nothing is
+   built for readers without JavaScript. Next: the build, its check and its undo, which
    reopens items 2 and 3: their tests are amended and run again with item
    4's.
 
