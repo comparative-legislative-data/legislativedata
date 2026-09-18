@@ -413,7 +413,10 @@ You can open it in Postico, on the `live` area, and the old one on
 `previous`. **The website reads the copy from 18 September**, and only what is
 live: it cannot see `previous`, cannot change a cell, and still cannot open the
 bills workbook at all. When a copy is refreshed, the site sees the new one on
-the next page anyone opens. No page shows any of it yet.
+the next page anyone opens. **From 18 September the Data page shows part of
+it** to a signed-in reader: the methodology notes, the sources and their terms,
+what the words mean, and what has changed, each read from the copy as the page
+is opened. Every page's footer carries the copy's date.
 
 ## 7. Words you will meet in Postico
 

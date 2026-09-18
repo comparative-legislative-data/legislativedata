@@ -7,8 +7,9 @@ Updated: 2026-09-18
 **Phase 0, the dataset, and Phase 1, the site, are both closed.** At
 `legislativedata.org` someone can apply, you approve or refuse them, and they
 sign in with a code by email. **Phase 2, putting the data on the site, is
-open**, for approved beta users only. **The site reads the published copy**,
-tested and closed, but no page shows it yet.
+open**, for approved beta users only. **The site now has its Data and Insights
+pages**, signed in only: the Data page shows the methodology notes, sources and
+terms, what the words mean, and what has changed. No table of bills yet.
 
 **Phase 2's build plan is agreed** (`docs/PHASE-2.md`, "The build plan"), in
 three strands, one after another, then the closing test.
@@ -16,7 +17,7 @@ three strands, one after another, then the closing test.
 | Strand | What it delivers | Where it is |
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
-| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: item 1 **closed**; items 2 and 3 agreed, to be built together |
+| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: item 1 **closed**; items 2 and 3 **live**, closure tests written, not run |
 | 3. The charts | the six thoughts on the Insights page | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
@@ -47,33 +48,35 @@ list are both empty.**
 - **18 September, day.** Strand 1 built, item by item, and each item's test run.
 - **18 September, evening.** Strand 1 closed; the site given read access to
   the copy and deployed; old site releases cleared, nineteen to three.
+- **18 September, late.** Strand 2, item 1 closed; the site became two pages;
+  items 2 and 3 agreed.
 
-**18 September, late, this session. Strand 2's first item closed; the site
-becomes two pages; items 2 and 3 agreed. Nothing built.**
+**18 September, night, this session. Items 2 and 3 built and live.**
 
-- **Its closure test run, all nine checks passed**, by a session that built
-  none of it. The site's login reads the live copy and nothing else. Every
-  refusal was tried by hand as well as through the script. A thrown-away
-  refresh and undo left the copies exactly as they were.
-- **The site has two pages, Data and Insights**, your decision: the
-  reference material becomes folded sections of the Data page.
-- **Items 2 and 3 agreed**: the parts both pages share, and the Data page's
-  four reference sections, to be built and put live together.
-- **Only you and I open the server's housekeeping database** now, at your
-  word; the site's login and the connector's are refused. Rehearsed first,
-  each login tried for real afterwards, the site healthy, and its own check
-  still passing.
+- **The Data and Insights pages are on the site**, behind the sign-in, with
+  the date, the date statement, the credit lines, the new footer on every
+  page, and the Data page's four folded reference sections, all read from
+  the copy.
+- **A 68-point check** compares every line with the copy and the agreed
+  wording; all pass on the live site, and it fails where it should when a
+  word is changed on purpose. The privacy check passes. The undo was
+  rehearsed.
+- **You read the pages** and agreed the six small choices the build made.
+- **Two deploys were started too soon** and refused at their last check; the
+  site was right both times, and the runbook now says to wait.
 - No bill, date or figure changed.
 
 ## Now
 
 **Strand 2, the data on the site** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Build items 2 and 3 together**, as agreed in
-   `docs/STRAND-2-SHARED-PAGE-PARTS.md` and
-   `docs/STRAND-2-REFERENCE-SECTIONS.md`: the Data and Insights pages, the
-   parts they share, and the Data page's four reference sections. Write the
-   test and undo first, rehearse, deploy, and write both closure tests.
+1. **Run the closure tests for items 2 and 3** (`docs/CLOSURE-TESTS.md`,
+   the two newest), as a session that built none of it. Their sign-off
+   items are yours: the links opening their sections, dark, light, print,
+   and Back after signing out.
+2. **Item 4: the table of every bill's write-up**, to you before anything is
+   drawn: which columns, how a reader narrows it, and how a reader gets from
+   a bill to its provenance notes.
 
 ## Waiting for you
 
@@ -125,19 +128,30 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session that closed strand 2, item 1
+## Sanity check, 2026-09-18, the session that built items 2 and 3
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the decisions contents and the dictionary
   regenerated identical; counts 470, 1291, 192, 14; checker and gaps list
   empty; four databases, all sorted; the site 200; the backup timer next due
-  02:44 UTC. Both "Now" items traced to strand 2, items 1 and 2. Nothing
-  found. The server refused connections several times while the firewall's
-  limit was reached; retrying after ten seconds gets through.
-- **At the close**: counts, checker, gaps list, databases, the published
-  copy's schemas, the server's `/tmp` and the site's health checked again;
-  dictionary and decisions contents regenerated identical; clean and pushed.
+  02:44 UTC. The "Now" item traced to strand 2, items 2 and 3. Nothing found.
+- **At the close**: counts 470, 1291, 192, 14; checker and gaps list empty;
+  four databases; the copy's areas `from_working`, `live`, `previous`,
+  `public`; the site healthy on `2026-09-18T20-54-13Z`, three releases,
+  nothing left in the server's `/tmp`; dictionary and decisions contents
+  regenerated identical; clean and pushed.
+
+## Items 2 and 3: working detail, 18 September
+
+- Everything is in `docs/STRAND-2-ITEMS-2-AND-3-BUILD.md`: the test, the
+  undo, the six choices, and what happened.
+- **The undo is two rollbacks now**: the releases kept are `17-39-56Z`
+  (before the build), `20-53-18Z` and `20-54-13Z` (both this build). The next
+  deploy clears the first.
+- `tools/check_data_pages.py` runs on the server as `legsite` in the live
+  release's environment; send it with `PUBLISHING.md` in one tar over one
+  connection, as the build document shows.
 
 ## The site reads the copy: working detail, 18 September
 

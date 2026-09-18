@@ -58,6 +58,12 @@ From the top of the repository:
 
     tools/deploy_site.sh
 
+**Wait half a minute after any other connection to the machine first**, a
+rollback included. The firewall refuses a sixth connection inside 30 seconds
+and a deploy opens five; started too soon, it switches and is then refused at
+step 5, leaving the new site live and unchecked. If that happens, wait, then
+run step 5's lines by hand. It happened twice on 18 September 2026.
+
 It does six things, and prints what it found at each. **Read step 3 before you
 read anything else** — that is the rehearsal, and if it fails, nothing has been
 switched and the live site is untouched.

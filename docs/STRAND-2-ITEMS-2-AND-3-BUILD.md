@@ -10,8 +10,8 @@ every page gains the footer.
 
 ## Small choices the agreed documents did not make
 
-Made while building, each the narrowest reading of what was agreed. Put to the
-owner at the end, not assumed settled.
+Made while building, each the narrowest reading of what was agreed. **All six
+agreed by the owner on 18 September 2026**, after reading the deployed pages.
 
 1. **The order of the credit lines and the Terms of use blocks.** The copy's
    `terms` file has no column saying its order. The pages put each set of
