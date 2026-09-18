@@ -8,8 +8,9 @@ turned out not to work.
 **This file is destroyed when the phase closes**, by the sweep `PLAN.md`
 describes, run by a session that did none of the phase's work.
 
-**It is for whoever runs the session, not for the owner.** The owner orients
-from `STATE.md`. Nothing here is a progress report.
+**It is for whoever runs the session, not for the owner**, except for its last
+section but one, the build plan, which is written for the owner. The owner
+orients from `STATE.md`. Nothing here is a progress report.
 
 ---
 
@@ -80,8 +81,12 @@ calculations: yes.
    next (`docs/PHASE-2-CHARTS-THOUGHTS.md`), and the write-up follows each.
 4. **The public wording, in full**: the licence and source statements, the
    readme's no-archive paragraph, the date statement, and the privacy page's
-   line about the format-request link.
-5. **Then the build is planned**, in the final version of this file.
+   line about the format-request link. **Not done; now in the build plan**, as
+   strand 1 item 4 and strand 2 item 4.
+5. **Then the build is planned**, in the final version of this file. **Not
+   done when it should have been**, on 17 September; the charts' own order was
+   followed instead. **Drafted 18 September**: "The build plan", below, for
+   checking by another session and then the owner.
 
 **Found in looking at the whole, for the build:** the calculations already built
 are database views defined across several migrations (`db/060`, `db/102`),
@@ -793,12 +798,240 @@ owner in full:
 
 ---
 
-## Then: building
+## The build plan
 
-**Not planned yet, on purpose.** The final version of this file, written after
-the groundwork closes, plans the build. The obvious shape — the published copy
-and its refresh step, then downloads, then tables and charts — is a guess until
-the groundwork has settled what each is.
+**Draft, 18 September 2026. Not agreed.** Written for the owner, unlike the
+rest of this file. Next it is checked by a session that did not write it,
+against every Phase 2 paper, and then it goes to the owner. Nothing is built
+until the owner has agreed it.
+
+**Why it is being written now.** This section should have been written when
+the groundwork closed on 17 September. It wasn't. The charts' build order
+(`PHASE-2-CHARTS-BUILD.md`) was followed as if it were the whole plan. That
+order covers only the charts, and the download has no place in it. This
+section replaces that order. Everything already agreed in it is kept, apart
+from the two changes named under "What this changes".
+
+**The destination.** `PLAN.md`: a researcher who is not us can download the
+dataset and read a chart, and in both cases find out where the numbers came
+from and what was decided in handling them. There is a refresh that keeps both
+up to date with its undo, and the closing test has been run.
+
+### Three strands, one after another
+
+1. **Ready to publish.** The copy the site will read, a refresh that retakes it
+   safely, and everything a reader sees on every page, agreed.
+2. **The data on the site, downloadable.** The site reads the copy. There is a
+   Data section with the table of every bill, and the zip to download.
+3. **The charts.** The six thoughts on the Insights section, each with its
+   figures, its bills and its working.
+
+Then **the closing test**, and the phase closes.
+
+**A strand is finished only when every item in it is built, checked, and has
+had its closure test run by another session.** The next strand does not open
+until then. A session's work comes from the strand that is open, and nowhere
+else.
+
+**The refresh grows with the strands.** It is built in strand 1 for the copy.
+Strand 2 adds the zip to it, and strand 3 adds each chart's figures. Each
+extension is rehearsed with its undo before it is used. Strand 1 builds the
+refresh in full for what exists at that point. It doesn't build it for things
+that don't exist yet.
+
+### Already done, and where it fits
+
+- **The copy exists** (strand 1). It is nine files in its own workbook, which
+  nothing on the site reads yet. It was built, checked cell by cell, and
+  retaken for `db/118` (`PUBLISHED-COPY-RUNBOOK.md`).
+- **Every word inside it is written for a reader** (strand 1): the notes'
+  headings (`db/113`), the definitions (`db/114`), the sources file (`db/115`,
+  `db/116`), "factsheet" (`db/117`), and "In progress" last (`db/118`). Closure
+  tests have been run for all of them.
+- **The three small items before the first chart** (strand 3's
+  groundwork): the outcome tie (`db/118`), the quarter rule (tested today,
+  passed), and M10's cut (inside `db/113`).
+- **Session 7's expected last day** (`db/104`, M14), which thought 5 needs.
+- **The six mock-ups** (strand 3) with real figures. Only thought 2 is
+  accepted, and only as a starting point. The others are marked "not agreed".
+- **Apache ECharts chosen** (strand 3). Not yet on the machine.
+
+### Strand 1 — ready to publish
+
+1. **Finish the copy's closure test.** Item 12 reads the first nightly backup
+   log after the copy existed, from 19 September. Item 10 is the owner's look
+   in Postico. Both are short.
+2. **The record of each source's terms.** Settled 17 September: no source's
+   data is published until its licence, credit line, restrictions and a link
+   are written down, and the download and the sources page are built from that
+   record. How it is held is new and goes to the owner first, as an addition.
+   There are two kinds of source today: the Parliament's, and our own work
+   under CC BY 4.0.
+3. **Kept copies of every page the provenance cites.** Settled 17 September;
+   found then not to be true. About 70 pages have no copy: 30 Official Report
+   pages, 29 on legislation.gov.uk and 11 bill pages. The factsheets, the
+   Supreme Court judgment, three legislation pages and two procedure pages are
+   kept already. Where an address has gone, the page names the kept copy. Every
+   cited address is checked at each refresh, which becomes part of item 5.
+   Sized and put to the owner before it starts.
+4. **The wording every page carries, in full, to the owner.** The licence
+   statement and each source's statement, taken from item 2's record. The
+   sentence that we are not responsible for what people do with the data. The
+   sentence that the site is not the Parliament's. The date statement: accurate
+   as at its date, may since have been corrected, no earlier version kept.
+   Nothing here is about the download; that wording is in strand 2.
+5. **The refresh, for the copy.** Build the new copy beside the live one.
+   Check it cell by cell against the working data. Only if every check passes,
+   keep the old copy as `previous` and put the new one live. Otherwise readers
+   keep the old copy untouched. Fill "what changed": a changed value cell by
+   cell, with its old and new value; additions as a count. Report the size of
+   the list and of the kept copy. Also check every cited address (item 3). It
+   is run by a session, at the owner's word, never automatically. It is one
+   script with no step done by hand, it becomes a step in
+   `PROMOTION-RUNBOOK.md`, and it is rehearsed with its undo (putting
+   `previous` back) before first use.
+6. **Strand 1's closure test**, written by the session that finishes it and
+   run by another.
+
+**Finished when** the copy can be retaken whenever needed, and put back after
+a bad refresh, both proved; every source has its terms on record and every
+cited page has a kept copy; and every sentence of item 4 is agreed.
+
+### Strand 2 — the data on the site, downloadable
+
+1. **The site reads the copy.** The site's login can read `published` and do
+   nothing else. It cannot use the connector to the working data. A check
+   proves both, as the site's inability to open the working data was proved.
+   This is a deploy, with the deploy runbook's rehearsal and written undo.
+2. **The page parts every data page shares, built once.** The Data and
+   Insights links in the header. Everything behind the sign-in, tested signed
+   out (nothing shown) as well as signed in. The date inside the page's frame.
+   The sources credited from strand 1's record. The notes a page rests on.
+   Dark and light. Built under the table of every bill, not under the first
+   chart; see "What this changes".
+3. **The table of every bill: its write-up, then the page.** Settled: it gets
+   its own write-up to the owner before it is drawn, because it is a lot of
+   data. It covers what columns it shows, how a reader narrows it down, and how
+   a reader gets from a bill to its provenance notes. It is built to take a
+   filter from a chart later, because every chart's "show me the bills" arrives
+   here. The house style is tested on it (settled 17 September).
+4. **The zip.** Its contents, all settled 17 September: a plain-text readme,
+   the three data files as CSV, a codebook generated from the copy's own
+   descriptions, the methodology notes, the provenance notes, the calculations
+   as text, what changed, a suggested citation, and the licence and source
+   statements. The date is in its name. Nothing in its address or files names
+   who took it, and the privacy check runs after it is served. The download
+   page has a link for asking for another format, which opens the reader's own
+   email, and the privacy page gains a line saying so. **To the owner in
+   full:** the readme (row counts, dates as year-month-day, the Comparative
+   Agendas Project sentence, the no-archive paragraph), the citation, and the
+   privacy line.
+5. **The refresh builds the zip**, from the new copy, before it goes live.
+   Rehearsed again with its undo. **The one calculation already published**,
+   the days between stages, is spread across two changes to the database
+   (`db/060`, `db/102`). It becomes the single file the refresh runs and the
+   zip carries as text, as settled in groundwork 4, question 2, not a second
+   copy written beside the original. That file's pattern is the one strand 3's
+   calculations follow.
+6. **Strand 2's closure test**, run by another session. It includes the
+   owner's alternative account signing in, browsing the table and opening
+   the zip.
+
+**Finished when** a beta user can sign in, go through the bills and download
+the lot, and a signed-out visitor sees none of it.
+
+### Strand 3 — the charts
+
+**Before any chart is built, its write-up is agreed.** It is the mock-up
+iterated with the owner until agreed. It says the question the chart answers,
+which bills it counts, the choices a reader gets, the calculation, the notes it
+rests on, and what it cannot say. The open points on each are in
+`PHASE-2-CHARTS-THOUGHTS.md`. Five of the six are "not agreed" today, and
+thought 2 has open points of its own.
+
+**Built once, with the first chart:**
+- **The palette check**: colour-blindness, dark and light, run once and
+  recorded, so later charts don't reopen it.
+- **ECharts on the machine**, pinned, served like the fonts. It is a deploy,
+  with its undo.
+- **One file per calculation.** The refresh runs it and stores the figures in
+  the copy. The page shows that file's text. A check at each refresh proves
+  the two identical.
+- **The route from a figure to its bills**: the table from strand 2, filtered.
+- **A CSV beneath each chart**, holding its numbers, sources, date and the
+  page's address.
+
+**The order, as agreed on 17 September:** thought 2 (outcomes chart), then
+thought 3 (outcomes table), thought 1 (headline figures), thought 4 (how long
+bills take, which needs the averages rewritten), thought 6 (quickest and
+slowest), and thought 5 (the quarters) last. For each: the write-up agreed,
+the calculation, the refresh extended to work it out, the page, and a closure
+test run by another session.
+
+**Finished when** all six are live, each with its figures, bills, notes,
+sources, date and calculation.
+
+### The closing test
+
+It is written by the session that finishes strand 3 and run by a session that
+built none of the phase. The owner checks the researcher's view from an
+alternative account, signed in and signed out. Every published figure is
+re-run from the calculation a reader downloads and compared with the number on
+the page. That session then sweeps the phase's papers and deletes this file.
+The owner signs off.
+
+### What this changes
+
+Both need the owner's agreement, and go in `DECISIONS.md` if agreed.
+
+1. **The table of every bill and the download come before the first chart.**
+   On 17 September the first chart was to lead, with the shared page parts
+   built under it and the table straight after. Now the table leads, and the
+   shared parts are built under it. The reason: it is the simpler page on
+   which to get them right, and it is the arrival point every chart's "show me
+   the bills" needs.
+2. **The download has a place in the order.** It had none.
+
+### For the owner to settle when reviewing this
+
+1. **Whether strand 3's write-ups wait for strand 3.** Proposed: yes. No
+   session proposes chart work while strands 1 and 2 are open. The owner can
+   still iterate a mock-up whenever they choose. Agreeing the write-ups early
+   is the kind of work that has been crossing the boundaries.
+2. **Whether kept copies of the 70 pages (strand 1, item 3) are a
+   precondition for strand 2.** Proposed: yes. Strand 2's table is the first
+   place a reader reaches a provenance note, and the promise that a cited page
+   survives is settled.
+3. **The chart numbering.** `PHASE-2-CALCULATIONS.md` numbers the charts 1 to
+   5, from before the thoughts; everything since uses the thoughts' 1 to 6.
+   Proposed: the thoughts' numbers everywhere, with one line in the
+   calculations file mapping the old ones.
+
+### Size, roughly
+
+Counted in normal sessions, each closure test included.
+
+- **Strand 1:** four to six. The refresh is two (writing and rehearsing, then
+  the real thing). The kept pages are one or two. The source terms and the
+  wording are one to two, most of it the owner's reading.
+- **Strand 2:** five to seven. Reading the copy and the shared parts, one or
+  two. The table's write-up and page, two. The zip and its readme, two.
+- **Strand 3:** eight to twelve. It is the six charts, with the first carrying
+  the shared parts, and each write-up's iteration depends on the owner.
+- **The closing test:** one or two.
+
+About twenty sessions in all.
+
+### How a session stays on the plan
+
+- **`STATE.md`'s top shows the three strands**: which is open, what is done
+  in it and what is next. "Now" lists only items from the open strand, each
+  named by its number here.
+- **The opening check gains one question**: does every item in "Now" trace to
+  an item in this section? If not, it is raised before any work starts.
+  Proposed as a line in `CLAUDE.md`'s sanity check.
+- **Something new that turns up** is placed in a strand here first, with the
+  owner's agreement, and only then worked on.
 
 Anything built gets the working rules: a written procedure, a rehearsal and an
 undo for the published copy's refresh and for every deploy, checks run on the

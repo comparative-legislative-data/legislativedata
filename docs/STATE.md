@@ -12,8 +12,9 @@ reviewed and every question answered.** The published copy's headings are
 settled, and **the methodology notes, the definitions and the whole of the
 sources file are written for a reader.** **The first published copy is taken
 and checked**, in a workbook of its own that nothing on the site reads yet.
-**The charts are being worked out afresh, as mock-ups with real figures.** The arc is
-in `docs/PLAN.md`.
+The charts exist as mock-ups with real figures. **The build plan, from here
+to publication, is drafted and waiting to be checked and agreed**; nothing is
+built until it is. The arc is in `docs/PLAN.md`.
 
 The dataset. No bill, date or figure changed today. What moved was wording: 29
 definitions, and on the 192 provenance lines, 126 notes and 122 of the
@@ -40,45 +41,43 @@ list are both empty.**
 - **16 September.** The site live with accounts, and Phase 1 closed. Phase 2
   opened, its plan drafted, checked, and redrafted from three pieces of outside
   research.
-- **16–17 September.** You reviewed the Phase 2 plan question by question and
-  answered all but one, which was settled on 17 September.
+- **16–17 September.** You reviewed the Phase 2 plan question by question.
+- **17 September.** Notes settled; the six thoughts mocked up
+  (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9); a build order written
+  for the charts only, and wrongly followed as the phase's plan.
+- **18 September, earlier.** The published copy taken, checked and closure-
+  tested; the notes, definitions and sources rewritten for a reader
+  (`db/113`–`db/118`); the quarter rule settled.
 
-- **17 September.** Every open question against the notes answered; the six
-  thoughts mocked up (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9) and the
-  build plan agreed in `docs/PHASE-2-CHARTS-BUILD.md`; closure tests for
-  `db/104`–`db/112` run, all pass; the published copy's headings settled and
-  thirteen notes rewritten in them (`db/113`).
+**18 September, this session. The build plan drafted.**
 
-- **18 September, earlier.** `db/113` closed; 29 definitions rewritten for a
-  reader (`db/114`); the sources file rewritten (`db/115`, `db/116`); the
-  published copy taken, checked and signed off; "factsheet" one word
-  (`db/117`); closure tests for all of those run by another session, all
-  passing but the copy's item 12. "In progress" moved last (`db/118`) and the
-  copy retaken.
-
-**18 September, this session. Block 2 finished.**
-
-- **`db/118`'s closure test run**: all pass. Four stray Mac files the last
-  session left on the server were found and, at your word, removed. Item 10,
-  your look in Postico, is still yours.
-- **The quarter boundary rule settled** (`docs/BLOCK-2-QUARTER-BOUNDARY.md`):
-  a quarter begins at the first whole day inside it (option A). No bill moves
-  and nothing in the database changed; the rule and its sentence for readers
-  are written where thought 5 will read them. Its closure test is written and
-  unrun.
+- **The quarter rule's closure test run**: all four items pass.
+- **The gap you found is real.** The phase plan's last step, planning the
+  build, was never done; the charts' own order stood in for it, and the
+  download had no place in any order. That should have been caught by me, at
+  the latest at this morning's opening check.
+- **The build plan is drafted** in `docs/PHASE-2.md`, "The build plan": your
+  three strands (ready to publish; the data on the site, downloadable; the
+  charts), then the closing test. What each holds, what is done, what finishes
+  each, what changes from 17 September, three questions for you, and a size:
+  about twenty sessions. **Not agreed; nothing is built until it is.**
 
 ## Now
 
-1. **The copy's item 12**, from 19 September: read the first nightly
-   backup's log and search the copy it makes. A few minutes.
-2. **Your look in Postico**, `db/118`'s item 10: the eight `outcome` lines
-   in `what_the_words_mean`, "In progress" last.
-3. **The quarter rule's closure test**, run by a session that did not write
-   it. Short.
-4. **Then block 3, the refresh**: replacing a live copy, keeping the old one,
-   and filling `what_changed`, written down and rehearsed with its undo.
-5. **Iterating the mock-ups**, whenever you want: the open points are in
-   `docs/PHASE-2-CHARTS-THOUGHTS.md`.
+**Nothing is built until the build plan is agreed.**
+
+1. **Next session: check the build plan**, as a session that did not write
+   it. Against every Phase 2 paper and `DECISIONS.md` from 16 September on:
+   is every settled item in a strand; is anything placed wrongly or in the
+   wrong order; is any "finished when" untestable; is the size honest.
+   Findings numbered in `docs/BUILD-PLAN-CHECK.md`, each with a proposal. It
+   changes nothing in the plan itself.
+2. **Then your review** of the plan with the check beside it, and the three
+   questions it puts to you. When agreed: `DECISIONS.md`, a line in
+   `PLAN.md`, this page rebuilt around the strands, and the opening check's
+   new question in `CLAUDE.md`.
+3. **Then strand 1.** Its item 1 needs nothing but time: the copy's item 12
+   from 19 September, and your look in Postico (`db/118`'s item 10).
 
 ## Waiting for you
 
@@ -137,26 +136,24 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session of the quarter rule
+## Sanity check, 2026-09-18, the session of the build plan
 
 Run before the first reply.
 
-- **Clean and pushed at the start**; the last commit's handover matched
-  `STATE.md`; the decisions contents and the dictionary regenerated identical.
-- **The counts matched**: 470, 1291, 192, 14; staging 474 and 1295; checker
-  and gaps list empty; only `public`.
-- **Every database sorted**: `accounts`, `legdata`, `postgres`, `published`.
-  **The site answers 200.**
+- **Clean and pushed at the start**; the decisions contents and the dictionary
+  regenerated identical; counts 470, 1291, 192, 14; staging 474 and 1295;
+  checker and gaps list empty; only `public`; four databases, all sorted; the
+  site answers 200; no `._` files in the server's `/tmp`.
+- **Missed, and found by the owner instead**: "Now" did not trace to the
+  phase plan. The plan's step "then the build is planned" had never been done.
+  The check now proposes a question for exactly that (`PHASE-2.md`, "How a
+  session stays on the plan").
 
-## Closing checks, 18 September, the session of the quarter rule
+## Closing checks, 18 September, the session of the build plan
 
-- **No working data changed.** The scratch workbook `ct118_before` was made
-  and dropped within the session; four databases. The undo was tried only
-  inside a thrown-away transaction, and the live list reads 8 afterwards.
-- **Figures unchanged**: 470, 1291, 192, 14; checker and gaps list empty.
-  The dictionary regenerates identical.
-- **`/tmp` on the server** holds nothing from this session, and no `._`
-  files at all.
+- **No data touched.** Only reads on the server; the scratch query files sent
+  to `/tmp` were removed.
+- **The quarter rule's closure test** recorded as run, all pass.
 
 ## The quarter rule: working detail, 18 September
 
