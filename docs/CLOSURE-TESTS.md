@@ -30,6 +30,125 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Strand 1, ready to publish
+
+Written 2026-09-18 by the session that finished the strand's last open piece
+(the owner's look in Postico, `db/118`'s item 10). **Not yet run.** It is run
+by another session, not before the nightly backup of 19 September has
+finished. It is the `legdata-backup.timer` job, next due at 02:43 UTC (03:43
+here); `systemctl list-timers` shows when it last ran.
+
+**What this test is.** Each item of strand 1 already has its own closure test,
+and those are not run again (rule 6). This test asks two things: that every
+item has a recorded run that passed, and that the five points under "Finished
+when" in `docs/PHASE-2.md`, strand 1, hold together today, on the copy as it
+now is. It also carries the one check left over from the published copy's
+test, item 12, the nightly backup, so that no session reads a log it then
+marks.
+
+Write every query fresh. Do not read any tool's own check as an answer.
+
+### Part A — mechanical
+
+1. **Every item's test has a run that passed.** In this file, each of these
+   has a run section whose every item passed, was signed off, or failed and
+   was put right with the putting right recorded: "The days
+   between stages are worked out in the published copy" (item 2); "Each
+   source's terms are recorded, and the copy carries them" (item 3); "Every
+   page the provenance cites has a copy kept" (item 4); "The refresh, for the
+   copy" (item 6); "'In progress' comes last" (item 1's half, with item 10
+   signed off); and "The published copy, block 1", whose item 12 this test's
+   item 2 completes. *Where from:* the strand's list of items in
+   `docs/PHASE-2.md`.
+2. **The nightly backup leaves the copy out.** On the server, the output of
+   the first nightly run on 19 September
+   (`journalctl -u legdata-backup.service`) has the lines
+   "legdata-backup: published is not backed up, on purpose." and the same for
+   `postgres`, no line saying a database "is not sorted into a theme", and
+   the run finished without an error. Then search **every** copy in the offsite store, not only the newest: none
+   holds a dump of `published`, or of anything named `_themes_check`,
+   `_rehearsal` or `_scratch`. *Where from:* the published copy's test, item
+   12, and `NOT_BACKED_UP` in `deploy/legdata-backup`. When it passes, record
+   it also in that test's run, item 12.
+3. **The copy is the one the tests passed.** `published.live.about` lists
+   twelve files in the order bills, stages, days_between_stages, sessions,
+   methodology_notes, sources, what_the_words_mean, what_changed, workings,
+   terms, cited_pages, about, with counts 470, 1291, 1657, 7, 14, 192, 89, 0,
+   1, 4, 106, 12, and the date 2026-09-18. `previous` exists. *Where from:*
+   the refresh test's item 1. If a refresh has been run since 18 September,
+   this item moves: say so, and check items 4 to 6 on the copy as it is.
+4. **The days between stages are worked out in the copy** (finished-when 1).
+   `live.workings` has one line, the days between stages, and its text is
+   `workings/days_between_stages.sql` at this commit, but for the final line
+   ending. Run that text yourself against `live.bills` and `live.stages` into
+   a thrown-away table: it gives exactly the 1657 lines of
+   `live.days_between_stages`, compared both ways, every cell. And
+   `tools/published_copy.sql` reads nothing from `v_bill_stage_durations`,
+   `v_stage_duration_summary` or `v_bill_total_duration`. *Where from:*
+   DECISIONS.md, 2026-09-18, "The days between stages are worked out in the
+   copy".
+5. **The four sources' terms are in the copy** (finished-when 3).
+   `live.terms` has four lines: the Scottish Parliament, legislation.gov.uk,
+   the Supreme Court and legislativedata.org; for each, the licence, its link,
+   the credit line, the restrictions, the page the terms are on and the day
+   they were read are all filled. Our own work's credit line reads word for
+   word as DECISIONS.md, 2026-09-18, "Each source's terms are recorded",
+   gives it. Every line of `live.sources` names a source that one of the
+   four covers. *Where from:* that decision.
+6. **Every cited page is kept** (finished-when 4). Count, in `legdata` and
+   with your own query, the distinct web addresses the provenance notes cite:
+   106. Each is in `sources/kept-pages.csv`, which has 106 lines and no
+   others; every file it names exists under `sources/`, with the size and
+   SHA-256 the list gives. `live.cited_pages` has the same 106 addresses.
+   *Where from:* DECISIONS.md, 2026-09-18, "every cited page kept", and item
+   4's run.
+7. **The refresh and its undo are written down and proved** (finished-when
+   2). `docs/PROMOTION-RUNBOOK.md` has the step "After promotion: refreshing
+   the published copy", naming `tools/refresh_copy.sh` and the undo
+   `tools/put_back_previous.sql`; the refresh test's run records the
+   rehearsal of both. Run `tools/refresh_copy.sh` once, without `--save`:
+   no problems, nothing changed, and every cited address outside the web
+   archive works. `live` and `previous` are unchanged, by an md5 of every
+   line of every file taken before and after.
+8. **Item 5's wording is recorded and unchanged since it was agreed**
+   (finished-when 5). `docs/wording/PUBLISHING.md` says it was agreed on 18
+   September, and has not changed since commit `97ee01a`
+   (`git log -- docs/wording/PUBLISHING.md`). It has the five parts
+   DECISIONS.md, 2026-09-18, "The wording every page carries", lists: the
+   foot of every page; the date and date statement on a data page; the
+   credit lines and "not responsible" sentence; the Sources page; the
+   sign-in-unavailable page.
+9. **The working database's own sums are still there.** `v_bill_stage_durations`,
+   `v_stage_duration_summary`, `v_bill_stage_dates`, `v_bill_total_duration`
+   and `v_outcome_by_type` exist in `legdata`, since none may go without the
+   owner's agreement, and `STATE.md` lists what uses each. *Where from:*
+   `docs/PHASE-2.md`, strand 1, item 2.
+10. **Nothing left behind.** Four databases; `published` has `from_working`
+    (no tables), `live`, `previous` and `public`; nothing of this test's in
+    the server's `/tmp`, `._` side-files included; no `/tmp/refresh-*.tgz`.
+11. **Counts**: 470 bills, 1291 stage records, 192 provenance notes, 14
+    notes; checker and gaps list empty; the dictionary regenerates identical
+    and lists twelve published files.
+
+**Which items an outside change can move:** 3 to 7 at any refresh; 6 when a
+provenance note citing a new address is admitted; 8 if the wording is
+changed, which then needs the owner's agreement again; 9 when strand 3
+replaces the averages.
+
+### Part B — the owner's sign-off
+
+12. **Strand 1 is closed.** The owner reads this run and the five
+    finished-when points, and says strand 1 is closed and strand 2 may open.
+
+### Part C — what this test does not check
+
+**Anything on a page**: nothing reads the copy until strand 2, item 1.
+**The download's and the charts' part of the refresh**: strands 2 and 3.
+**The items' own tests**, which are not re-run; only that they passed.
+**Whether the data is right**: the sessions' closure tests.
+
+---
+
 ## The refresh, for the copy
 
 Written 2026-09-18 by the session that built and rehearsed it. **Run on
@@ -618,7 +737,8 @@ check that every bill is in exactly one quarter and that they add up to 470.
 ## "In progress" comes last
 
 Written 2026-09-18 by the session that built `db/118` and retook the published
-copy. **Run on 2026-09-18** by another session; see the run below. Every part was agreed beforehand in
+copy. **Run on 2026-09-18** by another session, and item 10 signed off by the
+owner the same evening; see the run below. Every part was agreed beforehand in
 `docs/BLOCK-2-IN-PROGRESS.md`, including retaking the copy by option A.
 
 ### Part A — mechanical
@@ -677,8 +797,8 @@ the two "Fell" outcomes is kept as the record, and was not done.
 
 ### The run, 2026-09-18, by a session that built none of it
 
-**Items 1 to 5 and 7 to 9 pass. Item 6 fails on one point, `/tmp`. Item 10
-is the owner's, and waiting.**
+**Items 1 to 5 and 7 to 9 pass. Item 6 fails on one point, `/tmp`, put
+right the same day. Item 10 signed off by the owner, 2026-09-18.**
 
 1. **Pass.** 1 Passed, 2 Rejected at Stage 1, 3 Rejected at Stage 3, 4
    Withdrawn, 5 Fell at dissolution, 6 Fell (other), 7 Fell: financial
@@ -717,6 +837,10 @@ is the owner's, and waiting.**
    8 for In progress afterwards.
 8. **Pass.** 470, 1291, 192, 14; checker and gaps list empty; only `public`.
 9. **Pass.** The dictionary regenerates identical.
+10. **Signed off, 2026-09-18**, by a later session: the owner opened
+    `published` → `live` → `what_the_words_mean` in Postico, the eight
+    `outcome` lines sorted by `order`, and confirmed "In progress" is last
+    and the rest in the order expected.
 
 ---
 

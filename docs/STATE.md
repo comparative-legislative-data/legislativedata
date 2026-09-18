@@ -15,7 +15,7 @@ sessions.
 
 | Strand | What it delivers | Where it is |
 |---|---|---|
-| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: items 2, 3, 4 and 6 closed; item 5 agreed; items 1 and 7 to do |
+| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: every item done but the backup check; its closure test written, to run from 19 September |
 | 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | not open |
 | 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
@@ -53,32 +53,29 @@ list are both empty.**
   settled; the build plan agreed; the days between stages moved into the copy.
 
 - **18 September, afternoon.** Item 2 closed; items 3 to 6 laid out,
-  agreed and built: each source's terms, every cited page kept (106), the
-  wording every page carries, and the refresh.
+  agreed and built.
+- **18 September, evening.** Items 3, 4 and 6's closure tests run: all passed.
 
-**18 September, this session. Items 3, 4 and 6's closure tests.**
+**18 September, this session. Strand 1's closure test written.**
 
-- **All three passed**, run by this session, which built none of them. You
-  signed off item 6's wording written at the build.
-- **One accident, put right.** Testing the refresh's undo, a file of mine
-  lost its "start a transaction" line, so the undo ran for real and the old
-  copy went live. Only the published copy, which nothing reads yet. At your
-  word the refresh rebuilt it, and both copies then matched, file for file,
-  fingerprints taken before the accident.
-- **One kept page the test couldn't fully reach**: a committee meeting cited
-  for a Stage 1 with no date, so there is no date to compare. It is the
-  meeting its address names.
+- **You confirmed "In progress" comes last** in Postico. Item 1 is now only
+  the backup check.
+- **Strand 1's closure test is written** (`docs/CLOSURE-TESTS.md`, at the
+  top). It checks every item's test passed and the strand's five
+  "finished when" points hold together, and it carries the backup check, so
+  the session that reads the backup log isn't marking its own work.
 - No bill, date or figure changed.
 
 ## Now
 
 **Strand 1, ready to publish** (`docs/PHASE-2.md`, "Strand 1").
 
-1. **Item 1**: the copy's backup check, from the nightly run at 03:43 on
-   19 September, and your look in Postico for the "In progress" change
-   (`db/118`, item 10).
-2. **Item 7**: strand 1's closure test, written by the session that finishes
-   the strand and run by another.
+1. **Run strand 1's closure test** (`docs/CLOSURE-TESTS.md`, "Strand 1,
+   ready to publish"), by a session other than the one that wrote it, not
+   before the nightly backup of 19 September has finished (after about 03:45
+   here). It includes item 1's backup check, and ends with your sign-off that
+   strand 1 is closed.
+2. **Then strand 2 opens**, with its first item: the site reading the copy.
 
 ## Waiting for you
 
@@ -130,15 +127,18 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session that ran items 3, 4 and 6's tests
+## Sanity check, 2026-09-18, the session that wrote strand 1's test
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the decisions contents and the dictionary
   regenerated identical; counts 470, 1291, 192, 14; checker and gaps list
-  empty; four databases, all sorted; `published` held `from_working` (empty),
-  `live`, `previous` (the refresh's, expected) and `public`; the site answers
-  200. "Now" traced to strand 1, items 1 to 7. Nothing found.
+  empty; four databases, all sorted; `published` held `from_working`, `live`,
+  `previous` and `public`; the site answers 200. "Now" traced to strand 1,
+  items 1 and 7. Nothing found.
+- **The nightly backup** is `legdata-backup.timer`, due 02:43 UTC (03:43
+  here); its output, with the line "legdata-backup: published is not backed
+  up, on purpose.", is read with `journalctl -u legdata-backup.service`.
 
 ## Running items 3, 4 and 6's tests: working detail, 18 September
 
