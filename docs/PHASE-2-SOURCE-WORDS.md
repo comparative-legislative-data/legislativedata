@@ -3,8 +3,9 @@
 18 September 2026. The `sources` file has a heading, `value_as_the_source_gave_it`,
 that promises the source's own words, and M8 tells a reader it holds "the value
 in the source's own words". Of the 192 lines, 38 do that. The rest don't. This
-file shows every line by group first, and then makes a proposal. Nothing has
-been changed.
+file shows every line by group first, and then makes a proposal. **Agreed by
+the owner on 18 September and built as `db/116`**, with the promotion script
+changed to match. The tables at the end show the lines as they were before.
 
 | Group | Lines | What the heading holds |
 |---|---|---|
@@ -30,7 +31,7 @@ by a migration and no script rewrites.
 ## Group 2: the Official Report outcomes, 31 lines
 
 What these hold is our account: what happened, on which day, and on whose
-motion. Some then quote the Official Report ("Result as recorded: ..."). The 13
+motion. Some then quote the Official Report ("Result as recorded: ..."). The 14
 from Sessions 1 to 3 quote nothing. The account is useful. It is just not the
 source's words, and nothing marks where our words stop and the Official
 Report's begin, apart from the quotation marks.
@@ -66,7 +67,7 @@ a session of reading for words that would say the same thing as the cell.
 
 **2. Group 2: split each one.** The heading keeps only what the Official Report
 printed: each quoted passage, word for word, in order. Our account moves to the
-line's `note`, where our words belong. The 13 with no quotation end up with an
+line's `note`, where our words belong. The 14 with no quotation end up with an
 empty heading and the account in the note. The alternative is to leave them
 alone and have the heading's definition say that, for an Official Report
 outcome, it holds our account with the source quoted. That is less work, but

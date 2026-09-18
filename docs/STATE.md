@@ -9,13 +9,14 @@ Updated: 2026-09-18
 sign in with a code by email; the privacy page says what is held. **Phase 2,
 the data published, is open**, for approved beta users only. **Its plan is
 reviewed and every question answered.** The published copy's headings are
-settled, and **the methodology notes, the definitions and the sources file's
-notes are all written for a reader.** The copy itself is next. **The
+settled, and **the methodology notes, the definitions and the whole of the
+sources file are written for a reader.** The copy itself is next. **The
 charts are being worked out afresh, as mock-ups with real figures.** The arc is
 in `docs/PLAN.md`.
 
 The dataset. No bill, date or figure changed today. What moved was wording: 29
-definitions, and 95 of the 192 provenance notes:
+definitions, and on the 192 provenance lines, 126 notes and 122 of the
+source's-own-words cells:
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
@@ -62,6 +63,12 @@ list are both empty.**
   script writes most of these notes. Rehearsed by taking every session off and
   putting it back with the new script: identical, cell by cell. Applied and read
   back. The closure test is written and unrun.
+- **The source's own words weren't.** 91 lines only repeated the cell
+  (`2021-03-30`, `stage_3`), and 31 held our account of an Official Report
+  decision. You agreed: the 91 emptied, and the 31 split, with the Official
+  Report's quoted words kept and our account moved to the note. Seven Session 6
+  lines had kept a working phrase the script should have cut. Built as
+  `db/116` the same way, script and all; rebuild identical; closure test unrun.
 
 ## Now
 
@@ -69,12 +76,9 @@ list are both empty.**
    published heading, the written procedure, the rehearsal, the undo, and the
    check cell by cell against the working database. Nothing visible comes out of
    it. Headings, notes, definitions and the sources file's notes are done.
-   **One thing to settle first**: `value_as_the_source_gave_it` often holds our
-   coded value (`stage_3`, `enacted`) rather than the source's words, which its
-   heading promises. Found on 18 September and not opened. Show the rows, then
-   propose.
-2. **The closure tests for `db/114` and `db/115`**, run by a session that
-   built neither.
+   Nothing is left to settle first.
+2. **The closure tests for `db/114`, `db/115` and `db/116`**, run by a session
+   that built none of them.
 3. **The three small items**, block 2, alongside block 1, each with its full
    checklist first.
 4. **Iterating the mock-ups**, whenever you want: the open points are in
@@ -165,6 +169,11 @@ Run before the first reply.
   fingerprint read the same afterwards.
 - **The dictionary regenerates identical.**
 - **`db/115`'s closure test is written and unrun.**
+- **`db/116`**, the same way: fingerprinted before; rebuild rehearsal, no
+  unexpected differences; applied; every column but the value and the note
+  unchanged by fingerprint; 55 values and 14 empty Official Report outcomes as
+  expected; sample lines read back. The dictionary changes in one description
+  only, `value_seen`'s. Closure test written and unrun.
 
 ## Thoughts 5 and 6: working detail, 17 September
 

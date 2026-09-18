@@ -310,7 +310,9 @@ INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at, note)
 SELECT 'bill', p.candidate_id, 'short_title', 'manual',
        'review of staging line ' || p.candidate_id,
-       p.short_title, p.observed_at,
+       -- Empty: our corrected title is the cell, and the fact sheet's words
+       -- are in the note (db/116).
+       NULL, p.observed_at,
        -- Not the review note: bill 17's ends with an instruction to whoever
        -- wrote this script, which db/027 had to take out of a note once.
        -- The fact sheet's words go in the note itself, because the staging
@@ -333,15 +335,29 @@ SELECT 'bill', p.candidate_id, 'short_title', 'manual',
 -- address, so cutting the address and leaving the phrase ended eight notes
 -- mid-sentence, in Sessions 4 and 5, in text a reader sees. Found on
 -- 2026-09-14 while the owner was signing Session 5 off; see DECISIONS.md.
+--
+-- What is left is our account of the decision, and it goes in the note. The
+-- source's own words are only the passages it quotes, in order, separated by
+-- " … "; a passage the account says came from the bill page is not the
+-- Official Report's and is left out. An account that quotes nothing leaves
+-- value_seen empty (db/116). The opening phrase is cut however "fact sheet" is
+-- spelled: Session 6's reviews wrote it as two words, and until db/116 seven
+-- notes kept it.
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
-                          value_seen, observed_at)
+                          value_seen, observed_at, note)
 SELECT 'bill', p.candidate_id, 'outcome', 'official_report',
        substring(p.review_note from 'https?://\S+'),
-       regexp_replace(
-         regexp_replace(p.review_note, '^Outcome from the Official Report, not the factsheet:\s*', ''),
-         '\s*(Read at\s*)?https?://.*$', ''),
-       p.official_report_read_on
+       (SELECT string_agg(q[1], ' … ' ORDER BY k)
+          FROM regexp_matches(
+                 regexp_replace(a.account, 'bill page[^"]*"[^"]*"', 'bill page', 'g'),
+                 '"([^"]*)"', 'g') WITH ORDINALITY AS m(q, k)),
+       p.official_report_read_on,
+       a.account
   FROM promoting p
+  CROSS JOIN LATERAL (SELECT upper(left(x.t, 1)) || substr(x.t, 2) AS account
+         FROM (SELECT regexp_replace(
+                 regexp_replace(p.review_note, '^Outcome from the Official Report, not the fact ?sheet:\s*', ''),
+                 '\s*(Read at\s*)?https?://.*$', '') AS t) x) a
  WHERE p.review_note ILIKE 'Outcome from the Official Report%'
    AND NOT EXISTS (SELECT 1 FROM field_source f
                     WHERE f.entity = 'bill' AND f.entity_id = p.candidate_id
@@ -404,15 +420,14 @@ SELECT 'bill', p.candidate_id, f.field_name, p.source, p.source_ref,
 -- Session 6 and 7 fact sheets print against the bill -- "Motion agreed to
 -- treat as Emergency Bill on 22 June 2021" -- and no fact sheet for Sessions 1
 -- to 5 mentions procedure at all, so these notes exist only where a source
--- actually said something. What is kept is the value as read, which is what
--- value_seen holds for bill_type, asp_number and date_introduced; the fact
--- sheet's own sentence is on the staging line, in parser_note. There is no
--- cell for the sentence because it carries nothing the two values do not. See
--- db/087 and methodology note M10.
+-- actually said something. value_seen is empty: it held the value as read,
+-- which only repeated the cell, and it promises the source's own words
+-- (db/116). The fact sheet's own sentence is on the staging line, in
+-- parser_note. See db/087 and methodology note M10.
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at)
 SELECT 'bill', p.candidate_id, 'procedure', p.source, p.source_ref,
-       p.procedure, p.observed_at
+       NULL, p.observed_at
   FROM promoting p
  WHERE p.procedure IS NOT NULL
    AND NOT EXISTS (SELECT 1 FROM field_source f
@@ -422,7 +437,7 @@ SELECT 'bill', p.candidate_id, 'procedure', p.source, p.source_ref,
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at)
 SELECT 'bill', p.candidate_id, 'date_procedure_agreed', p.source, p.source_ref,
-       p.date_procedure_agreed::text, p.observed_at
+       NULL, p.observed_at
   FROM promoting p
  WHERE p.date_procedure_agreed IS NOT NULL
    AND NOT EXISTS (SELECT 1 FROM field_source f
@@ -483,7 +498,9 @@ SELECT 'bill', p.candidate_id, 'outcome', f.source, f.source_ref,
 -- date from one nobody has checked. See DECISIONS.md, 2026-09-12, and M8.
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at, note)
-SELECT 'bill', p.candidate_id, m[1], m[3], m[4], m[2], m[5]::date,
+-- value_seen is empty: the checked value is the cell's, in our format, and
+-- was not the source's words (db/116).
+SELECT 'bill', p.candidate_id, m[1], m[3], m[4], NULL, m[5]::date,
        -- Not a pointer to the raw_ columns: they are not published (db/115).
        'Checked at review against the source named on this line, which is '
        'the one that settles this fact. Where the fact sheet printed it '
@@ -598,7 +615,7 @@ UPDATE stage_candidate t
 -- what gives the stage record its number.
 INSERT INTO field_source (entity, entity_id, field_name, source, source_ref,
                           value_seen, observed_at, note)
-SELECT 'stage_event', t.promoted_stage_event_id, m[1], m[3], m[4], m[2], m[5]::date,
+SELECT 'stage_event', t.promoted_stage_event_id, m[1], m[3], m[4], NULL, m[5]::date,
        -- Not a pointer to the raw_ columns: they are not published (db/115).
        'Checked at review against the source named on this line, which is '
        'the one that settles this fact. Where the fact sheet printed it '

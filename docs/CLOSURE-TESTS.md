@@ -30,6 +30,47 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The source's own words are the source's
+
+Written 2026-09-18 by the session that built `db/116`. **Not yet run.**
+
+### Part A — mechanical
+
+1. **No value only repeats its cell.** No line's `value_seen` equals the value
+   in the cell it is about. *Where from:* the rule the owner agreed in
+   `docs/PHASE-2-SOURCE-WORDS.md`.
+2. **55 values remain**: the 38 listed as group 3 in that file, unchanged, and
+   17 Official Report outcomes. *Where from:* the file's own tables, which were
+   drawn before the change.
+3. **The 31 Official Report outcomes are split.** Each note is the account the
+   file's group 2 table shows, without the opening "Outcome from the Official
+   Report, not the fact sheet:" and with a capital first letter. Each value is
+   the passages in double quotation marks in that account, in order, joined by
+   " … ", except the Restricted Roads (20 mph Speed Limit) (Scotland) Bill's
+   motion text, which the account says came from the bill page. The 14 with no
+   quotation have an empty value. Work this out by hand for at least the
+   Transplantation, Budget (No.2) and Restricted Roads bills.
+4. **Nothing else moved.** Every other note and every other column of every
+   line as it was after `db/115`; 470 bills, 1291 stage records, 192 lines, 14
+   notes; checker and gaps list empty; only `public`.
+5. **The promotion script writes the same.** Read `tools/promote_session.sql`:
+   no route copies the cell's value into `value_seen`; the Official Report
+   route cuts the opening phrase however "fact sheet" is spelled. Then rehearse
+   the full rebuild as for `db/115`, item 5. Expected: "No unexpected
+   differences".
+6. **The column's description** in the dictionary states the rule, and the
+   dictionary regenerates identical to the committed file but for its date.
+
+### What this does not check
+
+**Whether the Official Report's words are quoted accurately.** They are as the
+reviews recorded them; this does not go back to the Official Report.
+
+**The earlier closure tests.** The Session 4 and 5 checks display this column
+and did not set expectations on it; none needs re-running for this.
+
+---
+
 ## The sources file's notes name what a reader sees
 
 Written 2026-09-18 by the session that built `db/115`. **Not yet run.**
