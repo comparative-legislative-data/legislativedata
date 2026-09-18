@@ -829,9 +829,9 @@ One version of each sum, never two.
    under the principle above, a refresh that retakes it safely, and every
    sentence a reader sees on every page agreed.
 2. **The data on the site, downloadable.** The site reads the copy. There is a
-   Data section with its reference pages, the table of every bill, and the zip
-   to download.
-3. **The charts.** The six thoughts in the Insights section, each with its
+   Data page: the table of every bill, the zip to download, and the reference
+   sections beneath them (two pages, settled 18 September).
+3. **The charts.** The six thoughts on the Insights page, each with its
    figures, its bills and its working.
 
 Then **the closing test**, and the phase closes.
@@ -949,9 +949,11 @@ checks are added to it when those exist.
    inside the page's frame, with a link to the list of what changed. The
    sources credited from strand 1's record. The notes a page rests on. Dark and
    light. Built under the table of every bill, not under the first chart.
-3. **The reference pages**, each read from the copy: the methodology notes;
-   the sources, with each source's terms; what the words mean; and the list of
-   what changed. Every data page links into them.
+3. **The reference sections**, at the foot of the Data page, folded away,
+   each read from the copy: the methodology notes; the sources, with each
+   source's terms; what the words mean; and the list of what changed. Each
+   has its own link, so the Insights page can point into them. (Four pages
+   until 18 September: the site has two pages, Data and Insights.)
 4. **The table of every bill: its write-up, then the page.** Settled: it gets
    its own write-up to the owner before it is drawn, because it is a lot of
    data. It covers which columns it shows, how a reader narrows it down, and
@@ -981,7 +983,8 @@ checks are added to it when those exist.
 - the site's login is proved to read the copy only;
 - every data page carries the date, the date statement, a link to the list of
   what changed, and the sources it uses;
-- the four reference pages are live, and every data page links to them;
+- the four reference sections are live on the Data page, each with its own
+  link;
 - the zip holds everything settled, with the codebook generated from the copy,
   the readme giving each file's row count, and nothing naming who took it;
   the privacy check has been run since it was served;
@@ -1075,7 +1078,7 @@ Counted in normal sessions, each closure test included.
   it the owner's reading. The refresh, two (writing and rehearsing, then the
   real thing).
 - **Strand 2:** six to eight. Reading the copy and the shared parts, one or
-  two. The reference pages, one. The table's write-up and page, two. The zip
+  two. The reference sections, one. The table's write-up and page, two. The zip
   and its readme, two.
 - **Strand 3:** ten to twelve. Six charts, the first carrying the shared
   parts, with each session running the last chart's test. Each write-up's

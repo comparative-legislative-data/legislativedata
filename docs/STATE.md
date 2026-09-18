@@ -16,7 +16,7 @@ three strands, one after another, then the closing test.
 | Strand | What it delivers | Where it is |
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
-| 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | **open**: item 1 **closed**; item 2 laid out, waiting on you |
+| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: item 1 **closed**; item 2 laid out, waiting on you |
 | 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
@@ -54,6 +54,8 @@ list are both empty.**
   none of it. The site's login reads the live copy and nothing else. Every
   refusal was tried by hand as well as through the script. A thrown-away
   refresh and undo left the copies exactly as they were.
+- **The site has two pages, Data and Insights**, your decision: the
+  reference material becomes folded sections of the Data page.
 - **Only you and I open the server's housekeeping database** now, at your
   word; the site's login and the connector's are refused. Rehearsed first,
   each login tried for real afterwards, the site healthy, and its own check
@@ -65,8 +67,9 @@ list are both empty.**
 **Strand 2, the data on the site** (`docs/PHASE-2.md`, "Strand 2").
 
 1. **Item 2, the page parts every data page shares**: laid out in
-   `docs/STRAND-2-SHARED-PAGE-PARTS.md`, five questions for you, the first
-   whether to build and deploy it together with item 3. Nothing built.
+   `docs/STRAND-2-SHARED-PAGE-PARTS.md`, reworked for two pages, four
+   questions for you, the first whether to build and deploy it together with
+   item 3. Nothing built.
 
 ## Waiting for you
 
