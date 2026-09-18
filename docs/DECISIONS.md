@@ -213,7 +213,7 @@ something an entry does not. Newest first, as the file is.
 ## 2026-09-18 — A definition is written for a reader, and 29 are reworded
 
 **The owner's decision**, taken item by item in the conversation, all 29 agreed
-as proposed in `docs/PHASE-2-DEFINITIONS.md`. Not yet built.
+as proposed in `docs/PHASE-2-DEFINITIONS.md`. Built the same day as `db/114`.
 
 **The rule.** The definition beside each allowed value is written for a reader
 of the published data. Like a methodology note, it may name a published

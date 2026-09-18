@@ -30,10 +30,74 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## A definition is written for a reader
+
+Written 2026-09-18 by the session that built `db/114`. **Not yet run.**
+
+### Part A — mechanical
+
+1. **The twenty-nine are the agreed wording, word for word.** Each definition
+   named in §2 of `docs/PHASE-2-DEFINITIONS.md` reads as its *Proposed* text.
+   Where the file gives a whole definition, compare the whole; where it gives
+   only the changed sentence ("ends:", "has:", "the same, with ..."), the
+   changed sentence is present, the old one is gone, and the rest matches the
+   *Now* text the file quotes. *Where from:* the file the owner agreed item by
+   item on 18 September.
+2. **Nothing else on the lists moved.** 65 values across eleven lists, the same
+   codes, labels and order as `db/113` left them; the other 36 definitions
+   unchanged, including every one on the party list. *Where from:* the
+   migrations in the repository before `db/114`, not this database.
+3. **No published definition is empty**, and none contains `source_ref`,
+   `db/` followed by a digit, `sources/`, "error checker", "the owner",
+   `analysis_group`, `bill_type_stated`, `date_concluded`, a `table.column`
+   pair, a code in single quotes, a double hyphen, or a backtick. The party list
+   is not published and is excluded.
+4. **Every word with an underscore in a published definition is an agreed
+   heading**: a heading row in §2 to §4, a file name in §1, or a heading in §5 of
+   `docs/PHASE-2-PUBLISHED-COPY.md`. None of `stage_3`, `final_stage`,
+   `became_an_act` or `act_status`, which were refused.
+5. **The facts the definitions state are true of the bills.** Three section 33
+   bills, all Session 5; the Legal Continuity Bill blocked on 13 December 2018
+   and two on 6 October 2021; the footnote word for word in a provenance line on
+   each of the three. One Hybrid Bill; one bill fell on its financial
+   resolution; two reconsidered and passed; no bill uses Fell (other), Some
+   other route or Reconsidered and fell; no fact rests on the API or a bill
+   document; every Manual line says in its source reference what the source was.
+6. **The instructions arrived.** The descriptions of the four source-reference
+   columns (bill, stage, provenance line, staging line) say what goes there for
+   each kind of source; the bill's note and the staging line's note say what
+   goes there for Fell (other) and Some other route; both Stage 1 rejection
+   route columns say what Some other route needs; both columns for what
+   happened after a bill was stopped say what the checker requires of a
+   reconsidered bill. Every list's definition column carries the rule.
+7. **The checker's rule is described as it is.** The description says the
+   checker refuses Reconsidered and passed or Reconsidered and fell on a staging
+   line with no Reconsideration Stage row. Read the checker's definition and
+   confirm that is what it does.
+8. **Nothing else moved.** 470 bills, 1291 stage records, 192 provenance notes,
+   14 notes, the notes' text unchanged since `db/113`; checker and gaps list
+   empty; the dictionary regenerates with no difference but its date.
+
+### What this does not check
+
+**Whether the wording is right.** The owner agreed it one item at a time before
+it was built. This checks that what went in is what was agreed.
+
+**That the published copy prints these.** It does not exist yet.
+
+### Part B — the owner's sign-off
+
+1. **Two column descriptions lost a stale count** that was not in the agreed
+   proposal: the bill's "how stopped" and "what happened after" columns said
+   "all but three bills today, and will be all but four once Session 6 is
+   loaded". Both now say "all but four bills", which is true. Not published.
+
+---
+
 ## The notes name the published headings
 
 Written 2026-09-17 by the session that built `db/113`. **Part A run on
-2026-09-18**, by a session that did none of that work. Part B waits on the owner.
+2026-09-18**, by a session that did none of that work, and Part B signed off.
 
 ### Part A — mechanical
 
@@ -121,7 +185,8 @@ ignored and paragraph breaks and list items kept.
 7. **470 bills, 1291 stage records, 192 provenance notes, 14 notes; checker and
    gaps list empty; `public` the only schema.**
 
-Part B was put to the owner the same day.
+**Part B signed off by the owner the same day**: both the M2 wording and the
+plain prose without markup. The test is closed.
 
 ---
 

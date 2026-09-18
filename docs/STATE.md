@@ -1,6 +1,6 @@
 # State
 
-Updated: 2026-09-17
+Updated: 2026-09-18
 
 ## Where we've got to
 
@@ -8,14 +8,14 @@ Updated: 2026-09-17
 `legislativedata.org` someone can apply, you approve or refuse them, and they
 sign in with a code by email; the privacy page says what is held. **Phase 2,
 the data published, is open**, for approved beta users only. **Its plan is
-reviewed and every question answered.** The first thing for it is built: the
-published copy's headings are settled and the methodology notes are rewritten in
-them. **The charts are being worked out afresh, as mock-ups with real
-figures.** The arc is
+reviewed and every question answered.** The published copy's headings are
+settled, the methodology notes are rewritten in them, and **every definition a
+reader will see is now written for a reader.** The copy itself is next. **The
+charts are being worked out afresh, as mock-ups with real figures.** The arc is
 in `docs/PLAN.md`.
 
-The dataset. No bill, date or figure changed today; thirteen of the methodology
-notes were reworded, which is the only thing that moved:
+The dataset. No bill, date or figure changed today; 29 of the definitions beside
+the allowed values were reworded, which is the only thing that moved:
 
 | Session | Read in | Reviewed | On clean sheet | Stage 1 & 2 dates |
 |---|---|---|---|---|
@@ -41,56 +41,43 @@ list are both empty.**
 - **16–17 September.** You reviewed the Phase 2 plan question by question and
   answered all but one, which was settled on 17 September.
 
-- **17 September.** Every open question against the methodology notes answered;
-  all six of your thoughts mocked up with real figures on one page
-  (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9), and the plan for turning
-  them into pages agreed point by point in `docs/PHASE-2-CHARTS-BUILD.md`.
-- **17 September.** The nine closure tests for `db/104` to `db/112` run by a
-  session that built none of them. All nine pass; nothing changed.
+- **17 September.** Every open question against the notes answered; the six
+  thoughts mocked up (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9) and the
+  build plan agreed in `docs/PHASE-2-CHARTS-BUILD.md`; closure tests for
+  `db/104`–`db/112` run, all pass; the published copy's headings settled and
+  thirteen notes rewritten in them (`db/113`).
 
-**17 September, this session. The published copy's headings, and the notes
-rewritten in them.** Block 1 of `docs/PHASE-2-CHARTS-BUILD.md`, first half.
+**18 September, this session. The definitions, made fit to publish.**
 
-- **The nine files and every heading proposed**, in
-  `docs/PHASE-2-PUBLISHED-COPY.md`. Three headings put to you and all three
-  settled: `third_stage` rather than `final_stage`, because a Private Bill's
-  third stage is actually named Final Stage; `enactment_status` kept; and
-  `bill_type_grouped` carried, so a count of government bills gets M4's grouping
-  without the reader having read M4. **None of the three changes a cell** —
-  every value stays exactly as the Parliament names it.
-- **Thirteen of the fourteen notes rewritten**, as `db/113`, to name those
-  headings. Rehearsed inside a rollback, applied, and read back word for word
-  against the file you approved. M6 is unchanged. M10 lost the sentence you had
-  already agreed to cut. **The closure test is written and unrun**; a later
-  session runs it.
-- **You were shown the changes, not the notes.** Twenty-one passages change only
-  by a heading being named, in a table of old and new; seven change by more, and
-  those were what you read.
-- **`applies_to` was left alone.** Changing it to published headings would have
-  broken the data dictionary. One mapping, written once, will build the copy and
-  translate that list.
+- **`db/113`'s closure test run and closed.** All seven checks pass, and you
+  signed off the M2 wording and the notes without markup.
+- **The definitions were worse than §7 said: 29 of 58, not nine.** Most were
+  accurate but written for whoever enters data. Two were wrong: the section 33
+  rulings misdated the Legal Continuity Bill, and the thesis dataset still said
+  2022 and "ground truth". Both came from correcting a fact in the notes without
+  searching the definitions, which is now a rule.
+- **You agreed all 29, one at a time**, and they are built as `db/114`:
+  rehearsed, applied, and read back word for word. The instructions moved into
+  the column descriptions. The closure test is written and unrun.
 
 ## Now
 
-1. **Building the published copy itself.** Block 1's second half, and the thing
-   every chart waits on. The mapping from working column to published heading,
-   the written procedure, the rehearsal, the undo, and the check cell by cell
-   against the working database before the site is allowed near it. Nothing
-   visible comes out of it. Headings and notes are done.
-2. **The three small items**, block 2, which can run alongside block 1. Each is
-   a change to how something is coded or what a note says, so each gets its full
-   checklist proposed and agreed before it is built.
-3. **Iterating the mock-ups**, whenever you want: the open points on all six are
-   in `docs/PHASE-2-CHARTS-THOUGHTS.md`, each under its thought.
+1. **Building the published copy itself.** The mapping from working column to
+   published heading, the written procedure, the rehearsal, the undo, and the
+   check cell by cell against the working database. Nothing visible comes out of
+   it. Headings, notes and definitions are done. **One thing to settle first**:
+   the notes on the sources file, which it publishes, use working names — "the
+   raw_ columns of bill_candidate", "It read 'blocked' and now reads
+   'not_enacted'". Found on 18 September and not opened, so as not to open a
+   second question before the first was built. Show the rows, then propose.
+2. **`db/114`'s closure test**, run by a session that did not build it.
+3. **The three small items**, block 2, alongside block 1, each with its full
+   checklist first.
+4. **Iterating the mock-ups**, whenever you want: the open points are in
+   `docs/PHASE-2-CHARTS-THOUGHTS.md`.
 
 ## Waiting for you
 
-- **The definitions of the allowed values still name columns.** Read in full on
-  17 September: it is nine entries across seven lists, not four lists. A way to
-  settle it is proposed in §7 of `docs/PHASE-2-PUBLISHED-COPY.md` — the
-  definition becomes the reader's, and the instruction to whoever enters data
-  moves to the column's own description — and it is not started. It is a change
-  to what a note says, so it gets its full checklist first.
 - **Making the GitHub repository private**, which you expect to do. Nothing
   depends on it being public; the switch is yours, in GitHub's settings.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
@@ -146,49 +133,44 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-17, the session of the published copy's headings
+## Sanity check, 2026-09-18, the session of the definitions
 
 Run before the first reply.
 
 - **Clean and pushed at the start**; the last commit's handover matched
-  `STATE.md`; the decisions contents and the data dictionary both regenerated
-  identical to the committed files.
+  `STATE.md`; the decisions contents regenerated identical, and the dictionary
+  identical but for its date.
 - **The counts matched**: 470 bills, 1291 stage records, 192 provenance notes,
   14 notes; staging 474 and 1295; checker and gaps list empty.
-- **Every database sorted into a backup theme**: `postgres` not backed up,
-  `accounts` with the people, `legdata` the working one.
-- **The site answers 200.**
-- **Nothing found that contradicted the database, the plan or each other**,
-  beyond what was already listed as open.
-- **The count of previous attempts still disagrees three ways**, as it has for
-  four sessions. Still the owner's.
-- **Six leftovers in the server's `/tmp` could not be cleared**: three query
-  files from this check, `check_apply.sh`, `check_sign_in.sh` and a site bundle
-  from 16 September. The permission mode refused the remote write. Harmless, and
-  the owner was told; a session with the mode changed should clear them.
+- **Every database sorted into a backup theme**: `postgres`, `accounts`,
+  `legdata`, as before. **The site answers 200.**
+- **Found in the course of the session, not by the check**: two definitions
+  factually wrong and 27 written for the wrong reader (now `db/114`), and two
+  column descriptions carrying a count that went stale when Session 6 loaded.
+  The check has no item that reads the definitions; the new rule — search the
+  definitions whenever a fact is corrected — is the fix, and the published
+  copy's build should check them again before anything is published.
+- **The server's `/tmp` leftovers are cleared**, the six from 16–17 September
+  and the eleven from `db/113`'s session.
+- **The SSH rate limit bit four times.** Space connections out; the dictionary
+  script alone makes four.
 
-## Closing checks, 17 September, the session of the published copy's headings
+## Closing checks, 18 September, the session of the definitions
 
 - **Figures unchanged**: 470 bills, 1291 stage records, 192 provenance notes,
-  14 notes; checker and gaps list empty; no working copy in the database.
-  `db/113` changed thirteen note bodies and nothing else, and its own guards
-  refuse it if anything else has moved.
-- **The thirteen notes read back word for word** against the "### Proposed"
-  blocks in `docs/PHASE-2-PUBLISHED-NOTES.md`, and M6 is untouched.
-- **Every heading named inside a note is on the agreed list** — twenty-five of
-  them, checked against §2 to §5 of `docs/PHASE-2-PUBLISHED-COPY.md`. That is
-  also item 5 of the closure test, which this session did not run.
-- **The data dictionary and the decisions contents regenerate identical** to the
-  committed files. The dictionary is unchanged because no note's title,
-  `applies_to` or position moved.
-- **The rehearsal was proved to roll back**: the changed passages were read
-  inside the transaction, and the database read again after it and found as it
-  was.
-- **`db/113`'s closure test is written and unrun**, as the procedure requires.
-- **The site answers 200.**
-- **pdfplumber is in `venv/` at the repository root**, as `tools/requirements.txt`
-  says. A session looking for `.venv` will not find it and may conclude, wrongly,
-  that the fact sheets cannot be read.
+  14 notes; checker and gaps list empty; only `public`; no working copy.
+  `db/114`'s own guards refuse it if anything but the 29 definitions and 22
+  column descriptions has moved.
+- **The 29 read back word for word** from the live database against the
+  generated text, and that text was checked against every *Proposed* passage in
+  `docs/PHASE-2-DEFINITIONS.md` before the rehearsal. 65 values before and after,
+  labels unchanged.
+- **The rehearsal was proved to roll back**: the thesis dataset's definition and
+  a column description read unchanged afterwards.
+- **The dictionary regenerates** with the 22 descriptions and its date changed,
+  and nothing else; committed.
+- **`db/114`'s closure test is written and unrun.**
+- **pdfplumber is in `venv/` at the repository root**, not `.venv`.
 
 ## Thoughts 5 and 6: working detail, 17 September
 

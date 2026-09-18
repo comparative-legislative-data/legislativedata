@@ -226,6 +226,11 @@ a list of headings.
 
 ## 7. The definitions of the allowed values
 
+**Settled and built on 18 September, as `db/114`.** Read in full it was 29 of
+the 58 published definitions, not nine; the rows, the agreed wording and the
+checklist are in `docs/PHASE-2-DEFINITIONS.md`. What follows is the proposal as
+it stood on 17 September.
+
 `STATE.md` says four lists still name database columns. Having read all eleven,
 it is **nine entries across seven lists**:
 
