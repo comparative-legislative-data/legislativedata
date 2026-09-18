@@ -15,7 +15,7 @@ sessions.
 
 | Strand | What it delivers | Where it is |
 |---|---|---|
-| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: item 2 closed; item 3 built, its test unrun; items 1, 4–7 to do |
+| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: item 2 closed; items 3 and 4 built, their tests unrun; items 1, 5–7 to do |
 | 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | not open |
 | 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
@@ -52,7 +52,7 @@ list are both empty.**
   notes, definitions and sources rewritten for a reader; the quarter rule
   settled; the build plan agreed; the days between stages moved into the copy.
 
-**18 September, this session. Each source's terms recorded.**
+**18 September, this session. Each source's terms recorded, and every cited page kept.**
 
 - **Item 2 closed**: its closure test passed, run by this session, which
   didn't build it, and you signed off `workings` in Postico.
@@ -67,6 +67,11 @@ list are both empty.**
   by cell: identical. No bill, date or figure changed.
 - **Closure test** written, for another session to run; you signed off
   `terms` in Postico.
+- **Item 4, every cited page kept**: 106 addresses, not the 70 counted on
+  17 September (the stage dates' addresses had been missed). 91 fetched by a
+  new tool, `tools/keep_cited_pages.py`; the 14 on the old site's archive read
+  through your Chrome. Each checked to be the page it should be. About 16 MB,
+  in `sources/`, listed in `sources/kept-pages.csv`. Closure test written.
 
 ## Now
 
@@ -75,11 +80,11 @@ list are both empty.**
 1. **Item 1**: the copy's backup check, from the nightly run at 03:43 on
    19 September, and your look in Postico for the "In progress" change
    (`db/118`, item 10).
-2. **Item 3's closure test**, run by a session that didn't build it
-   (`CLOSURE-TESTS.md`). You've signed off `terms` in Postico (its item 14).
-3. **Item 4**: kept copies of the 70 cited pages that have none, sized and
-   put to you before it starts. **Then items 5 to 7** in order: the wording,
-   the refresh, and the strand's closure test.
+2. **Items 3 and 4's closure tests**, run by a session that didn't build
+   them (`CLOSURE-TESTS.md`). Yours for item 4: open three kept copies in
+   your browser (its item 7).
+3. **Item 5**: the wording every page carries, in full, to you. **Then items
+   6 and 7**: the refresh, and the strand's closure test.
 
 ## Waiting for you
 

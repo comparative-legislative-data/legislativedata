@@ -104,6 +104,48 @@ HTML error page, not a 404. Any check based on status code will report success
 and store an error page. Verify `content_type` is `application/pdf`, or check
 the file begins `%PDF`.
 
+## Every page the provenance cites: `kept-pages.csv`
+
+Strand 1, item 4 of `docs/PHASE-2.md`, settled 17 September: every outside page
+a provenance line or a stage date cites has a copy kept, so a reader can still
+see what it said if the address dies or the page changes. **106 addresses on
+18 September**, all kept. `kept-pages.csv` lists each one: the address as cited,
+the file it is kept as, the day it was retrieved, what the site said it was,
+its size, and its SHA-256. It is the list the refresh checks the addresses
+against (item 6), so it is kept in one file rather than tables here.
+
+`tools/keep_cited_pages.py` reads the cited addresses from the working
+database, fetches any not yet listed, and refuses what is not the page: an
+error, the archive's browser check, a PDF address that did not return a PDF, or
+a "page not found" served as a page. `--list` shows what is cited and kept.
+
+**The 14 pages on the old site's archive** (`webarchive.nrscotland.gov.uk`) sit
+behind a browser check that scripted fetching cannot pass. They were read on 18
+September through the owner's Chrome, with their permission, by fetching each
+archived page from inside the archive's own tab, and saved byte for byte. What
+is kept is the old site's page as the archive captured it, not the archive's
+frame around it; the archive's capture date is not recorded.
+
+## bill-pages/
+
+The Parliament's own page for each bill whose dates or facts are cited from it:
+30 on today's site, 14 from the old site's archive (`parliament-archive2021-bill-<id>`,
+the old site's page number). Saved as the HTML served.
+
+**One page's title is wrong on the Parliament's side.**
+`parliament-bill-s1-tobacco-advertising-and-promotion-scotland-bill` is the
+Tobacco Advertising and Promotion (Scotland) Bill, introduced 5 November 2001,
+as its heading and body say; the title in the page's own `<title>` tag reads
+"Tobacco and Primary Services Scotland Bill". Checked 18 September.
+
+## official-report/
+
+The Official Report of each meeting cited: 27 as the Parliament's web page for
+the meeting (`parliament-official-report-<dd-mm-yyyy>-meeting-<id>`), and 6 as
+the PDF the Parliament serves for older meetings
+(`parliament-official-report-meeting-<id>`, 2000 to 2011). Each was opened and
+its heading read against the date cited.
+
 ## legislation/
 
 The law that sets when the Parliament's sessions end, kept because the expected
@@ -118,6 +160,10 @@ this copy.
 | `legislation-scotland-act-1998-section-2_retrieved-2026-09-17.html` | Scotland Act 1998, s2, ordinary general elections | 2026-09-17 | `2820dccb71c32f52` |
 | `legislation-scottish-parliament-elections-order-2015-article-84_retrieved-2026-09-17.html` | SSI 2015/425, art 84, the minimum period: 20 days since SSI 2025/313 | 2026-09-17 | `423f0e777d1b6a5c` |
 | `legislation-scottish-parliament-elections-order-2015-schedule-2-rule-2_retrieved-2026-09-17.html` | SSI 2015/425, sch 2 rule 2, computation of time | 2026-09-17 | `5c4840abc297db1f` |
+
+**The 28 Acts cited for Royal Assent, title and number** were added on 18
+September (`legislation-asp-<year>-<number>-…`), listed in `kept-pages.csv`
+rather than here. One is the Act's PDF, as cited.
 
 ## judgments/
 

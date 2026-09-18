@@ -30,6 +30,56 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Every page the provenance cites has a copy kept
+
+Written 2026-09-18 by the session that kept them. **Not yet run.** Strand 1,
+item 4. The owner chose to keep all of them, as agreed on 17 September, after
+being told the count had grown from 70 to 105, and gave permission to read the
+archive's pages through their Chrome and to download them.
+
+### Part A — mechanical
+
+1. **Every cited address is listed.** The distinct web addresses in
+   `source_ref` of `bill`, `stage_event` and `field_source` in `legdata` (106
+   on 18 September) are exactly the addresses in `sources/kept-pages.csv`,
+   neither more nor fewer. `python3 tools/keep_cited_pages.py --list` says
+   "0 to fetch; 0 need a browser". *Where from:* DECISIONS.md 2026-09-17,
+   "every cited source has a copy kept".
+2. **Every listed file is there and unchanged.** Each `kept_as` file exists
+   under `sources/`, its size is `bytes` and its SHA-256 is `sha256`.
+3. **Each copy is the page, not an error.** No file contains "verifying your
+   browser" or "access denied"; every file whose address ends `.pdf` or asks
+   for `OfficialReport?` begins `%PDF` and opens; every other file is HTML.
+4. **Each copy is the page its address names**, checked by reading, not by
+   the tool that fetched it: for every bill page, the bill named in its
+   heading is the bill the citing row belongs to; for every Official Report
+   copy, the meeting date on it is the one in its address or, for the six
+   PDFs, the one the citing provenance line gives; for every legislation.gov.uk
+   copy, the Act is the one whose year and number the address gives. The
+   known exception: the Tobacco Advertising and Promotion bill page's own
+   title tag names another bill (`sources/README.md`); its heading is right.
+5. **The 14 archive pages are the old site's pages**, not the archive's frame:
+   each is about 60 KB and holds its bill's stage details.
+6. **Nothing is left behind**: no bundle from the browser in the owner's
+   Downloads folder; nothing of this work in the server's `/tmp`.
+
+**Which items an outside change can move:** item 1, whenever a session cites a
+new address; the refresh (item 6) keeps it true from then on.
+
+### Part B — the owner's sign-off
+
+7. **Open three copies in your browser** from `sources/`: one bill page from
+   the archive, one Official Report page and one Official Report PDF. Each
+   shows the page you would expect.
+
+### Part C — what this test does not check
+
+**How a reader reaches a kept copy**, and what a page says when an address has
+gone: strand 2. **Checking the addresses at each refresh**: item 6. **When the
+archive captured each old page**: not recorded.
+
+---
+
 ## Each source's terms are recorded, and the copy carries them
 
 Written 2026-09-18 by the session that built `db/119` and retook the copy.
