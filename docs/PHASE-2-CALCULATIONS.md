@@ -96,8 +96,22 @@ The name in brackets is where to find each one in Postico.
 - **Counts and percentages by session and quarter: new.** The write-up says
   whether it's broken down by type too.
 - **Two rules the calculation needs:**
-  - **A bill introduced on the day a quarter changes** needs a rule for which
-    quarter it goes in.
+  - **A bill introduced on the day a quarter begins** counts in that quarter.
+    **Settled by the owner, 18 September** (`docs/BLOCK-2-QUARTER-BOUNDARY.md`,
+    option A): a bill's place is the days from the session's first meeting to
+    its introduction, divided by the days from that meeting to the session's
+    last day; its quarter is `INT(4 × place) + 1`, the last day counting in the
+    fourth. A quarter begins at the first whole day inside it, so a bill on a
+    day a quarter begins partway through goes in the earlier one. No bill is on
+    any boundary today. The sentence for thought 5's methodology note, agreed:
+
+    > A bill's place in its session is the number of days from the session's
+    > first meeting to the day the bill was introduced, divided by the number of
+    > days from that first meeting to the session's last day. Each quarter is a
+    > quarter of that span. A quarter begins at the first whole day inside it,
+    > so a bill introduced on the day a quarter begins counts in that quarter,
+    > and a bill introduced on the session's last day counts in the fourth. No
+    > bill has yet fallen on the day a quarter begins.
   - **Session 7 has no last day.** Settled by the owner, 17 September: it is
     measured to an estimated last day, explained upfront. What that involves is
     at the end of this file.

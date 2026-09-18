@@ -239,8 +239,9 @@ database has from PostgreSQL 17. The machine runs 17.11.
 -- A bill's position is the days from its session's first meeting to its
 -- introduction, divided by the days from that first meeting to the session's
 -- last day; Session 7 uses its expected last day (M14). Quarter 1 is a position
--- under 0.25, and so on; a bill exactly on a boundary goes in the later quarter
--- (proposed, not agreed; no bill is on one today).
+-- under 0.25, and so on; a bill exactly on a boundary goes in the later quarter,
+-- and one on a day a quarter begins partway through goes in the earlier (agreed
+-- 18 September, docs/BLOCK-2-QUARTER-BOUNDARY.md, option A; no bill is on one today).
 -- Types: 'all', or ref_bill_type.analysis_group, so the Hybrid Bill counts as a
 -- government bill (M4). Three results, each one JSON document: bills, sessions, trend.
 with pos as (

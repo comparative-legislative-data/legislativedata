@@ -30,6 +30,59 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## A quarter begins at the first whole day inside it
+
+Written 2026-09-18 by the session that wrote the rule into the documents.
+**Unrun.** Every part was agreed beforehand in
+`docs/BLOCK-2-QUARTER-BOUNDARY.md`: option A, the reader's sentence as drafted.
+Nothing in any database was changed.
+
+### Part A — mechanical
+
+1. **The documents say the rule, and say it the same way.**
+   `docs/PHASE-2-CALCULATIONS.md`, chart 5, gives the rule as
+   `INT(4 × place) + 1` with the last day in the fourth, and quotes the
+   reader's sentence word for word as in `docs/BLOCK-2-QUARTER-BOUNDARY.md`,
+   part 7. `docs/PHASE-2-MOCKUP-CALCULATIONS.md`'s thought 5 comment says
+   "agreed", not "proposed". `docs/PHASE-2-CHARTS-BUILD.md` marks the item
+   done; `docs/PHASE-2-CHARTS-THOUGHTS.md` no longer calls it proposed or
+   needed. `DECISIONS.md` has the entry of 2026-09-18, and the contents
+   regenerate identical. *Where from:* the checklist's part 9.
+2. **The two readings agree on every bill.** Work out each bill's quarter
+   yourself from `legdata`, both ways: A, `least(4, floor(4 × place)) + 1`
+   style, rounding the place down; B, putting a bill in the later quarter if
+   the boundary falls anywhere within its day of introduction. Place is days
+   from the session's first meeting to introduction over days from that
+   meeting to `date_session_end`, or `date_session_end_expected` for Session
+   7. Expected: all 470 bills in the same quarter under both. *Where from:* the
+   checklist's claim that no bill moves, which this repeats independently.
+3. **The boundary days are as the checklist says.** 21 boundaries across seven
+   sessions; exactly three start a day (the third quarter of Sessions 2, 4 and
+   5); no bill introduced on any boundary's day, nor on any session's first or
+   last day; the Tied Pubs (Scotland) Bill, day 1362 of Session 5's 1818, is
+   the nearest, in the third quarter. *Where from:* the checklist, "The one
+   thing to decide" and "Either way, no bill moves".
+4. **Nothing else moved.** 470 bills, 1291 stage records, 192 provenance
+   notes, 14 notes; checker and gaps list empty; only `public`; the
+   dictionary regenerates identical; no `db/` file after `118`.
+
+**Which items an outside change can move:** items 2 and 3 (any new bill, or
+Session 7's expected last day changing). Item 1 holds until the documents are
+edited.
+
+### Part B — the owner's sign-off
+
+None outstanding. The owner agreed option A and the sentence in full on
+2026-09-18.
+
+### Part C — what this test does not check
+
+**The calculation itself.** Thought 5 is not built; its checklist adds the
+check that every bill is in exactly one quarter and that they add up to 470.
+**The methodology note** carrying the sentence is written with thought 5.
+
+---
+
 ## "In progress" comes last
 
 Written 2026-09-18 by the session that built `db/118` and retook the published

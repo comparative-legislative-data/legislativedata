@@ -98,7 +98,9 @@ insight into the raw data. Considered and rejected: "Charts", "Findings".
      being not an ending at all; the rest stay as they are.
    - **The quarter boundary rule.** A bill introduced on the day a quarter
      begins counts in that quarter, the later one. **Agreed.** No bill falls on
-     a boundary today, so nothing moves.
+     a boundary today, so nothing moves. **Done 18 September**
+     (`docs/BLOCK-2-QUARTER-BOUNDARY.md`): a quarter begins at the first whole
+     day inside it; written in `docs/PHASE-2-CALCULATIONS.md`, chart 5.
    - **M9 and M10.** Both were checked correct on 17 September and left as they
      were. **Agreed: M9 is left alone; M10's account of how its own rule came
      about is cut, to match the notes rewritten that day**, with the new wording

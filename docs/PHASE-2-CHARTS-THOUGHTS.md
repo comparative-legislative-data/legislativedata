@@ -82,8 +82,8 @@ so they are not lost.
   bill that reached a stage and only the bills that passed: kept, and where it
   sits.
 - **Thought 5, already settled in part**: Session 7 measured to 1 April 2031
-  (M14, and its approved sentence), and a rule still needed for a bill
-  introduced on the day a quarter changes. The screenshots' inequality score
+  (M14, and its approved sentence), and the rule for a bill introduced
+  on the day a quarter begins (settled 18 September). The screenshots' inequality score
   and labels such as "front-loaded" are judgements a reader would need
   explained; whether any appear is for the second pass. Whether it covers
   government bills only, or every type.
@@ -175,7 +175,8 @@ so they are not lost.
     together, Sessions 1 to 6 pooled, are uneven (p = 0.03), with more bills in
     later quarters.
   - **Open, for iterating:** which pictures to keep; the boundary rule (a bill
-    on the day a quarter begins counts in that quarter, proposed); whether the
+    on the day a quarter begins counts in that quarter; settled 18 September,
+    `docs/BLOCK-2-QUARTER-BOUNDARY.md`); whether the
     tests' wording works for readers; and the explorations of the same session
     kept out of it because the database does not hold what they need: Stage 1s
     and Stage 3s month by month before each session's dissolution or

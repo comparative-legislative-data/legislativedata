@@ -5,6 +5,10 @@ For the owner. Written 18 September 2026. Block 2, item 2 of
 on the day a quarter begins counts in that quarter, the later one. This
 settles every part of doing it, before anything is built.
 
+**Agreed by the owner the same day: option A, the draft sentence as it
+stands, and the nine parts as written. Done the same day**: the edits in part
+9, steps 1 to 4. The closure test is written and unrun.
+
 ## How a quarter is worked out today
 
 In the mock-up of thought 5, a bill's place in its session is a fraction:
