@@ -347,15 +347,41 @@ The codes and the signed-in markers are never stored as themselves, only as a
 one-way scramble, so reading the workbook does not let anyone sign in. The codes'
 scramble uses a key kept in a file on the machine, outside the workbook and
 outside the backup, because a six-digit code could otherwise be worked out from
-its scramble. Both
-workbooks are in the nightly backup, and the backup now takes every workbook on
-the machine unless one is named as left out on purpose.
+its scramble. This workbook and the bills workbook are both in the nightly
+backup, and the backup takes every workbook on the machine unless one is named
+as left out on purpose.
 
 You will not normally open it. Its rows are real people, and none of them goes
 into a document or a conversation, except your own details when you choose to
 give them.
 
-## 6. Words you will meet in Postico
+## 6. The published copy: a third workbook
+
+What a reader will see is not the bills workbook but a copy of it, in a third
+workbook called `published`. It is taken at one moment, and nothing you do in
+the bills workbook reaches it until the next copy is taken.
+
+Take the Legal Continuity Bill. On the clean sheet it is row 305, with codes in
+its cells: `government`, `passed`, `s33_reference`, `withdrawn`. When the copy is
+taken, the bill becomes one line on the copy's `bills` tab, with words instead:
+Government Bill, Passed, Section 33 reference to the Supreme Court, Withdrawn
+after being blocked. Its three stages become three lines on `stages`, the gaps
+between them (8, 7 and 7 days) three lines on `days_between_stages`, and its six
+provenance notes six lines on `sources`. What each word means is on
+`what_the_words_mean`.
+
+The copy is then checked against the bills workbook, every cell, by turning
+each word back into its code, looking it up on the copy's own
+`what_the_words_mean` tab. If a single cell disagrees, no copy is kept.
+
+**Two things are deliberate.** The copy is made by reading the bills workbook
+through a login that can only read, so taking a copy cannot change a bill. And
+it is not in the nightly backup, because it can be taken again in seconds.
+
+You can open it in Postico, on the `live` area. Nothing on the site reads it
+yet.
+
+## 7. Words you will meet in Postico
 
 Not to be used in explanations to the owner, but you will see them on screen.
 

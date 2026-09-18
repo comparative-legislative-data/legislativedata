@@ -136,7 +136,7 @@ hold for explaining how the site runs, which has a jargon problem of its own.
 - **No SQL vocabulary in an explanation.** Not INSERT, UPDATE, SELECT, JOIN,
   foreign key, cascade, trigger, constraint, cardinality, normalisation. If a
   word only makes sense to someone who has used a database, it is the wrong
-  word. The glossary in `HOW-THE-DATABASE-WORKS.md` §5 exists so those words
+  word. The glossary at the end of `HOW-THE-DATABASE-WORKS.md` exists so those words
   can be looked up, not so they can be used.
 - **Reach for the spreadsheet.** Tab, column, dropdown list, pivot table,
   lookup, empty cell. This is not simplification; it is accurate, and it is
