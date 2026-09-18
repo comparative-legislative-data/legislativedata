@@ -49,8 +49,8 @@ Nothing in any database was changed.
    needed. `DECISIONS.md` has the entry of 2026-09-18, and the contents
    regenerate identical. *Where from:* the checklist's part 9.
 2. **The two readings agree on every bill.** Work out each bill's quarter
-   yourself from `legdata`, both ways: A, `least(4, floor(4 × place)) + 1`
-   style, rounding the place down; B, putting a bill in the later quarter if
+   yourself from `legdata`, both ways: A, `least(4, floor(4 × place) + 1)`,
+   rounding the place down; B, putting a bill in the later quarter if
    the boundary falls anywhere within its day of introduction. Place is days
    from the session's first meeting to introduction over days from that
    meeting to `date_session_end`, or `date_session_end_expected` for Session

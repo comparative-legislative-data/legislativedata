@@ -53,29 +53,28 @@ list are both empty.**
   reader (`db/114`); the sources file rewritten (`db/115`, `db/116`); the
   published copy taken, checked and signed off; "factsheet" one word
   (`db/117`); closure tests for all of those run by another session, all
-  passing but the copy's item 12.
+  passing but the copy's item 12. "In progress" moved last (`db/118`) and the
+  copy retaken.
 
-**18 September, this session. "In progress" now comes last.**
+**18 September, this session. Block 2 finished.**
 
-- **Every part agreed first** (`docs/BLOCK-2-IN-PROGRESS.md`): one number
-  moves, 7 to 8, and nothing else. No standing rule against ties. The copy is
-  retaken now rather than waiting for the refresh.
-- **Rehearsed, then done** (`db/118`). The old copy was set aside, a new one
-  taken, and the two compared line by line: exactly one line differs, "In
-  progress", 7 to 8. The old copy was then dropped.
-- **The closure test is written and unrun**, for another session. Its item 10
-  is yours: a look in Postico at the eight outcome lines.
+- **`db/118`'s closure test run**: all pass. Four stray Mac files the last
+  session left on the server were found and, at your word, removed. Item 10,
+  your look in Postico, is still yours.
+- **The quarter boundary rule settled** (`docs/BLOCK-2-QUARTER-BOUNDARY.md`):
+  a quarter begins at the first whole day inside it (option A). No bill moves
+  and nothing in the database changed; the rule and its sentence for readers
+  are written where thought 5 will read them. Its closure test is written and
+  unrun.
 
 ## Now
 
 1. **The copy's item 12**, from 19 September: read the first nightly
    backup's log and search the copy it makes. A few minutes.
-2. **`db/118`'s closure test**, run by a session that did not build it. Its
-   item 10 is your look in Postico.
-3. **Block 2's last item, the quarter boundary rule**: a bill introduced on
-   the day a quarter begins counts in that quarter. It moves no bill. Its
-   checklist comes first, then it is written where thought 5's calculation
-   will read it.
+2. **Your look in Postico**, `db/118`'s item 10: the eight `outcome` lines
+   in `what_the_words_mean`, "In progress" last.
+3. **The quarter rule's closure test**, run by a session that did not write
+   it. Short.
 4. **Then block 3, the refresh**: replacing a live copy, keeping the old one,
    and filling `what_changed`, written down and rehearsed with its undo.
 5. **Iterating the mock-ups**, whenever you want: the open points are in
@@ -138,7 +137,7 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session of "In progress"
+## Sanity check, 2026-09-18, the session of the quarter rule
 
 Run before the first reply.
 
@@ -148,19 +147,30 @@ Run before the first reply.
   and gaps list empty; only `public`.
 - **Every database sorted**: `accounts`, `legdata`, `postgres`, `published`.
   **The site answers 200.**
-- **The 18 September nightly backup ran** (02:46 UTC, finished cleanly),
-  although `restic snapshots` does not show it: the 10:10 run the same day
-  replaced it, one being kept per day. Not a fault.
 
-## Closing checks, 18 September, the session of "In progress"
+## Closing checks, 18 September, the session of the quarter rule
 
-- **One cell of working data changed**: In progress's place, 7 to 8
-  (`db/118`). The copy was retaken; `taken_18_september` was made and
-  dropped within the session. `published` holds `from_working` (empty),
-  `live`, `public`. Four databases.
+- **No working data changed.** The scratch workbook `ct118_before` was made
+  and dropped within the session; four databases. The undo was tried only
+  inside a thrown-away transaction, and the live list reads 8 afterwards.
 - **Figures unchanged**: 470, 1291, 192, 14; checker and gaps list empty.
   The dictionary regenerates identical.
-- **`/tmp` on the server** holds nothing from this session.
+- **`/tmp` on the server** holds nothing from this session, and no `._`
+  files at all.
+
+## The quarter rule: working detail, 18 September
+
+- **Where the 21 boundaries fall** was worked out with the session's span
+  `e - f` in days, boundary `k × span / 4`, and the day containing it
+  `f + floor(boundary)`. Only Sessions 2, 4 and 5's third quarters land on a
+  whole day.
+- **Comparing two workbooks cell by cell** was done with a short Python script
+  on the server, reading each sheet as one JSON line per row keyed by its own
+  primary key, sent by piping it through the connector script. No second
+  database extension was needed.
+- **The Mac's `tar` side-files** (`._name`) survive on the server after the
+  files they belong to are removed. Pack with `--no-xattrs`, or
+  `COPYFILE_DISABLE=1`, and look for `/tmp/._*` before closing.
 
 ## "In progress" last: working detail, 18 September
 
