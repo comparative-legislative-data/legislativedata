@@ -68,8 +68,8 @@ list are both empty.**
 
 **Strand 2, the data on the site** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Item 3, the four reference sections of the Data page**: lay it out
-   whole for you before building. Item 2 is agreed
+1. **Item 3, the four reference sections of the Data page**: laid out in
+   `docs/STRAND-2-REFERENCE-SECTIONS.md`, four questions for you. Item 2 is agreed
    (`docs/STRAND-2-SHARED-PAGE-PARTS.md`) and is built with it, one deploy,
    each with its own closure test.
 2. **Then build items 2 and 3**, rehearse, deploy, and write both tests.
