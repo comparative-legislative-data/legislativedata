@@ -62,16 +62,19 @@ list are both empty.**
   number, M1 to M14) and each link sitting inside its own section.
 - **One line of the test was out of date**: the undo is now two steps, not
   one. The site was right; the record says so.
+- **The table's write-up is with you**: seven columns, narrowing by
+  session, type, outcome and title, each bill opening to its stages and
+  where each fact came from.
 - No bill, date or figure changed.
 
 ## Now
 
 **Strand 2, the data on the site** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Item 4: the table of every bill's write-up**, to you before anything is
-   drawn: which columns, how a reader narrows it, and how a reader gets from
-   a bill to its provenance notes. It is built to take a filter from a chart
-   later, and the house style is tested on it.
+1. **Item 4: the table of every bill.** The write-up is with you
+   (`docs/STRAND-2-THE-TABLE.md`), five questions at the end. Once they are
+   settled: a mock-up with the real rows, then the build, its check and its
+   undo.
 
 ## Waiting for you
 
