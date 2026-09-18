@@ -35,9 +35,9 @@ There is no universal test. Each ingest gets its own, newest first below.
 Strand 2, item 2. Written 2026-09-18 by the session that built and deployed
 it with item 3 (`docs/STRAND-2-SHARED-PAGE-PARTS.md`, agreed by the owner the
 same day; the build, its check and its undo in
-`docs/STRAND-2-ITEMS-2-AND-3-BUILD.md`). **Part A run 18 September by a
-session that built none of it: passes. Part B waits for the owner.** The run
-is under Part C.
+`docs/STRAND-2-ITEMS-2-AND-3-BUILD.md`). **Run 18 September by a session
+that built none of it: Part A passes, and the owner signed off Part B.
+Closed.** The run is under Part C.
 
 `tools/check_data_pages.py` is the thing under test as much as the site is:
 read it before trusting its lines, and ask the questions below of the live
@@ -136,6 +136,10 @@ site's query was read too (numbered order, `substring(note FROM 2)::int`).
 - **A10.** Nothing of the run's left in `/tmp`; four databases; 470, 1291,
   192, 14; checker and gaps list empty; the dictionary regenerates
   identical. Pass.
+- **Part B**, 1 to 3, the owner, 18 September: header, date, date statement,
+  credit lines and footer; dark, light and print; Back after signing out;
+  `/data#M7` signed out, through sign-in, landing on M7. "All seems to
+  work. Tests passed." Pass.
 
 ---
 
@@ -144,8 +148,8 @@ site's query was read too (numbered order, `substring(note FROM 2)::int`).
 Strand 2, item 3. Written 2026-09-18 by the session that built and deployed
 it with item 2 (`docs/STRAND-2-REFERENCE-SECTIONS.md`, agreed by the owner
 the same day). **Part A run 18 September by a session that built none of
-it: passes. Part B, item 1 already done; item 2 waits for the owner.** The
-run is under Part C.
+it: passes; the owner signed off Part B. Closed.** The run is under Part
+C.
 
 As for item 2: `tools/check_data_pages.py` is under test too. Where an item
 compares with the copy, take the copy's lines afresh, as `legsite`, not from
@@ -236,6 +240,9 @@ copy is asked.
 - **A8.** Check items 29–31 pass. Pass.
 - **B1** was done before the run: the owner read the pages and agreed the
   six choices (`DECISIONS.md`, 18 September).
+- **B2**, the owner, 18 September: `#M7`, `#terms-of-use` and
+  `#what-has-changed` open their sections; the credit lines' "Terms of use"
+  and the date statement's "See what has changed." land there. Pass.
 
 ---
 

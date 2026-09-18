@@ -17,7 +17,7 @@ three strands, one after another, then the closing test.
 | Strand | What it delivers | Where it is |
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
-| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: item 1 **closed**; items 2 and 3 **live**, closure tests written, not run |
+| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1, 2 and 3 **closed**; item 4, the table, next |
 | 3. The charts | the six thoughts on the Insights page | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
@@ -50,33 +50,28 @@ list are both empty.**
   the copy and deployed; old site releases cleared, nineteen to three.
 - **18 September, late.** Strand 2, item 1 closed; the site became two pages;
   items 2 and 3 agreed.
+- **18 September, night.** Items 2 and 3 built and live, with a 68-point
+  check; you read the pages and agreed six small choices.
 
-**18 September, night, this session. Items 2 and 3 built and live.**
+**18 September, this session. Items 2 and 3 closed.**
 
-- **The Data and Insights pages are on the site**, behind the sign-in, with
-  the date, the date statement, the credit lines, the new footer on every
-  page, and the Data page's four folded reference sections, all read from
-  the copy.
-- **A 68-point check** compares every line with the copy and the agreed
-  wording; all pass on the live site, and it fails where it should when a
-  word is changed on purpose. The privacy check passes. The undo was
-  rehearsed.
-- **You read the pages** and agreed the six small choices the build made.
-- **Two deploys were started too soon** and refused at their last check; the
-  site was right both times, and the runbook now says to wait.
+- **Their closure tests were run** by a session that built none of it: every
+  mechanical item passes, and you signed off the links, dark, light, print,
+  and Back after signing out.
+- **Two gaps in the check were covered by hand**: the notes' order (by
+  number, M1 to M14) and each link sitting inside its own section.
+- **One line of the test was out of date**: the undo is now two steps, not
+  one. The site was right; the record says so.
 - No bill, date or figure changed.
 
 ## Now
 
 **Strand 2, the data on the site** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Run the closure tests for items 2 and 3** (`docs/CLOSURE-TESTS.md`,
-   the two newest), as a session that built none of it. Their sign-off
-   items are yours: the links opening their sections, dark, light, print,
-   and Back after signing out.
-2. **Item 4: the table of every bill's write-up**, to you before anything is
+1. **Item 4: the table of every bill's write-up**, to you before anything is
    drawn: which columns, how a reader narrows it, and how a reader gets from
-   a bill to its provenance notes.
+   a bill to its provenance notes. It is built to take a filter from a chart
+   later, and the house style is tested on it.
 
 ## Waiting for you
 
@@ -128,19 +123,14 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session that built items 2 and 3
+## Sanity check, 2026-09-18, the session that ran items 2 and 3's tests
 
-Run before the first reply.
-
-- **Clean and pushed at the start**; the decisions contents and the dictionary
-  regenerated identical; counts 470, 1291, 192, 14; checker and gaps list
-  empty; four databases, all sorted; the site 200; the backup timer next due
-  02:44 UTC. The "Now" item traced to strand 2, items 2 and 3. Nothing found.
-- **At the close**: counts 470, 1291, 192, 14; checker and gaps list empty;
-  four databases; the copy's areas `from_working`, `live`, `previous`,
-  `public`; the site healthy on `2026-09-18T20-54-13Z`, three releases,
-  nothing left in the server's `/tmp`; dictionary and decisions contents
-  regenerated identical; clean and pushed.
+Run before the first reply. Clean and pushed; decisions contents and
+dictionary regenerated identical; counts 470, 1291, 192, 14; checker and
+gaps list empty; four databases (`legdata`, `accounts`, `published`,
+`postgres`), all sorted; the site 200; backup timer next 02:44 UTC. Both
+"Now" items traced to strand 2, items 2–4. Nothing found. After the run:
+the same counts, the copy's fingerprint unchanged, nothing left in `/tmp`.
 
 ## Items 2 and 3: working detail, 18 September
 
