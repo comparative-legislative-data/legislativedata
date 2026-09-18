@@ -15,7 +15,7 @@ sessions.
 
 | Strand | What it delivers | Where it is |
 |---|---|---|
-| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: item 2 closed; items 3 and 4 built, their tests unrun; items 1, 5–7 to do |
+| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: item 2 closed; items 3 and 4 built, their tests unrun; item 5 agreed; items 1, 6, 7 to do |
 | 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | not open |
 | 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
@@ -71,7 +71,10 @@ list are both empty.**
   17 September (the stage dates' addresses had been missed). 91 fetched by a
   new tool, `tools/keep_cited_pages.py`; the 14 on the old site's archive read
   through your Chrome. Each checked to be the page it should be. About 16 MB,
-  in `sources/`, listed in `sources/kept-pages.csv`. Closure test written.
+  in `sources/`, listed in `sources/kept-pages.csv`. Closure test written;
+  you signed off the copies.
+- **Item 5, the wording every page carries**: agreed as drafted
+  (`docs/wording/PUBLISHING.md`). It is built with the pages in strand 2.
 
 ## Now
 
@@ -82,9 +85,8 @@ list are both empty.**
    (`db/118`, item 10).
 2. **Items 3 and 4's closure tests**, run by a session that didn't build
    them (`CLOSURE-TESTS.md`). Your sign-offs for both are done.
-3. **Item 5**: the wording every page carries, drafted in full in
-   `docs/wording/PUBLISHING.md`, with five questions for you. **Then items
-   6 and 7**: the refresh, and the strand's closure test.
+3. **Item 6: the refresh**, laid out for you whole before anything is built.
+   **Then item 7**, the strand's closure test.
 
 ## Waiting for you
 

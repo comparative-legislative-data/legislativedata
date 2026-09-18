@@ -1,7 +1,8 @@
 # Wording: what every page carries once there is data
 
-For the owner. Strand 1, item 5 of `docs/PHASE-2.md`. **Drafted 18 September
-2026, not yet agreed.** Every word a reader will see is below, in full. The
+For the owner. Strand 1, item 5 of `docs/PHASE-2.md`. **Agreed by the owner
+on 18 September 2026, all five parts as drafted.** A page is built from this
+word for word; change the wording here first. Every word a reader will see is below, in full. The
 download's own wording (its readme and suggested citation) is strand 2, and a
 chart's is strand 3.
 
@@ -108,8 +109,8 @@ file; for our own work, "What it does not allow" reads "None." and there is no
 
 ## 5. When signing in cannot reach the accounts
 
-Already on the site since 16 September, drafted to match the apply page's
-equivalent and never formally agreed. Proposed: agreed as it stands.
+On the site since 16 September, drafted to match the apply page's equivalent,
+and agreed as it stands on 18 September.
 
 > ACCOUNTS
 >
@@ -119,12 +120,8 @@ equivalent and never formally agreed. Proposed: agreed as it stands.
 
 ---
 
-## Questions
+## Where each is built
 
-1. **The foot of every page (1)**: both lines as drafted?
-2. **The top of a data page (2)**: as drafted?
-3. **Sources and licence (3)**: as drafted, including "This data is provided
-   as it is, with no warranty. legislativedata.org is not responsible for what
-   anyone does with it."?
-4. **The Sources page's terms (4)**: the opening paragraph as drafted?
-5. **Signing in (5)**: agreed as it stands?
+Parts 1 to 4 are built in strand 2, with the first data page, the Sources page
+and the table of every bill; each build's test compares the page with the
+quoted blocks here. Part 5 is built already.
