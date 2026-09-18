@@ -53,6 +53,10 @@ Always:
   contents block at the top of `DECISIONS.md`;
 - anything in the docs, these instructions or the memory that contradicts the
   database, the plan, or each other.
+- that every item under "Now" in `STATE.md` traces to an item in the open
+  phase's build plan (for Phase 2, `docs/PHASE-2.md`, "The build plan"). If
+  not, raise it before any work starts. A narrower plan standing in for the
+  phase's own is how 17 September went wrong;
 - that every database on the machine is sorted into a backup theme: the working
   database, or named in `ACCOUNTS_DATABASES` or `NOT_BACKED_UP` in
   `deploy/legdata-backup`. An unsorted one is kept ten years with the bills,

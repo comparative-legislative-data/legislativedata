@@ -6,15 +6,19 @@ Updated: 2026-09-18
 
 **Phase 0, the dataset, and Phase 1, the site, are both closed.** At
 `legislativedata.org` someone can apply, you approve or refuse them, and they
-sign in with a code by email; the privacy page says what is held. **Phase 2,
-the data published, is open**, for approved beta users only. **Its plan is
-reviewed and every question answered.** The published copy's headings are
-settled, and **the methodology notes, the definitions and the whole of the
-sources file are written for a reader.** **The first published copy is taken
-and checked**, in a workbook of its own that nothing on the site reads yet.
-The charts exist as mock-ups with real figures. **The build plan, from here
-to publication, is drafted and checked, and waiting for your review**;
-nothing is built until it is agreed. The arc is in `docs/PLAN.md`.
+sign in with a code by email. **Phase 2, putting the data on the site, is
+open**, for approved beta users only. Nothing of the data is on the site yet.
+
+**Phase 2's build plan is agreed** (`docs/PHASE-2.md`, "The build plan"), in
+three strands, one after another, then the closing test. About twenty-five
+sessions.
+
+| Strand | What it delivers | Where it is |
+|---|---|---|
+| 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **open**: the copy is built and checked; items 1–7 to do |
+| 2. The data on the site | the site reading the copy, reference pages, table of every bill, the zip | not open |
+| 3. The charts | the six thoughts on the Insights pages | not open; mock-ups exist |
+| Closing test | run by a session that built none of it | not open |
 
 The dataset. No bill, date or figure changed today. What moved was wording: 29
 definitions, and on the 192 provenance lines, 126 notes and 122 of the
@@ -49,35 +53,33 @@ list are both empty.**
   tested; the notes, definitions and sources rewritten for a reader
   (`db/113`–`db/118`); the quarter rule settled.
 
-- **18 September, later.** The build plan drafted in `docs/PHASE-2.md`: your
-  three strands, then the closing test; about twenty sessions. Not agreed.
+- **18 September, later.** The build plan drafted: your three strands.
 
-**18 September, this session. The build plan checked.**
+**18 September, this session. The build plan checked and agreed.**
 
-- **Twelve findings**, in `docs/BUILD-PLAN-CHECK.md`, each with a proposal.
-  The plan itself is unchanged.
-- **The shape holds.** The one that matters most: where the sums behind a
-  figure are done was never settled (finding 1). **You settled it**: every
-  published figure is worked out from the published data, by working a reader
-  can run on their own download. The days between stages, the one figure
-  published today, moves there first, proved line by line.
-- **Two facts wrong in the plan**: there are four kinds of source, not two
-  (legislation.gov.uk and the Supreme Court were left out), and the Postico
-  look it names is already done; the one outstanding is `db/118`'s.
-- **The size is low**: about twenty-five sessions, not twenty.
+- **Checked** by a session that didn't write it: twelve findings, in
+  `docs/BUILD-PLAN-CHECK.md`. You agreed every one.
+- **One principle settled**: every figure a reader sees is worked out from
+  the published data, by working a reader can run on their own download. The
+  stage dates were always published; the working was not in the reader's
+  terms.
+- **What changed in the plan**: four sources, not two; four reference pages
+  added; "finished" is now a checklist of what you've settled; about
+  twenty-five sessions, not twenty.
+- **Recorded** in `DECISIONS.md`, `PLAN.md`, and the opening check, which now
+  asks whether "Now" traces to the build plan.
 
 ## Now
 
-**Nothing is built until the build plan is agreed.**
+**Strand 1, ready to publish** (`docs/PHASE-2.md`, "Strand 1").
 
-1. **Your review** of the build plan with `docs/BUILD-PLAN-CHECK.md` beside
-   it: the plan's three questions and the check's other eleven proposals
-   (finding 1 is settled). When agreed: the plan
-   redrafted with what you accept, `DECISIONS.md`, a line in `PLAN.md`, this
-   page rebuilt around the strands, and the opening check's new question in
-   `CLAUDE.md`.
-2. **Then strand 1.** Its item 1 needs nothing but time: the copy's item 12
-   from 19 September, and your look in Postico (`db/118`'s item 10).
+1. **Item 1**: the copy's backup check, from 19 September's nightly run, and
+   your look in Postico for the "In progress" change (`db/118`, item 10).
+2. **Item 2**: the days between stages worked out in the published database,
+   proved line by line against today's 1657. The whole change laid out for you
+   first.
+3. **Then items 3 to 7** in order: the record of each source's terms, the kept
+   pages, the wording, the refresh, and the strand's closure test.
 
 ## Waiting for you
 
@@ -86,20 +88,13 @@ list are both empty.**
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
   accounts hold real people from the first application. Adding an alert is a new
   outside service, so it is yours to decide.
-- **The page shown if signing in can't reach the accounts** was written by me to
-  match the apply page's, and not yet agreed: "Signing in isn't possible right
-  now. Please try again later."
 - **`site/.venv` on this Mac**, 22 MB, which nothing needs: delete it?
-- **Nothing on the server tidies up after itself**: 19 site releases kept,
-  never pruned, and a one-off check from earlier on 16 September listed as
-  failed. Harmless; say if you want them cleared.
+- **A one-off check from 16 September listed as failed** on the server.
+  Harmless. The old site releases are now cleared with strand 2's first deploy.
 - **The machine's monthly cost is written down nowhere.** Its renewal date is in
   the private notes; the cost could go beside it, if you want it recorded.
 - **Where the working dataset's backup lives.** `sources/phd/Billdates-September2026.xlsx`
   is deliberately outside version control and exists on this machine only.
-- **Whether the Forth Crossing Bill needs a dropdown at all**, on the outcomes
-  chart and table, since it moves one bill. Proposed: drop it and say in a note
-  that it is counted as a government bill.
 - **Three counts of how many previous attempts there have been disagree**:
   `CLAUDE.md` says four died in the gap, you say this is the tenth, `PLAN.md`
   says nine before it.

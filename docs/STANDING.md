@@ -90,18 +90,15 @@ what would reopen it.
 **Left for Phase 2, carried here when Phase 1 closed on 16 September.** None of
 these is decided. The owner's review of the Phase 2 plan, 17 September, settled
 two that were here (the style test, and that the site only reads the published
-copy); they are in `DECISIONS.md` and gone from this list. The rest are placed
+copy); they are in `DECISIONS.md` and gone from this list. A third, files or a
+database, went on 18 September: the copy was built as a database of its own
+(`DECISIONS.md`, "How the published copy is taken"). The rest are placed
 in `docs/PHASE-2.md`, and stay here until decided.
 
 - **The colours of charts.** Settled in principle 17 September: colour may
   tell things apart on a chart, always with a legend, never grading an outcome,
   and never the accent (`DECISIONS.md`). The palette itself is chosen with the
   first mock-up.
-- **Publishing the bills as files rather than a database the site reads.** Left
-  open on 15 September (`DECISIONS.md`, "Three databases"). Since 17 September
-  every figure is worked out when the copy is taken, so the site serves finished
-  numbers, and which of the two follows is for the build to show. *What reopens
-  it:* building the published copy.
 - **Heavy use of the site competes with loading data.** The site, the published
   copy and the working database share one machine. At 14 MB of data it is not a
   real worry, and since 17 September a page hands over finished figures, so

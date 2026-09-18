@@ -1,9 +1,9 @@
 # How the mock-ups become real charts on the site
 
 > **18 September: this order is not the phase's build plan, and must not be
-> followed as one.** It covers the charts only. The build plan is drafted in
-> `PHASE-2.md`, "The build plan", and is waiting to be checked and agreed.
-> Until then, nothing here is started.
+> followed as one.** It covers the charts only. The agreed build plan is in
+> `PHASE-2.md`, "The build plan", and replaces it. Kept for the reasoning
+> behind the eight points; where the two differ, the build plan wins.
 
 For the owner. Written 17 September 2026 as a proposal; **the owner agreed all
 eight points the same day**, and this is now the plan the build follows.

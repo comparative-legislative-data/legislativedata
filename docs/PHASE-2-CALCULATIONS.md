@@ -1,5 +1,11 @@
 # Every calculation the charts and the table need
 
+**Numbering, agreed 18 September:** the charts are now numbered by the
+thoughts, 1 to 6. This file's charts map as: chart 1 is thoughts 2 and 3
+(outcomes, chart and table); chart 2 is thought 4 (how long bills take); charts 3
+and 4 are thought 6 (quickest and slowest); chart 5 is thought 5 (the quarters).
+Thought 1, the headline figures, came later and has no number here.
+
 For the owner, 17 September 2026. It answers the question left open in the
 review: whether our charts are always worked out in the database, with the page
 only drawing them. Every figure below was checked against the database today.
