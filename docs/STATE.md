@@ -73,9 +73,13 @@ list are both empty.**
 
 1. **Item 4: the table of every bill.** The write-up is agreed
    (`docs/STRAND-2-THE-TABLE.md`), with a fifth reference section, "What
-   each heading holds". The mock-up with the real rows is with you
-   (https://claude.ai/artifact/TtKMN9rdGhtjxzXgbZP845). Once you have read
-   it: the build, its check and its undo.
+   each heading holds". Its second mock-up is agreed
+   (https://claude.ai/artifact/TtKMN9rdGhtjxzXgbZP845): the page in tabs, a
+   bill in a pop-up, the download to go at the top. Two proposals wait for
+   you (`docs/STRAND-2-THE-TABLE.md`, "After the mock-up": printing, and
+   without JavaScript). Then the build, its check and its undo, which
+   reopens items 2 and 3: their tests are amended and run again with item
+   4's.
 
 ## Waiting for you
 

@@ -193,3 +193,45 @@ table and say whether the style holds, and that is recorded (strand 2's
 
 Once these are settled, a mock-up with the real rows comes next, before the
 build: the table, one bill opened, and a phone's width.
+
+## After the mock-up, 18 September
+
+The owner read the first mock-up
+(https://claude.ai/artifact/TtKMN9rdGhtjxzXgbZP845) and found the page would
+overwhelm. A second version put a bill in a pop-up and the page in tabs. **The
+owner: "Much better", and happy with the new layout.** Settled:
+
+1. **A bill opens in a pop-up**, not beneath its line. It keeps its own
+   address, `/data#bill-305`; its number, session and title stay at its top
+   while it scrolls; on a phone it fills the screen. Closing it leaves the
+   list where it was.
+2. **The Data page is in tabs**: Bills · Methodology notes · Sources and
+   terms of use · What each heading holds · What the words mean · What has
+   changed. The date and the date statement sit above them; the credit lines
+   and the footer below, under every tab. Every link into a section keeps its
+   address and opens its tab.
+3. **The date statement drops "See what has changed."**
+   (`PUBLISHING.md`, part 2), on every page. The tab, and the footer's link
+   on every page, do that job.
+4. **The download goes at the top of the Data page**, above the tabs, so a
+   reader finds it at once. Recorded for item 5.
+
+**What this does to items 2 and 3, closed earlier the same day.** Their
+reference sections become tabs, and the date statement changes, so their
+check and closure tests change with the build:
+- `tools/check_data_pages.py`: the sections become tabs; the link from the
+  date statement is gone; each address lands in its tab; the printing rule
+  below.
+- Items 2 and 3's closure tests are amended where they name sections or the
+  link, and run again, by another session, with item 4's.
+- The rest stands: every line still read from the copy, the same words.
+
+**Proposed, for the owner:**
+- **Printing prints the tab that is open**, and an open bill prints on its
+  own. This replaces "printing the Data page opens every section", agreed
+  for items 2 and 3, which with the table would print hundreds of pages.
+- **Without JavaScript** every tab shows, one after another, as the sections
+  do today, and a bill opens beneath its line, as in the first mock-up. The
+  site sends each bill's detail in the page; the pop-up is the same detail,
+  lifted out. No page for each bill is made.
+

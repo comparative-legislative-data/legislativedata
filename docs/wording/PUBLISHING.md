@@ -34,7 +34,11 @@ screenshot of the table keeps its date. Then one line under it.
 > Data as at 18 September 2026
 >
 > Accurate as at that date. A record it was taken from may since have been
-> corrected, and earlier versions are not kept. See what has changed.
+> corrected, and earlier versions are not kept.
+
+*Changed 18 September 2026 by the owner, after the table's mock-up: "See what
+has changed." is dropped, since What has changed is now a tab of the Data
+page and the footer of every page links to it. Built with the table.*
 
 ## 3. At the bottom of every page showing data: sources and licence
 
