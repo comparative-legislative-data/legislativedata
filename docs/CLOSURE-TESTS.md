@@ -118,8 +118,9 @@ items 2, 4 and 5 to 8 wait for a zip made from the new copy.
 
 **1 to 6 signed off by the owner, 19 September**, trying it live: "Formatting
 looks good. download works. every file opens as expected. request formats
-works as expected", with the one change that became 7. **7 waits for the
-owner.**
+works as expected", with the one change that became 7. **7 signed off by
+the owner the same day**: "i've checked the panel and it is fine." Part B
+passes.
 
 ### Part C — what this test does not check
 

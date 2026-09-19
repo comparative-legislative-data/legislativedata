@@ -70,7 +70,7 @@ list are both empty.**
   Its closure test is written for another session.
 - **You tried it live and signed off your part**, bar one change: "Ask for
   another format" now opens a panel, open your email or copy the address.
-  Built and live; waiting for your look.
+  Built and live, and you checked it: Part B passes.
 - **Your decision: a monthly design and sanity sweep once Phase 2 closes**,
   with feedback as it comes until then. The table's choices come back at
   the first sweep.
@@ -80,11 +80,9 @@ list are both empty.**
 
 **Strand 2** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Your look at the format panel**: item 5's Part B, 7, in
-   `docs/CLOSURE-TESTS.md`, "The zip". The rest of Part B is signed off.
-2. **Close item 5.** A session that built none of it runs its test, with
+1. **Close item 5.** A session that built none of it runs its test, with
    the amended items of items 2 and 4.
-3. **Then item 6: the refresh makes the zip** from each new copy before it
+2. **Then item 6: the refresh makes the zip** from each new copy before it
    goes live, rehearsed with its undo. It also settles what happens if two
    refreshes land on one day. **No refresh until it is built**: one would
    leave the new copy without a zip, and the download box would vanish.
