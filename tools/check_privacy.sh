@@ -92,7 +92,7 @@ for b in blocks:
     t = " ".join(x.strip() for x in b)
     t = re.sub(r"^(#+|-) ", "", t)
     t = t.replace("**", "").replace(chr(96), "")
-    t = t.replace("[the date it goes live]", "16 September 2026")
+    t = t.replace("[the date it goes live]", "19 September 2026")
     t = t.strip("*")
     if t: want.append(norm(t))
 page = open(sys.argv[2]).read()

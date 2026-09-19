@@ -1,16 +1,19 @@
 """The Data and Insights pages, checked on the machine against a staged release.
 
-Strand 2, items 2 and 3 (docs/STRAND-2-ITEMS-2-AND-3-BUILD.md, part A), and
+Strand 2, items 2 and 3 (docs/STRAND-2-ITEMS-2-AND-3-BUILD.md, part A);
 item 4, the table of every bill, which put the Data page in tabs
-(docs/STRAND-2-ITEM-4-BUILD.md, part A). Run
-as the site's own login, in the release's own environment, with the agreed
-wording sent alongside:
+(docs/STRAND-2-ITEM-4-BUILD.md, part A); and item 5, the zip
+(docs/STRAND-2-ITEM-5-BUILD.md, part A). Run as the site's own login, in the
+release's own environment, with the agreed wording sent alongside and the
+folder the zip is kept in:
 
     sudo -u legsite /srv/site/releases/<release>/.venv/bin/python \\
-        check_data_pages.py /srv/site/releases/<release> PUBLISHING.md
+        check_data_pages.py /srv/site/releases/<release> PUBLISHING.md \\
+        DOWNLOAD.md /srv/downloads
     ... BREAK=1 ...   # must FAIL at the date statement and the credit lines
     ... BREAK=2 ...   # must FAIL at the table, its narrowing, the opened bills,
                       # the link to a bill, and What each heading holds
+    ... BREAK=3 ...   # must FAIL at the zip's files and its readme
 
 It reads the live copy exactly as the site does, and writes nothing anywhere.
 It signs nobody in and never opens the accounts: "signed in" is a made-up
@@ -28,11 +31,12 @@ import sys
 from html import unescape
 from urllib.parse import parse_qs, urlsplit
 
-REL, WORDING = sys.argv[1], sys.argv[2]
+REL, WORDING, DOWNLOAD_WORDING, ZIP_DIR = sys.argv[1:5]
 sys.path.insert(0, REL)
 os.chdir(REL)
 
 import accounts  # noqa: E402
+import download  # noqa: E402
 import published  # noqa: E402
 from app import app, day  # noqa: E402
 from markupsafe import escape  # noqa: E402
@@ -71,9 +75,20 @@ if os.environ.get("BREAK") == "2":
     wording = wording.replace(was, now)
 
 
-def part(number):
+download_wording = open(DOWNLOAD_WORDING).read()
+if os.environ.get("BREAK") == "3":
+    # One word of the readme, and below, one cell of one file, in what the
+    # check expects. Must FAIL at the zip's files and its readme, and nowhere
+    # else.
+    was, now = "is read. Earlier versions are not kept", "is read. Earlier versions are never kept"
+    if was not in download_wording:
+        sys.exit(f"Refusing: BREAK could not find {was!r} to change.")
+    download_wording = download_wording.replace(was, now)
+
+
+def part(number, doc=None):
     """The quoted paragraphs of one numbered part, joined line by line."""
-    body = re.split(r"^## ", wording, flags=re.M)
+    body = re.split(r"^## ", doc or wording, flags=re.M)
     text = next(b for b in body if b.startswith(f"{number}. "))
     paras, cur = [], []
     for line in text.splitlines() + [""]:
@@ -136,9 +151,11 @@ if os.environ.get("BREAK") == "2":
 when = day(copy["about"][0]["date_copy_taken"])
 copy_date = copy["about"][0]["date_copy_taken"]
 
-MARKER = "made-up-reader"
+MARKER, OTHER = "made-up-reader", "another-made-up-reader"
+READERS = {MARKER: ("A made-up reader", False), OTHER: ("Another made-up reader", False)}
 real_signed_in_as = accounts.signed_in_as
-accounts.signed_in_as = lambda m: ("A made-up reader", False) if m == MARKER else None
+accounts.signed_in_as = lambda m: READERS.get(m)
+download.DOWNLOAD_DIR = ZIP_DIR
 
 client = app.test_client()
 
@@ -146,7 +163,8 @@ client = app.test_client()
 def get(path, signed_in=False):
     c = app.test_client()
     if signed_in:
-        c.set_cookie(key="signed_in", value=MARKER, domain="localhost")
+        c.set_cookie(key="signed_in", value=OTHER if signed_in == OTHER else MARKER,
+                     domain="localhost")
     return c.get(path)
 
 
@@ -725,6 +743,217 @@ check(f"What each heading holds: all {len(want)} headings, each with the descrip
       f"{len(pairs)} on the page")
 check("What each heading holds: each file with its own description",
       all(f'<p class="file-desc">{escape(f["file_holds"])}</p>' in sec for f in copy["files"]))
+
+# ---- 18. The zip --------------------------------------------------------------------------------------------
+#
+# Every expectation here is from DOWNLOAD.md and from the copy asked afresh
+# below, never from site/download.py, except item 14, which remakes the zip
+# with it to show the kept one is the copy's and nothing else.
+
+import csv as csvmod  # noqa: E402
+import io  # noqa: E402
+import zipfile  # noqa: E402
+from urllib.parse import quote  # noqa: E402
+from zoneinfo import ZoneInfo  # noqa: E402
+
+import psycopg  # noqa: E402
+
+FILES = ["bills", "stages", "days_between_stages", "sessions", "methodology_notes", "sources",
+         "what_the_words_mean", "what_changed", "workings", "about", "cited_pages", "terms"]
+with psycopg.connect(published.CONNINFO, autocommit=True) as conn, conn.cursor() as cur:
+    fresh = {}
+    for f in FILES:
+        cur.execute(f"SELECT * FROM live.{f}")
+        fresh[f] = ([c.name for c in cur.description], cur.fetchall())
+    cur.execute("""SELECT table_name, column_name, data_type, ordinal_position,
+                          col_description(format('live.%I', table_name)::regclass, ordinal_position)
+                     FROM information_schema.columns WHERE table_schema = 'live'""")
+    columns = cur.fetchall()
+    cur.execute("""SELECT relname, obj_description(c.oid, 'pg_class') FROM pg_class c
+                     JOIN pg_namespace n ON n.oid = c.relnamespace WHERE nspname = 'live'""")
+    file_holds = dict(cur.fetchall())
+    cur.execute('SELECT heading, value FROM live.what_the_words_mean ORDER BY heading, "order", value')
+    word_list = cur.fetchall()
+    cur.execute("SELECT note, applies_to FROM live.methodology_notes ORDER BY substring(note FROM 2)::int")
+    note_list = cur.fetchall()
+    cur.execute("SELECT working FROM live.workings WHERE file = 'days_between_stages'")
+    working_text = cur.fetchone()[0]
+
+
+def as_text(v):
+    return "" if v is None else (v.isoformat() if isinstance(v, datetime.date) else str(v))
+
+
+name = f"legislativedata-{copy_date.isoformat()}.zip"
+folder = name[:-4]
+kept_path = os.path.join(ZIP_DIR, name)
+kept_bytes = open(kept_path, "rb").read()
+size = f"{len(kept_bytes) / 1_000_000:.1f} MB"
+dp2 = [x.replace("18 September 2026", when).replace("legislativedata-2026-09-18.zip", name)
+       .replace("(0.4 MB)", f"({size})") for x in part(2, download_wording)]
+
+box = between(html, '<section class="download"', "</section>")
+check("the download box is DOWNLOAD.md part 2, word for word, with the copy's date and the file's size",
+      blocks(box) == dp2[:4] and dp2[0] == "Download the whole dataset", (blocks(box), dp2[:4]))
+check("the box sits above the tabs",
+      0 < html.find('<section class="download"') < html.find('<nav class="tabs"'))
+subject = dp2[4]
+check("its link goes to the zip's address, and Ask for another format opens an email to the agreed "
+      "address with the agreed subject",
+      f'href="/download/{name}"' in box
+      and f'href="mailto:comparativelegislativedata@gmail.com?subject={quote(subject)}"' in box
+      and subject == "Another format for the legislativedata.org data"
+      and "addressed to\ncomparativelegislativedata@gmail.com" in download_wording)
+check("part 8's opening sentence without \"is being built\", as DOWNLOAD.md part 2 gives it",
+      dp2[5] == part(8)[0] and dp2[5] in blocks(section(html, "bills")) and "is being built" not in html)
+
+download.DOWNLOAD_DIR = "/nonexistent-download-folder"
+nozip = get("/data", signed_in=True).get_data(as_text=True)
+r = get(f"/download/{name}", signed_in=True)
+download.DOWNLOAD_DIR = ZIP_DIR
+check("with no zip for the copy's date: no download box, the rest of the page as before, and the "
+      "zip's address gives part 6's words",
+      '<section class="download"' not in nozip and len(table_rows(section(nozip, "bills"))) == total
+      and r.status_code == 503 and blocks(between(r.get_data(as_text=True), "<main>", "</main>"))
+      == ["Data", part(6)[2], part(6)[3]])
+
+r = get(f"/download/{name}")
+loc = r.headers.get("Location", "")
+out_ok = (r.status_code == 302 and urlsplit(loc).path == "/sign-in"
+          and parse_qs(urlsplit(loc).query).get("next") == ["/data"] and b"PK" not in r.get_data())
+r = get(f"/download/{name}", signed_in=True)
+served = r.get_data()
+check("signed out, the zip's address goes to the sign-in page, returning to Data, with none of the "
+      "file; signed in, a zip, offered under its name, not kept by the browser",
+      out_ok and r.status_code == 200 and r.mimetype == "application/zip"
+      and r.headers.get("Content-Disposition") == f'attachment; filename="{name}"'
+      and r.headers.get("Cache-Control") == "no-store" and served[:2] == b"PK",
+      (r.status_code, r.headers))
+
+z = zipfile.ZipFile(io.BytesIO(served))
+inside = {i.filename.split("/", 1)[1]: z.read(i) for i in z.infolist()}
+readme_text = inside.get("README.txt", b"").decode("utf-8", "replace")
+listed = re.findall(r"^([a-z_-]+\.(?:csv|txt))(?:  \d+ lines?)?\r?$", readme_text, flags=re.M)
+want_names = ["README.txt", "codebook.txt"] + [f + ".csv" for f in FILES] + ["working-days_between_stages.txt"]
+check("one folder, holding exactly the fifteen files, and the readme names every other one",
+      all(i.filename.startswith(folder + "/") for i in z.infolist())
+      and list(inside) == want_names and sorted(listed) == sorted(want_names[1:]), (list(inside), listed))
+
+bad = []
+for f in FILES:
+    names, rows = fresh[f]
+    want_rows = sorted([as_text(v) for v in row] for row in rows)
+    if os.environ.get("BREAK") == "3" and f == "bills":
+        want_rows[0][names.index("title")] += " (changed)"
+    got = list(csvmod.reader(io.StringIO(inside[f + ".csv"].decode("utf-8"), newline="")))
+    heads = [c[1] for c in sorted((c for c in columns if c[0] == f), key=lambda c: c[3])]
+    if got[0] != heads or names != heads or sorted(got[1:]) != want_rows or len(got) - 1 != len(rows):
+        bad.append(f)
+bill_nums = [int(r[0]) for r in csvmod.reader(io.StringIO(inside["bills.csv"].decode("utf-8"))) if r[0].isdigit()]
+check("each of the twelve CSV files against the copy, asked afresh: the same headings in order, the same "
+      "number of lines, every cell as the copy has it; bills in number order", not bad
+      and bill_nums == sorted(bill_nums) and len(bill_nums) == total, bad)
+
+enc_ok = all(not d.startswith(b"\xef\xbb\xbf") for d in inside.values())
+try:
+    for d in inside.values():
+        d.decode("utf-8")
+except UnicodeDecodeError:
+    enc_ok = False
+curly = [t for b_ in fresh["bills"][1] for t in [b_[fresh["bills"][0].index("title")]] if "’" in t]
+check("every file UTF-8 with no marker at the start, lines ending as Windows writes them; a curly "
+      "apostrophe survives",
+      enc_ok and curly and all(t in inside["bills.csv"].decode("utf-8") for t in curly)
+      and inside["bills.csv"].count(b"\r\n") >= total + 1, curly)
+
+uk_today = datetime.datetime.now(ZoneInfo("Europe/London")).date().isoformat()
+counts = {f: len(fresh[f][1]) for f in FILES}
+want_readme = []
+for x in part(3, download_wording):
+    m = re.match(r"^([a-z_]+)\.csv \d+ lines? ", x)
+    if m:
+        n_ = counts[m.group(1)]
+        x = f"{m.group(1)}.csv {n_} line{'' if n_ == 1 else 's'} {norm(file_holds[m.group(1)])}"
+    want_readme.append(x.replace("2026-09-18", copy_date.isoformat()).replace("2026-09-19", uk_today)
+                       .replace("(2026)", f"({copy_date.year})"))
+got_readme = [norm(p) for p in re.split(r"\r?\n\s*\r?\n", readme_text) if p.strip()]
+check("the readme is DOWNLOAD.md part 3 word for word, with the copy's date, today's date in the UK, "
+      "each file's count and line from the copy",
+      got_readme == want_readme,
+      next(((g_, w_) for g_, w_ in zip(got_readme, want_readme) if g_ != w_), (len(got_readme), len(want_readme))))
+
+code_text = inside["codebook.txt"].decode("utf-8")
+code_paras = [norm(p) for p in re.split(r"\r?\n\s*\r?\n", code_text) if p.strip()]
+dp4 = [x.replace("2026-09-18", copy_date.isoformat()) for x in part(4, download_wording)]
+words_for, notes_on = {}, {}
+for h_, v_ in word_list:
+    words_for.setdefault(h_, []).append(v_)
+for n_, a_ in note_list:
+    for h_ in (a_ or "").split(","):
+        if h_.strip():
+            notes_on.setdefault(h_.strip(), []).append(n_)
+
+
+def entry_for(f, h, desc, dtype):
+    kind = {"integer": "number", "date": "date"}.get(dtype) or ("yes or no" if desc.startswith("Yes") else "text")
+    parts = [f"{f}.{h}", desc, f"Type: {kind}"]
+    if f in ("bills", "stages", "sessions"):
+        parts.append("Worked out or read: read from its source")
+    elif f == "days_between_stages":
+        rule = re.match(r"Worked out: (.*)", desc)
+        parts.append(f"Worked out or read: worked out from bills and stages: {rule.group(1)} The working is in workings."
+                     if rule else "Worked out or read: worked out from bills and stages; the working is in workings")
+    if words_for.get(h):
+        parts.append("Words it can hold (each explained in what_the_words_mean.csv): " + "; ".join(words_for[h]))
+    if notes_on.get(f"{f}.{h}"):
+        parts.append("Methodology notes that bear on it: " + ", ".join(notes_on[f"{f}.{h}"]))
+    return norm(" ".join(parts))
+
+
+want_code = dp4[:2]
+for f in FILES:
+    mine = sorted((c for c in columns if c[0] == f), key=lambda c: c[3])
+    want_code.append(norm(f"{f}.csv {file_holds[f]}"))
+    want_code += [entry_for(f, c[1], c[4], c[2]) for c in mine]
+entries = [p_ for p_ in code_paras if re.match(r"^[a-z_]+\.[a-z_0-9]+ ", p_) and not p_.split(" ")[0].endswith(".csv")]
+check("the codebook: part 4's opening; every one of the 113 headings in the readme's order of files, each "
+      "description, type, words and notes as the copy has them; worked out or read as agreed; and "
+      "bills.outcome exactly as part 4 shows it",
+      code_paras == want_code and len(entries) == 113 and dp4[2] in code_paras,
+      next(((g_, w_) for g_, w_ in zip(code_paras, want_code) if g_ != w_), (len(code_paras), len(want_code))))
+
+check("the working's text file is the working in workings, character for character",
+      inside["working-days_between_stages.txt"].decode("utf-8").replace("\r\n", "\n").rstrip("\n")
+      == working_text.replace("\r\n", "\n").rstrip("\n"))
+
+again = get(f"/download/{name}", signed_in=OTHER)
+leaks = [w_ for w_ in (MARKER, OTHER, "made-up", "Made-up", "A made-up reader") for d in
+         list(inside.values()) + [str(again.headers).encode(), str(r.headers).encode()] if w_.encode() in d]
+check("two made-up readers, the same day, get the same file byte for byte, and nothing in it or sent "
+      "with it carries either", again.get_data() == served and not leaks, leaks)
+
+k = zipfile.ZipFile(io.BytesIO(kept_bytes))
+kept_inside = {i.filename: k.read(i) for i in k.infolist()}
+served_inside = {i.filename: z.read(i) for i in z.infolist()}
+diff = [n_ for n_ in kept_inside if kept_inside[n_] != served_inside.get(n_)]
+check("the zip handed over differs from the one kept only in the readme's day downloaded",
+      list(kept_inside) == list(served_inside) and diff == [f"{folder}/README.txt"]
+      and kept_inside[diff[0]].replace(b"YYYY-MM-DD", uk_today.encode()) == served_inside[diff[0]]
+      and kept_inside[diff[0]].count(b"YYYY-MM-DD") == 2, diff)
+
+with psycopg.connect(published.CONNINFO, autocommit=True) as conn:
+    remade = download.read_copy(conn)
+from app import credit_lines  # noqa: E402
+_, remade_bytes = download.build(remade, credit_lines(download.rows_of(remade, "terms"),
+                                                      download.rows_of(remade, "what_the_words_mean")))
+check("made again from the copy, the zip is the same byte for byte as the one kept", remade_bytes == kept_bytes)
+
+r1 = get("/download/legislativedata-2000-01-01.zip", signed_in=True)
+r2 = get("/download/something-else.zip", signed_in=True)
+r3 = get("/download/legislativedata-2026-09-18.zip.exe", signed_in=True)
+check("an older date's name goes to the Data page; a made-up name is not found",
+      r1.status_code == 302 and r1.headers.get("Location") == "/data"
+      and r2.status_code == 404 and r3.status_code == 404)
 
 # ---- 17. The size of the page -----------------------------------------------------------------------------------
 

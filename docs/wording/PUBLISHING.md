@@ -218,7 +218,11 @@ bill, and the whole dataset to download, are being built.":
 
 > Every bill introduced in the Scottish Parliament since 1999, one line
 > each. Open a bill to see everything recorded about it, and where each
-> fact came from. The whole dataset, to download, is being built.
+> fact came from.
+
+*Changed 19 September 2026, agreed by the owner with the download
+(`docs/wording/DOWNLOAD.md`, part 2): "The whole dataset, to download, is
+being built." is dropped.*
 
 Above the dropdowns:
 

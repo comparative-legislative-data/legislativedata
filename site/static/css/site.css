@@ -415,6 +415,19 @@ h2 {
   color: var(--text-muted);
 }
 
+/* The download, above the tabs, so a reader finds it at once. */
+.download {
+  max-width: var(--reading);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: var(--s4) var(--s6);
+  margin: 0 0 var(--s8);
+}
+.download h2 { margin: 0 0 var(--s2); }
+.download p { margin: 0 0 var(--s2); }
+.download p:last-child { margin-bottom: 0; }
+.download-link { font-weight: 600; }
+
 /* The Data page is wider than a page of reading, for the table; its words
    keep the reading width. */
 .wide {
@@ -711,7 +724,7 @@ h2 {
     --accent: #1a1a1a;
   }
   body { font-size: 11pt; }
-  .topbar, .mode-toggle, .tabs, .narrow, #dlg-close { display: none; }
+  .topbar, .mode-toggle, .tabs, .narrow, .download, #dlg-close { display: none; }
   /* An open bill prints on its own. */
   body.bill-open > :not(main), body.bill-open main > :not(.bill-dialog) { display: none; }
   .bill-dialog[open] {

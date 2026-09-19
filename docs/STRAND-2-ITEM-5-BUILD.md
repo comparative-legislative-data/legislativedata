@@ -1,6 +1,7 @@
 # Building strand 2, item 5: the zip
 
-Written 19 September 2026, before anything is built. **Not yet agreed.**
+Written 19 September 2026, before anything is built. **Agreed by the owner
+the same day, with its eight small choices, as proposed.**
 Item 5 of `docs/PHASE-2.md`, strand 2. Every word a reader sees is in
 `docs/wording/DOWNLOAD.md`, agreed the same day, and the zip and the page
 are compared with it.
@@ -36,7 +37,7 @@ are one piece of code, so the readme and codebook have one definition.
 
 ## Small choices the agreed documents did not make
 
-For the owner to agree or change before building.
+Agreed by the owner, 19 September, all eight as proposed.
 
 1. **The zip's address**: `/download/legislativedata-2026-09-18.zip`, the
    same as its name. An older date's name, from a link someone kept, goes

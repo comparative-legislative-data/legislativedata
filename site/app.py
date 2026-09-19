@@ -15,9 +15,10 @@ import os
 import re
 from urllib.parse import parse_qs, quote, urlencode
 
-from flask import Flask, abort, g, redirect, render_template, request, url_for
+from flask import Flask, Response, abort, g, redirect, render_template, request, url_for
 
 import accounts
+import download
 import mail
 import published
 
@@ -238,21 +239,20 @@ def shown_address(address):
     return re.sub(r"^https?://(www\.)?", "", address or "").rstrip("/")
 
 
-def reference_sections(copy):
-    """The copy's files shaped for the Data page, and nothing added to them.
-
-    The terms come in the order of the first source each covers in the
-    copy's list of sources, and our own, which covers no named source, last:
-    the copy's terms file has no column for its order."""
-    source_words = [w for w in copy["words"] if w["heading"] == "source"]
+def terms_in_order(terms, words):
+    """The copy's terms, each with what the pages show of it, in the order
+    of the first source each covers in the copy's list of sources, and our
+    own, which covers no named source, last: the copy's terms file has no
+    column for its order."""
+    source_words = [w for w in words if w["heading"] == "source"]
     source_order = {w["value"]: i for i, w in enumerate(source_words)}
     source_meaning = {w["value"]: w["what_it_means"] for w in source_words}
 
-    terms = []
-    for t in copy["terms"]:
+    out = []
+    for t in terms:
         names = [n.strip() for n in (t["covers"] or "").split(";") if n.strip()]
         named = [n for n in names if n in source_meaning]
-        terms.append({
+        out.append({
             **t,
             "covers_sources": [(n, source_meaning[n]) for n in named] if named else None,
             "place": min(source_order[n] for n in named) if named else len(source_order),
@@ -260,7 +260,19 @@ def reference_sections(copy):
             "credit_parts": split_link(t["credit_line"], licence_link_text(t)),
             "terms_page_shown": shown_address(t["terms_page"]),
         })
-    terms.sort(key=lambda t: (t["place"], t["terms_for"]))
+    out.sort(key=lambda t: (t["place"], t["terms_for"]))
+    return out
+
+
+def credit_lines(terms, words):
+    """Part 3's credit lines as plain text, in the pages' order, for the
+    download's readme."""
+    return [f"{t['lead']}: {t['credit_line']}" for t in terms_in_order(terms, words)]
+
+
+def reference_sections(copy):
+    """The copy's files shaped for the Data page, and nothing added to them."""
+    terms = terms_in_order(copy["terms"], copy["words"])
 
     notes = [{**n,
               "paragraphs": [p.strip() for p in re.split(r"\n\s*\n", n["text"]) if p.strip()],
@@ -472,6 +484,9 @@ def data():
 
     g.copy_date = copy["about"][0]["date_copy_taken"]
     sections = reference_sections(copy)
+    # The download box, only when there is a zip made from this copy.
+    zipped = download.kept(g.copy_date)
+    offer = {"name": download.name_for(g.copy_date), "size": download.size_shown(zipped)} if zipped else None
     shown = narrowed(copy["bills"], choices)
     # The Data page carries the whole dataset, so it credits every set of terms.
     return render_template(
@@ -479,7 +494,33 @@ def data():
         columns=COLUMNS, lists=lists, choices=choices, shown=shown,
         count=count_line(len(shown), len(copy["bills"])),
         opened=opened_bills(copy), heading_files=what_each_heading_holds(copy),
-        cell=cell)
+        cell=cell, offer=offer)
+
+
+# ---- The zip -------------------------------------------------------------------
+#
+# Strand 2, item 5: docs/STRAND-2-ITEM-5-BUILD.md. The zip is made once from the
+# copy and kept on the machine; the site only reads it, fills in the day it was
+# downloaded, and hands it over.
+
+@app.route("/download/<name>")
+def zip_download(name):
+    if not g.get("signed_in"):
+        return redirect(url_for("sign_in", next="/data"), code=302)
+    asked = download.NAME.fullmatch(name)
+    if not asked:
+        abort(404)
+    date = copy_date()
+    if date is None:
+        return render_template("data_unavailable.html"), 503
+    if asked.group(1) != date.isoformat():
+        # A name kept from an older copy: the current one is on the Data page.
+        return redirect(url_for("data"), code=302)
+    zipped = download.kept(date)
+    if not zipped:
+        return render_template("data_unavailable.html"), 503
+    return Response(download.handed_over(zipped, download.today()), mimetype="application/zip",
+                    headers={"Content-Disposition": f'attachment; filename="{name}"'})
 
 
 @app.route("/insights")
@@ -618,7 +659,7 @@ def pages_behind_the_sign_in_are_not_kept(response):
     """The admin pages hold other people's details, and the data pages are for
     signed-in readers only: no browser or anything in between is to keep a
     copy, so Back after signing out on a shared computer shows nothing."""
-    if request.path.startswith("/admin") or request.path in DATA_PAGES:
+    if request.path.startswith(("/admin", "/download/")) or request.path in DATA_PAGES:
         response.headers["Cache-Control"] = "no-store"
     return response
 

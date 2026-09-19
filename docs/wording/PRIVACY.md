@@ -1,8 +1,9 @@
 # Wording: the privacy page
 
 Every word of the page at `/privacy`, as settled by the owner on 16 September
-2026. The site is built from this word for word, and `tools/check_privacy.sh`
-compares the page against the quoted blocks under "The page, in full", so that
+2026, with the line about asking for another format added on 19 September
+(`docs/wording/DOWNLOAD.md`, part 5). The site is built from this word for
+word, and `tools/check_privacy.sh` compares the page against the quoted blocks under "The page, in full", so that
 heading stays as it is. **Change the wording here first**, and "Last changed"
 with it, then the page, then run the check.
 
@@ -37,6 +38,10 @@ of the apply page's "What this form keeps", are in `ADMIN-AND-EMAIL.md` and
 >
 > If you switch to light mode, that choice is kept in your own browser and is
 > never sent to the site.
+>
+> The link for asking for the data in another format opens your own email.
+> The site sees nothing of it, and your message reaches us like any other
+> email.
 >
 > ## If you apply for an account
 >

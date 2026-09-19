@@ -2,9 +2,10 @@
   The Data page. Behind the sign-in. Its own words are agreed in
   docs/wording/PUBLISHING.md (parts 2, 3, 4, 7 and 8); everything else on it is
   read from the live copy when the page is asked for, and nothing is typed in.
-  Strand 2, items 2, 3 and 4: docs/STRAND-2-SHARED-PAGE-PARTS.md,
-  docs/STRAND-2-REFERENCE-SECTIONS.md, docs/STRAND-2-THE-TABLE.md and
-  docs/STRAND-2-ITEM-4-BUILD.md.
+  Strand 2, items 2 to 5: docs/STRAND-2-SHARED-PAGE-PARTS.md,
+  docs/STRAND-2-REFERENCE-SECTIONS.md, docs/STRAND-2-THE-TABLE.md,
+  docs/STRAND-2-ITEM-4-BUILD.md and docs/STRAND-2-ITEM-5-BUILD.md; the
+  download's words are docs/wording/DOWNLOAD.md.
 
   Six tabs. Each keeps its address, and so does every place inside one:
   /data#methodology-notes, #M7, #terms-of-use, #what-has-changed. A bill opens
@@ -27,6 +28,17 @@
   </div>
   <p class="date-statement">Accurate as at that date. A record it was taken from may since have been corrected, and earlier versions are not kept.</p>
 
+  {# ---- The download: docs/wording/DOWNLOAD.md, part 2. Only when there is a
+     zip made from this copy. ---------------------------------------------- #}
+  {% if offer %}
+  <section class="download" aria-labelledby="download-heading">
+    <h2 id="download-heading">Download the whole dataset</h2>
+    <p>Every file, with a readme and a codebook, as CSV in one zip. Data as at {{ copy_date|day }}.</p>
+    <p class="download-links"><a class="download-link" href="/download/{{ offer.name }}" download>Download {{ offer.name }} ({{ offer.size }})</a></p>
+    <p class="download-links"><a href="mailto:comparativelegislativedata@gmail.com?subject=Another%20format%20for%20the%20legislativedata.org%20data">Ask for another format</a></p>
+  </section>
+  {% endif %}
+
   <nav class="tabs" aria-label="Data" id="tabs">
     <a href="#bills" data-tab="bills">Bills</a>
     <a href="#methodology-notes" data-tab="methodology-notes">Methodology notes</a>
@@ -38,7 +50,7 @@
 
   {# ---- Bills: the table of every bill. Part 8. ---------------------------- #}
   <section class="panel" id="bills">
-    <p class="standfirst">Every bill introduced in the Scottish Parliament since 1999, one line each. Open a bill to see everything recorded about it, and where each fact came from. The whole dataset, to download, is being built.</p>
+    <p class="standfirst">Every bill introduced in the Scottish Parliament since 1999, one line each. Open a bill to see everything recorded about it, and where each fact came from.</p>
 
     <form class="narrow" method="get" action="/data" role="search">
       <div><label for="f-session">Session</label><select id="f-session" name="session"><option value="">All</option>{% for v in lists.session %}<option value="{{ v }}"{% if choices.session == v %} selected{% endif %}>{{ v }}</option>{% endfor %}</select></div>
