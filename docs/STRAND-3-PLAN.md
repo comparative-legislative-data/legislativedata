@@ -129,6 +129,12 @@ for the route to them; every count behind a figure was checked to match
 the figure (thoughts 2 and 4 in full, thoughts 5 and 6 by bill number).
 For the owner's look; A, B and C are confirmed or changed from it.
 
+**Found on the owner's first look:** the outcomes chart was blank, because
+the Outcomes tab and the chart's Outcomes dropdown had the same name on the
+page, and the chart read the tab. Fixed the same day. **For the build:**
+every tab, chart and dropdown on the Insights page gets a name of its own,
+and each chart's closure test checks that every chart draws in every tab.
+
 ## The order, session by session
 
 Roughly the ten to twelve sessions `PHASE-2.md` sized. Every build has
