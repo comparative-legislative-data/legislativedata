@@ -12,8 +12,8 @@ every bill**, closed 19 September, signed in only: narrowed by session,
 type, outcome and title, each bill opening in a pop-up with where each
 fact came from, and the reference sections as tabs. **The whole dataset downloads as one zip**,
 closed 19 September. **The refresh makes the zip**, so a new copy never goes
-live without its zip; its test passed but for one narrow gap, which is fixed
-before it closes.
+live without its zip; its test passed but for one narrow gap, **now fixed**;
+it closes with strand 2's test.
 
 **Phase 2's build plan is agreed** (`docs/PHASE-2.md`, "The build plan"), in
 three strands, one after another, then the closing test.
@@ -21,7 +21,7 @@ three strands, one after another, then the closing test.
 | Strand | What it delivers | Where it is |
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
-| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1 to 5a **closed**; item 6 passed its test, one small fix to make; item 7, the strand's test, next |
+| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1 to 5a **closed**; item 6's gap fixed; item 7, the strand's test, **written**, to be run by another session |
 | 3. The charts | the six thoughts on the Insights page | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
@@ -58,36 +58,35 @@ list are both empty.**
   and the new home page built and live; your sign-off of all three.
 - **19 September, early afternoon.** Item 6 built: the refresh makes the
   zip before the copy goes live; rehearsed six ways; deployed.
+- **19 September, mid-afternoon.** Items 5 and 5a closed; item 6 tested,
+  with one narrow gap found, which you chose to fix before it closes.
 
-**19 September, this session. Items 5 and 5a closed; item 6 tested.**
+**19 September, this session. Item 6's gap fixed; strand 2's test written.**
 
-- **Your phone-width look** at the home and apply pages: fine. Item 5's
-  sign-off complete.
-- **The zip's test passed**, run by a session that built none of it: the
-  zip drawn for a made-up reader matched the copy, the readme is the agreed
-  wording word for word, a signed-out visitor gets nothing. **Items 5 and 5a
-  closed.** One sentence of the test corrected: only two rollbacks remain
-  possible, not three.
-- **Item 6's test passed**, rehearsed on a scratch copy, including the two
-  cases never tried before, with the real copy and zip untouched. **One
-  narrow gap found**: a zip left in the downloads folder if a check fails
-  at one exact moment. **Your choice: fix it before item 6 closes.**
+- **The fix**: a failed refresh now removes the zip it put in the downloads
+  folder, from the moment it copies it in. One line moved. It needs no
+  deploy: the refresh carries its script to the machine each time it runs.
+- **Rehearsed on a scratch copy**: the failure planted, twice, and each time
+  the zip and the set-aside copy were removed and everything was as before; a
+  file already there left untouched; a normal refresh and its undo still
+  work, giving the same results as item 6's run. The real copy and zip untouched.
+- **Strand 2's test written** (`CLOSURE-TESTS.md`, "Strand 2, the data on
+  the site"): the eight "Finished when" points, the fix tried again, and
+  your part: signing in with your alternative account, going through the
+  table, downloading the zip, then saying whether strand 2 is closed.
 - No bill, date or figure changed. No real refresh was run.
 
 ## Now
 
 **Strand 2** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Fix item 6's gap** (`DECISIONS.md`, 19 September, "Item 6 stays open"):
-   the refresh counts the zip as its own from the moment it is copied into
-   the folder, so a failure after that removes it. By a session that did not
-   run item 6's test. Rehearsed on a scratch copy, then deployed; no page
-   changes. **Then item 7's test written** against the strand's "Finished
-   when" (`PHASE-2.md`), covering the fix. It includes your alternative
-   account signing in, browsing the table and opening the zip.
-2. **Item 7 run** by a session that built none of strand 2 and did not
-   write the test. Item 6 closes with it. Strand 3, the charts, opens when
-   it passes.
+1. **Item 7, strand 2's closure test, run** (`CLOSURE-TESTS.md`, "Strand
+   2, the data on the site"), by a session that built none of strand 2, did
+   not write the test and did not make item 6's fix. **Before it can close,
+   you need your alternative account set up and approved**, for Part B:
+   sign in, go through the table, download the zip. Item 6 closes with it.
+2. **Strand 3, the charts, opens** when it passes and you say strand 2 is
+   closed.
 
 ## Waiting for you
 
@@ -140,23 +139,34 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-19, the session that ran the tests of items 5, 5a and 6
+## Sanity check, 2026-09-19, the session that fixed item 6's gap
 
 - **At the start**: clean and pushed; decisions contents regenerated
   identical; the dictionary identical but for its date line; counts 470,
   1291, 192, 14; 474 and 1295 staging lines; checker and gaps list empty;
-  four databases, all sorted; last night's backup succeeded; site, web
-  server and backup timer running; the site 200. "Now" traced to strand 2,
-  items 5, 5a, 6 and 7. The one failed unit is the known 16 September
-  one-off. Nothing found.
-- **During**: one scratch database, `published_rehearsal`, made and dropped
-  within the session, before any backup ran.
+  four databases, all sorted; last night's backup succeeded; site and web
+  server running; the site 200. "Now" traced to strand 2, items 6 and 7.
+  The one failed unit is the known 16 September one-off. Nothing found.
+- **During**: one scratch database, `published_rehearsal`, and the folder
+  `/tmp/rehearsal-zips`, made and removed within the session, before any
+  backup ran.
 - **At the close**: counts 470, 1291, 192, 14; checker and gaps list empty;
   four databases; `published` holding `live` (2026-09-18) and `previous`,
   no `next`, fingerprint `7afcaf840501`; the one zip `42a2716c…` in
-  `/srv/downloads`; live release `2026-09-19T10-55-09Z`; nothing of the
-  session's in the server's `/tmp`; the dictionary identical but for its
-  date line. No data written to either real database.
+  `/srv/downloads`; live release `2026-09-19T10-55-09Z`; site 200, site and
+  web server running; nothing of the session's in the server's `/tmp`; the
+  dictionary identical but for its date line. No data written to either
+  real database.
+
+## Fixing item 6's gap: working detail, 19 September
+
+- **All of it is in `docs/STRAND-2-ITEM-6-BUILD.md`**, "The gap fixed".
+- **Planting the failure without touching the real script**: copy `tools`,
+  `workings` and `sources/kept-pages.csv` to a scratch folder, change the
+  `cmp` in `put_in_downloads` there, and run that copy's
+  `tools/refresh_copy.sh`; it bundles from its own folder.
+- **A rehearsal script with its own `sleep 30` between connections** ran
+  all five steps unattended, in about seven minutes, with no refusals.
 
 ## Running the tests of items 5, 5a and 6: working detail, 19 September
 

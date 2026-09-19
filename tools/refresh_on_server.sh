@@ -51,6 +51,7 @@ as_site() { sudo -u legsite env PUBLISHED_CONNINFO="dbname=$DB" DOWNLOAD_DIR="$D
 quiet() { grep -vE '^(CREATE|INSERT|DO|COMMENT|ALTER|GRANT|REVOKE|DROP|SELECT [0-9]|UPDATE|DELETE|IMPORT|BEGIN)'; }
 put_in_downloads() {  # a zip made in ZIPS, into DOWNLOADS, never over one already there
   if [ -e "$DOWNLOADS/$1" ]; then echo "Refusing: $DOWNLOADS/$1 is already there."; return 1; fi
+  INSTALLED=$1  # the run's own from here, so a failure from the copy on removes it
   sudo install -o root -g root -m 644 "$ZIPS/$1" "$DOWNLOADS/$1"
   cmp "$ZIPS/$1" "$DOWNLOADS/$1"
 }
@@ -135,7 +136,6 @@ fi
 
 echo "=== 4. The zip beside the live one, then the copy live"
 put_in_downloads "$NEW"
-INSTALLED=$NEW
 db -v save=true -f tools/switch_copy.sql 2>&1 | quiet
 SWITCHED=true
 

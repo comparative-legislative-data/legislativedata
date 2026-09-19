@@ -262,6 +262,10 @@ than the one that ran item 6's test, and checked in strand 2's closure test
 leaving a known gap in place would buy nothing. The session that tested the
 code does not fix it and then mark its own fix.
 
+**Fixed the same day** by a session that did not run item 6's test: one
+line moved, then rehearsed on a scratch copy, including the planted
+failure (`docs/STRAND-2-ITEM-6-BUILD.md`, "The gap fixed").
+
 ---
 
 ## 2026-09-19 — The refresh makes the zip before the copy goes live, and refuses a second copy on one day

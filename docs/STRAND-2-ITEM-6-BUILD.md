@@ -148,3 +148,55 @@ the old `download.py`, which no page uses.
 
 **No real refresh was run.** The next one, at the owner's word, will be the
 first to make its own zip.
+
+## The gap fixed, 19 September
+
+Item 6's test found one gap. The refresh records the zip as its own only
+after it has copied it into the downloads folder and compared the copy. If
+that comparison failed, the zip stayed in the folder, served to nobody, and
+a second try that day would refuse until someone removed it by hand. The
+owner chose to fix it before item 6 closes (`DECISIONS.md`, 19 September).
+The fix was made by a session that did not run item 6's test.
+
+**The fix, one line moved.** In `tools/refresh_on_server.sh`,
+`put_in_downloads` now records the zip as the run's own after it refuses a
+file already there, and before it copies the zip. So a failure from the
+copy on removes that zip, and the clean-up still never removes a file this
+run did not put there. Nothing changes on the machine: the script travels
+in the refresh's bundle each time it runs, so there is nothing to deploy.
+
+**Rehearsed** on a scratch copy of `published` (`published_rehearsal`) and
+a scratch folder seeded with the live zip and a made-up 2026-09-10 one,
+using an address check from `live.cited_pages` with today's date (106
+addresses: 92 working, 14 not checked). For the failure itself, a copy of
+the bundle's files on this Mac had its comparison pointed at `/dev/null`;
+the real script was not touched. Each fingerprint was taken as item 6's
+run gives it.
+
+1. **The planted failure, kept refresh:** the zip was made and checked,
+   then "cmp: EOF on /dev/null", then "Nothing kept: next removed, and
+   legislativedata-2026-09-19.zip". Afterwards the fingerprint was
+   `7afcaf840501` as before, with no `next`, and the folder held the same
+   two files with the same SHA-256s.
+2. **A made-up file named for today's zip already there, real script:**
+   "Refusing: … is already there", then "Nothing kept: next removed", with
+   no zip named. The made-up file was untouched (SHA-256 `152e3ebd6425`,
+   the same as its contents made again) and the fingerprint was unchanged.
+3. **A kept refresh, real script:** it went through, with "Zip checked"
+   twice, and removed the 2026-09-10 zip. The fingerprint was
+   `f605ffe5c4e4` and the zip `91bcb1e4…`, both the same as in item 6's
+   run.
+4. **The undo, real script:** the 2026-09-18 copy was live again,
+   today's zip removed, and the old zip checked. The fingerprint was
+   `5b61bbb9a3c6`, the same as in item 6's run.
+5. **The planted failure again, after the undo:** the same as 1, with the
+   fingerprint still `5b61bbb9a3c6` and the folder unchanged.
+
+Then the scratch database, the folder and the planted copy were removed.
+`published` was untouched: fingerprint `7afcaf840501`, `live` dated
+2026-09-18, the one zip `42a2716c…`, four databases, and nothing in the
+server's `/tmp`.
+
+**Not rehearsed:** a disk that really fails at that moment, which cannot
+be caused on purpose. **Checked** in strand 2's closure test, items 2 and
+3, by another session.

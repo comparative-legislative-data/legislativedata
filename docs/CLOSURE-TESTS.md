@@ -30,13 +30,191 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Strand 2, the data on the site
+
+Strand 2, item 7. Written 2026-09-19 by the session that fixed item 6's gap
+(`DECISIONS.md`, 19 September, "Item 6 stays open until a zip left behind
+by a failed run is removed too"; the fix and its rehearsal in
+`docs/STRAND-2-ITEM-6-BUILD.md`, "The gap fixed"). That session built none
+of strand 2's pages or zip, but it did make the fix, so **it does not run
+this test**. **Not yet run.** Run it in a session that built none of
+strand 2, did not write this test and did not make the fix. Item 6 closes
+with it. Strand 3, the charts, opens when Part A passes and the owner signs
+Part B.
+
+**What this test is.** Each item of strand 2 already has its own closure
+test, and those are not run again (rule 6). This test asks three things.
+Does every item have a recorded run that passed? Does item 6's fix hold?
+Nobody but the session that made it has tried it yet. And do the eight
+points under "Finished when" in `docs/PHASE-2.md`, strand 2, hold together
+today, on the live site and copy?
+
+Write every query fresh, and fetch every page yourself.
+`tools/check_data_pages.py`, `tools/check_privacy.sh`, `site/download.py`'s
+`--check` and the refresh's scripts were written by the sessions that built
+strand 2. Read each one before trusting any line it prints.
+
+### Part A — mechanical
+
+1. **Every item's test has a run that passed.** In this file, each of the
+   following has a run section in which every item passed, was signed off,
+   or failed and was put right, with the putting right recorded:
+   - "The site reads the copy" (item 1);
+   - "The page parts every data page shares" (item 2), with its amended
+     items;
+   - "The Data page's four reference sections" (item 3), with its amended
+     items;
+   - "The table of every bill" (item 4), with the items amended by item 5;
+   - "The zip" (items 5 and 5a);
+   - "The refresh makes the zip" (item 6). Its Part A passed except for
+     item 1's one exception, which items 2 and 3 below settle.
+
+   *Where from:* the strand's list of items in `docs/PHASE-2.md`.
+2. **Item 6's fix, read in the code.** In `tools/refresh_on_server.sh`,
+   `put_in_downloads` records the zip as the run's own (`INSTALLED`) after
+   it refuses a file already there and before it copies the zip into the
+   folder. Nothing else sets `INSTALLED` except its emptying where the
+   clean-up is set up. The clean-up removes `next` and that one file, and
+   nothing else. `git diff 469f9b1 -- tools/refresh_on_server.sh` shows only
+   that line moving. *Where from:* the decision named above: "counts the
+   zip as its own from the moment it is copied in".
+3. **Item 6's fix, rehearsed by you.** Use a scratch copy of `published`
+   and a scratch folder, both seeded as item 6's test, item 3 says. Use an
+   address check exported from `live.cited_pages` with today's date as
+   `date_address_checked`. Take each fingerprint as item 6's run gives it,
+   with `LC_ALL=C`. Leave about half a minute between connections.
+   - (a) **The failure the fix is for.** Make a copy of the files
+     `tools/refresh_copy.sh` bundles, in a scratch folder on this Mac. In
+     that copy only, make the comparison in `put_in_downloads` fail after
+     the copy lands, for example by comparing with `/dev/null`. Run a kept
+     refresh (`--save`) from the copy. Expect: the comparison fails;
+     "Nothing kept: next removed, and legislativedata-<today>.zip"; no
+     `next`; the folder the same as before, file for file and by SHA-256;
+     the fingerprint the same as before.
+   - (b) **The fix removes nothing it did not put there.** With the real
+     script, repeat item 6's test, item 4(a): a made-up file named for
+     today's zip is refused, `next` is removed, and the file is untouched,
+     by SHA-256. The message is "Nothing kept: next removed", with no zip
+     named.
+   - (c) **The ordinary path still works.** With the real script, run a
+     kept refresh and then `--undo --save`. The kept refresh should go
+     through, with "Zip checked" twice. After the undo, the fingerprint
+     should be `5b61bbb9a3c6`, as in item 6's run. Then run (a) once more
+     on top: the same as (a), with the fingerprint still `5b61bbb9a3c6`.
+
+   Then drop the scratch database, remove the folder and the local copy,
+   and check that `published` still has the fingerprint item 11 gives.
+4. **A signed-out visitor gets none of it** (finished-when 1). Test from
+   this Mac, over the internet, with no cookie. Each of these must answer
+   302 to `/sign-in` and carry nothing from the copy:
+   - `/data`;
+   - `/data?session=3`;
+   - `/insights`;
+   - the zip's address, `/download/legislativedata-2026-09-18.zip`, or
+     the live copy's date if a refresh has run.
+
+   To check that nothing from the copy comes through, pick three bill
+   titles from `live.bills` yourself and search each answer's body for
+   them: none should appear. The zip's body should not start `PK`.
+   *Where from:* the strand's first finished-when point.
+5. **The site's login reads the copy only** (finished-when 2). Asked afresh
+   in `published`, `legsite` has exactly what "The site reads the copy",
+   item 1, lists and nothing more. There is no `next` in `published`, so it
+   has nothing on one. Try one of that test's item 4 by hand:
+   reading `previous.about` as `legsite` is refused for permission.
+6. **Every data page carries the date, the date statement, the link to
+   what changed, and the sources it uses** (finished-when 3), along with
+   **the four reference sections, each with its own link** (finished-when
+   4) and **the format-request link, with the privacy page's line**
+   (finished-when 6). Run `tools/check_data_pages.py` as the site, on the
+   live release, as the zip's test, item 4, says: "All 133 pass". Then run
+   each `BREAK` and check it fails at exactly the items that test lists.
+   Read which of the check's items cover these three finished-when points,
+   and name them in the run. Then read one of them against the fetched page
+   yourself, signed in. Use the owner's Part B session for the signed-in
+   page; do not sign anyone in yourself.
+7. **The zip holds everything settled** (finished-when 5).
+   - `/srv/downloads` holds the live copy's zip, owned by root, mode 644.
+   - As `legsite`, `download.py --check` on it against `live` passes.
+   - Made again as `legsite` into a scratch folder, it is the kept zip
+     byte for byte.
+   - Unzipped:
+     - the readme's row counts match counts you ask `live` for yourself;
+     - the codebook's entry count matches `information_schema.columns`
+       for schema `live`;
+     - searching every file for "legsite", the owner's name and "@"
+       outside the format-request address finds nothing that names who
+       took it.
+   - `tools/check_privacy.sh` on the live release: all pass, and its
+     `BREAK=1` fails at item 2. Record the time, so it is on record as run
+     since the zip was served.
+8. **The owner's word on the house style is recorded** (finished-when 7).
+   `DECISIONS.md` records the owner signing off the deployed table "for the
+   moment", with the house style holding on it. "The table of every bill"
+   test's Part B, B3, records the same.
+9. **The refresh rebuilds the zip, rehearsed with its undo** (finished-when
+   8). Item 6's run records the rehearsal. Item 3 above records the fix
+   rehearsed again, with the undo. Nothing else is needed; this item is
+   the pointer.
+10. **The live release.** `/srv/site/current` is `2026-09-19T10-55-09Z` or
+    later. `/srv/site/releases` holds exactly the last three lines of
+    `/srv/site/switched`. If a deploy has happened since, say which and
+    why.
+11. **Nothing left behind, and the counts.**
+    - Four databases.
+    - `published` has `from_working` (no tables), `live`, `previous` and
+      `public`, and no `next`.
+    - Its fingerprint is `7afcaf840501`, unless a refresh has run since.
+    - Nothing of this test's in the server's `/tmp`.
+    - 470 bills, 1291 stage records, 192 provenance notes, 14 notes.
+    - The error checker and the gaps list are empty.
+    - The dictionary regenerates identical, except for its date line.
+
+**Which items an outside change can move:** 4, 5, 7 and 11 at any refresh;
+6, 7 and 10 at any deploy; 2 and 3 at any change to the refresh's scripts.
+
+### Part B — the owner's sign-off
+
+12. **As a researcher would.** The owner signs in with the alternative
+    account they set up, approved the way any applicant is. Nothing about
+    that account goes in this file or the conversation; record only what
+    was done and what was seen. Signed in, the owner:
+    - narrows the table by session, type, outcome and title;
+    - opens a bill and sees where each fact came from;
+    - opens each reference tab from its own link;
+    - downloads the zip and opens it: fifteen files, and the readme naming
+      the copy's date and the day it was downloaded.
+
+    Then the owner signs out and checks that the Data page sends them to
+    sign in. They say whether it all works as a researcher would expect.
+    *Where from:* `PHASE-2.md`, strand 2, item 7, and `DECISIONS.md`, 17
+    September, "Phase 2's closing test".
+13. **Strand 2 is closed.** The owner reads this run and the eight
+    finished-when points, and says strand 2 is closed and strand 3 may
+    open.
+
+### Part C — what this test does not check
+
+- **A real refresh of `published`.** That waits for new data and the
+  owner's word.
+- **A disk that really fails between the copy and the comparison.** Item
+  3(a) plants that failure; it cannot be caused on purpose.
+- **Any browser but the owner's**, or phone width beyond item 5's
+  sign-off.
+- **The site's speed.**
+
+---
+
 ## The refresh makes the zip
 
 Strand 2, item 6. Written 2026-09-19 by the session that built it (the plan,
 its five small choices and what was done in `docs/STRAND-2-ITEM-6-BUILD.md`,
 agreed by the owner the same day). **Run 19 September by a session that
 built none of it**: Part A passes but for one narrow exception in item 1,
-for the owner. The run is at the end of this test.
+for the owner. The run is at the end of this test. **The exception was fixed
+19 September**, as the owner chose, by a session that did not run this
+test. The fix is checked in strand 2's test, items 2 and 3, not here, and
+item 6 closes with that test.
 
 Under test: `tools/refresh_copy.sh`, `tools/refresh_on_server.sh`,
 `tools/switch_copy.sql`, the "Set it aside" section of
