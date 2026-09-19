@@ -181,3 +181,44 @@ happens then.
 
 One session to build, check and deploy, then the owner's part D. The
 closure test is written the same session and run by another.
+
+## What was done
+
+**Part A, 19 September, on the staged release `2026-09-19T07-55-18Z`**, with
+the zip made by the staged code into a scratch folder: 104,145 bytes, 113
+headings, and each file's count as the copy's.
+
+- **All 130 pass on the first run** (114 before, 16 added for the zip,
+  items 115 to 130). Not taken as evidence on its own, so the breaks:
+  `BREAK=1` fails at exactly 35 and 38; `BREAK=2` at exactly 86, 94, 105 to
+  108 and 113; `BREAK=3` at exactly 122 (the files) and 124 (the readme).
+- **`BREAK=3` refused on its first try**: the phrase it changes was written
+  as it reads, not as the wording file breaks its lines. The check's fault,
+  and it refused rather than passing. Fixed.
+- **The privacy check** on the new wording: all 15 pass; its `BREAK=1`
+  fails at item 2.
+- **Read by me, unzipped on this Mac**: the readme as agreed; the codebook's
+  entries in the agreed shape; `bills.csv` with no marker at the start and
+  dates as written.
+- **The size on the link reads 0.1 MB.** The draft guessed 0.4 MB; the zip
+  is 104 KB, and the rule agreed is one decimal place of a megabyte.
+
+**Part B.** `/srv/downloads` made, owned by the machine's administrator and
+readable by all; the zip put in it, the same file byte for byte as the
+checked one. The site's login can read it and cannot write there. A full
+minute, then **deployed as `2026-09-19T07-58-39Z`**: 200, 200, 301, 308,
+200; releases kept `06-16-43Z`, `06-34-47Z` and this one.
+
+**Part C.** From this Mac, signed out: the zip's address, `/data`, and a
+made-up zip name each go to the sign-in page, returning to Data, with none
+of the file. On the live release: **all 130 pass**, the three breaks failing
+at exactly their items; the live `app.py`, `download.py` and `data.html`
+have the committed md5s; the privacy check, **all 15 pass**, run after the
+zip had been served. Nothing left in the server's `/tmp`.
+
+**The undo, rehearsed.** `--rollback` went to `06-34-47Z`: health and home
+page 200; the Data page, drawn for a made-up reader, had no download box and
+still said "is being built"; the zip's address was not found. Switched
+forward by hand to `07-58-39Z`: the box back, the zip handed over; 200, 200,
+301, 308, 200. The list the undo reads ends `06-34-47Z`, `07-58-39Z`, so
+**one rollback still goes back to before the download.**

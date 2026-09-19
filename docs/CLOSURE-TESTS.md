@@ -30,6 +30,91 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The zip
+
+Strand 2, item 5. Written 2026-09-19 by the session that built and deployed
+it (`docs/wording/DOWNLOAD.md`, agreed by the owner the same day; the build,
+its eight small choices, its check and its undo in
+`docs/STRAND-2-ITEM-5-BUILD.md`). **Not yet run.** To be run by a session
+that built none of it, with the amended items of item 4 and item 2 below.
+
+`tools/check_data_pages.py` and `site/download.py` are under test as much as
+the site is; both were written by the session that built it. The check's
+items 115 to 130 take their expectations from `DOWNLOAD.md` and the copy,
+except item 129, which remakes the zip with `download.py`. Read both before
+trusting the lines, and ask the copy afresh as `legsite` where an item says
+so.
+
+### Part A — mechanical
+
+1. **The live release is this build.** `/srv/site/current` is
+   `2026-09-19T07-58-39Z` or later; its `app.py`, `download.py`,
+   `templates/data.html`, `templates/privacy.html` and `static/css/site.css`
+   have the committed md5s.
+2. **Where the zip is kept.** `/srv/downloads` is owned by root, mode 755,
+   and holds one file, `legislativedata-2026-09-18.zip` (or the date of
+   `live.about`, asked afresh), owned by root, mode 644. As `legsite`: it can
+   read the file and cannot write in the folder. *Where from:* the build
+   document, "How it works", 2.
+3. **Signed out, from this Mac, over the internet.** The zip's address
+   answers 302 to `/sign-in?next=/data` and the body is not a zip (it does
+   not start `PK`). *Where from:* "How it works", 5.
+4. **The check, as the site**, run as the build document's part A says,
+   with `DOWNLOAD.md` and `/srv/downloads`: "All 130 pass". With `BREAK=1`,
+   exactly 35 and 38 fail; `BREAK=2`, exactly 86, 94, 105 to 108 and 113;
+   `BREAK=3`, exactly 122 and 124. Read what each break changes.
+5. **The files against the copy, asked afresh.** Draw the zip for a made-up
+   reader on the machine and unzip it. As `legsite`, count the lines of each
+   of the twelve files in `live` and compare with the readme's numbers and
+   with each CSV's lines less its first. Then pick three cells at random, in
+   three different files, and compare them with the copy by eye.
+6. **The readme, read in full** against `DOWNLOAD.md` part 3: word for word,
+   the copy's date where it has 2026-09-18, and today's date in the UK on
+   "Downloaded on" and at the end of the citation.
+7. **The codebook**: 113 entries, one for each heading of the twelve files
+   (`information_schema.columns`, schema `live`, asked afresh); the entry
+   for `bills.outcome` exactly as part 4 shows it; `days_between_stages.days`
+   and one yes-or-no heading as small choices 4 and 5 say.
+8. **Made again, the same.** Run `download.py` as `legsite` into a scratch
+   folder; its SHA-256 is the kept zip's. *Where from:* the build
+   document: made twice from the same copy, the same byte for byte.
+9. **The privacy page.** From this Mac, `/privacy` has part 5's line at the
+   end of "If you only read the site", and "Last changed 19 September 2026".
+   `tools/check_privacy.sh` on the live release, after the zip has been
+   served: all pass; with `BREAK=1`, it fails at item 2.
+10. **The undo.** Do not run it. `/srv/site/switched` ends `06-34-47Z`,
+    `07-58-39Z`: one rollback takes the download away. Rehearsed on
+    19 September (the build document).
+11. **Nothing left behind.** Nothing of the run's in the server's `/tmp`;
+    four databases; no change to either database (470, 1291, 192, 14;
+    checker and gaps list empty; the dictionary regenerates identical).
+
+**Which items an outside change can move:** all of them at any deploy; 2
+and 4 to 8 at any refresh. **Until item 6 is built, a refresh leaves no zip
+for the new copy's date**, and the download box is then correctly absent:
+items 2, 4 and 5 to 8 wait for a zip made from the new copy.
+
+### Part B — the owner's sign-off
+
+1. **In a browser, signed in**: the download box at the top of the Data
+   page, above the tabs, in dark and light and at a phone's width.
+2. **Download it**: its name, and it opens to one folder of fifteen files.
+3. **The readme read through**, with today's date on "Downloaded on".
+4. **`bills.csv` in a spreadsheet**, imported as the readme says: 470
+   lines, the dates as written.
+5. **"Ask for another format"** opens your email with the address and the
+   subject.
+6. **The privacy page's new line**, and its date.
+
+### Part C — what this test does not check
+
+**Browsers and spreadsheets other than the ones used for Part B.** **The
+refresh making the zip**, which is item 6, and **two refreshes on one day**
+giving two zips one name, which item 6 settles. **Download speed.** **A
+reader's email program**: the link only opens it.
+
+---
+
 ## The table of every bill
 
 Strand 2, item 4. Written 2026-09-19 by the session that built and deployed
@@ -37,7 +122,8 @@ it (`docs/STRAND-2-THE-TABLE.md` and its "After the mock-up", agreed by the
 owner on 18 September; the build, its check, its undo and its small choices
 in `docs/STRAND-2-ITEM-4-BUILD.md`). **Part A run 19 September by a
 session that built none of it: passes; the owner signed off Part B the same
-day. Closed.**
+day. Closed.** **Its items under "Amended 19 September, by item 5" are run
+again with item 5's test.**
 
 `tools/check_data_pages.py` is under test as much as the site is. It was
 written by the session that built the page, and its expectations for the
@@ -137,6 +223,19 @@ opens: nothing is built for it (the owner, 18 September). **Filters a
 chart hands over** (a quarter, a stage reached), which are settled with each
 chart. **The zip**, which is item 5.
 
+### Amended 19 September, by item 5
+
+The zip changed the check and the page's opening sentence, and a deploy
+moves every item, so these are run again with item 5's test:
+
+- **A1**: the live release is `2026-09-19T07-58-39Z` or later.
+- **A3**: the check now takes `DOWNLOAD.md` and the zip's folder as well:
+  "All 130 pass"; `BREAK=1` and `BREAK=2` fail at exactly the items above.
+- **Part 8's opening sentence** has lost "The whole dataset, to download,
+  is being built." (`PUBLISHING.md`, changed 19 September); check item 118.
+- **A13**: the undo is now `06-34-47Z` for the download, and a second
+  rollback is not available: `20-54-13Z` has been cleared.
+
 ### The run, 19 September, by a session that built none of it
 
 `check_data_pages.py` was read in full first. Where an item asks the copy,
@@ -202,7 +301,8 @@ same day; the build, its check and its undo in
 that built none of it: Part A passes, and the owner signed off Part B.
 Closed. Reopened 19 September by item 4**, which put the Data page in tabs
 and changed the date statement. **The amended items run 19 September by
-another session, and signed off by the owner: closed again.**
+another session, and signed off by the owner: closed again.** **Its items under "Amended again 19 September, by
+item 5" are run with item 5's test.**
 
 `tools/check_data_pages.py` is the thing under test as much as the site is:
 read it before trusting its lines, and ask the questions below of the live
@@ -293,6 +393,13 @@ What item 4 changed, and what is run again. Nothing else is re-argued.
   kept.", with no link (`PUBLISHING.md` part 2).
 - **B3, again**: `/data#M7` signed out, through sign-in, lands on the
   Methodology notes tab with M7 open.
+
+### Amended again 19 September, by item 5
+
+- **A1**: the live release is `2026-09-19T07-58-39Z` or later.
+- **A5**: "All 130 pass"; `BREAK=1` fails at exactly 35 and 38.
+- **A8**: the privacy page gained a line and its date; the check compares
+  with the new `PRIVACY.md`, "Last changed 19 September 2026".
 
 ### The run of the amended items, 19 September
 

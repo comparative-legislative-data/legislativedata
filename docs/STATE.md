@@ -9,8 +9,10 @@ Updated: 2026-09-19
 sign in with a code by email. **Phase 2, putting the data on the site, is
 open**, for approved beta users only. **The Data page has the table of
 every bill**, closed 19 September, signed in only: narrowed by session,
-type, outcome and title, each bill opening in a pop-up with where each fact came from, and the
-reference sections as tabs. No download yet.
+type, outcome and title, each bill opening in a pop-up with where each
+fact came from, and the reference sections as tabs. **The whole dataset downloads as one zip**,
+built and live 19 September, waiting for your look and another session's
+test.
 
 **Phase 2's build plan is agreed** (`docs/PHASE-2.md`, "The build plan"), in
 three strands, one after another, then the closing test.
@@ -18,7 +20,7 @@ three strands, one after another, then the closing test.
 | Strand | What it delivers | Where it is |
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
-| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1 to 4 **closed**; item 5, the zip, next |
+| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1 to 4 **closed**; item 5, the zip, **built and live**, its test written; item 6 next |
 | 3. The charts | the six thoughts on the Insights page | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
@@ -49,11 +51,10 @@ list are both empty.**
 - **18 September.** Strand 1 built and closed; the site given read access to
   the copy; strand 2's items 1 to 3 built, tested and closed; the table
   agreed through a write-up and three mock-ups.
-
 - **19 September, morning.** The table of every bill built and live; the
   footer kept in view; its closure test written.
 
-**19 September, this session. Items 2, 3 and 4 closed.**
+**19 September, this session. Items 2 to 4 closed; the zip built and live.**
 
 - **The three tests run** by a session that built none of it: the page
   check 114 of 114, its breaks failing where they should; the privacy
@@ -63,6 +64,10 @@ list are both empty.**
   the house style and one scroll, "for the moment".
 - **The download's wording agreed**: all twelve files, both dates, and a
   citation naming you and the site.
+- **The zip built and live**, as its plan agreed: the download box at the
+  top of the Data page, the privacy page's new line. The check grew to 130
+  items and was shown failing under three breaks; the undo was rehearsed.
+  Its closure test is written for another session.
 - **Your decision: a monthly design and sanity sweep once Phase 2 closes**,
   with feedback as it comes until then. The table's choices come back at
   the first sweep.
@@ -70,14 +75,16 @@ list are both empty.**
 
 ## Now
 
-**Strand 2, item 5, the zip** (`docs/PHASE-2.md`, "Strand 2"). Its wording
-is agreed (`docs/wording/DOWNLOAD.md`).
+**Strand 2** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Its build plan**, to you before anything is built: how the zip and
-   its codebook are made from the copy, how the site hands it over with the
-   day it was downloaded, the check, the rehearsal and the undo, and the
-   privacy check run after it is served.
-2. **Then the build**, and its closure test written for another session.
+1. **Your look at the zip in a browser**, if not done this session: item
+   5's Part B in `docs/CLOSURE-TESTS.md`, "The zip".
+2. **Close item 5.** A session that built none of it runs its test, with
+   the amended items of items 2 and 4.
+3. **Then item 6: the refresh makes the zip** from each new copy before it
+   goes live, rehearsed with its undo. It also settles what happens if two
+   refreshes land on one day. **No refresh until it is built**: one would
+   leave the new copy without a zip, and the download box would vanish.
 
 ## Waiting for you
 
@@ -148,6 +155,25 @@ material waiting to be lost.
   session's own, not kept, drew the page for a made-up reader to compare
   three bills, three narrowings, bill 305 and every link's tab. Bill
   numbers have gaps: pick random bills from the copy, not from 1 to 470.
+
+## The zip: working detail, 19 September
+
+- **Everything is in `docs/STRAND-2-ITEM-5-BUILD.md`**: how it works, the
+  eight small choices, the test, the undo, and what was done.
+- **Live is `2026-09-19T07-58-39Z`.** Kept: `06-16-43Z`, `06-34-47Z`,
+  `07-58-39Z`. One rollback removes the download; the table can no longer
+  be rolled away, only redeployed from an older commit.
+- **The zip is `/srv/downloads/legislativedata-2026-09-18.zip`**, 104,145
+  bytes, SHA-256 `42a2716c…811cf0`. Made with
+  `cd <release> && sudo -u legsite .venv/bin/python download.py <scratch>`,
+  then `sudo install -o root -g root -m 644` into `/srv/downloads`.
+- **The check now takes four arguments**: the release, `PUBLISHING.md`,
+  `DOWNLOAD.md` and the zip's folder. Send the three wording files and the
+  two checks in one tar. `BREAK=3` fails at exactly 122 and 124.
+- **`/srv/downloads` is not in the backup, on purpose** (derived, holds no
+  one). It is a folder, not a database, so the databases check does not
+  see it.
+- **The size reads 0.1 MB**, not the draft's guessed 0.4 MB.
 
 ## The table: working detail, 19 September
 
