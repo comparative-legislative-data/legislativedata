@@ -71,10 +71,12 @@ else
   COPYFILE_DISABLE=1 tar czf "$BUNDLE" --no-xattrs $FILES
 fi
 
-"$CONNECT" --scp "$BUNDLE" "/tmp/$STAMP.tgz"
+# One connection, the bundle sent on it and unpacked as it arrives: a second
+# connection for the upload is what the firewall refused, leaving the bundle
+# behind with nothing to remove it.
 "$CONNECT" "set -euo pipefail
-D=/tmp/$STAMP; trap 'sudo rm -rf \$D /tmp/$STAMP.tgz' EXIT
-mkdir -p \$D && tar xzf /tmp/$STAMP.tgz -C \$D && chmod -R a+rX \$D && cd \$D
-SITE=$SITE PLANT_ZIP_FAULT=$PLANT bash tools/refresh_on_server.sh $MODE $DATABASE $DOWNLOADS $EXTRA
-"
+D=/tmp/$STAMP; trap 'sudo rm -rf \$D' EXIT
+mkdir -p \$D && tar xzf - -C \$D && chmod -R a+rX \$D && cd \$D
+SITE=$SITE PLANT_ZIP_FAULT=$PLANT bash tools/refresh_on_server.sh $MODE $DATABASE $DOWNLOADS $EXTRA </dev/null
+" < "$BUNDLE"
 rm -f "$BUNDLE"
