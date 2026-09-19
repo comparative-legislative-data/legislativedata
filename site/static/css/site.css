@@ -415,30 +415,53 @@ h2 {
   color: var(--text-muted);
 }
 
-/* A reference section: a heading that opens and closes. */
-.section {
-  border-top: 1px solid var(--border);
-  padding: var(--s2) 0;
+/* The Data page is wider than a page of reading, for the table; its words
+   keep the reading width. */
+.wide {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--s12) var(--s4) var(--s8);
 }
-.section:last-of-type { border-bottom: 1px solid var(--border); }
-.section > summary {
-  cursor: pointer;
-  list-style-position: outside;
-  padding: var(--s2) 0;
+.wide .standfirst, .wide .date-statement, .wide .section-intro, .wide .prose,
+.wide .credits, .panel .note, .panel .words, .terms-block { max-width: var(--reading); }
+
+/* The tabs. The page's own words for where a reader is. */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1) var(--s6);
+  border-bottom: 1px solid var(--border);
+  margin: 0 0 var(--s8);
+  font-size: var(--t-md);
 }
-.section > summary h2 { display: inline; margin: 0; }
-.section[open] > summary { margin-bottom: var(--s3); }
+.tabs a {
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: var(--s2) 0;
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+}
+.tabs a:hover { color: var(--text-strong); }
+.tabs a[aria-current="page"] {
+  color: var(--text-strong);
+  font-weight: 600;
+  border-bottom-color: var(--accent);
+}
+.tabs a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* A reference section, now one tab. */
+.panel > h2 { margin-top: 0; }
 .section-intro {
   margin: 0 0 var(--s6);
   color: var(--text-muted);
 }
-.section h3 {
+.panel h3 {
   font-size: var(--t-lg);
   font-weight: 600;
   color: var(--text-strong);
   margin: var(--s6) 0 var(--s3);
 }
-.section h4 {
+.panel h4 {
   font-size: var(--t-lg);
   font-weight: 600;
   color: var(--text-strong);
@@ -487,6 +510,141 @@ h2 {
 }
 .changes th { color: var(--text-muted); font-weight: 600; }
 .added { margin: 0 0 var(--s4); color: var(--text-muted); font-size: var(--t-md); }
+
+/* ---- The table of every bill ---------------------------------------------- */
+
+.narrow { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--s3) var(--s6); margin: 0 0 var(--s4); }
+.narrow label { display: block; font-size: var(--t-sm); font-weight: 600; color: var(--text-muted); margin: 0 0 var(--s1); }
+.narrow select, .narrow input {
+  font-family: var(--sans);
+  font-size: var(--t-md);
+  color: var(--text-strong);
+  background: var(--surface);
+  border: 1px solid var(--border-firm);
+  border-radius: var(--radius);
+  padding: var(--s1) var(--s2);
+  max-width: 100%;
+}
+.narrow input { width: 14em; }
+.narrow select:focus, .narrow input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.narrow .acts { display: flex; gap: var(--s4); padding-bottom: var(--s1); font-size: var(--t-md); }
+
+/* A button that does something on this page, made to read as a link. */
+.textlink {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.textlink:hover { color: var(--accent-hover); }
+.textlink:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.count { margin: 0 0 var(--s3); font-size: var(--t-md); color: var(--text-muted); }
+
+.bills { border-collapse: collapse; width: 100%; font-size: var(--t-md); font-variant-numeric: tabular-nums; }
+.bills th {
+  text-align: left;
+  font-weight: 600;
+  padding: var(--s2) var(--s3) var(--s2) 0;
+  border-bottom: 1px solid var(--border-firm);
+  white-space: nowrap;
+}
+.bills th a { color: var(--text-muted); text-decoration-color: var(--border-firm); }
+.bills th a:hover { color: var(--accent-hover); }
+.bills td { vertical-align: top; padding: var(--s2) var(--s3) var(--s2) 0; border-bottom: 1px solid var(--border); }
+.bills .c-bill_number, .bills .c-session, .bills .c-date_introduced, .bills .c-date_royal_assent { white-space: nowrap; }
+.bills td.c-title { width: 42%; }
+.open-bill { color: var(--text-strong); text-decoration: none; }
+.open-bill:hover { color: var(--accent-hover); text-decoration: underline; }
+.has-note {
+  margin-left: var(--s1);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* A bill, opened. */
+.bill-dialog {
+  width: min(900px, calc(100vw - 2rem));
+  max-height: calc(100vh - 4rem);
+  padding: 0;
+  border: 1px solid var(--border-firm);
+  border-radius: var(--radius-menu);
+  background: var(--bg);
+  color: var(--text);
+}
+.bill-dialog::backdrop { background: rgba(10, 9, 8, 0.6); }
+.dlg-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s4);
+  padding: var(--s4) var(--s6);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.dlg-head > div { flex: 1; min-width: 0; }
+.dlg-head h2 { margin: 0; font-family: var(--serif); font-size: 20px; font-weight: 600; text-wrap: balance; }
+.dlg-head .label { margin-bottom: var(--s1); }
+.dlg-body { padding: var(--s6); }
+.dlg-body h3 {
+  font-size: var(--t-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: var(--s8) 0 var(--s3);
+}
+.dlg-body h3:first-child { margin-top: 0; }
+
+.fields { display: grid; grid-template-columns: minmax(12em, max-content) 1fr; gap: var(--s1) var(--s6); margin: 0; }
+.fields dt { color: var(--text-muted); overflow-wrap: anywhere; }
+.fields dt .heading-link { color: inherit; text-decoration-color: var(--border-firm); }
+.fields dt .codes { margin-left: var(--s1); font-size: var(--t-sm); }
+.fields dd { margin: 0; color: var(--text-strong); overflow-wrap: anywhere; }
+.fields dd.empty { color: var(--text-faint); }
+
+.sub { border-collapse: collapse; font-size: var(--t-md); min-width: 100%; }
+.sub th {
+  text-align: left;
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: var(--s1) var(--s4) var(--s1) 0;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.sub td { vertical-align: top; padding: var(--s2) var(--s4) var(--s2) 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
+.sub .aside { display: block; color: var(--text-muted); margin-top: var(--s1); }
+
+.facts { list-style: none; margin: 0; padding: 0; }
+.facts li { border-top: 1px solid var(--border); padding: var(--s3) 0; }
+.facts li:first-child { border-top: 0; padding-top: 0; }
+.facts .fact-head { color: var(--text-strong); font-weight: 600; }
+.facts p { margin: var(--s1) 0 0; overflow-wrap: anywhere; }
+.facts blockquote {
+  margin: var(--s2) 0 0;
+  padding-left: var(--s3);
+  border-left: 2px solid var(--border-firm);
+  font-family: var(--serif);
+  color: var(--text);
+}
+.bill-link { margin: var(--s6) 0 0; font-size: var(--t-md); }
+
+/* What each heading holds. */
+.file-desc { margin: 0 0 var(--s3); color: var(--text-muted); max-width: var(--reading); }
+.heading-list { display: grid; grid-template-columns: minmax(14em, max-content) 1fr; gap: var(--s2) var(--s6); margin: 0 0 var(--s6); }
+.heading-list dt { font-weight: 600; color: var(--text-strong); overflow-wrap: anywhere; }
+.heading-list dd { margin: 0; max-width: var(--reading); }
+.heading-list :target { background: var(--raised); }
 
 .credits { margin: var(--s12) 0 0; font-size: var(--t-md); color: var(--text-muted); }
 .credits h2 { margin-top: 0; }
@@ -545,7 +703,18 @@ h2 {
     --accent: #1a1a1a;
   }
   body { font-size: 11pt; }
-  .topbar, .mode-toggle { display: none; }
+  .topbar, .mode-toggle, .tabs, .narrow, #dlg-close { display: none; }
+  /* An open bill prints on its own. */
+  body.bill-open > :not(main), body.bill-open main > :not(.bill-dialog) { display: none; }
+  .bill-dialog[open] {
+    position: static;
+    width: auto;
+    max-width: none;
+    max-height: none;
+    overflow: visible;
+    border: 0;
+  }
+  .dlg-head { position: static; }
   .foot { border-top: 1px solid var(--border); }
   a { text-decoration: underline; }
 }
@@ -553,7 +722,15 @@ h2 {
 /* ---- Narrow screens ----------------------------------------------------- */
 
 @media (max-width: 640px) {
-  .reading { padding-top: var(--s8); }
+  .reading, .wide { padding-top: var(--s8); }
+  .tabs { flex-wrap: nowrap; overflow-x: auto; gap: var(--s4); }
+  .tabs a { white-space: nowrap; }
+  .bills .c-session, .bills .c-bill_type, .bills .c-date_introduced, .bills .c-date_royal_assent { display: none; }
+  .bills td.c-title { width: auto; }
+  .bill-dialog { width: 100vw; max-width: 100vw; height: 100%; max-height: 100%; margin: 0; border: 0; border-radius: 0; }
+  .dlg-head, .dlg-body { padding-left: var(--s4); padding-right: var(--s4); }
+  .fields, .heading-list { grid-template-columns: 1fr; gap: 0; }
+  .fields dd, .heading-list dd { margin-bottom: var(--s3); }
   h1 { font-size: 22px; }
   .prose, .standfirst { font-size: 17px; }
   .topbar-inner { flex-wrap: wrap; gap: var(--s2) var(--s3); }

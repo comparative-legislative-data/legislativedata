@@ -1,32 +1,106 @@
 {#
   The Data page. Behind the sign-in. Its own words are agreed in
-  docs/wording/PUBLISHING.md (parts 2, 3, 4, 6 and 7); everything else on it is
+  docs/wording/PUBLISHING.md (parts 2, 3, 4, 7 and 8); everything else on it is
   read from the live copy when the page is asked for, and nothing is typed in.
-  Strand 2, items 2 and 3: docs/STRAND-2-SHARED-PAGE-PARTS.md and
-  docs/STRAND-2-REFERENCE-SECTIONS.md.
+  Strand 2, items 2, 3 and 4: docs/STRAND-2-SHARED-PAGE-PARTS.md,
+  docs/STRAND-2-REFERENCE-SECTIONS.md, docs/STRAND-2-THE-TABLE.md and
+  docs/STRAND-2-ITEM-4-BUILD.md.
 
-  The four reference sections fold away, and each opens on its own when a link
-  points into it: /data#M7, #terms-of-use, #what-has-changed.
+  Six tabs. Each keeps its address, and so does every place inside one:
+  /data#methodology-notes, #M7, #terms-of-use, #what-has-changed. A bill opens
+  in a pop-up at /data#bill-305. Without JavaScript the tabs' contents follow
+  one another, and no bill opens: the download is the complete route.
 #}
 {% extends "base.html" %}
 
 {% block title %}Data — {{ site_name }}{% endblock %}
 
+{% macro value(v) %}{% if v is none %}—{% elif v.startswith('http://') or v.startswith('https://') %}<a href="{{ v }}">{{ v }}</a>{% else %}{{ v }}{% endif %}{% endmacro %}
+
 {% block main %}
-<div class="reading">
+<div class="wide">
 
   <p class="label">Data</p>
   <div class="page-head">
     <h1>Data</h1>
     <p class="data-date">Data as at {{ copy_date|day }}</p>
   </div>
-  <p class="date-statement">Accurate as at that date. A record it was taken from may since have been corrected, and earlier versions are not kept. <a href="#what-has-changed">See what has changed.</a></p>
+  <p class="date-statement">Accurate as at that date. A record it was taken from may since have been corrected, and earlier versions are not kept.</p>
 
-  <p class="standfirst">The table of every bill, and the whole dataset to download, are being built.</p>
+  <nav class="tabs" aria-label="Data" id="tabs">
+    <a href="#bills" data-tab="bills">Bills</a>
+    <a href="#methodology-notes" data-tab="methodology-notes">Methodology notes</a>
+    <a href="#sources-and-terms" data-tab="sources-and-terms">Sources and terms of use</a>
+    <a href="#what-each-heading-holds" data-tab="what-each-heading-holds">What each heading holds</a>
+    <a href="#what-the-words-mean" data-tab="what-the-words-mean">What the words mean</a>
+    <a href="#what-has-changed" data-tab="what-has-changed">What has changed</a>
+  </nav>
 
-  {# ---- 1. Methodology notes ---------------------------------------------- #}
-  <details class="section" id="methodology-notes">
-    <summary><h2>Methodology notes</h2></summary>
+  {# ---- Bills: the table of every bill. Part 8. ---------------------------- #}
+  <section class="panel" id="bills">
+    <p class="standfirst">Every bill introduced in the Scottish Parliament since 1999, one line each. Open a bill to see everything recorded about it, and where each fact came from. The whole dataset, to download, is being built.</p>
+
+    <form class="narrow" method="get" action="/data" role="search">
+      <div><label for="f-session">Session</label><select id="f-session" name="session"><option value="">All</option>{% for v in lists.session %}<option value="{{ v }}"{% if choices.session == v %} selected{% endif %}>{{ v }}</option>{% endfor %}</select></div>
+      <div><label for="f-type">Type</label><select id="f-type" name="type"><option value="">All</option>{% for v in lists.type %}<option value="{{ v }}"{% if choices.type == v %} selected{% endif %}>{{ v }}</option>{% endfor %}</select></div>
+      <div><label for="f-outcome">Outcome</label><select id="f-outcome" name="outcome"><option value="">All</option>{% for v in lists.outcome %}<option value="{{ v }}"{% if choices.outcome == v %} selected{% endif %}>{{ v }}</option>{% endfor %}</select></div>
+      <div><label for="f-title">Title contains</label><input id="f-title" name="title" type="text" autocomplete="off" maxlength="100" value="{{ choices.title or '' }}"></div>
+      <div class="acts"><button class="textlink" type="submit">Show</button> <a href="/data">Clear</a></div>
+    </form>
+
+    <p class="count">{{ count }}</p>
+    {% if shown %}
+    <div class="table-scroll">
+      <table class="bills">
+        <thead><tr>{% for c in columns %}<th scope="col" class="c-{{ c }}"><a href="#h-bills-{{ c }}">{{ c }}</a></th>{% endfor %}</tr></thead>
+        <tbody>
+          {% for b in shown %}<tr id="bill-{{ b.bill_number }}">{% for c in columns %}{% if c == 'title' %}<td class="c-title"><a class="open-bill" href="#bill-{{ b.bill_number }}">{{ b.title }}</a>{% if b.note %} <span class="has-note">note</span>{% endif %}</td>{% else %}<td class="c-{{ c }}">{{ cell(b[c]) or '' }}</td>{% endif %}{% endfor %}</tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    {# Every bill, opened, out of sight until it is asked for. #}
+    {% for o in opened %}{% set b = o.bill %}
+    <template id="open-bill-{{ b.bill_number }}" data-eyebrow="Bill {{ b.bill_number }} · Session {{ b.session }}" data-title="{{ b.title }}">
+      <h3>The bill</h3>
+      <dl class="fields">
+        {% for heading, v, codes in o.fields %}<dt><a class="heading-link" href="#h-bills-{{ heading }}">{{ heading }}</a>{% if codes %}<span class="codes">{% for c in codes %} <a href="#{{ c }}">{{ c }}</a>{% endfor %}</span>{% endif %}</dt>{% if v is none %}<dd class="empty">—</dd>{% else %}<dd>{{ value(v) }}</dd>{% endif %}
+        {% endfor %}
+      </dl>
+      <h3>Its stages</h3>
+      <div class="table-scroll">
+        <table class="sub">
+          <thead><tr><th>stage</th><th>date_ended</th><th>got_through</th><th>source</th><th>where_in_the_source</th><th>date_source_read</th></tr></thead>
+          <tbody>
+            {% for st in o.stages %}<tr><td>{{ st.stage }}{% if st.asides %}<span class="aside">{% for a in st.asides %}{{ a }}{% if not loop.last %}<br>{% endif %}{% endfor %}</span>{% endif %}</td><td>{{ cell(st.date_ended) or '—' }}</td><td>{{ cell(st.got_through) or '—' }}</td><td>{{ cell(st.source) or '—' }}</td><td>{{ value(cell(st.where_in_the_source)) }}</td><td>{{ cell(st.date_source_read) or '—' }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <h3>Where each fact came from</h3>
+      {% if not o.facts %}
+      <p class="quiet">Every fact about this bill is from the source named on its line.</p>
+      {% else %}
+      <ul class="facts">
+        {% for f in o.facts %}<li><span class="fact-head">{{ f.applies_to_file }}.{{ f.applies_to_heading }}{% if f.stage %} · {{ f.stage }}{% endif %}</span>
+          <p>{{ f.source }} · {{ value(cell(f.where_in_the_source)) }} · <span class="quiet">read {{ cell(f.date_source_read) or '—' }}</span></p>
+          {% if f.gone %}<p class="quiet">This address no longer works. We kept a copy of the page on {{ f.gone.date_kept|day }}: {{ f.gone.kept_copy }}.</p>{% endif %}
+          {% if f.value_as_the_source_gave_it %}<blockquote>{{ f.value_as_the_source_gave_it }}</blockquote>{% endif %}
+          {% if f.note %}<p>{{ f.note }}</p>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <p class="bill-link"><a href="#bill-{{ b.bill_number }}">Link to this bill</a></p>
+    </template>
+    {% endfor %}
+  </section>
+
+  {# ---- Methodology notes ---------------------------------------------------- #}
+  <section class="panel" id="methodology-notes">
+    <h2>Methodology notes</h2>
     <p class="section-intro">The judgements made in coding the data, each in full, with the headings it applies to.</p>
     {% for n in notes %}
     <details class="note" id="{{ n.note }}">
@@ -38,11 +112,11 @@
       <p class="applies">Applies to: {% for h in n.headings %}<code>{{ h }}</code>{% if not loop.last %}, {% endif %}{% endfor %}</p>
     </details>
     {% endfor %}
-  </details>
+  </section>
 
-  {# ---- 2. Sources and terms of use. Part 4 of PUBLISHING.md. ------------- #}
-  <details class="section" id="sources-and-terms">
-    <summary><h2>Sources and terms of use</h2></summary>
+  {# ---- Sources and terms of use. Part 4 of PUBLISHING.md. ----------------- #}
+  <section class="panel" id="sources-and-terms">
+    <h2>Sources and terms of use</h2>
     <h3 id="terms-of-use">Terms of use</h3>
     <div class="prose">
       <p>Every value in this data names its source. A value from one of the sources below stays under that source's terms, and its restrictions pass to you with it. Everything else is our own work, under CC BY 4.0. When you use the data, include the credit line for each source your use draws on.</p>
@@ -66,11 +140,25 @@
       {% if t.date_terms_read %}<p><span class="field-name">Terms read on</span> {{ t.date_terms_read|day }}, at <a href="{{ t.terms_page }}">{{ t.terms_page_shown }}</a>.</p>{% endif %}
     </div>
     {% endfor %}
-  </details>
+  </section>
 
-  {# ---- 3. What the words mean -------------------------------------------- #}
-  <details class="section" id="what-the-words-mean">
-    <summary><h2>What the words mean</h2></summary>
+  {# ---- What each heading holds. Part 8. ----------------------------------- #}
+  <section class="panel" id="what-each-heading-holds">
+    <h2>What each heading holds</h2>
+    <p class="section-intro">Every heading in every file, with what it holds and what an empty cell under it means. The same descriptions are in the download's codebook.</p>
+    {% for f in heading_files %}
+    <h3 id="file-{{ f.file }}"><code>{{ f.file }}</code></h3>
+    <p class="file-desc">{{ f.holds }}</p>
+    <dl class="heading-list">
+      {% for h in f.headings %}<dt id="h-{{ f.file }}-{{ h.heading }}"><code>{{ h.heading }}</code></dt><dd>{{ h.what_it_holds }}</dd>
+      {% endfor %}
+    </dl>
+    {% endfor %}
+  </section>
+
+  {# ---- What the words mean ------------------------------------------------- #}
+  <section class="panel" id="what-the-words-mean">
+    <h2>What the words mean</h2>
     <p class="section-intro">What each word in the data's fixed lists means, under the heading it appears in.</p>
     {% for group in words %}
     <h3 class="word-heading" id="words-{{ group.heading }}"><code>{{ group.heading }}</code></h3>
@@ -79,11 +167,11 @@
       {% endfor %}
     </dl>
     {% endfor %}
-  </details>
+  </section>
 
-  {# ---- 4. What has changed ----------------------------------------------- #}
-  <details class="section" id="what-has-changed">
-    <summary><h2>What has changed</h2></summary>
+  {# ---- What has changed ---------------------------------------------------- #}
+  <section class="panel" id="what-has-changed">
+    <h2>What has changed</h2>
     <p class="section-intro">Every published value a refresh has changed, newest first, with what it said before and what it says now. A line added is counted, not listed.</p>
     {% if changed %}
     <div class="table-scroll">
@@ -99,28 +187,101 @@
     <p class="quiet">Nothing has changed since the data was first published.</p>
     {% endif %}
     <p class="added">{{ added }}</p>
-  </details>
+  </section>
 
   {% include "credits.html" %}
 
 </div>
 
+<dialog class="bill-dialog" id="bill-dialog" aria-labelledby="dlg-title">
+  <div class="dlg-head">
+    <div>
+      <p class="label" id="dlg-eyebrow"></p>
+      <h2 id="dlg-title"></h2>
+    </div>
+    <button class="textlink" type="button" id="dlg-close">Close</button>
+  </div>
+  <div class="dlg-body" id="dlg-body"></div>
+</dialog>
+
 <script>
-  // A link into a section opens it, and any section around it, and then goes
-  // there: on arrival, and when a link on the page is followed.
+  // The tabs, and a bill in a pop-up. Every address lands somewhere: a bill,
+  // a tab, or a place inside a tab, which opens its tab first.
   (function () {
-    function openFor(hash) {
-      if (!/^#[A-Za-z0-9-]{1,60}$/.test(hash)) return;
-      var el = document.getElementById(hash.slice(1));
-      if (!el) return;
-      for (var n = el; n; n = n.parentElement) {
-        if (n.tagName === 'DETAILS') n.open = true;
+    var TABS = ['bills', 'methodology-notes', 'sources-and-terms', 'what-each-heading-holds',
+                'what-the-words-mean', 'what-has-changed'];
+    var dlg = document.getElementById('bill-dialog');
+    var body = document.getElementById('dlg-body');
+    var opened = null;     // the bill open now, if one is
+    var pushed = false;    // whether opening it added a step to Back
+
+    function showTab(name) {
+      TABS.forEach(function (t) {
+        document.getElementById(t).hidden = t !== name;
+        var a = document.querySelector('.tabs [data-tab="' + t + '"]');
+        if (t === name) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+      });
+    }
+
+    function openBill(n) {
+      var t = document.getElementById('open-bill-' + n);
+      if (!t) return false;
+      showTab('bills');
+      document.getElementById('dlg-eyebrow').textContent = t.getAttribute('data-eyebrow');
+      document.getElementById('dlg-title').textContent = t.getAttribute('data-title');
+      body.replaceChildren(t.content.cloneNode(true));
+      opened = n;
+      document.body.classList.add('bill-open');
+      if (!dlg.open) dlg.showModal();
+      dlg.scrollTop = 0;
+      return true;
+    }
+
+    function closeBill() { if (dlg.open) dlg.close(); }
+
+    dlg.addEventListener('close', function () {
+      document.body.classList.remove('bill-open');
+      opened = null;
+      if (/^#bill-/.test(location.hash)) {
+        if (pushed) history.back();
+        else history.replaceState(null, '', location.pathname + location.search);
       }
+      pushed = false;
+    });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) closeBill(); });
+    document.getElementById('dlg-close').addEventListener('click', closeBill);
+
+    // Opening a bill from the list adds a step to Back, and leaves the list
+    // where it was.
+    document.getElementById('bills').addEventListener('click', function (e) {
+      var a = e.target.closest('a.open-bill');
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      var n = a.getAttribute('href').slice(6);
+      history.pushState(null, '', '#bill-' + n);
+      if (openBill(n)) pushed = true;
+    });
+
+    function route(first) {
+      var id = location.hash.slice(1);
+      if (!/^[A-Za-z0-9_-]{1,80}$/.test(id)) id = '';
+      var m = /^bill-(\d+)$/.exec(id);
+      if (m && openBill(m[1])) return;
+      if (dlg.open) { pushed = false; closeBill(); }
+      if (!id) { if (first) showTab('bills'); return; }
+      if (TABS.indexOf(id) >= 0) { showTab(id); window.scrollTo(0, 0); return; }
+      var el = document.getElementById(id);
+      var panel = el && el.closest('.panel');
+      if (!panel) { if (first) showTab('bills'); return; }
+      showTab(panel.id);
+      for (var p = el; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
       el.scrollIntoView();
     }
-    openFor(window.location.hash);
-    window.addEventListener('hashchange', function () { openFor(window.location.hash); });
-    // Printing prints what is folded away too.
+    window.addEventListener('hashchange', function () { route(false); });
+    route(true);
+
+    // Printing prints the tab that is open, with its notes unfolded; an open
+    // bill prints on its own.
     window.addEventListener('beforeprint', function () {
       var all = document.querySelectorAll('details');
       for (var i = 0; i < all.length; i++) all[i].open = true;

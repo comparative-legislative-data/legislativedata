@@ -65,9 +65,10 @@ def _rows(cur, sql):
 
 
 def reference():
-    """Everything the Data page's reference sections and credit lines show,
-    read in one go, so that a refresh landing part way through cannot give a
-    page half of one copy and half of the next. In the copy's own words; the
+    """Everything the Data page shows, its table, its reference sections and
+    its credit lines, read in one go, so that a refresh landing part way
+    through cannot give a page half of one copy and half of the next. In the
+    copy's own words; the
     only ordering added here is the order a reader meets them in.
 
     Raises Unreadable if any of it cannot be read."""
@@ -84,9 +85,30 @@ def reference():
             changed = _rows(cur, "SELECT * FROM live.what_changed "
                                  "ORDER BY date_copy_taken DESC, file, bill_number, "
                                  "stage, which_line, heading")
+            bills = _rows(cur, "SELECT * FROM live.bills ORDER BY bill_number")
+            stages = _rows(cur, "SELECT * FROM live.stages "
+                                "ORDER BY bill_number, stage_position, stage")
+            sources = _rows(cur, "SELECT * FROM live.sources WHERE bill_number IS NOT NULL")
+            cited = _rows(cur, "SELECT * FROM live.cited_pages")
+            files = _rows(cur, FILES_AND_HEADINGS)
     except psycopg.Error as e:
         raise Unreadable() from e
     if not about:
         raise Unreadable()
     return {"about": about, "notes": notes, "terms": terms, "words": words,
-            "changed": changed}
+            "changed": changed, "bills": bills, "stages": stages, "sources": sources,
+            "cited": cited, "files": files}
+
+
+# Every heading of every file in the copy, in the file's own order, with the
+# description the copy stores on it; and each file's own description. The same
+# descriptions the download's codebook is made from.
+FILES_AND_HEADINGS = """
+    SELECT c.relname AS file, obj_description(c.oid, 'pg_class') AS file_holds,
+           a.attnum AS position, a.attname AS heading,
+           col_description(c.oid, a.attnum) AS what_it_holds
+      FROM pg_class c
+      JOIN pg_namespace n ON n.oid = c.relnamespace
+      JOIN pg_attribute a ON a.attrelid = c.oid AND a.attnum > 0 AND NOT a.attisdropped
+     WHERE n.nspname = 'live' AND c.relkind IN ('r', 'v')
+     ORDER BY c.relname, a.attnum"""

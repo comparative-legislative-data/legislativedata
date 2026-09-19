@@ -10,8 +10,10 @@ from". The data pages, and the words on them, are strand 2, items 2 and 3:
 docs/STRAND-2-SHARED-PAGE-PARTS.md, docs/STRAND-2-REFERENCE-SECTIONS.md and
 docs/wording/PUBLISHING.md.
 """
+import datetime
 import os
 import re
+from urllib.parse import parse_qs, quote, urlencode
 
 from flask import Flask, abort, g, redirect, render_template, request, url_for
 
@@ -199,7 +201,8 @@ def signed_out_to_sign_in():
     the sign-in page and gets nothing of the page; the browser keeps the
     section they were going to, and the sign-in page carries it through."""
     if not g.get("signed_in"):
-        return redirect(url_for("sign_in", next=request.path), code=302)
+        going = return_to(request.full_path.rstrip("?")) or request.path
+        return redirect(url_for("sign_in", next=going), code=302)
     return None
 
 
@@ -297,6 +300,158 @@ def added_line(about):
     return f"Added in the copy of {when}: {', '.join(parts)}."
 
 
+# ---- The table of every bill -------------------------------------------------
+#
+# Strand 2, item 4: docs/STRAND-2-THE-TABLE.md, and the small choices made in
+# building it, docs/STRAND-2-ITEM-4-BUILD.md. The narrowing is done here, from
+# the page's address, so that a narrowed table can be shared, bookmarked and
+# handed over by a chart as an address.
+
+# The seven columns, as the bills file names them, in its order. The others
+# are in the opened bill.
+COLUMNS = ("bill_number", "session", "title", "bill_type", "date_introduced",
+           "outcome", "date_royal_assent")
+
+# The choices a reader can make, in the order the address gives them.
+CHOICES = ("session", "type", "outcome", "title")
+
+# Title words are matched on no more than this.
+TITLE_LONGEST = 100
+
+# The files in the order the download gives them, for What each heading holds.
+HEADINGS_ORDER = ("bills", "stages", "days_between_stages", "sessions", "methodology_notes",
+                  "sources", "what_the_words_mean", "what_changed", "workings", "about",
+                  "cited_pages", "terms")
+
+# What may be typed into the title box and survive signing in: the characters
+# titles are made of. Anything else in a return address is dropped.
+TITLE_SHAPE = re.compile(r"[A-Za-z0-9 '’()&,.:-]{1,100}")
+
+
+def fold(text):
+    """Title words as they are compared: capitals and the curly apostrophe
+    set aside."""
+    return (text or "").lower().replace("’", "'")
+
+
+def cell(value):
+    """A value as the file holds it: a date as 2018-12-13, an empty cell as
+    None."""
+    if value is None or value == "":
+        return None
+    return value.isoformat() if hasattr(value, "isoformat") else str(value)
+
+
+def choice_lists(copy):
+    """What each dropdown offers: the copy's own words, in the copy's order,
+    and only those some bill has."""
+    def listed(heading, column):
+        have = {b[column] for b in copy["bills"]}
+        return [w["value"] for w in copy["words"] if w["heading"] == heading and w["value"] in have]
+    return {
+        "session": [str(x) for x in sorted({b["session"] for b in copy["bills"]})],
+        "type": listed("bill_type", "bill_type"),
+        "outcome": listed("outcome", "outcome"),
+    }
+
+
+def chosen(args, lists):
+    """The reader's choices from the address. A choice not on its list is
+    ignored, so the dropdowns, the count and the table always agree."""
+    got = {}
+    for key in ("session", "type", "outcome"):
+        value = args.get(key, "")
+        if value in lists[key]:
+            got[key] = value
+    title = tidy(args.get("title"))[:TITLE_LONGEST].strip()
+    if title:
+        got["title"] = title
+    return got
+
+
+def address(choices):
+    """The page's address for these choices, in the one order."""
+    query = urlencode([(k, choices[k]) for k in CHOICES if k in choices], quote_via=quote)
+    return "/data" + ("?" + query if query else "")
+
+
+def narrowed(bills, choices):
+    column = {"session": "session", "type": "bill_type", "outcome": "outcome"}
+    words = fold(choices.get("title"))
+    return [b for b in bills
+            if all(str(b[column[k]]) == choices[k] for k in column if k in choices)
+            and (not words or words in fold(b["title"]))]
+
+
+def count_line(shown, total):
+    """Part 8's three forms."""
+    if not shown:
+        return "No bill matches these choices. Clear them to see every bill."
+    if shown == total:
+        return f"Showing all {total} bills."
+    return f"Showing {shown} of {total} bills."
+
+
+def opened_bills(copy):
+    """Everything an opened bill shows, for every bill: its line, heading by
+    heading, with the notes that bear on each; its stages; and where each
+    fact came from."""
+    notes_for = {}
+    for n in copy["notes"]:
+        for h in (n["applies_to"] or "").split(","):
+            if h.strip():
+                notes_for.setdefault(h.strip(), []).append(n["note"])
+
+    positions = {(f["file"], f["heading"]): f["position"] for f in copy["files"]}
+    bill_headings = sorted((f for f in copy["files"] if f["file"] == "bills"),
+                           key=lambda f: f["position"])
+
+    # Beneath a stage's name, what else its line says about it.
+    stages = {}
+    for st in copy["stages"]:
+        asides = [f"{h}: {st[h]}" for h in ("stage_never_happened", "bill_ended_here") if st[h]]
+        asides += [st[h] for h in ("why_there_is_no_date", "note") if st[h]]
+        stages.setdefault(st["bill_number"], []).append({**st, "asides": asides})
+    stage_place = {(st["bill_number"], st["stage"]): st["stage_position"] for st in copy["stages"]}
+
+    cited = {c["address"]: c for c in copy["cited"]}
+    facts = {}
+    for f in copy["sources"]:
+        where = f["where_in_the_source"]
+        gone = cited.get(where)
+        facts.setdefault(f["bill_number"], []).append({
+            **f,
+            "gone": gone if gone and gone["address_works"] == "No" else None,
+            "order": (0 if f["applies_to_file"] == "bills" else 1,
+                      stage_place.get((f["bill_number"], f["stage"]), 0),
+                      positions.get((f["applies_to_file"], f["applies_to_heading"]), 0),
+                      f["date_source_read"] or datetime.date.min),
+        })
+
+    opened = []
+    for b in copy["bills"]:
+        n = b["bill_number"]
+        opened.append({
+            "bill": b,
+            "fields": [(h["heading"], cell(b[h["heading"]]),
+                        notes_for.get(f"bills.{h['heading']}", [])) for h in bill_headings],
+            "stages": stages.get(n, []),
+            "facts": sorted(facts.get(n, []), key=lambda f: f["order"]),
+        })
+    return opened
+
+
+def what_each_heading_holds(copy):
+    """Every heading of every file, file by file, with the copy's own
+    descriptions."""
+    files = {}
+    for f in copy["files"]:
+        files.setdefault(f["file"], {"file": f["file"], "holds": f["file_holds"], "headings": []})
+        files[f["file"]]["headings"].append(f)
+    order = {name: i for i, name in enumerate(HEADINGS_ORDER)}
+    return sorted(files.values(), key=lambda f: (order.get(f["file"], len(order)), f["file"]))
+
+
 @app.route("/data")
 def data():
     wall = signed_out_to_sign_in()
@@ -306,10 +461,24 @@ def data():
         copy = published.reference()
     except published.Unreadable:
         return render_template("data_unavailable.html"), 503
+
+    lists = choice_lists(copy)
+    choices = chosen(request.args, lists)
+    # An address with anything in it that was not used is sent on to the one
+    # that says exactly what is shown.
+    if request.args and request.args.to_dict(flat=False) != {k: [v] for k, v in choices.items()}:
+        return redirect(address(choices), code=302)
+
     g.copy_date = copy["about"][0]["date_copy_taken"]
     sections = reference_sections(copy)
+    shown = narrowed(copy["bills"], choices)
     # The Data page carries the whole dataset, so it credits every set of terms.
-    return render_template("data.html", credits=sections["terms"], **sections)
+    return render_template(
+        "data.html", credits=sections["terms"], **sections,
+        columns=COLUMNS, lists=lists, choices=choices, shown=shown,
+        count=count_line(len(shown), len(copy["bills"])),
+        opened=opened_bills(copy), heading_files=what_each_heading_holds(copy),
+        cell=cell)
 
 
 @app.route("/insights")
@@ -331,15 +500,32 @@ def insights():
 CODE_SHAPE = re.compile(r"^[0-9]{6}$")
 
 
-# Where signing in may return a reader to: a data page, and the section of it
-# a link pointed into. Nothing else is accepted, so a link cannot use signing in
-# to send anyone off this site, or anywhere on it but these two pages.
-RETURN_SHAPE = re.compile(r"/(data|insights)(#[A-Za-z0-9-]{1,40})?")
+# Where signing in may return a reader to: a data page, the section of it a
+# link pointed into, and on the Data page the table's narrowing. Nothing else is
+# accepted, so a link cannot use signing in to send anyone off this site, or
+# anywhere on it but these two pages.
+RETURN_SHAPE = re.compile(r"/(data|insights)(\?[^#]*)?(#[A-Za-z0-9_-]{1,60})?")
 
 
 def return_to(value):
-    """The return address if it is one of the allowed shapes, or None."""
-    return value if value and RETURN_SHAPE.fullmatch(value) else None
+    """The return address if it is one of the allowed shapes, or None. The
+    narrowing is rebuilt from what checks out, never copied from what was
+    sent: a session is a number, a type, outcome or title the characters
+    titles are made of, and any other part of the address is dropped."""
+    m = RETURN_SHAPE.fullmatch(value or "")
+    if not m:
+        return None
+    page, query, section = m.groups()
+    kept = {}
+    if page == "data" and query:
+        for key, values in parse_qs(query[1:]).items():
+            v = values[0] if len(values) == 1 else ""
+            if key == "session" and re.fullmatch(r"[0-9]{1,2}", v):
+                kept[key] = v
+            elif key in ("type", "outcome", "title") and TITLE_SHAPE.fullmatch(v):
+                kept[key] = v
+    where = address(kept) if page == "data" else "/insights"
+    return where + (section or "")
 
 
 @app.route("/sign-in", methods=["GET", "POST"])

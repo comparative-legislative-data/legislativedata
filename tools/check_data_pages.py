@@ -1,12 +1,16 @@
 """The Data and Insights pages, checked on the machine against a staged release.
 
-Strand 2, items 2 and 3 (docs/STRAND-2-ITEMS-2-AND-3-BUILD.md, part A). Run
+Strand 2, items 2 and 3 (docs/STRAND-2-ITEMS-2-AND-3-BUILD.md, part A), and
+item 4, the table of every bill, which put the Data page in tabs
+(docs/STRAND-2-ITEM-4-BUILD.md, part A). Run
 as the site's own login, in the release's own environment, with the agreed
 wording sent alongside:
 
     sudo -u legsite /srv/site/releases/<release>/.venv/bin/python \\
         check_data_pages.py /srv/site/releases/<release> PUBLISHING.md
     ... BREAK=1 ...   # must FAIL at the date statement and the credit lines
+    ... BREAK=2 ...   # must FAIL at the table, its narrowing, the opened bills,
+                      # the link to a bill, and What each heading holds
 
 It reads the live copy exactly as the site does, and writes nothing anywhere.
 It signs nobody in and never opens the accounts: "signed in" is a made-up
@@ -17,10 +21,12 @@ answers only.
 """
 import copy as copying
 import datetime
+import gzip
 import os
 import re
 import sys
 from html import unescape
+from urllib.parse import parse_qs, urlsplit
 
 REL, WORDING = sys.argv[1], sys.argv[2]
 sys.path.insert(0, REL)
@@ -54,6 +60,15 @@ if os.environ.get("BREAK") == "1":
         if was not in wording:
             sys.exit(f"Refusing: BREAK could not find {was!r} to change.")
         wording = wording.replace(was, now)
+if os.environ.get("BREAK") == "2":
+    # One phrase of part 8, and below, one value in each file the table and
+    # its opened bills are compared with. Must FAIL at the link to a bill, the
+    # table, the narrowing, the opened bills' headings, stages and sources,
+    # and What each heading holds.
+    was, now = "> Link to this bill", "> Link to the bill"
+    if was not in wording:
+        sys.exit(f"Refusing: BREAK could not find {was!r} to change.")
+    wording = wording.replace(was, now)
 
 
 def part(number):
@@ -96,11 +111,11 @@ def between(html, start, end):
 
 
 def section(html, ident):
-    """One reference section, from its opening to the next one's."""
-    i = html.find(f'<details class="section" id="{ident}">')
+    """One tab of the Data page, from its opening to the next one's."""
+    i = html.find(f'<section class="panel" id="{ident}">')
     if i < 0:
         return ""
-    j = html.find('<details class="section"', i + 1)
+    j = html.find('<section class="panel"', i + 1)
     k = html.find('<section class="credits"', i + 1)
     ends = [x for x in (j, k) if x > 0]
     return html[i:min(ends) if ends else len(html)]
@@ -110,6 +125,14 @@ def section(html, ident):
 
 with app.app_context():
     copy = published.reference()
+real_reference_first = published.reference
+if os.environ.get("BREAK") == "2":
+    # What the check expects, changed; what the site shows, not.
+    copy = copying.deepcopy(copy)
+    copy["bills"][0]["outcome"] = "Withdrawn"
+    copy["stages"][0]["date_ended"] = copy["stages"][0]["date_ended"] + datetime.timedelta(days=1)
+    next(f for f in copy["sources"] if f["note"])["note"] += " (changed)"
+    copy["files"][0]["what_it_holds"] += " (changed)"
 when = day(copy["about"][0]["date_copy_taken"])
 copy_date = copy["about"][0]["date_copy_taken"]
 
@@ -131,14 +154,17 @@ def get(path, signed_in=False):
 
 page_words = [copy["notes"][0]["title"], "Methodology notes", "Sources and licence",
               "Contains information licensed", "The charts are being built",
-              "Accurate as at that date"]
-for path in ("/data", "/data?x=1", "/insights"):
+              "Accurate as at that date", "Showing", "What each heading holds",
+              next(b["title"] for b in copy["bills"] if b["bill_number"] == 305), "Legal Continuity"]
+for path, target in [("/data", "/data"), ("/data?x=1", "/data"), ("/insights", "/insights"),
+                     ("/data?session=5&title=continuity", "/data?session=5&title=continuity")]:
     r = get(path)
     body = r.get_data(as_text=True)
-    target = path.split("?")[0]
-    check(f"signed out, {path} goes to the sign-in page and nowhere else",
-          r.status_code == 302 and r.headers["Location"] == f"/sign-in?next={target}",
-          f"{r.status_code} {r.headers.get('Location')}")
+    loc = r.headers.get("Location", "")
+    sent = parse_qs(urlsplit(loc).query).get("next", [""])[0]
+    check(f"signed out, {path} goes to the sign-in page and nowhere else, returning to {target}",
+          r.status_code == 302 and urlsplit(loc).path == "/sign-in" and sent == target,
+          f"{r.status_code} {loc}")
     check(f"signed out, {path} gives none of the page's words",
           not any(w in body for w in page_words))
 
@@ -162,7 +188,14 @@ check("sending for a code carries the return address to the code page",
 for sent, lands in [("/data#M7", "/data#M7"), ("/insights", "/insights"),
                     ("/data#terms-of-use", "/data#terms-of-use"),
                     ("//example.com", "/"), ("https://example.com", "/"),
-                    ("/admin", "/"), ("/data/../admin", "/"), ("/data#<b>", "/"), ("", "/")]:
+                    ("/admin", "/"), ("/data/../admin", "/"), ("/data#<b>", "/"), ("", "/"),
+                    ("/data?session=5&title=continuity", "/data?session=5&title=continuity"),
+                    ("/data#words-bill_type", "/data#words-bill_type"),
+                    ("/data?session=5&title=continuity#bill-305",
+                     "/data?session=5&title=continuity#bill-305"),
+                    ("/data?next=//example.com", "/data"), ("/data?title=<b>", "/data"),
+                    ("/data?session=5&admin=1", "/data?session=5"),
+                    ("/insights?session=5", "/insights")]:
     r = client.post("/sign-in/code", data={"email": "someone@example.com", "code": "123456",
                                            "next": sent})
     check(f"signing in with a return of {sent or '(none)'} lands at {lands}",
@@ -192,14 +225,15 @@ check("signed out, no page's header has Data or Insights",
 # ---- 4. The date and the date statement ------------------------------------------------
 
 p2 = [x.replace("18 September 2026", when) for x in part(2)]
-got = blocks(between(html, '<div class="page-head">', '<p class="standfirst">'))
+got = blocks(between(html, '<div class="page-head">', '<nav class="tabs"'))
 check(f"beside the heading: Data as at {when}, from the copy", p2[0] in got, got)
 check("the date statement is part 2, word for word", p2[1] in got, got)
-check("the date statement links to What has changed",
-      '<a href="#what-has-changed">See what has changed.</a>' in html)
-check("the Data page's own words are part 6, word for word",
-      "The table of every bill, and the whole dataset to download, are being built." in part(6)
-      and "The table of every bill, and the whole dataset to download, are being built." in blocks(html))
+check("the date statement has no link after it (changed with the table)",
+      "See what has changed" not in html)
+p8 = part(8)
+check("the Data page opens with part 8's sentence, word for word, and part 6's is gone",
+      p8[0] in blocks(html) and p8[0].startswith("Every bill introduced")
+      and "are being built." not in html)
 
 # ---- 5. The credit lines -------------------------------------------------------------
 
@@ -390,13 +424,307 @@ check("unreadable: home, privacy and sign-in still draw, with no date and the in
 published.CONNINFO = os.environ.get("PUBLISHED_CONNINFO", "dbname=published")
 check("readable again: the Data page is back", get("/data", signed_in=True).status_code == 200)
 
-# ---- 13. Every link into a section has somewhere to land -----------------------------------------------
+# ---- 13. The tabs, and every link into one landing inside it ----------------------------------------
 
-for target in ("M7", "M1", "M14", "terms-of-use", "what-has-changed", "what-the-words-mean",
-               "methodology-notes", "sources-and-terms"):
-    at = html.find(f'id="{target}"')
-    inside = html.rfind('<details class="section"', 0, at + 1)
-    check(f"#{target} lands inside a section that opens", at >= 0 and inside >= 0)
+TABS = [("bills", "Bills"), ("methodology-notes", "Methodology notes"),
+        ("sources-and-terms", "Sources and terms of use"),
+        ("what-each-heading-holds", "What each heading holds"),
+        ("what-the-words-mean", "What the words mean"), ("what-has-changed", "What has changed")]
+nav = between(html, '<nav class="tabs"', "</nav>")
+check("six tabs, in the agreed order, named as agreed",
+      re.findall(r'<a href="#([^"]+)" data-tab="[^"]+">([^<]+)</a>', nav) == TABS,
+      re.findall(r'<a href="#([^"]+)"', nav))
+check("each tab has its panel, and there are no others",
+      re.findall(r'<section class="panel" id="([^"]+)">', html) == [t for t, _ in TABS])
+check("the tab names are part 7's headings and part 8's",
+      all(name in part(7) + part(8) for t, name in TABS if t != "bills"))
+for target, tab in [("M1", "methodology-notes"), ("M7", "methodology-notes"),
+                    ("M14", "methodology-notes"), ("methodology-notes", "methodology-notes"),
+                    ("terms-of-use", "sources-and-terms"), ("sources-and-terms", "sources-and-terms"),
+                    ("what-the-words-mean", "what-the-words-mean"),
+                    ("words-outcome", "what-the-words-mean"),
+                    ("what-has-changed", "what-has-changed"),
+                    ("h-bills-outcome", "what-each-heading-holds"), ("bills", "bills")]:
+    check(f"#{target} lands inside the {tab} tab", f'id="{target}"' in section(html, tab)
+          and html.count(f'id="{target}"') == 1)
+credit_at = html.find('<section class="credits"')
+check("the credit lines come after every tab, so they show under each",
+      credit_at > max(html.find(f'<section class="panel" id="{t}">') for t, _ in TABS))
+
+# ---- 14. The table of every bill -------------------------------------------------------------------------
+
+COLUMNS = ["bill_number", "session", "title", "bill_type", "date_introduced", "outcome",
+           "date_royal_assent"]
+bills = copy["bills"]
+total = len(bills)
+
+
+def cell(v):
+    if v is None or v == "":
+        return None
+    return v.isoformat() if hasattr(v, "isoformat") else str(v)
+
+
+def table_rows(page):
+    """(bill number, [seven cells as a reader reads them], has the note mark)."""
+    out = []
+    for num, row in re.findall(r'<tr id="bill-(\d+)">(.*?)</tr>', between(page, '<table class="bills">', "</table>"), flags=re.S):
+        cells = re.findall(r'<td class="c-[a-z_]+">(.*?)</td>', row, flags=re.S)
+        mark = '<span class="has-note">note</span>' in row
+        cells = [norm(unescape(re.sub(r"<[^>]+>", "", c.replace('<span class="has-note">note</span>', "")))) for c in cells]
+        out.append((int(num), cells, mark))
+    return out
+
+
+def want_row(b):
+    return (b["bill_number"], [norm(cell(b[c]) or "") for c in COLUMNS], bool(b["note"]))
+
+
+sec = section(html, "bills")
+got = table_rows(sec)
+check(f"the table: all {total} lines, in bill number order, each line's seven cells as the copy has them",
+      got == [want_row(b) for b in bills] and total == 470,
+      f"{len(got)} lines; first differing: {next((g for g, w in zip(got, map(want_row, bills)) if g != w), None)}")
+check("the table: each line opens its bill, at its own address",
+      all(f'<a class="open-bill" href="#bill-{b["bill_number"]}">' in sec for b in bills))
+heads = re.findall(r'<th scope="col" class="c-([a-z_]+)"><a href="#h-bills-([a-z_]+)">([a-z_]+)</a></th>', sec)
+check("the table: the seven headings are the file's names, in order, each linking to its entry",
+      [h[2] for h in heads] == COLUMNS and all(a == b == c for a, b, c in heads)
+      and all(f'id="h-bills-{c}"' in html for c in COLUMNS), heads)
+check("the table: the note mark on exactly the ten bills with a note",
+      sum(1 for g in got if g[2]) == 10 == sum(1 for b in bills if b["note"]))
+check("the count, all: part 8's words", f"Showing all {total} bills." in blocks(sec)
+      and part(8)[3].replace("470", str(total)) == f"Showing all {total} bills.")
+check("above the dropdowns: part 8's four names, and Show and Clear",
+      [x for x in blocks(between(sec, '<form class="narrow"', "</form>")) if x in
+       ("Session", "Type", "Outcome", "Title contains", "Show", "Clear")]
+      == ["Session", "Type", "Outcome", "Title contains", "Show", "Clear"]
+      and part(8)[1] == "Session · Type · Outcome · Title contains" and part(8)[2] == "Show · Clear"
+      and '<a href="/data">Clear</a>' in sec)
+
+
+def fold(t):
+    return (t or "").lower().replace("’", "'")
+
+
+def expect(session=None, btype=None, outcome=None, title=None):
+    return [b["bill_number"] for b in bills
+            if (session is None or b["session"] == session) and (btype is None or b["bill_type"] == btype)
+            and (outcome is None or b["outcome"] == outcome) and (title is None or fold(title) in fold(b["title"]))]
+
+
+def narrowed_page(query):
+    r = get("/data?" + query, signed_in=True)
+    return r, r.get_data(as_text=True)
+
+
+r, page = narrowed_page("session=5&title=continuity")
+nums = [g[0] for g in table_rows(page)]
+check("narrowing: Session 5 and \"continuity\" gives the write-up's two bills",
+      nums == expect(5, title="continuity") and len(nums) == 2
+      and any("Legal Continuity" in b["title"] for b in bills if b["bill_number"] in nums),
+      [b["title"] for b in bills if b["bill_number"] in nums])
+check("narrowing: the count, some, is part 8's words",
+      f"Showing 2 of {total} bills." in blocks(page) and part(8)[4] == "Showing 17 of 470 bills.")
+
+sessions = sorted({b["session"] for b in bills})
+words_in = lambda h, col: [w["value"] for w in copy["words"] if w["heading"] == h
+                           and any(b[col] == w["value"] for b in bills)]
+types, outcomes = words_in("bill_type", "bill_type"), words_in("outcome", "outcome")
+bad = []
+for q, want in ([(f"session={x}", expect(session=x)) for x in sessions]
+                + [(f"type={t}", expect(btype=t)) for t in types]
+                + [(f"outcome={o}", expect(outcome=o)) for o in outcomes]
+                + [("session=1&type=Member%27s%20Bill&outcome=Passed", expect(1, "Member's Bill", "Passed")),
+                   ("title=SCOTLAND", expect(title="scotland")),
+                   ("title=pupils%27", expect(title="pupils'"))]):
+    r, page = narrowed_page(q)
+    if r.status_code != 200 or [g[0] for g in table_rows(page)] != want or not want:
+        bad.append((q, r.status_code))
+    elif f"Showing {len(want)} of {total} bills." not in blocks(page) and len(want) != total:
+        bad.append((q, "count"))
+check(f"narrowing: each of {len(sessions)} sessions, {len(types)} types, {len(outcomes)} outcomes, a "
+      "combination, capitals and the curly apostrophe, as the copy worked out separately", not bad, bad)
+check("narrowing: the curly apostrophe is matched by the straight one",
+      len(expect(title="pupils'")) >= 1)
+
+r, page = narrowed_page("title=no%20such%20bill%20anywhere")
+check("narrowing: nothing matching gives part 8's sentence and no table",
+      part(8)[5] in blocks(page) and '<table class="bills">' not in page)
+
+drop = between(html, '<select id="f-session"', "</select>")
+opts = lambda sel: re.findall(r'<option value="([^"]*)"', sel)
+check("dropdowns: sessions, types and outcomes as the copy lists them, only those some bill has, All first",
+      opts(drop) == [""] + [str(x) for x in sessions]
+      and opts(between(html, '<select id="f-type"', "</select>")) == [""] + [str(escape(t)) for t in types]
+      and opts(between(html, '<select id="f-outcome"', "</select>")) == [""] + [str(escape(o)) for o in outcomes]
+      and all(f'<option value="">All</option>' in between(html, f'<select id="f-{k}"', "</select>")
+              for k in ("session", "type", "outcome")),
+      (opts(drop), types, outcomes))
+r, page = narrowed_page("session=5&outcome=Withdrawn&title=bill")
+check("dropdowns: the chosen ones shown as chosen, and the words typed in the box",
+      '<option value="5" selected>' in page and '<option value="Withdrawn" selected>' in page
+      and 'name="title" type="text" autocomplete="off" maxlength="100" value="bill"' in page)
+
+hostile = [("title=%3Cscript%3Ealert(1)%3C/script%3E%22%27", 200),
+           ("session=abc", 302), ("session=99", 302), ("type=Nonsense", 302),
+           ("outcome=%22%3E%3Cb%3E", 302), ("title=" + "x" * 5000, 302),
+           ("session=5&session=6", 302), ("sort=title", 302)]
+bad = []
+for q, code in hostile:
+    r = get("/data?" + q, signed_in=True)
+    page = r.get_data(as_text=True)
+    if r.status_code != code:
+        bad.append((q[:40], r.status_code))
+        continue
+    if code == 302:
+        r2 = get(r.headers["Location"], signed_in=True)
+        if r2.status_code != 200 or len(r.headers["Location"]) > 200:
+            bad.append((q[:40], "then", r2.status_code, r.headers["Location"][:60]))
+    elif "<script>alert" in page or "&lt;script&gt;alert(1)&lt;/script&gt;&#34;&#39;" not in page:
+        bad.append((q[:40], "not shown as text"))
+check("things slipped into the address: shown as text, never obeyed; anything unused sent on to "
+      "the address that says what is shown; never an error", not bad, bad)
+r = get("/data?session=99", signed_in=True)
+check("an unknown choice is ignored: session=99 goes to /data", r.headers.get("Location") == "/data")
+r = get("/data?title=" + "a" * 5000, signed_in=True)
+check("a title is cut to 100 characters", r.headers.get("Location") == "/data?title=" + "a" * 100)
+
+# ---- 15. Every bill, opened --------------------------------------------------------------------------------
+
+templates = dict(re.findall(r'<template id="open-bill-(\d+)"(.*?)</template>', html, flags=re.S))
+check(f"opened bills: one for each of the {total}, out of sight until opened",
+      sorted(map(int, templates)) == [b["bill_number"] for b in bills]
+      and html.count("<h3>The bill</h3>") == total
+      and html.count("<h3>The bill</h3>") == len(re.findall(r"<template[^>]*>\s*<h3>The bill</h3>", html)))
+check("opened bills: the three part headings are part 8's", part(8)[6:9] ==
+      ["The bill", "Its stages", "Where each fact came from"])
+
+bill_headings = [f["heading"] for f in sorted((f for f in copy["files"] if f["file"] == "bills"),
+                                              key=lambda f: f["position"])]
+notes_for = {}
+for note in copy["notes"]:
+    for h in note["applies_to"].split(","):
+        notes_for.setdefault(h.strip(), []).append(note["note"])
+stages_of, facts_of = {}, {}
+for st in copy["stages"]:
+    stages_of.setdefault(st["bill_number"], []).append(st)
+for f in copy["sources"]:
+    facts_of.setdefault(f["bill_number"], []).append(f)
+
+
+def shown(v):
+    """A value as the page should show it: text, or an address as a link."""
+    if v is None:
+        return "—"
+    e = str(escape(v))
+    return f'<a href="{e}">{e}</a>' if re.match(r"https?://", v) else e
+
+
+problems = {"head": [], "fields": [], "stages": [], "facts": [], "link": []}
+for b in bills:
+    num = b["bill_number"]
+    t = templates[str(num)]
+    if (f'data-eyebrow="Bill {num} · Session {b["session"]}"' not in t
+            or f'data-title="{escape(b["title"])}"' not in t):
+        problems["head"].append(num)
+    # The bill, heading by heading.
+    pairs = re.findall(r'<dt><a class="heading-link" href="#h-bills-([a-z_0-9]+)">([a-z_0-9]+)</a>(.*?)</dt>'
+                       r'(?:<dd class="empty">(—)</dd>|<dd>(.*?)</dd>)', t, flags=re.S)
+    want = []
+    for h in bill_headings:
+        v = cell(b[h])
+        want.append((h, h, notes_for.get(f"bills.{h}", []), "—" if v is None else "", "" if v is None else shown(v)))
+    got_pairs = [(a, bb, re.findall(r'<a href="#(M\d+)">', codes), e, d) for a, bb, codes, e, d in pairs]
+    if got_pairs != want or len(pairs) != 34:
+        problems["fields"].append(num)
+    # Its stages.
+    rows = re.findall(r"<tr><td>(.*?)</td></tr>", between(t, '<table class="sub">', "</table>"), flags=re.S)
+    want_rows = []
+    for st in stages_of.get(num, []):
+        asides = [f"{h}: {st[h]}" for h in ("stage_never_happened", "bill_ended_here") if st[h]]
+        asides += [st[h] for h in ("why_there_is_no_date", "note") if st[h]]
+        first = str(escape(st["stage"])) + (('<span class="aside">' + "<br>".join(str(escape(a)) for a in asides) + "</span>") if asides else "")
+        want_rows.append("</td><td>".join([first, cell(st["date_ended"]) or "—", str(escape(cell(st["got_through"]) or "—")),
+                                           str(escape(cell(st["source"]) or "—")), shown(cell(st["where_in_the_source"])),
+                                           cell(st["date_source_read"]) or "—"]))
+    if rows != want_rows:
+        problems["stages"].append(num)
+    # Where each fact came from.
+    items = re.findall(r"<li>(.*?)</li>", between(t, '<ul class="facts">', "</ul>"), flags=re.S)
+    mine = facts_of.get(num, [])
+    if not mine:
+        if part(8)[9] not in blocks(t) or items:
+            problems["facts"].append(num)
+    else:
+        ok = len(items) == len(mine)
+        for f in mine:
+            head = f'{escape(f["applies_to_file"])}.{escape(f["applies_to_heading"])}' + (f' · {escape(f["stage"])}' if f["stage"] else "")
+            line = f'<p>{escape(f["source"])} · {shown(cell(f["where_in_the_source"]))} · <span class="quiet">read {cell(f["date_source_read"]) or "—"}</span></p>'
+            match = [i for i in items if f'<span class="fact-head">{head}</span>' in i and line in i
+                     and (not f["value_as_the_source_gave_it"] or f"<blockquote>{escape(f['value_as_the_source_gave_it'])}</blockquote>" in i)
+                     and (not f["note"] or f"<p>{escape(f['note'])}</p>" in i)]
+            ok = ok and bool(match)
+        if not ok or "This address no longer works" in t:
+            problems["facts"].append(num)
+    if f'<a href="#bill-{num}">Link to this bill</a>' not in t:
+        problems["link"].append(num)
+check("opened bills: the eyebrow and title of each", not problems["head"], problems["head"][:10])
+check("opened bills: every heading of its line, all 34, in the file's order, each value as the copy "
+      "has it, a dash for an empty cell, and exactly the notes that bear on it", not problems["fields"],
+      problems["fields"][:10])
+check(f"opened bills: every stage, {len(copy['stages'])} in all, each field as the copy has it",
+      not problems["stages"] and sum(len(v) for v in stages_of.values()) == len(copy["stages"]),
+      problems["stages"][:10])
+check(f"opened bills: every line about a bill in the sources file ({len(copy['sources'])} lines, "
+      f"{len(facts_of)} bills), each field as the copy has it; part 8's sentence for the "
+      f"{total - len(facts_of)} with none", not problems["facts"], problems["facts"][:10])
+check("opened bills: part 8's Link to this bill, to its own address", not problems["link"]
+      and part(8)[11] == "Link to this bill")
+
+# An address that has gone, drawn with an invented one, nothing written to the copy.
+used = next(f for f in copy["sources"] if f["where_in_the_source"] in {c["address"] for c in copy["cited"]})
+fake = copying.deepcopy(copy)
+for c in fake["cited"]:
+    if c["address"] == used["where_in_the_source"]:
+        c["address_works"], c["kept_copy"], c["date_kept"] = "No", "An invented kept copy", copy_date
+published.reference = lambda: fake
+try:
+    page = get("/data", signed_in=True).get_data(as_text=True)
+finally:
+    published.reference = real_reference_first
+gone_t = dict(re.findall(r'<template id="open-bill-(\d+)"(.*?)</template>', page, flags=re.S))[str(used["bill_number"])]
+sentence = part(8)[10].replace("[the day we kept it]", day(copy_date)).replace("[the kept copy's name]", "An invented kept copy")
+check("an address that has gone: part 8's sentence, with the day and the kept copy's name",
+      sentence in blocks(gone_t) and page.count("This address no longer works") ==
+      sum(1 for f in copy["sources"] if f["where_in_the_source"] == used["where_in_the_source"]),
+      (sentence, [b for b in blocks(gone_t) if "no longer" in b]))
+check("an address that works, or was not checked, gets no such sentence",
+      "This address no longer works" not in html)
+
+# ---- 16. What each heading holds ------------------------------------------------------------------------------
+
+sec = section(html, "what-each-heading-holds")
+check("What each heading holds: its heading and sentence are part 8's",
+      blocks(sec)[:2] == part(8)[12:14], blocks(sec)[:2])
+ORDER = ["bills", "stages", "days_between_stages", "sessions", "methodology_notes", "sources",
+         "what_the_words_mean", "what_changed", "workings", "about", "cited_pages", "terms"]
+files_on_page = re.findall(r'<h3 id="file-([a-z_]+)">', sec)
+check("What each heading holds: every file, in the download's order", files_on_page == ORDER
+      and set(ORDER) == {f["file"] for f in copy["files"]}, files_on_page)
+pairs = re.findall(r'<dt id="h-([a-z_]+)-([a-z_0-9]+)"><code>([a-z_0-9]+)</code></dt><dd>(.*?)</dd>', sec, flags=re.S)
+want = [(f["file"], f["heading"], f["heading"], str(escape(f["what_it_holds"])))
+        for name in ORDER for f in sorted((x for x in copy["files"] if x["file"] == name), key=lambda x: x["position"])]
+check(f"What each heading holds: all {len(want)} headings, each with the description the copy stores on it",
+      pairs == want and len(want) == 113 and all(f["what_it_holds"] for f in copy["files"]),
+      f"{len(pairs)} on the page")
+check("What each heading holds: each file with its own description",
+      all(f'<p class="file-desc">{escape(f["file_holds"])}</p>' in sec for f in copy["files"]))
+
+# ---- 17. The size of the page -----------------------------------------------------------------------------------
+
+raw = html.encode()
+print(f"      the Data page: {len(raw):,} bytes, {len(gzip.compress(raw)):,} sent compressed")
 
 accounts.signed_in_as = real_signed_in_as
 print("---")

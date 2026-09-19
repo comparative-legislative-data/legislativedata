@@ -39,7 +39,7 @@
   <script>
     (function () {
       var h = window.location.hash;
-      if (/^#[A-Za-z0-9-]{1,40}$/.test(h)) {
+      if (/^#[A-Za-z0-9_-]{1,60}$/.test(h)) {
         var f = document.getElementById('next');
         if (f.value.indexOf('#') < 0) f.value += h;
       }
