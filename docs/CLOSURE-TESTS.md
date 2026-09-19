@@ -36,7 +36,8 @@ Strand 2, item 4. Written 2026-09-19 by the session that built and deployed
 it (`docs/STRAND-2-THE-TABLE.md` and its "After the mock-up", agreed by the
 owner on 18 September; the build, its check, its undo and its small choices
 in `docs/STRAND-2-ITEM-4-BUILD.md`). **Part A run 19 September by a
-session that built none of it: passes. Part B waits for the owner.**
+session that built none of it: passes; the owner signed off Part B the same
+day. Closed.**
 
 `tools/check_data_pages.py` is under test as much as the site is. It was
 written by the session that built the page, and its expectations for the
@@ -184,7 +185,11 @@ it was asked afresh as `legsite`, in the same connection as the check.
 - **One slip of the run's own, not the site's**: the first random pick
   took bill 412, which does not exist (bill numbers have gaps). The third
   bill was then picked from the copy's own numbers.
-- **Part B**: not yet; the owner's.
+- **Part B**, the owner, 19 September. B1: every step in the browser,
+  "ok". B2: the nine small choices stand. B3: the house style holds on the
+  table, for the moment; one scroll, not pages. "All fine for the moment",
+  to be looked at again in a design sweep once the owner has used the site
+  more (`DECISIONS.md`, 19 September). Pass.
 
 ---
 
@@ -196,8 +201,8 @@ same day; the build, its check and its undo in
 `docs/STRAND-2-ITEMS-2-AND-3-BUILD.md`). **Run 18 September by a session
 that built none of it: Part A passes, and the owner signed off Part B.
 Closed. Reopened 19 September by item 4**, which put the Data page in tabs
-and changed the date statement: the items under "Amended 19 September"
-below are to be run again, with item 4's test, by another session.
+and changed the date statement. **The amended items run 19 September by
+another session, and signed off by the owner: closed again.**
 
 `tools/check_data_pages.py` is the thing under test as much as the site is:
 read it before trusting its lines, and ask the questions below of the live
@@ -312,7 +317,9 @@ Run with item 4's test, in the same connection.
 - **A9.** `/srv/site/switched` as item 4's A13. Read, not run. Pass.
 - **The footer stays in view**: check item 43 passes; seen in item 4's B1.
 - **A10.** As item 4's A14. Pass.
-- **B1 and B3, again**: not yet; the owner's.
+- **B1 and B3, again**, the owner, 19 September, in item 4's B1: the date
+  statement with no link; `/data#M7` signed out, through sign-in, to M7 in
+  its tab. Pass.
 
 ### The run, 18 September
 
@@ -357,9 +364,9 @@ Strand 2, item 3. Written 2026-09-18 by the session that built and deployed
 it with item 2 (`docs/STRAND-2-REFERENCE-SECTIONS.md`, agreed by the owner
 the same day). **Part A run 18 September by a session that built none of
 it: passes; the owner signed off Part B. Closed. Reopened 19 September by
-item 4**, which made each section a tab: the items under "Amended 19
-September" below are to be run again, with item 4's test, by another
-session.
+item 4**, which made each section a tab. **The amended items run 19
+September by another session, and signed off by the owner: closed
+again.**
 
 As for item 2: `tools/check_data_pages.py` is under test too. Where an item
 compares with the copy, take the copy's lines afresh, as `legsite`, not from
@@ -465,7 +472,9 @@ Run with item 4's test, in the same connection.
   phrases. Pass.
 - **The tabs.** Six, in the agreed order and names; check items 71 to 73
   pass. Pass.
-- **B1 and B2, again**: not yet; the owner's.
+- **B1 and B2, again**, the owner, 19 September, in item 4's B1: a tab
+  printed with its notes open; the footer's and credit lines' links landing
+  in their tabs. Pass.
 
 ### The run, 18 September
 

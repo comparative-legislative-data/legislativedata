@@ -7,9 +7,9 @@ Updated: 2026-09-19
 **Phase 0, the dataset, and Phase 1, the site, are both closed.** At
 `legislativedata.org` someone can apply, you approve or refuse them, and they
 sign in with a code by email. **Phase 2, putting the data on the site, is
-open**, for approved beta users only. **The Data page now has the table of
-every bill**, signed in only: narrowed by session, type, outcome and title,
-each bill opening in a pop-up with where each fact came from, and the
+open**, for approved beta users only. **The Data page has the table of
+every bill**, closed 19 September, signed in only: narrowed by session,
+type, outcome and title, each bill opening in a pop-up with where each fact came from, and the
 reference sections as tabs. No download yet.
 
 **Phase 2's build plan is agreed** (`docs/PHASE-2.md`, "The build plan"), in
@@ -18,7 +18,7 @@ three strands, one after another, then the closing test.
 | Strand | What it delivers | Where it is |
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
-| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: item 1 **closed**; item 4, the table, **built and live**, its test written; items 2 and 3 **reopened** by it; item 5, the zip, next |
+| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1 to 4 **closed**; item 5, the zip, next |
 | 3. The charts | the six thoughts on the Insights page | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
@@ -50,41 +50,37 @@ list are both empty.**
   the copy; strand 2's items 1 to 3 built, tested and closed; the table
   agreed through a write-up and three mock-ups.
 
-**19 September, this session. The table built and live.**
+- **19 September, morning.** The table of every bill built and live; the
+  footer kept in view; its closure test written.
 
-- **The table of every bill is on the Data page**, as agreed: 470 lines,
-  narrowed by session, type, outcome and title, the choices in the page's
-  address; a bill opens in a pop-up; six tabs, with "What each heading
-  holds" new.
-- **Tested before it went live**: the page check grew from 68 items to
-  114, comparing every line and every opened bill with the copy, and was
-  shown failing under two deliberate breaks. The undo was rehearsed.
-- **You checked it in the browser**: the table, the tabs, a bill opened,
-  dark and light, all as agreed.
-- **Your decision: the bar at the foot of every page stays in view.** It
-  had vanished below 470 bills. Built and live the same morning; you
-  confirmed it works.
-- **Its closure test written**, and items 2 and 3's amended where the tabs
-  change them, for another session to run.
+**19 September, this session. Items 2, 3 and 4 closed.**
+
+- **The three tests run** by a session that built none of it: the page
+  check 114 of 114, its breaks failing where they should; the privacy
+  check 15 of 15; the copy asked afresh, three random bills, three
+  narrowings and bill 305's sources read against the page. All pass.
+- **You signed off your half**: the browser steps, the nine small choices,
+  the house style and one scroll, "for the moment".
+- **Your decision: a monthly design and sanity sweep once Phase 2 closes**,
+  with feedback as it comes until then. The table's choices come back at
+  the first sweep.
 - No bill, date or figure changed.
 
 ## Now
 
-**Strand 2, the data on the site** (`docs/PHASE-2.md`, "Strand 2").
+**Strand 2, item 5, the zip** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Close item 4, and items 2 and 3 again.** A session that built none of
-   it runs the three tests in `docs/CLOSURE-TESTS.md`: "The table of every
-   bill", and the "Amended 19 September" parts of the two before it. Part B
-   of item 4's is yours (below).
-2. **Then item 5, the zip**, starting with its wording for you in full: the
-   readme, the citation and the privacy line. Not before item 4 closes: the
-   download goes on the same page.
+1. **Its wording to you in full first**: the readme (row counts, dates as
+   year-month-day, the Comparative Agendas Project sentence, the
+   no-archive paragraph), the suggested citation, and the privacy page's
+   line about asking for another format. Nothing is built until you have
+   agreed every sentence.
+2. **Then its build plan**, with the check, the rehearsal and the undo,
+   and the order of its files (the Data page's "What each heading holds"
+   uses the mock-up's; the zip can take that or you set another).
 
 ## Waiting for you
 
-- **Three answers on the table** (`docs/STRAND-2-ITEM-4-BUILD.md`): the
-  nine small choices made in building it; whether the house style holds on
-  it; and pages of 10, 100 or all, which I recommended against.
 - **Making the GitHub repository private**, which you expect to do. Nothing
   depends on it being public; the switch is yours, in GitHub's settings.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
@@ -134,20 +130,24 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-19, the session that built the table
+## Sanity check, 2026-09-19, the session that ran the table's tests
 
 - **At the start**: clean and pushed; decisions contents regenerated
   identical; the dictionary identical but for its date line; counts 470,
-  1291, 192, 14; checker and gaps list empty; 474 and 1295 staging lines, as
-  before; four databases, all sorted; the site 200; backup timer next 02:53
-  UTC. "Now" traced to strand 2, item 4. Nothing found.
-- **At the close**: the same counts, 470, 1291, 192, 14; checker and gaps
-  list empty; 474 and 1295 staging lines; four databases, no working copy
-  left in any; live release `2026-09-19T06-34-47Z`, site 200; backup timer
-  active; nothing in the server's `/tmp`; the dictionary identical but for
-  its date line; decisions contents regenerated identical; clean and
-  pushed. No data was written this session: every database visit read
-  only, bar the privacy check's invented person, added and deleted.
+  1291, 192, 14; checker and gaps list empty; 474 and 1295 staging lines;
+  four databases, all sorted; last night's backup a success, timer next
+  02:53 UTC; the site 200. "Now" traced to strand 2, item 4. Nothing found.
+- **At the close**: the same counts; checker and gaps list empty; four
+  databases; live release still `2026-09-19T06-34-47Z`, nothing deployed;
+  nothing of the run's in the server's `/tmp`; the dictionary identical but
+  for its date line; decisions contents regenerated with the new entry.
+  No data written: every database visit read only, bar the privacy check's
+  invented person, added and deleted.
+- **How the run was done**, for the next one: the check and the privacy
+  check sent in one tar, run in one connection; a small script of the
+  session's own, not kept, drew the page for a made-up reader to compare
+  three bills, three narrowings, bill 305 and every link's tab. Bill
+  numbers have gaps: pick random bills from the copy, not from 1 to 470.
 
 ## The table: working detail, 19 September
 

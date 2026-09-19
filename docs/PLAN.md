@@ -228,6 +228,11 @@ sweeps and deletes `docs/PHASE-2.md`. The owner signs off.
 what follows is decided afresh, in the light of what building the site actually
 taught us. The candidates below are not ranked.
 
+**From then on, a design and sanity sweep of the site every month**, whatever
+else is open (settled 2026-09-19). The owner brings what using the site has
+shown them; the session reads every page as a reader would; the changes are
+agreed, then placed in the open plan.
+
 ## Candidate — the playground
 
 Tools on the site for users to build their own tables and charts without leaving

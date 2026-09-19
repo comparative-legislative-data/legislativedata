@@ -137,6 +137,12 @@ in `docs/PHASE-2.md`, and stay here until decided.
   Never: a password, or any record of what a signed-in researcher looked at.
   Settled 2026-09-15.
 
+- **The site gets a design and sanity sweep every month, once Phase 2 has
+  closed**; until then the owner gives feedback as it comes, and each piece
+  is placed in the build plan with their agreement before it is worked on.
+  The table's small choices, its house style and one scroll were signed off
+  "for the moment" and come back at the first sweep. Settled 2026-09-19.
+
 - **The download is the complete route to the data; the site need not be.**
   A reader who needs the data some other way than the page gives it takes the
   download and does what they want with it. So the pages are not engineered
