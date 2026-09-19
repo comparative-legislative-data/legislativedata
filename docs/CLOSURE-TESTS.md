@@ -100,6 +100,72 @@ word. **The address check itself**: the rehearsals use one made from the
 live copy. **A refresh straddling midnight**, which the switch refuses as a
 copy "not today", to be run again.
 
+### The run, 19 September, by a session that built none of it
+
+Run in the afternoon session, against the committed code (`6452b7f`). The
+scratch copy `published_rehearsal` and the folder `/tmp/rehearsal-zips` on
+the machine; the address check exported from `live.cited_pages` with today's
+date, 106 lines, 92 working and 14 not checked. Each step read by the
+fingerprint the build document gives: the dump of `live`, `previous` and
+`next`, `\restrict` lines dropped, lines sorted **with `LC_ALL=C`** (sorted
+in the machine's own locale it gives a different number, so the recipe needs
+the `LC_ALL=C`).
+
+1. **Passes, with one exception.** Read in `refresh_on_server.sh`: `next`
+   is set aside (step 2) before the zip is made (step 3); the zip is checked
+   in the run's own folder before `put_in_downloads`; the switch follows
+   both; the clean-up on failure removes `next` and the zip recorded in
+   `INSTALLED`, and nothing else. **The exception**: `INSTALLED` is set only
+   after `put_in_downloads` returns. If the copy into the folder lands and
+   the byte-for-byte comparison that follows it (`cmp`) then fails, the zip
+   stays in the folder with its copy never live. Nobody is served it: the
+   download box names only the live copy's date. But a second try that day
+   then refuses, since a file of that name is there, until someone removes
+   it by hand. Not rehearsed, since it needs the disk to fail between two
+   lines. Also noted, not a failure: the clean-up removes any `next`,
+   including one left by an earlier run that did not finish.
+2. **Passes.** `/srv/site/current` is `2026-09-19T10-55-09Z`; its
+   `download.py` is `3572d690…`, the committed md5.
+3. **Passes**, every step:
+   - thrown away: "Zip checked", "Nothing kept: next removed"; fingerprint
+     `7afcaf840501` before and after, no `next`, the folder unchanged;
+   - kept: live dated 2026-09-19, `previous` 2026-09-18, "Zip checked"
+     twice, "Removed legislativedata-2026-09-10.zip", two zips left
+     (fingerprint `f605ffe5c4e4`);
+   - a second the same day: "Refusing: the live copy was taken today",
+     fingerprint and folder unchanged;
+   - `--undo`: nothing changed, "Would remove legislativedata-2026-09-19.zip";
+     `--undo --save`: 2026-09-18 live, no `previous`, today's zip removed,
+     the old one checked (fingerprint `5b61bbb9a3c6`); a second: "Refusing:
+     there is no previous copy to put back", nothing changed;
+   - a kept refresh after the undo: through, fingerprint `f605ffe5c4e4` and
+     zip `91bcb1e4…`, both the same as the first kept refresh;
+   - after another undo, `--save --plant-zip-fault`: "ZIP WRONG" twice (the
+     blanks; not the zip this copy makes), "Nothing kept", stopped before
+     step 4, fingerprint `5b61bbb9a3c6` and folder as before.
+4. **Passes, both.** (a) A made-up file named `legislativedata-2026-09-19.zip`
+   put in the folder, then a kept refresh: "Refusing: … is already there",
+   "Nothing kept: next removed"; the file's SHA-256 `024f554d…` unchanged,
+   live still 2026-09-18. (b) After a kept refresh, the 2026-09-18 zip
+   deleted, then `--undo --save`: "was missing; made again from the copy put
+   back", checked twice; the remade zip is `42a2716c…811cf0`, the real one
+   byte for byte, root, 644.
+5. **Passes.** `--save -v fault=on`: "Refusing: planted faults are for a
+   thrown-away run only." `--plant-zip-fault`, `--site`, and `--save
+   --plant-zip-fault`, each without `--database`: "Refusing: … for a scratch
+   database only." None reached the machine.
+6. **Passes.** `published`'s fingerprint `7afcaf840501`, the recorded one,
+   before and after; `live` dated 2026-09-18; schemas `live` and `previous`,
+   no `next`; `/srv/downloads` holds the one zip, `42a2716c…811cf0`.
+7. **Passes.** The scratch database dropped (four databases: accounts,
+   legdata, postgres, published) before any backup ran; the folder and the
+   run's helper scripts removed; nothing of the run's in the server's `/tmp`.
+
+**Part A passes, but item 1 has one exception**, for the owner to decide.
+Two runs were set back by the session itself, not the code: the machine
+refuses connections that come too close together, and a loop in zsh passed
+two options as one ("Unknown"), so nothing ran. Both were run again.
+
 ---
 
 ## The zip
