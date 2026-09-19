@@ -15,6 +15,8 @@ folder the zip is kept in:
                       # the link to a bill, and What each heading holds
     ... BREAK=3 ...   # must FAIL at the zip's files and its readme
 
+HOME.md and APPLY.md are read from the folder PUBLISHING.md is in.
+
 It reads the live copy exactly as the site does, and writes nothing anywhere.
 It signs nobody in and never opens the accounts: "signed in" is a made-up
 reader put in the site's place for the length of the run, and signing in is
@@ -238,7 +240,10 @@ check("the header reads Data · Insights · Privacy, on both",
       all('<a href="/data">Data</a> · <a href="/insights">Insights</a> · <a href="/privacy">Privacy</a> · Signed in as'
           in h for h in (html, ins_html)))
 check("signed out, no page's header has Data or Insights",
-      all('href="/data">Data<' not in get(p).get_data(as_text=True) for p in ("/", "/privacy", "/sign-in")))
+      all('href="/data">Data<' not in head and 'href="/insights">Insights<' not in head
+          for head in (between(get(p).get_data(as_text=True), '<header class="topbar">', "</header>")
+                       for p in ("/", "/privacy", "/sign-in")))
+      and all('<header class="topbar">' in get(p).get_data(as_text=True) for p in ("/", "/privacy", "/sign-in")))
 
 # ---- 4. The date and the date statement ------------------------------------------------
 
@@ -963,6 +968,52 @@ r3 = get("/download/legislativedata-2026-09-18.zip.exe", signed_in=True)
 check("an older date's name goes to the Data page; a made-up name is not found",
       r1.status_code == 302 and r1.headers.get("Location") == "/data"
       and r2.status_code == 404 and r3.status_code == 404)
+
+# ---- 19. The home page, and the apply page's opening ------------------------------------------------------
+#
+# docs/wording/HOME.md and APPLY.md, read from beside PUBLISHING.md.
+
+here = os.path.dirname(os.path.abspath(WORDING))
+
+
+def quoted(doc, after):
+    """The quoted paragraphs after a heading, up to the next unquoted heading."""
+    text = doc.split(after, 1)[1]
+    paras, cur = [], []
+    for line in text.splitlines() + [""]:
+        if line.startswith("## "):
+            break
+        if line.startswith(">") and line[1:].strip():
+            cur.append(line[1:].strip())
+            continue
+        if cur:
+            paras.append(norm(re.sub(r"^#+ ", "", " ".join(cur)).replace("**", "")))
+            cur = []
+    if cur:
+        paras.append(norm(" ".join(cur)))
+    return paras
+
+
+home_words = [x.lower() for x in quoted(open(os.path.join(here, "HOME.md")).read(), "## The page, in full")]
+fine = True
+for signed in (False, True):
+    page = get("/", signed).get_data(as_text=True)
+    got = [b.lower() for b in blocks(between(page, "<main>", "</main>"))]
+    if got != home_words:
+        fine = False
+        print("      want:", home_words, "\n      got: ", got)
+check("the home page is HOME.md word for word, signed out and signed in", fine and len(home_words) == 11)
+page = get("/").get_data(as_text=True)
+check("each heading on the home page links to its page",
+      all(f'<h2><a href="{a}">' in page for a in ("/data", "/insights", "/apply", "/privacy"))
+      and '<a href="/sign-in">sign in</a>' in page)
+apply_words = open(os.path.join(here, "APPLY.md")).read()
+opening = next(p for p in quoted(apply_words, "## ") if p.startswith("legislativedata.org is"))
+apply_page = blocks(between(get("/apply").get_data(as_text=True), "<main>", "</main>"))
+check("the apply page opens with APPLY.md's line, and says nothing is published nowhere",
+      opening == "legislativedata.org is in beta, and its data is open to researchers with an account."
+      and opening in apply_page and not any("Nothing is published" in b or "in preparation" in b
+                                            for b in apply_page + blocks(page)), apply_page[:4])
 
 # ---- 17. The size of the page -----------------------------------------------------------------------------------
 

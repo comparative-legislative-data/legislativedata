@@ -1,6 +1,8 @@
 # Wording: the home page
 
-For the owner. **Draft, 19 September 2026, not agreed.** Every word of the
+For the owner. **Agreed by the owner on 19 September 2026, as drafted, with
+the apply page's change below.** A page is built from this word for word;
+change the wording here first. Every word of the
 page at `/`, which everyone sees, signed in or not. It replaces the Phase 1
 page ("A research resource, in preparation. Nothing is published here yet."),
 which was to be looked at when the table went live

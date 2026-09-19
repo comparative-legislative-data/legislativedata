@@ -974,6 +974,10 @@ checks are added to it when those exist.
    full:** the readme (row counts, dates as year-month-day, the Comparative
    Agendas Project sentence, the no-archive paragraph), the citation, and the
    privacy line.
+5a. **The home page and the apply page's opening**, brought up to date:
+   the home page introduces the site and each place it leads
+   (`docs/wording/HOME.md`). Added 19 September by the owner; it was due
+   when the table went live and was missed.
 6. **The refresh builds the zip**, from the new copy, before it goes live.
    Rehearsed again with its undo.
 7. **Strand 2's closure test**, run by another session. It includes the

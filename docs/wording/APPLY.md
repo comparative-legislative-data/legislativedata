@@ -13,13 +13,16 @@ and its check".
 
 ## The apply page
 
+*Changed 19 September 2026, agreed by the owner with the home page
+(`docs/wording/HOME.md`): it read "legislativedata.org is in preparation,
+and accounts are for its beta." and "Nothing is published yet."*
+
 > ACCOUNTS
 >
 > # Apply for an account
 >
-> legislativedata.org is in preparation, and accounts are for its beta.
->
-> Nothing is published yet.
+> legislativedata.org is in beta, and its data is open to researchers with
+> an account.
 >
 > Every application is read and decided by hand. You will be emailed either way.
 >

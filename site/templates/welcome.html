@@ -1,3 +1,8 @@
+{#
+  The home page, for everyone, signed in or not. Every word is from
+  docs/wording/HOME.md, agreed by the owner on 2026-09-19; change the wording
+  there first. It carries no figure: a signed-out visitor sees no data.
+#}
 {% extends "base.html" %}
 
 {% block main %}
@@ -7,15 +12,21 @@
   <h1>Data about legislation in the Scottish Parliament</h1>
 
   <p class="standfirst">
-    A research resource, in preparation. Nothing is published here yet.
+    Every bill introduced in the Scottish Parliament since 1999: when each stage ended, what the Parliament did with it, and where each fact came from. The site is in beta, and the data is open to researchers with an account.
   </p>
 
-  <div class="not-here">
-    <p class="label">What is not here yet</p>
-    <ul>
-      <li>The data, and anything to download.</li>
-      <li>Tables, charts, and the tools to build your own.</li>
-    </ul>
+  <div class="prose home-parts">
+    <h2><a href="{{ url_for('data') }}">Data</a></h2>
+    <p>Every bill, one line each, to narrow by session, type, outcome and title. Open a bill to see everything recorded about it and the source of each fact. The whole dataset downloads as one zip, with a readme and a codebook. The methodology notes, the sources and their terms, and what has changed are alongside.</p>
+
+    <h2><a href="{{ url_for('insights') }}">Insights</a></h2>
+    <p>Charts drawn from the same data, each with the bills behind it and the working that produced it. They are being built.</p>
+
+    <h2><a href="{{ url_for('apply') }}">Apply for an account</a>, and <a href="{{ url_for('sign_in') }}">sign in</a></h2>
+    <p>Every application is read and decided by hand. Once approved, you sign in with a code sent to your email. There are no passwords.</p>
+
+    <h2><a href="{{ url_for('privacy') }}">Privacy</a></h2>
+    <p>What the site holds about you, which is as little as it can work with.</p>
   </div>
 
 </div>
