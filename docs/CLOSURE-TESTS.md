@@ -37,7 +37,8 @@ Strand 2, item 7. Written 2026-09-19 by the session that fixed item 6's gap
 by a failed run is removed too"; the fix and its rehearsal in
 `docs/STRAND-2-ITEM-6-BUILD.md`, "The gap fixed"). That session built none
 of strand 2's pages or zip, but it did make the fix, so **it does not run
-this test**. **Not yet run.** Run it in a session that built none of
+this test**. **Part A run 19 September, and passed; see the run below.**
+Run it in a session that built none of
 strand 2, did not write this test and did not make the fix. Item 6 closes
 with it. Strand 3, the charts, opens when Part A passes and the owner signs
 Part B.
@@ -202,6 +203,129 @@ strand 2. Read each one before trusting any line it prints.
 - **Any browser but the owner's**, or phone width beyond item 5's
   sign-off.
 - **The site's speed.**
+
+### The run, 19 September, by a session that built none of it
+
+Run in the late-afternoon session. It built nothing in strand 2, did not
+write this test and did not make item 6's fix. `check_data_pages.py`,
+`check_privacy.sh`, `download.py`'s `check` and `refresh_on_server.sh`
+were read in full before any line they printed was trusted. Every query
+was written fresh. Live release `2026-09-19T10-55-09Z`; no refresh or
+deploy since item 6's run.
+
+1. **Passes.** Each named test has a run in which every item passed or was
+   signed off: item 1 (18 September); item 2 (18 September, and its
+   amended items on 19 September; item 5's amendments to it run in the
+   zip's run); item 3 (the same); item 4 (19 September, B1 to B3 signed
+   off; item 5's amendments run in the zip's run); items 5 and 5a (19
+   September, A10's wording corrected, Part B passed); item 6 (Part A
+   passed but for item 1's exception, settled by 2 and 3 below).
+2. **Passes.** `git diff 469f9b1 -- tools/refresh_on_server.sh` is the one
+   line moving: `INSTALLED=$1` now sits in `put_in_downloads` after the
+   refusal of a file already there and before `install`, and
+   `INSTALLED=$NEW` after the call is gone. The only other place it is
+   set is its emptying where the clean-up is set up. The clean-up drops
+   `next` and removes `$DOWNLOADS/$INSTALLED`, and nothing else.
+3. **Passes, all three.** A scratch copy `published_rehearsal` (`pg_dump
+   published` into a new database) and the folder `/tmp/rehearsal-zips`,
+   seeded with the live zip (`42a2716c…`) and a made-up 2026-09-10 one.
+   The address check was exported from `live.cited_pages` with today's
+   date: 106 lines, 92 Yes, 14 Not checked. Fingerprint as item 6's run:
+   `pg_dump` of `live`, `previous`, `next`, `\restrict` and `\unrestrict`
+   dropped, `LC_ALL=C sort`, md5. On the real copy it gives `7afcaf840501`,
+   the recorded one. The scratch copy started at `7afcaf840501`. A script
+   ran every step, 35 seconds apart.
+   - (a) A copy of the bundle's files on this Mac, with only the `cmp` in
+     `put_in_downloads` changed to compare with `/dev/null` (checked by
+     `diff`: that one line). Kept refresh: "Zip checked", then "cmp: EOF on
+     /dev/null", "Nothing kept: next removed, and
+     legislativedata-2026-09-19.zip". After: `7afcaf840501`, no `next`, the
+     folder the same two files by SHA-256.
+   - (b) A made-up `legislativedata-2026-09-19.zip` (SHA-256 `e1842377…`)
+     put in the folder; a kept refresh with the real script: "Refusing: …
+     is already there", "Nothing kept: next removed", no zip named. After:
+     the file still `e1842377…`, `7afcaf840501`, no `next`. The made-up
+     file was then removed by hand.
+   - (c) Kept refresh, real script: through, "Zip checked" twice, the
+     2026-09-10 zip removed; live 2026-09-19, `previous` 2026-09-18,
+     `f605ffe5c4e4`, today's zip `91bcb1e4…`, both as item 6's run.
+     `--undo --save`: today's zip removed, the 18th's checked, `previous`
+     gone, `5b61bbb9a3c6`, as item 6's run. (a) again on top: the same as
+     (a), fingerprint still `5b61bbb9a3c6`, the folder unchanged.
+
+   Then the scratch database was dropped, the folder and the local copy
+   removed. `published` is still `7afcaf840501` (item 11).
+4. **Passes.** From this Mac, no cookie: `/data` → 302
+   `/sign-in?next=/data`; `/data?session=3` → 302
+   `/sign-in?next=/data?session%3D3`; `/insights` → 302
+   `/sign-in?next=/insights`; `/download/legislativedata-2026-09-18.zip`
+   → 302 `/sign-in?next=/data`. Each body is Flask's redirect page (225 to
+   249 bytes), starting `<!`, not `PK`. Three titles drawn at random from
+   `live.bills` (bills 34, 264, 272) appear in none of the four bodies.
+5. **Passes.** In `published`, asked of the catalogue for `legsite`:
+   CONNECT, no CREATE or TEMP; USAGE on `live` only (`from_working`,
+   `previous`, `public` none); SELECT and nothing else on each of `live`'s
+   12 tables, nothing on anything else; no column-level grants (`attacl`
+   set on none); no foreign server; not superuser, no role-making,
+   database-making, replication or row-security bypass; a member of no
+   role; `default_transaction_read_only=on` for it in `published`. No
+   `next`. As `legsite`, `SELECT count(*) FROM previous.about`: "permission
+   denied for schema previous". (Also seen: CONNECT on `accounts`, which
+   the site needs, and none on `legdata` or `postgres`.)
+6. **Passes.** As `legsite`, in the live release's environment, with the
+   committed `PUBLISHING.md`, `DOWNLOAD.md`, `HOME.md` and `APPLY.md` and
+   `/srv/downloads`: "All 133 pass", exit 0. `BREAK=1` fails at exactly 35
+   and 38; `BREAK=2` at exactly 86, 94, 105 to 108 and 113; `BREAK=3` at
+   exactly 122 and 124. The items that cover the three finished-when
+   points: **3**, the date 34, the date statement 35 and 36, the link to
+   what changed 44 (the footer's, on every page, 42), the sources 38 to
+   41; **4**, the tabs and each one's own link, 71 to 85, with the sections
+   themselves 45 to 58 and 111 to 114; **6**, the format request 115 and
+   117 (the privacy page's line is in item 7's privacy check). Read by
+   hand against the Data page signed in, in the owner's own Chrome session
+   (nobody signed in by this session): the date "Data as at 18 September
+   2026", the date statement, the footer with its "What has changed" link
+   to `/data#what-has-changed`, and the credit lines naming all four
+   sources with their licence links, each word for word against
+   `PUBLISHING.md` parts 1 to 3; six tabs, each linking to its own panel.
+   Insights carries only the footer's date. It holds no data yet, and
+   strand 3 puts sources and date on each chart.
+7. **Passes.** `/srv/downloads`: one file, `legislativedata-2026-09-18.zip`,
+   root, root, 644. As `legsite`, `download.py --check` against `live`:
+   "Zip checked", exit 0. Made again as `legsite` into a scratch folder:
+   SHA-256 `42a2716c…811cf0`, the kept zip, `cmp` the same. Unzipped on this
+   Mac: one folder, fifteen files. The readme's twelve counts (470, 1291,
+   1657, 7, 14, 192, 89, 0, 1, 12, 106, 4) match `live` counted afresh and
+   each CSV's own lines. The codebook has 113 entries, and
+   `information_schema.columns` for `live` has 113. "legsite" is in no
+   file. The owner's name appears only as the dataset's author in the
+   citation and in the credit for the PhD dataset (readme, `terms`,
+   `methodology_notes`, `what_the_words_mean`). The one "@" is the
+   format-request address. The kept zip has its two `YYYY-MM-DD` blanks.
+   Nothing names who took it. `check_privacy.sh` on the live release,
+   started 2026-09-19 14:01 UTC: 27 of 27 blocks, "All 15 pass", the
+   invented person deleted, none left. `BREAK=1` fails at item 2, the
+   invented person deleted.
+8. **Passes.** `DECISIONS.md`, 19 September (the design sweep decision):
+   the owner signed off the table "for the moment", with the house style
+   holding on it. "The table of every bill"'s run, Part B, B3, records the
+   same.
+9. **Passes**: item 6's run, item 3, and item 3 above.
+10. **Passes.** `/srv/site/current` is `2026-09-19T10-55-09Z`;
+    `/srv/site/releases` holds `08-12-24Z`, `08-22-31Z`, `10-55-09Z`,
+    exactly the last three lines of `/srv/site/switched`. No deploy since.
+11. **Passes.** Four databases (accounts, legdata, postgres, published).
+    `published`: `from_working` (no tables), `live` (12), `previous` (11),
+    `public` (0), no `next`. Fingerprint `7afcaf840501`; `live` dated
+    2026-09-18. Nothing of this test's in the server's `/tmp`. 470, 1291,
+    192, 14; the checker and the gaps list empty. The dictionary regenerates
+    identical but for its date line.
+
+**Part A passes.** Two of this session's own queries were wrong the first
+time: one mixed types, and one asked `information_schema` for column
+grants, which lists every column of a table granted whole. Both were asked
+again correctly, as above. **Item 6's fix holds**, so item 6 can close
+with this test. Part B waits for the owner.
 
 ---
 
