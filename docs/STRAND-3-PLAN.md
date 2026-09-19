@@ -3,8 +3,9 @@
 For the owner, 19 September 2026. **Approved by the owner the same day**:
 "I am content to approve the plan." What it settles is in `PHASE-2.md`,
 "Strand 3", which stays the one build plan, and in `DECISIONS.md`. A, B and
-C below are approved as proposals and confirmed on the whole-page mock-up
-(D).
+C below were approved as proposals, and **confirmed on the whole-page
+mock-up (D) the same day**, with the tabs made much clearer at the owner's
+asking and the description shown beneath each chart.
 
 **The owner's rule, given with the approval:** nothing the mock-ups can do
 is lost in the build unless that is essential, and then only with the
@@ -66,6 +67,12 @@ longer than the Data page was when it went into tabs.
   - **When bills are introduced**: the quarters (thought 5).
 - A tab appears only once its charts are built.
 
+**Settled 19 September, with one change:** the tabs "need to be MUCH
+clearer". On Insights they are three large boxes under a heading, each
+with its name and a line saying what it holds, the open one shaded with
+a bar of the accent across its top, as the mock-up shows. **The Data
+page's tabs stay as they are**, by the owner's choice.
+
 ### B. One frame for every chart
 
 What each chart looks like, top to bottom, so all six look alike. What was
@@ -86,8 +93,10 @@ then the working folded away. This fills in where everything else sits:
 9. "Show the working", folded away.
 
 The sentence for a reader who cannot see the chart is read out by their
-screen reader. The mock-up of thought 2 also shows it on the page, headed
-"Description"; whether it stays visible is for you (see the checklist).
+screen reader, **and also shown beneath the chart, headed "Description"**,
+as on the 17 September mock-up: the owner, 19 September, "can stay".
+
+**Settled 19 September**, as laid out here and on the mock-up.
 
 ### C. From a figure to its bills
 
@@ -100,7 +109,7 @@ outcome and words in the title. That reaches some figures, but not most:
 - **An average of time taken, or a quarter of a session**, is not
   something the table can be narrowed to at all.
 
-**Proposed:** each chart's working also hands back, for every figure, the
+**Settled 19 September**, as proposed and as the mock-up works. Each chart's working also hands back, for every figure, the
 bills it counted. Clicking a figure opens the table of every bill showing
 exactly those bills, with a line above saying which figure they are
 ("The 42 bills behind: Session 3, Government Bills, Passed") and a way back
@@ -176,6 +185,8 @@ carried into the build** unless it is marked, and a mark means only that it
 needs your OK before it goes. Each chart's closure test checks its list.
 
 ### Thought 1, the headline figures
+- **Changed, with the owner's OK, 19 September:** the explanations beneath
+  are folded under "How these are counted", so the tabs stay near the top.
 - The number of bills as the large figure, with a line of what it covers.
 - Four tiles: bills passed (with the share, and Acts against passed);
   a typical bill's days to Stage 3; bills before the Parliament now; the
@@ -198,7 +209,7 @@ needs your OK before it goes. Each chart's closure test checks its list.
 - The Session 7 line; the description; the notes it rests on, each with
   its title.
 - Redraws for dark and light.
-- **For your OK:** the description shown on the page (B, above).
+- The description shown on the page: kept, the owner, 19 September.
 
 ### Thought 3, the outcomes table
 - Dropdowns: type of bill (all, or one; Hybrid added when shown on its

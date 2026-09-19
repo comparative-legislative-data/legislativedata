@@ -66,15 +66,17 @@ list are both empty.**
 
 ## Now
 
-**Strand 3, the charts** (`docs/PHASE-2.md`, "Strand 3").
+**Strand 3, the charts** (`docs/PHASE-2.md`, "Strand 3"; its plan,
+`docs/STRAND-3-PLAN.md`, approved and confirmed 19 September).
 
 1. **Thought 2's write-up, agreed from its mock-up**, before anything is
-   built: the question it answers, which bills it counts, the choices a
-   reader gets, the working, the notes it rests on, what it cannot say.
-   Open points are in `PHASE-2-CHARTS-THOUGHTS.md`.
-2. **Then thought 2 built**, with what the first chart brings once for
-   all: the palette check, ECharts on the machine, the working, the route
-   to its bills, the CSV beneath. Its closure test run by the next session.
+   built (plan, step 2): its three open points first ("Passed" including
+   two bills that are not Acts; the all-sessions panel; whether the Forth
+   Crossing Bill needs its dropdown), then what it counts, its choices,
+   its working, its notes, what it cannot say.
+2. **Then thought 2 built, with everything the six share** (plan, step 3):
+   probably two sessions. Nothing the mock-ups do is lost without your OK;
+   the plan's checklist is what its closure test checks.
 
 ## Waiting for you
 

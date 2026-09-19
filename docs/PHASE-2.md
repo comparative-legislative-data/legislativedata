@@ -1009,6 +1009,10 @@ figure reaching its bills through the table showing exactly the bills it
 counted, and a whole-page mock-up before anything shared is built. **Nothing
 a mock-up can do is lost in the build unless essential, and then only with
 the owner's OK**; the plan's inventory of the mock-ups is the checklist.
+**Confirmed on the whole-page mock-up, 19 September**
+(https://claude.ai/artifact/XMz3FuH4zQnmNSwfM9WQVq): the tabs on Insights
+large, boxed and described (the Data page's unchanged); the description
+shown beneath each chart; the headline figures' explanations folded.
 
 **Before any chart is built, its write-up is agreed.** It is the mock-up
 iterated with the owner until agreed. It says the question the chart answers,
