@@ -11,8 +11,9 @@ open**, for approved beta users only. **The Data page has the table of
 every bill**, closed 19 September, signed in only: narrowed by session,
 type, outcome and title, each bill opening in a pop-up with where each
 fact came from, and the reference sections as tabs. **The whole dataset downloads as one zip**,
-built and live 19 September, and **the refresh now makes it**, so a new copy
-never goes live without its zip. Both wait for another session's test.
+closed 19 September. **The refresh makes the zip**, so a new copy never goes
+live without its zip; its test passed but for one narrow gap, which is fixed
+before it closes.
 
 **Phase 2's build plan is agreed** (`docs/PHASE-2.md`, "The build plan"), in
 three strands, one after another, then the closing test.
@@ -20,7 +21,7 @@ three strands, one after another, then the closing test.
 | Strand | What it delivers | Where it is |
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
-| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1 to 4 **closed**; items 5, 5a and 6 **built and live**, their tests written; item 7, the strand's test, next |
+| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1 to 5a **closed**; item 6 passed its test, one small fix to make; item 7, the strand's test, next |
 | 3. The charts | the six thoughts on the Insights page | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
@@ -55,38 +56,38 @@ list are both empty.**
   footer kept in view; its closure test written.
 - **19 September, midday.** Items 2 to 4 closed; the zip, its format panel
   and the new home page built and live; your sign-off of all three.
+- **19 September, early afternoon.** Item 6 built: the refresh makes the
+  zip before the copy goes live; rehearsed six ways; deployed.
 
-**19 September, this session. Item 6 built: the refresh makes the zip.**
+**19 September, this session. Items 5 and 5a closed; item 6 tested.**
 
-- **Your sign-off of the home and apply pages**: text, dark and light. Phone
-  width not yet said.
-- **Item 6 built as its plan agreed** (`docs/STRAND-2-ITEM-6-BUILD.md`): a
-  refresh sets the new copy aside, makes its zip and checks it, and only then
-  puts both live. A second refresh on one day refuses; the undo brings the
-  old zip back with the old copy, in one command.
-- **Rehearsed six ways on a scratch copy**, never touching the real one: a
-  practice run, a refresh, a second the same day refused, the undo and a
-  second undo refused, a refresh after the undo, and a spoiled zip caught.
-  The real copy and zip checked unchanged afterwards.
-- **Deployed**; the page check 133 of 133 and the privacy check 15 of 15 on
-  the live site. Nothing a reader sees changed.
-- **Its closure test written**, for another session, with two cases this
-  session did not rehearse.
+- **Your phone-width look** at the home and apply pages: fine. Item 5's
+  sign-off complete.
+- **The zip's test passed**, run by a session that built none of it: the
+  zip drawn for a made-up reader matched the copy, the readme is the agreed
+  wording word for word, a signed-out visitor gets nothing. **Items 5 and 5a
+  closed.** One sentence of the test corrected: only two rollbacks remain
+  possible, not three.
+- **Item 6's test passed**, rehearsed on a scratch copy, including the two
+  cases never tried before, with the real copy and zip untouched. **One
+  narrow gap found**: a zip left in the downloads folder if a check fails
+  at one exact moment. **Your choice: fix it before item 6 closes.**
 - No bill, date or figure changed. No real refresh was run.
 
 ## Now
 
 **Strand 2** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Your look at the home and apply pages at a phone's width**: the last of
-   item 5's Part B.
-2. **Close items 5, 5a and 6.** A session that built none of them runs their
-   tests in `docs/CLOSURE-TESTS.md` ("The refresh makes the zip", then "The
-   zip", with the amendments each carries).
-3. **Then item 7: strand 2's closure test**, written against the strand's
-   "Finished when" (not yet written) and run by a session that built none
-   of it. It includes your alternative account signing in, browsing the
-   table and opening the zip. Strand 3, the charts, opens when it passes.
+1. **Fix item 6's gap** (`DECISIONS.md`, 19 September, "Item 6 stays open"):
+   the refresh counts the zip as its own from the moment it is copied into
+   the folder, so a failure after that removes it. By a session that did not
+   run item 6's test. Rehearsed on a scratch copy, then deployed; no page
+   changes. **Then item 7's test written** against the strand's "Finished
+   when" (`PHASE-2.md`), covering the fix. It includes your alternative
+   account signing in, browsing the table and opening the zip.
+2. **Item 7 run** by a session that built none of strand 2 and did not
+   write the test. Item 6 closes with it. Strand 3, the charts, opens when
+   it passes.
 
 ## Waiting for you
 
@@ -139,24 +140,42 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-19, the session that built item 6
+## Sanity check, 2026-09-19, the session that ran the tests of items 5, 5a and 6
 
 - **At the start**: clean and pushed; decisions contents regenerated
   identical; the dictionary identical but for its date line; counts 470,
   1291, 192, 14; 474 and 1295 staging lines; checker and gaps list empty;
-  four databases, all sorted; last night's backup finished; the site 200.
-  "Now" traced to strand 2, items 5, 5a and 6. Nothing found.
+  four databases, all sorted; last night's backup succeeded; site, web
+  server and backup timer running; the site 200. "Now" traced to strand 2,
+  items 5, 5a, 6 and 7. The one failed unit is the known 16 September
+  one-off. Nothing found.
 - **During**: one scratch database, `published_rehearsal`, made and dropped
-  within the session, before any backup ran; not sorted into a theme,
-  because it did not outlive the session.
-- **At the close**: counts 470, 1291, 192, 14; 474 and 1295 staging lines;
-  checker and gaps list empty; four databases; `published` holding only
-  live, previous, the connector's and public, live dated 2026-09-18; the one
-  zip in `/srv/downloads`; live release `2026-09-19T10-55-09Z`, site 200,
-  site, web server and backup timer running; nothing in the server's
-  `/tmp`; the dictionary identical but for its date line; decisions
-  contents regenerated with today's entry. No data written to either real
-  database.
+  within the session, before any backup ran.
+- **At the close**: counts 470, 1291, 192, 14; checker and gaps list empty;
+  four databases; `published` holding `live` (2026-09-18) and `previous`,
+  no `next`, fingerprint `7afcaf840501`; the one zip `42a2716c…` in
+  `/srv/downloads`; live release `2026-09-19T10-55-09Z`; nothing of the
+  session's in the server's `/tmp`; the dictionary identical but for its
+  date line. No data written to either real database.
+
+## Running the tests of items 5, 5a and 6: working detail, 19 September
+
+- **Both runs are in `docs/CLOSURE-TESTS.md`**, at the end of each test.
+- **The fingerprint needs `LC_ALL=C` on the sort**; without it the same
+  dump gives a different number. The recipe is in item 6's run.
+- **The machine refuses SSH connections that come too close together**
+  ("Connection refused"). Leave about half a minute between bursts; a
+  rehearsal step makes two connections of its own.
+- **`check_data_pages.py` changes folder before reading its wording**, so
+  pass the wording files with full paths.
+- **This Mac's Python has no certificates** for https; fetch pages with
+  `curl`.
+- **The gap, for the session that fixes it**: in
+  `tools/refresh_on_server.sh`, `INSTALLED=$NEW` is set after
+  `put_in_downloads` returns, and `put_in_downloads` does the copy then a
+  `cmp`. Set it between the copy and the `cmp` (or before the copy, since
+  the function refuses first if a file is already there, and the clean-up
+  must not remove a file the run did not put there).
 
 ## Item 6, the refresh makes the zip: working detail, 19 September
 
