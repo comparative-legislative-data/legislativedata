@@ -30,6 +30,115 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The table of every bill
+
+Strand 2, item 4. Written 2026-09-19 by the session that built and deployed
+it (`docs/STRAND-2-THE-TABLE.md` and its "After the mock-up", agreed by the
+owner on 18 September; the build, its check, its undo and its small choices
+in `docs/STRAND-2-ITEM-4-BUILD.md`). **Not yet run.** To be run by a
+session that built none of it, together with the amended items of items 2
+and 3 below.
+
+`tools/check_data_pages.py` is under test as much as the site is. It was
+written by the session that built the page, and its expectations for the
+table were written from the same reading of the write-up. Read it before
+trusting its lines; where an item compares with the copy, take the copy's
+lines afresh, as `legsite`, not from the check.
+
+### Part A — mechanical
+
+1. **The live release is this build.** `/srv/site/current` is
+   `2026-09-19T06-34-47Z` or later; its `app.py`, `published.py`,
+   `templates/data.html` and `static/css/site.css` have the committed md5s.
+2. **Signed out, from this Mac, over the internet.**
+   `/data?session=5&title=continuity` answers 302 to the sign-in page, whose
+   `next` reads `/data?session=5&title=continuity` once decoded; the body
+   holds no bill title, no "Showing", and none of item 2's A2 words.
+   *Where from:* the write-up, "every choice is written into the page's
+   address"; the build document, small choice 5.
+3. **The check, as the site.** Run as for item 2's A5, against the live
+   release: "All 114 pass". With `BREAK=1`, exactly 35 and 38 fail; with
+   `BREAK=2`, exactly 86, 94, 105, 106, 107, 108 and 113. *Where from:* the
+   breaks are written into the check; read what each changes.
+4. **The table against the copy, asked afresh.** As `legsite`: `SELECT
+   count(*) FROM live.bills` gives 470, and `count(*) FILTER (WHERE note IS
+   NOT NULL)` gives 10. Check items 86 to 89 then say the page has 470
+   lines in bill number order, seven cells each, and the note mark on ten.
+   Pick three bills at random and compare their seven cells on the page, as
+   drawn for a made-up reader, with the copy by eye.
+5. **Narrowing, asked afresh.** As `legsite`: bills in session 5 with
+   "continuity" in the title, ignoring capitals: 2, one of them the Legal
+   Continuity Bill. `/data?session=5&title=continuity`, drawn for a made-up
+   reader, shows those two and "Showing 2 of 470 bills.". Then choose one
+   session, one type and one outcome of your own, count them in the copy,
+   and compare the page. *Where from:* the write-up's own example, and the
+   copy.
+6. **The dropdowns come from the copy.** `live.what_the_words_mean` lists
+   the types and outcomes in `order`; the page offers, after "All", those
+   of them some bill has, in that order: today 5 types and 7 outcomes,
+   "Fell (other)" left out. Sessions 1 to 7. Check item 97.
+7. **Things slipped into the address.** From the server, as the check
+   does, or by reading `chosen`, `address` and `return_to` in `app.py`: an
+   unknown session, type or outcome is dropped; a title is cut to 100
+   characters; any address with anything unused goes on, 302, to the one
+   that says exactly what is shown; a title with `<script>` is shown as
+   text. Check items 99 to 101. Then the return address: `RETURN_SHAPE`
+   takes only `/data` or `/insights`, and `return_to` rebuilds the narrowing
+   from a session of one or two digits and a type, outcome or title of
+   `TITLE_SHAPE`'s characters, and drops everything else. Check items 13
+   to 28.
+8. **Every opened bill against the copy.** Check items 102 to 108 compare
+   all 470. Asked afresh, as `legsite`: 1291 lines of `live.stages`; 178
+   lines of `live.sources` with a bill number (177 about bills, 1 about a
+   stage), over 94 bills. Open bill 305 as drawn for a made-up reader and
+   read its six lines under "Where each fact came from" against
+   `live.sources` for bill 305.
+9. **Notes beside headings.** For bill 1, `outcome` carries M5, M7 and M13,
+   and `session` carries M6 and M9. *Where from:* `live.methodology_notes`,
+   each note's `applies_to`, asked afresh.
+10. **An address that has gone.** None today: `live.cited_pages` has no
+    line with `address_works` 'No'. Check item 109 draws an invented one.
+11. **What each heading holds.** As `legsite`, the number of columns in the
+    twelve tables of `live` is 113, and none lacks a description
+    (`col_description`). Check items 111 to 114.
+12. **The footer stays in view.** In the live `site.css`, `.foot` is
+    `position: sticky; bottom: 0`, and `static` under `@media print`. Check
+    item 43. Whether it actually stays in view is B1.
+13. **The undo.** Do not run it. `/srv/site/switched` ends `20-54-13Z`,
+    `06-16-43Z`, `06-34-47Z`: one rollback takes the footer back to the end
+    of the page, a second takes the table away. Rehearsed for the table on
+    19 September (the build document).
+14. **Nothing left behind.** Nothing of the run's in the server's `/tmp`;
+    four databases; no change to either database (470, 1291, 192, 14;
+    checker and gaps list empty; the dictionary regenerates identical).
+
+**Which items an outside change can move:** all of them at any deploy; 3 to
+11 at any refresh.
+
+### Part B — the owner's sign-off
+
+1. **In a browser, signed in**: narrow the table and clear it; open a bill,
+   Close it, and open another and leave it with Back; click a note code
+   inside a bill and land on the note; each tab; `/data#terms-of-use` and
+   `/data#bill-305` typed in; the footer staying in view on a long tab; a
+   phone's width; dark, light; the print preview of a tab and of an open
+   bill.
+2. **The small choices**: the nine at the top of the build document stand,
+   or which change.
+3. **The house style on the table**: whether it holds. Recorded, as strand
+   2's "finished when" asks.
+
+### Part C — what this test does not check
+
+**Speed on a phone**: the page is 3.9 MB as the browser builds it, 126 KB
+sent. **Browsers other than the one used for Part B.** **Without
+JavaScript**, where the tabs' contents follow one another and no bill
+opens: nothing is built for it (the owner, 18 September). **Filters a
+chart hands over** (a quarter, a stage reached), which are settled with each
+chart. **The zip**, which is item 5.
+
+---
+
 ## The page parts every data page shares
 
 Strand 2, item 2. Written 2026-09-18 by the session that built and deployed
@@ -37,7 +146,9 @@ it with item 3 (`docs/STRAND-2-SHARED-PAGE-PARTS.md`, agreed by the owner the
 same day; the build, its check and its undo in
 `docs/STRAND-2-ITEMS-2-AND-3-BUILD.md`). **Run 18 September by a session
 that built none of it: Part A passes, and the owner signed off Part B.
-Closed.** The run is under Part C.
+Closed. Reopened 19 September by item 4**, which put the Data page in tabs
+and changed the date statement: the items under "Amended 19 September"
+below are to be run again, with item 4's test, by another session.
 
 `tools/check_data_pages.py` is the thing under test as much as the site is:
 read it before trusting its lines, and ask the questions below of the live
@@ -106,6 +217,29 @@ deploy; 4 and 5 at any refresh, which changes the date.
 **Signing in with JavaScript switched off**: the reader then lands on the
 Data page, not the section.
 
+### Amended 19 September, by item 4
+
+What item 4 changed, and what is run again. Nothing else is re-argued.
+
+- **A1**: the live release is `2026-09-19T06-34-47Z` or later.
+- **A2**: also `/data?session=5&title=continuity`, whose 302 carries the
+  narrowing in `next` (item 4's A2).
+- **A3**: `RETURN_SHAPE` now takes a narrowing after `/data`, and a section
+  of up to 60 letters, digits, hyphens or underscores. `return_to` rebuilds
+  the narrowing from what checks out. Check items 13 to 28.
+- **A5**: "All 114 pass"; `BREAK=1` fails at exactly 35 and 38.
+- **A6** is check item 31; **A7** is 68 and 69.
+- **A9**: the undo is two steps to before item 4. The release from before
+  items 2 and 3 has been cleared from the machine, so going back past them
+  is a deploy of an older commit, not a rollback. Read
+  `/srv/site/switched`; do not run it.
+- **New: the footer stays in view**, at the foot of the screen on every
+  page (the owner, 19 September). Check item 43; seen in item 4's B1.
+- **B1, again**: the date statement now ends "…earlier versions are not
+  kept.", with no link (`PUBLISHING.md` part 2).
+- **B3, again**: `/data#M7` signed out, through sign-in, lands on the
+  Methodology notes tab with M7 open.
+
 ### The run, 18 September
 
 Run by the session after the one that built it. `check_data_pages.py` was
@@ -148,8 +282,10 @@ site's query was read too (numbered order, `substring(note FROM 2)::int`).
 Strand 2, item 3. Written 2026-09-18 by the session that built and deployed
 it with item 2 (`docs/STRAND-2-REFERENCE-SECTIONS.md`, agreed by the owner
 the same day). **Part A run 18 September by a session that built none of
-it: passes; the owner signed off Part B. Closed.** The run is under Part
-C.
+it: passes; the owner signed off Part B. Closed. Reopened 19 September by
+item 4**, which made each section a tab: the items under "Amended 19
+September" below are to be run again, with item 4's test, by another
+session.
 
 As for item 2: `tools/check_data_pages.py` is under test too. Where an item
 compares with the copy, take the copy's lines afresh, as `legsite`, not from
@@ -214,6 +350,28 @@ published value, so only invented lines have been drawn. **The order of What
 has changed** within a copy is the site's own query, and is only read, not
 tried with real lines. **The pages we kept of each cited source, the
 provenance notes and the workings**, which are not in this item.
+
+### Amended 19 September, by item 4
+
+The four sections are now tabs, not folded sections. Their contents are
+unchanged, so A1 to A5, A7 and A8 stand as written, with the check's new
+numbers: A1 is 45 to 47, A2 48 to 52, A3 53 to 55, A4 and A5 56 to 66, A8
+38 to 40. Run again:
+
+- **A6**: each link lands **inside its own tab** (the looseness found on
+  18 September, now in the check): `#M1`, `#M7`, `#M14`,
+  `#methodology-notes` in Methodology notes; `#terms-of-use` and
+  `#sources-and-terms` in Sources and terms of use; `#what-the-words-mean`
+  and each `#words-…` in What the words mean; `#what-has-changed` in What
+  has changed. Check items 74 to 84, and ask it afresh of all 14 notes.
+- **A7**: `data.html` still holds none of the three phrases.
+- **The tabs**: six, in the order Bills · Methodology notes · Sources and
+  terms of use · What each heading holds · What the words mean · What has
+  changed. Check items 71 to 73.
+- **B1, again**: printing now prints the tab that is open, with its notes
+  unfolded, not every section (the owner, 18 September).
+- **B2, again**: the date statement's link is gone; the footer's "What has
+  changed" and the credit lines' "Terms of use" land in their tabs.
 
 ### The run, 18 September
 
