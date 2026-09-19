@@ -1,10 +1,11 @@
 # Wording: the download
 
-For the owner. Strand 2, item 5 of `docs/PHASE-2.md`. **Draft, 19 September
-2026: the four questions answered, the wording not yet agreed.** Every word
-a reader of the download will see is below, in full, except what is generated from the copy, which is marked *[from the
-copy]* and shown with today's values. Nothing is built until every sentence
-here is agreed.
+For the owner. Strand 2, item 5 of `docs/PHASE-2.md`. **Agreed by the owner on 19 September
+2026, every part as drafted**, with the four questions answered below. A
+download is built from this word for word; change the wording here first.
+Every word a reader of the download will see is below, in full, except what
+is generated from the copy, which is marked *[from the copy]* and shown with
+today's values.
 
 What is settled already, and not put again: one zip; CSV; dates as
 year-month-day; the date alone, in the file name, readme and citation; the

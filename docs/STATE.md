@@ -61,6 +61,8 @@ list are both empty.**
   narrowings and bill 305's sources read against the page. All pass.
 - **You signed off your half**: the browser steps, the nine small choices,
   the house style and one scroll, "for the moment".
+- **The download's wording agreed**: all twelve files, both dates, and a
+  citation naming you and the site.
 - **Your decision: a monthly design and sanity sweep once Phase 2 closes**,
   with feedback as it comes until then. The table's choices come back at
   the first sweep.
@@ -68,16 +70,14 @@ list are both empty.**
 
 ## Now
 
-**Strand 2, item 5, the zip** (`docs/PHASE-2.md`, "Strand 2").
+**Strand 2, item 5, the zip** (`docs/PHASE-2.md`, "Strand 2"). Its wording
+is agreed (`docs/wording/DOWNLOAD.md`).
 
-1. **Its wording to you in full first**: the readme (row counts, dates as
-   year-month-day, the Comparative Agendas Project sentence, the
-   no-archive paragraph), the suggested citation, and the privacy page's
-   line about asking for another format. Nothing is built until you have
-   agreed every sentence.
-2. **Then its build plan**, with the check, the rehearsal and the undo,
-   and the order of its files (the Data page's "What each heading holds"
-   uses the mock-up's; the zip can take that or you set another).
+1. **Its build plan**, to you before anything is built: how the zip and
+   its codebook are made from the copy, how the site hands it over with the
+   day it was downloaded, the check, the rehearsal and the undo, and the
+   privacy check run after it is served.
+2. **Then the build**, and its closure test written for another session.
 
 ## Waiting for you
 
