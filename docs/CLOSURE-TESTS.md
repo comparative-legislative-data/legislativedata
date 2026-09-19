@@ -35,9 +35,8 @@ There is no universal test. Each ingest gets its own, newest first below.
 Strand 2, item 4. Written 2026-09-19 by the session that built and deployed
 it (`docs/STRAND-2-THE-TABLE.md` and its "After the mock-up", agreed by the
 owner on 18 September; the build, its check, its undo and its small choices
-in `docs/STRAND-2-ITEM-4-BUILD.md`). **Not yet run.** To be run by a
-session that built none of it, together with the amended items of items 2
-and 3 below.
+in `docs/STRAND-2-ITEM-4-BUILD.md`). **Part A run 19 September by a
+session that built none of it: passes. Part B waits for the owner.**
 
 `tools/check_data_pages.py` is under test as much as the site is. It was
 written by the session that built the page, and its expectations for the
@@ -136,6 +135,56 @@ JavaScript**, where the tabs' contents follow one another and no bill
 opens: nothing is built for it (the owner, 18 September). **Filters a
 chart hands over** (a quarter, a stage reached), which are settled with each
 chart. **The zip**, which is item 5.
+
+### The run, 19 September, by a session that built none of it
+
+`check_data_pages.py` was read in full first. Where an item asks the copy,
+it was asked afresh as `legsite`, in the same connection as the check.
+
+- **A1.** Live is `2026-09-19T06-34-47Z`; `app.py`, `published.py`,
+  `templates/data.html` and `static/css/site.css` have the committed md5s.
+  Pass.
+- **A2.** From this Mac: `/data?session=5&title=continuity` → 302 to
+  `/sign-in?next=/data?session%3D5%26title%3Dcontinuity`, which decodes to
+  the address asked for; the body is Flask's 291-byte redirect page, no
+  title, no "Showing", none of item 2's A2 words. Pass.
+- **A3.** All 114 pass. `BREAK=1` fails at exactly 35 and 38; `BREAK=2` at
+  exactly 86, 94, 105, 106, 107, 108 and 113. Pass.
+- **A4.** Asked afresh: 470 bills, 10 with a note; check items 86 to 89
+  pass. Three bills picked at random (72, 430, 138), their seven cells on
+  the page drawn for a made-up reader read against the copy: the same.
+  Pass.
+- **A5.** Asked afresh: bills 305 and 385; the page shows those two and
+  "Showing 2 of 470 bills.". My own: Session 3, Member's Bill, Passed is 7
+  in the copy and "Showing 7 of 470 bills." on the page; Session 6,
+  Withdrawn, 4 and 4. Pass.
+- **A6.** `what_the_words_mean` lists 5 types and 8 outcomes in order; no
+  bill is "Fell (other)", so 7 are offered; sessions 1 to 7; check item 97
+  passes. Pass.
+- **A7.** `RETURN_SHAPE` and `return_to` read in `app.py`: as stated.
+  Check items 13 to 28 and 99 to 101 pass. Pass.
+- **A8.** Asked afresh: 1291 stages; 178 source lines with a bill number,
+  177 about bills and 1 about a stage, over 94 bills. Bill 305 drawn for a
+  made-up reader: six lines under "Where each fact came from", read one by
+  one against its six lines in `live.sources`: the same. Check items 102 to
+  108 pass. Pass.
+- **A9.** Asked afresh: `bills.outcome` is in the `applies_to` of M5, M7
+  and M13, `bills.session` of M6 and M9. Pass.
+- **A10.** No line of `live.cited_pages` has `address_works` 'No'; check
+  item 109 passes. Pass.
+- **A11.** Asked afresh: 113 columns over 12 tables in `live`, none without
+  a description. Check items 111 to 114 pass. Pass.
+- **A12.** `.foot` is `position: sticky; bottom: 0`; check item 43, which
+  also reads the print rule, passes. Pass.
+- **A13.** `/srv/site/switched` ends `20-54-13Z`, `06-16-43Z`,
+  `06-34-47Z`. Read, not run. Pass.
+- **A14.** Nothing of the run's left in the server's `/tmp`; four
+  databases; 470, 1291, 192, 14; checker and gaps list empty; the
+  dictionary regenerates identical but for its date line. Pass.
+- **One slip of the run's own, not the site's**: the first random pick
+  took bill 412, which does not exist (bill numbers have gaps). The third
+  bill was then picked from the copy's own numbers.
+- **Part B**: not yet; the owner's.
 
 ---
 
@@ -239,6 +288,31 @@ What item 4 changed, and what is run again. Nothing else is re-argued.
   kept.", with no link (`PUBLISHING.md` part 2).
 - **B3, again**: `/data#M7` signed out, through sign-in, lands on the
   Methodology notes tab with M7 open.
+
+### The run of the amended items, 19 September
+
+Run with item 4's test, in the same connection.
+
+- **A1.** Live is `2026-09-19T06-34-47Z`. Pass.
+- **A2.** From this Mac: `/data`, `/data?x=1` → 302 `/sign-in?next=/data`;
+  `/insights` → 302 `/sign-in?next=/insights`; the narrowed address as item
+  4's A2. No body holds any of the words. Pass.
+- **A3.** `RETURN_SHAPE` and `return_to` read: as stated. From this Mac:
+  `next=//example.com` and `next=/admin` carry no hidden `next`;
+  `next=/data` carries `value="/data"` and the sentence; a narrowed `next`
+  carries it whole. Check items 13 to 28 pass. Pass.
+- **A4**, rerun since a deploy moves it: `/`, `/privacy`, `/apply`,
+  `/sign-in` each end with part 1 word for word, date 18 September 2026, as
+  `live.about` has it. Pass.
+- **A5.** All 114 pass; `BREAK=1` fails at exactly 35 and 38. Pass.
+- **A6, A7.** Check items 31, 68 and 69 pass. Pass.
+- **A8**, rerun since a deploy moves it: `check_privacy.sh` on the live
+  release, all 15 pass, the invented person deleted; with `BREAK=1` it
+  fails at item 2. Pass.
+- **A9.** `/srv/site/switched` as item 4's A13. Read, not run. Pass.
+- **The footer stays in view**: check item 43 passes; seen in item 4's B1.
+- **A10.** As item 4's A14. Pass.
+- **B1 and B3, again**: not yet; the owner's.
 
 ### The run, 18 September
 
@@ -372,6 +446,26 @@ numbers: A1 is 45 to 47, A2 48 to 52, A3 53 to 55, A4 and A5 56 to 66, A8
   unfolded, not every section (the owner, 18 September).
 - **B2, again**: the date statement's link is gone; the footer's "What has
   changed" and the credit lines' "Terms of use" land in their tabs.
+
+### The run of the amended items, 19 September
+
+Run with item 4's test, in the same connection.
+
+- **A1 to A5 and A8**, under their new numbers: check items 38 to 40 and
+  45 to 66 pass, in "All 114 pass". Asked afresh: 89 lines of What the
+  words mean under 17 headings; `live.what_changed` 0 lines; every counted
+  file in `live.about` 0 added. Pass.
+- **A6.** Check items 74 to 84 pass. Asked afresh of the page drawn for a
+  made-up reader: all 14 notes, `#M1` to `#M14`, are each on the page once
+  and inside the Methodology notes tab; all 17 `#words-…` inside What the
+  words mean; `#terms-of-use` and `#sources-and-terms` inside Sources and
+  terms of use; `#what-has-changed` and `#what-the-words-mean` each in
+  their own. Pass.
+- **A7.** The live `data.html` has the committed md5 and none of the three
+  phrases. Pass.
+- **The tabs.** Six, in the agreed order and names; check items 71 to 73
+  pass. Pass.
+- **B1 and B2, again**: not yet; the owner's.
 
 ### The run, 18 September
 
