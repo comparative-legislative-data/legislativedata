@@ -261,6 +261,11 @@ for path, signed in [("/", False), ("/privacy", False), ("/apply", False), ("/si
         foot_ok = False
         print(f"      {path}: {foot}")
 check("the footer is part 1, word for word, on every page, signed in and out", foot_ok)
+css = open(os.path.join(REL, "static/css/site.css")).read()
+foot_rule = re.search(r"\n\.foot \{(.*?)\}", css, flags=re.S).group(1)
+check("the footer stays in view at the foot of the screen, and prints where it falls",
+      "position: sticky;" in foot_rule and "bottom: 0;" in foot_rule
+      and ".foot { position: static;" in between(css, "@media print", "\n}\n"))
 check("the footer's What has changed links to it",
       '<a href="/data#what-has-changed">What has changed</a>' in get("/").get_data(as_text=True))
 
@@ -710,7 +715,7 @@ check("What each heading holds: its heading and sentence are part 8's",
 ORDER = ["bills", "stages", "days_between_stages", "sessions", "methodology_notes", "sources",
          "what_the_words_mean", "what_changed", "workings", "about", "cited_pages", "terms"]
 files_on_page = re.findall(r'<h3 id="file-([a-z_]+)">', sec)
-check("What each heading holds: every file, in the download's order", files_on_page == ORDER
+check("What each heading holds: every file, in the mock-up's order", files_on_page == ORDER
       and set(ORDER) == {f["file"] for f in copy["files"]}, files_on_page)
 pairs = re.findall(r'<dt id="h-([a-z_]+)-([a-z_0-9]+)"><code>([a-z_0-9]+)</code></dt><dd>(.*?)</dd>', sec, flags=re.S)
 want = [(f["file"], f["heading"], f["heading"], str(escape(f["what_it_holds"])))

@@ -47,6 +47,10 @@ owner to agree or change after reading the deployed page.
    written out.
 8. **Printing the Methodology notes tab prints each note open**, as
    printing the folded sections did before.
+9. **The order of the files in What each heading holds** is the mock-up's:
+   bills, stages, days_between_stages and sessions first, as the What has
+   changed line names them, then the rest. Nothing settled the download's
+   order; item 5 can take this one or say another, and this follows.
 
 ## The test
 
@@ -117,7 +121,7 @@ and 3. It signs nobody in and writes nothing. What it adds or changes:
 **What each heading holds**
 22. Its heading and opening sentence, part 8 word for word.
 23. **Every heading of every file**, 113 today, each with the description the
-    copy stores on it, file by file in the download's order, each file with
+    copy stores on it, file by file in the mock-up's order, each file with
     its own description.
 
 **Signed out, and signing in**
@@ -221,4 +225,28 @@ style holds, and that is recorded (strand 2's "finished when").
   gone; 200, 200, 301, 308, 200. The list the undo reads ends `20-54-13Z`,
   `06-16-43Z`, so **one rollback still goes back to before this build.**
 
-**Part D**: to come.
+**Part D, by the owner, 19 September.** Screenshots of the table, all six
+tabs, a note opened, dark and light, and an opened bill in both. All as
+agreed. Two things raised:
+
+- **Pages of 10, 100 or all?** Put to the owner: not recommended, since the
+  dropdowns and title search are the volume control, pages would break the
+  browser's own find, and the write-up agreed one scroll. Open.
+- **The bar at the foot of the page could not be found on a long tab.** It
+  was there, at the end of the page, below 470 bills. **The owner: it should
+  stay in view, or we make it hard for people to find things.** Built the
+  same morning: the footer stays at the foot of the screen on every page,
+  keeping its own place at the end so it never covers the last lines, and
+  printing where it falls. The check gained an item for it (now 114).
+  Staged as `06-33-59Z`: all 114 pass; `BREAK=1` fails at 35 and 38,
+  `BREAK=2` at 86, 94, 105 to 108 and 113. Deployed as `06-34-47Z`: 200,
+  200, 301, 308, 200; releases kept `20-54-13Z`, `06-16-43Z`, `06-34-47Z`.
+  On the live release: the page check, all 114 pass; the privacy check,
+  all 15 pass; nothing left in `/tmp`.
+
+**The undo is now two steps**: one rollback takes the footer back to the
+end of the page; a second takes the table away. Rehearsed for the table,
+above; the footer's is the same rollback.
+
+Still to see by eye: Back closing a bill, a note code from inside a bill, a
+phone's width, the print preview, and the footer staying in view.

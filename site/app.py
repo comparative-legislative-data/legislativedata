@@ -318,7 +318,8 @@ CHOICES = ("session", "type", "outcome", "title")
 # Title words are matched on no more than this.
 TITLE_LONGEST = 100
 
-# The files in the order the download gives them, for What each heading holds.
+# The files in the order What each heading holds gives them: the mock-up's,
+# the four data files first. Nothing has settled the download's order yet.
 HEADINGS_ORDER = ("bills", "stages", "days_between_stages", "sessions", "methodology_notes",
                   "sources", "what_the_words_mean", "what_changed", "workings", "about",
                   "cited_pages", "terms")

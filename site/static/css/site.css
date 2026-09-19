@@ -656,11 +656,19 @@ h2 {
 
 /* ---- Footer ------------------------------------------------------------- */
 
+/* It stays in view at the foot of the screen on every page, so the date, What
+   has changed and the mode setting are always to hand (the owner, 19 September
+   2026). Sticky rather than fixed: it keeps its own place at the end of the
+   page, so it never covers the last lines. */
 .foot {
   flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
   border-top: 1px solid var(--border);
   background: var(--surface);
   margin-top: var(--s12);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .foot-inner {
@@ -715,7 +723,7 @@ h2 {
     border: 0;
   }
   .dlg-head { position: static; }
-  .foot { border-top: 1px solid var(--border); }
+  .foot { position: static; border-top: 1px solid var(--border); }
   a { text-decoration: underline; }
 }
 
@@ -731,6 +739,8 @@ h2 {
   .dlg-head, .dlg-body { padding-left: var(--s4); padding-right: var(--s4); }
   .fields, .heading-list { grid-template-columns: 1fr; gap: 0; }
   .fields dd, .heading-list dd { margin-bottom: var(--s3); }
+  .foot-inner { padding: var(--s2) var(--s4); font-size: var(--t-sm); }
+  .mode-toggle { font-size: var(--t-sm); }
   h1 { font-size: 22px; }
   .prose, .standfirst { font-size: 17px; }
   .topbar-inner { flex-wrap: wrap; gap: var(--s2) var(--s3); }
