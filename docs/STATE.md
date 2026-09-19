@@ -11,7 +11,9 @@ open**, for approved beta users only. **Strand 2 is closed**, 19 September:
 signed in, a researcher can go through the table of every bill, open each
 bill with where each fact came from, read the reference sections, and
 download the whole dataset as one zip; the refresh makes the zip, so a new
-copy never goes live without it. **Strand 3, the charts, is open.**
+copy never goes live without it. **Strand 3, the charts, is open**: its
+plan agreed, the Insights page's shape settled on a mock-up, and thought 2's
+write-up agreed.
 
 **Phase 2's build plan is agreed** (`docs/PHASE-2.md`, "The build plan"), in
 three strands, one after another, then the closing test.
@@ -20,7 +22,7 @@ three strands, one after another, then the closing test.
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
 | 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **closed** 19 September |
-| 3. The charts | the six thoughts on the Insights page | **open**; mock-ups exist; nothing built |
+| 3. The charts | the six thoughts on the Insights page | **open**; plan, page shape and thought 2's write-up agreed; nothing built |
 | Closing test | run by a session that built none of it | not open |
 
 The dataset. No bill, date or figure has changed since 18 September's wording
@@ -45,24 +47,25 @@ list are both empty.**
 - **10–15 September.** The database built, every session read in, reviewed,
   promoted and closed; Phase 1's scoping discussions settled.
 - **16 September.** The site live with accounts; Phase 1 closed; Phase 2 opened.
-- **16–17 September.** The Phase 2 plan reviewed; the six thoughts mocked up
-  (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9).
-- **18 September.** Strand 1 built and closed; strand 2's items 1 to 3 built
-  and closed; the table agreed through a write-up and three mock-ups.
-- **19 September, morning to mid-afternoon.** The table, the zip, its format
-  panel, the home page and the refresh making the zip built, tested and
-  closed, but for one gap in the refresh, which you chose to fix first.
-- **19 September, late afternoon.** The gap fixed; strand 2's test written.
+- **16–17 September.** The Phase 2 plan reviewed; the six thoughts mocked up.
+- **18 September.** Strand 1 built and closed; strand 2's items 1 to 3.
+- **19 September, to late afternoon.** The rest of strand 2 built, tested
+  and closed.
 
-**19 September, this session. Strand 2's closure test run; strand 2 closed.**
+**19 September, this session. Strand 3 planned, and thought 2 written up.**
 
-- **Part A passed**, all eleven checks, run by a session that built none of
-  strand 2. Item 6's fix tried again on a scratch copy: a failure planted
-  after the zip lands removes it, and a normal refresh and undo still give
-  the recorded results.
-- **Part B**, you, with your alternative account: "All tested, and all
-  results as expected." Then **you closed strand 2**, and item 6 with it.
-- No bill, date or figure changed. The real copy and zip were not touched.
+- **The plan for the whole strand**, `docs/STRAND-3-PLAN.md`, which you
+  approved, with your rule: nothing a mock-up can do is lost in the build
+  without your OK. It lists what every mock-up does, as the checklist.
+- **The whole Insights page as one mock-up**, in the site's own look
+  (https://claude.ai/artifact/XMz3FuH4zQnmNSwfM9WQVq). From it you settled:
+  the headline figures, then three tabs, made much clearer (the Data page's
+  left as they are); one frame for every chart, the description shown; and
+  every figure opening to its bills.
+- **Thought 2's write-up**, `docs/STRAND-3-THOUGHT-2.md`, agreed in full.
+  Its working, in the published files' own names, was run on the copy
+  without changing it and matched the mock-up in all 720 lines.
+- No bill, date or figure changed.
 
 ## Now
 
@@ -129,24 +132,45 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-19, the session that ran strand 2's test
+## Sanity check, 2026-09-19, the session that planned strand 3
 
 - **At the start**: clean and pushed; decisions contents regenerated
   identical; the dictionary identical but for its date line; counts 470,
   1291, 192, 14; 474 and 1295 staging lines; checker and gaps list empty;
   four databases, all sorted; last night's backup succeeded; site and web
-  server running; the site 200. "Now" traced to strand 2, item 7. The one
-  failed unit is the known 16 September one-off. Nothing found.
-- **During**: one scratch database, `published_rehearsal`, the folder
-  `/tmp/rehearsal-zips` and the folder `/tmp/s2test`, made and removed
-  within the session, before any backup ran. The owner's Chrome session
-  was read, never signed in or out by this session.
+  server running. "Now" traced to strand 3 in `PHASE-2.md`. The one failed
+  unit is the known 16 September one-off. Nothing found.
+- **During**: read-only queries on the published copy, one of them the
+  draft working for thought 2, sent to the server's `/tmp` and removed. The
+  server refused connections for a few minutes after many in quick
+  succession, then let them in again.
 - **At the close**: counts 470, 1291, 192, 14; checker and gaps list empty;
-  four databases; `published` holding `live` (2026-09-18) and `previous`,
-  no `next`, fingerprint `7afcaf840501`; the one zip `42a2716c…` in
-  `/srv/downloads`; live release `2026-09-19T10-55-09Z`; nothing of the
-  session's in the server's `/tmp`; the dictionary identical but for its
-  date line. No data written to either real database.
+  four databases; `published` holding `live` and `previous`, no `next`;
+  nothing of the session's in the server's `/tmp`; site and web server
+  running; the dictionary identical but for its date line. No data
+  written to any database.
+
+## Planning strand 3: working detail, 19 September
+
+- **The mock-up is built by a script**, not by hand, in the session's
+  scratch folder: it takes the 17 September mock-up's own scripts and
+  figures unchanged (read back with the Artifact tool), the published
+  copy's `bills` and `days_between_stages`, and the site's stylesheet.
+  To change it again, read the page back and work from that; the scratch
+  folder does not survive the session.
+- **The blank chart**: an element's name on the page used twice (the tab
+  and the dropdown, both `outcomes`). A headless Chrome run of the page,
+  reporting errors into the page itself, found it in one go; screenshots
+  through the extension could not see inside the artifact's frame.
+- **Thought 4's bills behind a point**, worked out from
+  `days_between_stages` and the bills' dates, reproduce every count the
+  mock-up shows; thought 2's from `bills` likewise. The rules are in the
+  mock-up's own script and belong in each chart's working when it is built.
+- **The chart's sources**, from the copy's `sources` file: outcome from the
+  Official Report (31) and the SPICe dates factsheet (17), one type from the
+  Parliament's bill page, enactment status from legislation.gov.uk (7) and
+  the SPICe legislation factsheet (4); every bill's line from the SPICe
+  legislation factsheet.
 
 ## Running strand 2's test: working detail, 19 September
 
