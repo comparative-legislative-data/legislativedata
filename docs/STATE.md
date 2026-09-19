@@ -71,6 +71,9 @@ list are both empty.**
 - **You tried it live and signed off your part**, bar one change: "Ask for
   another format" now opens a panel, open your email or copy the address.
   Built and live, and you checked it: Part B passes.
+- **The home page brought up to date**, as you asked: it introduces the
+  site and each place it leads, and the apply page no longer says nothing
+  is published. Built and live; waiting for your look.
 - **Your decision: a monthly design and sanity sweep once Phase 2 closes**,
   with feedback as it comes until then. The table's choices come back at
   the first sweep.
@@ -80,9 +83,10 @@ list are both empty.**
 
 **Strand 2** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Close item 5.** A session that built none of it runs its test, with
-   the amended items of items 2 and 4.
-2. **Then item 6: the refresh makes the zip** from each new copy before it
+1. **Your look at the home page and the apply page** (item 5's Part B, 8).
+2. **Close item 5, with 5a.** A session that built none of it runs its
+   test, with the amended items of items 2 and 4.
+3. **Then item 6: the refresh makes the zip** from each new copy before it
    goes live, rehearsed with its undo. It also settles what happens if two
    refreshes land on one day. **No refresh until it is built**: one would
    leave the new copy without a zip, and the download box would vanish.
@@ -138,33 +142,37 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-19, the session that ran the table's tests
+## Sanity check, 2026-09-19, the session that ran the table's tests and built the zip
 
 - **At the start**: clean and pushed; decisions contents regenerated
   identical; the dictionary identical but for its date line; counts 470,
   1291, 192, 14; checker and gaps list empty; 474 and 1295 staging lines;
-  four databases, all sorted; last night's backup a success, timer next
-  02:53 UTC; the site 200. "Now" traced to strand 2, item 4. Nothing found.
-- **At the close**: the same counts; checker and gaps list empty; four
-  databases; live release still `2026-09-19T06-34-47Z`, nothing deployed;
-  nothing of the run's in the server's `/tmp`; the dictionary identical but
-  for its date line; decisions contents regenerated with the new entry.
-  No data written: every database visit read only, bar the privacy check's
-  invented person, added and deleted.
-- **How the run was done**, for the next one: the check and the privacy
-  check sent in one tar, run in one connection; a small script of the
-  session's own, not kept, drew the page for a made-up reader to compare
-  three bills, three narrowings, bill 305 and every link's tab. Bill
-  numbers have gaps: pick random bills from the copy, not from 1 to 470.
+  four databases, all sorted; last night's backup a success; the site 200.
+  "Now" traced to strand 2, item 4. Nothing found.
+- **At the close**: the same counts, 470, 1291, 192, 14; checker and gaps
+  list empty; 474 and 1295 staging lines; four databases, `published`
+  holding only its usual areas (live, previous, the connector's, public);
+  live release `2026-09-19T08-22-31Z`, site 200, site, web server and
+  backup timer running; nothing in the server's `/tmp`; the dictionary
+  identical but for its date line; decisions contents regenerated with
+  today's entries. No data written: every database visit read only, bar
+  the privacy and apply checks' invented people, added and deleted.
+- **New on the machine**: `/srv/downloads`, holding the one zip. A folder,
+  not a database, and deliberately not backed up.
+- **Found and fixed this session**: the home page was due for rewording
+  when the table went live and was missed (now strand 2, item 5a, built).
 
 ## The zip: working detail, 19 September
 
 - **Everything is in `docs/STRAND-2-ITEM-5-BUILD.md`**: how it works, the
   eight small choices, the test, the undo, and what was done.
-- **Live is `2026-09-19T08-12-24Z`** (the format panel). Kept:
-  `06-34-47Z`, `07-58-39Z`, `08-12-24Z`. One rollback brings back the link
-  that opens email; two remove the download. The table can no longer be
-  rolled away, only redeployed from an older commit.
+- **Live is `2026-09-19T08-22-31Z`** (the home page). Kept:
+  `07-58-39Z`, `08-12-24Z`, `08-22-31Z`. One rollback brings back the old
+  home page; two the link that opens email. The download and the table can
+  no longer be rolled away, only redeployed from an older commit.
+- **The check is 133 items.** It reads `HOME.md` and `APPLY.md` from beside
+  `PUBLISHING.md`, so send all five wording files. Item 33 now reads only
+  the header; it has not been shown failing since.
 - **The zip is `/srv/downloads/legislativedata-2026-09-18.zip`**, 104,145
   bytes, SHA-256 `42a2716c…811cf0`. Made with
   `cd <release> && sudo -u legsite .venv/bin/python download.py <scratch>`,

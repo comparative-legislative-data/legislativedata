@@ -48,7 +48,7 @@ so.
 ### Part A — mechanical
 
 1. **The live release is this build.** `/srv/site/current` is
-   `2026-09-19T08-12-24Z` or later; its `app.py`, `download.py`,
+   `2026-09-19T08-22-31Z` or later; its `app.py`, `download.py`,
    `templates/data.html`, `templates/privacy.html` and `static/css/site.css`
    have the committed md5s.
 2. **Where the zip is kept.** `/srv/downloads` is owned by root, mode 755,
@@ -60,7 +60,7 @@ so.
    answers 302 to `/sign-in?next=/data` and the body is not a zip (it does
    not start `PK`). *Where from:* "How it works", 5.
 4. **The check, as the site**, run as the build document's part A says,
-   with `DOWNLOAD.md` and `/srv/downloads`: "All 130 pass". With `BREAK=1`,
+   with `DOWNLOAD.md` and `/srv/downloads`: "All 133 pass". With `BREAK=1`,
    exactly 35 and 38 fail; `BREAK=2`, exactly 86, 94, 105 to 108 and 113;
    `BREAK=3`, exactly 122 and 124. Read what each break changes.
 5. **The files against the copy, asked afresh.** Draw the zip for a made-up
@@ -82,16 +82,26 @@ so.
    end of "If you only read the site", and "Last changed 19 September 2026".
    `tools/check_privacy.sh` on the live release, after the zip has been
    served: all pass; with `BREAK=1`, it fails at item 2.
-10. **The undo.** Do not run it. `/srv/site/switched` ends `06-34-47Z`,
-    `07-58-39Z`, `08-12-24Z`: one rollback goes back to the link that
-    opens email, a second takes the download away. Rehearsed on
-    19 September (the build document).
+10. **The undo.** Do not run it. `/srv/site/switched` ends `07-58-39Z`,
+    `08-12-24Z`, `08-22-31Z`: one rollback takes the home page back to
+    "Nothing is published here yet", a second the panel back to the link
+    that opens email. The release before the download has been cleared, so
+    the download itself can no longer be rolled away, only redeployed from
+    an older commit. The rollback was rehearsed on 19 September.
 11. **The format panel.** In the live `data.html`, "Ask for another
     format" is a folding panel holding `DOWNLOAD.md` part 2's sentence,
     "Open in your email" as a link to the address with the subject, and
     "Copy the address" as a button that copies it and then reads "Copied".
     Check items 115 and 117.
-12. **Nothing left behind.** Nothing of the run's in the server's `/tmp`;
+12. **The home page and the apply page's opening** (strand 2, item 5a,
+    added by the owner the same day): from this Mac, `/` signed out is
+    `docs/wording/HOME.md` word for word, each heading linking to its page,
+    and `/apply` opens with `APPLY.md`'s changed line and says nowhere that
+    nothing is published. Check items 131 to 133. Item 33 was narrowed the
+    same day to read only the header, as its name says, once the home
+    page's body linked to Data; **it has not been shown failing** since,
+    so check by eye that no signed-out header has Data or Insights.
+13. **Nothing left behind.** Nothing of the run's in the server's `/tmp`;
     four databases; no change to either database (470, 1291, 192, 14;
     checker and gaps list empty; the dictionary regenerates identical).
 
@@ -121,6 +131,8 @@ looks good. download works. every file opens as expected. request formats
 works as expected", with the one change that became 7. **7 signed off by
 the owner the same day**: "i've checked the panel and it is fine." Part B
 passes.
+8. **The home page and the apply page**, added after: read as agreed, in
+   dark and light and at a phone's width. Waits for the owner.
 
 ### Part C — what this test does not check
 
