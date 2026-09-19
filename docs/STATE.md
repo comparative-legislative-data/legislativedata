@@ -1,15 +1,16 @@
 # State
 
-Updated: 2026-09-18
+Updated: 2026-09-19
 
 ## Where we've got to
 
 **Phase 0, the dataset, and Phase 1, the site, are both closed.** At
 `legislativedata.org` someone can apply, you approve or refuse them, and they
 sign in with a code by email. **Phase 2, putting the data on the site, is
-open**, for approved beta users only. **The site now has its Data and Insights
-pages**, signed in only: the Data page shows the methodology notes, sources and
-terms, what the words mean, and what has changed. No table of bills yet.
+open**, for approved beta users only. **The Data page now has the table of
+every bill**, signed in only: narrowed by session, type, outcome and title,
+each bill opening in a pop-up with where each fact came from, and the
+reference sections as tabs. No download yet.
 
 **Phase 2's build plan is agreed** (`docs/PHASE-2.md`, "The build plan"), in
 three strands, one after another, then the closing test.
@@ -17,7 +18,7 @@ three strands, one after another, then the closing test.
 | Strand | What it delivers | Where it is |
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
-| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1–3 **closed**; item 4, the table, **agreed, to build**, which reopens 2 and 3 |
+| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: item 1 **closed**; item 4, the table, **built and live**, its test written; items 2 and 3 **reopened** by it; item 5, the zip, next |
 | 3. The charts | the six thoughts on the Insights page | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
@@ -43,54 +44,54 @@ list are both empty.**
 - **10–15 September.** The database built, every session read in, reviewed,
   promoted and closed; Phase 1's scoping discussions settled.
 - **16 September.** The site live with accounts; Phase 1 closed; Phase 2 opened.
-- **16–17 September.** You reviewed the Phase 2 plan; the six thoughts mocked up
+- **16–17 September.** The Phase 2 plan reviewed; the six thoughts mocked up
   (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9).
-- **18 September, day.** Strand 1 built, item by item, and each item's test run.
-- **18 September, evening.** Strand 1 closed; the site given read access to
-  the copy and deployed; old site releases cleared, nineteen to three.
-- **18 September, late.** Strand 2, item 1 closed; the site became two pages;
-  items 2 and 3 agreed.
-- **18 September, night.** Items 2 and 3 built and live, with a 68-point
-  check; you read the pages and agreed six small choices.
+- **18 September.** Strand 1 built and closed; the site given read access to
+  the copy; strand 2's items 1 to 3 built, tested and closed; the table
+  agreed through a write-up and three mock-ups.
 
-**18 September, this session. Items 2 and 3 closed; the table agreed.**
+**19 September, this session. The table built and live.**
 
-- **Their closure tests were run** by a session that built none of it: every
-  mechanical item passes, and you signed off the links, dark, light, print,
-  and Back after signing out.
-- **Two gaps in the check were covered by hand**: the notes' order (by
-  number, M1 to M14) and each link sitting inside its own section.
-- **One line of the test was out of date**: the undo is now two steps, not
-  one. The site was right; the record says so.
-- **The table agreed, through a write-up and three mock-ups**: seven
-  columns, narrowed by session, type, outcome and title; a bill opens in a
-  pop-up with its stages and where each fact came from; the Data page in
-  tabs, with a fifth, "What each heading holds"; the date statement loses
-  "See what has changed."; the download will go at the top.
-- **Your standing position recorded**: the download is the complete route,
-  so nothing is built for readers without JavaScript.
+- **The table of every bill is on the Data page**, as agreed: 470 lines,
+  narrowed by session, type, outcome and title, the choices in the page's
+  address; a bill opens in a pop-up; six tabs, with "What each heading
+  holds" new.
+- **Tested before it went live**: the page check grew from 68 items to
+  114, comparing every line and every opened bill with the copy, and was
+  shown failing under two deliberate breaks. The undo was rehearsed.
+- **You checked it in the browser**: the table, the tabs, a bill opened,
+  dark and light, all as agreed.
+- **Your decision: the bar at the foot of every page stays in view.** It
+  had vanished below 470 bills. Built and live the same morning; you
+  confirmed it works.
+- **Its closure test written**, and items 2 and 3's amended where the tabs
+  change them, for another session to run.
 - No bill, date or figure changed.
 
 ## Now
 
 **Strand 2, the data on the site** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Build item 4, the table of every bill**, as agreed in
-   `docs/STRAND-2-THE-TABLE.md` (with "After the mock-up") and
-   `docs/wording/PUBLISHING.md`, parts 2 and 8; the mock-up is
-   https://claude.ai/artifact/TtKMN9rdGhtjxzXgbZP845. It reopens items 2 and
-   3: the tabs replace their folded sections, and the date statement
-   changes. Written before deploying: the check extended, the undo, the
-   rehearsal. Then item 4's closure test, and items 2 and 3's amended.
+1. **Close item 4, and items 2 and 3 again.** A session that built none of
+   it runs the three tests in `docs/CLOSURE-TESTS.md`: "The table of every
+   bill", and the "Amended 19 September" parts of the two before it. Part B
+   of item 4's is yours (below).
+2. **Then item 5, the zip**, starting with its wording for you in full: the
+   readme, the citation and the privacy line. Not before item 4 closes: the
+   download goes on the same page.
 
 ## Waiting for you
 
+- **Three answers on the table** (`docs/STRAND-2-ITEM-4-BUILD.md`): the
+  nine small choices made in building it; whether the house style holds on
+  it; and pages of 10, 100 or all, which I recommended against.
 - **Making the GitHub repository private**, which you expect to do. Nothing
   depends on it being public; the switch is yours, in GitHub's settings.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
   accounts hold real people from the first application. Adding an alert is a new
   outside service, so it is yours to decide.
-- **`site/.venv` on this Mac**, 22 MB, which nothing needs: delete it?
+- **`site/.venv` on this Mac**, 22 MB. Used today only to read the page's
+  templates before staging; nothing else needs it: delete it?
 - **A one-off check from 16 September listed as failed** on the server.
   Harmless.
 - **The machine's monthly cost is written down nowhere.** Its renewal date is in
@@ -133,45 +134,52 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-18, the session that ran items 2 and 3's tests
+## Sanity check, 2026-09-19, the session that built the table
 
-- **At the start**: clean and pushed; decisions contents and dictionary
-  regenerated identical; counts 470, 1291, 192, 14; checker and gaps list
-  empty; four databases, all sorted; the site 200; backup timer next 02:44
-  UTC. Both "Now" items traced to strand 2. Nothing found.
-- **At the close**: the same counts; checker and gaps list empty; four
-  databases; the copy's areas `from_working`, `live`, `previous`, `public`;
-  live release `2026-09-18T20-54-13Z`, site 200; backup timer active;
-  nothing left in the server's `/tmp`; dictionary and decisions contents
-  regenerated identical; clean and pushed. No data was written this session:
-  every database visit read only, bar the privacy check's invented person,
-  added and deleted.
+- **At the start**: clean and pushed; decisions contents regenerated
+  identical; the dictionary identical but for its date line; counts 470,
+  1291, 192, 14; checker and gaps list empty; 474 and 1295 staging lines, as
+  before; four databases, all sorted; the site 200; backup timer next 02:53
+  UTC. "Now" traced to strand 2, item 4. Nothing found.
+- **At the close**: the same counts, 470, 1291, 192, 14; checker and gaps
+  list empty; 474 and 1295 staging lines; four databases, no working copy
+  left in any; live release `2026-09-19T06-34-47Z`, site 200; backup timer
+  active; nothing in the server's `/tmp`; the dictionary identical but for
+  its date line; decisions contents regenerated identical; clean and
+  pushed. No data was written this session: every database visit read
+  only, bar the privacy check's invented person, added and deleted.
 
-## The table: working detail, 18 September
+## The table: working detail, 19 September
 
-- **The mock-up is made by a script in the session's scratchpad**, from one
-  pull of the copy as JSON (`live.*`, plus each heading's description from
-  the copy's own comments). The build does not reuse it: the site draws the
-  page from the copy on the machine. What it shows that the build must
-  match: the pop-up's sticky head (bill number, session, title), the tabs'
-  addresses, a link into a tab opening it, the phone width.
-- **Items 2 and 3's test, item A9, is out of date**: the release before the
-  live one is the same build. The deploy of item 4 clears `17-39-56Z`, and
-  the undo is one rollback again; amend A9 when the tests are amended.
-- **`check_data_pages.py`'s link check (items 61–68) is loose**: it asks
-  only that a section opens somewhere before the link. Tighten it when the
-  sections become tabs: each address inside its own tab.
+- **Everything is in `docs/STRAND-2-ITEM-4-BUILD.md`**: the nine small
+  choices, the test, the undo, and what happened, part by part.
+- **Live is `2026-09-19T06-34-47Z`** (the table and the footer that stays
+  in view). Kept: `20-54-13Z` (items 2 and 3), `06-16-43Z` (the table, the
+  footer at the end), `06-34-47Z`. One rollback removes the footer change,
+  two remove the table. The next deploy clears `20-54-13Z`, after which the
+  table cannot be rolled away, only redeployed from an older commit.
+- **`tools/check_data_pages.py` is 114 items.** `BREAK=1` must fail at
+  exactly 35 and 38; `BREAK=2` at exactly 86, 94, 105 to 108 and 113. Send
+  it with `PUBLISHING.md` in one tar, as before; `check_privacy.sh` and
+  `PRIVACY.md` can go in the same tar and run in the same connection.
+- **Counting variable in the check**: its loop over the bills once reused
+  `n`, the check counter, and the numbering jumped. Any new loop in it must
+  not use `n`.
+- **The firewall again**: a check started straight after a deploy was
+  refused. Wait a minute after a deploy, not half a minute.
+- **The page is 3.9 MB as the browser builds it**, 126 KB sent: every
+  bill's opened view is carried in the page until asked for. If a phone
+  finds it slow, draw only the opened bill that is asked for.
+- **`site/.venv`** was used to parse the templates before staging, with the
+  site's own Jinja; that is the only use it has had.
+- **The download's file order is not settled.** What each heading holds
+  uses the mock-up's (the four data files first); item 5 can take it or
+  set another.
 
 ## Items 2 and 3: working detail, 18 September
 
-- Everything is in `docs/STRAND-2-ITEMS-2-AND-3-BUILD.md`: the test, the
-  undo, the six choices, and what happened.
-- **The undo is two rollbacks now**: the releases kept are `17-39-56Z`
-  (before the build), `20-53-18Z` and `20-54-13Z` (both this build). The next
-  deploy clears the first.
-- `tools/check_data_pages.py` runs on the server as `legsite` in the live
-  release's environment; send it with `PUBLISHING.md` in one tar over one
-  connection, as the build document shows.
+- Everything is in `docs/STRAND-2-ITEMS-2-AND-3-BUILD.md`; the check now
+  runs as `tools/check_data_pages.py` with item 4's (above).
 
 ## The site reads the copy: working detail, 18 September
 
