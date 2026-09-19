@@ -88,11 +88,14 @@ ACCOUNTS_DB = 'accounts'
 ACCOUNTS_ORDER = ['person', 'sign_in_code', 'signed_in_device']
 
 PUBLISHED_DB = 'published'
+NUMBER_WORDS = {12: 'twelve', 13: 'thirteen', 14: 'fourteen', 15: 'fifteen',
+                16: 'sixteen', 17: 'seventeen', 18: 'eighteen'}
 PUBLISHED_SCHEMA = 'live'
 # The order of the files in tools/published_copy.sql's mapping.
 PUBLISHED_ORDER = ['bills', 'stages', 'days_between_stages', 'sessions',
                    'methodology_notes', 'sources', 'what_the_words_mean',
-                   'what_changed', 'workings', 'about']
+                   'what_changed', 'workings', 'about', 'cited_pages', 'terms',
+                   'outcomes_by_session_and_type']
 
 
 def render_table(out, name, t):
@@ -233,7 +236,7 @@ def render(tables, notes, accounts, published):
         '',
         f'A separate database, `{PUBLISHED_DB}`, holding the copy of the data a '
         'reader sees, taken from the working database at one moment by '
-        '`tools/published_copy.sql`. Its twelve files are in the area '
+        f'`tools/published_copy.sql`. Its {NUMBER_WORDS.get(len(published), len(published))} files are in the area '
         f'`{PUBLISHED_SCHEMA}`. Words stand in the cells where the working '
         'database holds codes; `what_the_words_mean` says what each word means.',
         '',

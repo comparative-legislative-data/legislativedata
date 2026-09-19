@@ -105,14 +105,16 @@ none of it happened.
 
 1. **Refuse to start** unless the error checker and the gaps list are empty.
    Both are read through the connector.
-2. **Build.** In `published`, make a `copy_build` area and write the twelve files
+2. **Build.** In `published`, make a `copy_build` area and write the thirteen files
    into it, reading through the connector from the clean sheet, the session
    dates, the notes, the provenance lines and the lists of allowed values. Words
    in the cells, not codes. Yes or No where a heading asks a yes-or-no question.
    Dates as year-month-day. An empty cell stays empty. **A worked-out file**
-   (today only `days_between_stages`) is not read from the working data: its
-   working, a text in `workings/`, is run on the copy's own `bills` and
-   `stages`, and the text is kept in the copy's `workings` file. So the script
+   (`days_between_stages`, and from 19 September the outcomes chart's
+   `outcomes_by_session_and_type`) is not read from the working data: its
+   working, a text in `workings/`, is run on the copy's own files, and the
+   text is kept in the copy's `workings` file. A chart's figures are left out
+   of the zip, which says so (`docs/STRAND-3-THOUGHT-2-FIGURES-BUILD.md`). So the script
    is run from the folder holding `tools/` and `workings/`. Settled
    18 September; `docs/STRAND-1-DAYS-BETWEEN-STAGES.md`. **The `terms`
    file** is read from the working database's record of each source's terms,

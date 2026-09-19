@@ -1,6 +1,6 @@
 -- published_copy.sql
 --
--- Takes the published copy: builds the twelve files inside the published
+-- Takes the published copy: builds the thirteen files inside the published
 -- workbook, reading the working data through the connector that can only read,
 -- checks every cell of them against the working data, compares them with the
 -- live copy to list what changed, and sets them aside as the area `next`,
@@ -24,7 +24,11 @@
 -- `next`.
 -- For the rehearsal, -v fault=on alters one bill's outcome after the build,
 -- -v fault_days=on one gap's days, -v fault_terms=on one credit line, and
--- -v fault_cover=on takes the Supreme Court out of its terms' covers; the
+-- -v fault_cover=on takes the Supreme Court out of its terms' covers. In the
+-- outcomes chart's figures, -v fault_move=on moves one bill to another
+-- outcome, -v fault_count=on makes one count one too many, -v fault_twice=on
+-- lists one bill twice, -v fault_share=on alters one share, and
+-- -v fault_drop=on removes one line. Each time the
 -- check must then fail on that cell and name it. -v plant_changes=on
 -- (save=false only) alters the live copy before the comparison: one cell
 -- changed, one line removed and one added, which what_changed and about must
@@ -42,8 +46,10 @@
 -- by running its working, a text in workings/, on the copy's own files under
 -- their published headings. The text is kept in the copy's `workings` file,
 -- so the working a reader sees is the one that ran. Settled 2026-09-18: every
--- published figure is worked out from the published data. Today there is one,
--- the days between stages; docs/STRAND-1-DAYS-BETWEEN-STAGES.md.
+-- published figure is worked out from the published data. Today there are
+-- two: the days between stages, docs/STRAND-1-DAYS-BETWEEN-STAGES.md; and the
+-- figures behind the outcomes chart, docs/STRAND-3-THOUGHT-2.md, which the
+-- zip leaves out, since the CSV beneath the chart carries them.
 --
 -- THE BUILD writes each file with its own query. THE CHECK does not repeat the
 -- build: it takes every cell of the copy, turns it back into what the working
@@ -149,7 +155,8 @@ INSERT INTO files (file, pos, description) VALUES
   ('workings', 9, 'The working that produced each worked-out file, in full, as it ran when this copy was taken.'),
   ('terms', 10, 'The terms each source''s data is published under, and how to credit it. A value whose source is listed under covers is under that line''s terms; everything else is our own work.'),
   ('cited_pages', 11, 'One line per web page the sources cite, with the copy we keep of it and whether its address still worked when this copy was taken.'),
-  ('about', 12, 'The day this copy was taken, and how many lines each file has.');
+  ('about', 12, 'The day this copy was taken, and how many lines each file has.'),
+  ('outcomes_by_session_and_type', 13, 'Worked out from bills: the figures behind the outcomes chart on the Insights page, one line for each choice of outcomes and of the Forth Crossing Bill, each session and all sessions, each type of bill and each outcome. The working is in workings.');
 
 CREATE TEMP TABLE mapping (
     file text NOT NULL REFERENCES files,
@@ -343,7 +350,7 @@ INSERT INTO mapping (file, pos, heading, feeds, check_key, list, description) VA
   ('what_changed', 4, 'stage', '{}'::text[], NULL, NULL,
    'For a cell in stages, which stage.'),
   ('what_changed', 5, 'which_line', '{}'::text[], NULL, NULL,
-   'For a line that bill_number and stage do not pin down, what it is about: the session''s number, the note''s code, the heading and word, whose terms, the working''s file, a gap between two stages, or the file and heading a source line is about. Empty where bill_number and stage say it.'),
+   'For a line that bill_number and stage do not pin down, what it is about: the session''s number, the note''s code, the heading and word, whose terms, the working''s file, a gap between two stages, the file and heading a source line is about, or the choices, session, type and outcome a chart''s figure is for. Empty where bill_number and stage say it.'),
   ('what_changed', 6, 'heading', '{}'::text[], NULL, NULL,
    'The heading the cell is under. (line removed) where the whole line has gone.'),
   ('what_changed', 7, 'old_value', '{}'::text[], NULL, NULL,
@@ -387,7 +394,27 @@ INSERT INTO mapping (file, pos, heading, feeds, check_key, list, description) VA
   ('about', 3, 'rows', '{}'::text[], NULL, NULL,
    'How many lines it has.'),
   ('about', 4, 'rows_added_since_last_copy', '{}'::text[], NULL, NULL,
-   'How many lines were added since the copy before. Empty for the first copy.');
+   'How many lines were added since the copy before. Empty for the first copy.'),
+  ('outcomes_by_session_and_type', 1, 'outcomes_shown', '{}'::text[], NULL, NULL,
+   'Full breakdown, every outcome a bill has; or Passed or not, where Not passed is every ending other than Passed and In progress.'),
+  ('outcomes_by_session_and_type', 2, 'forth_crossing_bill', '{}'::text[], NULL, NULL,
+   'Counted as a government bill, types taken from bill_type_grouped; or Shown as a Hybrid Bill, types taken from bill_type. See methodology note M4.'),
+  ('outcomes_by_session_and_type', 3, 'session', '{bill.session_number}'::text[], NULL, NULL,
+   'The session the bills were introduced in, or All sessions.'),
+  ('outcomes_by_session_and_type', 4, 'bill_type', '{bill.bill_type,ref_bill_type.analysis_group}'::text[], NULL, 'ref_bill_type',
+   'The type of bill, as bill_type_grouped or bill_type name it.'),
+  ('outcomes_by_session_and_type', 5, 'outcome', '{bill.outcome}'::text[], NULL, NULL,
+   'How the bills'' passage ended, as outcome names it, or Not passed.'),
+  ('outcomes_by_session_and_type', 6, 'bills_of_this_type', '{}'::text[], NULL, NULL,
+   'Worked out: the bills of this type introduced in this session.'),
+  ('outcomes_by_session_and_type', 7, 'bills', '{}'::text[], NULL, NULL,
+   'Worked out: how many of them ended this way.'),
+  ('outcomes_by_session_and_type', 8, 'percent_of_bills_of_this_type', '{}'::text[], NULL, NULL,
+   'Worked out: bills as a percentage of bills_of_this_type, rounded to a whole number, halves up. Empty where no bill of this type was introduced.'),
+  ('outcomes_by_session_and_type', 9, 'of_which_became_acts', '{bill.enactment_status}'::text[], NULL, NULL,
+   'Worked out, on the Passed line only: how many of the bills that passed have enactment_status Enacted. Empty on every other line. See methodology note M5.'),
+  ('outcomes_by_session_and_type', 10, 'bill_numbers', '{bill.bill_id}'::text[], NULL, NULL,
+   'The bills counted, by bill_number, separated by semicolons. Empty where there are none.');
 
 -- The words: every published list, code to word, with its definition.
 CREATE TEMP TABLE words ON COMMIT DROP AS
@@ -492,9 +519,12 @@ SELECT e.bill_id                              AS bill_number,
   \set workings workings
 \endif
 \set days_working `cat :workings/days_between_stages.sql`
+\set outcomes_working `cat :workings/outcomes_by_session_and_type.sql`
 
 CREATE TABLE copy_build.workings (file text, working text);
-INSERT INTO copy_build.workings (file, working) VALUES ('days_between_stages', :'days_working');
+INSERT INTO copy_build.workings (file, working) VALUES
+  ('days_between_stages', :'days_working'),
+  ('outcomes_by_session_and_type', :'outcomes_working');
 
 CREATE FUNCTION pg_temp.run_working(p_file text, p_into text) RETURNS void
 LANGUAGE plpgsql AS $$
@@ -584,6 +614,56 @@ SELECT lh.heading,
          ELSE true END
  ORDER BY lh.heading, wd.sort_order;
 
+-- The outcomes chart's figures, from bills, sessions and what_the_words_mean,
+-- so run once those are built.
+SELECT pg_temp.run_working('outcomes_by_session_and_type', 'copy_build.outcomes_by_session_and_type');
+
+-- For the rehearsal: the outcomes chart's figures spoiled after the build,
+-- one way at a time. The line spoiled is always the same one: Full
+-- breakdown, the Forth Crossing Bill counted as a government bill, Session 5,
+-- Government Bill, Passed.
+CREATE TEMP VIEW spoiled AS
+SELECT * FROM copy_build.outcomes_by_session_and_type
+ WHERE outcomes_shown = 'Full breakdown' AND forth_crossing_bill = 'Counted as a government bill'
+   AND session = '5' AND bill_type = 'Government Bill' AND outcome = 'Passed';
+\if :{?fault_move}
+UPDATE copy_build.outcomes_by_session_and_type o
+   SET bill_numbers = CASE WHEN o.outcome = 'Passed'
+                           THEN nullif(regexp_replace(o.bill_numbers, '^[0-9]+(; )?', ''), '')
+                           ELSE concat_ws('; ', o.bill_numbers, split_part((SELECT bill_numbers FROM spoiled), '; ', 1)) END,
+       bills = o.bills + CASE WHEN o.outcome = 'Passed' THEN -1 ELSE 1 END
+ WHERE o.outcomes_shown = 'Full breakdown' AND o.forth_crossing_bill = 'Counted as a government bill'
+   AND o.session = '5' AND o.bill_type = 'Government Bill' AND o.outcome IN ('Passed', 'Withdrawn');
+\echo 'FAULT PLANTED: one passed Session 5 government bill moved to Withdrawn, both counts adjusted.'
+\endif
+\if :{?fault_count}
+UPDATE copy_build.outcomes_by_session_and_type SET bills = bills + 1
+ WHERE (outcomes_shown, forth_crossing_bill, session, bill_type, outcome)
+     = ('Full breakdown', 'Counted as a government bill', '5', 'Government Bill', 'Passed');
+\echo 'FAULT PLANTED: one count one too many.'
+\endif
+\if :{?fault_twice}
+UPDATE copy_build.outcomes_by_session_and_type o
+   SET bill_numbers = concat_ws('; ', o.bill_numbers, split_part((SELECT bill_numbers FROM spoiled), '; ', 1)),
+       bills = o.bills + 1
+ WHERE (o.outcomes_shown, o.forth_crossing_bill, o.session, o.bill_type, o.outcome)
+     = ('Full breakdown', 'Counted as a government bill', '5', 'Government Bill', 'Withdrawn');
+\echo 'FAULT PLANTED: one passed Session 5 government bill also listed as Withdrawn.'
+\endif
+\if :{?fault_share}
+UPDATE copy_build.outcomes_by_session_and_type SET percent_of_bills_of_this_type = percent_of_bills_of_this_type - 1
+ WHERE (outcomes_shown, forth_crossing_bill, session, bill_type, outcome)
+     = ('Full breakdown', 'Counted as a government bill', '5', 'Government Bill', 'Passed');
+\echo 'FAULT PLANTED: one share altered.'
+\endif
+\if :{?fault_drop}
+DELETE FROM copy_build.outcomes_by_session_and_type
+ WHERE (outcomes_shown, forth_crossing_bill, session, bill_type, outcome)
+     = ('Full breakdown', 'Counted as a government bill', '5', 'Government Bill', 'Passed');
+\echo 'FAULT PLANTED: one line removed.'
+\endif
+DROP VIEW spoiled;
+
 -- For the rehearsal: one gap's days altered after the build.
 \if :{?fault_days}
 UPDATE copy_build.days_between_stages SET days = days + 1
@@ -659,7 +739,9 @@ INSERT INTO compared VALUES
   ('sources',             'bill_number', 'stage', 'applies_to_file || ''.'' || applies_to_heading || CASE WHEN bill_number IS NULL THEN '', session '' || session ELSE '''' END'),
   ('what_the_words_mean', 'NULL', 'NULL', 'heading || '': '' || value'),
   ('workings',            'NULL', 'NULL', 'file'),
-  ('terms',               'NULL', 'NULL', 'terms_for');
+  ('terms',               'NULL', 'NULL', 'terms_for'),
+  ('outcomes_by_session_and_type', 'NULL', 'NULL',
+   'concat_ws('', '', outcomes_shown, forth_crossing_bill, CASE session WHEN ''All sessions'' THEN session ELSE ''Session '' || session END, bill_type, outcome)');
 
 -- The key a line is matched by. For a gap, the point it ends at, since each
 -- dated point ends exactly one gap and the point it starts at can move.
@@ -810,6 +892,12 @@ SELECT 'stages', p.bill_number || ' ' || p.stage, to_jsonb(p),
 INSERT INTO pairs
 SELECT 'days_between_stages', p.bill_number || ' ' || p.measured_from || ' to ' || p.measured_to, to_jsonb(p), '{}'::jsonb
   FROM copy_build.days_between_stages p;
+
+-- Likewise the outcomes chart's figures, checked in check 10.
+INSERT INTO pairs
+SELECT 'outcomes_by_session_and_type',
+       concat_ws(', ', p.outcomes_shown, p.forth_crossing_bill, p.session, p.bill_type, p.outcome), to_jsonb(p), '{}'::jsonb
+  FROM copy_build.outcomes_by_session_and_type p;
 
 INSERT INTO pairs
 SELECT 'sessions', p.session::text, to_jsonb(p), pg_temp.pre('session.', to_jsonb(s))
@@ -1043,9 +1131,116 @@ SELECT 10, 'days_between_stages ' || x.bill_number || ' ' || x.measured_from || 
   FROM (SELECT 'not given by' AS side, * FROM (SELECT * FROM copy_build.days_between_stages EXCEPT ALL SELECT * FROM pg_temp.days_rerun) a
         UNION ALL
         SELECT 'only given by', * FROM (SELECT * FROM pg_temp.days_rerun EXCEPT ALL SELECT * FROM copy_build.days_between_stages) b) x;
+
+-- e. The outcomes chart's figures, against bills as published
+--    (docs/STRAND-3-THOUGHT-2.md). Where each bill should be counted: for each
+--    choice of outcomes and of the Forth Crossing Bill, once in its session and
+--    once in All sessions, under its type and its outcome as those choices
+--    give them.
+CREATE TEMP TABLE outcome_should ON COMMIT DROP AS
+SELECT v.outcomes_shown, t.forth_crossing_bill, s.session,
+       CASE t.forth_crossing_bill WHEN 'Counted as a government bill' THEN b.bill_type_grouped ELSE b.bill_type END AS bill_type,
+       CASE WHEN v.outcomes_shown = 'Full breakdown' OR b.outcome IN ('Passed', 'In progress') THEN b.outcome
+            ELSE 'Not passed' END AS outcome,
+       b.bill_number, b.enactment_status
+  FROM copy_build.bills b
+ CROSS JOIN (VALUES ('Full breakdown'), ('Passed or not')) v(outcomes_shown)
+ CROSS JOIN (VALUES ('Counted as a government bill'), ('Shown as a Hybrid Bill')) t(forth_crossing_bill)
+ CROSS JOIN LATERAL (VALUES (b.session::text), ('All sessions')) s(session);
+
+CREATE TEMP TABLE outcome_listed ON COMMIT DROP AS
+SELECT o.outcomes_shown, o.forth_crossing_bill, o.session, o.bill_type, o.outcome, n::integer AS bill_number
+  FROM copy_build.outcomes_by_session_and_type o
+ CROSS JOIN LATERAL unnest(string_to_array(o.bill_numbers, '; ')) AS n;
+
+--    Every bill where it should be, exactly once, and nowhere else: none
+--    missing, none twice, none under the wrong session, type or outcome.
 INSERT INTO problems
-SELECT 10, 'workings has ' || count(*) || ' lines, or not the one expected'
-  FROM copy_build.workings HAVING count(*) <> 1 OR bool_or(file <> 'days_between_stages');
+SELECT 10, 'outcomes_by_session_and_type ' || x.outcomes_shown || ', ' || x.forth_crossing_bill || ', ' || x.session
+          || ', ' || x.bill_type || ', ' || x.outcome || ': bill ' || x.bill_number || ' ' || x.side
+  FROM (SELECT 'is missing', * FROM (SELECT outcomes_shown, forth_crossing_bill, session, bill_type, outcome, bill_number FROM outcome_should
+                                     EXCEPT ALL SELECT * FROM outcome_listed) a
+        UNION ALL
+        SELECT 'should not be listed here, or is listed twice', * FROM (SELECT * FROM outcome_listed
+                                     EXCEPT ALL SELECT outcomes_shown, forth_crossing_bill, session, bill_type, outcome, bill_number FROM outcome_should) b)
+       x(side, outcomes_shown, forth_crossing_bill, session, bill_type, outcome, bill_number);
+
+--    Every arrangement adds to every bill in the copy: the sessions together,
+--    and All sessions.
+INSERT INTO problems
+SELECT 10, 'outcomes_by_session_and_type ' || outcomes_shown || ', ' || forth_crossing_bill || ', '
+          || CASE WHEN session = 'All sessions' THEN 'All sessions' ELSE 'the sessions' END
+          || ': adds to ' || sum(bills) || ', bills has ' || (SELECT count(*) FROM copy_build.bills)
+  FROM copy_build.outcomes_by_session_and_type
+ GROUP BY outcomes_shown, forth_crossing_bill, session = 'All sessions'
+HAVING sum(bills) <> (SELECT count(*) FROM copy_build.bills);
+
+--    Each line's figures are what its bills give: the count its list, the
+--    bills of its type, its share, and the Acts among those passed.
+INSERT INTO problems
+SELECT 10, 'outcomes_by_session_and_type ' || o.outcomes_shown || ', ' || o.forth_crossing_bill || ', ' || o.session
+          || ', ' || o.bill_type || ', ' || o.outcome || ': bills ' || coalesce(o.bills::text, '(empty)')
+          || ' of ' || coalesce(o.bills_of_this_type::text, '(empty)') || ', '
+          || coalesce(o.percent_of_bills_of_this_type::text, '(empty)') || '%, Acts ' || coalesce(o.of_which_became_acts::text, '(empty)')
+          || '; its bills give ' || x.listed || ' of ' || x.of_type || ', ' || coalesce(x.share::text, '(empty)') || '%, Acts '
+          || coalesce(x.acts::text, '(empty)')
+  FROM copy_build.outcomes_by_session_and_type o
+ CROSS JOIN LATERAL (
+   SELECT (SELECT count(*) FROM outcome_listed l
+            WHERE (l.outcomes_shown, l.forth_crossing_bill, l.session, l.bill_type, l.outcome)
+                = (o.outcomes_shown, o.forth_crossing_bill, o.session, o.bill_type, o.outcome)) AS listed,
+          (SELECT count(*) FROM outcome_should w
+            WHERE (w.outcomes_shown, w.forth_crossing_bill, w.session, w.bill_type)
+                = (o.outcomes_shown, o.forth_crossing_bill, o.session, o.bill_type)) AS of_type,
+          CASE WHEN o.outcome = 'Passed' THEN
+            (SELECT count(*) FROM outcome_listed l JOIN copy_build.bills b ON b.bill_number = l.bill_number
+              WHERE (l.outcomes_shown, l.forth_crossing_bill, l.session, l.bill_type, l.outcome)
+                  = (o.outcomes_shown, o.forth_crossing_bill, o.session, o.bill_type, o.outcome)
+                AND b.enactment_status = 'Enacted') END AS acts) y
+ CROSS JOIN LATERAL (SELECT y.listed, y.of_type, y.acts,
+                            round(100.0 * y.listed / nullif(y.of_type, 0)) AS share) x
+ WHERE o.bills IS DISTINCT FROM x.listed
+    OR o.bills_of_this_type IS DISTINCT FROM x.of_type
+    OR o.percent_of_bills_of_this_type IS DISTINCT FROM x.share
+    OR o.of_which_became_acts IS DISTINCT FROM x.acts;
+
+--    A line for every session (and All sessions), every type and every
+--    outcome some bill has under those choices, each exactly once, so a
+--    nought is a nought and not a gap.
+INSERT INTO problems
+SELECT 10, 'outcomes_by_session_and_type ' || x.outcomes_shown || ', ' || x.forth_crossing_bill || ', ' || x.session
+          || ', ' || x.bill_type || ', ' || x.outcome || ': ' || x.side
+  FROM (SELECT 'has no line', * FROM (
+          SELECT v.outcomes_shown, t.forth_crossing_bill, s.session, t.bill_type, v.outcome
+            FROM (SELECT DISTINCT outcomes_shown, outcome FROM outcome_should) v
+            JOIN (SELECT DISTINCT outcomes_shown, forth_crossing_bill, bill_type FROM outcome_should) t USING (outcomes_shown)
+           CROSS JOIN (SELECT session::text AS session FROM copy_build.sessions UNION ALL SELECT 'All sessions') s
+          EXCEPT ALL
+          SELECT outcomes_shown, forth_crossing_bill, session, bill_type, outcome FROM copy_build.outcomes_by_session_and_type) a
+        UNION ALL
+        SELECT 'has a line it should not, or two', * FROM (
+          SELECT outcomes_shown, forth_crossing_bill, session, bill_type, outcome FROM copy_build.outcomes_by_session_and_type
+          EXCEPT ALL
+          SELECT v.outcomes_shown, t.forth_crossing_bill, s.session, t.bill_type, v.outcome
+            FROM (SELECT DISTINCT outcomes_shown, outcome FROM outcome_should) v
+            JOIN (SELECT DISTINCT outcomes_shown, forth_crossing_bill, bill_type FROM outcome_should) t USING (outcomes_shown)
+           CROSS JOIN (SELECT session::text AS session FROM copy_build.sessions UNION ALL SELECT 'All sessions') s) b)
+       x(side, outcomes_shown, forth_crossing_bill, session, bill_type, outcome);
+
+--    The text kept in workings, run again, gives exactly the file.
+SELECT pg_temp.run_working('outcomes_by_session_and_type', 'pg_temp.outcomes_rerun');
+INSERT INTO problems
+SELECT 10, 'outcomes_by_session_and_type ' || x.outcomes_shown || ', ' || x.forth_crossing_bill || ', ' || x.session
+          || ', ' || x.bill_type || ', ' || x.outcome || ': ' || x.side || ' running the kept working again'
+  FROM (SELECT 'not given by' AS side, * FROM (SELECT * FROM copy_build.outcomes_by_session_and_type EXCEPT ALL SELECT * FROM pg_temp.outcomes_rerun) a
+        UNION ALL
+        SELECT 'only given by', * FROM (SELECT * FROM pg_temp.outcomes_rerun EXCEPT ALL SELECT * FROM copy_build.outcomes_by_session_and_type) b) x;
+
+INSERT INTO problems
+SELECT 10, 'workings has ' || count(*) || ' lines, or not the two expected'
+  FROM copy_build.workings
+HAVING count(*) <> 2
+    OR array_agg(file ORDER BY file) <> ARRAY['days_between_stages', 'outcomes_by_session_and_type'];
 
 -- 11. No source's data is published without its terms (DECISIONS.md,
 --     2026-09-17). Every source name in bills, stages and sources, and every

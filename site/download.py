@@ -31,7 +31,9 @@ import psycopg
 DOWNLOAD_DIR = os.environ.get("DOWNLOAD_DIR", "/srv/downloads")
 
 # The files, in the order the readme and the codebook give them: the four data
-# files first, as What each heading holds does.
+# files first, as What each heading holds does. The charts' figures are in the
+# copy but not here: the CSV beneath each chart carries them, and the readme
+# says so (docs/STRAND-3-THOUGHT-2-FIGURES-BUILD.md, C).
 FILES = ("bills", "stages", "days_between_stages", "sessions", "methodology_notes",
          "sources", "what_the_words_mean", "what_changed", "workings", "about",
          "cited_pages", "terms")
@@ -203,6 +205,13 @@ def readme(copy, date, credits):
         out += ["", name]
         out += wrapped("The working in workings.csv, as plain text, the same text the site "
                        "shows.", "  ")
+    # Said only of a copy that has a chart's figures, so that the zip of a copy
+    # from before them, made again after an undo, is still the zip it was.
+    if any(w["file"] not in FILES for w in rows_of(copy, "workings")):
+        out += [""] + paragraphs("The figures behind each chart on the Insights page are not in "
+                                 "this download. Each is worked out from the files here by its "
+                                 "working, and can be downloaded beneath its chart; about.csv "
+                                 "counts their lines.")
     out += ["", ""]
 
     section("DATES, AND OPENING THE FILES IN A SPREADSHEET",
@@ -299,7 +308,8 @@ def entry(folder, name, date):
 
 
 def contents(copy, date, credits):
-    """The fifteen files, in the order the zip holds them."""
+    """The files, in the order the zip holds them: the readme, the codebook,
+    the twelve CSV files, and a text of each working."""
     out = [("README.txt", text_file(readme(copy, date, credits))),
            ("codebook.txt", text_file(codebook(copy, date)))]
     out += [(f"{f}.csv", as_csv(*copy["files"][f])) for f in FILES]
@@ -381,7 +391,7 @@ def main(outdir, copy_name="live"):
 
 def check(path, copy_name="live"):
     """The refresh's check of a zip before its copy goes live: it opens, it is
-    named for the copy's date, it holds one folder of the fifteen files, the
+    named for the copy's date, it holds one folder of its files, the
     readme has its two blanks, every data file has a line for each of the
     copy's, and it is the zip this copy makes, byte for byte. Stops at the
     first thing wrong."""
@@ -396,8 +406,9 @@ def check(path, copy_name="live"):
         folders = {e.split("/", 1)[0] for e in entries}
         if folders != {name[:-4]}:
             problems.append(f"folders {sorted(folders)}, not one called {name[:-4]}")
-        if len(entries) != 15:
-            problems.append(f"{len(entries)} files, not fifteen")
+        want = 2 + len(FILES) + len(working_files(copy))
+        if len(entries) != want:
+            problems.append(f"{len(entries)} files, not {want}")
         inside = {e.split("/", 1)[1]: e for e in entries}
         readme = z.read(inside["README.txt"]) if "README.txt" in inside else b""
         if readme.count(NOT_YET.encode()) != 2:
@@ -413,7 +424,8 @@ def check(path, copy_name="live"):
     for p in problems:
         print(f"ZIP WRONG: {p}")
     if not problems:
-        print(f"Zip checked: {name}, fifteen files, {len(copy['files']['bills'][1])} bills, "
+        print(f"Zip checked: {name}, {2 + len(FILES) + len(working_files(copy))} files, "
+              f"{len(copy['files']['bills'][1])} bills, "
               f"two blanks, the same as the copy makes.")
     return not problems
 

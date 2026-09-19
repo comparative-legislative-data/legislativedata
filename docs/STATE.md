@@ -12,8 +12,8 @@ signed in, a researcher can go through the table of every bill, open each
 bill with where each fact came from, read the reference sections, and
 download the whole dataset as one zip; the refresh makes the zip, so a new
 copy never goes live without it. **Strand 3, the charts, is open**: its
-plan agreed, the Insights page's shape settled on a mock-up, and thought 2's
-write-up agreed.
+plan agreed, the Insights page's shape settled on a mock-up, thought 2's
+write-up agreed, and its figures built and rehearsed, not yet live.
 
 **Phase 2's build plan is agreed** (`docs/PHASE-2.md`, "The build plan"), in
 three strands, one after another, then the closing test.
@@ -22,7 +22,7 @@ three strands, one after another, then the closing test.
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
 | 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **closed** 19 September |
-| 3. The charts | the six thoughts on the Insights page | **open**; plan, page shape and thought 2's write-up agreed; nothing built |
+| 3. The charts | the six thoughts on the Insights page | **open**; thought 2's figures built and rehearsed, go live with its page |
 | Closing test | run by a session that built none of it | not open |
 
 The dataset. No bill, date or figure has changed since 18 September's wording
@@ -51,20 +51,20 @@ list are both empty.**
 - **18 September.** Strand 1 built and closed; strand 2's items 1 to 3.
 - **19 September, to late afternoon.** The rest of strand 2 built, tested
   and closed.
+- **19 September, early evening.** Strand 3 planned; the Insights page's
+  shape settled on a mock-up; thought 2 written up.
 
-**19 September, this session. Strand 3 planned, and thought 2 written up.**
+**19 September, this session. Thought 2's figures built and rehearsed.**
 
-- **The plan for the whole strand**, `docs/STRAND-3-PLAN.md`, which you
-  approved, with your rule: nothing a mock-up can do is lost in the build
-  without your OK. It lists what every mock-up does, as the checklist.
-- **The whole Insights page as one mock-up**, in the site's own look
-  (https://claude.ai/artifact/XMz3FuH4zQnmNSwfM9WQVq). From it you settled:
-  the headline figures, then three tabs, made much clearer (the Data page's
-  left as they are); one frame for every chart, the description shown; and
-  every figure opening to its bills.
-- **Thought 2's write-up**, `docs/STRAND-3-THOUGHT-2.md`, agreed in full.
-  Its working, in the published files' own names, was run on the copy
-  without changing it and matched the mock-up in all 720 lines.
+- **The refresh now works out the outcomes chart's 720 figures** into the
+  copy, and the copy's check refuses figures that do not add up to the
+  bills. You agreed the five points first (A to E), in
+  `docs/STRAND-3-THOUGHT-2-FIGURES-BUILD.md`.
+- **Rehearsed on a scratch copy**: five planted faults all refused; every
+  figure matches the mock-up, cell by cell; strand 2's checker passes; the
+  undo works. The undo found one real problem, now fixed: the readme's new
+  sentence stopped an older copy's zip being remade exactly.
+- **Nothing is live yet**, as agreed (A): it goes live with the page.
 - No bill, date or figure changed.
 
 ## Now
@@ -72,17 +72,28 @@ list are both empty.**
 **Strand 3, the charts** (`docs/PHASE-2.md`, "Strand 3"; its plan,
 `docs/STRAND-3-PLAN.md`).
 
-1. **Thought 2 built, with everything the six share** (plan, step 3), to
-   its agreed write-up, `docs/STRAND-3-THOUGHT-2.md`. Probably two
-   sessions: first the figures (the working, the new file in the copy, the
-   copy's check, the refresh, the zip), rehearsed with an undo; then the
-   page (ECharts on the machine, the palette check, the Insights page with
-   its tabs and frame, the route to the bills, the CSV), deployed with an
-   undo. Nothing the mock-ups do is lost without your OK.
-2. **Its closure test written**, for another session to run.
+1. **Thought 2's page, with everything the six share** (plan, step 3,
+   second half), to its agreed write-up, `docs/STRAND-3-THOUGHT-2.md`:
+   ECharts on the machine, the palette check, the Insights page with its
+   tabs and frame, the route to the bills, the CSV. Deployed with an undo,
+   and in the same session the refresh taken, so the figures go live with
+   the chart (`docs/STRAND-3-THOUGHT-2-FIGURES-BUILD.md`, "For the session
+   that takes it live"). Nothing the mock-ups do is lost without your OK.
+2. **Its closure test written**, covering the figures and the page, for
+   another session to run.
 
 ## Waiting for you
 
+- **One description I changed without showing you**, which readers see
+  under What each heading holds. `what_changed.which_line` now ends: "…, a
+  gap between two stages, the file and heading a source line is about, or
+  the choices, session, type and outcome a chart's figure is for. Empty
+  where bill_number and stage say it." Agree, or reword. It must be settled
+  before the figures go live.
+- **The refresh can leave its bundle in the server's `/tmp`** when the
+  firewall refuses its second connection. Six were left and removed today;
+  nothing in them unlocks anything. A small fix to `tools/refresh_copy.sh`:
+  shall I make it?
 - **Making the GitHub repository private**, which you expect to do. Nothing
   depends on it being public; the switch is yours, in GitHub's settings.
 - **Nothing tells anyone if the nightly backup fails.** It matters more now: the
@@ -132,23 +143,50 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-19, the session that planned strand 3
+## Sanity check, 2026-09-19, the session that built thought 2's figures
 
 - **At the start**: clean and pushed; decisions contents regenerated
   identical; the dictionary identical but for its date line; counts 470,
   1291, 192, 14; 474 and 1295 staging lines; checker and gaps list empty;
   four databases, all sorted; last night's backup succeeded; site and web
-  server running. "Now" traced to strand 3 in `PHASE-2.md`. The one failed
-  unit is the known 16 September one-off. Nothing found.
-- **During**: read-only queries on the published copy, one of them the
-  draft working for thought 2, sent to the server's `/tmp` and removed. The
-  server refused connections for a few minutes after many in quick
-  succession, then let them in again.
-- **At the close**: counts 470, 1291, 192, 14; checker and gaps list empty;
-  four databases; `published` holding `live` and `previous`, no `next`;
-  nothing of the session's in the server's `/tmp`; site and web server
-  running; the dictionary identical but for its date line. No data
-  written to any database.
+  server running; `published` holding `live` and `previous`. "Now" traced
+  to step 3 of `STRAND-3-PLAN.md`. The one failed unit is the known
+  16 September one-off. Nothing found.
+- **During**: a scratch copy of `published`, `published_rehearsal`, made
+  and dropped inside the session, never across a nightly backup; three site
+  releases staged, never switched to, and removed. Six refresh bundles and
+  a `Caddyfile` were found left in the server's `/tmp` and removed (see
+  the working detail).
+- **At the close**: counts 470, 1291, 192, 14; checker and gaps list
+  empty; four databases, `published_rehearsal` gone; `published` holding
+  `live` (18 September, twelve files) and `previous`, no `next`; its zip
+  `42a2716c…` as before; the live release unchanged; nothing in the
+  server's `/tmp`; site and web server running; decisions contents and the
+  dictionary regenerate identical, the dictionary but for its date line.
+  No data written to the working or published databases.
+
+## Thought 2's figures: working detail, 19 September
+
+- **The rehearsal is recorded in full** in
+  `docs/STRAND-3-THOUGHT-2-FIGURES-BUILD.md`, "How the rehearsal went".
+- **The firewall's limit, again.** A refresh is two connections (the
+  upload, then the run); a probe beforehand makes three, which trips it. A
+  helper that retries the whole refresh only when the first lines say
+  "Connection refused" worked. But when the upload got through and the
+  run's connection was refused, the bundle stayed in `/tmp`: its clean-up
+  is inside the run that never started. That is how six were left.
+- **Staging only left `/tmp/Caddyfile`**: `deploy_site.sh` sends it before
+  the rehearsal and removed it only on a switch. Fixed in the script; the
+  one left was removed.
+- **A temporary view cannot be told to drop at commit** in PostgreSQL; the
+  planted faults' view is dropped by hand after them.
+- **Reading the mock-up's figures**: the Artifact tool's read saves the
+  whole page; its `DATA` and `PASSED_NOT_ACTS` constants parse as JSON.
+  Codes to words from `ref_outcome` and `ref_bill_type`.
+- **`check_data_pages.py` changed** (strand 2's checker, written by another
+  session): its expectations of the file count, heading count, zip contents
+  and workings, nothing else. Its run today is not a closure test of this
+  work; thought 2's closure test, written next session, reruns it.
 
 ## Planning strand 3: working detail, 19 September
 

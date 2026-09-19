@@ -736,7 +736,8 @@ sec = section(html, "what-each-heading-holds")
 check("What each heading holds: its heading and sentence are part 8's",
       blocks(sec)[:2] == part(8)[12:14], blocks(sec)[:2])
 ORDER = ["bills", "stages", "days_between_stages", "sessions", "methodology_notes", "sources",
-         "what_the_words_mean", "what_changed", "workings", "about", "cited_pages", "terms"]
+         "what_the_words_mean", "what_changed", "workings", "about", "cited_pages", "terms",
+         "outcomes_by_session_and_type"]
 files_on_page = re.findall(r'<h3 id="file-([a-z_]+)">', sec)
 check("What each heading holds: every file, in the mock-up's order", files_on_page == ORDER
       and set(ORDER) == {f["file"] for f in copy["files"]}, files_on_page)
@@ -744,7 +745,7 @@ pairs = re.findall(r'<dt id="h-([a-z_]+)-([a-z_0-9]+)"><code>([a-z_0-9]+)</code>
 want = [(f["file"], f["heading"], f["heading"], str(escape(f["what_it_holds"])))
         for name in ORDER for f in sorted((x for x in copy["files"] if x["file"] == name), key=lambda x: x["position"])]
 check(f"What each heading holds: all {len(want)} headings, each with the description the copy stores on it",
-      pairs == want and len(want) == 113 and all(f["what_it_holds"] for f in copy["files"]),
+      pairs == want and len(want) == 123 and all(f["what_it_holds"] for f in copy["files"]),
       f"{len(pairs)} on the page")
 check("What each heading holds: each file with its own description",
       all(f'<p class="file-desc">{escape(f["file_holds"])}</p>' in sec for f in copy["files"]))
@@ -781,8 +782,8 @@ with psycopg.connect(published.CONNINFO, autocommit=True) as conn, conn.cursor()
     word_list = cur.fetchall()
     cur.execute("SELECT note, applies_to FROM live.methodology_notes ORDER BY substring(note FROM 2)::int")
     note_list = cur.fetchall()
-    cur.execute("SELECT working FROM live.workings WHERE file = 'days_between_stages'")
-    working_text = cur.fetchone()[0]
+    cur.execute("SELECT file, working FROM live.workings ORDER BY file")
+    working_texts = dict(cur.fetchall())
 
 
 def as_text(v):
@@ -848,8 +849,10 @@ z = zipfile.ZipFile(io.BytesIO(served))
 inside = {i.filename.split("/", 1)[1]: z.read(i) for i in z.infolist()}
 readme_text = inside.get("README.txt", b"").decode("utf-8", "replace")
 listed = re.findall(r"^([a-z_-]+\.(?:csv|txt))(?:  \d+ lines?)?\r?$", readme_text, flags=re.M)
-want_names = ["README.txt", "codebook.txt"] + [f + ".csv" for f in FILES] + ["working-days_between_stages.txt"]
-check("one folder, holding exactly the fifteen files, and the readme names every other one",
+want_names = (["README.txt", "codebook.txt"] + [f + ".csv" for f in FILES]
+              + ["working-days_between_stages.txt", "working-outcomes_by_session_and_type.txt"])
+check("one folder, holding exactly the sixteen files, and the readme names every other one; the charts' "
+      "figures not among them",
       all(i.filename.startswith(folder + "/") for i in z.infolist())
       and list(inside) == want_names and sorted(listed) == sorted(want_names[1:]), (list(inside), listed))
 
@@ -936,9 +939,10 @@ check("the codebook: part 4's opening; every one of the 113 headings in the read
       code_paras == want_code and len(entries) == 113 and dp4[2] in code_paras,
       next(((g_, w_) for g_, w_ in zip(code_paras, want_code) if g_ != w_), (len(code_paras), len(want_code))))
 
-check("the working's text file is the working in workings, character for character",
-      inside["working-days_between_stages.txt"].decode("utf-8").replace("\r\n", "\n").rstrip("\n")
-      == working_text.replace("\r\n", "\n").rstrip("\n"))
+check("each working's text file is its working in workings, character for character, one for each",
+      sorted(working_texts) == ["days_between_stages", "outcomes_by_session_and_type"]
+      and all(inside.get(f"working-{f_}.txt", b"").decode("utf-8").replace("\r\n", "\n").rstrip("\n")
+              == t_.replace("\r\n", "\n").rstrip("\n") for f_, t_ in working_texts.items()))
 
 again = get(f"/download/{name}", signed_in=OTHER)
 leaks = [w_ for w_ in (MARKER, OTHER, "made-up", "Made-up", "A made-up reader") for d in

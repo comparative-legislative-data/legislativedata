@@ -331,10 +331,11 @@ CHOICES = ("session", "type", "outcome", "title")
 TITLE_LONGEST = 100
 
 # The files in the order What each heading holds gives them: the mock-up's,
-# the four data files first. Nothing has settled the download's order yet.
+# the four data files first, then the charts' figures, which are not in the
+# zip (agreed 19 September, docs/STRAND-3-THOUGHT-2-FIGURES-BUILD.md, B).
 HEADINGS_ORDER = ("bills", "stages", "days_between_stages", "sessions", "methodology_notes",
                   "sources", "what_the_words_mean", "what_changed", "workings", "about",
-                  "cited_pages", "terms")
+                  "cited_pages", "terms", "outcomes_by_session_and_type")
 
 # What may be typed into the title box and survive signing in: the characters
 # titles are made of. Anything else in a return address is dropped.

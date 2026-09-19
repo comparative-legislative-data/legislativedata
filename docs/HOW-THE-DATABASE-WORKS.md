@@ -376,6 +376,13 @@ working written in the headings a reader sees; the copy keeps that working,
 word for word, on its `workings` tab. A reader can run it on their own
 download and get the same 8, 7 and 7.
 
+The outcomes chart's figures are worked out the same way, onto a tab of their
+own, `outcomes_by_session_and_type`, from the first copy taken with the chart.
+The bill is counted there eight times: in Session 5 and in All sessions, under
+each choice of the chart's two dropdowns, always as a Government Bill that
+passed. On Session 5's Passed lines it is the one bill that passed and did
+not become an Act. That tab is not in the download zip; the chart has its own.
+
 **Whose terms each fact is under.** The day the bill was stopped before Royal
 Assent came from the Supreme Court's case page, so its line on `sources` says
 "Supreme Court". The copy's `terms` tab has four lines: the Scottish

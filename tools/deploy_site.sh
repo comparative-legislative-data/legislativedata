@@ -109,13 +109,15 @@ $VPS "set -e
   sudo rm -f /tmp/rehearse.pid
   if [ \$ok != 1 ]; then
     # Removed, so that nothing can later mistake it for a working release.
-    cd / && sudo rm -rf /srv/site/releases/\$REL
+    cd / && sudo rm -rf /srv/site/releases/\$REL && rm -f /tmp/Caddyfile
     echo 'REHEARSAL FAILED — nothing switched, and the release removed'
     exit 1
   fi
   echo '   rehearsal passed'"
 
 if [ "$SWITCH" = no ]; then
+  # Only a switch uses the Caddyfile sent in step 2; nothing is left in /tmp.
+  $VPS 'rm -f /tmp/Caddyfile'
   say "Staged and rehearsed, not switched. Release $REL"
   echo "Switch it with:  tools/deploy_site.sh   (or leave it; it costs nothing)"
   exit 0

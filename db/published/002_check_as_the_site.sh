@@ -36,10 +36,11 @@ refused_for() {  # refused_for <reason pattern> <database> <sql>
 files=$(q published "SELECT count(*) FROM live.about")
 reads=yes
 for f in bills stages days_between_stages sessions methodology_notes sources \
-         what_the_words_mean what_changed workings terms cited_pages about; do
+         what_the_words_mean what_changed workings terms cited_pages about \
+         outcomes_by_session_and_type; do
   q published "SELECT count(*) FROM live.$f" | grep -q -E '^[0-9]+$' || reads=no
 done
-check "the site reads all twelve files of live" "$([ "$files" = 12 ] && echo $reads || echo no)"
+check "the site reads all thirteen files of live" "$([ "$files" = 13 ] && echo $reads || echo no)"
 
 # 2. What it starts there is read-only.
 check "every transaction it starts in the copy is read-only" \

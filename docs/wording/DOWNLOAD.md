@@ -147,11 +147,11 @@ Plain text, in full. Row counts and each file's line are *[from the copy]*.
 >   Every published value that differs from the copy before, one line per
 >   cell.
 >
-> workings.csv  1 line
+> workings.csv  2 lines
 >   The working that produced each worked-out file, in full, as it ran when
 >   this copy was taken.
 >
-> about.csv  12 lines
+> about.csv  13 lines
 >   The day this copy was taken, and how many lines each file has.
 >
 > cited_pages.csv  106 lines
@@ -170,6 +170,14 @@ Plain text, in full. Row counts and each file's line are *[from the copy]*.
 > working-days_between_stages.txt
 >   The working in workings.csv, as plain text, the same text the site
 >   shows.
+>
+> working-outcomes_by_session_and_type.txt
+>   The working in workings.csv, as plain text, the same text the site
+>   shows.
+>
+> The figures behind each chart on the Insights page are not in this
+> download. Each is worked out from the files here by its working, and can
+> be downloaded beneath its chart; about.csv counts their lines.
 >
 >
 > DATES, AND OPENING THE FILES IN A SPREADSHEET
