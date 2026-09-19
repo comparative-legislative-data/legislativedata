@@ -86,12 +86,12 @@ so.
     `07-58-39Z`, `08-12-24Z`: one rollback goes back to the link that
     opens email, a second takes the download away. Rehearsed on
     19 September (the build document).
-12. **The format panel.** In the live `data.html`, "Ask for another
+11. **The format panel.** In the live `data.html`, "Ask for another
     format" is a folding panel holding `DOWNLOAD.md` part 2's sentence,
     "Open in your email" as a link to the address with the subject, and
     "Copy the address" as a button that copies it and then reads "Copied".
     Check items 115 and 117.
-11. **Nothing left behind.** Nothing of the run's in the server's `/tmp`;
+12. **Nothing left behind.** Nothing of the run's in the server's `/tmp`;
     four databases; no change to either database (470, 1291, 192, 14;
     checker and gaps list empty; the dictionary regenerates identical).
 
