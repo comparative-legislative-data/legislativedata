@@ -427,6 +427,10 @@ h2 {
 .download p { margin: 0 0 var(--s2); }
 .download p:last-child { margin-bottom: 0; }
 .download-link { font-weight: 600; }
+.ask-format summary { cursor: pointer; color: var(--accent); }
+.ask-format summary:hover { color: var(--accent-hover); }
+.ask-format[open] summary { margin-bottom: var(--s2); }
+.ask-format p { color: var(--text-muted); }
 
 /* The Data page is wider than a page of reading, for the table; its words
    keep the reading width. */

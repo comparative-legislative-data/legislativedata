@@ -39,9 +39,9 @@ of the apply page's "What this form keeps", are in `ADMIN-AND-EMAIL.md` and
 > If you switch to light mode, that choice is kept in your own browser and is
 > never sent to the site.
 >
-> The link for asking for the data in another format opens your own email.
-> The site sees nothing of it, and your message reaches us like any other
-> email.
+> Asking for the data in another format is done by email, from your own
+> account. The site sees nothing of it, and your message reaches us like any
+> other email.
 >
 > ## If you apply for an account
 >

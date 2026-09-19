@@ -35,7 +35,11 @@
     <h2 id="download-heading">Download the whole dataset</h2>
     <p>Every file, with a readme and a codebook, as CSV in one zip. Data as at {{ copy_date|day }}.</p>
     <p class="download-links"><a class="download-link" href="/download/{{ offer.name }}" download>Download {{ offer.name }} ({{ offer.size }})</a></p>
-    <p class="download-links"><a href="mailto:comparativelegislativedata@gmail.com?subject=Another%20format%20for%20the%20legislativedata.org%20data">Ask for another format</a></p>
+    <details class="ask-format">
+      <summary>Ask for another format</summary>
+      <p>Write to comparativelegislativedata@gmail.com with the subject "Another format for the legislativedata.org data", saying which format you need.</p>
+      <p><a href="mailto:comparativelegislativedata@gmail.com?subject=Another%20format%20for%20the%20legislativedata.org%20data">Open in your email</a> · <button class="textlink" type="button" id="copy-address" data-address="comparativelegislativedata@gmail.com">Copy the address</button></p>
+    </details>
   </section>
   {% endif %}
 
@@ -216,6 +220,19 @@
   <div class="dlg-body" id="dlg-body"></div>
 </dialog>
 
+<script>
+  // Copy the address, for asking for another format. The reader writes the
+  // email themselves; nothing is sent from here.
+  (function () {
+    var b = document.getElementById('copy-address');
+    if (!b || !navigator.clipboard) return;
+    b.addEventListener('click', function () {
+      navigator.clipboard.writeText(b.dataset.address).then(function () {
+        b.textContent = 'Copied';
+      });
+    });
+  })();
+</script>
 <script>
   // The tabs, and a bill in a pop-up. Every address lands somewhere: a bill,
   // a tab, or a place inside a tab, which opens its tab first.

@@ -52,11 +52,23 @@ downloads folder does not fill with loose files.
 >
 > Ask for another format
 
-The size is worked out when the zip is built; 0.4 MB is a guess. "Ask for
-another format" opens the reader's own email, addressed to
-comparativelegislativedata@gmail.com, with the subject line:
+The size is worked out when the zip is built; it reads 0.1 MB today.
 
-> Another format for the legislativedata.org data
+"Ask for another format" opens a short panel in place, beneath it, rather
+than the reader's email program *(changed 19 September 2026 by the owner,
+after using it: the reader chooses whether to open their email or copy the
+address and write themselves)*:
+
+> Write to comparativelegislativedata@gmail.com with the subject "Another
+> format for the legislativedata.org data", saying which format you need.
+>
+> Open in your email · Copy the address
+
+"Open in your email" opens the reader's own email, addressed to
+comparativelegislativedata@gmail.com, with that subject. "Copy the address"
+puts the address on the clipboard, and then reads:
+
+> Copied
 
 Part 8's opening sentence loses its last sentence, "The whole dataset, to
 download, is being built.", and reads:
@@ -243,8 +255,11 @@ in calendar days." Type is one of text, number, date, or yes or no.
 
 At the end of "If you only read the site", as a third paragraph:
 
-> The link for asking for the data in another format opens your own email.
-> The site sees nothing of it, and your message reaches us like any other
-> email.
+> Asking for the data in another format is done by email, from your own
+> account. The site sees nothing of it, and your message reaches us like any
+> other email.
+
+*Changed 19 September 2026 with the panel in part 2: it read "The link for
+asking for the data in another format opens your own email."*
 
 "Last changed" moves to the day it goes live.

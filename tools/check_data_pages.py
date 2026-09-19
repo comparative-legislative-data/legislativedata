@@ -793,19 +793,28 @@ dp2 = [x.replace("18 September 2026", when).replace("legislativedata-2026-09-18.
        .replace("(0.4 MB)", f"({size})") for x in part(2, download_wording)]
 
 box = between(html, '<section class="download"', "</section>")
-check("the download box is DOWNLOAD.md part 2, word for word, with the copy's date and the file's size",
-      blocks(box) == dp2[:4] and dp2[0] == "Download the whole dataset", (blocks(box), dp2[:4]))
+opener, copier = dp2[5].split(" · ")
+want_box = dp2[:5] + [opener + " ·", copier]
+check("the download box is DOWNLOAD.md part 2, word for word, with the copy's date and the file's size, "
+      "and Ask for another format opens a panel in place with part 2's words",
+      blocks(box) == want_box and dp2[0] == "Download the whole dataset"
+      and re.search(r"<details class=\"ask-format\">\s*<summary>" + re.escape(dp2[3]) + "</summary>", box),
+      (blocks(box), want_box))
 check("the box sits above the tabs",
       0 < html.find('<section class="download"') < html.find('<nav class="tabs"'))
-subject = dp2[4]
-check("its link goes to the zip's address, and Ask for another format opens an email to the agreed "
-      "address with the agreed subject",
+subject = re.search(r'the subject "([^"]+)"', dp2[4]).group(1)
+address_ = re.search(r"Write to (\S+@\S+) with", dp2[4]).group(1)
+check("its link goes to the zip's address; Open in your email opens an email to the agreed address with "
+      "the agreed subject; Copy the address copies that address and then says part 2's word",
       f'href="/download/{name}"' in box
-      and f'href="mailto:comparativelegislativedata@gmail.com?subject={quote(subject)}"' in box
+      and f'<a href="mailto:{address_}?subject={quote(subject)}">{opener}</a>' in box
+      and f'data-address="{address_}">{copier}</button>' in box
+      and f"b.textContent = '{dp2[6]}'" in html and "navigator.clipboard.writeText(b.dataset.address)" in html
       and subject == "Another format for the legislativedata.org data"
+      and address_ == "comparativelegislativedata@gmail.com"
       and "addressed to\ncomparativelegislativedata@gmail.com" in download_wording)
 check("part 8's opening sentence without \"is being built\", as DOWNLOAD.md part 2 gives it",
-      dp2[5] == part(8)[0] and dp2[5] in blocks(section(html, "bills")) and "is being built" not in html)
+      dp2[7] == part(8)[0] and dp2[7] in blocks(section(html, "bills")) and "is being built" not in html)
 
 download.DOWNLOAD_DIR = "/nonexistent-download-folder"
 nozip = get("/data", signed_in=True).get_data(as_text=True)
