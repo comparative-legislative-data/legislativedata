@@ -30,6 +30,99 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## Thought 2, the outcomes chart: its figures and its page
+
+Strand 3, step 3 (`docs/STRAND-3-PLAN.md`). Written 2026-09-19 by the
+session that built the page, which with the session before built all of
+thought 2 (`docs/STRAND-3-THOUGHT-2-FIGURES-BUILD.md`,
+`docs/STRAND-3-THOUGHT-2-PAGE-BUILD.md`). **Neither runs it.** Run it in a
+session that built none of thought 2 and did not write this test, at the
+start of the session that builds thought 3.
+
+**What this test is.** Does the outcomes chart, live, show the agreed
+figures in the agreed words, does every figure reach exactly its bills,
+and is the working shown the working that ran? Expected answers come from
+the agreed write-up, `docs/STRAND-3-THOUGHT-2.md`, and the build note's
+agreed points, never from the copy being tested. Write every query fresh
+and fetch every page yourself. `tools/check_insights_page.py` and the
+refresh's scripts were written by the sessions that built thought 2: read
+each before trusting a line it prints, and do not count its PASS as an
+answer here.
+
+### Part A — mechanical
+
+1. **The figures, from the reader's own files.** Download the zip from the
+   live Data page. Load its `bills.csv`, `sessions.csv` and
+   `what_the_words_mean.csv` into a scratch database under their own names,
+   run `working-outcomes_by_session_and_type.txt` on them unchanged, and
+   compare every line with the CSV downloaded beneath the chart. Expected:
+   720 lines, every cell equal, in the same order.
+   *Where from:* the write-up, "The working": the working is written in the
+   reader's column names so a reader can run it on the download.
+2. **The working shown is the working that ran.** The text under "Show the
+   working" on the live page, the zip's working file and the live copy's
+   `workings` line for the file are identical, character for character; and
+   equal, whitespace aside, to the working in the write-up.
+3. **Two figures the write-up names.** Session 5, Government Bills,
+   default choices: 63 introduced, 62 Passed (98%), 61 became Acts.
+   Session 3, Government Bills, Full breakdown: 45 counted as a government
+   bill, 44 shown as a Hybrid Bill.
+   *Where from:* the write-up, "How you might sanity-check it" and the
+   hover example.
+4. **Every arrangement adds to every bill.** For each of the four choices,
+   the Sessions' lines add to the number of lines in the zip's `bills.csv`,
+   and so does All sessions. Expected: 470 while no bill has been added.
+5. **Every figure opens exactly its bills.** For at least twenty figures,
+   chosen by you across both choices of each dropdown, every session, All
+   sessions, a Hybrid Bill figure, a "Bills" figure and an "of which became
+   Acts" figure: open the figure's address on the live Data page and
+   compare the bills shown with the bills in the zip that the figure's
+   rule picks out, worked out by you from `bills.csv`. Expected: the same
+   bills, as many as the figure, and the line above them in the agreed
+   form, "The N bills behind: Session 5 · Government Bills · Passed".
+   *Where from:* the build note, A.
+6. **The CSV.** Its name is `legislativedata-outcomes_by_session_and_type-`
+   and the copy's date; its headings are the file's ten, then `sources`,
+   `date_copy_taken` and `chart_address`; `sources` reads "Scottish
+   Parliament; legislation.gov.uk; legislativedata.org".
+   *Where from:* the build note, B, and the write-up's agreed change.
+7. **ECharts is served from the machine**: the page loads it from
+   `/static/js/`, as version 6.1.0, the file's SHA-256 matching the npm
+   release of 6.1.0 that you fetch yourself, with its licence beside it.
+   Nothing on the page comes from another address.
+8. **The colours are the ones that passed the palette check**: the eight
+   outcome colours in dark and in light, and the quarters' light colours,
+   in `site.css` exactly as the table in the build note.
+9. **The undo is written and has been rehearsed**: the build note's section
+   F and its record of the rehearsal say how, and the rehearsal's record
+   shows the page as before when the copy has no figures.
+
+### Part B — the owner's sign-off
+
+On the live site, signed in, in dark and in light:
+
+1. The chart draws, in all four combinations of the dropdowns, and looks
+   as on the mock-up.
+2. Hovering a bar gives the session and type, the bills introduced and
+   each outcome with its count and share; Session 5 or 6, Government Bills,
+   says how many of those passed became Acts.
+3. Clicking a part of a bar opens its bills on the Data page; Back returns
+   to the chart.
+4. The words on the page are the agreed words, in the agreed order, and
+   nothing the mock-up does has gone (`docs/STRAND-3-PLAN.md`, the
+   checklist, thought 2).
+
+### Part C — what this test does not check
+
+- Thought 3, the outcomes table, or anything on the page it adds.
+- Whether the chart is right about the Parliament: that is the data's own
+  closure tests, which this inherits (rule 6).
+- How the page reads on a screen reader, beyond the description being on
+  the page and given to the chart.
+- A browser other than the ones the owner and the running session use.
+
+---
+
 ## Strand 2, the data on the site
 
 Strand 2, item 7. Written 2026-09-19 by the session that fixed item 6's gap

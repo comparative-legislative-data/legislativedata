@@ -64,7 +64,12 @@
       <div class="acts"><button class="textlink" type="submit">Show</button> <a href="/data">Clear</a></div>
     </form>
 
+    {% if behind %}
+    {# The bills behind a chart's figure, strand 3: docs/STRAND-3-THOUGHT-2-PAGE-BUILD.md, A. #}
+    <p class="count behind-line"><span class="behind-what">{{ behind }}</span> <a href="/data">Show all bills</a></p>
+    {% else %}
     <p class="count">{{ count }}</p>
+    {% endif %}
     {% if shown %}
     <div class="table-scroll">
       <table class="bills">

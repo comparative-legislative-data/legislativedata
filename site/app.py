@@ -10,12 +10,16 @@ from". The data pages, and the words on them, are strand 2, items 2 and 3:
 docs/STRAND-2-SHARED-PAGE-PARTS.md, docs/STRAND-2-REFERENCE-SECTIONS.md and
 docs/wording/PUBLISHING.md.
 """
+import csv
 import datetime
+import hashlib
+import io
 import os
 import re
 from urllib.parse import parse_qs, quote, urlencode
 
 from flask import Flask, Response, abort, g, redirect, render_template, request, url_for
+from werkzeug.datastructures import MultiDict
 
 import accounts
 import download
@@ -68,6 +72,20 @@ def shell():
         "signed_in_name": g.signed_in[0] if g.get("signed_in") else None,
         "is_owner": bool(g.get("signed_in") and g.signed_in[1]),
     }
+
+
+_marks = {}
+
+
+@app.template_global()
+def static_file(filename):
+    """The address of one of the site's own files, marked with its contents:
+    Caddy lets browsers keep them for a week, and a changed file must not
+    wait that long."""
+    if filename not in _marks:
+        with open(os.path.join(app.static_folder, filename), "rb") as f:
+            _marks[filename] = hashlib.sha256(f.read()).hexdigest()[:10]
+    return url_for("static", filename=filename, v=_marks[filename])
 
 
 @app.template_filter("day")
@@ -466,21 +484,112 @@ def what_each_heading_holds(copy):
     return sorted(files.values(), key=lambda f: (order.get(f["file"], len(order)), f["file"]))
 
 
+# ---- The bills behind a chart's figure ------------------------------------------
+#
+# Strand 3, docs/STRAND-3-PLAN.md, C, and docs/STRAND-3-THOUGHT-2-PAGE-BUILD.md,
+# A. A figure is named in the address by the headings of the file it is a line
+# of, so the address can be shared; the bills are the ones that line lists, or
+# for "Bills" all the lines of its session and type together, or for "of which
+# became Acts" the Passed line's bills that the bills file says were Enacted.
+
+FIGURE_FILE = "outcomes_by_session_and_type"
+FIGURE_KEYS = ("figure", "outcomes_shown", "forth_crossing_bill", "session", "bill_type",
+               "outcome", "became_acts")
+
+# The types as the charts name them: short beneath a bar, in full elsewhere.
+TYPE_NAMES = {"Government Bill": ("Govt", "Government Bills"),
+              "Member's Bill": ("Member", "Member's Bills"),
+              "Committee Bill": ("Cttee", "Committee Bills"),
+              "Private Bill": ("Private", "Private Bills"),
+              "Hybrid Bill": ("Hybrid", "Hybrid Bill")}
+
+
+def asked_figure(args):
+    """The figure an address asks for, as (outcomes_shown, forth_crossing_bill,
+    session, bill_type, outcome or None, became Acts or not), or None if it
+    asks for none or is not the shape of one."""
+    if args.get("figure") != FIGURE_FILE:
+        return None
+    if set(args) - set(FIGURE_KEYS) or any(len(v) != 1 for v in args.to_dict(flat=False).values()):
+        return None
+    got = [args.get(k, "") for k in FIGURE_KEYS[1:6]]
+    if not all(got[:4]) or not all(TITLE_SHAPE.fullmatch(v) for v in got if v):
+        return None
+    acts = args.get("became_acts")
+    if acts not in (None, "Yes") or (acts and got[4] != "Passed"):
+        return None
+    return (*got[:4], got[4] or None, bool(acts))
+
+
+def figure_address(fig):
+    shown, forth, session, bill_type, outcome, acts = fig
+    pairs = [("figure", FIGURE_FILE), ("outcomes_shown", shown), ("forth_crossing_bill", forth),
+             ("session", session), ("bill_type", bill_type)]
+    pairs += [("outcome", outcome)] if outcome else []
+    pairs += [("became_acts", "Yes")] if acts else []
+    return "/data?" + urlencode(pairs, quote_via=quote)
+
+
+def figure_label(fig):
+    """"Session 5 · Government Bills · Passed", as agreed."""
+    shown, forth, session, bill_type, outcome, acts = fig
+    where = session if session == "All sessions" else f"Session {session}"
+    what = "Passed and became Acts" if acts else (outcome or "Bills introduced")
+    label = f"{where} · {TYPE_NAMES.get(bill_type, (None, bill_type))[1]} · {what}"
+    if forth == "Shown as a Hybrid Bill":
+        label += " · Forth Crossing Bill shown as a Hybrid Bill"
+    return label
+
+
+def bills_behind(fig, copy):
+    """The bills a figure counts, from the copy's lines for it; None if the
+    copy has no such figure."""
+    lines = copy["figure_lines"]
+    outcome, acts = fig[4], fig[5]
+    if not lines:
+        return None
+    if outcome:
+        lines = [x for x in lines if x["outcome"] == outcome]
+        if len(lines) != 1:
+            return None
+    numbers = {int(n) for x in lines for n in (x["bill_numbers"] or "").split(";") if n.strip()}
+    shown = [b for b in copy["bills"] if b["bill_number"] in numbers]
+    if acts:
+        shown = [b for b in shown if b["enactment_status"] == "Enacted"]
+    return shown
+
+
+def behind_line(shown, fig):
+    n = len(shown)
+    return f"The {n} bill{'' if n == 1 else 's'} behind: {figure_label(fig)}"
+
+
 @app.route("/data")
 def data():
     wall = signed_out_to_sign_in()
     if wall:
         return wall
+    fig = asked_figure(request.args)
+    if request.args.get("figure") and not fig:
+        return redirect(url_for("data"), code=302)
     try:
-        copy = published.reference()
+        copy = published.reference(fig[:4] if fig else None)
     except published.Unreadable:
         return render_template("data_unavailable.html"), 503
 
     lists = choice_lists(copy)
-    choices = chosen(request.args, lists)
+    behind = None
+    if fig:
+        shown = bills_behind(fig, copy)
+        if shown is None:
+            return redirect(url_for("data"), code=302)
+        choices = {}
+        behind = behind_line(shown, fig)
+    else:
+        choices = chosen(request.args, lists)
     # An address with anything in it that was not used is sent on to the one
     # that says exactly what is shown.
-    if request.args and request.args.to_dict(flat=False) != {k: [v] for k, v in choices.items()}:
+    if not fig and request.args and request.args.to_dict(flat=False) != {k: [v] for k, v in choices.items()}:
         return redirect(address(choices), code=302)
 
     g.copy_date = copy["about"][0]["date_copy_taken"]
@@ -488,11 +597,12 @@ def data():
     # The download box, only when there is a zip made from this copy.
     zipped = download.kept(g.copy_date)
     offer = {"name": download.name_for(g.copy_date), "size": download.size_shown(zipped)} if zipped else None
-    shown = narrowed(copy["bills"], choices)
+    if not fig:
+        shown = narrowed(copy["bills"], choices)
     # The Data page carries the whole dataset, so it credits every set of terms.
     return render_template(
         "data.html", credits=sections["terms"], **sections,
-        columns=COLUMNS, lists=lists, choices=choices, shown=shown,
+        columns=COLUMNS, lists=lists, choices=choices, shown=shown, behind=behind,
         count=count_line(len(shown), len(copy["bills"])),
         opened=opened_bills(copy), heading_files=what_each_heading_holds(copy),
         cell=cell, offer=offer)
@@ -524,13 +634,112 @@ def zip_download(name):
                     headers={"Content-Disposition": f'attachment; filename="{name}"'})
 
 
+# ---- The Insights page ------------------------------------------------------------
+#
+# Strand 3: docs/STRAND-3-PLAN.md, and for thought 2, the outcomes chart,
+# docs/STRAND-3-THOUGHT-2.md and docs/STRAND-3-THOUGHT-2-PAGE-BUILD.md. The page
+# draws the figures the copy worked out; nothing is worked out here.
+
+CHART_ADDRESS = "https://legislativedata.org/insights#outcomes-chart"
+CSV_NAME = re.compile(r"legislativedata-outcomes_by_session_and_type-(\d{4}-\d{2}-\d{2})\.csv")
+
+
+def csv_name(date):
+    return f"legislativedata-outcomes_by_session_and_type-{date.isoformat()}.csv"
+
+
+def session_years(s):
+    """"1999–2003"; "2026–, running" for the session still running."""
+    start = s["date_first_meeting"].year
+    if s["is_the_current_session"] == "Yes":
+        return f"{start}–, running"
+    return f"{start}–{s['date_session_ended'].year}"
+
+
+def chart_terms(copy):
+    """The terms the outcomes chart's figures draw on, in the pages' order:
+    those covering a source of the headings it counts by, and our own."""
+    return [t for t in terms_in_order(copy["terms"], copy["words"])
+            if not t["covers_sources"]
+            or any(name in copy["outcome_sources"] for name, _ in t["covers_sources"])]
+
+
+def outcomes_chart(copy):
+    """What the chart's script needs, in the copy's words, with its bills
+    left out: a figure's bills are opened on the Data page."""
+    rows = copy["outcomes"]
+    arrangements = {"Counted as a government bill": "grouped", "Shown as a Hybrid Bill": "onown"}
+    types, outcomes = {"grouped": [], "onown": []}, {}
+    for r in rows:
+        key = arrangements[r["forth_crossing_bill"]]
+        if r["bill_type"] not in types[key]:
+            types[key].append(r["bill_type"])
+        outcomes.setdefault(r["outcomes_shown"], [])
+        if r["outcome"] not in outcomes[r["outcomes_shown"]]:
+            outcomes[r["outcomes_shown"]].append(r["outcome"])
+    return {
+        "sessions": [[str(s["session"]), session_years(s)] for s in copy["sessions"]],
+        "types": types,
+        "typeNames": {t: TYPE_NAMES.get(t, (t, t)) for t in types["onown"] + types["grouped"]},
+        "outcomes": outcomes,
+        "rows": [[r["outcomes_shown"], arrangements[r["forth_crossing_bill"]], r["session"],
+                  r["bill_type"], r["outcome"], r["bills_of_this_type"], r["bills"],
+                  None if r["percent_of_bills_of_this_type"] is None
+                  else int(r["percent_of_bills_of_this_type"]),
+                  r["of_which_became_acts"]] for r in rows],
+        "figure": FIGURE_FILE,
+    }
+
+
 @app.route("/insights")
 def insights():
     wall = signed_out_to_sign_in()
     if wall:
         return wall
-    # No chart yet, so no data: no date statement and no credit lines.
-    return render_template("insights.html")
+    try:
+        copy = published.insights()
+    except published.Unreadable:
+        return render_template("data_unavailable.html"), 503
+    if copy is None:
+        # No chart's figures in the copy yet: the page as it was before the
+        # charts, with no date statement and no credit lines.
+        return render_template("insights.html", chart=None)
+    g.copy_date = copy["about"][0]["date_copy_taken"]
+    terms = chart_terms(copy)
+    return render_template(
+        "insights.html", chart=outcomes_chart(copy), working=copy["working"],
+        notes={n["note"]: n["title"] for n in copy["notes"]}, credits=terms,
+        sources="; ".join(t["terms_for"] for t in terms),
+        csv=csv_name(g.copy_date), chart_address=CHART_ADDRESS)
+
+
+@app.route("/insights/<name>")
+def insights_csv(name):
+    """The figures beneath the outcomes chart: the copy's file, every line,
+    with its sources, its date and the chart's address added."""
+    if not g.get("signed_in"):
+        return redirect(url_for("sign_in", next="/insights"), code=302)
+    asked = CSV_NAME.fullmatch(name)
+    if not asked:
+        abort(404)
+    try:
+        copy = published.insights()
+    except published.Unreadable:
+        return render_template("data_unavailable.html"), 503
+    if copy is None:
+        return redirect(url_for("insights"), code=302)
+    date = copy["about"][0]["date_copy_taken"]
+    if asked.group(1) != date.isoformat():
+        return redirect(url_for("insights"), code=302)
+    sources = "; ".join(t["terms_for"] for t in chart_terms(copy))
+    out = io.StringIO()
+    w = csv.writer(out, lineterminator="\r\n")
+    headings = copy["outcome_headings"]
+    w.writerow(headings + ["sources", "date_copy_taken", "chart_address"])
+    for r in copy["outcomes"]:
+        w.writerow([cell(r[h]) or "" for h in headings] + [sources, date.isoformat(), CHART_ADDRESS])
+    return Response(out.getvalue(), mimetype="text/csv",
+                    headers={"Content-Disposition": f'attachment; filename="{name}"'})
 
 
 # ---- Signing in and out ---------------------------------------------------------
@@ -561,6 +770,9 @@ def return_to(value):
     page, query, section = m.groups()
     kept = {}
     if page == "data" and query:
+        fig = asked_figure(MultiDict(parse_qs(query[1:])))
+        if fig:
+            return figure_address(fig) + (section or "")
         for key, values in parse_qs(query[1:]).items():
             v = values[0] if len(values) == 1 else ""
             if key == "session" and re.fullmatch(r"[0-9]{1,2}", v):
@@ -660,7 +872,7 @@ def pages_behind_the_sign_in_are_not_kept(response):
     """The admin pages hold other people's details, and the data pages are for
     signed-in readers only: no browser or anything in between is to keep a
     copy, so Back after signing out on a shared computer shows nothing."""
-    if request.path.startswith(("/admin", "/download/")) or request.path in DATA_PAGES:
+    if request.path.startswith(("/admin", "/download/", "/insights/")) or request.path in DATA_PAGES:
         response.headers["Cache-Control"] = "no-store"
     return response
 

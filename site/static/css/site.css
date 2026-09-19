@@ -763,3 +763,109 @@ h2 {
   .topbar-inner { flex-wrap: wrap; gap: var(--s2) var(--s3); }
   .topbar nav { margin-left: 0; width: 100%; }
 }
+
+/* ---- The charts --------------------------------------------------------------
+ *
+ * Strand 3: one frame for every chart (docs/STRAND-3-PLAN.md, B), from the
+ * whole-page mock-up the owner confirmed on 19 September 2026.
+ *
+ * The charts' own palettes. Colour tells things apart here, always with a
+ * legend, and never grades (DECISIONS.md, 2026-09-17). These are the colours
+ * that passed the palette check, agreed 19 September 2026
+ * (docs/STRAND-3-THOUGHT-2-PAGE-BUILD.md): a colour added or changed is checked
+ * again first. Dark, the site's default, then light.
+ */
+:root {
+  --o-passed: #e8aa2b; --o-rej1: #f780b8; --o-rej3: #9a7ed9; --o-withdrawn: #33ae85;
+  --o-dissolution: #7d7a7a; --o-finres: #cb711e; --o-progress: #d8d5cb; --o-notpassed: #9c96cf;
+  --q1: #23574d; --q2: #2f8676; --q3: #55b3a1; --q4: #a3ded2;
+  --sess1: #434a86; --sess2: #5760a5; --sess3: #737cc2; --sess4: #939bd7; --sess5: #b5bbe8; --sess6: #d8dbf6;
+}
+:root[data-mode="light"] {
+  --o-passed: #d77508; --o-rej1: #a32189; --o-rej3: #7967be; --o-withdrawn: #1a835e;
+  --o-dissolution: #484943; --o-finres: #925700; --o-progress: #8f8f8f; --o-notpassed: #5f55a8;
+  --q1: #78bcae; --q2: #4a9f8c; --q3: #25806e; --q4: #135a4e;
+  --sess1: #a7acd9; --sess2: #878dc9; --sess3: #6a71b6; --sess4: #4f569f; --sess5: #383e85; --sess6: #242a63;
+}
+
+/* The tabs on Insights: large, boxed, each saying what it holds, so they cannot
+   be missed (the owner, 19 September). The Data page's stay as they are. */
+.tabs-lead { margin: 0 0 var(--s3); font-size: var(--t-lg); }
+.bigtabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s3); margin: 0 0 var(--s8); }
+.bigtabs a { display: flex; flex-direction: column; gap: var(--s1); padding: var(--s3) var(--s4); text-decoration: none;
+  border: 1px solid var(--border-firm); border-radius: var(--radius); background: var(--surface); color: var(--text); }
+.bigtabs a:hover { border-color: var(--accent); }
+.bigtabs a:hover .bt-name { color: var(--accent-hover); }
+.bigtabs a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bigtabs .bt-name { font-size: 17px; font-weight: 600; color: var(--accent); }
+.bigtabs .bt-what { font-size: var(--t-md); color: var(--text-muted); }
+.bigtabs a[aria-current="page"] { background: var(--raised); border-color: var(--accent); box-shadow: inset 0 3px 0 var(--accent); }
+.bigtabs a[aria-current="page"] .bt-name { color: var(--text-strong); }
+.bigtabs a[aria-current="page"] .bt-what { color: var(--text); }
+
+/* One frame for every chart. */
+.chart { padding: 0 0 var(--s8); margin: 0 0 var(--s8); border-bottom: 1px solid var(--border); scroll-margin-top: var(--s4); }
+.chart:last-child { border-bottom: 0; }
+.chart-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: var(--s4); margin: 0 0 var(--s3); }
+.chart-head > div:first-child { flex: 1 1 22rem; }
+.chart-title { font-size: 20px; margin: 0 0 var(--s1); text-wrap: balance; }
+.chart-title .self { color: var(--text-strong); text-decoration: none; }
+.chart-title .self:hover { text-decoration: underline; }
+.chart-sub { margin: 0; color: var(--text-muted); font-size: var(--t-lg); max-width: 70ch; }
+.filters { display: flex; flex-wrap: wrap; gap: var(--s3); }
+.filter { display: flex; flex-direction: column; gap: 4px; font-size: var(--t-sm); font-weight: 600; color: var(--text-muted); }
+.filter select { font: inherit; font-weight: 400; font-size: var(--t-md); color: var(--text-strong); background: var(--surface);
+  border: 1px solid var(--border-firm); border-radius: var(--radius); padding: 5px 26px 5px 8px; min-width: 12rem; max-width: 100%; }
+.filter select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.chart .hint { margin: 0 0 var(--s1); }
+.chart .hint b { color: var(--text); font-weight: 600; }
+.to-bills { margin: 0 0 var(--s3); font-size: var(--t-md); color: var(--text-muted); }
+.chart-frame { border: 1px solid var(--border); background: var(--surface); padding: var(--s4) var(--s4) var(--s2); }
+.frame-foot { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s4); margin: var(--s3) 0 0; padding-top: var(--s2);
+  border-top: 1px solid var(--border); font-size: var(--t-xs); color: var(--text-muted); }
+.frame-foot span:last-child { margin-left: auto; }
+.chart-scroll { overflow-x: auto; }
+.chart-canvas { width: 100%; min-width: 860px; height: 540px; }
+.imgdesc { margin: var(--s3) 0 0; font-size: var(--t-sm); color: var(--text-muted); max-width: var(--reading); }
+.rule-line { font-family: var(--serif); font-size: 16px; line-height: 1.55; color: var(--text); margin: var(--s4) 0 var(--s1); max-width: var(--reading); }
+.rests { font-size: var(--t-md); color: var(--text-muted); margin: 0 0 var(--s3); }
+.chip-note { display: inline-block; font-size: var(--t-sm); font-weight: 600; padding: 0 5px; border: 1px solid var(--border-firm);
+  border-radius: var(--radius); text-decoration: none; margin: 0 2px 2px 0; }
+.chip-note:hover { border-color: var(--accent); }
+.notes-under { margin: 0 0 var(--s4); padding-left: var(--s4); font-size: var(--t-sm); color: var(--text-muted); max-width: 90ch; }
+.notes-under li { margin-bottom: 3px; }
+.numbers { margin: 0 0 var(--s3); }
+.numbers summary, .working summary { cursor: pointer; color: var(--accent); font-size: var(--t-md); }
+.numbers summary:hover, .working summary:hover { color: var(--accent-hover); }
+.numbers[open] summary, .working[open] summary { margin-bottom: var(--s2); }
+.chart-acts { margin: 0 0 var(--s2); font-size: var(--t-md); }
+.working { margin: var(--s2) 0 0; }
+.working pre { background: var(--bg); border: 1px solid var(--border); padding: var(--s3); overflow-x: auto;
+  font-size: var(--t-sm); line-height: 1.5; color: var(--text); margin: 0 0 var(--s3); }
+
+/* The table of every number a chart shows; each figure opens its bills. */
+table.figures { border-collapse: collapse; width: 100%; min-width: 720px; font-size: var(--t-md); font-variant-numeric: tabular-nums; }
+.figures th { font-size: var(--t-sm); font-weight: 600; color: var(--text-muted); text-align: right; vertical-align: bottom;
+  padding: 8px; border-bottom: 1px solid var(--border-firm); line-height: 1.3; }
+.figures th:first-child, .figures td:first-child { text-align: left; }
+.figures th .chip { display: inline-block; width: 9px; height: 9px; margin-right: 5px; }
+.figures td { text-align: right; padding: 8px; border-bottom: 1px solid var(--border); color: var(--text); white-space: nowrap; }
+.figures td.sess b { color: var(--text-strong); font-weight: 600; }
+.figures td .pct { color: var(--text-muted); font-size: var(--t-sm); margin-left: 4px; }
+.figures td.zero { color: var(--text-faint); }
+.figures tr.total td { border-top: 1px solid var(--border-firm); border-bottom: 0; background: var(--raised); font-weight: 600; color: var(--text-strong); }
+.figures tr.total td .pct { font-weight: 400; }
+.figures td.fig a { color: inherit; text-decoration: none; }
+.figures td.fig:hover { background: var(--raised); }
+.figures td.fig a:hover, .figures td.fig a:focus-visible { color: var(--accent-hover); text-decoration: underline dotted; }
+.figures td.fig a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* On the Data page: the bills behind a chart's figure, named above the table. */
+.behind-line .behind-what { color: var(--text-strong); font-weight: 600; }
+
+@media (max-width: 640px) {
+  .bigtabs { grid-template-columns: 1fr; }
+  .filter select { min-width: 0; width: 100%; }
+  .filters, .filter { width: 100%; }
+  .frame-foot span:last-child { margin-left: 0; }
+}

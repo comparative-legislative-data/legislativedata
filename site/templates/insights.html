@@ -1,13 +1,21 @@
 {#
-  The Insights page, until the first chart exists. Behind the sign-in. It shows
-  no data, so it carries no date and no credit lines. Agreed 18 September 2026,
-  docs/wording/PUBLISHING.md, part 6.
+  The Insights page. Behind the sign-in. Its shape, its tabs and one frame for
+  every chart are docs/STRAND-3-PLAN.md, A to C, confirmed on the whole-page
+  mock-up; its own words, and those of the outcomes chart, are agreed in
+  docs/STRAND-3-THOUGHT-2-PAGE-BUILD.md, E, and docs/STRAND-3-THOUGHT-2.md.
+
+  Every figure is the copy's, worked out when the copy was taken; the page only
+  draws. A tab appears once its charts are built. Until the copy holds a
+  chart's figures the page is as it was before the charts, agreed 18 September
+  2026, docs/wording/PUBLISHING.md, part 6: no data, so no date statement and
+  no credit lines.
 #}
 {% extends "base.html" %}
 
 {% block title %}Insights — {{ site_name }}{% endblock %}
 
 {% block main %}
+{% if not chart %}
 <div class="reading">
 
   <p class="label">Insights</p>
@@ -16,4 +24,77 @@
   <p class="standfirst">The charts are being built.</p>
 
 </div>
+{% else %}
+{% macro rests(codes) %}<p class="rests">Rests on {% for c in codes %}<a class="chip-note" href="/data#{{ c }}" title="{{ notes[c] }}">{{ c }}</a> {% endfor %}</p>{% endmacro %}
+<div class="wide">
+
+  <p class="label">Insights</p>
+  <div class="page-head">
+    <h1>Insights</h1>
+    <p class="data-date">Data as at {{ copy_date|day }}</p>
+  </div>
+  <p class="date-statement">Accurate as at that date. A record it was taken from may since have been corrected, and earlier versions are not kept.</p>
+  <p class="standfirst">Charts drawn from the same data as the Data page. Every figure opens to the bills behind it, and every chart shows the working that produced it.</p>
+
+  <h2 class="tabs-lead">Explore the charts</h2>
+  <nav class="bigtabs" aria-label="Insights" id="insight-tabs">
+    <a href="#outcomes" data-tab="outcomes"><span class="bt-name">Outcomes</span><span class="bt-what">How bills ended, by session and type</span></a>
+  </nav>
+
+  {# ---- Outcomes: thought 2, the outcomes chart --------------------------- #}
+  <section class="panel" id="outcomes">
+
+    <article class="chart" id="outcomes-chart">
+      <div class="chart-head">
+        <div>
+          <h2 class="chart-title"><a href="#outcomes-chart" class="self">Bill outcomes by session and type</a></h2>
+          <p class="chart-sub">How every bill introduced in each session ended, by who introduced it. Each bar is one type of bill; its parts are the outcomes.</p>
+        </div>
+        <div class="filters">
+          <label class="filter" for="oc-outcomes">Outcomes
+            <select id="oc-outcomes">
+              <option value="Passed or not">Passed or not</option>
+              <option value="Full breakdown">Full breakdown</option>
+            </select>
+          </label>
+          <label class="filter" for="oc-forth">Forth Crossing Bill
+            <select id="oc-forth">
+              <option value="grouped">Counted as a government bill</option>
+              <option value="onown">Shown as a Hybrid Bill</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <p class="hint"><b>Hover over a bar</b> to see how many of those bills ended each way, and what share they were. The right-hand panel counts every session together, on its own scale.</p>
+      <p class="to-bills">Click any figure to see the bills behind it.</p>
+      <div class="chart-frame">
+        <div class="chart-scroll"><div id="oc-chart" class="chart-canvas" role="img" aria-describedby="oc-desc"></div></div>
+        <p class="frame-foot"><span>Sources: {{ sources }}</span><span>Data as at {{ copy_date|day }}</span><span>{{ chart_address|replace('https://', '') }}</span></p>
+      </div>
+      <p class="imgdesc"><strong>Description:</strong> <span id="oc-desc">A bar chart of the bills introduced in each session of the Scottish Parliament, one bar for each type of bill, divided by how each bill ended, with every session together in a second panel.</span></p>
+      <p class="rule-line">Every bill introduced in the Parliament, counted once in the session it was introduced in, by how its passage ended.</p>
+      {{ rests(["M1", "M4", "M5", "M6", "M7", "M13"]) }}
+      <ul class="notes-under">
+        <li>Session 7 is still running, so its figures count only the bills introduced so far.</li>
+        <li>"Passed" counts two bills that passed and did not become Acts (M5); hovering says how many of those passed became Acts, and so does the table of numbers.</li>
+        <li>The Forth Crossing Bill, a Hybrid Bill, is counted as a government bill unless you choose to show it on its own (M4).</li>
+      </ul>
+      <details class="numbers" id="oc-numbers"><summary>The numbers in this chart</summary><div class="table-scroll"><table class="figures" id="oc-table"></table></div></details>
+      <p class="chart-acts"><a href="/insights/{{ csv }}" download>Download these figures (CSV)</a></p>
+      <details class="working">
+        <summary>Show the working</summary>
+        <pre><code>{{ working }}</code></pre>
+      </details>
+    </article>
+
+  </section>
+
+  {% include "credits.html" %}
+
+</div>
+
+<script id="oc-data" type="application/json">{{ chart|tojson }}</script>
+<script src="{{ static_file('js/echarts-6.1.0.min.js') }}"></script>
+<script src="{{ static_file('js/insights.js') }}"></script>
+{% endif %}
 {% endblock %}

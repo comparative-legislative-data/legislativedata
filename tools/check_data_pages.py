@@ -394,7 +394,7 @@ def drawn_with(changed=None, added=None):
     if added is not None:
         for a in fake["about"]:
             a["rows_added_since_last_copy"] = added.get(a["file"])
-    published.reference = lambda: fake
+    published.reference = lambda figure=None: fake
     try:
         return section(get("/data", signed_in=True).get_data(as_text=True), "what-has-changed")
     finally:
@@ -430,9 +430,18 @@ check("Added lines, the first copy: part 7's words", got == part(7)[10], got)
 # ---- 11. The Insights page ---------------------------------------------------------------------
 
 main = between(ins_html, "<main>", "</main>")
-check("Insights: part 6's words, and no date statement or credit lines",
-      blocks(main) == ["Insights", "Insights", "The charts are being built."]
-      and "Accurate as at" not in main and "Sources and licence" not in main, blocks(main))
+with app.app_context():
+    no_chart = published.insights() is None
+if no_chart:
+    check("Insights: part 6's words, and no date statement or credit lines",
+          blocks(main) == ["Insights", "Insights", "The charts are being built."]
+          and "Accurate as at" not in main and "Sources and licence" not in main, blocks(main))
+else:
+    # With a chart's figures in the copy the page is strand 3's, checked in full
+    # by tools/check_insights_page.py (docs/STRAND-3-THOUGHT-2-PAGE-BUILD.md).
+    check("Insights: the charts, with the date statement and credit lines, not part 6's words",
+          "The charts are being built." not in main and "Accurate as at" in main
+          and "Sources and licence" in main and 'id="outcomes-chart"' in main, blocks(main)[:5])
 
 # ---- 12. The copy made unreadable -------------------------------------------------------------------
 
@@ -716,7 +725,7 @@ fake = copying.deepcopy(copy)
 for c in fake["cited"]:
     if c["address"] == used["where_in_the_source"]:
         c["address_works"], c["kept_copy"], c["date_kept"] = "No", "An invented kept copy", copy_date
-published.reference = lambda: fake
+published.reference = lambda figure=None: fake
 try:
     page = get("/data", signed_in=True).get_data(as_text=True)
 finally:

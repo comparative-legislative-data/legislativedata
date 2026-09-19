@@ -6,8 +6,8 @@ For the owner, 19 September 2026. Strand 3, step 3, second half
 (https://claude.ai/artifact/XMz3FuH4zQnmNSwfM9WQVq). The figures are built
 already (`docs/STRAND-3-THOUGHT-2-FIGURES-BUILD.md`).
 
-**Not yet agreed.** The palette check comes first, then points A to F.
-Nothing is built until all of it is agreed.
+**Agreed by the owner, 19 September, in full**: the adjusted colours and
+points A to F. Built the same day; what was done and found is at the end.
 
 ---
 
@@ -165,3 +165,54 @@ site before back.
 `002_check_as_the_site.sh` (thirteen files) and strand 2's checker.
 
 **Then its closure test is written** for another session to run.
+
+---
+
+## What was built, 19 September
+
+- `site/static/js/echarts-6.1.0.min.js`, byte for byte the npm release of
+  6.1.0 (SHA-256 `b66b25ae…0fd0`), with `echarts-6.1.0.LICENSE.txt`, the
+  release's licence and notice.
+- `site/static/js/insights.js`: the outcomes chart, its table of numbers and
+  the tab, ported from the mock-up. Redraws when the mode changes
+  (`data-mode`, the site's own setting). One change of wording from the
+  mock-up's code: where two passed bills were stopped, the hover says
+  "2 passed and were stopped", not "was".
+- `site/static/css/site.css`: the palette as agreed, and the frame's parts.
+- `site/templates/insights.html`: the page, to E; as before when the copy has
+  no chart's figures (F).
+- `site/published.py`: `insights()` reads everything the page shows in one
+  go; `reference()` also reads a figure's lines, in the same read.
+- `site/app.py`: the page; the CSV (B); the bills behind a figure on the Data
+  page (A), from an address naming the figure's line by the file's own
+  headings; signing in keeps such an address; the stylesheet and scripts
+  carry a mark of their contents, since Caddy lets browsers keep them a
+  week.
+- `site/templates/data.html`: the line naming the figure, and Show all bills.
+- `tools/check_insights_page.py`: the rehearsal's checker, below.
+- `tools/check_data_pages.py` (strand 2's checker): with a chart's figures in
+  the copy, it expects the chart on Insights rather than part 6's words, and
+  its stand-in for the copy takes the new argument.
+
+## How the rehearsal went
+
+On a scratch copy of `published`, refreshed with the figures by the staged
+release (a kept refresh; its zip checked, sixteen files), then:
+
+1. **`check_insights_page.py`**, as the site's login against the staged
+   release: **67 of 67 pass** (after one fault in the checker itself, which
+   read the explanations from the wrong place). Among them: all 720 lines
+   handed to the chart equal the copy's; 434 figures opened on the Data
+   page, every one showing exactly its bills with the agreed line above;
+   every "Bills" and "of which became Acts" figure likewise; the CSV equal
+   to the copy line for line; the working shown equal to the copy's; the
+   page as before with the real copy, which has no figures.
+2. **With a break planted** (`BREAK=1`: one figure, the title, the working):
+   7 fail, at exactly those places, and nowhere else.
+3. **Strand 2's checker** against the staged release and the scratch copy:
+   **all 131 pass**.
+4. **The undo**: `refresh_copy.sh --undo --save` on the scratch copy put the
+   copy of 18 September back, its zip remade and checked, fifteen files;
+   the staged site then showed "The charts are being built."
+5. **Cleared away**: the scratch database and folders, and the staged
+   release. `published` untouched.
