@@ -132,7 +132,9 @@ works as expected", with the one change that became 7. **7 signed off by
 the owner the same day**: "i've checked the panel and it is fine." Part B
 passes.
 8. **The home page and the apply page**, added after: read as agreed, in
-   dark and light and at a phone's width. Waits for the owner.
+   dark and light and at a phone's width. **Signed off by the owner, 19
+   September**, text, dark and light: "they've been checked too - text is
+   fine, and dark/light mode both are fine." Phone width: not yet said.
 
 ### Part C — what this test does not check
 
