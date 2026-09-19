@@ -11,8 +11,8 @@ open**, for approved beta users only. **The Data page has the table of
 every bill**, closed 19 September, signed in only: narrowed by session,
 type, outcome and title, each bill opening in a pop-up with where each
 fact came from, and the reference sections as tabs. **The whole dataset downloads as one zip**,
-built and live 19 September, waiting for your look and another session's
-test.
+built and live 19 September, and **the refresh now makes it**, so a new copy
+never goes live without its zip. Both wait for another session's test.
 
 **Phase 2's build plan is agreed** (`docs/PHASE-2.md`, "The build plan"), in
 three strands, one after another, then the closing test.
@@ -20,7 +20,7 @@ three strands, one after another, then the closing test.
 | Strand | What it delivers | Where it is |
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
-| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1 to 4 **closed**; item 5, the zip, **built and live**, its test written; item 6 next |
+| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1 to 4 **closed**; items 5, 5a and 6 **built and live**, their tests written; item 7, the strand's test, next |
 | 3. The charts | the six thoughts on the Insights page | not open; mock-ups exist |
 | Closing test | run by a session that built none of it | not open |
 
@@ -53,43 +53,40 @@ list are both empty.**
   agreed through a write-up and three mock-ups.
 - **19 September, morning.** The table of every bill built and live; the
   footer kept in view; its closure test written.
+- **19 September, midday.** Items 2 to 4 closed; the zip, its format panel
+  and the new home page built and live; your sign-off of all three.
 
-**19 September, this session. Items 2 to 4 closed; the zip built and live.**
+**19 September, this session. Item 6 built: the refresh makes the zip.**
 
-- **The three tests run** by a session that built none of it: the page
-  check 114 of 114, its breaks failing where they should; the privacy
-  check 15 of 15; the copy asked afresh, three random bills, three
-  narrowings and bill 305's sources read against the page. All pass.
-- **You signed off your half**: the browser steps, the nine small choices,
-  the house style and one scroll, "for the moment".
-- **The download's wording agreed**: all twelve files, both dates, and a
-  citation naming you and the site.
-- **The zip built and live**, as its plan agreed: the download box at the
-  top of the Data page, the privacy page's new line. The check grew to 130
-  items and was shown failing under three breaks; the undo was rehearsed.
-  Its closure test is written for another session.
-- **You tried it live and signed off your part**, bar one change: "Ask for
-  another format" now opens a panel, open your email or copy the address.
-  Built and live, and you checked it: Part B passes.
-- **The home page brought up to date**, as you asked: it introduces the
-  site and each place it leads, and the apply page no longer says nothing
-  is published. Built and live; waiting for your look.
-- **Your decision: a monthly design and sanity sweep once Phase 2 closes**,
-  with feedback as it comes until then. The table's choices come back at
-  the first sweep.
-- No bill, date or figure changed.
+- **Your sign-off of the home and apply pages**: text, dark and light. Phone
+  width not yet said.
+- **Item 6 built as its plan agreed** (`docs/STRAND-2-ITEM-6-BUILD.md`): a
+  refresh sets the new copy aside, makes its zip and checks it, and only then
+  puts both live. A second refresh on one day refuses; the undo brings the
+  old zip back with the old copy, in one command.
+- **Rehearsed six ways on a scratch copy**, never touching the real one: a
+  practice run, a refresh, a second the same day refused, the undo and a
+  second undo refused, a refresh after the undo, and a spoiled zip caught.
+  The real copy and zip checked unchanged afterwards.
+- **Deployed**; the page check 133 of 133 and the privacy check 15 of 15 on
+  the live site. Nothing a reader sees changed.
+- **Its closure test written**, for another session, with two cases this
+  session did not rehearse.
+- No bill, date or figure changed. No real refresh was run.
 
 ## Now
 
 **Strand 2** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Your look at the home page and the apply page** (item 5's Part B, 8).
-2. **Close item 5, with 5a.** A session that built none of it runs its
-   test, with the amended items of items 2 and 4.
-3. **Then item 6: the refresh makes the zip** from each new copy before it
-   goes live, rehearsed with its undo. It also settles what happens if two
-   refreshes land on one day. **No refresh until it is built**: one would
-   leave the new copy without a zip, and the download box would vanish.
+1. **Your look at the home and apply pages at a phone's width**: the last of
+   item 5's Part B.
+2. **Close items 5, 5a and 6.** A session that built none of them runs their
+   tests in `docs/CLOSURE-TESTS.md` ("The refresh makes the zip", then "The
+   zip", with the amendments each carries).
+3. **Then item 7: strand 2's closure test**, written against the strand's
+   "Finished when" (not yet written) and run by a session that built none
+   of it. It includes your alternative account signing in, browsing the
+   table and opening the zip. Strand 3, the charts, opens when it passes.
 
 ## Waiting for you
 
@@ -142,25 +139,44 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-19, the session that ran the table's tests and built the zip
+## Sanity check, 2026-09-19, the session that built item 6
 
 - **At the start**: clean and pushed; decisions contents regenerated
   identical; the dictionary identical but for its date line; counts 470,
-  1291, 192, 14; checker and gaps list empty; 474 and 1295 staging lines;
-  four databases, all sorted; last night's backup a success; the site 200.
-  "Now" traced to strand 2, item 4. Nothing found.
-- **At the close**: the same counts, 470, 1291, 192, 14; checker and gaps
-  list empty; 474 and 1295 staging lines; four databases, `published`
-  holding only its usual areas (live, previous, the connector's, public);
-  live release `2026-09-19T08-22-31Z`, site 200, site, web server and
-  backup timer running; nothing in the server's `/tmp`; the dictionary
-  identical but for its date line; decisions contents regenerated with
-  today's entries. No data written: every database visit read only, bar
-  the privacy and apply checks' invented people, added and deleted.
-- **New on the machine**: `/srv/downloads`, holding the one zip. A folder,
-  not a database, and deliberately not backed up.
-- **Found and fixed this session**: the home page was due for rewording
-  when the table went live and was missed (now strand 2, item 5a, built).
+  1291, 192, 14; 474 and 1295 staging lines; checker and gaps list empty;
+  four databases, all sorted; last night's backup finished; the site 200.
+  "Now" traced to strand 2, items 5, 5a and 6. Nothing found.
+- **During**: one scratch database, `published_rehearsal`, made and dropped
+  within the session, before any backup ran; not sorted into a theme,
+  because it did not outlive the session.
+- **At the close**: counts 470, 1291, 192, 14; 474 and 1295 staging lines;
+  checker and gaps list empty; four databases; `published` holding only
+  live, previous, the connector's and public, live dated 2026-09-18; the one
+  zip in `/srv/downloads`; live release `2026-09-19T10-55-09Z`, site 200,
+  site, web server and backup timer running; nothing in the server's
+  `/tmp`; the dictionary identical but for its date line; decisions
+  contents regenerated with today's entry. No data written to either real
+  database.
+
+## Item 6, the refresh makes the zip: working detail, 19 September
+
+- **Everything is in `docs/STRAND-2-ITEM-6-BUILD.md`**: the plan, what was
+  built, the six rehearsals, what was not rehearsed.
+- **Live is `2026-09-19T10-55-09Z`** (only `download.py` changed). Kept:
+  `08-12-24Z`, `08-22-31Z`, `10-55-09Z`.
+- **The real copy's fingerprint is `7afcaf840501`**: the dump of `live`,
+  `previous` and `next`, `\restrict` lines dropped, **lines sorted**. Sorted
+  because the same lines come out in a different order from a restored copy.
+- **The rehearsal's address check**: `live.cited_pages` exported as the
+  check's CSV with today's date as `date_address_checked`; an older CSV
+  fails the build's check 12.
+- **Quoting on the server**: `$$` inside a single-quoted connector command
+  is the remote shell's process number. Build such commands with a quoted
+  heredoc into a variable, and `'...'` in the SQL.
+- **zsh does not split a command held in a variable**: `$R --save` runs
+  nothing. Write multi-step rehearsals as bash scripts, with arrays.
+- **Anything writing a file the zip program made** must run as `legsite`,
+  which owns it.
 
 ## The zip: working detail, 19 September
 

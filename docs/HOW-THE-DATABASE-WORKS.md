@@ -396,9 +396,12 @@ reader sees changes until the copy is refreshed, at your word. The refresh
 checks every address the sources cite, builds a new copy beside the live one,
 and compares the two cell by cell. The bill's Stage 3 date and two lines of the
 days between stages have moved, so the new copy's `what_changed` tab gains
-three lines, each with the old and new value. Only if every check passes does
-the new copy go live; the old one is kept as `previous`, so putting it back is
-one step. The copy's `cited_pages` tab says, for every address, whether it
+three lines, each with the old and new value. Only if every check passes is
+the new copy kept, and then first to one side, on a `next` area nobody is
+shown, while the download zip is made from it and checked. Only then does the
+new copy go live, with its zip; the old one is kept as `previous`, with its
+zip, so putting both back is one step. A second refresh on the same day
+refuses: the date is the copy's name, and its zip's. The copy's `cited_pages` tab says, for every address, whether it
 still worked that day, and names our kept copy of the page.
 
 The copy is then checked against the bills workbook, every cell, by turning

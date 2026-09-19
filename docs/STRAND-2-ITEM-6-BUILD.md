@@ -1,7 +1,8 @@
 # Building strand 2, item 6: the refresh makes the zip
 
-Written 19 September 2026, before anything is built. **For the owner's
-agreement.**
+Written 19 September 2026, before anything is built. **Agreed by the owner
+the same day, as written** ("proceed"). Built, rehearsed and deployed the same
+day; what was done is at the end.
 
 Item 6 of `docs/PHASE-2.md`, strand 2: "The refresh builds the zip, from the
 new copy, before it goes live. Rehearsed again with its undo." It also
@@ -92,3 +93,58 @@ part of strand 2's closure test (item 7).
 ## Size
 
 One session: the build, the rehearsal, and the test written.
+
+## What was done, 19 September
+
+**Built.** `tools/published_copy.sql` now sets the copy aside as `next` and
+refuses to build over one already there; `tools/switch_copy.sql` (new) puts
+`next` live, refusing a copy not dated today or dated the same as the live
+one; `tools/refresh_on_server.sh` (new) runs the steps in order on the machine
+and removes what a failed run made; `tools/refresh_copy.sh` sends it all and
+gains `--undo`. `site/download.py` reads either copy and gains `--check`. The
+undo is a look without `--save`, as every other step is: `--undo --save` does
+it. For rehearsals only: `--database`, `--downloads`, `--site` and
+`--plant-zip-fault`, all refused against `published`.
+
+**Rehearsed** on a scratch copy of `published`, with a scratch folder holding
+the live zip and a made-up older one, and the staged release
+`2026-09-19T10-37-43Z`. The address check was made from the live copy's
+`cited_pages`, with today's date. Each step read by fingerprint (the dump of
+`live`, `previous` and `next`, lines sorted: the dump's order differs between
+two databases holding the same lines, so an unsorted one is not a fingerprint).
+
+1. Thrown away: "Zip checked", "Nothing kept"; afterwards the scratch copy
+   identical to the real one (`7afcaf840501`), no `next`, folder unchanged.
+2. Kept: copy dated 2026-09-19 live, the old one as `previous`; the zip
+   checked before and after the switch; the made-up 2026-09-10 zip removed.
+3. Second refresh the same day: refused before anything was built;
+   fingerprint unchanged.
+4. Undo, a look: nothing changed, and it said which zip would go. Undo: the
+   2026-09-18 copy live, the 2026-09-19 zip removed, the old zip checked
+   against the copy put back. A second undo refused.
+5. A refresh after the undo went through, and gave the same fingerprint as
+   step 2's: the copy is the same when taken twice.
+6. A spoiled zip, with `--save`: "ZIP WRONG" twice (the blanks, and not the
+   zip this copy makes), next removed, fingerprint and folder as before. **The
+   first try failed for another reason**: the planting ran as the wrong login
+   and could not write the file. The run still stopped and cleaned up, but it
+   was not the check that stopped it, so the planting was mended and step 6
+   run again.
+
+Then the scratch database and folder removed, and the real copy checked
+untouched: fingerprint `7afcaf840501` before and after, `live` dated
+2026-09-18, no `next`, the zip's SHA-256 still `42a2716c…811cf0`, four
+databases, nothing in the server's `/tmp`.
+
+**Not rehearsed**: the undo's branch that remakes a missing zip, and the
+refusal to put a zip over one already there. Both are in the closure test,
+part A item 4, for the session that runs it.
+
+**Checked and deployed.** The staged release: all 133 of the page check
+pass, and `BREAK=3` fails at exactly 122 and 124. Deployed as
+`2026-09-19T10-55-09Z`: 200, 200, 301, 308, 200. The undo is
+`tools/deploy_site.sh --rollback`, to `08-22-31Z`, whose only difference is
+the old `download.py`, which no page uses.
+
+**No real refresh was run.** The next one, at the owner's word, will be the
+first to make its own zip.
