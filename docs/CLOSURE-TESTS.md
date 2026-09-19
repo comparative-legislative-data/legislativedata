@@ -218,7 +218,8 @@ passes.
 8. **The home page and the apply page**, added after: read as agreed, in
    dark and light and at a phone's width. **Signed off by the owner, 19
    September**, text, dark and light: "they've been checked too - text is
-   fine, and dark/light mode both are fine." Phone width: not yet said.
+   fine, and dark/light mode both are fine." **Phone width signed off by
+   the owner, 19 September**: "everything fine on mobile." Part B, 8 passes.
 
 ### Part C — what this test does not check
 
