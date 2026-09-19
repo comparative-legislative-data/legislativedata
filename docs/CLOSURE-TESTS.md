@@ -34,8 +34,9 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 Strand 2, item 6. Written 2026-09-19 by the session that built it (the plan,
 its five small choices and what was done in `docs/STRAND-2-ITEM-6-BUILD.md`,
-agreed by the owner the same day). **Not yet run.** To be run by a session
-that built none of it, with the zip's test below, as its amended items say.
+agreed by the owner the same day). **Run 19 September by a session that
+built none of it**: Part A passes but for one narrow exception in item 1,
+for the owner. The run is at the end of this test.
 
 Under test: `tools/refresh_copy.sh`, `tools/refresh_on_server.sh`,
 `tools/switch_copy.sql`, the "Set it aside" section of
@@ -173,8 +174,9 @@ two options as one ("Unknown"), so nothing ran. Both were run again.
 Strand 2, item 5. Written 2026-09-19 by the session that built and deployed
 it (`docs/wording/DOWNLOAD.md`, agreed by the owner the same day; the build,
 its eight small choices, its check and its undo in
-`docs/STRAND-2-ITEM-5-BUILD.md`). **Not yet run.** To be run by a session
-that built none of it, with the amended items of item 4 and item 2 below.
+`docs/STRAND-2-ITEM-5-BUILD.md`). **Run 19 September by a session that
+built none of it: passes, and items 5 and 5a are closed.** The run is
+after Part B.
 
 `tools/check_data_pages.py` and `site/download.py` are under test as much as
 the site is; both were written by the session that built it. The check's
@@ -286,6 +288,88 @@ passes.
    September**, text, dark and light: "they've been checked too - text is
    fine, and dark/light mode both are fine." **Phone width signed off by
    the owner, 19 September**: "everything fine on mobile." Part B, 8 passes.
+
+### The run, 19 September, by a session that built none of it
+
+Run in the afternoon session, with item 6's test, against the live release
+`2026-09-19T10-55-09Z`. The amended items A1, A2 and A10 are run in place
+of 1, 2 and 10.
+
+1. **A1 passes.** Live is `2026-09-19T10-55-09Z`; `download.py`, `app.py`,
+   `data.html`, `privacy.html` and `site.css` each have the committed md5.
+2. **A2 passes.** `/srv/downloads` root, root, 755; one file,
+   `legislativedata-2026-09-18.zip` (`live.about` dated 2026-09-18, asked
+   as `legsite`), root, 644. As `legsite`: reads it (it starts `PK`);
+   writing in the folder, "Permission denied".
+3. **Passes.** From this Mac, signed out: 302 to `/sign-in?next=/data`; the
+   body starts `<!`, not `PK`.
+4. **Passes.** Run as `legsite` in the live release's environment with the
+   committed `PUBLISHING.md`, `DOWNLOAD.md`, `HOME.md` and `APPLY.md`: "All
+   133 pass". `BREAK=1` fails at exactly 35 and 38; `BREAK=2` at exactly 86,
+   94, 105 to 108 and 113; `BREAK=3` at exactly 122 and 124. Read: each
+   break changes only what the check expects (two words of `PUBLISHING.md`;
+   one phrase and one value in each compared file; one word of the readme
+   and one title in `bills`), never the site.
+5. **Passes.** The zip drawn for a made-up reader by `handed_over`, as
+   `legsite`, and unzipped on this Mac: one folder,
+   `legislativedata-2026-09-18`, fifteen files. Each CSV's lines less its
+   first against `live`, counted afresh as `legsite`, and the readme: 470,
+   1291, 1657, 7, 14, 192, 89, 0, 1, 12, 106, 4, all three the same. No
+   marker at the start, Windows line ends. Three cells drawn at random, and
+   where the draw landed on a bill number, the line's other cells too: bill
+   421's `date_introduced` 2024-12-18; bill 180's Stage 2 `date_ended`
+   2008-01-23, source PhD dataset; the source line for bill 151's
+   `how_rejected_at_stage_1`, "For 55, Against 64, Abstentions 0. Motion
+   disagreed to.", with its address and date read. Each the same as the
+   copy.
+6. **Passes.** The readme against part 3, compared by machine with the line
+   breaks ignored: the same, word for word. The copy's date 2026-09-18;
+   "Downloaded on 2026-09-19" and "Downloaded 2026-09-19." at the end of
+   the citation, today in the UK.
+7. **Passes.** 113 entries, the same 113 headings as
+   `information_schema.columns` for `live`, asked afresh. `bills.outcome`
+   as part 4, but for where one line breaks. `days_between_stages.days`
+   gives the rule, as small choice 4 says. The seven yes-or-no headings are
+   the seven whose description begins "Yes".
+8. **Passes.** Made again by `download.py` as `legsite` into a scratch
+   folder: SHA-256 `42a2716c…`, the kept zip's.
+9. **Passes.** From this Mac, `/privacy` ends "If you only read the site"
+   with part 5's line as changed on 19 September, and reads "Last changed 19
+   September 2026". `tools/check_privacy.sh` on the live release, as root,
+   the zip served earlier the same day: "All 15 pass"; `BREAK=1` fails at
+   item 2 only; the invented person deleted both times, none left.
+10. **A10 passes as far as it goes, with one correction to its wording.**
+    `/srv/site/switched` ends `07-58-39Z`, `08-12-24Z`, `08-22-31Z`,
+    `10-55-09Z`; the machine keeps `08-12-24Z`, `08-22-31Z` and `10-55-09Z`.
+    So one rollback takes back item 6's `download.py`; a second, the home
+    page. **A third is not available**: `07-58-39Z` has been cleared, and
+    `deploy_site.sh --rollback` refuses ("is not on the machine"). A10's "a
+    third the panel" is wrong. Taking the panel away now means deploying an
+    older commit, as the original item 10 already says of the download. Not
+    run.
+11. **Passes.** The live `data.html`: a folding panel, "Ask for another
+    format", holding part 2's sentence word for word, "Open in your email"
+    as a link to the address with the subject, and "Copy the address" as a
+    button that copies it and then reads "Copied". Items 115 and 117 pass
+    in the 133.
+12. **Passes.** From this Mac, signed out: `/` is `HOME.md`'s page word for
+    word (the label "Scottish Parliament" set in capitals by the style
+    sheet), and each heading links to its page (`/data`, `/insights`,
+    `/apply`, `/privacy`). `/apply` opens with `APPLY.md`'s changed line
+    and does not say that nothing is published. By eye: the signed-out
+    header on `/`, `/apply`, `/privacy` and `/sign-in` reads "Privacy · Sign
+    in · Apply for an account", with no Data or Insights. Items 131 to 133
+    pass in the 133.
+13. **Passes.** Nothing of the run's in the server's `/tmp`; four
+    databases; 470, 1291, 192, 14; checker and gaps list empty; the
+    dictionary regenerates identical but for its date line.
+
+**Part A passes; A10's wording corrected above.** Part B passed on 19
+September. **Item 5 and item 5a are closed.** The amended items item 5 put
+on the table's test and on the page parts' test were run here too: the
+release (A1), the check's count, now 133 with 5a, and its breaks (A3, A5),
+item 118 inside the 133, and the privacy page (A8). All pass. Their A13,
+the undo, is superseded by A10 above.
 
 ### Part C — what this test does not check
 
