@@ -1,8 +1,8 @@
 # Wording: the download
 
 For the owner. Strand 2, item 5 of `docs/PHASE-2.md`. **Draft, 19 September
-2026, not agreed.** Every word a reader of the download will see is below, in
-full, except what is generated from the copy, which is marked *[from the
+2026: the four questions answered, the wording not yet agreed.** Every word
+a reader of the download will see is below, in full, except what is generated from the copy, which is marked *[from the
 copy]* and shown with today's values. Nothing is built until every sentence
 here is agreed.
 
@@ -17,38 +17,19 @@ reader's own email; the privacy page saying so (`DECISIONS.md`,
 
 ---
 
-## Four questions first
+## Four questions, answered by the owner, 19 September
 
-The wording below assumes the recommended answer to each.
-
-1. **Which files go in the zip.** "The three CSV files" was settled on
-   17 September, before the copy had its final shape. It now has twelve
-   files, all described, and the table already treats four of them as the
-   data: bills, stages, days_between_stages and sessions. **Recommended:
-   all twelve**, under the same names as on the site, plus the readme and
-   the codebook. Then nothing is on the site and not in the download, and
-   the settled extras (the notes, the sources, the working, what changed,
-   the terms) are simply their files. The working also goes in as a plain
-   text file of its own, since "the calculation travels as text" and a
-   spreadsheet cell does not show a long working well.
-
-2. **The day it was downloaded.** Settled on 17 September: the readme gives
-   it, as Our World in Data's does. But item 6 has the refresh build the
-   zip, and a zip built at the refresh cannot know when a reader will take
-   it. **Recommended: keep it**, with the refresh building every file and
-   the site writing the one line with the day into the readme as it hands
-   the zip over. It names nobody. The alternative is to drop the line: the
-   copy's date is what identifies the data, and it is already in the file
-   name.
-
-3. **Who the citation names as author.** Data citation practice names a
-   creator. **Recommended: you**, as the privacy page already does, with the
-   site as the title. The alternative is the site as the author, with no
-   person named.
-
-4. **The address for asking for another format.** **Recommended:
-   comparativelegislativedata@gmail.com**, the one the privacy page already
-   gives, so the privacy line does not have to name a second address.
+1. **Which files go in the zip: all twelve**, under the same names as on
+   the site, plus the readme, the codebook, and the working as a plain text
+   file of its own.
+2. **Both dates**: the day the data was taken, which is also the day the
+   zip was made, since the refresh builds both together; and the day it was
+   downloaded, written into the readme by the site as it hands the zip
+   over. It names nobody.
+3. **The citation covers both the data and the site**: the data was taken
+   from the site, and the site was created and is maintained by the owner.
+4. **Format requests go to comparativelegislativedata@gmail.com**, the
+   address the privacy page already gives.
 
 ---
 
@@ -88,14 +69,15 @@ download, is being built.", and reads:
 Plain text, in full. Row counts and each file's line are *[from the copy]*.
 
 > legislativedata.org: bills of the Scottish Parliament
-> Data as at 2026-09-18
+> Data as at 2026-09-18, the day this copy was taken and this zip made
 > Downloaded on 2026-09-19
 >
 >
 > SUGGESTED CITATION
 >
-> MacGregor, Steven. legislativedata.org: bills of the Scottish Parliament.
-> Data as at 2026-09-18. https://legislativedata.org
+> MacGregor, Steven (2026). Bills of the Scottish Parliament, data as at
+> 2026-09-18 [dataset]. legislativedata.org, created and maintained by
+> Steven MacGregor. https://legislativedata.org. Downloaded 2026-09-19.
 >
 >
 > WHAT THIS IS
