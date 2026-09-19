@@ -121,6 +121,14 @@ agreed". It is for settling A, B and C by seeing them, not for agreeing
 the five. Each of those still gets its own round of changes and its
 write-up just before it is built.
 
+**Built 19 September**: a private page at
+https://claude.ai/artifact/XMz3FuH4zQnmNSwfM9WQVq, in the site's own look,
+dark by default with the footer's setting. It reuses the 17 September
+mock-up's figures and drawing unchanged, and the published copy's bills
+for the route to them; every count behind a figure was checked to match
+the figure (thoughts 2 and 4 in full, thoughts 5 and 6 by bill number).
+For the owner's look; A, B and C are confirmed or changed from it.
+
 ## The order, session by session
 
 Roughly the ten to twelve sessions `PHASE-2.md` sized. Every build has
