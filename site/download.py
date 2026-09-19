@@ -8,8 +8,9 @@ the site's own login, which can only read the copy:
 
     sudo -u legsite /srv/site/current/.venv/bin/python download.py OUTDIR
 
-and the file it writes is put in /srv/downloads by hand (item 6 will have the
-refresh do it). The site never writes it. When a signed-in reader asks for it,
+and the refresh (tools/refresh_copy.sh, strand 2, item 6) makes it from the new
+copy while that copy is still set aside as `next`, checks it, puts it in
+/srv/downloads, and only then puts the copy live. The site never writes it. When a signed-in reader asks for it,
 the site fills in the day it was downloaded and hands it over; nothing else in
 it changes, and nothing in it names the reader.
 
@@ -74,17 +75,23 @@ HEADINGS = """
       FROM pg_class c
       JOIN pg_namespace n ON n.oid = c.relnamespace
       JOIN pg_attribute a ON a.attrelid = c.oid AND a.attnum > 0 AND NOT a.attisdropped
-     WHERE n.nspname = 'live' AND c.relkind IN ('r', 'v')
+     WHERE n.nspname = %s AND c.relkind IN ('r', 'v')
      ORDER BY c.relname, a.attnum"""
 
 
-def read_copy(conn):
-    """Every file of the live copy, whole, and every heading's description,
-    read in one go so a refresh landing part way through cannot mix two
-    copies."""
+# Which copy is read: the live one, or the new one a refresh has set aside and
+# not yet put live (strand 2, item 6).
+COPIES = ("live", "next")
+
+
+def read_copy(conn, copy="live"):
+    """Every file of the copy, whole, and every heading's description, read in
+    one go so a refresh landing part way through cannot mix two copies."""
+    if copy not in COPIES:
+        raise ValueError(f"no copy called {copy}")
     with conn.transaction(), conn.cursor() as cur:
         cur.execute("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ")
-        cur.execute(HEADINGS)
+        cur.execute(HEADINGS, (copy,))
         names = [c.name for c in cur.description]
         headings = [dict(zip(names, r)) for r in cur.fetchall()]
         files = {}
@@ -94,7 +101,7 @@ def read_copy(conn):
                 raise ValueError(f"the copy has no file {f}")
             everything = ", ".join(str(i) for i in range(1, n + 1))
             order = f"{ORDER[f]}, {everything}" if f in ORDER else everything
-            cur.execute(f"SELECT * FROM live.{f} ORDER BY {order}")
+            cur.execute(f"SELECT * FROM {copy}.{f} ORDER BY {order}")
             files[f] = ([c.name for c in cur.description], cur.fetchall())
     return {"files": files, "headings": headings}
 
@@ -351,15 +358,20 @@ def handed_over(path, on):
     return pack(folder, date, files)
 
 
-# ---- Making it, on the machine ----------------------------------------------------------
+# ---- Making it, and checking it, on the machine ----------------------------------------
 
-def main(outdir):
+def made(copy_name):
+    """The copy read through the site's own login, and the zip made from it."""
     from app import credit_lines  # the pages' own credit lines, in their order
     import published
     with psycopg.connect(published.CONNINFO, autocommit=True) as conn:
-        copy = read_copy(conn)
+        copy = read_copy(conn, copy_name)
     credits = credit_lines(rows_of(copy, "terms"), rows_of(copy, "what_the_words_mean"))
-    name, data = build(copy, credits)
+    return copy, build(copy, credits)
+
+
+def main(outdir, copy_name="live"):
+    copy, (name, data) = made(copy_name)
     path = os.path.join(outdir, name)
     with open(path, "wb") as f:
         f.write(data)
@@ -367,6 +379,47 @@ def main(outdir):
           + ", ".join(f"{f} {len(copy['files'][f][1])}" for f in FILES))
 
 
+def check(path, copy_name="live"):
+    """The refresh's check of a zip before its copy goes live: it opens, it is
+    named for the copy's date, it holds one folder of the fifteen files, the
+    readme has its two blanks, every data file has a line for each of the
+    copy's, and it is the zip this copy makes, byte for byte. Stops at the
+    first thing wrong."""
+    copy, (name, data) = made(copy_name)
+    problems = []
+    if os.path.basename(path) != name:
+        problems.append(f"named {os.path.basename(path)}, but the copy makes {name}")
+    with zipfile.ZipFile(path) as z:
+        if z.testzip() is not None:
+            problems.append("a file inside is damaged")
+        entries = z.namelist()
+        folders = {e.split("/", 1)[0] for e in entries}
+        if folders != {name[:-4]}:
+            problems.append(f"folders {sorted(folders)}, not one called {name[:-4]}")
+        if len(entries) != 15:
+            problems.append(f"{len(entries)} files, not fifteen")
+        inside = {e.split("/", 1)[1]: e for e in entries}
+        readme = z.read(inside["README.txt"]) if "README.txt" in inside else b""
+        if readme.count(NOT_YET.encode()) != 2:
+            problems.append("the readme does not have exactly two blanks for the day downloaded")
+        for f in FILES:
+            if f"{f}.csv" in inside:
+                lines = len(list(csv.reader(io.StringIO(z.read(inside[f"{f}.csv"]).decode("utf-8"))))) - 1
+                if lines != len(copy["files"][f][1]):
+                    problems.append(f"{f}.csv has {lines} lines, the copy {len(copy['files'][f][1])}")
+    with open(path, "rb") as f:
+        if f.read() != data:
+            problems.append("it is not the zip this copy makes, byte for byte")
+    for p in problems:
+        print(f"ZIP WRONG: {p}")
+    if not problems:
+        print(f"Zip checked: {name}, fifteen files, {len(copy['files']['bills'][1])} bills, "
+              f"two blanks, the same as the copy makes.")
+    return not problems
+
+
 if __name__ == "__main__":
     import sys
-    main(sys.argv[1])
+    if sys.argv[1] == "--check":
+        sys.exit(0 if check(sys.argv[2], *sys.argv[3:4]) else 1)
+    main(sys.argv[1], *sys.argv[2:3])

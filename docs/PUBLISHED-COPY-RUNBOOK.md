@@ -123,11 +123,14 @@ none of it happened.
    note's `applies_to` into published headings, as settled. It is the only
    place that pairing is written down.
 4. **Check** (§3), against the working data read through the connector.
-5. **Put it live.** `copy_build` becomes `live`, and the copy it replaces
-   becomes `previous`; the one before that goes. Since 18 September the same
-   script is the refresh (strand 1, item 6): run by `tools/refresh_copy.sh`,
-   which checks every cited address first, and it lists what changed against
-   the copy it replaces. `docs/STRAND-1-THE-REFRESH.md`; the step is in
+5. **Set it aside, then put it live.** `copy_build` becomes `next`, served
+   to nobody; since 19 September (strand 2, item 6) the refresh makes the
+   zip from `next` and checks it, and only then does `tools/switch_copy.sql`
+   make `next` into `live`, the copy it replaces becoming `previous`; the one
+   before that goes. Since 18 September the same script is the refresh
+   (strand 1, item 6): run by `tools/refresh_copy.sh`, which checks every
+   cited address first, and it lists what changed against the copy it
+   replaces. `docs/STRAND-2-ITEM-6-BUILD.md` for the zip. `docs/STRAND-1-THE-REFRESH.md`; the step is in
    `PROMOTION-RUNBOOK.md`, "After promotion: refreshing the published copy".
 6. **Give Postico's login read permission** on `live`, and nothing on
    `from_working`.
@@ -206,7 +209,8 @@ working workbook is where everything lives. The backup script's change is undone
 by reverting that one line. Rehearsed as step 4 of the rehearsal.
 
 The undo that matters, putting the previous copy back after a bad refresh, is
-`tools/put_back_previous.sql`, in `PROMOTION-RUNBOOK.md`.
+`tools/refresh_copy.sh --undo --save`, which runs `tools/put_back_previous.sql`
+and puts the copy's zip back with it; in `PROMOTION-RUNBOOK.md`.
 
 ---
 

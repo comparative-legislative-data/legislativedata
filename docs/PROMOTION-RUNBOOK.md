@@ -441,7 +441,8 @@ does, and why, is `docs/STRAND-1-THE-REFRESH.md`.
 
 It checks every cited address (about ten minutes, from the server), builds the
 new copy beside the live one, runs every check, compares it with the live copy,
-prints the report, and keeps nothing.
+prints the report, makes the new copy's zip and checks it, and keeps nothing.
+Readers see nothing change.
 
 **2. Look at the report.**
 
@@ -456,23 +457,35 @@ prints the report, and keeps nothing.
 - **The lines added**, by file, in `about`.
 - **The sizes** of the list of changes and of the copy kept as `previous`. If
   either has grown large, say so: the arrangement is looked at again.
+- **The zip.** "Zip checked", with fifteen files and the copy's bills. Any
+  "ZIP WRONG" line stops the refresh.
 
 **3. The refresh.**
 
     tools/refresh_copy.sh --save
 
-The same, kept. The copy before becomes `previous`; the one before that goes.
+The same, kept, in this order (strand 2, item 6, `docs/STRAND-2-ITEM-6-BUILD.md`):
+the new copy is set aside, served to nobody; its zip is made and checked and put
+beside the live one; only then does the copy go live, with its zip. The copy
+before becomes `previous`; the one before that goes. The zip is checked again
+against the live copy, and zips other than live's and previous's are removed.
+If anything fails before the copy goes live, what the run made is removed and
+readers see nothing change.
+
+**A second refresh on the day of the live copy refuses**: the date names the
+copy and its zip. To correct a refresh the same day, undo it, then refresh.
 
 **4. Look at it.** In Postico, `published` → `live` → `about` gives today's
 date; `what_changed` ends with today's lines, and they are the ones step 2
-showed.
+showed. Signed in, the Data page's download box names today's zip.
 
 **If it is wrong: putting the copy before back.**
 
-    ~/.claude/legdata-vps --scp tools/put_back_previous.sql /tmp/put_back_previous.sql
-    ~/.claude/legdata-vps 'sudo -u postgres psql -X -d published -v save=true -f /tmp/put_back_previous.sql; rm /tmp/put_back_previous.sql'
+    tools/refresh_copy.sh --undo           a look: what it would do, keeping nothing
+    tools/refresh_copy.sh --undo --save    the undo
 
-One step: `previous` is live again and the bad copy is gone. There is then no
+One step: `previous` is live again with its zip, and the bad copy and its zip
+are gone. (If the copy put back has no zip, it is made again.) There is then no
 `previous`, so a second undo refuses. Mend what was wrong, and refresh again.
 
 ---

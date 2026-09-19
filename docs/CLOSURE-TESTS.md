@@ -30,6 +30,78 @@ There is no universal test. Each ingest gets its own, newest first below.
 
 ---
 
+## The refresh makes the zip
+
+Strand 2, item 6. Written 2026-09-19 by the session that built it (the plan,
+its five small choices and what was done in `docs/STRAND-2-ITEM-6-BUILD.md`,
+agreed by the owner the same day). **Not yet run.** To be run by a session
+that built none of it, with the zip's test below, as its amended items say.
+
+Under test: `tools/refresh_copy.sh`, `tools/refresh_on_server.sh`,
+`tools/switch_copy.sql`, the "Set it aside" section of
+`tools/published_copy.sql`, and `check` in `site/download.py`, all written by
+the session that built it. Read them before trusting any line they print.
+
+### Part A — mechanical
+
+1. **The order, read in the code.** In `refresh_on_server.sh`, for a kept
+   refresh: the copy is set aside as `next` before any zip is made; the zip
+   is checked before it is put in the downloads folder; the switch runs only
+   after both; and a failure at any point before the switch removes `next`
+   and any zip this run put in the folder, and nothing else. *Where from:*
+   the build document, "How it would work", and "If anything fails".
+2. **The live release is item 6's build**: `/srv/site/current`'s
+   `download.py` has the committed md5.
+3. **Your own rehearsal**, on a scratch copy of `published` (`createdb`, then
+   `pg_dump published | psql`) and a scratch folder seeded with the live zip
+   and one made-up older one, with `--database`, `--downloads` and
+   `--addresses` (the build document says how the address CSV was made).
+   Fingerprint the scratch copy before and after each step with the dump of
+   `live`, `previous` and `next`, its lines sorted (the dump's order moves
+   between databases; the sorted lines do not). Expect:
+   - a thrown-away run: "Zip checked", then "Nothing kept"; the fingerprint
+     and folder as before, no `next`;
+   - a kept refresh: the copy dated today live, the old copy as `previous`,
+     "Zip checked" twice, the older made-up zip removed, two zips left;
+   - a second kept refresh the same day: "Refusing: the live copy was taken
+     today", nothing changed;
+   - `--undo` (a look) changes nothing; `--undo --save` puts the old copy
+     back live and removes today's zip; a second undo refuses;
+   - a kept refresh after the undo goes through;
+   - after another undo, `--save --plant-zip-fault`: "ZIP WRONG", stopped
+     before step 4, fingerprint and folder as before the run.
+4. **Two the building session did not rehearse.** (a) Put a file named for
+   today's zip in the scratch folder, then a kept refresh: it refuses to put
+   the zip in, removes `next`, and leaves that file untouched. (b) After a
+   kept refresh, delete the old copy's zip from the scratch folder, then
+   `--undo --save`: the old copy's zip is made again and checked.
+5. **The guards.** `--save -v fault=on` refuses; `--plant-zip-fault` or
+   `--site` without `--database` (so against `published`) refuses.
+6. **The real copy untouched by all of it**: `published`'s sorted
+   fingerprint is the one the build document records, `live.about` is dated
+   2026-09-18, and `/srv/downloads` holds the one zip with SHA-256
+   `42a2716c…811cf0`. No `next` in `published`.
+7. **Nothing left behind**: the scratch database dropped (four databases),
+   the scratch folder removed, nothing of the run's in the server's `/tmp`.
+
+**Which items an outside change can move:** 2 at any deploy; 6 at any real
+refresh, after which it reads the new date and zip.
+
+### Part B — the owner's sign-off
+
+None now: nothing a reader sees has changed. **At the first real refresh**,
+the owner signs in and sees the download box name the new date, and the zip
+opens with it.
+
+### Part C — what this test does not check
+
+**A real refresh of `published`**, which waits for new data and the owner's
+word. **The address check itself**: the rehearsals use one made from the
+live copy. **A refresh straddling midnight**, which the switch refuses as a
+copy "not today", to be run again.
+
+---
+
 ## The zip
 
 Strand 2, item 5. Written 2026-09-19 by the session that built and deployed
@@ -109,6 +181,18 @@ so.
 and 4 to 8 at any refresh. **Until item 6 is built, a refresh leaves no zip
 for the new copy's date**, and the download box is then correctly absent:
 items 2, 4 and 5 to 8 wait for a zip made from the new copy.
+
+**Amended 19 September, by item 6.** What item 6 changed, and what is run
+again. Nothing else is re-argued.
+
+- **A1**: the live release is item 6's deploy or later. Its `download.py`
+  has the committed md5; `app.py`, the templates and the stylesheet are
+  unchanged by item 6.
+- **A2**: after a real refresh, `/srv/downloads` holds two zips, the live
+  copy's and the one before's, not one. Until then, one.
+- **A10**: `/srv/site/switched` now ends with item 6's release. One rollback
+  takes back only item 6's `download.py`, which no page uses; a second the
+  home page; a third the panel. Read it; do not run it.
 
 ### Part B — the owner's sign-off
 

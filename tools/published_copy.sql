@@ -3,10 +3,12 @@
 -- Takes the published copy: builds the twelve files inside the published
 -- workbook, reading the working data through the connector that can only read,
 -- checks every cell of them against the working data, compares them with the
--- live copy to list what changed, and puts them live as the area `live`,
--- keeping the copy before as `previous`. One all-or-nothing action: if anything
--- is refused or any check fails, nothing is left behind and readers keep the
--- copy they had. See docs/PUBLISHED-COPY-RUNBOOK.md and, for the refresh,
+-- live copy to list what changed, and sets them aside as the area `next`,
+-- served to nobody. One all-or-nothing action: if anything is refused or any
+-- check fails, nothing is left behind and readers keep the copy they had.
+-- Putting `next` live, and keeping the copy before as `previous`, is
+-- tools/switch_copy.sql, which the refresh runs only once the zip has been made
+-- from `next` and checked (strand 2, item 6; docs/STRAND-2-ITEM-6-BUILD.md). See docs/PUBLISHED-COPY-RUNBOOK.md and, for the refresh,
 -- docs/STRAND-1-THE-REFRESH.md.
 --
 -- Run by tools/refresh_copy.sh, which checks the cited addresses first and
@@ -18,7 +20,8 @@
 -- built from the text in workings/. -v workings=DIR names another folder.
 -- The undo, putting `previous` back, is tools/put_back_previous.sql.
 --
--- save=false builds and checks and throws it all away; save=true keeps it.
+-- save=false builds and checks and throws it all away; save=true keeps it as
+-- `next`.
 -- For the rehearsal, -v fault=on alters one bill's outcome after the build,
 -- -v fault_days=on one gap's days, -v fault_terms=on one credit line, and
 -- -v fault_cover=on takes the Supreme Court out of its terms' covers; the
@@ -69,6 +72,15 @@
 \endif
 
 BEGIN;
+
+-- A copy already set aside is a refresh that did not finish. It is looked at,
+-- not built over.
+DO $$
+BEGIN
+  IF to_regnamespace('next') IS NOT NULL THEN
+    RAISE EXCEPTION 'Refusing: a copy is already set aside as next, from a refresh that did not finish.';
+  END IF;
+END $$;
 
 -- ---------------------------------------------------------------------------
 -- The working data, through the connector
@@ -1135,40 +1147,18 @@ BEGIN
 END $$;
 
 -- ---------------------------------------------------------------------------
--- Put it live
+-- Set it aside
 -- ---------------------------------------------------------------------------
 --
--- The copy before becomes `previous`, served to nobody, so that the undo
--- (tools/put_back_previous.sql) is one step; the one before that goes.
+-- As `next`, served to nobody. The site's login can read it, so that the zip
+-- is made from it by the same login and program as ever, but no page reads it:
+-- the pages read `live` only. tools/switch_copy.sql puts it live, and the
+-- refresh throws it away if the zip fails.
 
-DROP SCHEMA IF EXISTS previous CASCADE;
-DO $$
-BEGIN
-  IF to_regnamespace('live') IS NOT NULL THEN
-    ALTER SCHEMA live RENAME TO previous;
-    COMMENT ON SCHEMA previous IS 'The copy before the live one, kept so that a bad refresh can be undone in one step (tools/put_back_previous.sql). Served to nobody.';
-    -- A permission follows a copy when it is renamed. The site reads only what
-    -- is live, so its permission comes off here (db/published/002).
-    REVOKE ALL ON ALL TABLES IN SCHEMA previous FROM legsite;
-    REVOKE ALL ON SCHEMA previous FROM legsite;
-  END IF;
-END $$;
-ALTER SCHEMA copy_build RENAME TO live;
-COMMENT ON SCHEMA live IS 'The published copy, as taken on the day in its about file. What a reader''s page reads.';
-GRANT USAGE ON SCHEMA live TO legdata;
-GRANT SELECT ON ALL TABLES IN SCHEMA live TO legdata;
--- The site's login reads the live copy and nothing else (db/published/002).
-GRANT USAGE ON SCHEMA live TO legsite;
-GRANT SELECT ON ALL TABLES IN SCHEMA live TO legsite;
-DO $$
-BEGIN
-  IF EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
-              WHERE n.nspname = 'live' AND c.relkind = 'r'
-                AND NOT has_table_privilege('legsite', c.oid, 'SELECT'))
-     OR to_regnamespace('previous') IS NOT NULL AND has_schema_privilege('legsite', 'previous', 'USAGE') THEN
-    RAISE EXCEPTION 'The site''s login cannot read the new copy, or can still open previous.';
-  END IF;
-END $$;
+ALTER SCHEMA copy_build RENAME TO next;
+COMMENT ON SCHEMA next IS 'A new copy, set aside by a refresh until its zip is made and checked; tools/switch_copy.sql then puts it live. Served to nobody.';
+GRANT USAGE ON SCHEMA next TO legdata, legsite;
+GRANT SELECT ON ALL TABLES IN SCHEMA next TO legdata, legsite;
 
 -- The working data is as it was.
 DO $$
@@ -1196,25 +1186,25 @@ END $$;
 
 \echo ''
 \echo '--- The copy'
-SELECT file, rows, rows_added_since_last_copy AS added, date_copy_taken FROM live.about ORDER BY rows DESC;
+SELECT file, rows, rows_added_since_last_copy AS added, date_copy_taken FROM next.about ORDER BY rows DESC;
 \echo '--- What changed in this copy'
-SELECT file, heading, count(*) AS cells FROM live.what_changed
+SELECT file, heading, count(*) AS cells FROM next.what_changed
  WHERE date_copy_taken = current_date GROUP BY 1, 2 ORDER BY 1, 2;
-SELECT * FROM live.what_changed WHERE date_copy_taken = current_date ORDER BY file, bill_number, stage, which_line LIMIT 40;
+SELECT * FROM next.what_changed WHERE date_copy_taken = current_date ORDER BY file, bill_number, stage, which_line LIMIT 40;
 \echo '--- The cited addresses'
-SELECT address_works, count(*) FROM live.cited_pages GROUP BY 1 ORDER BY 1;
-SELECT address, kept_copy FROM live.cited_pages WHERE address_works = 'No';
-\echo '--- Sizes: the list of what changed, and the copy kept as previous'
-SELECT (SELECT count(*) FROM live.what_changed) AS what_changed_lines,
+SELECT address_works, count(*) FROM next.cited_pages GROUP BY 1 ORDER BY 1;
+SELECT address, kept_copy FROM next.cited_pages WHERE address_works = 'No';
+\echo '--- Sizes: the list of what changed, and the live copy, kept as previous when this goes live'
+SELECT (SELECT count(*) FROM next.what_changed) AS what_changed_lines,
        pg_size_pretty((SELECT coalesce(sum(pg_total_relation_size(c.oid)), 0) FROM pg_class c
-                        WHERE c.relnamespace = 'live'::regnamespace AND c.relname = 'what_changed')) AS what_changed_size,
+                        WHERE c.relnamespace = 'next'::regnamespace AND c.relname = 'what_changed')) AS what_changed_size,
        pg_size_pretty((SELECT coalesce(sum(pg_total_relation_size(c.oid)), 0) FROM pg_class c
                         JOIN pg_namespace n ON n.oid = c.relnamespace
-                       WHERE n.nspname = 'previous' AND c.relkind = 'r')) AS previous_size;
+                       WHERE n.nspname = 'live' AND c.relkind = 'r')) AS previous_size;
 
 \if :save
   COMMIT;
-  \echo 'Kept: the copy is live.'
+  \echo 'Kept: the copy is set aside as next. It goes live only by tools/switch_copy.sql.'
 \else
   ROLLBACK;
   \echo 'Thrown away: save=false.'
