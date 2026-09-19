@@ -67,16 +67,16 @@ list are both empty.**
 ## Now
 
 **Strand 3, the charts** (`docs/PHASE-2.md`, "Strand 3"; its plan,
-`docs/STRAND-3-PLAN.md`, approved and confirmed 19 September).
+`docs/STRAND-3-PLAN.md`).
 
-1. **Thought 2's write-up, agreed from its mock-up**, before anything is
-   built (plan, step 2): its three open points first ("Passed" including
-   two bills that are not Acts; the all-sessions panel; whether the Forth
-   Crossing Bill needs its dropdown), then what it counts, its choices,
-   its working, its notes, what it cannot say.
-2. **Then thought 2 built, with everything the six share** (plan, step 3):
-   probably two sessions. Nothing the mock-ups do is lost without your OK;
-   the plan's checklist is what its closure test checks.
+1. **Thought 2 built, with everything the six share** (plan, step 3), to
+   its agreed write-up, `docs/STRAND-3-THOUGHT-2.md`. Probably two
+   sessions: first the figures (the working, the new file in the copy, the
+   copy's check, the refresh, the zip), rehearsed with an undo; then the
+   page (ECharts on the machine, the palette check, the Insights page with
+   its tabs and frame, the route to the bills, the CSV), deployed with an
+   undo. Nothing the mock-ups do is lost without your OK.
+2. **Its closure test written**, for another session to run.
 
 ## Waiting for you
 

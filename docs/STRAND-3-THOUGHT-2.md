@@ -1,7 +1,9 @@
 # Thought 2, the outcomes chart: the write-up
 
 For the owner, 19 September 2026. Strand 3, step 2 of `docs/STRAND-3-PLAN.md`.
-**A draft; nothing here is agreed** except the three points marked settled.
+**Agreed by the owner the same day, in full**, with the second panel headed
+"All sessions together". This is what thought 2 is built to, and what its
+closure test checks.
 It follows the mock-up (https://claude.ai/artifact/XMz3FuH4zQnmNSwfM9WQVq,
 the Outcomes tab), which is what you judged; this says in words what the
 mock-up does, so the build has something to be checked against.
@@ -19,8 +21,8 @@ a proposal with a reason.
    Bill) and Session 6 (the Gender Recognition Reform Bill), and so for all
    sessions together. Agreed.
 2. **The all-sessions panel is kept**, on its own scale: "having its own
-   scale solves the problem." The mock-up also heads it "All sessions
-   together, on its own scale"; **kept unless you say otherwise.**
+   scale solves the problem." It is headed **"All sessions together"**,
+   which "would be sufficient".
 3. **The Forth Crossing Bill's dropdown is kept.** Agreed.
 
 ## The question it answers
@@ -164,7 +166,7 @@ SELECT f.*
 **Shares are rounded to whole numbers, halves up**, so a row can add to 99
 or 101; a share that rounds to nothing is shown as "<1%".
 
-## How it is carried: five proposals
+## How it is carried: five proposals, agreed
 
 Each follows what strand 1 settled for the days between stages.
 
@@ -216,7 +218,7 @@ Data page.
 
 ## The public wording, in full
 
-**For your correction.** Everything a reader sees, in the order they see it.
+**Agreed.** Everything a reader sees, in the order they see it.
 
 **Title**
 
@@ -244,7 +246,7 @@ Data page.
 **Inside the chart.** The legend, each outcome by name; the sessions as
 "Session 1" and "1999–2003"; the types as "Govt", "Member", "Cttee",
 "Private" (and "Hybrid"); the axes "Bills" and "Bills, own scale"; above
-the second panel, "All sessions together, on its own scale", and beneath
+the second panel, "All sessions together", and beneath
 it, "All sessions" and "1999 to date".
 
 **Inside the frame, beneath the chart**
@@ -253,7 +255,7 @@ it, "All sessions" and "1999 to date".
 > legislation.gov.uk · Data as at 18 September 2026 ·
 > legislativedata.org/insights#outcomes-chart
 
-*Proposed change:* the sources line is taken from the copy, naming each
+*Agreed change:* the sources line is taken from the copy, naming each
 source whose terms the chart's figures draw on, as the `terms` file names
 it: "Sources: Scottish Parliament; legislation.gov.uk;
 legislativedata.org". The credit lines, in full, sit with the page's other
@@ -301,7 +303,7 @@ and for a type with none: "None introduced".
 >   hovering says how many of those passed became Acts, and so does the
 >   table of numbers.
 
-*Proposed addition*, since the default groups the types:
+*Agreed addition*, since the default groups the types:
 
 > - The Forth Crossing Bill, a Hybrid Bill, is counted as a government bill
 >   unless you choose to show it on its own (M4).
