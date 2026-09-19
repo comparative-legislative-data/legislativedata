@@ -1002,6 +1002,14 @@ checks are added to it when those exist.
 
 ### Strand 3 — the charts
 
+**The plan for the strand, approved by the owner 19 September**, is
+`docs/STRAND-3-PLAN.md`: the Insights page in the Data page's shape
+(headline figures, then three tabs), one frame for every chart, every
+figure reaching its bills through the table showing exactly the bills it
+counted, and a whole-page mock-up before anything shared is built. **Nothing
+a mock-up can do is lost in the build unless essential, and then only with
+the owner's OK**; the plan's inventory of the mock-ups is the checklist.
+
 **Before any chart is built, its write-up is agreed.** It is the mock-up
 iterated with the owner until agreed. It says the question the chart answers,
 which bills it counts, the choices a reader gets, the working, the notes it
