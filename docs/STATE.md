@@ -7,13 +7,11 @@ Updated: 2026-09-19
 **Phase 0, the dataset, and Phase 1, the site, are both closed.** At
 `legislativedata.org` someone can apply, you approve or refuse them, and they
 sign in with a code by email. **Phase 2, putting the data on the site, is
-open**, for approved beta users only. **The Data page has the table of
-every bill**, closed 19 September, signed in only: narrowed by session,
-type, outcome and title, each bill opening in a pop-up with where each
-fact came from, and the reference sections as tabs. **The whole dataset downloads as one zip**,
-closed 19 September. **The refresh makes the zip**, so a new copy never goes
-live without its zip; its test passed but for one narrow gap, **now fixed**;
-it closes with strand 2's test.
+open**, for approved beta users only. **Strand 2 is closed**, 19 September:
+signed in, a researcher can go through the table of every bill, open each
+bill with where each fact came from, read the reference sections, and
+download the whole dataset as one zip; the refresh makes the zip, so a new
+copy never goes live without it. **Strand 3, the charts, is open.**
 
 **Phase 2's build plan is agreed** (`docs/PHASE-2.md`, "The build plan"), in
 three strands, one after another, then the closing test.
@@ -21,8 +19,8 @@ three strands, one after another, then the closing test.
 | Strand | What it delivers | Where it is |
 |---|---|---|
 | 1. Ready to publish | the published copy, its figures, the refresh, all the wording | **closed** 18 September |
-| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **open**: items 1 to 5a **closed**; item 6's gap fixed; item 7, the strand's test, **written**, to be run by another session |
-| 3. The charts | the six thoughts on the Insights page | not open; mock-ups exist |
+| 2. The data on the site | the site reading the copy, the Data page: its reference sections, table of every bill, the zip | **closed** 19 September |
+| 3. The charts | the six thoughts on the Insights page | **open**; mock-ups exist; nothing built |
 | Closing test | run by a session that built none of it | not open |
 
 The dataset. No bill, date or figure has changed since 18 September's wording
@@ -49,44 +47,34 @@ list are both empty.**
 - **16 September.** The site live with accounts; Phase 1 closed; Phase 2 opened.
 - **16–17 September.** The Phase 2 plan reviewed; the six thoughts mocked up
   (https://claude.ai/artifact/XkH7LGSDzhFSo6FTYaxZx9).
-- **18 September.** Strand 1 built and closed; the site given read access to
-  the copy; strand 2's items 1 to 3 built, tested and closed; the table
-  agreed through a write-up and three mock-ups.
-- **19 September, morning.** The table of every bill built and live; the
-  footer kept in view; its closure test written.
-- **19 September, midday.** Items 2 to 4 closed; the zip, its format panel
-  and the new home page built and live; your sign-off of all three.
-- **19 September, early afternoon.** Item 6 built: the refresh makes the
-  zip before the copy goes live; rehearsed six ways; deployed.
-- **19 September, mid-afternoon.** Items 5 and 5a closed; item 6 tested,
-  with one narrow gap found, which you chose to fix before it closes.
+- **18 September.** Strand 1 built and closed; strand 2's items 1 to 3 built
+  and closed; the table agreed through a write-up and three mock-ups.
+- **19 September, morning to mid-afternoon.** The table, the zip, its format
+  panel, the home page and the refresh making the zip built, tested and
+  closed, but for one gap in the refresh, which you chose to fix first.
+- **19 September, late afternoon.** The gap fixed; strand 2's test written.
 
-**19 September, this session. Item 6's gap fixed; strand 2's test written.**
+**19 September, this session. Strand 2's closure test run; strand 2 closed.**
 
-- **The fix**: a failed refresh now removes the zip it put in the downloads
-  folder, from the moment it copies it in. One line moved. It needs no
-  deploy: the refresh carries its script to the machine each time it runs.
-- **Rehearsed on a scratch copy**: the failure planted, twice, and each time
-  the zip and the set-aside copy were removed and everything was as before; a
-  file already there left untouched; a normal refresh and its undo still
-  work, giving the same results as item 6's run. The real copy and zip untouched.
-- **Strand 2's test written** (`CLOSURE-TESTS.md`, "Strand 2, the data on
-  the site"): the eight "Finished when" points, the fix tried again, and
-  your part: signing in with your alternative account, going through the
-  table, downloading the zip, then saying whether strand 2 is closed.
-- No bill, date or figure changed. No real refresh was run.
+- **Part A passed**, all eleven checks, run by a session that built none of
+  strand 2. Item 6's fix tried again on a scratch copy: a failure planted
+  after the zip lands removes it, and a normal refresh and undo still give
+  the recorded results.
+- **Part B**, you, with your alternative account: "All tested, and all
+  results as expected." Then **you closed strand 2**, and item 6 with it.
+- No bill, date or figure changed. The real copy and zip were not touched.
 
 ## Now
 
-**Strand 2** (`docs/PHASE-2.md`, "Strand 2").
+**Strand 3, the charts** (`docs/PHASE-2.md`, "Strand 3").
 
-1. **Item 7, strand 2's closure test, run** (`CLOSURE-TESTS.md`, "Strand
-   2, the data on the site"), by a session that built none of strand 2, did
-   not write the test and did not make item 6's fix. **Before it can close,
-   you need your alternative account set up and approved**, for Part B:
-   sign in, go through the table, download the zip. Item 6 closes with it.
-2. **Strand 3, the charts, opens** when it passes and you say strand 2 is
-   closed.
+1. **Thought 2's write-up, agreed from its mock-up**, before anything is
+   built: the question it answers, which bills it counts, the choices a
+   reader gets, the working, the notes it rests on, what it cannot say.
+   Open points are in `PHASE-2-CHARTS-THOUGHTS.md`.
+2. **Then thought 2 built**, with what the first chart brings once for
+   all: the palette check, ECharts on the machine, the working, the route
+   to its bills, the CSV beneath. Its closure test run by the next session.
 
 ## Waiting for you
 
@@ -139,24 +127,37 @@ material waiting to be lost.
   have been right and the word has been wrong: Sessions 1 and 2 on 12 September,
   Session 5 on 14 September. A count is not evidence about a procedure.
 
-## Sanity check, 2026-09-19, the session that fixed item 6's gap
+## Sanity check, 2026-09-19, the session that ran strand 2's test
 
 - **At the start**: clean and pushed; decisions contents regenerated
   identical; the dictionary identical but for its date line; counts 470,
   1291, 192, 14; 474 and 1295 staging lines; checker and gaps list empty;
   four databases, all sorted; last night's backup succeeded; site and web
-  server running; the site 200. "Now" traced to strand 2, items 6 and 7.
-  The one failed unit is the known 16 September one-off. Nothing found.
-- **During**: one scratch database, `published_rehearsal`, and the folder
-  `/tmp/rehearsal-zips`, made and removed within the session, before any
-  backup ran.
+  server running; the site 200. "Now" traced to strand 2, item 7. The one
+  failed unit is the known 16 September one-off. Nothing found.
+- **During**: one scratch database, `published_rehearsal`, the folder
+  `/tmp/rehearsal-zips` and the folder `/tmp/s2test`, made and removed
+  within the session, before any backup ran. The owner's Chrome session
+  was read, never signed in or out by this session.
 - **At the close**: counts 470, 1291, 192, 14; checker and gaps list empty;
   four databases; `published` holding `live` (2026-09-18) and `previous`,
   no `next`, fingerprint `7afcaf840501`; the one zip `42a2716c…` in
-  `/srv/downloads`; live release `2026-09-19T10-55-09Z`; site 200, site and
-  web server running; nothing of the session's in the server's `/tmp`; the
-  dictionary identical but for its date line. No data written to either
-  real database.
+  `/srv/downloads`; live release `2026-09-19T10-55-09Z`; nothing of the
+  session's in the server's `/tmp`; the dictionary identical but for its
+  date line. No data written to either real database.
+
+## Running strand 2's test: working detail, 19 September
+
+- **The run is in `docs/CLOSURE-TESTS.md`**, at the end of "Strand 2, the
+  data on the site".
+- **`information_schema.column_privileges` lists every column of a table
+  granted whole**, so it reads 113 for `legsite`. Ask `pg_attribute.attacl`
+  for real column-level grants: none.
+- **The signed-in page, without signing anyone in**: the owner signed in
+  in their own Chrome, and the page was read through the browser extension,
+  only the parts under test (not the header, which names the reader).
+- **A rehearsal as one bash script, 35 seconds between connections**, ran
+  unattended in about eight minutes with no refusals.
 
 ## Fixing item 6's gap: working detail, 19 September
 

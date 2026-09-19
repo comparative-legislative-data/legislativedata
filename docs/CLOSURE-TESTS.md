@@ -37,7 +37,8 @@ Strand 2, item 7. Written 2026-09-19 by the session that fixed item 6's gap
 by a failed run is removed too"; the fix and its rehearsal in
 `docs/STRAND-2-ITEM-6-BUILD.md`, "The gap fixed"). That session built none
 of strand 2's pages or zip, but it did make the fix, so **it does not run
-this test**. **Part A run 19 September, and passed; see the run below.**
+this test**. **Run 19 September and passed; the owner closed strand 2
+the same day. See the run below.**
 Run it in a session that built none of
 strand 2, did not write this test and did not make the fix. Item 6 closes
 with it. Strand 3, the charts, opens when Part A passes and the owner signs
@@ -325,7 +326,15 @@ deploy since item 6's run.
 time: one mixed types, and one asked `information_schema` for column
 grants, which lists every column of a table granted whole. Both were asked
 again correctly, as above. **Item 6's fix holds**, so item 6 can close
-with this test. Part B waits for the owner.
+with this test.
+
+**Part B, 12**, the owner, 19 September, signed in with the alternative
+account: narrowed the table, opened a bill and its sources, opened each
+reference tab from its link, downloaded and opened the zip, signed out and
+was sent to sign in. "All tested, and all results as expected." Pass.
+
+**Part B, 13**, the owner, 19 September, asked whether strand 2 is closed
+and strand 3 may open: "yes". **Strand 2 is closed, and item 6 with it.**
 
 ---
 
@@ -463,6 +472,9 @@ the `LC_ALL=C`).
 7. **Passes.** The scratch database dropped (four databases: accounts,
    legdata, postgres, published) before any backup ran; the folder and the
    run's helper scripts removed; nothing of the run's in the server's `/tmp`.
+
+**Item 6 closed 19 September**: the exception was fixed and checked in
+strand 2's closure test, items 2 and 3, which passed.
 
 **Part A passes, but item 1 has one exception**, for the owner to decide.
 Two runs were set back by the session itself, not the code: the machine
