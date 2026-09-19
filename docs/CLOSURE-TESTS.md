@@ -48,7 +48,7 @@ so.
 ### Part A — mechanical
 
 1. **The live release is this build.** `/srv/site/current` is
-   `2026-09-19T07-58-39Z` or later; its `app.py`, `download.py`,
+   `2026-09-19T08-12-24Z` or later; its `app.py`, `download.py`,
    `templates/data.html`, `templates/privacy.html` and `static/css/site.css`
    have the committed md5s.
 2. **Where the zip is kept.** `/srv/downloads` is owned by root, mode 755,
@@ -83,8 +83,14 @@ so.
    `tools/check_privacy.sh` on the live release, after the zip has been
    served: all pass; with `BREAK=1`, it fails at item 2.
 10. **The undo.** Do not run it. `/srv/site/switched` ends `06-34-47Z`,
-    `07-58-39Z`: one rollback takes the download away. Rehearsed on
+    `07-58-39Z`, `08-12-24Z`: one rollback goes back to the link that
+    opens email, a second takes the download away. Rehearsed on
     19 September (the build document).
+12. **The format panel.** In the live `data.html`, "Ask for another
+    format" is a folding panel holding `DOWNLOAD.md` part 2's sentence,
+    "Open in your email" as a link to the address with the subject, and
+    "Copy the address" as a button that copies it and then reads "Copied".
+    Check items 115 and 117.
 11. **Nothing left behind.** Nothing of the run's in the server's `/tmp`;
     four databases; no change to either database (470, 1291, 192, 14;
     checker and gaps list empty; the dictionary regenerates identical).
@@ -105,6 +111,15 @@ items 2, 4 and 5 to 8 wait for a zip made from the new copy.
 5. **"Ask for another format"** opens your email with the address and the
    subject.
 6. **The privacy page's new line**, and its date.
+7. **The format panel**, added after 1 to 6: "Ask for another format"
+   opens the panel in place; "Open in your email" opens your email with
+   the address and subject; "Copy the address" copies it and says
+   "Copied"; the privacy page's reworded line.
+
+**1 to 6 signed off by the owner, 19 September**, trying it live: "Formatting
+looks good. download works. every file opens as expected. request formats
+works as expected", with the one change that became 7. **7 waits for the
+owner.**
 
 ### Part C — what this test does not check
 

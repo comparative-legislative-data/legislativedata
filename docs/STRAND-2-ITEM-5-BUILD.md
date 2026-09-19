@@ -222,3 +222,25 @@ still said "is being built"; the zip's address was not found. Switched
 forward by hand to `07-58-39Z`: the box back, the zip handed over; 200, 200,
 301, 308, 200. The list the undo reads ends `06-34-47Z`, `07-58-39Z`, so
 **one rollback still goes back to before the download.**
+
+**Part D, the owner, 19 September.** Found it live while the session was
+finishing and tested it: formatting good, the download works, every file
+opens as expected, the format request works. **One change asked for:**
+"Ask for another format" should not open the reader's email program on its
+own, but let them choose that or copy the address and write themselves.
+Agreed wording: a panel opening in place, "Open in your email · Copy the
+address", and the privacy line reworded (`DOWNLOAD.md` parts 2 and 5,
+changed 19 September).
+
+**The change.** Built as a folding panel under the link, with a small
+script for copying. The check's items 115 and 117 now compare the panel
+with part 2. Staged as `08-10-06Z`: all 130 pass; `BREAK=1`, `2` and `3`
+fail at exactly their items; the privacy check, all 15, and its break at
+item 2. A full minute, then **deployed as `2026-09-19T08-12-24Z`**: 200,
+200, 301, 308, 200; releases kept `06-34-47Z`, `07-58-39Z`, this one. On
+the live release: all 130 pass; the privacy check all 15, after the zip was
+served; the public privacy page has the new line and "Last changed 19
+September 2026". **The undo is now two steps**: one rollback goes back to
+the link that opens email (`07-58-39Z`), a second takes the download away.
+The rollback itself was rehearsed an hour before, on the same machinery,
+and was not rehearsed again for a change to one template.

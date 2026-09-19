@@ -68,6 +68,9 @@ list are both empty.**
   top of the Data page, the privacy page's new line. The check grew to 130
   items and was shown failing under three breaks; the undo was rehearsed.
   Its closure test is written for another session.
+- **You tried it live and signed off your part**, bar one change: "Ask for
+  another format" now opens a panel, open your email or copy the address.
+  Built and live; waiting for your look.
 - **Your decision: a monthly design and sanity sweep once Phase 2 closes**,
   with feedback as it comes until then. The table's choices come back at
   the first sweep.
@@ -77,8 +80,8 @@ list are both empty.**
 
 **Strand 2** (`docs/PHASE-2.md`, "Strand 2").
 
-1. **Your look at the zip in a browser**, if not done this session: item
-   5's Part B in `docs/CLOSURE-TESTS.md`, "The zip".
+1. **Your look at the format panel**: item 5's Part B, 7, in
+   `docs/CLOSURE-TESTS.md`, "The zip". The rest of Part B is signed off.
 2. **Close item 5.** A session that built none of it runs its test, with
    the amended items of items 2 and 4.
 3. **Then item 6: the refresh makes the zip** from each new copy before it
@@ -160,9 +163,10 @@ material waiting to be lost.
 
 - **Everything is in `docs/STRAND-2-ITEM-5-BUILD.md`**: how it works, the
   eight small choices, the test, the undo, and what was done.
-- **Live is `2026-09-19T07-58-39Z`.** Kept: `06-16-43Z`, `06-34-47Z`,
-  `07-58-39Z`. One rollback removes the download; the table can no longer
-  be rolled away, only redeployed from an older commit.
+- **Live is `2026-09-19T08-12-24Z`** (the format panel). Kept:
+  `06-34-47Z`, `07-58-39Z`, `08-12-24Z`. One rollback brings back the link
+  that opens email; two remove the download. The table can no longer be
+  rolled away, only redeployed from an older commit.
 - **The zip is `/srv/downloads/legislativedata-2026-09-18.zip`**, 104,145
   bytes, SHA-256 `42a2716c…811cf0`. Made with
   `cd <release> && sudo -u legsite .venv/bin/python download.py <scratch>`,
